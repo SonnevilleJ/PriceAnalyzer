@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{51C91DF8-2856-4255-B7B1-12CE447741AC}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		PriceAnalyzer.vsmdi = PriceAnalyzer.vsmdi
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceTools", "PriceTools\PriceTools.csproj", "{FBE4A744-CACD-4CCC-9746-1692AB3B606B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAnalyzer", "PriceAnalyzer\PriceAnalyzer.csproj", "{459025C7-F4B6-40D6-B94C-D927950D076E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceToolsTest", "PriceToolsTest\PriceToolsTest.csproj", "{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}"
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = PriceAnalyzer.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FBE4A744-CACD-4CCC-9746-1692AB3B606B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBE4A744-CACD-4CCC-9746-1692AB3B606B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBE4A744-CACD-4CCC-9746-1692AB3B606B}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{FBE4A744-CACD-4CCC-9746-1692AB3B606B}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{FBE4A744-CACD-4CCC-9746-1692AB3B606B}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FBE4A744-CACD-4CCC-9746-1692AB3B606B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBE4A744-CACD-4CCC-9746-1692AB3B606B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBE4A744-CACD-4CCC-9746-1692AB3B606B}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{FBE4A744-CACD-4CCC-9746-1692AB3B606B}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{FBE4A744-CACD-4CCC-9746-1692AB3B606B}.Release|x86.ActiveCfg = Release|Any CPU
+		{459025C7-F4B6-40D6-B94C-D927950D076E}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{459025C7-F4B6-40D6-B94C-D927950D076E}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{459025C7-F4B6-40D6-B94C-D927950D076E}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{459025C7-F4B6-40D6-B94C-D927950D076E}.Debug|x86.ActiveCfg = Debug|x86
+		{459025C7-F4B6-40D6-B94C-D927950D076E}.Debug|x86.Build.0 = Debug|x86
+		{459025C7-F4B6-40D6-B94C-D927950D076E}.Release|Any CPU.ActiveCfg = Release|x86
+		{459025C7-F4B6-40D6-B94C-D927950D076E}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{459025C7-F4B6-40D6-B94C-D927950D076E}.Release|Mixed Platforms.Build.0 = Release|x86
+		{459025C7-F4B6-40D6-B94C-D927950D076E}.Release|x86.ActiveCfg = Release|x86
+		{459025C7-F4B6-40D6-B94C-D927950D076E}.Release|x86.Build.0 = Release|x86
+		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Release|x86.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
