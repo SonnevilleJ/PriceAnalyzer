@@ -10,9 +10,9 @@ using System.Windows;
 [assembly: AssemblyTitle("PriceAnalyzer")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Sonneville Creations")]
 [assembly: AssemblyProduct("PriceAnalyzer")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
+[assembly: AssemblyCopyright("Copyright © Sonneville Creations 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
