@@ -3,3 +3,5 @@ syntax: glob
 *\bin\*
 *\obj\*
 TestResults\*
+_ReSharper.*
+*.ReSharper.*
