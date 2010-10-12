@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sonneville.PriceAnalyzer.Properties {
+namespace Sonneville.PriceToolsTest {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Sonneville.PriceAnalyzer.Properties {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Resources {
+    internal class TestData {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Resources() {
+        internal TestData() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Sonneville.PriceAnalyzer.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sonneville.PriceAnalyzer.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sonneville.PriceToolsTest.TestData", typeof(TestData).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -57,6 +57,26 @@ namespace Sonneville.PriceAnalyzer.Properties {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trade Date,Action,Transaction Type,Symbol,Security Description,Security Type,Quantity,Price ($),Commission ($),Fees ($),Accrued Interest ($),Amount ($),Settlement Date
+        /// 10/01/2010, TRANSFERRED FROM     TO BROKERAGE OPTION,Cash, ,  ,Cash,,,,,,297.19,
+        /// 09/30/2010, DIVIDEND RECEIVED,Dividend, FDRXX, FIDELITY CASH RESERVES,Cash,,,,,,0.6,
+        /// 09/30/2010, REINVESTMENT,Reinvestment, FDRXX, FIDELITY CASH RESERVES,Cash,0.6,1,,,,-0.6,
+        /// 09/13/2010, YOU BOUGHT           PROSPECTUS UNDER    SEPARATE COVER,Buy, FSRFX, F [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FidelityTransactions {
+            get {
+                return ResourceManager.GetString("FidelityTransactions", resourceCulture);
+            }
+        }
+        
+        internal static byte[] SPX_price_24_aug_2010 {
+            get {
+                object obj = ResourceManager.GetObject("SPX_price_24_aug_2010", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }

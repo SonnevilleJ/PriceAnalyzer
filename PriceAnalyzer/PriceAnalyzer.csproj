@@ -8,7 +8,7 @@
     <ProjectGuid>{459025C7-F4B6-40D6-B94C-D927950D076E}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PriceAnalyzer</RootNamespace>
+    <RootNamespace>Sonneville.PriceAnalyzer</RootNamespace>
     <AssemblyName>PriceAnalyzer</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
@@ -95,6 +95,10 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\PriceChartTools\PriceChartTools.csproj">
+      <Project>{CA835214-9E28-4CB2-95BF-37D5D2927DB7}</Project>
+      <Name>PriceChartTools</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -78,9 +79,10 @@ namespace Sonneville.PriceTools
 
             PricePeriod period = new PricePeriod(d1, d2, open, high, low, close, volume);
 
-            string filename = "C:\\temp\\PriceAnalyzer\\PricePeriod.fil";
-            PricePeriod.BinarySerialize(period, filename);
-            PricePeriod result = PricePeriod.BinaryDeserialize(filename);
+            MemoryStream stream = new MemoryStream();
+            PricePeriod.BinarySerialize(period, stream);
+            stream.Position = 0;
+            PricePeriod result = PricePeriod.BinaryDeserialize(stream);
             Assert.AreEqual(result, period);
         }
 

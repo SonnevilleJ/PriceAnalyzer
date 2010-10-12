@@ -98,22 +98,16 @@ namespace Sonneville.PriceTools
             info.AddValue("Volume", _volume);
         }
 
-        public static void BinarySerialize(IPriceTuple period, string filename)
+        public static void BinarySerialize(IPriceTuple period, Stream stream)
         {
-            string dir = Path.GetDirectoryName(filename);
-            Directory.CreateDirectory(dir);
-            Stream s = File.Open(filename, FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(s, period);
-            s.Close();
+            formatter.Serialize(stream, period);
         }
 
-        public static PriceTuple BinaryDeserialize(string filename)
+        public static PriceTuple BinaryDeserialize(Stream stream)
         {
-            Stream s = File.Open(filename, FileMode.Open);
             BinaryFormatter formatter = new BinaryFormatter();
-            PriceTuple p = (PriceTuple)formatter.Deserialize(s);
-            s.Close();
+            PriceTuple p = (PriceTuple)formatter.Deserialize(stream);
             return p;
         }
 

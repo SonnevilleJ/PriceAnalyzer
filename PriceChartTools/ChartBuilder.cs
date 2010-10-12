@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Media;
+using Sonneville.PriceTools;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceChartTools
 {
     /// <summary>
     /// Creates chart images from price data.

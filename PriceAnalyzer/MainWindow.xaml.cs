@@ -12,6 +12,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Sonneville.PriceTools;
+using Sonneville.PriceChartTools;
 
 namespace PriceAnalyzer
 {

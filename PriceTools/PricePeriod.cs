@@ -103,22 +103,16 @@ namespace Sonneville.PriceTools
             info.AddValue("Volume", _volume);
         }
 
-        public static void BinarySerialize(IPricePeriod period, string filename)
+        public static void BinarySerialize(IPricePeriod period, Stream stream)
         {
-            string dir = Path.GetDirectoryName(filename);
-            Directory.CreateDirectory(dir);
-            Stream s = File.Open(filename, FileMode.Create);
             BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(s, period);
-            s.Close();
+            formatter.Serialize(stream, period);
         }
 
-        public static PricePeriod BinaryDeserialize(string filename)
+        public static PricePeriod BinaryDeserialize(Stream stream)
         {
-            Stream s = File.Open(filename, FileMode.Open);
             BinaryFormatter formatter = new BinaryFormatter();
-            PricePeriod p = (PricePeriod)formatter.Deserialize(s);
-            s.Close();
+            PricePeriod p = (PricePeriod)formatter.Deserialize(stream);
             return p;
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -120,9 +121,10 @@ namespace Sonneville.PriceTools
 
             IPriceTuple period = new PriceTuple(PriceTupleResolution.Days, p1, p2, p3);
 
-            string filename = "C:\\temp\\PriceAnalyzer\\PriceTuple.fil";
-            PriceTuple.BinarySerialize(period, filename);
-            IPriceTuple result = PriceTuple.BinaryDeserialize(filename);
+            MemoryStream stream = new MemoryStream();
+            PriceTuple.BinarySerialize(period, stream);
+            stream.Position = 0;
+            IPriceTuple result = PriceTuple.BinaryDeserialize(stream);
             Assert.AreEqual(result, period);
         }
 
