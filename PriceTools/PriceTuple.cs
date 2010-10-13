@@ -64,12 +64,7 @@ namespace Sonneville.PriceTools
 
         #region Serialization
 
-        /// <summary>
-        /// Deserializes a PriceTuple object.
-        /// </summary>
-        /// <param name="info">SerializationInfo</param>
-        /// <param name="context">StreamingContext</param>
-        public PriceTuple(SerializationInfo info, StreamingContext context)
+        private PriceTuple(SerializationInfo info, StreamingContext context)
         {
             _head = (DateTime)info.GetValue("Head", typeof(DateTime));
             _tail = (DateTime)info.GetValue("Tail", typeof(DateTime));
@@ -87,7 +82,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="info">SerializationInfo</param>
         /// <param name="context">StreamingContext</param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Head", _head);
             info.AddValue("Tail", _tail);
@@ -98,17 +93,26 @@ namespace Sonneville.PriceTools
             info.AddValue("Volume", _volume);
         }
 
+        /// <summary>
+        /// Performs a binary serialization of an IPriceTuple to a <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="period">The IPriceTuple to serialize.</param>
+        /// <param name="stream">The <see cref="Stream"/> to use for serialization.</param>
         public static void BinarySerialize(IPriceTuple period, Stream stream)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(stream, period);
         }
 
-        public static PriceTuple BinaryDeserialize(Stream stream)
+        /// <summary>
+        /// Performs a binary deserialization of an IPriceTuple from a <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="stream">The <see cref="Stream"/> to use for deserialization.</param>
+        /// <returns>An <see cref="IPriceTuple"/>.</returns>
+        public static IPriceTuple BinaryDeserialize(Stream stream)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            PriceTuple p = (PriceTuple)formatter.Deserialize(stream);
-            return p;
+            return (PriceTuple)formatter.Deserialize(stream);
         }
 
         #endregion
@@ -298,6 +302,11 @@ namespace Sonneville.PriceTools
             return (PricePeriod)this;
         }
 
+        /// <summary>
+        /// Casts a PriceTuple to a PricePeriod. Warning: price resolution will be lost.
+        /// </summary>
+        /// <param name="tuple">The PriceTuple to cast.</param>
+        /// <returns>A PricePeriod with the summarized price data from the PriceTuple.</returns>
         public static implicit operator PricePeriod(PriceTuple tuple)
         {
             return new PricePeriod(tuple._head, tuple._tail, tuple._open, tuple._high, tuple._low, tuple._close, tuple._volume);
@@ -333,10 +342,29 @@ namespace Sonneville.PriceTools
     /// </summary>
     public enum PriceTupleResolution : long
     {
+        /// <summary>
+        /// Data is available for each second.
+        /// </summary>
         Seconds = TimeSpan.TicksPerSecond,
+
+        /// <summary>
+        /// Data is available for each minute.
+        /// </summary>
         Minutes = TimeSpan.TicksPerMinute,
+
+        /// <summary>
+        /// Data is available for each hour.
+        /// </summary>
         Hours = TimeSpan.TicksPerMinute,
+
+        /// <summary>
+        /// Data is available for each day.
+        /// </summary>
         Days = TimeSpan.TicksPerDay,
+
+        /// <summary>
+        /// Data is available for each week.
+        /// </summary>
         Weeks = TimeSpan.TicksPerDay * 7
     }
 }

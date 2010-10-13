@@ -8,7 +8,7 @@ using System.Text;
 
 namespace Sonneville.PriceTools
 {
-    public class AccessDataReader
+    internal class AccessDataReader
     {
         private const string ConnString = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source=C:\dev\PriceAnalyzer\database.accdb;Persist Security Info=False;";
 
@@ -27,7 +27,7 @@ namespace Sonneville.PriceTools
             return ds;
         }
 
-        public void QueryDatabase(OleDbConnection connection, string query, out OleDbDataAdapter da)
+        private void QueryDatabase(OleDbConnection connection, string query, out OleDbDataAdapter da)
         {
             if(!string.IsNullOrEmpty(query) && !query.StartsWith("SELECT", StringComparison.CurrentCultureIgnoreCase))
             {

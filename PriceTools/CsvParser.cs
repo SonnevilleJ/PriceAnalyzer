@@ -8,9 +8,18 @@ using System.Text;
 
 namespace Sonneville.PriceTools
 {
+    /// <summary>
+    /// Use the CsvParser class to parse a CSV file containing orders for financial securities.
+    /// </summary>
     public static class CsvParser
     {
-        private static List<ITransaction> ParseCsv(Stream stream)
+        /// <summary>
+        /// Parses a CSV file containing orders for financial securities.
+        /// </summary>
+        /// <param name="stream">The <see cref="Stream"/> to the CSV file.</param>
+        /// <param name="leaveOpen">Should the CsvParser leave the <see cref="Stream"/> open? Default = false.</param>
+        /// <returns>A <see cref="List{T}"/> of <see cref="ITransaction"/> objects.</returns>
+        public static List<ITransaction> ParseCsv(Stream stream, bool leaveOpen = false)
         {
             List<ITransaction> data = new List<ITransaction>();
             List<ITransaction> transactions = new List<ITransaction>();
@@ -20,7 +29,9 @@ namespace Sonneville.PriceTools
             
             try
             {
+// ReSharper disable ConditionIsAlwaysTrueOrFalse
                 while ((line == reader.ReadLine()) != null)
+// ReSharper restore ConditionIsAlwaysTrueOrFalse
                 {
                     string[] elements = line.Split(',');
                     Hashtable key = new Hashtable(6);
@@ -72,7 +83,7 @@ namespace Sonneville.PriceTools
                         case "Sell":
                             transactions.Add(
                                 new Transaction((DateTime) table["date"],
-                                                (TransactionType) table["type"],
+                                                (OrderType) table["type"],
                                                 (string) table["symbol"],
                                                 (decimal) table["price"],
                                                 (double) table["shares"],
@@ -90,7 +101,10 @@ namespace Sonneville.PriceTools
             }
             finally
             {
-                reader.Close();
+                if (!leaveOpen)
+                {
+                    reader.Close();
+                }
             }
             return data;
         }

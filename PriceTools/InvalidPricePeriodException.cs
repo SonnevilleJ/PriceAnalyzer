@@ -4,7 +4,7 @@ using System.Runtime.Serialization;
 namespace Sonneville.PriceTools
 {
     [Serializable]
-    public class InvalidPricePeriodException : Exception, ISerializable
+    internal class InvalidPricePeriodException : Exception, ISerializable
     {
         public InvalidPricePeriodException()
         {

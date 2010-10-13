@@ -25,8 +25,7 @@
           <Configuration>
             <CodeCoverage xmlns="">
               <Regular>
-                <CodeCoverageItem binaryFile="DataTypes\bin\Debug\DataTypes.dll" pdbFile="DataTypes\bin\Debug\DataTypes.pdb" instrumentInPlace="true" />
-                <CodeCoverageItem binaryFile="PriceAnalyzer\bin\Debug\PriceAnalyzer.exe" pdbFile="PriceAnalyzer\bin\Debug\PriceAnalyzer.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="PriceTools\bin\Debug\Sonneville.PriceTools.dll" pdbFile="PriceTools\bin\Debug\Sonneville.PriceTools.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>

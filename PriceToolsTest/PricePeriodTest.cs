@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceToolsTest
 {
     
     
@@ -71,11 +69,11 @@ namespace Sonneville.PriceTools
         {
             DateTime d1 = new DateTime(2010, 6, 1);
             DateTime d2 = new DateTime(2010, 8, 1);
-            decimal open = 100.00m;
-            decimal high = 120.00m;
-            decimal low = 80.00m;
-            decimal close = 110.00m;
-            UInt64 volume = 1000;
+            const decimal open = 100.00m;
+            const decimal high = 120.00m;
+            const decimal low = 80.00m;
+            const decimal close = 110.00m;
+            const UInt64 volume = 1000;
 
             PricePeriod period = new PricePeriod(d1, d2, open, high, low, close, volume);
 
@@ -91,11 +89,11 @@ namespace Sonneville.PriceTools
         {
             DateTime d1 = new DateTime(2010, 6, 1);
             DateTime d2 = new DateTime(2010, 8, 1);
-            decimal open = 100.00m;
-            decimal high = 120.00m;
-            decimal low = 80.00m;
-            decimal close = 110.00m;
-            UInt64 volume = 1000;
+            const decimal open = 100.00m;
+            const decimal high = 120.00m;
+            const decimal low = 80.00m;
+            const decimal close = 110.00m;
+            const UInt64 volume = 1000;
 
             PricePeriod target = new PricePeriod(d1, d2, open, high, low, close, volume);
             
@@ -113,10 +111,10 @@ namespace Sonneville.PriceTools
         {
             DateTime d1 = new DateTime(2010, 6, 1);
             DateTime d2 = new DateTime(2010, 8, 1);
-            decimal open = 100.00m;
-            decimal high = 120.00m;
-            decimal low = 80.00m;
-            decimal close = 110.00m;
+            const decimal open = 100.00m;
+            const decimal high = 120.00m;
+            const decimal low = 80.00m;
+            const decimal close = 110.00m;
 
             PricePeriod target = new PricePeriod(d1, d2, open, high, low, close);
             
@@ -134,10 +132,10 @@ namespace Sonneville.PriceTools
         {
             DateTime d1 = new DateTime(2010, 6, 1);
             DateTime d2 = new DateTime(2010, 8, 1);
-            decimal open = 100.00m;
-            decimal high = 120.00m;
-            decimal low = 80.00m;
-            decimal close = 110.00m;
+            const decimal open = 100.00m;
+            const decimal high = 120.00m;
+            const decimal low = 80.00m;
+            const decimal close = 110.00m;
 
             bool caught = false;
 
@@ -158,10 +156,10 @@ namespace Sonneville.PriceTools
         {
             DateTime d1 = new DateTime(2010, 6, 1);
             DateTime d2 = new DateTime(2010, 8, 1);
-            decimal open = 100.00m;
-            decimal high = 120.00m;
-            decimal low = 80.00m;
-            decimal close = 110.00m;
+            const decimal open = 100.00m;
+            const decimal high = 120.00m;
+            const decimal low = 80.00m;
+            const decimal close = 110.00m;
 
             bool caught = false;
 
@@ -182,10 +180,10 @@ namespace Sonneville.PriceTools
         {
             DateTime d1 = new DateTime(2010, 6, 1);
             DateTime d2 = new DateTime(2010, 8, 1);
-            decimal open = 100.00m;
-            decimal high = 120.00m;
-            decimal low = 80.00m;
-            decimal close = 110.00m;
+            const decimal open = 100.00m;
+            const decimal high = 120.00m;
+            const decimal low = 80.00m;
+            const decimal close = 110.00m;
 
             bool caught = false;
 
@@ -206,10 +204,10 @@ namespace Sonneville.PriceTools
         {
             DateTime d1 = new DateTime(2010, 6, 1);
             DateTime d2 = new DateTime(2010, 8, 1);
-            decimal open = 100.00m;
-            decimal high = 120.00m;
-            decimal low = 80.00m;
-            decimal close = 110.00m;
+            const decimal open = 100.00m;
+            const decimal high = 120.00m;
+            const decimal low = 80.00m;
+            const decimal close = 110.00m;
 
             bool caught = false;
 

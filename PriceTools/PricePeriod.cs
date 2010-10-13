@@ -69,12 +69,7 @@ namespace Sonneville.PriceTools
 
         #region Serialization
 
-        /// <summary>
-        /// Deserializes a PricePeriod object.
-        /// </summary>
-        /// <param name="info">SerializationInfo</param>
-        /// <param name="context">StreamingContext</param>
-        public PricePeriod(SerializationInfo info, StreamingContext context)
+        private PricePeriod(SerializationInfo info, StreamingContext context)
         {
             _head = (DateTime)info.GetValue("Head", typeof(DateTime));
             _tail = (DateTime)info.GetValue("Tail", typeof(DateTime));
@@ -92,7 +87,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="info">SerializationInfo</param>
         /// <param name="context">StreamingContext</param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Head", _head);
             info.AddValue("Tail", _tail);
@@ -282,14 +277,7 @@ namespace Sonneville.PriceTools
 
         public static bool operator !=(PricePeriod lhs, PricePeriod rhs)
         {
-            return
-                lhs._head != rhs._head ||
-                lhs.Tail != rhs.Tail ||
-                lhs._open != rhs._open ||
-                lhs._high != rhs._high ||
-                lhs._low != rhs._low ||
-                lhs._close != rhs._close ||
-                lhs._volume != rhs._volume;
+            return !(lhs == rhs);
         }
 
         public override string ToString()

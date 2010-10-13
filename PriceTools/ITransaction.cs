@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools
             get;
         }
 
-        TransactionType TransactionType
+        OrderType OrderType
         {
             get;
         }
