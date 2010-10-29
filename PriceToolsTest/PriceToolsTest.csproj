@@ -67,9 +67,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Shadow Include="Test References\Sonneville.PriceTools.accessor" />
-  </ItemGroup>
-  <ItemGroup>
     <EmbeddedResource Include="TestData.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>

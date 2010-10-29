@@ -3,10 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Data
 {
     /// <summary>
     /// Use the CsvParser class to parse a CSV file containing orders for financial securities.
@@ -33,7 +31,9 @@ namespace Sonneville.PriceTools
                 while ((line == reader.ReadLine()) != null)
 // ReSharper restore ConditionIsAlwaysTrueOrFalse
                 {
+// ReSharper disable PossibleNullReferenceException
                     string[] elements = line.Split(',');
+// ReSharper restore PossibleNullReferenceException
                     Hashtable key = new Hashtable(6);
                     Hashtable table = new Hashtable(6);
                     if (doHeaders)

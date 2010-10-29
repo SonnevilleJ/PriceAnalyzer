@@ -1,12 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Data.OleDb;
-using System.Linq;
-using System.Text;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Data
 {
     /// <summary>
     /// An IDataManager interacts with a database containing Price objects.
