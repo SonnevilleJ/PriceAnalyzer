@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -320,11 +321,11 @@ namespace Sonneville.PriceTools
 
         ///<summary>
         ///</summary>
-        ///<param name="tuple"></param>
+        ///<param name="series"></param>
         ///<returns></returns>
-        public static implicit operator PricePeriod(PriceSeries tuple)
+        public static implicit operator PricePeriod(PriceSeries series)
         {
-            return new PricePeriod(tuple._head, tuple._tail, tuple._open, tuple._high, tuple._low, tuple._close, tuple._volume);
+            return new PricePeriod(series._head, series._tail, series._open, series._high, series._low, series._close, series._volume);
         }
 
         /// <summary>
@@ -359,7 +360,17 @@ namespace Sonneville.PriceTools
         ///<returns></returns>
         public static bool operator ==(PriceSeries lhs, PriceSeries rhs)
         {
-            return (PricePeriod)lhs == (PricePeriod)rhs;
+            bool periodsMatch = !lhs._periods.Where((t, i) => t != rhs._periods[i]).Any();
+            // Same as below code:
+            //for (int i = 0; i < lhs._periods.Count; i++)
+            //{
+            //    if(lhs._periods[i] != rhs._periods[i])
+            //    {
+            //        periodsMatch = false;
+            //        break;
+            //    }
+            //}
+            return (PricePeriod) lhs == (PricePeriod) rhs && periodsMatch;
         }
 
         ///<summary>
