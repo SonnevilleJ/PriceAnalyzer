@@ -56,7 +56,7 @@
     <Compile Include="PriceSeries.cs" />
     <Compile Include="PriceUtil.cs" />
     <Compile Include="PricePeriod.cs" />
-    <Compile Include="PriceTupleResolution.cs" />
+    <Compile Include="PriceSeriesResolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StockIndexes.cs" />
     <Compile Include="Transaction.cs" />
