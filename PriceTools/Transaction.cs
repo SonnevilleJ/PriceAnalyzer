@@ -32,9 +32,33 @@ namespace Sonneville.PriceTools
             _date = date;
             _type = type;
             _ticker = ticker;
-            _shares = shares;
-            _price = price;
-            _commission = commission;
+
+            if (shares < 0)
+            {
+                throw new ArgumentOutOfRangeException("Shares", "Shares must be greater than or equal to 0.00");
+            }
+            else
+            {
+                _shares = shares;
+            }
+
+            if(price < 0.00m)
+            {
+                throw new ArgumentOutOfRangeException("Price", "Price must be greater than or equal to 0.00");
+            }
+            else
+            {
+                _price = price;
+            }
+
+            if(commission < 0.00m)
+            {
+                throw new ArgumentOutOfRangeException("Commission", "Commission must be greater than or equal to 0.00");
+            }
+            else
+            {
+                _commission = commission;
+            }
         }
 
         /// <summary>

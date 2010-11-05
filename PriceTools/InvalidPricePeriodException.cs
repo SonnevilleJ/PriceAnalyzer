@@ -3,24 +3,28 @@ using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
 {
+    /// <summary>
+    /// The exception that is thrown when a PricePeriod is in an invalid state.
+    /// </summary>
     [Serializable]
-    internal class InvalidPricePeriodException : Exception, ISerializable
+    public class InvalidPricePeriodException : InvalidOperationException, ISerializable
     {
-        public InvalidPricePeriodException()
+        internal InvalidPricePeriodException()
+            : base()
         {
         }
 
-        public InvalidPricePeriodException(string message)
+        internal InvalidPricePeriodException(string message)
             : base(message)
         {
         }
 
-        public InvalidPricePeriodException(string message, Exception inner)
+        internal InvalidPricePeriodException(string message, Exception inner)
             : base(message, inner)
         {
         }
 
-        public InvalidPricePeriodException(SerializationInfo info, StreamingContext context)
+        internal InvalidPricePeriodException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

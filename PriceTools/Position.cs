@@ -23,12 +23,21 @@ namespace Sonneville.PriceTools
         /// <param name="close">The optional transaction which closed this trade.
         /// The OrderType for closing transactions must be either <see cref="OrderType.Sell"/> or <see cref="OrderType.BuyToCover"/> and must match the <see cref="OrderType"/> of the opening transaction.</param>
         public Position(ITransaction open, ITransaction close = null)
-        {}
+        {
+            if (open == null)
+            {
+                throw new ArgumentNullException("open", "Opening ITransaction cannot be null.");
+            }
+            _open = open;
+            _close = close;
+
+            Validate();
+        }
 
         private Position(SerializationInfo info, StreamingContext context)
         {
             _open = (ITransaction)info.GetValue("Open", typeof(ITransaction));
-            _close = (ITransaction) info.GetValue("Close", typeof (ITransaction));
+            _close = (ITransaction)info.GetValue("Close", typeof(ITransaction));
         }
 
         /// <summary>
@@ -56,12 +65,67 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                decimal originalPrice = _open.Price;
-                decimal currentPrice = PriceUtil.GetPerSharePrice(_open.Ticker);
-                decimal commissions = _open.Commission + _close.Commission;
-                double shares = _close != null ? _open.Shares - _close.Shares : _open.Shares;
+                decimal openValue = (_open.Price * decimal.Parse((0 - _open.Shares).ToString())) - _open.Commission;
+                decimal closeValue = _close == null ? 0 : (_close.Price * decimal.Parse(_close.Shares.ToString())) - _close.Commission;
 
-                return ((originalPrice - currentPrice) - commissions) * decimal.Parse(shares.ToString("M"));
+                return closeValue + openValue;
+
+                // Below is application code which requires access to a database of prices.
+                //decimal originalPrice = _open.Price;
+                //decimal commissions = _close != null ? _open.Commission + _close.Commission : _open.Commission;
+                //decimal currentPrice = PriceUtil.GetPerSharePrice(_open.Ticker);
+                //double shares = _close != null ? _open.Shares - _close.Shares : _open.Shares;
+                //return ((originalPrice - currentPrice) - commissions) * decimal.Parse(shares.ToString("M"));
+            }
+        }
+
+        private void Validate()
+        {
+            switch (_open.OrderType)
+            {
+                case OrderType.Buy:
+                case OrderType.SellShort:
+                    break;
+                default:
+                    // Not an opening transaction
+                    throw new InvalidPositionException("Opening transaction must be of type Buy or SellShort.");
+            }
+            if (_close == null)
+            {
+                // Not much to validate with a position that's still open.
+            }
+            else
+            {
+                bool mismatch = true;
+                switch (_open.OrderType)
+                {
+                    case OrderType.Buy:
+                        if (_close.OrderType == OrderType.Sell)
+                        {
+                            mismatch = false;
+                        }
+                        break;
+                    case OrderType.SellShort:
+                        if (_close.OrderType == OrderType.BuyToCover)
+                        {
+                            mismatch = false;
+                        }
+                        break;
+                }
+                if (mismatch)
+                {
+                    throw new InvalidPositionException("Transaction types must match.");
+                }
+                if (_close.Date < _open.Date)
+                {
+                    throw new InvalidPositionException(
+                        "Closing transaction date must occur after opening transaction date.");
+                }
+                if (_close.Shares > _open.Shares)
+                {
+                    throw new InvalidPositionException(
+                        "Shares traded in closing transaction must be less than or equal to shares traded in opening transaction.");
+                }
             }
         }
     }
