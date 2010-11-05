@@ -1,19 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceToolsTest
 {
     /// <summary>
-    /// Summary description for PriceTupleTest
+    /// Summary description for PriceSeriesTest
     /// </summary>
     [TestClass]
-    public class PriceTupleTest
+    public class PriceSeriesTest
     {
-        public PriceTupleTest()
+        public PriceSeriesTest()
         {
             //
             // TODO: Add constructor logic here
@@ -61,14 +59,14 @@ namespace Sonneville.PriceTools
         #endregion
 
         [TestMethod]
-        public void ConstructPriceTupleFromSmallerPricePeriods()
+        public void ConstructPriceSeriesFromSmallerPricePeriods()
         {
             PricePeriod p1, p2, p3;
             p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
             p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
             p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
-            PricePeriod target = (PricePeriod)(new PriceTuple(PriceTupleResolution.Days, p1, p2, p3));
+            IPricePeriod target = new PriceSeries(PriceSeriesResolution.Days, p1, p2, p3);
 
             Assert.IsTrue(target.TimeSpan == new TimeSpan(3, 0, 0, 0));
             Assert.IsTrue(target.Open == 10);
@@ -79,15 +77,15 @@ namespace Sonneville.PriceTools
         }
 
         [TestMethod]
-        public void PriceTupleAddSubsequentPricePeriodTest()
+        public void PriceSeriesAddSubsequentPricePeriodTest()
         {
-            PricePeriod p1, p2, p3, p4;
+            IPricePeriod p1, p2, p3, p4;
             p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
             p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
             p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
             p4 = new PricePeriod(DateTime.Parse("1/4/2010"), DateTime.Parse("1/5/2010"), 12, 15, 11, 14, 55);
 
-            PriceTuple target = new PriceTuple(PriceTupleResolution.Days, p1, p2, p3);
+            IPriceSeries target = new PriceSeries(PriceSeriesResolution.Days, p1, p2, p3);
 
             Assert.IsTrue(target.TimeSpan == new TimeSpan(3, 0, 0, 0));
             Assert.IsTrue(target.Open == 10);
@@ -96,7 +94,7 @@ namespace Sonneville.PriceTools
             Assert.IsTrue(target.Close == 11);
             Assert.IsTrue(target.Volume == 190);
 
-            target.AddPeriod(p4);
+            target.InsertPeriod(p4);
 
             Assert.IsTrue(target.TimeSpan == new TimeSpan(4, 0, 0, 0));
             Assert.IsTrue(target.Open == 10);
@@ -107,36 +105,36 @@ namespace Sonneville.PriceTools
         }
 
         [TestMethod]
-        public void PriceTupleAddPriorPricePeriodTest()
+        public void PriceSeriesAddPriorPricePeriodTest()
         {
         }
 
         [TestMethod]
-        public void BinarySerializePriceTupleTest()
+        public void BinarySerializePriceSeriesTest()
         {
             IPricePeriod p1, p2, p3;
             p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
             p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
             p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
-            IPriceTuple period = new PriceTuple(PriceTupleResolution.Days, p1, p2, p3);
+            PriceSeries period = new PriceSeries(PriceSeriesResolution.Days, p1, p2, p3);
 
             MemoryStream stream = new MemoryStream();
-            PriceTuple.BinarySerialize(period, stream);
+            PriceSeries.BinarySerialize(period, stream);
             stream.Position = 0;
-            IPriceTuple result = PriceTuple.BinaryDeserialize(stream);
+            PriceSeries result = (PriceSeries)PriceSeries.BinaryDeserialize(stream);
             Assert.AreEqual(result, period);
         }
 
         [TestMethod]
-        public void PriceTupleSortTest()
+        public void PriceSeriesSortTest()
         {
             IPricePeriod p1, p2, p3;
             p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
             p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
             p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
-            IPriceTuple period = new PriceTuple(PriceTupleResolution.Days, p3, p1, p2);
+            IPriceSeries period = new PriceSeries(PriceSeriesResolution.Days, p3, p1, p2);
             Assert.IsTrue(period[0] == p1);
             Assert.IsTrue(period[1] == p2);
             Assert.IsTrue(period[2] == p3);

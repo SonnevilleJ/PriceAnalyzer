@@ -10,11 +10,11 @@ namespace Sonneville.PriceChartTools
     /// </summary>
     public class ChartBuilder
     {
-        private IPriceTuple _tuple;
+        private IPriceSeries _series;
 
-        public ChartBuilder(IPriceTuple tuple)
+        public ChartBuilder(IPriceSeries series)
         {
-            _tuple = tuple;
+            _series = series;
         }
 
         public ImageSource GenerateCandlestickChart()
@@ -35,7 +35,7 @@ namespace Sonneville.PriceChartTools
 
         private void CreateCandleGroups(out GeometryGroup red, out GeometryGroup black)
         {
-            // TODO: Make these values adjustable based on chart size and tuple high/low.
+            // TODO: Make these values adjustable based on chart size and series high/low.
             int margin = 5;
             int candleWidth = 10;
             int yMin = 0;
@@ -43,7 +43,8 @@ namespace Sonneville.PriceChartTools
             red = new GeometryGroup();
             black = new GeometryGroup();
 
-            IPricePeriod[] p = _tuple.Periods;
+            IPricePeriod[] p = new IPricePeriod[_series.Periods.Length];
+            _series.Periods.CopyTo(p, 0);
             for (int i = 0, cursor = 0; i < p.Length; i++, cursor += candleWidth + margin)
             {
                 if (p[i].Close >= p[i].Open)

@@ -53,9 +53,9 @@ namespace Sonneville.PriceTools.Data
         List<ITransaction> GetTransactions(OrderType type, string ticker, DateTime head, DateTime tail);
 
         /// <summary>
-        /// 
+        /// Stores a <see cref="List{T}"/> of ITransactions to the data source.
         /// </summary>
-        /// <param name="transactions"></param>
+        /// <param name="transactions">The <see cref="List{T}"/> of ITransactions to store in the data source.</param>
         void StoreTransactions(List<ITransaction> transactions);
     }
 }

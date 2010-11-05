@@ -25,8 +25,8 @@ namespace PriceAnalyzer
         {
             InitializeComponent();
 
-            IPriceTuple tuple = new PriceTuple(PriceTupleResolution.Days, null);
-            ChartBuilder chartist = new ChartBuilder(tuple);
+            IPriceSeries series = new PriceSeries(PriceSeriesResolution.Days, null);
+            ChartBuilder chartist = new ChartBuilder(series);
             background.Source = chartist.GenerateCandlestickChart();
         }
     }

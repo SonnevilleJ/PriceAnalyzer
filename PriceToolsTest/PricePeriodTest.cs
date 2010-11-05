@@ -80,7 +80,7 @@ namespace Sonneville.PriceToolsTest
             MemoryStream stream = new MemoryStream();
             PricePeriod.BinarySerialize(period, stream);
             stream.Position = 0;
-            PricePeriod result = PricePeriod.BinaryDeserialize(stream);
+            IPricePeriod result = PricePeriod.BinaryDeserialize(stream);
             Assert.AreEqual(result, period);
         }
 

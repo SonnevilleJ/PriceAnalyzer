@@ -50,12 +50,13 @@
     <Compile Include="InvalidPricePeriodException.cs" />
     <Compile Include="IPosition.cs" />
     <Compile Include="IPricePeriod.cs" />
-    <Compile Include="IPriceTuple.cs" />
+    <Compile Include="IPriceSeries.cs" />
     <Compile Include="ITransaction.cs" />
     <Compile Include="Position.cs" />
+    <Compile Include="PriceSeries.cs" />
     <Compile Include="PriceUtil.cs" />
     <Compile Include="PricePeriod.cs" />
-    <Compile Include="PriceTuple.cs" />
+    <Compile Include="PriceTupleResolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StockIndexes.cs" />
     <Compile Include="Transaction.cs" />

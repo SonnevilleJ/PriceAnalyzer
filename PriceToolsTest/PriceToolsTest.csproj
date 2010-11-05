@@ -52,7 +52,7 @@
   <ItemGroup>
     <Compile Include="CsvParserTest.cs" />
     <Compile Include="PricePeriodTest.cs" />
-    <Compile Include="PriceTupleTest.cs" />
+    <Compile Include="PriceSeriesTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestData.Designer.cs">
       <AutoGen>True</AutoGen>
