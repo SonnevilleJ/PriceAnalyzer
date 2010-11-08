@@ -82,7 +82,7 @@ namespace Sonneville.PriceToolsTest
             Position target = new Position(open);
 
             // No closing transaction (still hold these shares) so Value should return negative value of purchase price minus any commissions.
-            Assert.IsTrue(target.Value == -507.95m);
+            Assert.IsTrue(target.TotalValue == -507.95m);
         }
 
         [TestMethod()]
@@ -104,7 +104,7 @@ namespace Sonneville.PriceToolsTest
             Position target = new Position(open, close);
 
             // No longer hold these shares, so Value should return total profit (or negative loss) minus any commissions.
-            Assert.IsTrue(target.Value == 34.1m);
+            Assert.IsTrue(target.TotalValue == 34.1m);
         }
 
         [TestMethod()]
@@ -120,6 +120,56 @@ namespace Sonneville.PriceToolsTest
             ITransaction open = null;
 
             Position target = new Position(open, close);
+        }
+
+        [TestMethod]
+        public void TestRawReturn()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2001, 1, 1);
+            const decimal price = 100.0m;       // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 7.95m;   // with $7.95 commission
+
+            Transaction buy = new Transaction(date, OrderType.Buy, ticker, price, shares, commission);
+            Transaction sell = new Transaction(date, OrderType.Sell, ticker, price + 10m, shares, commission);
+
+            Position target = new Position(buy, sell);
+            Assert.IsTrue(target.RawReturn == 0.10m);
+        }
+
+        [TestMethod]
+        public void TestReturn()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2001, 1, 1);
+            const decimal price = 100.0m;       // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 5.0m;    // with $7.95 commission
+
+            Transaction buy = new Transaction(date, OrderType.Buy, ticker, price, shares, commission);
+            Transaction sell = new Transaction(date, OrderType.Sell, ticker, price + 10m, shares, commission);
+
+            Position target = new Position(buy, sell);
+            Assert.IsTrue(target.TotalReturn == 0.1010101010101010101010101010101m);
+        }
+
+        [TestMethod]
+        public void TestTotalAnnualReturn()
+        {
+            const string ticker = "DE";
+            DateTime buyDate = new DateTime(2001, 1, 1);
+            DateTime sellDate = new DateTime(2001, 7, 1);
+            const decimal buyPrice = 100.0m;    // $100.00 per share
+            const decimal sellPrice = 110.0m;   // $110.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 5.0m;    // with $7.95 commission
+
+            Transaction buy = new Transaction(buyDate, OrderType.Buy, ticker, buyPrice, shares, commission);
+            Transaction sell = new Transaction(sellDate, OrderType.Sell, ticker, sellPrice, shares, commission);
+
+            Position target = new Position(buy, sell);
+            Assert.IsTrue(target.TotalAnnualReturn == 0.2020202020202020202020202020202m);
         }
 
         [TestMethod]
@@ -158,9 +208,9 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             DateTime date = new DateTime(2001, 1, 1);
-            const decimal price = 110.0m;      // $110.00 per share
-            const double shares = 5;           // 5 shares
-            const decimal commission = 7.95m;  // with $7.95 commission
+            const decimal price = 100.0m;       // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 7.95m;   // with $7.95 commission
 
             _buy = new Transaction(date, OrderType.Buy, ticker, price, shares, commission);
             _sell = new Transaction(date, OrderType.Sell, ticker, price, shares, commission);

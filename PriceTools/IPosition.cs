@@ -31,7 +31,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the total value of this position, after commissions.
         /// </summary>
-        decimal Value
+        decimal TotalValue
         {
             get;
         }

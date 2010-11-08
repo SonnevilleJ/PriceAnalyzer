@@ -58,24 +58,96 @@ namespace Sonneville.PriceTools
             set { _close = value; }
         }
 
-        /// <summary>
-        /// Gets the value of the Position, minus the costs for the opening transaction.
-        /// </summary>
-        public decimal Value
+        private TimeSpan Duration
         {
             get
             {
-                decimal openValue = (_open.Price * decimal.Parse((0 - _open.Shares).ToString())) - _open.Commission;
-                decimal closeValue = _close == null ? 0 : (_close.Price * decimal.Parse(_close.Shares.ToString())) - _close.Commission;
+                return new TimeSpan(_close.Date.Ticks - _open.Date.Ticks);
+            }
+        }
 
-                return closeValue + openValue;
+        private decimal PurchaseValue
+        {
+            get { return 0 - (_open.Price*(decimal) _open.Shares); }
+        }
 
-                // Below is application code which requires access to a database of prices.
-                //decimal originalPrice = _open.Price;
-                //decimal commissions = _close != null ? _open.Commission + _close.Commission : _open.Commission;
-                //decimal currentPrice = PriceUtil.GetPerSharePrice(_open.Ticker);
-                //double shares = _close != null ? _open.Shares - _close.Shares : _open.Shares;
-                //return ((originalPrice - currentPrice) - commissions) * decimal.Parse(shares.ToString("M"));
+        private decimal SaleValue
+        {
+            get { return _close == null ? 0 : (_close.Price*(decimal) _close.Shares); }
+        }
+
+        /// <summary>
+        /// Gets the raw value of the Position, not including commissions..
+        /// </summary>
+        public decimal RawValue
+        {
+            get
+            {
+                return SaleValue + PurchaseValue;
+            }
+        }
+
+        /// <summary>
+        /// Gets the total value of the Position, including commissions.
+        /// </summary>
+        public decimal TotalValue
+        {
+            get
+            {
+                if (_close != null)
+                {
+                    return (SaleValue - Close.Commission) + (PurchaseValue - Open.Commission);
+                }
+                else
+                {
+                    return PurchaseValue - Open.Commission;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the raw rate of return for this Position, not accounting for commissions.
+        /// </summary>
+        public decimal RawReturn
+        {
+            get
+            {
+                if (_close == null)
+                {
+                    throw new InvalidOperationException("Cannot calculate raw return for an open position.");
+                }
+                return 0 - decimal.Divide(RawValue, PurchaseValue);
+            }
+        }
+
+        /// <summary>
+        /// Gets the total rate of return for this Position, after commissions.
+        /// </summary>
+        public decimal TotalReturn
+        {
+            get
+            {
+                if(_close == null)
+                {
+                    throw new InvalidOperationException("Cannot calculate return for an open position.");
+                }
+                return decimal.Divide(SaleValue - Close.Commission, 0 - PurchaseValue - Open.Commission) - 1.0m;
+            }
+        }
+
+        /// <summary>
+        /// Gets the total rate of return on an annual basis for this Position.
+        /// </summary>
+        /// <remarks>Assumes a year has 365 days.</remarks>
+        public decimal TotalAnnualReturn
+        {
+            get
+            {
+                if(_close == null)
+                {
+                    throw new InvalidOperationException("Cannot calculate return for an open position.");
+                }
+                return (TimeSpan.TicksPerDay*365/Duration.Ticks)*TotalReturn;
             }
         }
 
