@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a time series of price data
     /// </summary>
-    public interface IPriceSeries : IPricePeriod, ISerializable
+    public interface IPriceSeries : IPricePeriod, ITimeSeries, ISerializable
     {
         /// <summary>
         /// Inserts an IPricePeriod to this IPriceSeries.

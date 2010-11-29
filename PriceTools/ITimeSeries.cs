@@ -6,10 +6,15 @@ namespace Sonneville.PriceTools
     public interface ITimeSeries
     {
         /// <summary>
-        /// Gets a value stored at a given index of the time series.
+        /// Gets a value stored at a given index of the ITimeSeries.
         /// </summary>
         /// <param name="i">The index of the desired value.</param>
         /// <returns>The value stored at the given index.</returns>
         decimal this[int i] { get; }
+
+        /// <summary>
+        /// Gets the length of the ITimeSeries.
+        /// </summary>
+        int Length { get; }
     }
 }

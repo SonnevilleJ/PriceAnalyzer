@@ -149,6 +149,11 @@ namespace Sonneville.PriceTools
             }
         }
 
+        decimal ITimeSeries.this[int index]
+        {
+            get { return _periods[index].Close; }
+        }
+
         /// <summary>
         /// Gets the length of this PriceSeries.
         /// </summary>

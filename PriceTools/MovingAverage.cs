@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools
     /// </summary>
     public class MovingAverage : ITimeSeries
     {
-        private IPriceSeries _series;
+        private ITimeSeries _series;
         private IDictionary<int, decimal> _dictionary;
         private readonly int _length;
         private MovingAverageMethod _method;
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools
         /// <param name="series">The IPriceSeries containing the data to be averaged.</param>
         /// <param name="length">The number of periods to average together.</param>
         /// <param name="movingAverageMethod">The calculation method to use when averaging.</param>
-        public MovingAverage(IPriceSeries series, int length, MovingAverageMethod movingAverageMethod = MovingAverageMethod.Simple)
+        public MovingAverage(ITimeSeries series, int length, MovingAverageMethod movingAverageMethod = MovingAverageMethod.Simple)
         {
             _series = series;
             _dictionary = new Dictionary<int, decimal>(series.Length - length);
@@ -60,6 +60,14 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Gets the length of this MovingAverage.
+        /// </summary>
+        public int Length
+        {
+            get { return _dictionary.Count; }
+        }
+
+        /// <summary>
         /// Pre-caches all values for the moving average.
         /// </summary>
         public void CalculateAll()
@@ -79,7 +87,7 @@ namespace Sonneville.PriceTools
                     decimal sum = 0;
                     for (int i = _series.Length + (index - _length); i < _series.Length + index; i++)
                     {
-                        sum += _series.Periods[i].Close;
+                        sum += _series[i];
                     }
                     lock (_padlock)
                     {
