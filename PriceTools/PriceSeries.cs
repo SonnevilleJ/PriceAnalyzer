@@ -150,6 +150,17 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Gets the length of this PriceSeries.
+        /// </summary>
+        public int Length
+        {
+            get
+            {
+                return _periods.Count;
+            }
+        }
+
+        /// <summary>
         /// Gets or sets the price at the open of this PriceSeries.
         /// </summary>
         public decimal? Open

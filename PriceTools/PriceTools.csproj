@@ -40,6 +40,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MovingAverage.cs" />
     <Compile Include="Data\AccessDataManager.cs" />
     <Compile Include="Data\CsvParser.cs" />
     <Compile Include="Data\AccessDataReader.cs" />
@@ -49,7 +50,9 @@
     <Compile Include="IPosition.cs" />
     <Compile Include="IPricePeriod.cs" />
     <Compile Include="IPriceSeries.cs" />
+    <Compile Include="ITimeSeries.cs" />
     <Compile Include="ITransaction.cs" />
+    <Compile Include="MovingAverageMethod.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="PriceSeries.cs" />
     <Compile Include="PriceUtil.cs" />

@@ -34,5 +34,10 @@ namespace Sonneville.PriceTools
         /// <param name="index">The index of the IPricePeriod to retrieve.</param>
         /// <returns>The IPricePeriod stored at the given index.</returns>
         IPricePeriod this[int index] { get; }
+
+        /// <summary>
+        /// Gets the length of this IPriceSeries.
+        /// </summary>
+        int Length { get; }
     }
 }
