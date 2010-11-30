@@ -12,19 +12,11 @@ namespace Sonneville.PriceTools
     /// Represents a set of PricePeriods.
     /// </summary>
     [Serializable]
-    public class PriceSeries : IPriceSeries
+    public class PriceSeries : PricePeriod, IPriceSeries
     {
         #region Private Members
 
-        private DateTime _head;
-        private DateTime _tail;
-        private decimal? _open;
-        private decimal _close;
-        private decimal? _high;
-        private decimal? _low;
-        private UInt64? _volume;
         private readonly long _resolution;
-
         private List<PricePeriod> _periods;
 
         #endregion
@@ -37,6 +29,7 @@ namespace Sonneville.PriceTools
         /// <param name="resolution"></param>
         /// <param name="periods"></param>
         public PriceSeries(PriceSeriesResolution resolution, params IPricePeriod[] periods)
+            : base()
         {
             if (periods == null)
                 throw new ArgumentNullException(
@@ -69,16 +62,10 @@ namespace Sonneville.PriceTools
         /// <param name="info"></param>
         /// <param name="context"></param>
         protected PriceSeries(SerializationInfo info, StreamingContext context)
+            : base(info, context)
         {
-            _head = (DateTime)info.GetValue("Head", typeof(DateTime));
-            _tail = (DateTime)info.GetValue("Tail", typeof(DateTime));
-            _open = (decimal?)info.GetValue("Open", typeof(decimal?));
-            _high = (decimal?)info.GetValue("High", typeof(decimal?));
-            _low = (decimal?)info.GetValue("Low", typeof(decimal?));
-            _close = (decimal)info.GetValue("Close", typeof(decimal));
-            _volume = (UInt64?)info.GetValue("Volume", typeof(UInt64?));
             _periods = (List<PricePeriod>)info.GetValue("Periods", typeof(List<PricePeriod>));
-
+            
             Validate();
         }
 
@@ -87,15 +74,9 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="info">SerializationInfo</param>
         /// <param name="context">StreamingContext</param>
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Head", _head);
-            info.AddValue("Tail", _tail);
-            info.AddValue("Open", _open);
-            info.AddValue("High", _high);
-            info.AddValue("Low", _low);
-            info.AddValue("Close", _close);
-            info.AddValue("Volume", _volume);
+            base.GetObjectData(info, context);
             info.AddValue("Periods", _periods);
         }
 
@@ -115,7 +96,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="stream">The <see cref="Stream"/> to use for deserialization.</param>
         /// <returns>An <see cref="IPriceSeries"/>.</returns>
-        public static IPriceSeries BinaryDeserialize(Stream stream)
+        public new static IPriceSeries BinaryDeserialize(Stream stream)
         {
             BinaryFormatter formatter = new BinaryFormatter();
             return (PriceSeries)formatter.Deserialize(stream);
@@ -157,105 +138,6 @@ namespace Sonneville.PriceTools
         public int Span
         {
             get { return _periods.Count; }
-        }
-
-        /// <summary>
-        /// Gets or sets the price at the open of this PriceSeries.
-        /// </summary>
-        public decimal? Open
-        {
-            get { return _open; }
-            set
-            {
-                _open = value;
-                Validate();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the price at the close of this PriceSeries.
-        /// </summary>
-        public decimal Close
-        {
-            get { return _close; }
-            set
-            {
-                _close = value;
-                Validate();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the highest transaction price during this PriceSeries.
-        /// </summary>
-        public decimal? High
-        {
-            get { return _high; }
-            set
-            {
-                _high = value;
-                Validate();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the lowest transaction price during this PriceSeries.
-        /// </summary>
-        public decimal? Low
-        {
-            get { return _low; }
-            set
-            {
-                _low = value;
-                Validate();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the total volume for this PriceSeries.
-        /// </summary>
-        public UInt64? Volume
-        {
-            get { return _volume; }
-            set
-            {
-                _volume = value;
-                Validate();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the beginning DateTime for this PriceSeries.
-        /// </summary>
-        public DateTime Head
-        {
-            get { return _head; }
-            set
-            {
-                _head = value;
-                Validate();
-            }
-        }
-
-        /// <summary>
-        /// Gets or sets the ending DateTime for this PriceSeries.
-        /// </summary>
-        public DateTime Tail
-        {
-            get { return _tail; }
-            set
-            {
-                _tail = value;
-                Validate();
-            }
-        }
-
-        /// <summary>
-        /// Gets a TimeSpan representing the duration of this PriceSeries.
-        /// </summary>
-        public TimeSpan TimeSpan
-        {
-            get { return _tail.Subtract(_head); }
         }
 
         #endregion
@@ -305,15 +187,6 @@ namespace Sonneville.PriceTools
             return new PricePeriod(this);
         }
 
-        ///<summary>
-        ///</summary>
-        ///<param name="series"></param>
-        ///<returns></returns>
-        public static implicit operator PricePeriod(PriceSeries series)
-        {
-            return new PricePeriod(series._head, series._tail, series._open, series._high, series._low, series._close, series._volume);
-        }
-
         /// <summary>
         /// Determines whether the specified <see cref="PriceSeries"/> is equal to the current <see cref="PriceSeries"/>.
         /// </summary>
@@ -336,7 +209,7 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return ((PricePeriod)this).GetHashCode();
+            return base.GetHashCode();
         }
 
         ///<summary>

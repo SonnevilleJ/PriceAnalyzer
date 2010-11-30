@@ -14,19 +14,23 @@ namespace Sonneville.PriceTools
     [Serializable]
     public class PricePeriod : IPricePeriod, ISerializable
     {
-        #region Private Members
+        #region Protected Members
 
-        private DateTime _head;
-        private DateTime _tail;
-        private decimal? _open;
-        private decimal _close;
-        private decimal? _high;
-        private decimal? _low;
-        private UInt64? _volume;
+        protected DateTime _head;
+        protected DateTime _tail;
+        protected decimal? _open;
+        protected decimal _close;
+        protected decimal? _high;
+        protected decimal? _low;
+        protected UInt64? _volume;
 
         #endregion
 
         #region Constructors
+
+        protected PricePeriod()
+        {
+        }
 
         /// <summary>
         /// Constructs a PricePeriod object from an existing IPricePeriod.
@@ -137,8 +141,7 @@ namespace Sonneville.PriceTools
         public static IPricePeriod BinaryDeserialize(Stream stream)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            IPricePeriod p = (IPricePeriod)formatter.Deserialize(stream);
-            return p;
+            return (IPricePeriod)formatter.Deserialize(stream);
         }
 
         #endregion
@@ -150,10 +153,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal? Open
         {
-            get
-            {
-                return _open;
-            }
+            get { return _open; }
             set
             {
                 _open = value;
@@ -166,10 +166,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal Close
         {
-            get
-            {
-                return _close;
-            }
+            get { return _close; }
             set
             {
                 _close = value;
@@ -182,10 +179,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal? High
         {
-            get
-            {
-                return _high;
-            }
+            get { return _high; }
             set
             {
                 _high = value;
@@ -198,10 +192,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal? Low
         {
-            get
-            {
-                return _low;
-            }
+            get { return _low; }
             set
             {
                 _low = value;
@@ -214,10 +205,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public UInt64? Volume
         {
-            get
-            {
-                return _volume;
-            }
+            get { return _volume; }
             set
             {
                 _volume = value;
@@ -230,10 +218,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public DateTime Head
         {
-            get
-            {
-                return _head;
-            }
+            get { return _head; }
             set
             {
                 _head = value;
@@ -246,10 +231,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public DateTime Tail
         {
-            get
-            {
-                return _tail;
-            }
+            get { return _tail; }
             set
             {
                 _tail = value;
@@ -262,10 +244,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public TimeSpan TimeSpan
         {
-            get
-            {
-                return _tail.Subtract(_head);
-            }
+            get { return _tail.Subtract(_head); }
         }
 
         #endregion
