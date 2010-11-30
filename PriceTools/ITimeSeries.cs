@@ -13,8 +13,8 @@ namespace Sonneville.PriceTools
         decimal this[int i] { get; }
 
         /// <summary>
-        /// Gets the length of the ITimeSeries.
+        /// Gets the span of the ITimeSeries.
         /// </summary>
-        int Length { get; }
+        int Span { get; }
     }
 }

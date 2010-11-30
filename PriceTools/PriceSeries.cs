@@ -143,10 +143,7 @@ namespace Sonneville.PriceTools
         /// <returns>The IPricePeriod at <para>index</para>.</returns>
         public IPricePeriod this[int index]
         {
-            get
-            {
-                return _periods[index];
-            }
+            get { return _periods[index]; }
         }
 
         decimal ITimeSeries.this[int index]
@@ -157,12 +154,9 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the length of this PriceSeries.
         /// </summary>
-        public int Length
+        public int Span
         {
-            get
-            {
-                return _periods.Count;
-            }
+            get { return _periods.Count; }
         }
 
         /// <summary>
@@ -170,10 +164,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal? Open
         {
-            get
-            {
-                return _open;
-            }
+            get { return _open; }
             set
             {
                 _open = value;
@@ -186,10 +177,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal Close
         {
-            get
-            {
-                return _close;
-            }
+            get { return _close; }
             set
             {
                 _close = value;
@@ -202,10 +190,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal? High
         {
-            get
-            {
-                return _high;
-            }
+            get { return _high; }
             set
             {
                 _high = value;
@@ -218,10 +203,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal? Low
         {
-            get
-            {
-                return _low;
-            }
+            get { return _low; }
             set
             {
                 _low = value;
@@ -234,10 +216,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public UInt64? Volume
         {
-            get
-            {
-                return _volume;
-            }
+            get { return _volume; }
             set
             {
                 _volume = value;
@@ -250,10 +229,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public DateTime Head
         {
-            get
-            {
-                return _head;
-            }
+            get { return _head; }
             set
             {
                 _head = value;
@@ -266,10 +242,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public DateTime Tail
         {
-            get
-            {
-                return _tail;
-            }
+            get { return _tail; }
             set
             {
                 _tail = value;
@@ -282,10 +255,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public TimeSpan TimeSpan
         {
-            get
-            {
-                return _tail.Subtract(_head);
-            }
+            get { return _tail.Subtract(_head); }
         }
 
         #endregion
@@ -398,7 +368,6 @@ namespace Sonneville.PriceTools
         {
             return (PricePeriod)lhs != (PricePeriod)rhs;
         }
-
 
         private void Validate()
         {
