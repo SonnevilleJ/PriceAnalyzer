@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Represents a time series of price data
+    /// Represents a time series of price data.
     /// </summary>
-    public interface IPriceSeries : IPricePeriod, ITimeSeries, ISerializable
+    public interface IPriceSeries : IPricePeriod, ITimeSeries
     {
         /// <summary>
         /// Inserts an IPricePeriod to this IPriceSeries.

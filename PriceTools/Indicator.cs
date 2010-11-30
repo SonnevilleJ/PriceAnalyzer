@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Sonneville.PriceTools
@@ -21,7 +22,7 @@ namespace Sonneville.PriceTools
         /// The number of periods for which this Indicator has a value.
         /// </summary>
         /// <example>A 50-period MovingAverage has a Range of 50.</example>
-        protected int _Range;
+        protected Int32 _Range;
 
         /// <summary>
         /// The IDictionary used to store the values of this Indicator.
@@ -32,6 +33,17 @@ namespace Sonneville.PriceTools
         /// An object to lock when performing thread unsafe tasks.
         /// </summary>
         protected readonly object _Padlock = new object();
+
+        #endregion
+
+        #region Constructors
+
+        protected Indicator(ITimeSeries timeSeries, int range)
+        {
+            _TimeSeries = timeSeries;
+            _Dictionary = new Dictionary<int, decimal>(timeSeries.Span - range);
+            _Range = range;
+        }
 
         #endregion
 
@@ -100,6 +112,25 @@ namespace Sonneville.PriceTools
         public virtual int Range
         {
             get { return _Range; }
+        }
+
+        #endregion
+
+        #region Implementation of ISerializable
+
+        protected Indicator(SerializationInfo info, StreamingContext context)
+        {
+            _Dictionary = (IDictionary<int, decimal>) info.GetValue("Dictionary", typeof (IDictionary<int, decimal>));
+            _TimeSeries = (ITimeSeries) info.GetValue("TimeSeries", typeof (ITimeSeries));
+            _Range = (Int32) info.GetValue("Range", typeof (Int32));
+            _Padlock = new object();
+        }
+
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            info.AddValue("Dictionary", _Dictionary);
+            info.AddValue("TimeSeries", _TimeSeries);
+            info.AddValue("Range", _Range);
         }
 
         #endregion

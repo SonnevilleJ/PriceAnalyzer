@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 
 namespace Sonneville.PriceTools
@@ -19,10 +20,8 @@ namespace Sonneville.PriceTools
         /// <param name="range">The number of periods to average together.</param>
         /// <param name="movingAverageMethod">The calculation method to use when averaging.</param>
         public MovingAverage(ITimeSeries series, int range, MovingAverageMethod movingAverageMethod = MovingAverageMethod.Simple)
+            : base(series, range)
         {
-            _TimeSeries = series;
-            _Dictionary = new Dictionary<int, decimal>(series.Span - range);
-            _Range = range;
             _method = movingAverageMethod;
         }
 
