@@ -38,6 +38,11 @@ namespace Sonneville.PriceTools
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs an Indicator for a given <see cref="ITimeSeries"/>.
+        /// </summary>
+        /// <param name="timeSeries">The <see cref="ITimeSeries"/> to measure.</param>
+        /// <param name="range">The range used by this indicator.</param>
         protected Indicator(ITimeSeries timeSeries, int range)
         {
             _TimeSeries = timeSeries;
@@ -118,6 +123,11 @@ namespace Sonneville.PriceTools
 
         #region Implementation of ISerializable
 
+        /// <summary>
+        /// Serialization constructor.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         protected Indicator(SerializationInfo info, StreamingContext context)
         {
             _Dictionary = (IDictionary<int, decimal>) info.GetValue("Dictionary", typeof (IDictionary<int, decimal>));
@@ -126,6 +136,11 @@ namespace Sonneville.PriceTools
             _Padlock = new object();
         }
 
+        /// <summary>
+        /// Serializies an Indicator.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Dictionary", _Dictionary);

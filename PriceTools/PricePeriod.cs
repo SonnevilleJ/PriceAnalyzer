@@ -28,6 +28,9 @@ namespace Sonneville.PriceTools
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs an empty PricePeriod.
+        /// </summary>
         protected PricePeriod()
         {
         }
@@ -154,7 +157,7 @@ namespace Sonneville.PriceTools
         public decimal? Open
         {
             get { return _open; }
-            set
+            protected set
             {
                 _open = value;
                 Validate();
@@ -167,7 +170,7 @@ namespace Sonneville.PriceTools
         public decimal Close
         {
             get { return _close; }
-            set
+            protected set
             {
                 _close = value;
                 Validate();
@@ -180,7 +183,7 @@ namespace Sonneville.PriceTools
         public decimal? High
         {
             get { return _high; }
-            set
+            protected set
             {
                 _high = value;
                 Validate();
@@ -193,7 +196,7 @@ namespace Sonneville.PriceTools
         public decimal? Low
         {
             get { return _low; }
-            set
+            protected set
             {
                 _low = value;
                 Validate();
@@ -206,7 +209,7 @@ namespace Sonneville.PriceTools
         public UInt64? Volume
         {
             get { return _volume; }
-            set
+            protected set
             {
                 _volume = value;
                 Validate();
@@ -219,7 +222,7 @@ namespace Sonneville.PriceTools
         public DateTime Head
         {
             get { return _head; }
-            set
+            protected set
             {
                 _head = value;
                 Validate();
@@ -232,7 +235,7 @@ namespace Sonneville.PriceTools
         public DateTime Tail
         {
             get { return _tail; }
-            set
+            protected set
             {
                 _tail = value;
                 Validate();
@@ -244,7 +247,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public TimeSpan TimeSpan
         {
-            get { return _tail.Subtract(_head); }
+            get { return Tail.Subtract(Head); }
         }
 
         #endregion
@@ -270,13 +273,13 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return ((((((_head.GetHashCode() << 5)
-                        ^ _tail.GetHashCode() << 5)
-                       ^ _open.GetHashCode() << 5)
-                      ^ _high.GetHashCode() << 5)
-                     ^ _low.GetHashCode() << 5)
-                    ^ _close.GetHashCode() << 5)
-                   ^ _volume.GetHashCode();
+            return ((((((Head.GetHashCode() << 5)
+                        ^ Tail.GetHashCode() << 5)
+                       ^ Open.GetHashCode() << 5)
+                      ^ High.GetHashCode() << 5)
+                     ^ Low.GetHashCode() << 5)
+                    ^ Close.GetHashCode() << 5)
+                   ^ Volume.GetHashCode();
         }
 
         ///<summary>
@@ -287,7 +290,7 @@ namespace Sonneville.PriceTools
         ///<returns></returns>
         public static bool operator >(PricePeriod lhs, PricePeriod rhs)
         {
-            return (lhs._head > rhs._tail);
+            return (lhs.Head > rhs.Tail);
         }
 
         /// <summary>
@@ -298,7 +301,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator <(PricePeriod lhs, PricePeriod rhs)
         {
-            return (lhs._tail < rhs._head);
+            return (lhs.Tail < rhs.Head);
         }
 
         /// <summary>
@@ -310,13 +313,13 @@ namespace Sonneville.PriceTools
         public static bool operator ==(PricePeriod lhs, PricePeriod rhs)
         {
             return
-                lhs._head == rhs._head &&
+                lhs.Head == rhs.Head &&
                 lhs.Tail == rhs.Tail &&
-                lhs._open == rhs._open &&
-                lhs._high == rhs._high &&
-                lhs._low == rhs._low &&
-                lhs._close == rhs._close &&
-                lhs._volume == rhs._volume;
+                lhs.Open == rhs.Open &&
+                lhs.High == rhs.High &&
+                lhs.Low == rhs.Low &&
+                lhs.Close == rhs.Close &&
+                lhs.Volume == rhs.Volume;
         }
 
         /// <summary>
@@ -339,18 +342,18 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return _head.ToShortDateString() + " close: " + _close;
+            return Head.ToShortDateString() + " close: " + Close;
         }
 
         private void Validate()
         {
             List<string> errors = new List<string>();
 
-            if (_head > _tail)
+            if (Head > Tail)
                 errors.Add("Head must be earlier than Tail.");
-            if (_high < _open || _high < _low || _high < _close)
+            if (High < Open || High < Low || High < Close)
                 errors.Add("High must be greater than or equal to the period's open, low, and close.");
-            if (_low > _open || _low > _high || _low > _close)
+            if (Low > Open || Low > High || Low > Close)
                 errors.Add("Low must be less than or equal to the period's open, high, and close.");
 
             if (errors.Count != 0)

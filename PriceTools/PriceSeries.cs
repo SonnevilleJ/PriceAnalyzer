@@ -149,25 +149,25 @@ namespace Sonneville.PriceTools
         public void InsertPeriod(IPricePeriod period)
         {
             _periods.Add(period as PricePeriod);
-            if (period.Head < _head || _head == DateTime.MinValue)
+            if (period.Head < Head || Head == DateTime.MinValue)
             {
                 _head = period.Head;
                 _open = period.Open;
             }
-            if (period.Tail > _tail)
+            if (period.Tail > Tail)
             {
                 _tail = period.Tail;
                 _close = period.Close;
             }
-            if (period.High > _high || _high == null)
+            if (High == null || period.High > High)
             {
                 _high = period.High;
             }
-            if (period.Low < _low || _low == null)
+            if (Low == null || period.Low < Low)
             {
                 _low = period.Low;
             }
-            if (_volume == null)
+            if (Volume == null)
             {
                 _volume = period.Volume;
             }
