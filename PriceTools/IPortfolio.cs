@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Sonneville.PriceTools;
 
-namespace PriceTools
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a portfolio of investments.
