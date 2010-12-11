@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools
             {
                 if (p.TimeSpan.Ticks > _resolution)
                 {
-                    throw new ArgumentException(String.Format("Period {0} has an unexpected resolution. Expected {1}.", p, _resolution));
+                    throw new ArgumentException(String.Format("Period {0} has an unexpected resolution of {1}. Expected {2}.", p, p.TimeSpan.Ticks, _resolution));
                 }
                 InsertPeriod(p);
             }
