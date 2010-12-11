@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// An object to lock when performing thread unsafe tasks.
         /// </summary>
-        protected readonly object _Padlock = new object();
+        protected readonly object _Padlock;
 
         #endregion
 
@@ -48,6 +48,7 @@ namespace Sonneville.PriceTools
             _TimeSeries = timeSeries;
             _Dictionary = new Dictionary<int, decimal>(timeSeries.Span - range);
             _Range = range;
+            _Padlock = new object();
         }
 
         #endregion

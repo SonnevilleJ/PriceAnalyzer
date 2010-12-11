@@ -65,6 +65,25 @@ namespace Sonneville.PriceToolsTest
         #endregion
 
         [TestMethod()]
+        public void ComparePricePeriodTest()
+        {
+            DateTime d1 = new DateTime(2010, 6, 1);
+            DateTime d2 = new DateTime(2010, 8, 1);
+            DateTime d3 = new DateTime(2010, 10, 1);
+            const decimal open = 100.00m;
+            const decimal high = 120.00m;
+            const decimal low = 80.00m;
+            const decimal close = 110.00m;
+            const UInt64 volume = 1000;
+
+            PricePeriod period1 = new PricePeriod(d1, d2, open, high, low, close, volume);
+            PricePeriod period2 = new PricePeriod(d2, d3, open, high, low, close, volume);
+
+            Assert.IsTrue(period1 < period2);
+            Assert.IsTrue(period2 > period1);
+        }
+
+        [TestMethod()]
         public void BinarySerializePricePeriodTest()
         {
             DateTime d1 = new DateTime(2010, 6, 1);

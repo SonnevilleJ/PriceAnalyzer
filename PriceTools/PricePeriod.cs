@@ -48,6 +48,8 @@ namespace Sonneville.PriceTools
             _low = existing.Low;
             _close = existing.Close;
             _volume = existing.Volume;
+
+            Validate();
         }
 
         /// <summary>
@@ -157,11 +159,6 @@ namespace Sonneville.PriceTools
         public decimal? Open
         {
             get { return _open; }
-            protected set
-            {
-                _open = value;
-                Validate();
-            }
         }
 
         /// <summary>
@@ -170,11 +167,6 @@ namespace Sonneville.PriceTools
         public decimal Close
         {
             get { return _close; }
-            protected set
-            {
-                _close = value;
-                Validate();
-            }
         }
 
         /// <summary>
@@ -183,11 +175,6 @@ namespace Sonneville.PriceTools
         public decimal? High
         {
             get { return _high; }
-            protected set
-            {
-                _high = value;
-                Validate();
-            }
         }
 
         /// <summary>
@@ -196,11 +183,6 @@ namespace Sonneville.PriceTools
         public decimal? Low
         {
             get { return _low; }
-            protected set
-            {
-                _low = value;
-                Validate();
-            }
         }
 
         /// <summary>
@@ -209,11 +191,6 @@ namespace Sonneville.PriceTools
         public UInt64? Volume
         {
             get { return _volume; }
-            protected set
-            {
-                _volume = value;
-                Validate();
-            }
         }
 
         /// <summary>
@@ -222,11 +199,6 @@ namespace Sonneville.PriceTools
         public DateTime Head
         {
             get { return _head; }
-            protected set
-            {
-                _head = value;
-                Validate();
-            }
         }
 
         /// <summary>
@@ -235,11 +207,6 @@ namespace Sonneville.PriceTools
         public DateTime Tail
         {
             get { return _tail; }
-            protected set
-            {
-                _tail = value;
-                Validate();
-            }
         }
 
         /// <summary>
@@ -290,7 +257,7 @@ namespace Sonneville.PriceTools
         ///<returns></returns>
         public static bool operator >(PricePeriod lhs, PricePeriod rhs)
         {
-            return (lhs.Head > rhs.Tail);
+            return (lhs.Head.Ticks + 1 > rhs.Tail.Ticks);
         }
 
         /// <summary>
@@ -301,7 +268,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator <(PricePeriod lhs, PricePeriod rhs)
         {
-            return (lhs.Tail < rhs.Head);
+            return (lhs.Tail.Ticks - 1 < rhs.Head.Ticks);
         }
 
         /// <summary>
@@ -345,7 +312,10 @@ namespace Sonneville.PriceTools
             return Head.ToShortDateString() + " close: " + Close;
         }
 
-        private void Validate()
+        /// <summary>
+        /// Performs validation for the PricePeriod.
+        /// </summary>
+        protected virtual void Validate()
         {
             List<string> errors = new List<string>();
 
