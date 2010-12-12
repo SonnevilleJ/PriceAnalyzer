@@ -46,6 +46,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\AccessDataManager.cs" />
+    <Compile Include="Data\AccessDataReader.cs" />
+    <Compile Include="Data\CsvParser.cs" />
+    <Compile Include="Data\IDataManager.cs" />
     <Compile Include="Indicator.cs" />
     <Compile Include="InvalidPositionException.cs" />
     <Compile Include="InvalidPricePeriodException.cs" />
@@ -66,6 +70,9 @@
     <Compile Include="StockIndexes.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="TransactionType.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Class Diagrams\DataClasses.cd" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
