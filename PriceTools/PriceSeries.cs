@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools
 {
@@ -100,6 +101,33 @@ namespace Sonneville.PriceTools
         {
             BinaryFormatter formatter = new BinaryFormatter();
             return (PriceSeries)formatter.Deserialize(stream);
+        }
+
+        #endregion
+
+        #region CSV Loader
+
+        /// <summary>
+        /// Loads an <see cref="IPriceSeries"/> from a given CSV stream.
+        /// </summary>
+        /// <param name="csvStream">A <see cref="Stream"/> to the CSV data.</param>
+        /// <returns>An <see cref="IPriceSeries"/> created from the CSV data.</returns>
+        public static IPriceSeries LoadFromCsv(Stream csvStream)
+        {
+            return FidelityDataManager.PriceParser.ParsePriceSeries(csvStream);
+        }
+
+        /// <summary>
+        /// Loads an <see cref="IPriceSeries"/> from a given CSV stream.
+        /// </summary>
+        /// <param name="csvFilePath">The path to the CSV data.</param>
+        /// <returns>An <see cref="IPriceSeries"/> created from the CSV data.</returns>
+        public static IPriceSeries LoadFromCsv(string csvFilePath)
+        {
+            using (FileStream file = File.OpenRead(csvFilePath))
+            {
+                return LoadFromCsv(file);
+            }
         }
 
         #endregion
@@ -242,8 +270,12 @@ namespace Sonneville.PriceTools
             return (PricePeriod)lhs != (PricePeriod)rhs;
         }
 
-        private void Validate()
+        /// <summary>
+        /// Performs validation for the PriceSeries.
+        /// </summary>
+        protected override void Validate()
         {
+            base.Validate();
         }
     }
 }
