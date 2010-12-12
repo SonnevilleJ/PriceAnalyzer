@@ -16,12 +16,39 @@ namespace Sonneville.PriceTools
     {
         #region Protected Members
 
+        /// <summary>
+        /// The internal storage for the Head of this <see cref="IPricePeriod"/>.
+        /// </summary>
         protected DateTime _head;
+
+        /// <summary>
+        /// The internal storage for the Tail of this <see cref="IPricePeriod"/>.
+        /// </summary>
         protected DateTime _tail;
+
+        /// <summary>
+        /// The internal storage for the Open of this <see cref="IPricePeriod"/>.
+        /// </summary>
         protected decimal? _open;
+
+        /// <summary>
+        /// The internal storage for the Close of this <see cref="IPricePeriod"/>.
+        /// </summary>
         protected decimal _close;
+
+        /// <summary>
+        /// The internal storage for the High of this <see cref="IPricePeriod"/>.
+        /// </summary>
         protected decimal? _high;
+
+        /// <summary>
+        /// The internal storage for the Low of this <see cref="IPricePeriod"/>.
+        /// </summary>
         protected decimal? _low;
+
+        /// <summary>
+        /// The internal storage for the Volume of this <see cref="IPricePeriod"/>.
+        /// </summary>
         protected UInt64? _volume;
 
         #endregion
