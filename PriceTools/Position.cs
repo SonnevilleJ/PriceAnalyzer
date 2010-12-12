@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools
         /// <param name="open">The transaction which opened this trade.
         /// The OrderTYpe for opening transactions must be either <see cref="OrderType.Buy"/> or <see cref="OrderType.SellShort"/>.</param>
         /// <param name="close">The optional transaction which closed this trade.
-        /// The OrderType for closing transactions must be either <see cref="OrderType.Sell"/> or <see cref="OrderType.BuyToCover"/> and must match the <see cref="OrderType"/> of the opening transaction.</param>
+        /// The TransactionType for closing transactions must be either <see cref="OrderType.Sell"/> or <see cref="OrderType.BuyToCover"/> and must match the <see cref="OrderType"/> of the opening transaction.</param>
         public Position(ITransaction open, ITransaction close)
         {
             if (open == null)
