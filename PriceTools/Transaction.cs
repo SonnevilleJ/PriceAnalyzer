@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools
         /// Constructs a Transaction.
         /// </summary>
         /// <param name="date">The date and time this Transaction took place.</param>
-        /// <param name="type">The <see cref="OrderType"/> of this Transaction.</param>
+        /// <param name="type">The <see cref="PriceTools.OrderType"/> of this Transaction.</param>
         /// <param name="ticker">The ticker of the security bought or sold.</param>
         /// <param name="price">The price at which the Transaction took place.</param>
         public Transaction(DateTime date, OrderType type, string ticker, decimal price)
@@ -33,7 +33,7 @@ namespace Sonneville.PriceTools
         /// Constructs a Transaction.
         /// </summary>
         /// <param name="date">The date and time this Transaction took place.</param>
-        /// <param name="type">The <see cref="OrderType"/> of this Transaction.</param>
+        /// <param name="type">The <see cref="PriceTools.OrderType"/> of this Transaction.</param>
         /// <param name="ticker">The ticker of the security bought or sold.</param>
         /// <param name="price">The price at which the Transaction took place.</param>
         /// <param name="shares">The optional number of shares which were traded. Default = 1</param>
@@ -45,7 +45,7 @@ namespace Sonneville.PriceTools
         /// Constructs a Transaction.
         /// </summary>
         /// <param name="date">The date and time this Transaction took place.</param>
-        /// <param name="type">The <see cref="OrderType"/> of this Transaction.</param>
+        /// <param name="type">The <see cref="PriceTools.OrderType"/> of this Transaction.</param>
         /// <param name="ticker">The ticker of the security bought or sold.</param>
         /// <param name="price">The price at which the Transaction took place.</param>
         /// <param name="shares">The optional number of shares which were traded. Default = 1</param>
@@ -93,7 +93,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the OrderType of this Transaction.
+        /// Gets the TransactionType of this Transaction.
         /// </summary>
         public OrderType OrderType
         {
