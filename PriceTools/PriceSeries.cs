@@ -114,7 +114,7 @@ namespace Sonneville.PriceTools
         /// <returns>An <see cref="IPriceSeries"/> created from the CSV data.</returns>
         public static IPriceSeries LoadFromCsv(Stream csvStream)
         {
-            return FidelityDataManager.PriceParser.ParsePriceSeries(csvStream);
+            return YahooDataManager.PriceParser.ParsePriceSeries(csvStream);
         }
 
         /// <summary>

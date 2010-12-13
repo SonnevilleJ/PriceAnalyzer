@@ -46,7 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\FidelityCsvParser.cs" />
+    <Compile Include="Data\YahooDataManager.cs" />
+    <Compile Include="Data\YahooPriceSeriesCsvParser.cs" />
     <Compile Include="Data\FidelityDataManager.cs" />
     <Compile Include="Data\FidelityPortfolioCsvParser.cs" />
     <Compile Include="Data\IPortfolioCsvParser.cs" />

@@ -9,9 +9,9 @@ using LumenWorks.Framework.IO.Csv;
 namespace Sonneville.PriceTools.Data
 {
     /// <summary>
-    /// Parses an <see cref="IPriceSeries"/> from Fidelity CSV files.
+    /// Parses an <see cref="IPriceSeries"/> from Yahoo CSV files.
     /// </summary>
-    public class FidelityPriceSeriesCsvParser : IPriceSeriesCsvParser
+    public class YahooPriceSeriesCsvParser : IPriceSeriesCsvParser
     {
         #region Private Members
 
@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools.Data
 
         #region Constructors
 
-        internal FidelityPriceSeriesCsvParser()
+        internal YahooPriceSeriesCsvParser()
         {
         }
 
@@ -67,9 +67,9 @@ namespace Sonneville.PriceTools.Data
         #endregion
 
         /// <summary>
-        /// Parses an <see cref="IPriceSeries"/> from Fidelity CSV data.
+        /// Parses an <see cref="IPriceSeries"/> from Yahoo CSV data.
         /// </summary>
-        /// <param name="csvStream">A Fidelity CSV <see cref="Stream"/> containing price data.</param>
+        /// <param name="csvStream">A Yahoo CSV <see cref="Stream"/> containing price data.</param>
         /// <returns>An <see cref="IPriceSeries"/> containing the price data.</returns>
         public IPriceSeries ParsePriceSeries(Stream csvStream)
         {
