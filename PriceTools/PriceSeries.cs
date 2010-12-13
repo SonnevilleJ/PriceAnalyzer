@@ -35,8 +35,8 @@ namespace Sonneville.PriceTools
                     "periods", "Argument periods must be a single-dimension array of one or more IPricePeriods.");
 
             _periods = new List<PricePeriod>(periods.Length);
-            _head = periods[0].Head;
-            _open = periods[0].Open;
+            Head = periods[0].Head;
+            Open = periods[0].Open;
 
             foreach (IPricePeriod p in periods)
             {
@@ -141,16 +141,16 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets an IPricePeriod within this PriceSeries.
         /// </summary>
-        /// <param name="index">The index of the IPricePeriod to retrieve.</param>
+        /// <param name="i">The index of the IPricePeriod to retrieve.</param>
         /// <returns>The IPricePeriod at <para>index</para>.</returns>
-        public IPricePeriod this[int index]
+        public IPricePeriod this[int i]
         {
-            get { return _periods[index]; }
+            get { return _periods[i]; }
         }
 
-        decimal ITimeSeries.this[int index]
+        decimal ITimeSeries.this[int i]
         {
-            get { return _periods[index].Close; }
+            get { return _periods[i].Close; }
         }
 
         /// <summary>
@@ -172,29 +172,29 @@ namespace Sonneville.PriceTools
             _periods.Add(period as PricePeriod);
             if (period.Head < Head || Head == DateTime.MinValue)
             {
-                _head = period.Head;
-                _open = period.Open;
+                Head = period.Head;
+                Open = period.Open;
             }
             if (period.Tail > Tail)
             {
-                _tail = period.Tail;
-                _close = period.Close;
+                Tail = period.Tail;
+                Close = period.Close;
             }
             if (High == null || period.High > High)
             {
-                _high = period.High;
+                High = period.High;
             }
             if (Low == null || period.Low < Low)
             {
-                _low = period.Low;
+                Low = period.Low;
             }
             if (Volume == null)
             {
-                _volume = period.Volume;
+                Volume = period.Volume;
             }
             else
             {
-                _volume += period.Volume;
+                Volume += period.Volume;
             }
         }
 

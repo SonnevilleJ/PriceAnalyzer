@@ -58,7 +58,7 @@ namespace Sonneville.PriceTools
 
             if (shares < 0)
             {
-                throw new ArgumentOutOfRangeException("Shares", "Shares must be greater than or equal to 0.00");
+                throw new ArgumentOutOfRangeException("shares", "Shares must be greater than or equal to 0.00");
             }
             else
             {
@@ -67,7 +67,7 @@ namespace Sonneville.PriceTools
 
             if(price < 0.00m)
             {
-                throw new ArgumentOutOfRangeException("Price", "Price must be greater than or equal to 0.00");
+                throw new ArgumentOutOfRangeException("price", "Price must be greater than or equal to 0.00");
             }
             else
             {
@@ -76,7 +76,7 @@ namespace Sonneville.PriceTools
 
             if(commission < 0.00m)
             {
-                throw new ArgumentOutOfRangeException("Commission", "Commission must be greater than or equal to 0.00");
+                throw new ArgumentOutOfRangeException("commission", "Commission must be greater than or equal to 0.00");
             }
             else
             {

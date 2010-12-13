@@ -55,6 +55,10 @@
     <Compile Include="TransactionTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CsvReader\CsvReader.csproj">
+      <Project>{9E171B34-27C7-4017-B624-803250B399D2}</Project>
+      <Name>CsvReader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools2008.csproj">
       <Project>{9C283316-DA8B-4BF2-910B-5DFA9F71DDE1}</Project>
       <Name>PriceTools2008</Name>
@@ -62,6 +66,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Microsoft.VisualStudio.TestTools.UnitTesting.cs" />
+    <Compile Include="YahooDataManagerTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="TestData.resx">
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\SPX price 24 aug 2010.xlsx" />
+    <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

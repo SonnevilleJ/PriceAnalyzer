@@ -26,8 +26,8 @@
         /// <summary>
         /// Gets the IPricePeriod at a given index within this IPriceSeries.
         /// </summary>
-        /// <param name="index">The index of the IPricePeriod to retrieve.</param>
+        /// <param name="i">The index of the IPricePeriod to retrieve.</param>
         /// <returns>The IPricePeriod stored at the given index.</returns>
-        new IPricePeriod this[int index] { get; }
+        new IPricePeriod this[int i] { get; }
     }
 }

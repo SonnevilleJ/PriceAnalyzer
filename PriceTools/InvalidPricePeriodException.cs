@@ -9,22 +9,22 @@ namespace Sonneville.PriceTools
     [Serializable]
     public class InvalidPricePeriodException : InvalidOperationException, ISerializable
     {
-        internal InvalidPricePeriodException()
+        public InvalidPricePeriodException()
             : base()
         {
         }
 
-        internal InvalidPricePeriodException(string message)
+        public InvalidPricePeriodException(string message)
             : base(message)
         {
         }
 
-        internal InvalidPricePeriodException(string message, Exception inner)
+        public InvalidPricePeriodException(string message, Exception inner)
             : base(message, inner)
         {
         }
 
-        internal InvalidPricePeriodException(SerializationInfo info, StreamingContext context)
+        protected InvalidPricePeriodException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

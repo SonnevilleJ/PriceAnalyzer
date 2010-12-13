@@ -9,6 +9,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// A generic indicator used to transform ITimeSeries data to identify a trend, correlation, reversal, or other meaningful information about the underlying ITimeSeries data.
     /// </summary>
+    [Serializable]
     public abstract class Indicator : ITimeSeries
     {
         #region Protected Members
@@ -84,21 +85,21 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the value stored at a given index of this Indicator.
         /// </summary>
-        /// <param name="index">The index of the value to retrieve.</param>
+        /// <param name="i">The index of the value to retrieve.</param>
         /// <remarks>Usually <para>index</para> must be negative or zero, as most Indicators are lagging and not forward projecting.</remarks>
         /// <returns>The value at the given index.</returns>
-        public virtual decimal this[int index]
+        public virtual decimal this[int i]
         {
             get
             {
                 decimal value;
-                if (_Dictionary.TryGetValue(index, out value))
+                if (_Dictionary.TryGetValue(i, out value))
                 {
                     return value;
                 }
                 else
                 {
-                    return Calculate(index);
+                    return Calculate(i);
                 }
             }
         }

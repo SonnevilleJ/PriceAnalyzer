@@ -12,22 +12,22 @@ namespace Sonneville.PriceTools
     [Serializable]
     public class InvalidPositionException : InvalidOperationException, ISerializable
     {
-        internal InvalidPositionException()
+        public InvalidPositionException()
             :base()
         {
         }
 
-        internal InvalidPositionException(string message)
+        public InvalidPositionException(string message)
             : base(message)
         {
         }
 
-        internal InvalidPositionException(string message, Exception inner)
+        public InvalidPositionException(string message, Exception inner)
             : base(message, inner)
         {
         }
 
-        internal InvalidPositionException(SerializationInfo info, StreamingContext context)
+        protected InvalidPositionException(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
         }

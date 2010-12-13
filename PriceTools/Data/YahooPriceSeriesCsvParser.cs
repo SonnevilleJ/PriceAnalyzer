@@ -3,6 +3,7 @@ using System.Data;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using LumenWorks.Framework.IO.Csv;
 
@@ -40,6 +41,14 @@ namespace Sonneville.PriceTools.Data
         {
         }
 
+        /// <summary>
+        /// Allows an <see cref="T:System.Object"/> to attempt to free resources and perform other cleanup operations before the <see cref="T:System.Object"/> is reclaimed by garbage collection.
+        /// </summary>
+        ~YahooPriceSeriesCsvParser()
+        {
+            Dispose(false);
+        }
+
         #endregion
 
         #region Private Methods
@@ -49,43 +58,43 @@ namespace Sonneville.PriceTools.Data
             int fields = MapHeaders();
             _table = new DataTable();
 
-            if ((fields & (int)PriceColumns.Date) == 1)
+            if ((fields & (int)PriceColumns.Date) == (int)PriceColumns.Date)
             {
-                var dateColumn = new DataColumn("Date", typeof(decimal));
+                var dateColumn = new DataColumn("Date", typeof(DateTime));
                 _table.Columns.Add(dateColumn);
                 _tableDateColumn = _table.Columns.IndexOf(dateColumn);
             }
-            if ((fields & (int)PriceColumns.Open) == 1)
+            if ((fields & (int)PriceColumns.Open) == (int)PriceColumns.Open)
             {
                 var openColumn = new DataColumn("Open", typeof (decimal));
                 _table.Columns.Add(openColumn);
                 _tableOpenColumn = _table.Columns.IndexOf(openColumn);
             }
-            if ((fields & (int)PriceColumns.High) == 1)
+            if ((fields & (int)PriceColumns.High) == (int)PriceColumns.High)
             {
                 var highColumn = new DataColumn("High", typeof(decimal));
                 _table.Columns.Add(highColumn);
                 _tableHighColumn = _table.Columns.IndexOf(highColumn);
             }
-            if ((fields & (int)PriceColumns.Low) == 1)
+            if ((fields & (int)PriceColumns.Low) == (int)PriceColumns.Low)
             {
                 var lowColumn = new DataColumn("Low", typeof(decimal));
                 _table.Columns.Add(lowColumn);
                 _tableLowColumn = _table.Columns.IndexOf(lowColumn);
             }
-            if ((fields & (int)PriceColumns.Close) == 1)
+            if ((fields & (int)PriceColumns.Close) == (int)PriceColumns.Close)
             {
                 var closeColumn = new DataColumn("Close", typeof(decimal));
                 _table.Columns.Add(closeColumn);
                 _tableCloseColumn = _table.Columns.IndexOf(closeColumn);
             }
-            if ((fields & (int)PriceColumns.Volume) == 1)
+            if ((fields & (int)PriceColumns.Volume) == (int)PriceColumns.Volume)
             {
                 var volumeColumn = new DataColumn("Volume", typeof(decimal));
                 _table.Columns.Add(volumeColumn);
                 _tableVolumeColumn = _table.Columns.IndexOf(volumeColumn);
             }
-            if ((fields & (int)PriceColumns.Dividends) == 1)
+            if ((fields & (int)PriceColumns.Dividends) == (int)PriceColumns.Dividends)
             {
                 var dividendsColumn = new DataColumn("Dividends", typeof(decimal));
                 _table.Columns.Add(dividendsColumn);
@@ -97,17 +106,18 @@ namespace Sonneville.PriceTools.Data
         {
             int fields = MapHeaders();
             int count = 0;
-            for(int i = 0; i < 8; i++, fields = fields >> 1)
+            for(int i = 0; i < 8; i++, fields = fields >> 0x4)
             {
-                count++;
+                if ((fields & 0x00000001) == 1)
+                {
+                    count++;
+                }
             }
             return count;
         }
 
         private int MapHeaders()
         {
-            // fields is a bitmask
-            // 
             int fields = 0x00000000;
             string[] headers = _reader.GetFieldHeaders();
             for (int i = 0; i < headers.Length; i++)
@@ -150,7 +160,7 @@ namespace Sonneville.PriceTools.Data
             return fields;
         }
         
-        private void Parse()
+        private void ParseToDataTable()
         {
             while(_reader.ReadNextRecord())
             {
@@ -200,6 +210,8 @@ namespace Sonneville.PriceTools.Data
 
         private IPriceSeries BuildPriceSeries()
         {
+            ParseToDataTable();
+
             List<IPricePeriod> list = new List<IPricePeriod>();
             for(int i = 0; i < _table.Rows.Count; i++)
             {
@@ -213,12 +225,12 @@ namespace Sonneville.PriceTools.Data
                 decimal? dividend = null;
 
                 if (DoDate) date = (DateTime) row[(int) _tableDateColumn];
-                if (DoOpen) open = (decimal?) row[(int) _tableOpenColumn];
-                if (DoHigh) high = (decimal?) row[(int) _tableHighColumn];
-                if (DoLow) low = (decimal?) row[(int) _tableLowColumn];
+                if (DoOpen) open = row[(int) _tableOpenColumn] as decimal?;
+                if (DoHigh) high = row[(int) _tableHighColumn] as decimal?;
+                if (DoLow) low = row[(int) _tableLowColumn] as decimal?;
                 if (DoClose) close = (decimal) row[(int) _tableCloseColumn];
-                if (DoVolume) volume = (UInt64?) row[(int) _tableVolumeColumn];
-                if (DoDividends) dividend = (decimal?) row[(int) _tableDividendsColumn];
+                if (DoVolume) volume = Convert.ToUInt64(row[(int) _tableVolumeColumn]);
+                if (DoDividends) dividend = row[(int) _tableDividendsColumn] as decimal?;
 
                 list.Add(new PricePeriod(date, date, open, high, low, close, volume));
             }
@@ -280,9 +292,35 @@ namespace Sonneville.PriceTools.Data
             return BuildPriceSeries();
         }
 
+        #region IDisposable
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
-            _reader.Dispose();
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
+        private void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_reader != null)
+                {
+                    _reader.Dispose();
+                    _reader = null;
+                }
+                if(_table != null)
+                {
+                    _table.Dispose();
+                    _table = null;
+                }
+            }
+        }
+
+        #endregion
     }
 }

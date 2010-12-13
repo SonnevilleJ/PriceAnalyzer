@@ -19,37 +19,37 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The internal storage for the Head of this <see cref="IPricePeriod"/>.
         /// </summary>
-        protected DateTime _head;
+        private DateTime _head;
 
         /// <summary>
         /// The internal storage for the Tail of this <see cref="IPricePeriod"/>.
         /// </summary>
-        protected DateTime _tail;
+        private DateTime _tail;
 
         /// <summary>
         /// The internal storage for the Open of this <see cref="IPricePeriod"/>.
         /// </summary>
-        protected decimal? _open;
+        private decimal? _open;
 
         /// <summary>
         /// The internal storage for the Close of this <see cref="IPricePeriod"/>.
         /// </summary>
-        protected decimal _close;
+        private decimal _close;
 
         /// <summary>
         /// The internal storage for the High of this <see cref="IPricePeriod"/>.
         /// </summary>
-        protected decimal? _high;
+        private decimal? _high;
 
         /// <summary>
         /// The internal storage for the Low of this <see cref="IPricePeriod"/>.
         /// </summary>
-        protected decimal? _low;
+        private decimal? _low;
 
         /// <summary>
         /// The internal storage for the Volume of this <see cref="IPricePeriod"/>.
         /// </summary>
-        protected UInt64? _volume;
+        private UInt64? _volume;
 
         #endregion
 
@@ -186,6 +186,7 @@ namespace Sonneville.PriceTools
         public decimal? Open
         {
             get { return _open; }
+            protected set { _open = value; }
         }
 
         /// <summary>
@@ -194,6 +195,7 @@ namespace Sonneville.PriceTools
         public decimal Close
         {
             get { return _close; }
+            protected set { _close = value; }
         }
 
         /// <summary>
@@ -202,6 +204,7 @@ namespace Sonneville.PriceTools
         public decimal? High
         {
             get { return _high; }
+            protected set { _high = value; }
         }
 
         /// <summary>
@@ -210,6 +213,7 @@ namespace Sonneville.PriceTools
         public decimal? Low
         {
             get { return _low; }
+            protected set { _low = value; }
         }
 
         /// <summary>
@@ -218,6 +222,7 @@ namespace Sonneville.PriceTools
         public UInt64? Volume
         {
             get { return _volume; }
+            protected set { _volume = value; }
         }
 
         /// <summary>
@@ -226,6 +231,7 @@ namespace Sonneville.PriceTools
         public DateTime Head
         {
             get { return _head; }
+            protected set { _head = value; }
         }
 
         /// <summary>
@@ -234,6 +240,7 @@ namespace Sonneville.PriceTools
         public DateTime Tail
         {
             get { return _tail; }
+            protected set { _tail = value; }
         }
 
         /// <summary>

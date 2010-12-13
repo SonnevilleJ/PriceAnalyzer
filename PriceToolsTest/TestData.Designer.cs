@@ -8,6 +8,8 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+using System.IO;
+
 namespace Sonneville.PriceToolsTest {
     using System;
     
@@ -77,6 +79,13 @@ namespace Sonneville.PriceToolsTest {
             get {
                 object obj = ResourceManager.GetObject("SPX_price_24_aug_2010", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+
+        internal static byte[] SPX_8_Dec_2010_to_10_Dec_2010 {
+            get {
+                object obj = ResourceManager.GetObject("SPX_8_Dec_2010_to_10_Dec_2010", resourceCulture);
+                return ((byte[]) (obj));
             }
         }
     }

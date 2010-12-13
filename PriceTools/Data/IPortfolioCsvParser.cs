@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.IO;
 
 namespace Sonneville.PriceTools.Data
@@ -6,7 +7,7 @@ namespace Sonneville.PriceTools.Data
     /// <summary>
     /// Parses an <see cref="IPortfolio"/> from CSV data for a single investment portfolio.
     /// </summary>
-    public interface IPortfolioCsvParser
+    public interface IPortfolioCsvParser : IDisposable
     {
         /// <summary>
         /// Parses an <see cref="IPortfolio"/> from CSV data.

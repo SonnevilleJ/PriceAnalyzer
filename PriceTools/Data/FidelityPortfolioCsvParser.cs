@@ -24,6 +24,18 @@ namespace Sonneville.PriceTools.Data
 
         #endregion
 
+        #region Constructors
+
+        /// <summary>
+        /// Allows an <see cref="T:System.Object"/> to attempt to free resources and perform other cleanup operations before the <see cref="T:System.Object"/> is reclaimed by garbage collection.
+        /// </summary>
+        ~FidelityPortfolioCsvParser()
+        {
+            Dispose(false);
+        }
+
+        #endregion
+
         /// <summary>
         /// Parses an <see cref="IPortfolio"/> from a given Fidelity CSV data stream.
         /// </summary>
@@ -86,6 +98,40 @@ namespace Sonneville.PriceTools.Data
             return table;
         }
         
+        #endregion
+
+        #region IDisposable
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                _dateColumn.Dispose();
+                _dateColumn = null;
+
+                _orderColumn.Dispose();
+                _orderColumn = null;
+
+                _symbolColumn.Dispose();
+                _symbolColumn = null;
+
+                _sharesColumn.Dispose();
+                _sharesColumn = null;
+
+                _priceColumn.Dispose();
+                _priceColumn = null;
+
+                _commissionColumn.Dispose();
+                _commissionColumn = null;
+            }
+        }
+
         #endregion
     }
 }
