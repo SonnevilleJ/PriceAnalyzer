@@ -15,11 +15,12 @@ namespace Sonneville.PriceTools.Data
     {
         #region Private Members
 
-        private static readonly DataColumn OpenColumn = new DataColumn("Open", typeof(decimal));
-        private static readonly DataColumn HighColumn = new DataColumn("Open", typeof(decimal));
-        private static readonly DataColumn LowColumn = new DataColumn("Open", typeof(decimal));
-        private static readonly DataColumn CloseColumn = new DataColumn("Open", typeof(decimal));
-        private static readonly DataColumn VolumeColumn = new DataColumn("Open", typeof(long));
+        private DataColumn _dateColumn;
+        private DataColumn _orderColumn;
+        private DataColumn _symbolColumn;
+        private DataColumn _sharesColumn;
+        private DataColumn _priceColumn;
+        private DataColumn _commissionColumn;
 
         #endregion
 
@@ -30,8 +31,8 @@ namespace Sonneville.PriceTools.Data
         /// <returns>An <see cref="IPortfolio"/>.</returns>
         public IPortfolio ParsePortfolio(Stream csvStream)
         {
-            CsvReader reader = new CsvReader(new StreamReader(csvStream), true);
-            string[] headers = reader.GetFieldHeaders();
+            var reader = new CsvReader(new StreamReader(csvStream), true);
+            MapHeaders(reader);
 
             DataTable table = ParsePortfolioToDataTable(reader);
             return null;
@@ -45,7 +46,7 @@ namespace Sonneville.PriceTools.Data
         public DataTable ParsePortfolioToDataTable(CsvReader reader)
         {
             DataTable table = InitializePortfolioTable();
-            string[] headers = GetHeaders(reader);
+            MapHeaders(reader);
 
             while (reader.ReadNextRecord())
             {
@@ -58,14 +59,33 @@ namespace Sonneville.PriceTools.Data
             return table;
         }
 
-        private string[] GetHeaders(CsvReader reader)
+        #region Private Methods
+
+        private void MapHeaders(CsvReader reader)
         {
             throw new NotImplementedException();
         }
 
         private DataTable InitializePortfolioTable()
         {
-            throw new NotImplementedException();
+            _dateColumn = new DataColumn("Date", typeof(DateTime));
+            _orderColumn = new DataColumn("Order Type", typeof(OrderType));
+            _symbolColumn = new DataColumn("Symbol", typeof(string));
+            _sharesColumn = new DataColumn("Shares", typeof(double));
+            _priceColumn = new DataColumn("Price", typeof(decimal));
+            _commissionColumn = new DataColumn("Commission", typeof(decimal));
+
+            DataTable table = new DataTable();
+            table.Columns.Add(_dateColumn);
+            table.Columns.Add(_orderColumn);
+            table.Columns.Add(_symbolColumn);
+            table.Columns.Add(_sharesColumn);
+            table.Columns.Add(_priceColumn);
+            table.Columns.Add(_commissionColumn);
+
+            return table;
         }
+        
+        #endregion
     }
 }

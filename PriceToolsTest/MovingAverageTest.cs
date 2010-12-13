@@ -76,7 +76,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p8 = new PricePeriod(head1.AddDays(8), head1.AddDays(8), 9, 9, 9, 9);
             PricePeriod p9 = new PricePeriod(head1.AddDays(9), head1.AddDays(9), 10, 10, 10, 10);
 
-            PriceSeries series = new PriceSeries(PriceSeriesResolution.Days, p0, p1, p2, p3, p4, p5, p6, p7, p8, p9);
+            PriceSeries series = new PriceSeries(p0, p1, p2, p3, p4, p5, p6, p7, p8, p9);
 
             // create 4 day moving average
             MovingAverage avg = new MovingAverage(series, 4);

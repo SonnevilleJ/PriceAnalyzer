@@ -66,7 +66,7 @@ namespace Sonneville.PriceToolsTest
             p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
             p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
-            IPricePeriod target = new PriceSeries(PriceSeriesResolution.Days, p1, p2, p3);
+            IPricePeriod target = new PriceSeries(p1, p2, p3);
 
             Assert.IsTrue(target.TimeSpan == new TimeSpan(3, 0, 0, 0));
             Assert.IsTrue(target.Open == 10);
@@ -85,7 +85,7 @@ namespace Sonneville.PriceToolsTest
             p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
             p4 = new PricePeriod(DateTime.Parse("1/4/2010"), DateTime.Parse("1/5/2010"), 12, 15, 11, 14, 55);
 
-            IPriceSeries target = new PriceSeries(PriceSeriesResolution.Days, p1, p2, p3);
+            IPriceSeries target = new PriceSeries(p1, p2, p3);
 
             Assert.IsTrue(target.TimeSpan == new TimeSpan(3, 0, 0, 0));
             Assert.IsTrue(target.Open == 10);
@@ -117,7 +117,7 @@ namespace Sonneville.PriceToolsTest
             p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
             p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
-            PriceSeries period = new PriceSeries(PriceSeriesResolution.Days, p1, p2, p3);
+            PriceSeries period = new PriceSeries(p1, p2, p3);
 
             MemoryStream stream = new MemoryStream();
             PriceSeries.BinarySerialize(period, stream);
@@ -134,7 +134,7 @@ namespace Sonneville.PriceToolsTest
             p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
             p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
-            IPriceSeries period = new PriceSeries(PriceSeriesResolution.Days, p3, p1, p2);
+            IPriceSeries period = new PriceSeries(p3, p1, p2);
             Assert.IsTrue(period[0] == p1);
             Assert.IsTrue(period[1] == p2);
             Assert.IsTrue(period[2] == p3);

@@ -17,7 +17,6 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private readonly long _resolution;
         private List<PricePeriod> _periods;
 
         #endregion
@@ -27,26 +26,20 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a PriceSeries object from several PricePeriods.
         /// </summary>
-        /// <param name="resolution"></param>
         /// <param name="periods"></param>
-        public PriceSeries(PriceSeriesResolution resolution, params IPricePeriod[] periods)
+        public PriceSeries(params IPricePeriod[] periods)
             : base()
         {
             if (periods == null)
                 throw new ArgumentNullException(
                     "periods", "Argument periods must be a single-dimension array of one or more IPricePeriods.");
 
-            _resolution = (long)resolution;
             _periods = new List<PricePeriod>(periods.Length);
             _head = periods[0].Head;
             _open = periods[0].Open;
 
             foreach (IPricePeriod p in periods)
             {
-                if (p.TimeSpan.Ticks > _resolution)
-                {
-                    throw new ArgumentException(String.Format("Period {0} has an unexpected resolution of {1}. Expected {2}.", p, p.TimeSpan.Ticks, _resolution));
-                }
                 InsertPeriod(p);
             }
             _periods.Sort((x, y) => DateTime.Compare(x.Head, y.Head));

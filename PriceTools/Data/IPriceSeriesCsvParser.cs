@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools.Data
     /// <summary>
     /// Parses an <see cref="IPriceSeries"/> from CSV data for a single ticker symbol.
     /// </summary>
-    public interface IPriceSeriesCsvParser
+    public interface IPriceSeriesCsvParser : IDisposable
     {
         /// <summary>
         /// Parses an <see cref="IPriceSeries"/> from CSV data.
