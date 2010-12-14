@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the DateTime that the ITransaction occurred.
         /// </summary>
-        DateTime Date
+        DateTime SettlementDate
         {
             get;
         }

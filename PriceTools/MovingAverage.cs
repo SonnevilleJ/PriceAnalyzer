@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Text;
 
 namespace Sonneville.PriceTools
@@ -9,9 +10,16 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// An averager creates moving averages of <see cref="PriceSeries"/> objects.
     /// </summary>
+    [Serializable]
     public class MovingAverage : Indicator
     {
+        #region Private Members
+
         private readonly MovingAverageMethod _method;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Constructs a MovingAverage <see cref="Indicator"/> for a given <see cref="ITimeSeries"/>.
@@ -34,6 +42,35 @@ namespace Sonneville.PriceTools
             _method = movingAverageMethod;
         }
 
+        #endregion
+
+        #region ISerializable Implementation
+
+        /// <summary>
+        /// Deserializes a MovingAverage.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        protected MovingAverage(SerializationInfo info, StreamingContext context)
+            : base(info, context)
+        {
+            _method = (MovingAverageMethod) info.GetValue("Method", typeof (MovingAverageMethod));
+        }
+
+        /// <summary>
+        /// Serializies a MovingAverage.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        public override void GetObjectData(SerializationInfo info, StreamingContext context)
+        {
+            base.GetObjectData(info, context);
+            info.AddValue("Method", _method);
+        }
+
+        #endregion
+
         /// <summary>
         /// Calculates a single value of this MovingAverage.
         /// </summary>
@@ -45,13 +82,13 @@ namespace Sonneville.PriceTools
             {
                 case MovingAverageMethod.Simple:
                     decimal sum = 0;
-                    for (int i = _TimeSeries.Span + (index - Range); i < _TimeSeries.Span + index; i++)
+                    for (int i = TimeSeries.Span + (index - Range); i < TimeSeries.Span + index; i++)
                     {
-                        sum += _TimeSeries[i];
+                        sum += TimeSeries[i];
                     }
-                    lock (_Padlock)
+                    lock (Padlock)
                     {
-                        return _Dictionary[index] = sum / Range;
+                        return Dictionary[index] = sum / Range;
                     }
                 case MovingAverageMethod.Exponential:
                     throw new NotImplementedException();

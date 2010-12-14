@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 namespace Sonneville.PriceTools.Data
 {
@@ -12,9 +13,9 @@ namespace Sonneville.PriceTools.Data
         /// Queries the data source for the per-share price of a security at a certain date.
         /// </summary>
         /// <param name="ticker">The ticker symbol of the security to price.</param>
-        /// <param name="date">The historical date for which the returned price should be valid.</param>
+        /// <param name="asOfDate">The historical date for which the returned price should be valid.</param>
         /// <returns>A <see cref="decimal"/> representing the per-share price of the security.</returns>
-        decimal GetPrice(string ticker, DateTime date);
+        decimal GetPrice(string ticker, DateTime asOfDate);
 
         /// <summary>
         /// Queries the data source for all transactions for a given date range.
@@ -22,7 +23,7 @@ namespace Sonneville.PriceTools.Data
         /// <param name="head">The first date of the date range.</param>
         /// <param name="tail">The last date of the date range.</param>
         /// <returns>A <see cref="List{T}"/> of <see cref="ITransaction"/> objects.</returns>
-        List<ITransaction> GetTransactions(DateTime head, DateTime tail);
+        Collection<ITransaction> GetTransactions(DateTime head, DateTime tail);
 
         /// <summary>
         /// Queries the data source for all transactions for a given security and date range.
@@ -31,7 +32,7 @@ namespace Sonneville.PriceTools.Data
         /// <param name="head">The first date of the date range.</param>
         /// <param name="tail">The last date of the date range.</param>
         /// <returns>A <see cref="List{T}"/> of <see cref="ITransaction"/> objects.</returns>
-        List<ITransaction> GetTransactions(string ticker, DateTime head, DateTime tail);
+        Collection<ITransaction> GetTransactions(string ticker, DateTime head, DateTime tail);
 
         /// <summary>
         /// Queries the data source for all transactions of a given <see cref="OrderType"/> and date range.
@@ -40,7 +41,7 @@ namespace Sonneville.PriceTools.Data
         /// <param name="head">The first date of the date range.</param>
         /// <param name="tail">The last date of the date range.</param>
         /// <returns>A <see cref="List{T}"/> of <see cref="ITransaction"/> objects.</returns>
-        List<ITransaction> GetTransactions(OrderType type, DateTime head, DateTime tail);
+        Collection<ITransaction> GetTransactions(OrderType type, DateTime head, DateTime tail);
 
         /// <summary>
         /// Queries the data source for all transactions of a given <see cref="OrderType"/>, ticker, and date range.
@@ -50,12 +51,12 @@ namespace Sonneville.PriceTools.Data
         /// <param name="head">The first date of the date range.</param>
         /// <param name="tail">The last date of the date range.</param>
         /// <returns>A <see cref="List{T}"/> of <see cref="ITransaction"/> objects.</returns>
-        List<ITransaction> GetTransactions(OrderType type, string ticker, DateTime head, DateTime tail);
+        Collection<ITransaction> GetTransactions(OrderType type, string ticker, DateTime head, DateTime tail);
 
         /// <summary>
         /// Stores a <see cref="List{T}"/> of ITransactions to the data source.
         /// </summary>
         /// <param name="transactions">The <see cref="List{T}"/> of ITransactions to store in the data source.</param>
-        void StoreTransactions(List<ITransaction> transactions);
+        void StoreTransactions(Collection<ITransaction> transactions);
     }
 }

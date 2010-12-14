@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Permissions;
 using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
@@ -14,41 +15,14 @@ namespace Sonneville.PriceTools
     [Serializable]
     public class PricePeriod : IPricePeriod, ISerializable
     {
-        #region Protected Members
+        #region Private Members
 
-        /// <summary>
-        /// The internal storage for the Head of this <see cref="IPricePeriod"/>.
-        /// </summary>
         private DateTime _head;
-
-        /// <summary>
-        /// The internal storage for the Tail of this <see cref="IPricePeriod"/>.
-        /// </summary>
         private DateTime _tail;
-
-        /// <summary>
-        /// The internal storage for the Open of this <see cref="IPricePeriod"/>.
-        /// </summary>
         private decimal? _open;
-
-        /// <summary>
-        /// The internal storage for the Close of this <see cref="IPricePeriod"/>.
-        /// </summary>
         private decimal _close;
-
-        /// <summary>
-        /// The internal storage for the High of this <see cref="IPricePeriod"/>.
-        /// </summary>
         private decimal? _high;
-
-        /// <summary>
-        /// The internal storage for the Low of this <see cref="IPricePeriod"/>.
-        /// </summary>
         private decimal? _low;
-
-        /// <summary>
-        /// The internal storage for the Volume of this <see cref="IPricePeriod"/>.
-        /// </summary>
         private UInt64? _volume;
 
         #endregion
@@ -76,7 +50,7 @@ namespace Sonneville.PriceTools
             _close = existing.Close;
             _volume = existing.Volume;
 
-            Validate();
+            Validate(this);
         }
 
         /// <summary>
@@ -113,7 +87,7 @@ namespace Sonneville.PriceTools
             _close = close;
             _volume = volume;
 
-            Validate();
+            Validate(this);
         }
 
         #endregion
@@ -135,7 +109,7 @@ namespace Sonneville.PriceTools
             _close = (decimal)info.GetValue("Close", typeof(decimal));
             _volume = (UInt64?)info.GetValue("Volume", typeof(UInt64?));
 
-            Validate();
+            Validate(this);
         }
 
         /// <summary>
@@ -143,6 +117,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="info">SerializationInfo</param>
         /// <param name="context">StreamingContext</param>
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Head", _head);
@@ -152,6 +127,8 @@ namespace Sonneville.PriceTools
             info.AddValue("Low", _low);
             info.AddValue("Close", _close);
             info.AddValue("Volume", _volume);
+
+            Validate(this);
         }
 
         /// <summary>
@@ -283,55 +260,76 @@ namespace Sonneville.PriceTools
                    ^ Volume.GetHashCode();
         }
 
+        /// <summary>
+        /// Compares the current instance with another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj"/>. Zero This instance is equal to <paramref name="obj"/>. Greater than zero This instance is greater than <paramref name="obj"/>. 
+        /// </returns>
+        /// <param name="obj">An object to compare with this instance. </param><exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception><filterpriority>2</filterpriority>
+        public int CompareTo(object obj)
+        {
+            var target = obj as PricePeriod;
+            if (target == null)
+            {
+                throw new InvalidOperationException("obj is not a PricePeriod.");
+            }
+            else
+            {
+                return Head.CompareTo(target.Head);
+            }
+        }
+
+
         ///<summary>
         /// 
         ///</summary>
-        ///<param name="lhs"></param>
-        ///<param name="rhs"></param>
+        ///<param name="left"></param>
+        ///<param name="right"></param>
         ///<returns></returns>
-        public static bool operator >(PricePeriod lhs, PricePeriod rhs)
+        public static bool operator >(PricePeriod left, PricePeriod right)
         {
-            return (lhs.Head.Ticks + 1 > rhs.Tail.Ticks);
+            return (left.Head.Ticks + 1 > right.Tail.Ticks);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="lhs"></param>
-        /// <param name="rhs"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator <(PricePeriod lhs, PricePeriod rhs)
+        public static bool operator <(PricePeriod left, PricePeriod right)
         {
-            return (lhs.Tail.Ticks - 1 < rhs.Head.Ticks);
+            return (left.Tail.Ticks - 1 < right.Head.Ticks);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="lhs"></param>
-        /// <param name="rhs"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(PricePeriod lhs, PricePeriod rhs)
+        public static bool operator ==(PricePeriod left, PricePeriod right)
         {
             return
-                lhs.Head == rhs.Head &&
-                lhs.Tail == rhs.Tail &&
-                lhs.Open == rhs.Open &&
-                lhs.High == rhs.High &&
-                lhs.Low == rhs.Low &&
-                lhs.Close == rhs.Close &&
-                lhs.Volume == rhs.Volume;
+                left.Head == right.Head &&
+                left.Tail == right.Tail &&
+                left.Open == right.Open &&
+                left.High == right.High &&
+                left.Low == right.Low &&
+                left.Close == right.Close &&
+                left.Volume == right.Volume;
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="lhs"></param>
-        /// <param name="rhs"></param>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(PricePeriod lhs, PricePeriod rhs)
+        public static bool operator !=(PricePeriod left, PricePeriod right)
         {
-            return !(lhs == rhs);
+            return !(left == right);
         }
 
         /// <summary>
@@ -349,19 +347,29 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Performs validation for the PricePeriod.
         /// </summary>
-        protected virtual void Validate()
+        public virtual void Validate()
+        {
+            Validate(this);
+        }
+
+        /// <summary>
+        /// Validates an IPricePeriod.
+        /// </summary>
+        /// <param name="pricePeriod">The IPricePeriod to validate.</param>
+        /// <returns>A value indicating if <paramref name="pricePeriod"/> is valid.</returns>
+        public void Validate(PricePeriod pricePeriod)
         {
             List<string> errors = new List<string>();
 
-            if (Head > Tail)
+            if (pricePeriod.Head > pricePeriod.Tail)
                 errors.Add("Head must be earlier than Tail.");
-            if (High < Open || High < Low || High < Close)
+            if (pricePeriod.High < pricePeriod.Open || pricePeriod.High < pricePeriod.Low || pricePeriod.High < pricePeriod.Close)
                 errors.Add("High must be greater than or equal to the period's open, low, and close.");
-            if (Low > Open || Low > High || Low > Close)
+            if (pricePeriod.Low > pricePeriod.Open || pricePeriod.Low > pricePeriod.High || pricePeriod.Low > pricePeriod.Close)
                 errors.Add("Low must be less than or equal to the period's open, high, and close.");
 
             if (errors.Count != 0)
-                throw new InvalidPricePeriodException(errors.ToString());
+                throw new InvalidPricePeriodException(errors.ToString());          
         }
     }
 }

@@ -10,13 +10,13 @@ namespace Sonneville.PriceTools.Data
     /// </summary>
     public static class YahooDataManager
     {
-        private static YahooPriceSeriesCsvParser _priceParser;
+        private static YahooPriceSeriesProvider _priceParser;
         private static bool _isInitialized;
 
         /// <summary>
-        /// Gets the <see cref="IPriceSeriesCsvParser"/> for Fidelity data files.
+        /// Gets the <see cref="IPriceSeriesProvider"/> for Yahoo data files.
         /// </summary>
-        public static YahooPriceSeriesCsvParser PriceParser
+        public static YahooPriceSeriesProvider PriceParser
         {
             get
             {
@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools.Data
 
         private static void Initialize()
         {
-            _priceParser = new YahooPriceSeriesCsvParser();
+            _priceParser = new YahooPriceSeriesProvider();
             _isInitialized = true;
 
         }

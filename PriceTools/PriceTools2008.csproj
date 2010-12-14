@@ -49,12 +49,12 @@
   <ItemGroup>
     <Compile Include="Data\PriceColumns.cs" />
     <Compile Include="Data\YahooDataManager.cs" />
-    <Compile Include="Data\YahooPriceSeriesCsvParser.cs" />
+    <Compile Include="Data\YahooPriceSeriesProvider.cs" />
     <Compile Include="Data\FidelityDataManager.cs" />
     <Compile Include="Data\FidelityPortfolioCsvParser.cs" />
     <Compile Include="Data\IPortfolioCsvParser.cs" />
-    <Compile Include="Data\IPriceSeriesCsvParser.cs" />
-    <Compile Include="Data\IDataManager.cs" />
+    <Compile Include="Data\IPriceSeriesProvider.cs" />
+    <Compile Include="Data\IDataProvider.cs" />
     <Compile Include="Indicator.cs" />
     <Compile Include="InvalidPositionException.cs" />
     <Compile Include="InvalidPricePeriodException.cs" />

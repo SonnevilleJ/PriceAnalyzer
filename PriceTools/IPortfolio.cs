@@ -24,8 +24,8 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the total value of this Portfolio as of a given <see cref="DateTime"/>.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> of which the value should be retrieved.</param>
+        /// <param name="asOfDate">The <see cref="DateTime"/> of which the value should be retrieved.</param>
         /// <returns>The total value of this Portfolio as of the given <see cref="DateTime"/>.</returns>
-        decimal GetValue(DateTime date);
+        decimal GetValue(DateTime asOfDate);
     }
 }

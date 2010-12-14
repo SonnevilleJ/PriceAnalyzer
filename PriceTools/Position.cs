@@ -71,7 +71,7 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                return new TimeSpan(_close.Date.Ticks - _open.Date.Ticks);
+                return new TimeSpan(_close.SettlementDate.Ticks - _open.SettlementDate.Ticks);
             }
         }
 
@@ -197,7 +197,7 @@ namespace Sonneville.PriceTools
                 {
                     throw new InvalidPositionException("Transaction types must match.");
                 }
-                if (_close.Date < _open.Date)
+                if (_close.SettlementDate < _open.SettlementDate)
                 {
                     throw new InvalidPositionException(
                         "Closing transaction date must occur after opening transaction date.");

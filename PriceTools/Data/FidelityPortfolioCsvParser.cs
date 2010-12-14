@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -87,7 +88,7 @@ namespace Sonneville.PriceTools.Data
             _priceColumn = new DataColumn("Price", typeof(decimal));
             _commissionColumn = new DataColumn("Commission", typeof(decimal));
 
-            DataTable table = new DataTable();
+            DataTable table = new DataTable {Locale = CultureInfo.InvariantCulture};
             table.Columns.Add(_dateColumn);
             table.Columns.Add(_orderColumn);
             table.Columns.Add(_symbolColumn);
@@ -102,6 +103,10 @@ namespace Sonneville.PriceTools.Data
 
         #region IDisposable
 
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
         public void Dispose()
         {
             Dispose(true);

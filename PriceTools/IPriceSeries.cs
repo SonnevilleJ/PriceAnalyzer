@@ -1,4 +1,6 @@
-﻿namespace Sonneville.PriceTools
+﻿using System.Collections.ObjectModel;
+
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a time series of price data.
@@ -21,13 +23,13 @@
         /// <summary>
         /// Gets the internal array of IPricePeriod objects stored within this IPriceSeries.
         /// </summary>
-        IPricePeriod[] Periods { get; }
+        ReadOnlyCollection<PricePeriod> Periods { get; }
 
         /// <summary>
         /// Gets the IPricePeriod at a given index within this IPriceSeries.
         /// </summary>
-        /// <param name="i">The index of the IPricePeriod to retrieve.</param>
+        /// <param name="index">The index of the IPricePeriod to retrieve.</param>
         /// <returns>The IPricePeriod stored at the given index.</returns>
-        new IPricePeriod this[int i] { get; }
+        new IPricePeriod this[int index] { get; }
     }
 }

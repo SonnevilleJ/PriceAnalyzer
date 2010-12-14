@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Data;
+using System.Globalization;
 using System.IO;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Runtime.InteropServices;
 using System.Text;
 using LumenWorks.Framework.IO.Csv;
@@ -12,11 +14,94 @@ namespace Sonneville.PriceTools.Data
     /// <summary>
     /// Parses an <see cref="IPriceSeries"/> from Yahoo! CSV files.
     /// </summary>
-    public sealed class YahooPriceSeriesCsvParser : IPriceSeriesCsvParser
+    public sealed class YahooPriceSeriesProvider : IPriceSeriesProvider
     {
+        #region URL Management
+
+        private static string GetBaseUrl()
+        {
+            return "http://ichart.finance.yahoo.com/table.csv?";
+        }
+        
+        private static string GetTicker(string symbol)
+        {
+            return String.Format(CultureInfo.InvariantCulture, "s={0}", symbol);
+        }
+
+        private static string GetHeadDate(DateTime head)
+        {
+            string month = string.Format(CultureInfo.InvariantCulture, "a={0}&", head.Month - 1);
+            string day = string.Format(CultureInfo.InvariantCulture, "b={0}&", head.Day);
+            string year = string.Format(CultureInfo.InvariantCulture, "c={0}&", head.Year);
+
+            var builder = new StringBuilder(3);
+            builder.Append(month);
+            builder.Append(day);
+            builder.Append(year);
+            return builder.ToString();
+        }
+
+        private static string GetTailDate(DateTime tail)
+        {
+            string month = string.Format(CultureInfo.InvariantCulture, "d={0}&", tail.Month - 1);
+            string day = string.Format(CultureInfo.InvariantCulture, "e={0}&", tail.Day);
+            string year = string.Format(CultureInfo.InvariantCulture, "f={0}&", tail.Year);
+
+            StringBuilder builder = new StringBuilder(3);
+            builder.Append(month);
+            builder.Append(day);
+            builder.Append(year);
+            return builder.ToString();
+        }
+
+        private static string GetResolution(PriceSeriesResolution resolution)
+        {
+            string result;
+            switch(resolution)
+            {
+                case PriceSeriesResolution.Days:
+                    result = "g=d&";
+                    break;
+                case PriceSeriesResolution.Weeks:
+                    result = "g=w&";
+                    break;
+                case PriceSeriesResolution.Months:
+                    result = "g=m&";
+                    break;
+                default:
+                    throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture, "Resolution {0} is not supported by this provider.", resolution));
+            }
+            return result;
+        }
+
+        private static string GetDividends()
+        {
+            return "g=v&";
+        }
+
+        private static string GetCsvMarker()
+        {
+            return "ignore=.csv&";
+        }
+
+        private static string FormQuery(DateTime head, DateTime tail, string symbol, PriceSeriesResolution resolution)
+        {
+            StringBuilder builder = new StringBuilder();
+            builder.Append(GetBaseUrl());
+            builder.Append(GetTicker(symbol));
+            builder.Append(GetHeadDate(head));
+            builder.Append(GetTailDate(tail));
+            builder.Append(GetResolution(resolution));
+            builder.Append(GetCsvMarker());
+
+            return builder.ToString();
+        }
+
+        #endregion
+
         #region Private Members
 
-        private DataTable _table = new DataTable();
+        private DataTable _table;
         private int _tableDateColumn;
         private int? _tableOpenColumn;
         private int? _tableHighColumn;
@@ -37,14 +122,15 @@ namespace Sonneville.PriceTools.Data
 
         #region Constructors
 
-        internal YahooPriceSeriesCsvParser()
+        internal YahooPriceSeriesProvider()
         {
+            _table = new DataTable {Locale = CultureInfo.InvariantCulture};
         }
 
         /// <summary>
         /// Allows an <see cref="T:System.Object"/> to attempt to free resources and perform other cleanup operations before the <see cref="T:System.Object"/> is reclaimed by garbage collection.
         /// </summary>
-        ~YahooPriceSeriesCsvParser()
+        ~YahooPriceSeriesProvider()
         {
             Dispose(false);
         }
@@ -52,11 +138,11 @@ namespace Sonneville.PriceTools.Data
         #endregion
 
         #region Private Methods
-
+        
         private void InitializePriceTable()
         {
             int fields = MapHeaders();
-            _table = new DataTable();
+            _table = new DataTable {Locale = CultureInfo.InvariantCulture};
 
             if ((fields & (int)PriceColumns.Date) == (int)PriceColumns.Date)
             {
@@ -170,37 +256,37 @@ namespace Sonneville.PriceTools.Data
                 if (DoDate)
                 {
                     _tableDateColumn = count++;
-                    cells[(int) _tableDateColumn] = Convert.ToDateTime(_reader[(int) _fileDateColumn]);
+                    cells[(int)_tableDateColumn] = Convert.ToDateTime(_reader[(int)_fileDateColumn], CultureInfo.InvariantCulture);
                 }
                 if (DoOpen)
                 {
                     _tableOpenColumn = count++;
-                    cells[(int) _tableOpenColumn] = Convert.ToDecimal(_reader[(int) _fileOpenColumn]);
+                    cells[(int)_tableOpenColumn] = Convert.ToDecimal(_reader[(int)_fileOpenColumn], CultureInfo.InvariantCulture);
                 }
                 if (DoHigh)
                 {
                     _tableHighColumn = count++;
-                    cells[(int) _tableHighColumn] = Convert.ToDecimal(_reader[(int) _fileHighColumn]);
+                    cells[(int)_tableHighColumn] = Convert.ToDecimal(_reader[(int)_fileHighColumn], CultureInfo.InvariantCulture);
                 }
                 if(DoLow)
                 {
                     _tableLowColumn = count++;
-                    cells[(int) _tableLowColumn] = Convert.ToDecimal(_reader[(int) _fileLowColumn]);
+                    cells[(int)_tableLowColumn] = Convert.ToDecimal(_reader[(int)_fileLowColumn], CultureInfo.InvariantCulture);
                 }
                 if(DoClose)
                 {
                     _tableCloseColumn = count++;
-                    cells[(int) _tableCloseColumn] = Convert.ToDecimal(_reader[(int) _fileCloseColumn]);
+                    cells[(int)_tableCloseColumn] = Convert.ToDecimal(_reader[(int)_fileCloseColumn], CultureInfo.InvariantCulture);
                 }
                 if (DoVolume)
                 {
                     _tableVolumeColumn = count++;
-                    cells[(int) _tableVolumeColumn] = Convert.ToUInt64(_reader[(int) _fileVolumeColumn]);
+                    cells[(int)_tableVolumeColumn] = Convert.ToUInt64(_reader[(int)_fileVolumeColumn], CultureInfo.InvariantCulture);
                 }
                 if(DoDividends)
                 {
                     _tableDividendsColumn = count++;
-                    cells[(int) _tableDividendsColumn] = Convert.ToDecimal(_reader[(int) _fileDividendsColumn]);
+                    cells[(int) _tableDividendsColumn] = Convert.ToDecimal(_reader[(int) _fileDividendsColumn], CultureInfo.InvariantCulture);
                 }
 
                 _table.Rows.Add(cells);
@@ -229,7 +315,7 @@ namespace Sonneville.PriceTools.Data
                 if (DoHigh) high = row[(int) _tableHighColumn] as decimal?;
                 if (DoLow) low = row[(int) _tableLowColumn] as decimal?;
                 if (DoClose) close = (decimal) row[(int) _tableCloseColumn];
-                if (DoVolume) volume = Convert.ToUInt64(row[(int) _tableVolumeColumn]);
+                if (DoVolume) volume = Convert.ToUInt64(row[(int) _tableVolumeColumn], CultureInfo.InvariantCulture);
                 if (DoDividends) dividend = row[(int) _tableDividendsColumn] as decimal?;
 
                 list.Add(new PricePeriod(date, date, open, high, low, close, volume));
@@ -280,6 +366,8 @@ namespace Sonneville.PriceTools.Data
 
         #endregion
 
+        #region IPriceSeriesProvider Implementation
+
         /// <summary>
         /// Parses an <see cref="IPriceSeries"/> from Yahoo! CSV data.
         /// </summary>
@@ -292,7 +380,48 @@ namespace Sonneville.PriceTools.Data
             return BuildPriceSeries();
         }
 
-        #region IDisposable
+        /// <summary>
+        /// Downloads a CSV data file
+        /// </summary>
+        /// <param name="head">The beginning of the date range to price.</param>
+        /// <param name="tail">The end of the date range to price.</param>
+        /// <param name="symbol">The ticker symbol of the security to price.</param>
+        /// <returns>A <see cref="Stream"/> containing the price data in CSV format.</returns>
+        /// <exception cref="System.Net.WebException"></exception>
+        public Stream DownloadPricesToCsv(DateTime head, DateTime tail, string symbol)
+        {
+            return DownloadPricesToCsv(head, tail, symbol, PriceSeriesResolution.Days);
+        }
+
+        /// <summary>
+        /// Downloads a CSV data file
+        /// </summary>
+        /// <param name="head">The beginning of the date range to price.</param>
+        /// <param name="tail">The end of the date range to price.</param>
+        /// <param name="symbol">The ticker symbol of the security to price.</param>
+        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> to use when retrieving price data.</param>
+        /// <returns>A <see cref="Stream"/> containing the price data in CSV format.</returns>
+        /// <exception cref="System.Net.WebException"></exception>
+        public Stream DownloadPricesToCsv(DateTime head, DateTime tail, string symbol, PriceSeriesResolution resolution)
+        {
+            Stream result;
+            string url = FormQuery(head, tail, symbol, resolution);
+            WebClient client = new WebClient();
+            try
+            {
+                result = client.OpenRead(url);
+            }
+            catch (WebException)
+            {
+                // Pass exception on to client code
+                throw;
+            }
+            return result;
+        }
+
+        #endregion
+
+        #region IDisposable Implementation
 
         /// <summary>
         /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.

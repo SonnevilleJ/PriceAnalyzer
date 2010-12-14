@@ -71,7 +71,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void PriceParserTest()
         {
-            YahooPriceSeriesCsvParser parser = YahooDataManager.PriceParser;
+            YahooPriceSeriesProvider parser = YahooDataManager.PriceParser;
 
             Stream dataStream = new MemoryStream(TestData.SPX_8_Dec_2010_to_10_Dec_2010);
             IPriceSeries actual = parser.ParsePriceSeries(dataStream);

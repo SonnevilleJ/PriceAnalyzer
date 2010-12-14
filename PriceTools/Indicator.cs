@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using System.Security.Permissions;
 using System.Text;
 
 namespace Sonneville.PriceTools
@@ -12,28 +13,12 @@ namespace Sonneville.PriceTools
     [Serializable]
     public abstract class Indicator : ITimeSeries
     {
-        #region Protected Members
+        #region Private Members
 
-        /// <summary>
-        /// The underlying data which is to be analyzed by this Indicator.
-        /// </summary>
-        protected ITimeSeries _TimeSeries;
-
-        /// <summary>
-        /// The number of periods for which this Indicator has a value.
-        /// </summary>
-        /// <example>A 50-period MovingAverage has a Range of 50.</example>
-        protected Int32 _Range;
-
-        /// <summary>
-        /// The IDictionary used to store the values of this Indicator.
-        /// </summary>
-        protected IDictionary<int, decimal> _Dictionary;
-
-        /// <summary>
-        /// An object to lock when performing thread unsafe tasks.
-        /// </summary>
-        protected readonly object _Padlock;
+        private ITimeSeries _timeSeries;
+        private readonly Int32 _range;
+        private IDictionary<int, decimal> _dictionary;
+        private readonly object _padlock;
 
         #endregion
 
@@ -46,10 +31,10 @@ namespace Sonneville.PriceTools
         /// <param name="range">The range used by this indicator.</param>
         protected Indicator(ITimeSeries timeSeries, int range)
         {
-            _TimeSeries = timeSeries;
-            _Dictionary = new Dictionary<int, decimal>(timeSeries.Span - range);
-            _Range = range;
-            _Padlock = new object();
+            TimeSeries = timeSeries;
+            _dictionary = new Dictionary<int, decimal>(timeSeries.Span - range);
+            _range = range;
+            _padlock = new object();
         }
 
         #endregion
@@ -74,7 +59,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual void CalculateAll()
         {
-            for (int i = 0; i < _TimeSeries.Span - _Range; i++)
+            for (int i = 0; i < TimeSeries.Span - _range; i++)
             {
                 Calculate(-i);
             }
@@ -85,21 +70,21 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the value stored at a given index of this Indicator.
         /// </summary>
-        /// <param name="i">The index of the value to retrieve.</param>
+        /// <param name="index">The index of the value to retrieve.</param>
         /// <remarks>Usually <para>index</para> must be negative or zero, as most Indicators are lagging and not forward projecting.</remarks>
         /// <returns>The value at the given index.</returns>
-        public virtual decimal this[int i]
+        public virtual decimal this[int index]
         {
             get
             {
                 decimal value;
-                if (_Dictionary.TryGetValue(i, out value))
+                if (_dictionary.TryGetValue(index, out value))
                 {
                     return value;
                 }
                 else
                 {
-                    return Calculate(i);
+                    return Calculate(index);
                 }
             }
         }
@@ -109,7 +94,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual int Span
         {
-            get { return _Dictionary.Count; }
+            get { return _dictionary.Count; }
         }
 
         /// <summary>
@@ -118,7 +103,33 @@ namespace Sonneville.PriceTools
         /// <example>A 50-period MovingAverage has a Range of 50.</example>
         public virtual int Range
         {
-            get { return _Range; }
+            get { return _range; }
+        }
+
+        /// <summary>
+        /// The IDictionary used to store the values of this Indicator.
+        /// </summary>
+        protected IDictionary<int, decimal> Dictionary
+        {
+            get { return _dictionary; }
+            private set { _dictionary = value; }
+        }
+
+        /// <summary>
+        /// The underlying data which is to be analyzed by this Indicator.
+        /// </summary>
+        protected ITimeSeries TimeSeries
+        {
+            get { return _timeSeries; }
+            set { _timeSeries = value; }
+        }
+
+        /// <summary>
+        /// An object to lock when performing thread unsafe tasks.
+        /// </summary>
+        protected object Padlock
+        {
+            get { return _padlock; }
         }
 
         #endregion
@@ -132,10 +143,10 @@ namespace Sonneville.PriceTools
         /// <param name="context"></param>
         protected Indicator(SerializationInfo info, StreamingContext context)
         {
-            _Dictionary = (IDictionary<int, decimal>) info.GetValue("Dictionary", typeof (IDictionary<int, decimal>));
-            _TimeSeries = (ITimeSeries) info.GetValue("TimeSeries", typeof (ITimeSeries));
-            _Range = (Int32) info.GetValue("Range", typeof (Int32));
-            _Padlock = new object();
+            _dictionary = (IDictionary<int, decimal>) info.GetValue("Dictionary", typeof (IDictionary<int, decimal>));
+            TimeSeries = (ITimeSeries) info.GetValue("TimeSeries", typeof (ITimeSeries));
+            _range = (Int32) info.GetValue("Range", typeof (Int32));
+            _padlock = new object();
         }
 
         /// <summary>
@@ -143,11 +154,12 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Dictionary", _Dictionary);
-            info.AddValue("TimeSeries", _TimeSeries);
-            info.AddValue("Range", _Range);
+            info.AddValue("Dictionary", _dictionary);
+            info.AddValue("TimeSeries", TimeSeries);
+            info.AddValue("Range", _range);
         }
 
         #endregion

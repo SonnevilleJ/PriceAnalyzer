@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Permissions;
 using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools
@@ -43,6 +45,8 @@ namespace Sonneville.PriceTools
                 InsertPeriod(p);
             }
             _periods.Sort((x, y) => DateTime.Compare(x.Head, y.Head));
+
+            Validate(this);
         }
 
 
@@ -60,7 +64,7 @@ namespace Sonneville.PriceTools
         {
             _periods = (List<PricePeriod>)info.GetValue("Periods", typeof(List<PricePeriod>));
             
-            Validate();
+            Validate(this);
         }
 
         /// <summary>
@@ -68,6 +72,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="info">SerializationInfo</param>
         /// <param name="context">StreamingContext</param>
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
@@ -128,29 +133,26 @@ namespace Sonneville.PriceTools
         #region Accessors
 
         /// <summary>
-        /// Gets a collection of PricePeriod objects stored in this PriceSeries.
+        /// Gets a readonly collection of PricePeriod objects stored in this PriceSeries.
         /// </summary>
-        public IPricePeriod[] Periods
+        public ReadOnlyCollection<PricePeriod> Periods
         {
-            get
-            {
-                return _periods.ToArray();
-            }
+            get { return _periods.AsReadOnly(); }
         }
 
         /// <summary>
         /// Gets an IPricePeriod within this PriceSeries.
         /// </summary>
-        /// <param name="i">The index of the IPricePeriod to retrieve.</param>
+        /// <param name="index">The index of the IPricePeriod to retrieve.</param>
         /// <returns>The IPricePeriod at <para>index</para>.</returns>
-        public IPricePeriod this[int i]
+        public IPricePeriod this[int index]
         {
-            get { return _periods[i]; }
+            get { return _periods[index]; }
         }
 
-        decimal ITimeSeries.this[int i]
+        decimal ITimeSeries.this[int index]
         {
-            get { return _periods[i].Close; }
+            get { return _periods[index].Close; }
         }
 
         /// <summary>
@@ -235,38 +237,38 @@ namespace Sonneville.PriceTools
 
         ///<summary>
         ///</summary>
-        ///<param name="lhs"></param>
-        ///<param name="rhs"></param>
+        ///<param name="left"></param>
+        ///<param name="right"></param>
         ///<returns></returns>
-        public static bool operator ==(PriceSeries lhs, PriceSeries rhs)
+        public static bool operator ==(PriceSeries left, PriceSeries right)
         {
-            bool periodsMatch = !lhs._periods.Where((t, i) => t != rhs._periods[i]).Any();
+            bool periodsMatch = !left._periods.Where((t, i) => t != right._periods[i]).Any();
             // Same as below code:
-            //for (int i = 0; i < lhs._periods.Count; i++)
+            //for (int i = 0; i < left._periods.Count; i++)
             //{
-            //    if(lhs._periods[i] != rhs._periods[i])
+            //    if(left._periods[i] != right._periods[i])
             //    {
             //        periodsMatch = false;
             //        break;
             //    }
             //}
-            return (PricePeriod) lhs == (PricePeriod) rhs && periodsMatch;
+            return (PricePeriod) left == (PricePeriod) right && periodsMatch;
         }
 
         ///<summary>
         ///</summary>
-        ///<param name="lhs"></param>
-        ///<param name="rhs"></param>
+        ///<param name="left"></param>
+        ///<param name="right"></param>
         ///<returns></returns>
-        public static bool operator !=(PriceSeries lhs, PriceSeries rhs)
+        public static bool operator !=(PriceSeries left, PriceSeries right)
         {
-            return (PricePeriod)lhs != (PricePeriod)rhs;
+            return (PricePeriod)left != (PricePeriod)right;
         }
 
         /// <summary>
         /// Performs validation for the PriceSeries.
         /// </summary>
-        protected override void Validate()
+        public override void Validate()
         {
             base.Validate();
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -38,7 +39,7 @@ namespace Sonneville.PriceTools
         /// <returns>A currency formatted string."</returns>
         public static string FormatDecimalAsCurrency(decimal value)
         {
-            return value.ToString("C");
+            return value.ToString("C", CultureInfo.InvariantCulture);
         }
     }
 }

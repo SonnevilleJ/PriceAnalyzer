@@ -87,7 +87,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the date and time at which the Transaction occured.
         /// </summary>
-        public DateTime Date
+        public DateTime SettlementDate
         {
             get { return _date; }
         }
