@@ -43,7 +43,7 @@ namespace Sonneville.PriceChartTools
             red = new GeometryGroup();
             black = new GeometryGroup();
 
-            IPricePeriod[] p = new IPricePeriod[_series.Periods.Length];
+            PricePeriod[] p = new PricePeriod[_series.Periods.Count];
             _series.Periods.CopyTo(p, 0);
             for (int i = 0, cursor = 0; i < p.Length; i++, cursor += candleWidth + margin)
             {

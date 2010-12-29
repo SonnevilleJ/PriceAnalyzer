@@ -16,6 +16,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceToolsTest", "PriceTool
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceChartTools", "PriceChartTools\PriceChartTools.csproj", "{CA835214-9E28-4CB2-95BF-37D5D2927DB7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvReader", "CsvReader\CsvReader.csproj", "{9E171B34-27C7-4017-B624-803250B399D2}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = PriceAnalyzer.vsmdi
@@ -69,6 +71,16 @@ Global
 		{CA835214-9E28-4CB2-95BF-37D5D2927DB7}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{CA835214-9E28-4CB2-95BF-37D5D2927DB7}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{CA835214-9E28-4CB2-95BF-37D5D2927DB7}.Release|x86.ActiveCfg = Release|Any CPU
+		{9E171B34-27C7-4017-B624-803250B399D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E171B34-27C7-4017-B624-803250B399D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E171B34-27C7-4017-B624-803250B399D2}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{9E171B34-27C7-4017-B624-803250B399D2}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{9E171B34-27C7-4017-B624-803250B399D2}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9E171B34-27C7-4017-B624-803250B399D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E171B34-27C7-4017-B624-803250B399D2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E171B34-27C7-4017-B624-803250B399D2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{9E171B34-27C7-4017-B624-803250B399D2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{9E171B34-27C7-4017-B624-803250B399D2}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,20 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using Sonneville.PriceTools;
-using Sonneville.PriceChartTools;
+﻿using System.Windows;
 
-namespace PriceAnalyzer
+namespace Sonneville.PriceAnalyzer
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -25,9 +11,9 @@ namespace PriceAnalyzer
         {
             InitializeComponent();
 
-            IPriceSeries series = new PriceSeries(PriceSeriesResolution.Days, null);
-            ChartBuilder chartist = new ChartBuilder(series);
-            background.Source = chartist.GenerateCandlestickChart();
+            //IPriceSeries series = new PriceSeries(PriceSeriesResolution.Days, null);
+            //ChartBuilder chartist = new ChartBuilder(series);
+            //background.Source = chartist.GenerateCandlestickChart();
         }
     }
 }
