@@ -61,10 +61,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ConstructPriceSeriesFromSmallerPricePeriods()
         {
-            PricePeriod p1, p2, p3;
-            p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
-            p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
-            p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
+            PricePeriod p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
+            PricePeriod p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
+            PricePeriod p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
             IPricePeriod target = new PriceSeries(p1, p2, p3);
 
@@ -79,11 +78,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void PriceSeriesAddSubsequentPricePeriodTest()
         {
-            IPricePeriod p1, p2, p3, p4;
-            p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
-            p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
-            p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
-            p4 = new PricePeriod(DateTime.Parse("1/4/2010"), DateTime.Parse("1/5/2010"), 12, 15, 11, 14, 55);
+            IPricePeriod p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
+            IPricePeriod p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
+            IPricePeriod p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
+            IPricePeriod p4 = new PricePeriod(DateTime.Parse("1/4/2010"), DateTime.Parse("1/5/2010"), 12, 15, 11, 14, 55);
 
             IPriceSeries target = new PriceSeries(p1, p2, p3);
 
@@ -112,27 +110,28 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void BinarySerializePriceSeriesTest()
         {
-            IPricePeriod p1, p2, p3;
-            p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
-            p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
-            p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
+            IPricePeriod p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
+            IPricePeriod p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
+            IPricePeriod p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
             PriceSeries period = new PriceSeries(p1, p2, p3);
 
-            MemoryStream stream = new MemoryStream();
-            PriceSeries.BinarySerialize(period, stream);
-            stream.Position = 0;
-            PriceSeries result = (PriceSeries)PriceSeries.BinaryDeserialize(stream);
+            PriceSeries result;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                PriceSeries.BinarySerialize(period, stream);
+                stream.Position = 0;
+                result = (PriceSeries) PriceSeries.BinaryDeserialize(stream);
+            }
             Assert.AreEqual(result, period);
         }
 
         [TestMethod]
         public void PriceSeriesSortTest()
         {
-            IPricePeriod p1, p2, p3;
-            p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
-            p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
-            p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
+            IPricePeriod p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
+            IPricePeriod p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
+            IPricePeriod p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
             IPriceSeries period = new PriceSeries(p3, p1, p2);
             Assert.IsTrue(period[0] == p1);

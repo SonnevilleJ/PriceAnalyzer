@@ -321,6 +321,24 @@ namespace Sonneville.PriceTools.Data
             return new PriceSeries(list.ToArray());
         }
 
+        public string GetIndexTicker(StockIndex index)
+        {
+            string ticker = string.Empty;
+            switch(index)
+            {
+                case StockIndex.StandardAndPoors500:
+                    ticker = "^GSPC";
+                    break;
+                case StockIndex.DowJonesIndustrialAverage:
+                    ticker = "^DJI";
+                    break;
+                case StockIndex.NasdaqCompositeIndex:
+                    ticker = "^IXIC";
+                    break;
+            }
+            return ticker != string.Empty ? ticker : null;
+        }
+
         #endregion
 
         #region Private Properties
@@ -415,6 +433,12 @@ namespace Sonneville.PriceTools.Data
                 throw;
             }
             return result;
+        }
+
+        public Stream DownloadPricesToCsv(DateTime head, DateTime tail, StockIndex index, PriceSeriesResolution resolution)
+        {
+            string ticker = GetIndexTicker(index);
+            return DownloadPricesToCsv(head, tail, ticker, resolution);
         }
 
         #endregion

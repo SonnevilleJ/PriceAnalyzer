@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
 {
@@ -35,5 +32,18 @@ namespace Sonneville.PriceTools
         {
             get;
         }
+
+        /// <summary>
+        /// Validates an IPosition.
+        /// </summary>
+        /// <returns>A value indicating if the instance is valid.</returns>
+        void Validate();
+
+        /// <summary>
+        /// Validates an IPosition.
+        /// </summary>
+        /// <param name="errors">A list of any validation errors.</param>
+        /// <returns>A value indicating if the instance is valid.</returns>
+        bool Validate(out IList<string> errors);
     }
 }

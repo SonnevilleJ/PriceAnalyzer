@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
@@ -51,8 +52,14 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Validates an IPricePeriod.
         /// </summary>
-        /// <param name="pricePeriod">The IPricePeriod to validate.</param>
-        /// <returns>A value indicating if <paramref name="pricePeriod"/> is valid.</returns>
-        void Validate(PricePeriod pricePeriod);
+        /// <returns>A value indicating if the instance is valid.</returns>
+        void Validate();
+
+        /// <summary>
+        /// Validates an IPricePeriod.
+        /// </summary>
+        /// <param name="errors">A list of any validation errors.</param>
+        /// <returns>A value indicating if the instance is valid.</returns>
+        bool Validate(out IList<string> errors);
     }
 }

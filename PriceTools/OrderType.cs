@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Specifies the type of order for a transaction.

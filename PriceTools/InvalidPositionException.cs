@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Sonneville.PriceTools
 {
@@ -16,7 +13,7 @@ namespace Sonneville.PriceTools
         /// Constructs an InvalidPositionException.
         /// </summary>
         public InvalidPositionException()
-            :base()
+            : base()
         {
         }
 

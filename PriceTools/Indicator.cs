@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Text;
 
 namespace Sonneville.PriceTools
 {
@@ -15,10 +13,9 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private ITimeSeries _timeSeries;
+        private readonly ITimeSeries _timeSeries;
         private readonly Int32 _range;
-        private IDictionary<int, decimal> _dictionary;
-        private readonly object _padlock;
+        private readonly object _padlock = new object();
 
         #endregion
 
@@ -31,10 +28,9 @@ namespace Sonneville.PriceTools
         /// <param name="range">The range used by this indicator.</param>
         protected Indicator(ITimeSeries timeSeries, int range)
         {
-            TimeSeries = timeSeries;
-            _dictionary = new Dictionary<int, decimal>(timeSeries.Span - range);
+            _timeSeries = timeSeries;
+            Dictionary = new Dictionary<int, decimal>(timeSeries.Span - range);
             _range = range;
-            _padlock = new object();
         }
 
         #endregion
@@ -42,7 +38,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the most recent value of this Indicator.
         /// </summary>
-        public virtual decimal Last
+        public decimal Last
         {
             get { return this[0]; }
         }
@@ -78,14 +74,7 @@ namespace Sonneville.PriceTools
             get
             {
                 decimal value;
-                if (_dictionary.TryGetValue(index, out value))
-                {
-                    return value;
-                }
-                else
-                {
-                    return Calculate(index);
-                }
+                return Dictionary.TryGetValue(index, out value) ? value : Calculate(index);
             }
         }
 
@@ -94,14 +83,14 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual int Span
         {
-            get { return _dictionary.Count; }
+            get { return Dictionary.Count; }
         }
 
         /// <summary>
         /// Gets the range of this Indicator.
         /// </summary>
         /// <example>A 50-period MovingAverage has a Range of 50.</example>
-        public virtual int Range
+        public int Range
         {
             get { return _range; }
         }
@@ -109,19 +98,14 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The IDictionary used to store the values of this Indicator.
         /// </summary>
-        protected IDictionary<int, decimal> Dictionary
-        {
-            get { return _dictionary; }
-            private set { _dictionary = value; }
-        }
+        protected IDictionary<int, decimal> Dictionary { get; private set; }
 
         /// <summary>
-        /// The underlying data which is to be analyzed by this Indicator.
+        /// Gets the underlying data which is to be analyzed by this Indicator.
         /// </summary>
         protected ITimeSeries TimeSeries
         {
             get { return _timeSeries; }
-            set { _timeSeries = value; }
         }
 
         /// <summary>
@@ -143,8 +127,8 @@ namespace Sonneville.PriceTools
         /// <param name="context"></param>
         protected Indicator(SerializationInfo info, StreamingContext context)
         {
-            _dictionary = (IDictionary<int, decimal>) info.GetValue("Dictionary", typeof (IDictionary<int, decimal>));
-            TimeSeries = (ITimeSeries) info.GetValue("TimeSeries", typeof (ITimeSeries));
+            Dictionary = (IDictionary<int, decimal>) info.GetValue("Dictionary", typeof (IDictionary<int, decimal>));
+            _timeSeries = (ITimeSeries) info.GetValue("TimeSeries", typeof (ITimeSeries));
             _range = (Int32) info.GetValue("Range", typeof (Int32));
             _padlock = new object();
         }
@@ -157,7 +141,7 @@ namespace Sonneville.PriceTools
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Dictionary", _dictionary);
+            info.AddValue("Dictionary", Dictionary);
             info.AddValue("TimeSeries", TimeSeries);
             info.AddValue("Range", _range);
         }

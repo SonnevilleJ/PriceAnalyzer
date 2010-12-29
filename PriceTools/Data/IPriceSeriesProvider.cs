@@ -33,5 +33,22 @@ namespace Sonneville.PriceTools.Data
         /// <param name="resolution">The <see cref="PriceSeriesResolution"/> to use when retrieving price data.</param>
         /// <returns>A <see cref="Stream"/> containing the price data in CSV format.</returns>
         Stream DownloadPricesToCsv(DateTime head, DateTime tail, string symbol, PriceSeriesResolution resolution);
+
+        /// <summary>
+        /// Downloads a CSV data file from the provider.
+        /// </summary>
+        /// <param name="head">The beginning of the date range to price.</param>
+        /// <param name="tail">The end of the date range to price.</param>
+        /// <param name="index">The <see cref="StockIndex"/> to price.</param>
+        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> to use when retrieving price data.</param>
+        /// <returns>A <see cref="Stream"/> containing the price data in CSV format.</returns>
+        Stream DownloadPricesToCsv(DateTime head, DateTime tail, StockIndex index, PriceSeriesResolution resolution);
+
+        /// <summary>
+        /// Gets the ticker symbol of a stock index used by this provider.
+        /// </summary>
+        /// <param name="index">The <see cref="StockIndex"/> to lookup.</param>
+        /// <returns></returns>
+        string GetIndexTicker(StockIndex index);
     }
 }

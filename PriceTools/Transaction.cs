@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Sonneville.PriceTools
 {
@@ -57,31 +54,15 @@ namespace Sonneville.PriceTools
             _ticker = ticker;
 
             if (shares < 0)
-            {
                 throw new ArgumentOutOfRangeException("shares", "Shares must be greater than or equal to 0.00");
-            }
-            else
-            {
-                _shares = shares;
-            }
-
-            if(price < 0.00m)
-            {
+            if (price < 0.00m)
                 throw new ArgumentOutOfRangeException("price", "Price must be greater than or equal to 0.00");
-            }
-            else
-            {
-                _price = price;
-            }
-
-            if(commission < 0.00m)
-            {
+            if (commission < 0.00m)
                 throw new ArgumentOutOfRangeException("commission", "Commission must be greater than or equal to 0.00");
-            }
-            else
-            {
-                _commission = commission;
-            }
+
+            _shares = shares;
+            _price = price;
+            _commission = commission;
         }
 
         /// <summary>

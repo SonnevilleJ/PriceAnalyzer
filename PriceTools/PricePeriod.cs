@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Permissions;
-using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml.Serialization;
 
 namespace Sonneville.PriceTools
 {
@@ -37,6 +35,20 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Constructs a PricePeriod object without volume.
+        /// </summary>
+        /// <param name="head">The beginning of the PricePeriod.</param>
+        /// <param name="tail">The end of the PricePeriod.</param>
+        /// <param name="open">The price at the open of this period.</param>
+        /// <param name="high">The highest price during this period.</param>
+        /// <param name="low">The lowest price during this period.</param>
+        /// <param name="close">The price at the close of this period.</param>
+        public PricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close)
+            : this(head, tail, open, high, low, close, null)
+        {
+        }
+
+        /// <summary>
         /// Constructs a PricePeriod object from an existing IPricePeriod.
         /// </summary>
         /// <param name="existing">The IPricePeriod to clone.</param>
@@ -50,21 +62,7 @@ namespace Sonneville.PriceTools
             _close = existing.Close;
             _volume = existing.Volume;
 
-            Validate(this);
-        }
-
-        /// <summary>
-        /// Constructs a PricePeriod object without volume.
-        /// </summary>
-        /// <param name="head">The beginning of the PricePeriod.</param>
-        /// <param name="tail">The end of the PricePeriod.</param>
-        /// <param name="open">The price at the open of this period.</param>
-        /// <param name="high">The highest price during this period.</param>
-        /// <param name="low">The lowest price during this period.</param>
-        /// <param name="close">The price at the close of this period.</param>
-        public PricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close)
-            : this(head, tail, open, high, low, close, null)
-        {
+            Validate();
         }
 
         /// <summary>
@@ -87,7 +85,7 @@ namespace Sonneville.PriceTools
             _close = close;
             _volume = volume;
 
-            Validate(this);
+            Validate();
         }
 
         #endregion
@@ -109,7 +107,7 @@ namespace Sonneville.PriceTools
             _close = (decimal)info.GetValue("Close", typeof(decimal));
             _volume = (UInt64?)info.GetValue("Volume", typeof(UInt64?));
 
-            Validate(this);
+            Validate();
         }
 
         /// <summary>
@@ -128,7 +126,7 @@ namespace Sonneville.PriceTools
             info.AddValue("Close", _close);
             info.AddValue("Volume", _volume);
 
-            Validate(this);
+            Validate();
         }
 
         /// <summary>
@@ -140,6 +138,20 @@ namespace Sonneville.PriceTools
         {
             BinaryFormatter formatter = new BinaryFormatter();
             formatter.Serialize(stream, period);
+        }
+
+        /// <summary>
+        /// Performs a binary serialization of an IPricePeriod to a <see cref="Stream"/>.
+        /// </summary>
+        /// <param name="periods">The array of <see cref="IPricePeriod"/>s to serialize.</param>
+        /// <param name="stream">The <see cref="Stream"/> to serialize to.</param>
+        public static void BinarySerialize(IPricePeriod[] periods, Stream stream)
+        {
+            BinaryFormatter formatter = new BinaryFormatter();
+            foreach (IPricePeriod period in periods)
+            {
+                formatter.Serialize(stream, period);
+            }
         }
 
         /// <summary>
@@ -271,13 +283,8 @@ namespace Sonneville.PriceTools
         {
             var target = obj as PricePeriod;
             if (target == null)
-            {
                 throw new InvalidOperationException("obj is not a PricePeriod.");
-            }
-            else
-            {
-                return Head.CompareTo(target.Head);
-            }
+            return Head.CompareTo(target.Head);
         }
 
 
@@ -289,7 +296,7 @@ namespace Sonneville.PriceTools
         ///<returns></returns>
         public static bool operator >(PricePeriod left, PricePeriod right)
         {
-            return (left.Head.Ticks + 1 > right.Tail.Ticks);
+            return (left.Head.Ticks >= right.Tail.Ticks);
         }
 
         /// <summary>
@@ -300,7 +307,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator <(PricePeriod left, PricePeriod right)
         {
-            return (left.Tail.Ticks - 1 < right.Head.Ticks);
+            return (left.Tail.Ticks <= right.Head.Ticks);
         }
 
         /// <summary>
@@ -345,31 +352,31 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Performs validation for the PricePeriod.
+        /// Validates a PricePeriod and ignores any errors.
         /// </summary>
-        public virtual void Validate()
+        /// <returns>A value indicating if the instance is valid.</returns>
+        public void Validate()
         {
-            Validate(this);
+            IList<string> errors;
+            if (!Validate(out errors)) throw new InvalidPricePeriodException(errors.ToString());
         }
 
         /// <summary>
-        /// Validates an IPricePeriod.
+        /// Validates a IPricePeriod.
         /// </summary>
-        /// <param name="pricePeriod">The IPricePeriod to validate.</param>
-        /// <returns>A value indicating if <paramref name="pricePeriod"/> is valid.</returns>
-        public void Validate(PricePeriod pricePeriod)
+        /// <param name="errors">A list of any validation errors.</param>
+        /// <returns>A value indicating if the instance is valid.</returns>
+        public virtual bool Validate(out IList<string> errors)
         {
-            List<string> errors = new List<string>();
-
-            if (pricePeriod.Head > pricePeriod.Tail)
+            errors = new List<string>();
+            if (Head > Tail)
                 errors.Add("Head must be earlier than Tail.");
-            if (pricePeriod.High < pricePeriod.Open || pricePeriod.High < pricePeriod.Low || pricePeriod.High < pricePeriod.Close)
+            if (High < Open || High < Low || High < Close)
                 errors.Add("High must be greater than or equal to the period's open, low, and close.");
-            if (pricePeriod.Low > pricePeriod.Open || pricePeriod.Low > pricePeriod.High || pricePeriod.Low > pricePeriod.Close)
+            if (Low > Open || Low > High || Low > Close)
                 errors.Add("Low must be less than or equal to the period's open, high, and close.");
-
-            if (errors.Count != 0)
-                throw new InvalidPricePeriodException(errors.ToString());          
+            
+            return errors.Count == 0;
         }
     }
 }

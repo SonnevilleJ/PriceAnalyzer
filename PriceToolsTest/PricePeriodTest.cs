@@ -96,10 +96,13 @@ namespace Sonneville.PriceToolsTest
 
             PricePeriod period = new PricePeriod(d1, d2, open, high, low, close, volume);
 
-            MemoryStream stream = new MemoryStream();
-            PricePeriod.BinarySerialize(period, stream);
-            stream.Position = 0;
-            IPricePeriod result = PricePeriod.BinaryDeserialize(stream);
+            IPricePeriod result;
+            using (MemoryStream stream = new MemoryStream())
+            {
+                PricePeriod.BinarySerialize(period, stream);
+                stream.Position = 0;
+                result = PricePeriod.BinaryDeserialize(stream);
+            }
             Assert.AreEqual(result, period);
         }
 

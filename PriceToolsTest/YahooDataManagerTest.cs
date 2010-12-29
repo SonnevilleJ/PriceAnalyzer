@@ -73,8 +73,11 @@ namespace Sonneville.PriceToolsTest
         {
             YahooPriceSeriesProvider parser = YahooDataManager.PriceParser;
 
-            Stream dataStream = new MemoryStream(TestData.SPX_8_Dec_2010_to_10_Dec_2010);
-            IPriceSeries actual = parser.ParsePriceSeries(dataStream);
+            IPriceSeries actual;
+            using (Stream dataStream = new MemoryStream(TestData.SPX_8_Dec_2010_to_10_Dec_2010))
+            {
+                actual = parser.ParsePriceSeries(dataStream);
+            }
 
             PricePeriod p1 = new PricePeriod(DateTime.Parse("2010-12-10"), DateTime.Parse("2010-12-10"), 71.31m, 71.55m, 70.32m, 71.52m, 360200);
             PricePeriod p2 = new PricePeriod(DateTime.Parse("2010-12-09"), DateTime.Parse("2010-12-09"), 71.47m, 71.51m, 70.65m, 71.00m, 251600);

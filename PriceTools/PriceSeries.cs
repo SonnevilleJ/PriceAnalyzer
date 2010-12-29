@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -19,7 +18,7 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private List<PricePeriod> _periods;
+        private readonly List<PricePeriod> _periods;
 
         #endregion
 
@@ -40,15 +39,11 @@ namespace Sonneville.PriceTools
             Head = periods[0].Head;
             Open = periods[0].Open;
 
-            foreach (IPricePeriod p in periods)
-            {
-                InsertPeriod(p);
-            }
+            foreach (IPricePeriod period in periods) InsertPeriod(period);
             _periods.Sort((x, y) => DateTime.Compare(x.Head, y.Head));
 
-            Validate(this);
+            Validate();
         }
-
 
         #endregion
 
@@ -63,8 +58,8 @@ namespace Sonneville.PriceTools
             : base(info, context)
         {
             _periods = (List<PricePeriod>)info.GetValue("Periods", typeof(List<PricePeriod>));
-            
-            Validate(this);
+
+            Validate();
         }
 
         /// <summary>
@@ -76,18 +71,18 @@ namespace Sonneville.PriceTools
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             base.GetObjectData(info, context);
-            info.AddValue("Periods", _periods);
+            info.AddValue("Periods", _periods.ToArray());
         }
 
         /// <summary>
         /// Performs a binary serialization of an IPriceSeries to a <see cref="Stream"/>.
         /// </summary>
-        /// <param name="period">The IPriceSeries to serialize.</param>
+        /// <param name="series">The IPriceSeries to serialize.</param>
         /// <param name="stream">The <see cref="Stream"/> to use for serialization.</param>
-        public static void BinarySerialize(IPriceSeries period, Stream stream)
+        public static void BinarySerialize(IPriceSeries series, Stream stream)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, period);
+            formatter.Serialize(stream, series);
         }
 
         /// <summary>
@@ -137,7 +132,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public ReadOnlyCollection<PricePeriod> Periods
         {
-            get { return _periods.AsReadOnly(); }
+            get { return _periods != null ? _periods.AsReadOnly() : null; }
         }
 
         /// <summary>
@@ -147,12 +142,12 @@ namespace Sonneville.PriceTools
         /// <returns>The IPricePeriod at <para>index</para>.</returns>
         public IPricePeriod this[int index]
         {
-            get { return _periods[index]; }
+            get { return Periods[index]; }
         }
 
         decimal ITimeSeries.this[int index]
         {
-            get { return _periods[index].Close; }
+            get { return Periods[index].Close; }
         }
 
         /// <summary>
@@ -242,7 +237,7 @@ namespace Sonneville.PriceTools
         ///<returns></returns>
         public static bool operator ==(PriceSeries left, PriceSeries right)
         {
-            bool periodsMatch = !left._periods.Where((t, i) => t != right._periods[i]).Any();
+            return !left._periods.Where((t, i) => t != right._periods[i]).Any();
             // Same as below code:
             //for (int i = 0; i < left._periods.Count; i++)
             //{
@@ -252,7 +247,6 @@ namespace Sonneville.PriceTools
             //        break;
             //    }
             //}
-            return (PricePeriod) left == (PricePeriod) right && periodsMatch;
         }
 
         ///<summary>
@@ -262,15 +256,26 @@ namespace Sonneville.PriceTools
         ///<returns></returns>
         public static bool operator !=(PriceSeries left, PriceSeries right)
         {
-            return (PricePeriod)left != (PricePeriod)right;
+            return left._periods.Where((t, i) => t != right._periods[i]).Any();
         }
 
         /// <summary>
-        /// Performs validation for the PriceSeries.
+        /// Validates a PriceSeries.
         /// </summary>
-        public override void Validate()
+        /// <param name="errors">A list of any validation errors.</param>
+        /// <returns>A value indicating if the instance is valid.</returns>
+        public override bool Validate(out IList<string> errors)
         {
-            base.Validate();
+            errors = new List<string>();
+            if (Periods != null)
+                foreach (PricePeriod period in Periods)
+                {
+                    IList<string> e;
+                    period.Validate(out e);
+                    foreach (string s in e) errors.Add(s);
+                }
+            errors = new ReadOnlyCollection<string>(errors);
+            return errors.Count == 0;
         }
     }
 }

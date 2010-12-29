@@ -71,14 +71,14 @@ namespace Sonneville.PriceTools.Data
         }
 
         /// <summary>
-        /// Parses a <see cref="DataTable"/> from a given Fidelity CSV data stream.
+        /// Parses a <see cref="DataTable"/> containing price data for a given Fidelity portfolio from a CSV data stream.
         /// </summary>
         /// <param name="reader">The <see cref="Stream"/> to parse.</param>
         /// <returns>A <see cref="DataTable"/> of the CSV data.</returns>
         public DataTable ParsePortfolioToDataTable(CsvReader reader)
         {
             DataTable table = InitializePortfolioTable();
-
+            table.BeginInit();
             while (reader.ReadNextRecord())
             {
                 DataRow row = table.NewRow();
@@ -91,7 +91,7 @@ namespace Sonneville.PriceTools.Data
                 row[_commissionColumn] = reader[_map[TransactionColumns.Commission]];
                 row.EndEdit();
             }
-
+            table.EndInit();
             return table;
         }
 

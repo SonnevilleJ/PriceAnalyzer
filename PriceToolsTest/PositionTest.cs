@@ -169,7 +169,7 @@ namespace Sonneville.PriceToolsTest
             Transaction sell = new Transaction(sellDate, OrderType.Sell, ticker, sellPrice, shares, commission);
 
             Position target = new Position(buy, sell);
-            Assert.IsTrue(target.TotalAnnualReturn == 0.2020202020202020202020202020202m);
+            Assert.IsTrue(target.AverageAnnualReturn == 0.2020202020202020202020202020202m);
         }
 
         [TestMethod]
