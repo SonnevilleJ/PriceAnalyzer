@@ -65,6 +65,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FidelityPortfolioCsvParserTest.cs" />
     <Compile Include="Microsoft.VisualStudio.TestTools.UnitTesting.cs" />
     <Compile Include="YahooDataManagerTest.cs" />
   </ItemGroup>
@@ -74,6 +75,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\FidelityTransactions.csv" />
     <None Include="Resources\SPX price 24 aug 2010.xlsx" />
     <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
   </ItemGroup>

@@ -62,23 +62,17 @@ namespace Sonneville.PriceToolsTest {
             }
         }
         
-        /// <summary>
-        ///   Looks up a localized string similar to Trade Date,Action,Transaction Type,Symbol,Security Description,Security Type,Quantity,Price ($),Commission ($),Fees ($),Accrued Interest ($),Amount ($),Settlement Date
-        /// 10/01/2010, TRANSFERRED FROM     TO BROKERAGE OPTION,Cash, ,  ,Cash,,,,,,297.19,
-        /// 09/30/2010, DIVIDEND RECEIVED,Dividend, FDRXX, FIDELITY CASH RESERVES,Cash,,,,,,0.6,
-        /// 09/30/2010, REINVESTMENT,Reinvestment, FDRXX, FIDELITY CASH RESERVES,Cash,0.6,1,,,,-0.6,
-        /// 09/13/2010, YOU BOUGHT           PROSPECTUS UNDER    SEPARATE COVER,Buy, FSRFX, F [rest of string was truncated]&quot;;.
-        /// </summary>
-        internal static string FidelityTransactions {
+        internal static byte[] FidelityTransactions {
             get {
-                return ResourceManager.GetString("FidelityTransactions", resourceCulture);
+                object obj = ResourceManager.GetObject("FidelityTransactions", resourceCulture);
+                return ((byte[]) (obj));
             }
         }
         
         internal static byte[] SPX_price_24_aug_2010 {
             get {
                 object obj = ResourceManager.GetObject("SPX_price_24_aug_2010", resourceCulture);
-                return ((byte[])(obj));
+                return ((byte[]) (obj));
             }
         }
 

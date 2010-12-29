@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using LumenWorks.Framework.IO.Csv;
 
 namespace Sonneville.PriceTools.Data
@@ -23,9 +21,26 @@ namespace Sonneville.PriceTools.Data
         private DataColumn _priceColumn;
         private DataColumn _commissionColumn;
 
+        private readonly IDictionary<TransactionColumns, int> _map =
+            new Dictionary<TransactionColumns, int>(5); 
+        private readonly Stream _stream;
+
         #endregion
 
         #region Constructors
+
+        /// <summary>
+        /// Creates a 
+        /// </summary>
+        /// <param name="csvStream"></param>
+        public FidelityPortfolioCsvParser(Stream csvStream)
+        {
+            if (csvStream == null)
+            {
+                throw new ArgumentNullException("csvStream");
+            }
+            _stream = csvStream;
+        }
 
         /// <summary>
         /// Allows an <see cref="T:System.Object"/> to attempt to free resources and perform other cleanup operations before the <see cref="T:System.Object"/> is reclaimed by garbage collection.
@@ -40,15 +55,19 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         /// Parses an <see cref="IPortfolio"/> from a given Fidelity CSV data stream.
         /// </summary>
-        /// <param name="csvStream">The <see cref="Stream"/> to parse.</param>
         /// <returns>An <see cref="IPortfolio"/>.</returns>
-        public IPortfolio ParsePortfolio(Stream csvStream)
+        public IPortfolio ParsePortfolio()
         {
-            var reader = new CsvReader(new StreamReader(csvStream), true);
+            var reader = new CsvReader(new StreamReader(_stream), true);
             MapHeaders(reader);
 
             DataTable table = ParsePortfolioToDataTable(reader);
-            return null;
+            return ParseDataTableToIPortfolio(table);
+        }
+
+        private static IPortfolio ParseDataTableToIPortfolio(DataTable table)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -59,13 +78,17 @@ namespace Sonneville.PriceTools.Data
         public DataTable ParsePortfolioToDataTable(CsvReader reader)
         {
             DataTable table = InitializePortfolioTable();
-            MapHeaders(reader);
 
             while (reader.ReadNextRecord())
             {
                 DataRow row = table.NewRow();
                 row.BeginEdit();
-
+                row[_dateColumn] = reader[_map[TransactionColumns.Date]];
+                row[_orderColumn] = reader[_map[TransactionColumns.OrderType]];
+                row[_symbolColumn] = reader[_map[TransactionColumns.Symbol]];
+                row[_sharesColumn] = reader[_map[TransactionColumns.Shares]];
+                row[_priceColumn] = reader[_map[TransactionColumns.PerSharePrice]];
+                row[_commissionColumn] = reader[_map[TransactionColumns.Commission]];
                 row.EndEdit();
             }
 
@@ -76,7 +99,45 @@ namespace Sonneville.PriceTools.Data
 
         private void MapHeaders(CsvReader reader)
         {
-            throw new NotImplementedException();
+            string[] headers = reader.GetFieldHeaders();
+            int count = 0;
+            for (int i = 0; i < headers.Length; i++)
+            {
+                switch(headers[i])
+                {
+                    case "Trade Date":
+                        _map.Add(TransactionColumns.Date, i);
+                        count += (int) TransactionColumns.Date;
+                        break;
+                    case "Action":
+                        _map.Add(TransactionColumns.OrderType, i);
+                        count += (int) TransactionColumns.OrderType;
+                        break;
+                    case "Symbol":
+                        _map.Add(TransactionColumns.Symbol, i);
+                        count += (int)TransactionColumns.Symbol;
+                        break;
+                    case "Quantity":
+                        _map.Add(TransactionColumns.Shares, i);
+                        count += (int)TransactionColumns.Shares;
+                        break;
+                    case "Price ($)":
+                        _map.Add(TransactionColumns.PerSharePrice, i);
+                        count += (int)TransactionColumns.PerSharePrice;
+                        break;
+                    case "Commission ($)":
+                        _map.Add(TransactionColumns.Commission, i);
+                        count += (int)TransactionColumns.Commission;
+                        break;
+                    default:
+                        // ignore other columns
+                        break;
+                }
+            }
+            if(count != 15)
+            {
+                throw new InvalidDataException("One or more data columns is missing in the stream.");
+            }
         }
 
         private DataTable InitializePortfolioTable()
