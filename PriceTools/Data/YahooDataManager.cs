@@ -9,7 +9,7 @@
         private static bool _isInitialized;
 
         /// <summary>
-        /// Gets the <see cref="IPriceSeriesProvider"/> for Yahoo data files.
+        /// Gets the <see cref="PriceSeriesProvider"/> for Yahoo data files.
         /// </summary>
         public static YahooPriceSeriesProvider PriceParser
         {

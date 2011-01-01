@@ -12,9 +12,9 @@ namespace Sonneville.PriceTools.Data
     /// </summary>
     public class FidelityPortfolioCsvParser : IPortfolioCsvParser
     {
-        private readonly IDictionary<TransactionColumns, int> _map =
-            new Dictionary<TransactionColumns, int>(5);
+        #region Private Members
 
+        private readonly IDictionary<TransactionColumns, int> _map = new Dictionary<TransactionColumns, int>(5);
         private readonly Stream _stream;
         private DataColumn _commissionColumn;
         private DataColumn _dateColumn;
@@ -22,6 +22,8 @@ namespace Sonneville.PriceTools.Data
         private DataColumn _priceColumn;
         private DataColumn _sharesColumn;
         private DataColumn _symbolColumn;
+
+        #endregion
 
         #region Constructors
 

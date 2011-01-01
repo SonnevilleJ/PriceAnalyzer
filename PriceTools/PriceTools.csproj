@@ -43,7 +43,7 @@
     <Compile Include="Data\FidelityDataManager.cs" />
     <Compile Include="Data\FidelityPortfolioCsvParser.cs" />
     <Compile Include="Data\IPortfolioCsvParser.cs" />
-    <Compile Include="Data\IPriceSeriesProvider.cs" />
+    <Compile Include="Data\PriceSeriesProvider.cs" />
     <Compile Include="Data\PriceColumns.cs" />
     <Compile Include="Data\TransactionColumns.cs" />
     <Compile Include="Data\YahooDataManager.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="PricePeriod.cs" />
     <Compile Include="PriceSeriesResolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StockIndexes.cs" />
+    <Compile Include="StockIndex.cs" />
     <Compile Include="Transaction.cs" />
   </ItemGroup>
   <ItemGroup>
