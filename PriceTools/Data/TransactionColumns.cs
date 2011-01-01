@@ -1,6 +1,6 @@
 ﻿namespace Sonneville.PriceTools.Data
 {
-    internal enum TransactionColumns
+    public enum TransactionColumns
     {
         Date,
         OrderType,
