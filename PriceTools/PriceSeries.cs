@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -12,25 +11,20 @@ using Sonneville.PriceTools.Data;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Represents a set of PricePeriods.
+    ///   Represents a set of PricePeriods.
     /// </summary>
     [Serializable]
     public class PriceSeries : PricePeriod, IPriceSeries
     {
-        #region Private Members
-
         private List<PricePeriod> _periods;
-
-        #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Constructs a PriceSeries object from several PricePeriods.
+        ///   Constructs a PriceSeries object from several PricePeriods.
         /// </summary>
-        /// <param name="periods"></param>
+        /// <param name = "periods"></param>
         public PriceSeries(params IPricePeriod[] periods)
-            : base()
         {
             if (periods == null)
                 throw new ArgumentNullException(
@@ -49,29 +43,28 @@ namespace Sonneville.PriceTools
             Validate(this);
         }
 
-
         #endregion
 
         #region Serialization
 
         /// <summary>
-        /// Serialization constructor.
+        ///   Serialization constructor.
         /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
+        /// <param name = "info"></param>
+        /// <param name = "context"></param>
         protected PriceSeries(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _periods = (List<PricePeriod>)info.GetValue("Periods", typeof(List<PricePeriod>));
-            
+            _periods = (List<PricePeriod>) info.GetValue("Periods", typeof (List<PricePeriod>));
+
             Validate(this);
         }
 
         /// <summary>
-        /// Serializes a PriceSeries object.
+        ///   Serializes a PriceSeries object.
         /// </summary>
-        /// <param name="info">SerializationInfo</param>
-        /// <param name="context">StreamingContext</param>
+        /// <param name = "info">SerializationInfo</param>
+        /// <param name = "context">StreamingContext</param>
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -80,10 +73,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Performs a binary serialization of an IPriceSeries to a <see cref="Stream"/>.
+        ///   Performs a binary serialization of an IPriceSeries to a <see cref = "Stream" />.
         /// </summary>
-        /// <param name="period">The IPriceSeries to serialize.</param>
-        /// <param name="stream">The <see cref="Stream"/> to use for serialization.</param>
+        /// <param name = "period">The IPriceSeries to serialize.</param>
+        /// <param name = "stream">The <see cref = "Stream" /> to use for serialization.</param>
         public static void BinarySerialize(IPriceSeries period, Stream stream)
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -91,14 +84,14 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Performs a binary deserialization of an IPriceSeries from a <see cref="Stream"/>.
+        ///   Performs a binary deserialization of an IPriceSeries from a <see cref = "Stream" />.
         /// </summary>
-        /// <param name="stream">The <see cref="Stream"/> to use for deserialization.</param>
-        /// <returns>An <see cref="IPriceSeries"/>.</returns>
+        /// <param name = "stream">The <see cref = "Stream" /> to use for deserialization.</param>
+        /// <returns>An <see cref = "IPriceSeries" />.</returns>
         public new static IPriceSeries BinaryDeserialize(Stream stream)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            return (PriceSeries)formatter.Deserialize(stream);
+            return (PriceSeries) formatter.Deserialize(stream);
         }
 
         #endregion
@@ -106,20 +99,20 @@ namespace Sonneville.PriceTools
         #region CSV Loader
 
         /// <summary>
-        /// Loads an <see cref="IPriceSeries"/> from a given CSV stream.
+        ///   Loads an <see cref = "IPriceSeries" /> from a given CSV stream.
         /// </summary>
-        /// <param name="csvStream">A <see cref="Stream"/> to the CSV data.</param>
-        /// <returns>An <see cref="IPriceSeries"/> created from the CSV data.</returns>
+        /// <param name = "csvStream">A <see cref = "Stream" /> to the CSV data.</param>
+        /// <returns>An <see cref = "IPriceSeries" /> created from the CSV data.</returns>
         public static IPriceSeries LoadFromCsv(Stream csvStream)
         {
             return YahooDataManager.PriceParser.ParsePriceSeries(csvStream);
         }
 
         /// <summary>
-        /// Loads an <see cref="IPriceSeries"/> from a given CSV stream.
+        ///   Loads an <see cref = "IPriceSeries" /> from a given CSV stream.
         /// </summary>
-        /// <param name="csvFilePath">The path to the CSV data.</param>
-        /// <returns>An <see cref="IPriceSeries"/> created from the CSV data.</returns>
+        /// <param name = "csvFilePath">The path to the CSV data.</param>
+        /// <returns>An <see cref = "IPriceSeries" /> created from the CSV data.</returns>
         public static IPriceSeries LoadFromCsv(string csvFilePath)
         {
             using (FileStream file = File.OpenRead(csvFilePath))
@@ -133,7 +126,7 @@ namespace Sonneville.PriceTools
         #region Accessors
 
         /// <summary>
-        /// Gets a readonly collection of PricePeriod objects stored in this PriceSeries.
+        ///   Gets a readonly collection of PricePeriod objects stored in this PriceSeries.
         /// </summary>
         public ReadOnlyCollection<PricePeriod> Periods
         {
@@ -141,9 +134,9 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets an IPricePeriod within this PriceSeries.
+        ///   Gets an IPricePeriod within this PriceSeries.
         /// </summary>
-        /// <param name="index">The index of the IPricePeriod to retrieve.</param>
+        /// <param name = "index">The index of the IPricePeriod to retrieve.</param>
         /// <returns>The IPricePeriod at <para>index</para>.</returns>
         public IPricePeriod this[int index]
         {
@@ -156,7 +149,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the length of this PriceSeries.
+        ///   Gets the length of this PriceSeries.
         /// </summary>
         public int Span
         {
@@ -165,10 +158,12 @@ namespace Sonneville.PriceTools
 
         #endregion
 
+        #region IPriceSeries Members
+
         /// <summary>
-        /// Inserts price data from a given PricePeriod into this PriceSeries.
+        ///   Inserts price data from a given PricePeriod into this PriceSeries.
         /// </summary>
-        /// <param name="period">A PricePeriod to be added to this PriceSeries.</param>
+        /// <param name = "period">A PricePeriod to be added to this PriceSeries.</param>
         public void InsertPeriod(IPricePeriod period)
         {
             _periods.Add(period as PricePeriod);
@@ -201,8 +196,8 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Returns an IPricePeriod with the OHLC data for the entire PriceSeries.
-        /// Note that resolution is lost, because a PricePeriod cannot be broken down into smaller PricePeriods.
+        ///   Returns an IPricePeriod with the OHLC data for the entire PriceSeries.
+        ///   Note that resolution is lost, because a PricePeriod cannot be broken down into smaller PricePeriods.
         /// </summary>
         /// <returns>An IPricePeriod representing the cumulative price history for the duration of this PriceSeries.</returns>
         public IPricePeriod ToPricePeriod()
@@ -210,24 +205,26 @@ namespace Sonneville.PriceTools
             return new PricePeriod(this);
         }
 
+        #endregion
+
         /// <summary>
-        /// Determines whether the specified <see cref="PriceSeries"/> is equal to the current <see cref="PriceSeries"/>.
+        ///   Determines whether the specified <see cref = "PriceSeries" /> is equal to the current <see cref = "PriceSeries" />.
         /// </summary>
         /// <returns>
-        /// true if the specified <see cref="PriceSeries"/> is equal to the current <see cref="PriceSeries"/>; otherwise, false.
+        ///   true if the specified <see cref = "PriceSeries" /> is equal to the current <see cref = "PriceSeries" />; otherwise, false.
         /// </returns>
-        /// <param name="obj">The <see cref="PriceSeries"/> to compare with the current <see cref="PriceSeries"/>. </param>
+        /// <param name = "obj">The <see cref = "PriceSeries" /> to compare with the current <see cref = "PriceSeries" />. </param>
         /// <filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return (obj is PriceSeries) && (this == (PriceSeries)obj);
+            return (obj is PriceSeries) && (this == (PriceSeries) obj);
         }
 
         /// <summary>
-        /// Serves as a hash function for the PriceSeries type. 
+        ///   Serves as a hash function for the PriceSeries type.
         /// </summary>
         /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
+        ///   A hash code for the current <see cref = "T:System.Object" />.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
@@ -237,8 +234,8 @@ namespace Sonneville.PriceTools
 
         ///<summary>
         ///</summary>
-        ///<param name="left"></param>
-        ///<param name="right"></param>
+        ///<param name = "left"></param>
+        ///<param name = "right"></param>
         ///<returns></returns>
         public static bool operator ==(PriceSeries left, PriceSeries right)
         {
@@ -252,21 +249,21 @@ namespace Sonneville.PriceTools
             //        break;
             //    }
             //}
-            return (PricePeriod) left == (PricePeriod) right && periodsMatch;
+            return left == (PricePeriod) right && periodsMatch;
         }
 
         ///<summary>
         ///</summary>
-        ///<param name="left"></param>
-        ///<param name="right"></param>
+        ///<param name = "left"></param>
+        ///<param name = "right"></param>
         ///<returns></returns>
         public static bool operator !=(PriceSeries left, PriceSeries right)
         {
-            return (PricePeriod)left != (PricePeriod)right;
+            return left != (PricePeriod) right;
         }
 
         /// <summary>
-        /// Performs validation for the PriceSeries.
+        ///   Performs validation for the PriceSeries.
         /// </summary>
         public override void Validate()
         {

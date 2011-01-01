@@ -11,12 +11,18 @@ namespace Sonneville.PriceTools
     [Serializable]
     public class Transaction : ITransaction
     {
+        #region Private Members
+        
         private readonly DateTime _date;
         private readonly OrderType _type;
         private readonly string _ticker;
         private readonly double _shares;
         private readonly decimal _price;
         private readonly decimal _commission;
+
+        #endregion
+
+        #region Constructors
 
         /// <summary>
         /// Constructs a Transaction.
@@ -84,6 +90,10 @@ namespace Sonneville.PriceTools
             }
         }
 
+        #endregion
+
+        #region Accessors
+
         /// <summary>
         /// Gets the date and time at which the Transaction occured.
         /// </summary>
@@ -131,5 +141,7 @@ namespace Sonneville.PriceTools
         {
             get { return _commission; }
         }
+
+        #endregion
     }
 }

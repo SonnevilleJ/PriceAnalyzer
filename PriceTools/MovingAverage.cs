@@ -1,41 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Text;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// An averager creates moving averages of <see cref="PriceSeries"/> objects.
+    ///   An averager creates moving averages of <see cref = "PriceSeries" /> objects.
     /// </summary>
     [Serializable]
     public class MovingAverage : Indicator
     {
-        #region Private Members
-
         private readonly MovingAverageMethod _method;
-
-        #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Constructs a MovingAverage <see cref="Indicator"/> for a given <see cref="ITimeSeries"/>.
+        ///   Constructs a MovingAverage <see cref = "Indicator" /> for a given <see cref = "ITimeSeries" />.
         /// </summary>
-        /// <param name="series">The <see cref="ITimeSeries"/> to average.</param>
-        /// <param name="range">The range of this MovingAverage.</param>
+        /// <param name = "series">The <see cref = "ITimeSeries" /> to average.</param>
+        /// <param name = "range">The range of this MovingAverage.</param>
         public MovingAverage(ITimeSeries series, int range)
             : this(series, range, MovingAverageMethod.Simple)
-        { }
+        {
+        }
 
         /// <summary>
-        /// Constructs a new Averager using the specified <see cref="MovingAverageMethod"/>
+        ///   Constructs a new Averager using the specified <see cref = "MovingAverageMethod" />
         /// </summary>
-        /// <param name="series">The IPriceSeries containing the data to be averaged.</param>
-        /// <param name="range">The number of periods to average together.</param>
-        /// <param name="movingAverageMethod">The calculation method to use when averaging.</param>
+        /// <param name = "series">The IPriceSeries containing the data to be averaged.</param>
+        /// <param name = "range">The number of periods to average together.</param>
+        /// <param name = "movingAverageMethod">The calculation method to use when averaging.</param>
         public MovingAverage(ITimeSeries series, int range, MovingAverageMethod movingAverageMethod)
             : base(series, range)
         {
@@ -47,10 +41,10 @@ namespace Sonneville.PriceTools
         #region ISerializable Implementation
 
         /// <summary>
-        /// Deserializes a MovingAverage.
+        ///   Deserializes a MovingAverage.
         /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
+        /// <param name = "info"></param>
+        /// <param name = "context"></param>
         protected MovingAverage(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
@@ -58,10 +52,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Serializies a MovingAverage.
+        ///   Serializies a MovingAverage.
         /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
+        /// <param name = "info"></param>
+        /// <param name = "context"></param>
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -72,9 +66,9 @@ namespace Sonneville.PriceTools
         #endregion
 
         /// <summary>
-        /// Calculates a single value of this MovingAverage.
+        ///   Calculates a single value of this MovingAverage.
         /// </summary>
-        /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
+        /// <param name = "index">The index of the value to calculate. The index of the current period is 0.</param>
         /// <returns>The value of this MovingAverage for the given period.</returns>
         protected override decimal Calculate(int index)
         {
@@ -88,7 +82,7 @@ namespace Sonneville.PriceTools
                     }
                     lock (Padlock)
                     {
-                        return Dictionary[index] = sum / Range;
+                        return Dictionary[index] = sum/Range;
                     }
                 case MovingAverageMethod.Exponential:
                     throw new NotImplementedException();

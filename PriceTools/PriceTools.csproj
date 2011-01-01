@@ -62,7 +62,6 @@
     <Compile Include="OrderType.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="PriceSeries.cs" />
-    <Compile Include="PriceUtil.cs" />
     <Compile Include="PricePeriod.cs" />
     <Compile Include="PriceSeriesResolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

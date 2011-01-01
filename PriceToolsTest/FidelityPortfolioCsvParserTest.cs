@@ -1,8 +1,7 @@
 ﻿using System;
-using Sonneville.PriceTools.Data;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
-using Sonneville.PriceTools;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceToolsTest
 {

@@ -1,28 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Permissions;
-using System.Text;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
-using System.Xml.Serialization;
+using System.Security.Permissions;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Represents a single price period. A price period could be any period of time (minute, hour, day, week, month, year, etc).
+    ///   Represents a single price period. A price period could be any period of time (minute, hour, day, week, month, year, etc).
     /// </summary>
     [Serializable]
     public class PricePeriod : IPricePeriod, ISerializable
     {
         #region Private Members
 
-        private DateTime _head;
-        private DateTime _tail;
-        private decimal? _open;
         private decimal _close;
+        private DateTime _head;
         private decimal? _high;
         private decimal? _low;
+        private decimal? _open;
+        private DateTime _tail;
         private UInt64? _volume;
 
         #endregion
@@ -30,16 +28,16 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         /// <summary>
-        /// Constructs an empty PricePeriod.
+        ///   Constructs an empty PricePeriod.
         /// </summary>
         protected PricePeriod()
         {
         }
 
         /// <summary>
-        /// Constructs a PricePeriod object from an existing IPricePeriod.
+        ///   Constructs a PricePeriod object from an existing IPricePeriod.
         /// </summary>
-        /// <param name="existing">The IPricePeriod to clone.</param>
+        /// <param name = "existing">The IPricePeriod to clone.</param>
         public PricePeriod(IPricePeriod existing)
         {
             _head = existing.Head;
@@ -54,30 +52,31 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a PricePeriod object without volume.
+        ///   Constructs a PricePeriod object without volume.
         /// </summary>
-        /// <param name="head">The beginning of the PricePeriod.</param>
-        /// <param name="tail">The end of the PricePeriod.</param>
-        /// <param name="open">The price at the open of this period.</param>
-        /// <param name="high">The highest price during this period.</param>
-        /// <param name="low">The lowest price during this period.</param>
-        /// <param name="close">The price at the close of this period.</param>
+        /// <param name = "head">The beginning of the PricePeriod.</param>
+        /// <param name = "tail">The end of the PricePeriod.</param>
+        /// <param name = "open">The price at the open of this period.</param>
+        /// <param name = "high">The highest price during this period.</param>
+        /// <param name = "low">The lowest price during this period.</param>
+        /// <param name = "close">The price at the close of this period.</param>
         public PricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close)
             : this(head, tail, open, high, low, close, null)
         {
         }
 
         /// <summary>
-        /// Constructs a PricePeriod object.
+        ///   Constructs a PricePeriod object.
         /// </summary>
-        /// <param name="head">The beginning DateTime of this period.</param>
-        /// <param name="tail">The ending DateTime of this period.</param>
-        /// <param name="open">The price at the open of this period.</param>
-        /// <param name="high">The highest price during this period.</param>
-        /// <param name="low">The lowest price during this period.</param>
-        /// <param name="close">The price at the close of this period.</param>
-        /// <param name="volume">The total volume during this period.</param>
-        public PricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, UInt64? volume)
+        /// <param name = "head">The beginning DateTime of this period.</param>
+        /// <param name = "tail">The ending DateTime of this period.</param>
+        /// <param name = "open">The price at the open of this period.</param>
+        /// <param name = "high">The highest price during this period.</param>
+        /// <param name = "low">The lowest price during this period.</param>
+        /// <param name = "close">The price at the close of this period.</param>
+        /// <param name = "volume">The total volume during this period.</param>
+        public PricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close,
+                           UInt64? volume)
         {
             _head = head;
             _tail = tail;
@@ -95,28 +94,28 @@ namespace Sonneville.PriceTools
         #region Serialization
 
         /// <summary>
-        /// Serialization constructor.
+        ///   Serialization constructor.
         /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
+        /// <param name = "info"></param>
+        /// <param name = "context"></param>
         protected PricePeriod(SerializationInfo info, StreamingContext context)
         {
-            _head = (DateTime)info.GetValue("Head", typeof(DateTime));
-            _tail = (DateTime)info.GetValue("Tail", typeof(DateTime));
-            _open = (decimal?)info.GetValue("Open", typeof(decimal?));
-            _high = (decimal?)info.GetValue("High", typeof(decimal?));
-            _low = (decimal?)info.GetValue("Low", typeof(decimal?));
-            _close = (decimal)info.GetValue("Close", typeof(decimal));
-            _volume = (UInt64?)info.GetValue("Volume", typeof(UInt64?));
+            _head = (DateTime) info.GetValue("Head", typeof (DateTime));
+            _tail = (DateTime) info.GetValue("Tail", typeof (DateTime));
+            _open = (decimal?) info.GetValue("Open", typeof (decimal?));
+            _high = (decimal?) info.GetValue("High", typeof (decimal?));
+            _low = (decimal?) info.GetValue("Low", typeof (decimal?));
+            _close = (decimal) info.GetValue("Close", typeof (decimal));
+            _volume = (UInt64?) info.GetValue("Volume", typeof (UInt64?));
 
             Validate(this);
         }
 
         /// <summary>
-        /// Serializes a PricePeriod object.
+        ///   Serializes a PricePeriod object.
         /// </summary>
-        /// <param name="info">SerializationInfo</param>
-        /// <param name="context">StreamingContext</param>
+        /// <param name = "info">SerializationInfo</param>
+        /// <param name = "context">StreamingContext</param>
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -132,10 +131,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Performs a binary serialization of an IPricePeriod to a <see cref="Stream"/>.
+        ///   Performs a binary serialization of an IPricePeriod to a <see cref = "Stream" />.
         /// </summary>
-        /// <param name="period">The IPricePeriod to serialize.</param>
-        /// <param name="stream">The <see cref="Stream"/> to serialize to.</param>
+        /// <param name = "period">The IPricePeriod to serialize.</param>
+        /// <param name = "stream">The <see cref = "Stream" /> to serialize to.</param>
         public static void BinarySerialize(IPricePeriod period, Stream stream)
         {
             BinaryFormatter formatter = new BinaryFormatter();
@@ -143,14 +142,14 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Performs a binary deserialization of an IPricePeriod from a <see cref="Stream"/>.
+        ///   Performs a binary deserialization of an IPricePeriod from a <see cref = "Stream" />.
         /// </summary>
-        /// <param name="stream">The <see cref="Stream"/> to deserialize from.</param>
+        /// <param name = "stream">The <see cref = "Stream" /> to deserialize from.</param>
         /// <returns>The IPricePeriod object that was deserialized.</returns>
         public static IPricePeriod BinaryDeserialize(Stream stream)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            return (IPricePeriod)formatter.Deserialize(stream);
+            return (IPricePeriod) formatter.Deserialize(stream);
         }
 
         #endregion
@@ -158,7 +157,7 @@ namespace Sonneville.PriceTools
         #region Accessors
 
         /// <summary>
-        /// Gets or sets the price at the open of this IPricePeriod.
+        ///   Gets or sets the price at the open of this IPricePeriod.
         /// </summary>
         public decimal? Open
         {
@@ -167,7 +166,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets or sets the price at the close of this IPricePeriod.
+        ///   Gets or sets the price at the close of this IPricePeriod.
         /// </summary>
         public decimal Close
         {
@@ -176,7 +175,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets or sets the highest transaction price during this IPricePeriod.
+        ///   Gets or sets the highest transaction price during this IPricePeriod.
         /// </summary>
         public decimal? High
         {
@@ -185,7 +184,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets or sets the lowest transaction price during this IPricePeriod.
+        ///   Gets or sets the lowest transaction price during this IPricePeriod.
         /// </summary>
         public decimal? Low
         {
@@ -194,7 +193,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets or sets the total volume for this IPricePeriod.
+        ///   Gets or sets the total volume for this IPricePeriod.
         /// </summary>
         public UInt64? Volume
         {
@@ -203,7 +202,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets or sets the beginning DateTime for this IPricePeriod.
+        ///   Gets or sets the beginning DateTime for this IPricePeriod.
         /// </summary>
         public DateTime Head
         {
@@ -212,7 +211,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets or sets the ending DateTime for this IPricePeriod.
+        ///   Gets or sets the ending DateTime for this IPricePeriod.
         /// </summary>
         public DateTime Tail
         {
@@ -221,7 +220,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets a TimeSpan representing the duration of this period.
+        ///   Gets a TimeSpan representing the duration of this period.
         /// </summary>
         public TimeSpan TimeSpan
         {
@@ -230,23 +229,69 @@ namespace Sonneville.PriceTools
 
         #endregion
 
+        #region IPricePeriod Members
+
         /// <summary>
-        /// Determines whether the specified <see cref="PricePeriod"/> is equal to the current <see cref="PricePeriod"/>.
+        ///   Compares the current instance with another object of the same type.
         /// </summary>
         /// <returns>
-        /// true if the specified <see cref="PricePeriod"/> is equal to the current <see cref="PricePeriod"/>; otherwise, false.
+        ///   A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name = "obj" />. Zero This instance is equal to <paramref name = "obj" />. Greater than zero This instance is greater than <paramref name = "obj" />. 
         /// </returns>
-        /// <param name="obj">The <see cref="PricePeriod"/> to compare with the current <see cref="PricePeriod"/>. </param><filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
+        /// <param name = "obj">An object to compare with this instance. </param>
+        /// <exception cref = "T:System.ArgumentException"><paramref name = "obj" /> is not the same type as this instance. </exception>
+        /// <filterpriority>2</filterpriority>
+        public int CompareTo(object obj)
         {
-            return (obj is PricePeriod) && (this == (PricePeriod)obj);
+            PricePeriod target = obj as PricePeriod;
+            if (target == null)
+            {
+                throw new InvalidOperationException("obj is not a PricePeriod.");
+            }
+            return Head.CompareTo(target.Head);
         }
 
         /// <summary>
-        /// Serves as a hash function for the PricePeriod type. 
+        ///   Validates an IPricePeriod.
+        /// </summary>
+        /// <param name = "pricePeriod">The IPricePeriod to validate.</param>
+        /// <returns>A value indicating if <paramref name = "pricePeriod" /> is valid.</returns>
+        public void Validate(PricePeriod pricePeriod)
+        {
+            List<string> errors = new List<string>();
+
+            if (pricePeriod.Head > pricePeriod.Tail)
+                errors.Add("Head must be earlier than Tail.");
+            if (pricePeriod.High < pricePeriod.Open || pricePeriod.High < pricePeriod.Low ||
+                pricePeriod.High < pricePeriod.Close)
+                errors.Add("High must be greater than or equal to the period's open, low, and close.");
+            if (pricePeriod.Low > pricePeriod.Open || pricePeriod.Low > pricePeriod.High ||
+                pricePeriod.Low > pricePeriod.Close)
+                errors.Add("Low must be less than or equal to the period's open, high, and close.");
+
+            if (errors.Count != 0)
+                throw new InvalidPricePeriodException(errors.ToString());
+        }
+
+        #endregion
+
+        /// <summary>
+        ///   Determines whether the specified <see cref = "PricePeriod" /> is equal to the current <see cref = "PricePeriod" />.
         /// </summary>
         /// <returns>
-        /// A hash code for the current <see cref="PricePeriod"/>.
+        ///   true if the specified <see cref = "PricePeriod" /> is equal to the current <see cref = "PricePeriod" />; otherwise, false.
+        /// </returns>
+        /// <param name = "obj">The <see cref = "PricePeriod" /> to compare with the current <see cref = "PricePeriod" />. </param>
+        /// <filterpriority>2</filterpriority>
+        public override bool Equals(object obj)
+        {
+            return (obj is PricePeriod) && (this == (PricePeriod) obj);
+        }
+
+        /// <summary>
+        ///   Serves as a hash function for the PricePeriod type.
+        /// </summary>
+        /// <returns>
+        ///   A hash code for the current <see cref = "PricePeriod" />.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
@@ -260,32 +305,11 @@ namespace Sonneville.PriceTools
                    ^ Volume.GetHashCode();
         }
 
-        /// <summary>
-        /// Compares the current instance with another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name="obj"/>. Zero This instance is equal to <paramref name="obj"/>. Greater than zero This instance is greater than <paramref name="obj"/>. 
-        /// </returns>
-        /// <param name="obj">An object to compare with this instance. </param><exception cref="T:System.ArgumentException"><paramref name="obj"/> is not the same type as this instance. </exception><filterpriority>2</filterpriority>
-        public int CompareTo(object obj)
-        {
-            var target = obj as PricePeriod;
-            if (target == null)
-            {
-                throw new InvalidOperationException("obj is not a PricePeriod.");
-            }
-            else
-            {
-                return Head.CompareTo(target.Head);
-            }
-        }
-
 
         ///<summary>
-        /// 
         ///</summary>
-        ///<param name="left"></param>
-        ///<param name="right"></param>
+        ///<param name = "left"></param>
+        ///<param name = "right"></param>
         ///<returns></returns>
         public static bool operator >(PricePeriod left, PricePeriod right)
         {
@@ -293,10 +317,9 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
+        /// <param name = "left"></param>
+        /// <param name = "right"></param>
         /// <returns></returns>
         public static bool operator <(PricePeriod left, PricePeriod right)
         {
@@ -304,10 +327,9 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
+        /// <param name = "left"></param>
+        /// <param name = "right"></param>
         /// <returns></returns>
         public static bool operator ==(PricePeriod left, PricePeriod right)
         {
@@ -322,10 +344,9 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
+        /// <param name = "left"></param>
+        /// <param name = "right"></param>
         /// <returns></returns>
         public static bool operator !=(PricePeriod left, PricePeriod right)
         {
@@ -333,10 +354,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="PricePeriod"/>.
+        ///   Returns a <see cref = "T:System.String" /> that represents the current <see cref = "PricePeriod" />.
         /// </summary>
         /// <returns>
-        /// A <see cref="T:System.String"/> that represents the current <see cref="PricePeriod"/>.
+        ///   A <see cref = "T:System.String" /> that represents the current <see cref = "PricePeriod" />.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override string ToString()
@@ -345,31 +366,11 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Performs validation for the PricePeriod.
+        ///   Performs validation for the PricePeriod.
         /// </summary>
         public virtual void Validate()
         {
             Validate(this);
-        }
-
-        /// <summary>
-        /// Validates an IPricePeriod.
-        /// </summary>
-        /// <param name="pricePeriod">The IPricePeriod to validate.</param>
-        /// <returns>A value indicating if <paramref name="pricePeriod"/> is valid.</returns>
-        public void Validate(PricePeriod pricePeriod)
-        {
-            List<string> errors = new List<string>();
-
-            if (pricePeriod.Head > pricePeriod.Tail)
-                errors.Add("Head must be earlier than Tail.");
-            if (pricePeriod.High < pricePeriod.Open || pricePeriod.High < pricePeriod.Low || pricePeriod.High < pricePeriod.Close)
-                errors.Add("High must be greater than or equal to the period's open, low, and close.");
-            if (pricePeriod.Low > pricePeriod.Open || pricePeriod.Low > pricePeriod.High || pricePeriod.Low > pricePeriod.Close)
-                errors.Add("Low must be less than or equal to the period's open, high, and close.");
-
-            if (errors.Count != 0)
-                throw new InvalidPricePeriodException(errors.ToString());          
         }
     }
 }

@@ -1,36 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// A trade made for a financial security. A Position must have an opening transaction, and optionally, a closing transaction.
+    ///   A trade made for a financial security. A Position is comprised of an opening transaction, and optionally, a closing transaction.
     /// </summary>
     [Serializable]
     public class Position : IPosition
     {
-        private ITransaction _open;
         private ITransaction _close;
+        private ITransaction _open;
 
         /// <summary>
-        /// Constructs a Position from an opening transaction and an optional closing transaction.
+        ///   Constructs a Position from an opening transaction and an optional closing transaction.
         /// </summary>
-        /// <param name="open">The transaction which opened this trade.
-        /// The OrderTYpe for opening transactions must be either <see cref="OrderType.Buy"/> or <see cref="OrderType.SellShort"/>.</param>
+        /// <param name = "open">The transaction which opened this trade.
+        ///   The OrderTYpe for opening transactions must be either <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" />.</param>
         public Position(ITransaction open)
             : this(open, null)
-        { }
+        {
+        }
 
         /// <summary>
-        /// Constructs a Position from an opening transaction and an optional closing transaction.
+        ///   Constructs a Position from an opening transaction and an optional closing transaction.
         /// </summary>
-        /// <param name="open">The transaction which opened this trade.
-        /// The OrderTYpe for opening transactions must be either <see cref="OrderType.Buy"/> or <see cref="OrderType.SellShort"/>.</param>
-        /// <param name="close">The optional transaction which closed this trade.
-        /// The TransactionType for closing transactions must be either <see cref="OrderType.Sell"/> or <see cref="OrderType.BuyToCover"/> and must match the <see cref="OrderType"/> of the opening transaction.</param>
+        /// <param name = "open">The transaction which opened this trade.
+        ///   The OrderTYpe for opening transactions must be either <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" />.</param>
+        /// <param name = "close">The optional transaction which closed this trade.
+        ///   The TransactionType for closing transactions must be either <see cref = "OrderType.Sell" /> or <see cref = "OrderType.BuyToCover" /> and must match the <see cref = "OrderType" /> of the opening transaction.</param>
         public Position(ITransaction open, ITransaction close)
         {
             if (open == null)
@@ -45,34 +43,13 @@ namespace Sonneville.PriceTools
 
         private Position(SerializationInfo info, StreamingContext context)
         {
-            _open = (ITransaction)info.GetValue("Open", typeof(ITransaction));
-            _close = (ITransaction)info.GetValue("Close", typeof(ITransaction));
-        }
-
-        /// <summary>
-        /// Gets or sets the opening transaction of this Position.
-        /// </summary>
-        public ITransaction Open
-        {
-            get { return _open; }
-            set { _open = value; }
-        }
-
-        /// <summary>
-        /// Gets or sets the closing transaction of this Position.
-        /// </summary>
-        public ITransaction Close
-        {
-            get { return _close; }
-            set { _close = value; }
+            _open = (ITransaction) info.GetValue("Open", typeof (ITransaction));
+            _close = (ITransaction) info.GetValue("Close", typeof (ITransaction));
         }
 
         private TimeSpan Duration
         {
-            get
-            {
-                return new TimeSpan(_close.SettlementDate.Ticks - _open.SettlementDate.Ticks);
-            }
+            get { return new TimeSpan(_close.SettlementDate.Ticks - _open.SettlementDate.Ticks); }
         }
 
         private decimal PurchaseValue
@@ -86,18 +63,83 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the raw value of the Position, not including commissions..
+        ///   Gets the raw value of the Position, not including commissions..
         /// </summary>
         public decimal RawValue
         {
+            get { return SaleValue + PurchaseValue; }
+        }
+
+        /// <summary>
+        ///   Gets the raw rate of return for this Position, not accounting for commissions.
+        /// </summary>
+        public decimal RawReturn
+        {
             get
             {
-                return SaleValue + PurchaseValue;
+                if (_close == null)
+                {
+                    throw new InvalidOperationException("Cannot calculate raw return for an open position.");
+                }
+                return 0 - decimal.Divide(RawValue, PurchaseValue);
             }
         }
 
         /// <summary>
-        /// Gets the total value of the Position, including commissions.
+        ///   Gets the total rate of return for this Position, after commissions.
+        /// </summary>
+        public decimal TotalReturn
+        {
+            get
+            {
+                if (_close == null)
+                {
+                    throw new InvalidOperationException("Cannot calculate return for an open position.");
+                }
+                return decimal.Divide(SaleValue - Close.Commission, 0 - PurchaseValue - Open.Commission) - 1.0m;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the total rate of return on an annual basis for this Position.
+        /// </summary>
+        /// <remarks>
+        ///   Assumes a year has 365 days.
+        /// </remarks>
+        public decimal TotalAnnualReturn
+        {
+            get
+            {
+                if (_close == null)
+                {
+                    throw new InvalidOperationException("Cannot calculate return for an open position.");
+                }
+                return (TimeSpan.TicksPerDay*365/Duration.Ticks)*TotalReturn;
+            }
+        }
+
+        #region IPosition Members
+
+        /// <summary>
+        ///   Gets or sets the opening transaction of this Position.
+        /// </summary>
+        public ITransaction Open
+        {
+            get { return _open; }
+            set { _open = value; }
+        }
+
+        /// <summary>
+        ///   Gets or sets the closing transaction of this Position.
+        /// </summary>
+        public ITransaction Close
+        {
+            get { return _close; }
+            set { _close = value; }
+        }
+
+        /// <summary>
+        ///   Gets the total value of the Position, including commissions.
         /// </summary>
         public decimal TotalValue
         {
@@ -114,51 +156,7 @@ namespace Sonneville.PriceTools
             }
         }
 
-        /// <summary>
-        /// Gets the raw rate of return for this Position, not accounting for commissions.
-        /// </summary>
-        public decimal RawReturn
-        {
-            get
-            {
-                if (_close == null)
-                {
-                    throw new InvalidOperationException("Cannot calculate raw return for an open position.");
-                }
-                return 0 - decimal.Divide(RawValue, PurchaseValue);
-            }
-        }
-
-        /// <summary>
-        /// Gets the total rate of return for this Position, after commissions.
-        /// </summary>
-        public decimal TotalReturn
-        {
-            get
-            {
-                if(_close == null)
-                {
-                    throw new InvalidOperationException("Cannot calculate return for an open position.");
-                }
-                return decimal.Divide(SaleValue - Close.Commission, 0 - PurchaseValue - Open.Commission) - 1.0m;
-            }
-        }
-
-        /// <summary>
-        /// Gets the total rate of return on an annual basis for this Position.
-        /// </summary>
-        /// <remarks>Assumes a year has 365 days.</remarks>
-        public decimal TotalAnnualReturn
-        {
-            get
-            {
-                if(_close == null)
-                {
-                    throw new InvalidOperationException("Cannot calculate return for an open position.");
-                }
-                return (TimeSpan.TicksPerDay*365/Duration.Ticks)*TotalReturn;
-            }
-        }
+        #endregion
 
         private void Validate()
         {

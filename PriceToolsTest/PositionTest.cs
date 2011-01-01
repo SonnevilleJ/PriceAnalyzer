@@ -1,6 +1,6 @@
-﻿using Sonneville.PriceTools;
+﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+using Sonneville.PriceTools;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -79,7 +79,7 @@ namespace Sonneville.PriceToolsTest
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
             ITransaction open = new Transaction(oDate, OrderType.Buy, ticker, oPrice, oShares, oCommission);
 
-            Position target = new Position(open);
+            IPosition target = new Position(open);
 
             // No closing transaction (still hold these shares) so Value should return negative value of purchase price minus any commissions.
             Assert.IsTrue(target.TotalValue == -507.95m);
@@ -101,7 +101,7 @@ namespace Sonneville.PriceToolsTest
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
             ITransaction close = new Transaction(cDate, OrderType.Sell, ticker, cPrice, cShares, cCommission);
 
-            Position target = new Position(open, close);
+            IPosition target = new Position(open, close);
 
             // No longer hold these shares, so Value should return total profit (or negative loss) minus any commissions.
             Assert.IsTrue(target.TotalValue == 34.1m);

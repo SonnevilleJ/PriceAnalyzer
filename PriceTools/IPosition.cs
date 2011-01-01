@@ -1,39 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Represents a position taken using one or more ITransactions.
+    ///   Represents a position taken using one or more ITransactions.
     /// </summary>
     public interface IPosition
     {
         /// <summary>
-        /// Gets or sets the ITransaction which opened this position.
+        ///   Gets or sets the ITransaction which opened this position.
         /// </summary>
-        ITransaction Open
-        {
-            get;
-            set;
-        }
+        ITransaction Open { get; set; }
 
         /// <summary>
-        /// Gets or sets the ITransaction which closed this position.
+        ///   Gets or sets the ITransaction which closed this position.
         /// </summary>
-        ITransaction Close
-        {
-            get;
-            set;
-        }
+        ITransaction Close { get; set; }
 
         /// <summary>
-        /// Gets the total value of this position, after commissions.
+        ///   Gets the total value of this position, after commissions.
         /// </summary>
-        decimal TotalValue
-        {
-            get;
-        }
+        decimal TotalValue { get; }
     }
 }

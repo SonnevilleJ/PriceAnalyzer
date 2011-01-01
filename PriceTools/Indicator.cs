@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
-using System.Text;
 
 namespace Sonneville.PriceTools
 {
@@ -78,14 +76,7 @@ namespace Sonneville.PriceTools
             get
             {
                 decimal value;
-                if (_dictionary.TryGetValue(index, out value))
-                {
-                    return value;
-                }
-                else
-                {
-                    return Calculate(index);
-                }
+                return _dictionary.TryGetValue(index, out value) ? value : Calculate(index);
             }
         }
 
@@ -101,7 +92,7 @@ namespace Sonneville.PriceTools
         /// Gets the range of this Indicator.
         /// </summary>
         /// <example>A 50-period MovingAverage has a Range of 50.</example>
-        public virtual int Range
+        public int Range
         {
             get { return _range; }
         }
