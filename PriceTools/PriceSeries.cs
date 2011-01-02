@@ -16,7 +16,11 @@ namespace Sonneville.PriceTools
     [Serializable]
     public class PriceSeries : PricePeriod, IPriceSeries
     {
-        private List<PricePeriod> _periods;
+        #region Private Members
+
+        private readonly List<PricePeriod> _periods;
+
+        #endregion
 
         #region Constructors
 

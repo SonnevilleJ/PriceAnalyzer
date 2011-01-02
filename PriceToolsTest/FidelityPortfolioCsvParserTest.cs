@@ -72,7 +72,7 @@ namespace Sonneville.PriceToolsTest
         public void ParsePortfolioTest()
         {
             Stream csvStream = new MemoryStream(TestData.FidelityTransactions);
-            FidelityPortfolioCsvParser target = new FidelityPortfolioCsvParser(csvStream);
+            FidelityTransactionHistoryCsvParser target = new FidelityTransactionHistoryCsvParser(csvStream);
             const decimal expected = 2848.4m;
             decimal actual = target.ParsePortfolio().GetValue(new DateTime(2010, 09, 13));
             Assert.AreEqual(expected, actual);

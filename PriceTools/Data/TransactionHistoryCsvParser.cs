@@ -8,9 +8,9 @@ using LumenWorks.Framework.IO.Csv;
 namespace Sonneville.PriceTools.Data
 {
     /// <summary>
-    ///   Parses an <see cref = "IPortfolio" /> from CSV data for a single investment portfolio.
+    ///   Parses a single <see cref = "IPortfolio" /> from CSV data for an investment portfolio.
     /// </summary>
-    public abstract class PortfolioCsvParser : IDisposable
+    public abstract class TransactionHistoryCsvParser : IDisposable
     {
         #region Private Members
 
@@ -27,7 +27,7 @@ namespace Sonneville.PriceTools.Data
 
         #region Constructors
 
-        protected PortfolioCsvParser(Stream csvStream)
+        protected TransactionHistoryCsvParser(Stream csvStream)
         {
             if (csvStream == null)
             {
@@ -39,7 +39,7 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         ///   Allows an <see cref = "T:System.Object" /> to attempt to free resources and perform other cleanup operations before the <see cref = "T:System.Object" /> is reclaimed by garbage collection.
         /// </summary>
-        ~PortfolioCsvParser()
+        ~TransactionHistoryCsvParser()
         {
             Dispose(false);
         }
@@ -199,19 +199,57 @@ namespace Sonneville.PriceTools.Data
             {
                 while (reader.ReadNextRecord())
                 {
+                    OrderType orderType = ParseOrderTypeColumn(reader[_map[TransactionColumns.OrderType]]);
                     DataRow row = table.NewRow();
                     row.BeginEdit();
-                    row[_dateColumn] = reader[_map[TransactionColumns.Date]];
-                    row[_orderColumn] = reader[_map[TransactionColumns.OrderType]];
-                    row[_symbolColumn] = reader[_map[TransactionColumns.Symbol]];
-                    row[_sharesColumn] = reader[_map[TransactionColumns.Shares]];
-                    row[_priceColumn] = reader[_map[TransactionColumns.PerSharePrice]];
-                    row[_commissionColumn] = reader[_map[TransactionColumns.Commission]];
+                    row[_dateColumn] = ParseDateColumn(reader[_map[TransactionColumns.Date]]);
+                    row[_orderColumn] = orderType;
+                    switch(orderType)
+                    {
+                        case OrderType.Buy:
+                        case OrderType.Sell:
+                            row[_symbolColumn] = ParseSymbolColumn(reader[_map[TransactionColumns.Symbol]]);
+                            row[_sharesColumn] = ParseSharesColumn(reader[_map[TransactionColumns.Shares]]);
+                            row[_priceColumn] = ParsePriceColumn(reader[_map[TransactionColumns.PerSharePrice]]);
+                            row[_commissionColumn] = ParseCommissionsColumn(reader[_map[TransactionColumns.Commission]]);
+                            break;
+                    }
                     row.EndEdit();
                 }
 
                 return table;
             }
+        }
+
+        #endregion
+
+        #region Abstract/Virtual Methods
+
+        protected virtual DateTime ParseDateColumn(string text)
+        {
+            return DateTime.Parse(text.Trim());
+        }
+
+        protected abstract OrderType ParseOrderTypeColumn(string text);
+
+        protected virtual string ParseSymbolColumn(string text)
+        {
+            return text.Trim().ToUpperInvariant();
+        }
+
+        protected virtual double ParseSharesColumn(string text)
+        {
+            return text.Trim().Length != 0 ? Math.Abs(double.Parse(text)) : 0.0;
+        }
+
+        protected virtual decimal ParsePriceColumn(string text)
+        {
+            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text)) : 0.0m;
+        }
+
+        protected virtual decimal ParseCommissionsColumn(string text)
+        {
+            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text)) : 0.0m;
         }
 
         #endregion

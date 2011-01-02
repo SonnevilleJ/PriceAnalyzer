@@ -40,9 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\FidelityDataManager.cs" />
-    <Compile Include="Data\FidelityPortfolioCsvParser.cs" />
-    <Compile Include="Data\PortfolioCsvParser.cs" />
+    <Compile Include="Data\FidelityTransactionHistoryCsvParser.cs" />
+    <Compile Include="Data\TransactionHistoryCsvParser.cs" />
     <Compile Include="Data\PriceSeriesProvider.cs" />
     <Compile Include="Data\PriceColumns.cs" />
     <Compile Include="Data\TransactionColumns.cs" />

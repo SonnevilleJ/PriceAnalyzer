@@ -6,17 +6,32 @@
     public enum OrderType
     {
         /// <summary>
-        ///   A BUY transaction.
+        ///   A cash deposit.
+        /// </summary>
+        Deposit,
+
+        /// <summary>
+        ///   A cash withdrawal.
+        /// </summary>
+        Withdrwawal,
+
+        /// <summary>
+        ///   A cash dividend was received.
+        /// </summary>
+        Dividend,
+
+        /// <summary>
+        ///   A buy transaction or a new investment.
         /// </summary>
         Buy,
 
         /// <summary>
-        ///   A SELL transaction.
+        ///   A sell transaction.
         /// </summary>
         Sell,
 
         /// <summary>
-        ///   A BUY transaction used to cover a SHORTSELL.
+        ///   A buy transaction used to cover a <see cref="OrderType.SellShort"/> order.
         /// </summary>
         BuyToCover,
 
