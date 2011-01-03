@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools
         {
         }
 
-        #region Overrides of Deposit
+        #region Overrides of CashOrderBase
 
         /// <summary>
         ///   Gets the <see cref = "ITransaction.OrderType" /> of this <see cref="ITransaction"/>.
