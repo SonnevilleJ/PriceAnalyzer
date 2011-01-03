@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a cash deposit to an <see cref="IPortfolio"/>.
     /// </summary>
-    public class Deposit : CashOrder
+    public class Deposit : CashOrderBase
     {
         /// <summary>
         /// Constructs a Deposit.

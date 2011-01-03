@@ -48,7 +48,7 @@
     <Compile Include="Data\TransactionColumns.cs" />
     <Compile Include="Data\YahooDataManager.cs" />
     <Compile Include="Data\YahooPriceSeriesProvider.cs" />
-    <Compile Include="CashOrder.cs" />
+    <Compile Include="CashOrderBase.cs" />
     <Compile Include="Deposit.cs" />
     <Compile Include="Internal\DualIndexedCollection.cs" />
     <Compile Include="Indicator.cs" />

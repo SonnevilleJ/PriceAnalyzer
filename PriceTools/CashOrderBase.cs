@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a cash order (<see cref="Deposit"/> or <see cref="Withdrawal"/>) for an <see cref="IPortfolio"/>.
     /// </summary>
-    public abstract class CashOrder : ITransaction
+    public abstract class CashOrderBase : ITransaction
     {
         #region Private Members
 
@@ -18,21 +18,21 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         /// <summary>
-        /// Constructs a CashOrder.
+        /// Constructs a CashOrderBase.
         /// </summary>
-        /// <param name="dateTime">The DateTime of the CashOrder.</param>
+        /// <param name="dateTime">The DateTime of the CashOrderBase.</param>
         /// <param name="amount">The amount of cash in this order.</param>
-        protected internal CashOrder(DateTime dateTime, decimal amount)
+        protected internal CashOrderBase(DateTime dateTime, decimal amount)
             : this(dateTime, string.Empty, amount)
         {}
 
         /// <summary>
-        /// Constructs a CashOrder.
+        /// Constructs a CashOrderBase.
         /// </summary>
-        /// <param name="dateTime">The DateTime of the CashOrder.</param>
+        /// <param name="dateTime">The DateTime of the CashOrderBase.</param>
         /// <param name="ticker">The holding which cash is deposited to or withdrawn from.</param>
         /// <param name="amount">The amount of cash in this order.</param>
-        protected internal CashOrder(DateTime dateTime, string ticker, decimal amount)
+        protected internal CashOrderBase(DateTime dateTime, string ticker, decimal amount)
         {
             _date = dateTime;
             _ticker = ticker;

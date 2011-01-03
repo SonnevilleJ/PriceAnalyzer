@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a cash withdrawal from an <see cref="IPortfolio"/>.
     /// </summary>
-    public sealed class Withdrawal : CashOrder
+    public sealed class Withdrawal : CashOrderBase
     {
         /// <summary>
         /// Constructs a Withdrawal.
@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools
         {
         }
 
-        #region Overrides of CashOrder
+        #region Overrides of CashOrderBase
 
         /// <summary>
         ///   Gets the <see cref = "ITransaction.OrderType" /> of this <see cref="ITransaction"/>.
