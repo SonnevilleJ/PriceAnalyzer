@@ -23,6 +23,14 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         /// <summary>
+        /// Constructs an empty Portfolio.
+        /// </summary>
+        public Portfolio()
+            : this(0.00m)
+        {
+        }
+
+        /// <summary>
         /// Constructs a Portfolio with only an opening deposit.
         /// </summary>
         /// <param name="openingDeposit">The amount deposited when opening the Portfolio.</param>

@@ -231,7 +231,7 @@ namespace Sonneville.PriceTools.Data
 
         private IPortfolio ParseDataTableToIPortfolio(DataTable table)
         {
-            IPortfolio portfolio = new Portfolio(0.00m);
+            IPortfolio portfolio = new Portfolio();
             foreach(DataRow row in table.Rows)
             {
                 ITransaction transaction = null;
