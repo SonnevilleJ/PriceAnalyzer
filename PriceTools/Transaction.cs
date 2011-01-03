@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Sonneville.PriceTools
 {
@@ -59,12 +56,19 @@ namespace Sonneville.PriceTools
         public Transaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
         {
             _date = date;
-            _type = type;
+            if(type == OrderType.Deposit || type == OrderType.Withdrwawal)
+            {
+                throw new ArgumentOutOfRangeException("type", type, "Deposits and Withdrawals must use Deposit or Withdrawal instead of Transaction.");
+            }
+            else
+            {
+                _type = type;
+            }
             _ticker = ticker;
 
             if (shares < 0)
             {
-                throw new ArgumentOutOfRangeException("shares", "Shares must be greater than or equal to 0.00");
+                throw new ArgumentOutOfRangeException("shares", shares, "Shares must be greater than or equal to 0.00");
             }
             else
             {
@@ -73,7 +77,7 @@ namespace Sonneville.PriceTools
 
             if(price < 0.00m)
             {
-                throw new ArgumentOutOfRangeException("price", "Price must be greater than or equal to 0.00");
+                throw new ArgumentOutOfRangeException("price", price, "Price must be greater than or equal to 0.00");
             }
             else
             {
@@ -82,7 +86,7 @@ namespace Sonneville.PriceTools
 
             if(commission < 0.00m)
             {
-                throw new ArgumentOutOfRangeException("commission", "Commission must be greater than or equal to 0.00");
+                throw new ArgumentOutOfRangeException("commission", commission, "Commission must be greater than or equal to 0.00");
             }
             else
             {

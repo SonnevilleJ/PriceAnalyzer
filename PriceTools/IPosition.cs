@@ -8,12 +8,12 @@
         /// <summary>
         ///   Gets or sets the ITransaction which opened this position.
         /// </summary>
-        ITransaction Open { get; set; }
+        ITransaction OpeningTransaction { get; set; }
 
         /// <summary>
         ///   Gets or sets the ITransaction which closed this position.
         /// </summary>
-        ITransaction Close { get; set; }
+        ITransaction ClosingTransaction { get; set; }
 
         /// <summary>
         ///   Gets the total value of this position, after commissions.

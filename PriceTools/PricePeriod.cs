@@ -102,10 +102,10 @@ namespace Sonneville.PriceTools
         {
             _head = (DateTime) info.GetValue("Head", typeof (DateTime));
             _tail = (DateTime) info.GetValue("Tail", typeof (DateTime));
-            _open = (decimal?) info.GetValue("Open", typeof (decimal?));
+            _open = (decimal?) info.GetValue("OpeningTransaction", typeof (decimal?));
             _high = (decimal?) info.GetValue("High", typeof (decimal?));
             _low = (decimal?) info.GetValue("Low", typeof (decimal?));
-            _close = (decimal) info.GetValue("Close", typeof (decimal));
+            _close = (decimal) info.GetValue("ClosingTransaction", typeof (decimal));
             _volume = (UInt64?) info.GetValue("Volume", typeof (UInt64?));
 
             Validate(this);
@@ -121,10 +121,10 @@ namespace Sonneville.PriceTools
         {
             info.AddValue("Head", _head);
             info.AddValue("Tail", _tail);
-            info.AddValue("Open", _open);
+            info.AddValue("OpeningTransaction", _open);
             info.AddValue("High", _high);
             info.AddValue("Low", _low);
-            info.AddValue("Close", _close);
+            info.AddValue("ClosingTransaction", _close);
             info.AddValue("Volume", _volume);
 
             Validate(this);

@@ -9,57 +9,57 @@ namespace Sonneville.PriceTools
     [Serializable]
     public class Position : IPosition
     {
-        private ITransaction _close;
-        private ITransaction _open;
+        private ITransaction _closingTransaction;
+        private ITransaction _openingTransaction;
 
         /// <summary>
         ///   Constructs a Position from an opening transaction and an optional closing transaction.
         /// </summary>
-        /// <param name = "open">The transaction which opened this trade.
+        /// <param name = "openingTransaction">The transaction which opened this trade.
         ///   The OrderTYpe for opening transactions must be either <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" />.</param>
-        public Position(ITransaction open)
-            : this(open, null)
+        public Position(ITransaction openingTransaction)
+            : this(openingTransaction, null)
         {
         }
 
         /// <summary>
         ///   Constructs a Position from an opening transaction and an optional closing transaction.
         /// </summary>
-        /// <param name = "open">The transaction which opened this trade.
+        /// <param name = "openingTransaction">The transaction which opened this trade.
         ///   The OrderTYpe for opening transactions must be either <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" />.</param>
-        /// <param name = "close">The optional transaction which closed this trade.
+        /// <param name = "closingTransaction">The optional transaction which closed this trade.
         ///   The TransactionType for closing transactions must be either <see cref = "OrderType.Sell" /> or <see cref = "OrderType.BuyToCover" /> and must match the <see cref = "OrderType" /> of the opening transaction.</param>
-        public Position(ITransaction open, ITransaction close)
+        public Position(ITransaction openingTransaction, ITransaction closingTransaction)
         {
-            if (open == null)
+            if (openingTransaction == null)
             {
-                throw new ArgumentNullException("open", "Opening ITransaction cannot be null.");
+                throw new ArgumentNullException("openingTransaction", "Opening ITransaction cannot be null.");
             }
-            _open = open;
-            _close = close;
+            _openingTransaction = openingTransaction;
+            _closingTransaction = closingTransaction;
 
             Validate();
         }
 
         private Position(SerializationInfo info, StreamingContext context)
         {
-            _open = (ITransaction) info.GetValue("Open", typeof (ITransaction));
-            _close = (ITransaction) info.GetValue("Close", typeof (ITransaction));
+            _openingTransaction = (ITransaction) info.GetValue("OpeningTransaction", typeof (ITransaction));
+            _closingTransaction = (ITransaction) info.GetValue("ClosingTransaction", typeof (ITransaction));
         }
 
         private TimeSpan Duration
         {
-            get { return new TimeSpan(_close.SettlementDate.Ticks - _open.SettlementDate.Ticks); }
+            get { return new TimeSpan(_closingTransaction.SettlementDate.Ticks - _openingTransaction.SettlementDate.Ticks); }
         }
 
         private decimal PurchaseValue
         {
-            get { return 0 - (_open.Price*(decimal) _open.Shares); }
+            get { return 0 - (_openingTransaction.Price*(decimal) _openingTransaction.Shares); }
         }
 
         private decimal SaleValue
         {
-            get { return _close == null ? 0 : (_close.Price*(decimal) _close.Shares); }
+            get { return _closingTransaction == null ? 0 : (_closingTransaction.Price*(decimal) _closingTransaction.Shares); }
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                if (_close == null)
+                if (_closingTransaction == null)
                 {
                     throw new InvalidOperationException("Cannot calculate raw return for an open position.");
                 }
@@ -92,11 +92,11 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                if (_close == null)
+                if (_closingTransaction == null)
                 {
                     throw new InvalidOperationException("Cannot calculate return for an open position.");
                 }
-                return decimal.Divide(SaleValue - Close.Commission, 0 - PurchaseValue - Open.Commission) - 1.0m;
+                return decimal.Divide(SaleValue - ClosingTransaction.Commission, 0 - PurchaseValue - OpeningTransaction.Commission) - 1.0m;
             }
         }
 
@@ -110,7 +110,7 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                if (_close == null)
+                if (_closingTransaction == null)
                 {
                     throw new InvalidOperationException("Cannot calculate return for an open position.");
                 }
@@ -123,19 +123,19 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets or sets the opening transaction of this Position.
         /// </summary>
-        public ITransaction Open
+        public ITransaction OpeningTransaction
         {
-            get { return _open; }
-            set { _open = value; }
+            get { return _openingTransaction; }
+            set { _openingTransaction = value; }
         }
 
         /// <summary>
         ///   Gets or sets the closing transaction of this Position.
         /// </summary>
-        public ITransaction Close
+        public ITransaction ClosingTransaction
         {
-            get { return _close; }
-            set { _close = value; }
+            get { return _closingTransaction; }
+            set { _closingTransaction = value; }
         }
 
         /// <summary>
@@ -145,13 +145,13 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                if (_close != null)
+                if (_closingTransaction != null)
                 {
-                    return (SaleValue - Close.Commission) + (PurchaseValue - Open.Commission);
+                    return (SaleValue - ClosingTransaction.Commission) + (PurchaseValue - OpeningTransaction.Commission);
                 }
                 else
                 {
-                    return PurchaseValue - Open.Commission;
+                    return PurchaseValue - OpeningTransaction.Commission;
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace Sonneville.PriceTools
 
         private void Validate()
         {
-            switch (_open.OrderType)
+            switch (_openingTransaction.OrderType)
             {
                 case OrderType.Buy:
                 case OrderType.SellShort:
@@ -169,23 +169,23 @@ namespace Sonneville.PriceTools
                     // Not an opening transaction
                     throw new InvalidPositionException("Opening transaction must be of type Buy or SellShort.");
             }
-            if (_close == null)
+            if (_closingTransaction == null)
             {
                 // Not much to validate with a position that's still open.
             }
             else
             {
                 bool mismatch = true;
-                switch (_open.OrderType)
+                switch (_openingTransaction.OrderType)
                 {
                     case OrderType.Buy:
-                        if (_close.OrderType == OrderType.Sell)
+                        if (_closingTransaction.OrderType == OrderType.Sell)
                         {
                             mismatch = false;
                         }
                         break;
                     case OrderType.SellShort:
-                        if (_close.OrderType == OrderType.BuyToCover)
+                        if (_closingTransaction.OrderType == OrderType.BuyToCover)
                         {
                             mismatch = false;
                         }
@@ -195,12 +195,12 @@ namespace Sonneville.PriceTools
                 {
                     throw new InvalidPositionException("Transaction types must match.");
                 }
-                if (_close.SettlementDate < _open.SettlementDate)
+                if (_closingTransaction.SettlementDate < _openingTransaction.SettlementDate)
                 {
                     throw new InvalidPositionException(
                         "Closing transaction date must occur after opening transaction date.");
                 }
-                if (_close.Shares > _open.Shares)
+                if (_closingTransaction.Shares > _openingTransaction.Shares)
                 {
                     throw new InvalidPositionException(
                         "Shares traded in closing transaction must be less than or equal to shares traded in opening transaction.");

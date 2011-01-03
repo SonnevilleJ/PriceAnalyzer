@@ -14,6 +14,11 @@ namespace Sonneville.PriceTools
         IList<IPosition> OpenPositions { get; }
 
         /// <summary>
+        ///   Gets the amount of uninvested cash in this Portfolio.
+        /// </summary>
+        decimal AvailableCash { get; }
+
+        /// <summary>
         ///   Gets the current total value of this Portfolio.
         /// </summary>
         decimal GetValue();
@@ -24,5 +29,11 @@ namespace Sonneville.PriceTools
         /// <param name = "asOfDate">The <see cref = "DateTime" /> of which the value should be retrieved.</param>
         /// <returns>The total value of this Portfolio as of the given <see cref = "DateTime" />.</returns>
         decimal GetValue(DateTime asOfDate);
+
+        /// <summary>
+        ///   Adds an <see cref="ITransaction"/> to this portfolio.
+        /// </summary>
+        /// <param name="transaction">The <see cref="ITransaction"/> to add to this portfolio.</param>
+        void AddTransaction(ITransaction transaction);
     }
 }
