@@ -9,8 +9,12 @@ namespace Sonneville.PriceTools.Internal
     [Serializable]
     internal class DualIndexedCollection<T> : ICollection<T>, ISerializable
     {
-        private ICollection _collection;
-        private ICollection _map;
+        #region Private Members
+        
+        private readonly ICollection _collection;
+        private readonly ICollection _map;
+
+        #endregion
 
         #region Constructors
 
@@ -157,6 +161,12 @@ namespace Sonneville.PriceTools.Internal
 
         #region Implementation of ISerializable
 
+        protected DualIndexedCollection(SerializationInfo info, StreamingContext context)
+        {
+            _collection = (ICollection) info.GetValue("Collection", typeof (ICollection));
+            _map = (ICollection) info.GetValue("Map", typeof (ICollection));
+        }
+
         /// <summary>
         ///   Populates a <see cref = "T:System.Runtime.Serialization.SerializationInfo" /> with the data needed to serialize the target object.
         /// </summary>
@@ -165,7 +175,8 @@ namespace Sonneville.PriceTools.Internal
         /// <exception cref = "T:System.Security.SecurityException">The caller does not have the required permission. </exception>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            throw new NotImplementedException();
+            info.AddValue("Collection", _collection, typeof (ICollection));
+            info.AddValue("Map", _map, typeof (ICollection));
         }
 
         #endregion
