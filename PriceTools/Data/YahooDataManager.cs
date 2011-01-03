@@ -5,8 +5,13 @@
     /// </summary>
     public static class YahooDataManager
     {
-        private static YahooPriceSeriesProvider _priceParser;
-        private static bool _isInitialized;
+        #region Private Members
+
+        private static readonly YahooPriceSeriesProvider _priceParser = new YahooPriceSeriesProvider();
+
+        #endregion
+
+        #region Public Members
 
         /// <summary>
         /// Gets the <see cref="PriceSeriesProvider"/> for Yahoo data files.
@@ -15,19 +20,10 @@
         {
             get
             {
-                if (!_isInitialized)
-                {
-                    Initialize();
-                }
                 return _priceParser;
             }
         }
 
-        private static void Initialize()
-        {
-            _priceParser = new YahooPriceSeriesProvider();
-            _isInitialized = true;
-
-        }
+        #endregion
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Security.Permissions;
+using Sonneville.PriceTools.Internal;
 
 namespace Sonneville.PriceTools
 {
@@ -13,10 +14,10 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private ITimeSeries _timeSeries;
+        private readonly DualIndexedCollection<decimal> _values;
+        private readonly ITimeSeries _timeSeries;
         private readonly Int32 _range;
-        private IDictionary<int, decimal> _dictionary;
-        private readonly object _padlock;
+        private readonly object _padlock = new object();
 
         #endregion
 
@@ -29,10 +30,9 @@ namespace Sonneville.PriceTools
         /// <param name="range">The range used by this indicator.</param>
         protected Indicator(ITimeSeries timeSeries, int range)
         {
-            TimeSeries = timeSeries;
-            _dictionary = new Dictionary<int, decimal>(timeSeries.Span - range);
+            _timeSeries = timeSeries;
+            _values = new DualIndexedCollection<decimal>(timeSeries.Span - range);
             _range = range;
-            _padlock = new object();
         }
 
         #endregion
@@ -73,11 +73,19 @@ namespace Sonneville.PriceTools
         /// <returns>The value at the given index.</returns>
         public virtual decimal this[int index]
         {
-            get
-            {
-                decimal value;
-                return _dictionary.TryGetValue(index, out value) ? value : Calculate(index);
-            }
+            get { return _values[index]; }
+            protected set { _values[index] = value; }
+        }
+
+        /// <summary>
+        /// Gets a value stored at a given DateTime index of the ITimeSeries.
+        /// </summary>
+        /// <param name="index">The DateTime of the desired value.</param>
+        /// <returns>THe value of the ITimeSeries as of the given DateTime.</returns>
+        public virtual decimal this[DateTime index]
+        {
+            get { return _values[index]; }
+            protected set { _values[index] = value; }
         }
 
         /// <summary>
@@ -85,7 +93,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual int Span
         {
-            get { return _dictionary.Count; }
+            get { return _values.Count; }
         }
 
         /// <summary>
@@ -98,21 +106,11 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// The IDictionary used to store the values of this Indicator.
-        /// </summary>
-        protected IDictionary<int, decimal> Dictionary
-        {
-            get { return _dictionary; }
-            private set { _dictionary = value; }
-        }
-
-        /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
         /// </summary>
         protected ITimeSeries TimeSeries
         {
             get { return _timeSeries; }
-            set { _timeSeries = value; }
         }
 
         /// <summary>
@@ -134,10 +132,9 @@ namespace Sonneville.PriceTools
         /// <param name="context"></param>
         protected Indicator(SerializationInfo info, StreamingContext context)
         {
-            _dictionary = (IDictionary<int, decimal>) info.GetValue("Dictionary", typeof (IDictionary<int, decimal>));
-            TimeSeries = (ITimeSeries) info.GetValue("TimeSeries", typeof (ITimeSeries));
+            _values = (DualIndexedCollection<decimal>) info.GetValue("Dictionary", typeof (DualIndexedCollection<decimal>));
+            _timeSeries = (ITimeSeries) info.GetValue("TimeSeries", typeof (ITimeSeries));
             _range = (Int32) info.GetValue("Range", typeof (Int32));
-            _padlock = new object();
         }
 
         /// <summary>
@@ -148,9 +145,9 @@ namespace Sonneville.PriceTools
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Dictionary", _dictionary);
-            info.AddValue("TimeSeries", TimeSeries);
-            info.AddValue("Range", _range);
+            info.AddValue("Collection", _values, typeof (DualIndexedCollection<decimal>));
+            info.AddValue("TimeSeries", TimeSeries, typeof (ITimeSeries));
+            info.AddValue("Range", _range, typeof (int));
         }
 
         #endregion

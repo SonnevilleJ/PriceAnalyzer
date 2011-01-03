@@ -138,18 +138,35 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets an IPricePeriod within this PriceSeries.
+        ///   Gets the price within this PriceSeries.
         /// </summary>
         /// <param name = "index">The index of the IPricePeriod to retrieve.</param>
         /// <returns>The IPricePeriod at <para>index</para>.</returns>
-        public IPricePeriod this[int index]
-        {
-            get { return _periods[index]; }
-        }
-
-        decimal ITimeSeries.this[int index]
+        public decimal this[int index]
         {
             get { return _periods[index].Close; }
+        }
+
+        /// <summary>
+        /// Gets a value stored at a given DateTime index of the ITimeSeries.
+        /// </summary>
+        /// <param name="index">The DateTime of the desired value.</param>
+        /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
+        decimal ITimeSeries.this[DateTime index]
+        {
+            get { return ((IPriceSeries)this)[index].Close; }
+        }
+
+        public IPricePeriod this[DateTime index]
+        {
+            get
+            {
+                foreach (PricePeriod period in Periods.Where(period => period.Head <= index && period.Tail >= index))
+                {
+                    return period;
+                }
+                throw new ArgumentOutOfRangeException("index", index, String.Format("DateTime {0} was not found in this PriceSeries.", index));
+            }
         }
 
         /// <summary>

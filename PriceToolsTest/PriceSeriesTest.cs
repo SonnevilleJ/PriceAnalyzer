@@ -129,15 +129,17 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void PriceSeriesSortTest()
         {
-            IPricePeriod p1, p2, p3;
-            p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
-            p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
-            p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
+            DateTime d1 = DateTime.Parse("1/1/2010");
+            DateTime d2 = DateTime.Parse("1/2/2010");
+            DateTime d3 = DateTime.Parse("1/3/2010");
+            IPricePeriod p1 = new PricePeriod(d1, d1, 10, 12, 10, 11, 50);
+            IPricePeriod p2 = new PricePeriod(d2, d2, 11, 13, 10, 13, 60);
+            IPricePeriod p3 = new PricePeriod(d3, d3, 13, 14, 9, 11, 80);
 
             IPriceSeries period = new PriceSeries(p3, p1, p2);
-            Assert.IsTrue(period[0] == p1);
-            Assert.IsTrue(period[1] == p2);
-            Assert.IsTrue(period[2] == p3);
+            Assert.IsTrue(period[d1] == p1);
+            Assert.IsTrue(period[d2] == p2);
+            Assert.IsTrue(period[d3] == p3);
         }
     }
 }

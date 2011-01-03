@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace Sonneville.PriceTools
 {
@@ -30,6 +31,6 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="index">The index of the IPricePeriod to retrieve.</param>
         /// <returns>The IPricePeriod stored at the given index.</returns>
-        new IPricePeriod this[int index] { get; }
+        new IPricePeriod this[DateTime index] { get; }
     }
 }

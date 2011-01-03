@@ -12,7 +12,10 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private IList<ITransaction> _transactions;
+        private IList<Deposit> _deposits = new List<Deposit>();
+        private IList<Withdrawal> _withdrawals = new List<Withdrawal>();
+        private IList<ITransaction> _buys = new List<ITransaction>();
+        private IList<ITransaction> _sells = new List<ITransaction>();
         private decimal _availableCash;
 
         #endregion
@@ -33,14 +36,17 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="availableCash"></param>
         /// <param name="transactions"></param>
-        public Portfolio(decimal availableCash, IList<ITransaction> transactions)
+        public Portfolio(decimal availableCash, IEnumerable<ITransaction> transactions)
         {
             if(availableCash < 0)
             {
                 throw new ArgumentOutOfRangeException("availableCash", availableCash, "Cash must be greater than or equal to $0.00");
             }
             _availableCash = availableCash;
-            _transactions = transactions;
+            foreach (ITransaction transaction in transactions)
+            {
+                AddTransaction(transaction);
+            }
         }
 
         #endregion
@@ -71,6 +77,16 @@ namespace Sonneville.PriceTools
         /// <param name="index">The index of the desired value.</param>
         /// <returns>The value stored at the given index.</returns>
         public decimal this[int index]
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
+        /// Gets a value stored at a given index of the ITimeSeries.
+        /// </summary>
+        /// <param name="index">The index of the desired value.</param>
+        /// <returns>The value stored at the given index.</returns>
+        public decimal this[DateTime index]
         {
             get { throw new NotImplementedException(); }
         }

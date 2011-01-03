@@ -82,12 +82,10 @@ namespace Sonneville.PriceTools
                     }
                     lock (Padlock)
                     {
-                        return Dictionary[index] = sum/Range;
+                        return this[index] = sum/Range;
                     }
-                case MovingAverageMethod.Exponential:
-                    throw new NotImplementedException();
                 default:
-                    throw new InvalidOperationException();
+                    throw new NotImplementedException();
             }
         }
     }
