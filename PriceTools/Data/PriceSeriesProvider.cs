@@ -67,26 +67,99 @@ namespace Sonneville.PriceTools.Data
 
         #region File Headers
 
+        /// <summary>
+        /// Represents the string qualifier used in the Date column header.
+        /// </summary>
         protected abstract string DateHeader { get; }
+
+        /// <summary>
+        /// Represents the string qualifier used in the Opening Price column header.
+        /// </summary>
         protected abstract string OpenHeader { get; }
+
+        /// <summary>
+        /// Represents the string qualifier used in the High Price column header.
+        /// </summary>
         protected abstract string HighHeader { get; }
+
+        /// <summary>
+        /// Represents the string qualifier used in the Low Price column header.
+        /// </summary>
         protected abstract string LowHeader { get; }
+
+        /// <summary>
+        /// Represents the string qualifier used in the Closing Price column header.
+        /// </summary>
         protected abstract string CloseHeader { get; }
+
+        /// <summary>
+        /// Represents the string qualifier used in the Volume column header.
+        /// </summary>
         protected abstract string VolumeHeader { get; }
-        protected abstract string DividendsHeader { get; }
+
+        /// <summary>
+        /// Represents the string qualifier used in the Dividend Amount column header.
+        /// </summary>
+        protected abstract string DividendHeader { get; }
 
         #endregion
 
         #region URL Management
 
+        /// <summary>
+        /// Gets the base component of the URL used to retrieve the price history.
+        /// </summary>
+        /// <returns>A URL scheme, host, path, and miscellaneous query string.</returns>
         protected abstract string GetUrlBase();
+
+        /// <summary>
+        /// Gets the ticker symbol component of the URL query string used to retrieve the price history.
+        /// </summary>
+        /// <param name="symbol">The ticker symbol to retrieve.</param>
+        /// <returns>A partial URL query string containing the given ticker symbol.</returns>
         protected abstract string GetUrlTicker(string symbol);
+
+        /// <summary>
+        /// Gets the beginning date component of the URL query string used to retrieve the price history.
+        /// </summary>
+        /// <param name="head">The first period for which to request price history.</param>
+        /// <returns>A partial URL query string containing the given beginning date.</returns>
         protected abstract string GetUrlHeadDate(DateTime head);
+
+        /// <summary>
+        /// Gets the ending date component of the URL query string used to retrieve the price history.
+        /// </summary>
+        /// <param name="tail">The last period for which to request price history.</param>
+        /// <returns>A partial URL query string containing the given ending date.</returns>
         protected abstract string GetUrlTailDate(DateTime tail);
+
+        /// <summary>
+        /// Gets the <see cref="PriceSeriesResolution"/> component of the URL query string used to retrieve price history.
+        /// </summary>
+        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> to request.</param>
+        /// <returns>A partial URL query string containing a marker which requests the given <see cref="PriceSeriesResolution"/>.</returns>
         protected abstract string GetUrlResolution(PriceSeriesResolution resolution);
+
+        /// <summary>
+        /// Gets the dividend component of the URL query string used to retrieve the price history.
+        /// </summary>
+        /// <returns>A partial URL query string containing a marker which requests dividend data.</returns>
         protected abstract string GetUrlDividends();
+
+        /// <summary>
+        /// Gets the CSV marker component of the URL query string used to retrieve the price history.
+        /// </summary>
+        /// <returns>A partial URL qery string containing a marker which requests CSV data.</returns>
         protected abstract string GetUrlCsvMarker();
 
+        /// <summary>
+        /// Builds the entire URL used to retrieve the price history.
+        /// </summary>
+        /// <param name="head">The first period in the requested price history period.</param>
+        /// <param name="tail">The last period in the requested price history period.</param>
+        /// <param name="symbol">The ticker symbol for which to request price history.</param>
+        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> of the price history to request.</param>
+        /// <returns>A fully formed URL that will return the requested price history.</returns>
         protected virtual string FormUrlQuery(DateTime head, DateTime tail, string symbol, PriceSeriesResolution resolution)
         {
             StringBuilder builder = new StringBuilder();
@@ -146,7 +219,7 @@ namespace Sonneville.PriceTools.Data
                     _fileVolumeColumn = i;
                     fields |= (int) PriceColumns.Volume;
                 }
-                else if (headers[i] == DividendsHeader)
+                else if (headers[i] == DividendHeader)
                 {
                     _fileDividendsColumn = i;
                     fields |= (int) PriceColumns.Dividends;
@@ -376,6 +449,10 @@ namespace Sonneville.PriceTools.Data
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        ///   Performs application-defined tasks associated with freeing, releasing, or resetting umanaged resources.
+        /// </summary>
+        /// <param name="disposing">A value indicating whether or not the object should be disposed.</param>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
