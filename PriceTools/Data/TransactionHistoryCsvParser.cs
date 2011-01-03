@@ -229,14 +229,32 @@ namespace Sonneville.PriceTools.Data
             }
         }
 
-        private static IPortfolio ParseDataTableToIPortfolio(DataTable table)
+        private IPortfolio ParseDataTableToIPortfolio(DataTable table)
         {
-            IPortfolio portfolio;
+            IPortfolio portfolio = new Portfolio(0.00m);
             foreach(DataRow row in table.Rows)
             {
-                
+                ITransaction transaction = null;
+                switch ((OrderType) row[OrderColumn])
+                {
+                    case OrderType.Deposit:
+                        transaction = new Deposit((DateTime) row[DateColumn], (decimal) row[PriceColumn]);
+                        break;
+                    case OrderType.Withdrwawal:
+                        transaction = new Withdrawal((DateTime)row[DateColumn], (decimal)row[PriceColumn]);
+                        break;
+                    default:
+                        transaction = new Transaction((DateTime) row[DateColumn],
+                                                      (OrderType) row[OrderColumn],
+                                                      (string) row[SymbolColumn],
+                                                      (decimal) row[PriceColumn],
+                                                      (double) row[SharesColumn],
+                                                      (decimal) row[CommissionColumn]);
+                        break;
+                }
+                portfolio.AddTransaction(transaction);
             }
-            throw new NotImplementedException();
+            return portfolio;
         }
 
         private DataTable InitializePortfolioTable()
