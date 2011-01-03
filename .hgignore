@@ -5,3 +5,4 @@ syntax: glob
 TestResults\*
 _ReSharper.*
 *.ReSharper.*
+*.csproj.user
