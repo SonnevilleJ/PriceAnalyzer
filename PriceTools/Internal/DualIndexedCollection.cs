@@ -7,43 +7,51 @@ using System.Runtime.Serialization;
 namespace Sonneville.PriceTools.Internal
 {
     [Serializable]
-    internal class DualIndexedCollection<T> : ICollection<T>, ISerializable
+    internal class DualIndexedCollection : ICollection<decimal>, ISerializable
     {
         #region Private Members
         
-        private readonly ICollection _collection;
-        private readonly ICollection _map;
+        private readonly IDictionary<DateTime, decimal> _collection;
+        private readonly DateTime _zero;
 
         #endregion
 
         #region Constructors
 
-        public DualIndexedCollection()
+        public DualIndexedCollection(ITimeSeries timeSeries)
         {
-            _collection = new Dictionary<DateTime, T>();
-            _map = new Dictionary<DateTime, int>();
+            _collection = new Dictionary<DateTime, decimal>(timeSeries.Span);
+            _zero = timeSeries.Tail;
+            for (int i = timeSeries.Span - 1; i >= 0; i--)
+            {
+                DateTime date = ConvertIndexToDate(i);
+                _collection[date] = timeSeries[date];
+            }
         }
 
-        public DualIndexedCollection(int capacity)
+        #endregion
+
+        #region Private Methods
+
+        internal DateTime ConvertIndexToDate(int index)
         {
-            _collection = new Dictionary<DateTime, T>(capacity);
-            _map = new Dictionary<DateTime, int>(capacity);
+            return _zero.AddDays(0.0 - index);
         }
 
         #endregion
 
         #region Accessors
 
-        public T this[int index]
+        public decimal this[int index]
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return this[ConvertIndexToDate(index)]; }
+            set { this[ConvertIndexToDate(index)] = value; }
         }
 
-        public T this[DateTime index]
+        public decimal this[DateTime index]
         {
-            get { throw new NotImplementedException(); }
-            set { throw new NotImplementedException(); }
+            get { return _collection[index]; }
+            set { _collection[index] = value; }
         }
 
         #endregion
@@ -57,9 +65,9 @@ namespace Sonneville.PriceTools.Internal
         ///   A <see cref = "T:System.Collections.Generic.IEnumerator`1" /> that can be used to iterate through the collection.
         /// </returns>
         /// <filterpriority>1</filterpriority>
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<decimal > GetEnumerator()
         {
-            return (IEnumerator<T>) _collection.GetEnumerator();
+            return (IEnumerator<decimal>)_collection.GetEnumerator();
         }
 
         /// <summary>
@@ -79,67 +87,69 @@ namespace Sonneville.PriceTools.Internal
         #region Implementation of ICollection<T>
 
         /// <summary>
-        ///   Adds an item to the <see cref = "T:System.Collections.Generic.ICollection`1" />.
+        ///   Adds an item to the <see cref = "ICollection" />.
         /// </summary>
-        /// <param name = "item">The object to add to the <see cref = "T:System.Collections.Generic.ICollection`1" />.</param>
-        /// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only.</exception>
-        public void Add(T item)
+        /// <param name = "item">The object to add to the <see cref = "ICollection" />.</param>
+        /// <exception cref = "T:System.NotSupportedException">The <see cref = "ICollection" /> is read-only.</exception>
+        public void Add(decimal item)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        ///   Removes all items from the <see cref = "T:System.Collections.Generic.ICollection`1" />.
+        ///   Removes all items from the <see cref = "ICollection" />.
         /// </summary>
-        /// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only. </exception>
+        /// <exception cref = "T:System.NotSupportedException">The <see cref = "ICollection" /> is read-only. </exception>
         public void Clear()
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        ///   Determines whether the <see cref = "T:System.Collections.Generic.ICollection`1" /> contains a specific value.
+        ///   Determines whether the <see cref = "ICollection" /> contains a specific value.
         /// </summary>
         /// <returns>
-        ///   true if <paramref name = "item" /> is found in the <see cref = "T:System.Collections.Generic.ICollection`1" />; otherwise, false.
+        ///   true if <paramref name = "item" /> is found in the <see cref = "ICollection" />; otherwise, false.
         /// </returns>
-        /// <param name = "item">The object to locate in the <see cref = "T:System.Collections.Generic.ICollection`1" />.</param>
-        public bool Contains(T item)
+        /// <param name = "item">The object to locate in the <see cref = "ICollection" />.</param>
+        public bool Contains(decimal item)
         {
-            return _collection.Cast<T>().Contains(item);
+            return _collection.Cast<decimal>().Contains(item);
         }
 
         /// <summary>
-        ///   Copies the elements of the <see cref = "T:System.Collections.Generic.ICollection`1" /> to an <see cref = "T:System.Array" />, starting at a particular <see cref = "T:System.Array" /> index.
+        ///   Copies the elements of the <see cref = "ICollection" /> to an <see cref = "T:System.Array" />, starting at a particular <see cref = "T:System.Array" /> index.
         /// </summary>
-        /// <param name = "array">The one-dimensional <see cref = "T:System.Array" /> that is the destination of the elements copied from <see cref = "T:System.Collections.Generic.ICollection`1" />. The <see cref = "T:System.Array" /> must have zero-based indexing.</param>
+        /// <param name = "array">The one-dimensional <see cref = "T:System.Array" /> that is the destination of the elements copied from <see cref = "ICollection" />. The <see cref = "T:System.Array" /> must have zero-based indexing.</param>
         /// <param name = "arrayIndex">The zero-based index in <paramref name = "array" /> at which copying begins.</param>
         /// <exception cref = "T:System.ArgumentNullException"><paramref name = "array" /> is null.</exception>
         /// <exception cref = "T:System.ArgumentOutOfRangeException"><paramref name = "arrayIndex" /> is less than 0.</exception>
-        /// <exception cref = "T:System.ArgumentException"><paramref name = "array" /> is multidimensional.-or-The number of elements in the source <see cref = "T:System.Collections.Generic.ICollection`1" /> is greater than the available space from <paramref name = "arrayIndex" /> to the end of the destination <paramref name = "array" />.-or-Type <paramref name = "T" /> cannot be cast automatically to the type of the destination <paramref name = "array" />.</exception>
-        public void CopyTo(T[] array, int arrayIndex)
+        /// <exception cref = "T:System.ArgumentException"><paramref name = "array" /> is multidimensional.-or-The number of elements in the source <see cref = "ICollection" /> is greater than the available space from <paramref name = "arrayIndex" /> to the end of the destination <paramref name = "array" />.-or-Type <paramref name = "array" /> cannot be cast automatically to the type of the destination <paramref name = "array" />.</exception>
+        public void CopyTo(decimal [] array, int arrayIndex)
         {
-            _collection.CopyTo(array, arrayIndex);
+            KeyValuePair<DateTime, decimal >[] kvp = new KeyValuePair<DateTime, decimal>[_collection.Count];
+            _collection.CopyTo(kvp, arrayIndex);
+            kvp.CopyTo(array, arrayIndex);
         }
 
         /// <summary>
-        ///   Removes the first occurrence of a specific object from the <see cref = "T:System.Collections.Generic.ICollection`1" />.
+        ///   Removes the first occurrence of a specific object from the <see cref = "ICollection" />.
         /// </summary>
         /// <returns>
-        ///   true if <paramref name = "item" /> was successfully removed from the <see cref = "T:System.Collections.Generic.ICollection`1" />; otherwise, false. This method also returns false if <paramref name = "item" /> is not found in the original <see cref = "T:System.Collections.Generic.ICollection`1" />.
+        ///   true if <paramref name = "item" /> was successfully removed from the <see cref = "ICollection" />; otherwise, false. This method also returns false if <paramref name = "item" /> is not found in the original <see cref = "ICollection" />.
         /// </returns>
-        /// <param name = "item">The object to remove from the <see cref = "T:System.Collections.Generic.ICollection`1" />.</param>
-        /// <exception cref = "T:System.NotSupportedException">The <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only.</exception>
-        public bool Remove(T item)
+        /// <param name = "item">The object to remove from the <see cref = "ICollection" />.</param>
+        /// <exception cref = "T:System.NotSupportedException">The <see cref = "ICollection" /> is read-only.</exception>
+        public bool Remove(decimal item)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        ///   Gets the number of elements contained in the <see cref = "T:System.Collections.Generic.ICollection`1" />.
+        ///   Gets the number of elements contained in the <see cref = "ICollection" />.
         /// </summary>
         /// <returns>
-        ///   The number of elements contained in the <see cref = "T:System.Collections.Generic.ICollection`1" />.
+        ///   The number of elements contained in the <see cref = "ICollection" />.
         /// </returns>
         public int Count
         {
@@ -147,10 +157,10 @@ namespace Sonneville.PriceTools.Internal
         }
 
         /// <summary>
-        ///   Gets a value indicating whether the <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only.
+        ///   Gets a value indicating whether the <see cref = "ICollection" /> is read-only.
         /// </summary>
         /// <returns>
-        ///   true if the <see cref = "T:System.Collections.Generic.ICollection`1" /> is read-only; otherwise, false.
+        ///   true if the <see cref = "ICollection" /> is read-only; otherwise, false.
         /// </returns>
         public bool IsReadOnly
         {
@@ -163,8 +173,7 @@ namespace Sonneville.PriceTools.Internal
 
         protected DualIndexedCollection(SerializationInfo info, StreamingContext context)
         {
-            _collection = (ICollection) info.GetValue("Collection", typeof (ICollection));
-            _map = (ICollection) info.GetValue("Map", typeof (ICollection));
+            _collection = (IDictionary<DateTime, decimal>) info.GetValue("Collection", typeof (IDictionary<DateTime, decimal>));
         }
 
         /// <summary>
@@ -176,7 +185,6 @@ namespace Sonneville.PriceTools.Internal
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Collection", _collection, typeof (ICollection));
-            info.AddValue("Map", _map, typeof (ICollection));
         }
 
         #endregion

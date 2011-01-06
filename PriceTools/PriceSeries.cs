@@ -174,7 +174,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public int Span
         {
-            get { return _periods.Count; }
+            get { return Periods.Count; }
         }
 
         #endregion

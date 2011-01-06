@@ -107,6 +107,22 @@ namespace Sonneville.PriceTools
             get { throw new NotImplementedException(); }
         }
 
+        /// <summary>
+        /// Gets the first DateTime in the ITimeSeries.
+        /// </summary>
+        public DateTime Head
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
+        /// Gets the last DateTime in the ITimeSeries.
+        /// </summary>
+        public DateTime Tail
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         #endregion
 
         #region Implementation of IPortfolio
