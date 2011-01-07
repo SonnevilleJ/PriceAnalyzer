@@ -113,7 +113,6 @@ namespace Sonneville.PriceTools
         {
             get { return _type; }
         }
-
         /// <summary>
         /// Gets the ticker of the security traded.
         /// </summary>

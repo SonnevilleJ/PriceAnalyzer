@@ -138,6 +138,14 @@ namespace Sonneville.PriceTools
             set { _closingTransaction = value; }
         }
 
+        public PositionStatus PositionStatus
+        {
+            get
+            {
+                return OpeningTransaction.Shares != ClosingTransaction.Shares ? PositionStatus.Open : PositionStatus.Closed;
+            }
+        }
+
         /// <summary>
         ///   Gets the total value of the Position, including commissions.
         /// </summary>

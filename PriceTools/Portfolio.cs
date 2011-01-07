@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
@@ -11,10 +12,7 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private IList<Deposit> _deposits = new List<Deposit>();
-        private IList<Withdrawal> _withdrawals = new List<Withdrawal>();
-        private IList<ITransaction> _buys = new List<ITransaction>();
-        private IList<ITransaction> _sells = new List<ITransaction>();
+        private readonly IList<ITransaction> _transactions = new List<ITransaction>();
         private decimal _availableCash;
 
         #endregion
@@ -165,9 +163,67 @@ namespace Sonneville.PriceTools
         /// <param name="transaction">The <see cref="ITransaction"/> to add to this portfolio.</param>
         public void AddTransaction(ITransaction transaction)
         {
-            throw new NotImplementedException();
+            switch (transaction.OrderType)
+            {
+                case OrderType.Buy:
+                    AddBuy(transaction);
+                    break;
+                case OrderType.BuyToCover:
+                    AddBuyToCover(transaction);
+                    break;
+                case OrderType.Deposit:
+                    AddDeposit(transaction);
+                    break;
+                case OrderType.Dividend:
+                    AddDividend(transaction);
+                    break;
+                case OrderType.Sell:
+                    AddSell(transaction);
+                    break;
+                case OrderType.SellShort:
+                    AddSellShort(transaction);
+                    break;
+                case OrderType.Withdrwawal:
+                    AddWithDrawal(transaction);
+                    break;
+            }
         }
 
         #endregion
+
+        private void AddBuy(ITransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AddBuyToCover(ITransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AddDeposit(ITransaction transaction)
+        {
+            _transactions.Add((Deposit) transaction);
+        }
+
+        private void AddDividend(ITransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AddSell(ITransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AddSellShort(ITransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void AddWithDrawal(ITransaction transaction)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
