@@ -65,6 +65,7 @@
     <Compile Include="OrderType.cs" />
     <Compile Include="Portfolio.cs" />
     <Compile Include="Position.cs" />
+    <Compile Include="PositionStatus.cs" />
     <Compile Include="PriceSeries.cs" />
     <Compile Include="PricePeriod.cs" />
     <Compile Include="PriceSeriesResolution.cs" />
