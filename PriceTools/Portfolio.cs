@@ -123,6 +123,11 @@ namespace Sonneville.PriceTools
             get { throw new NotImplementedException(); }
         }
 
+        public bool HasValue(DateTime date)
+        {
+            return (date >= Head && date <= Tail);
+        }
+
         #endregion
 
         #region Implementation of IPortfolio

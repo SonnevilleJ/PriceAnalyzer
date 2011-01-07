@@ -9,13 +9,6 @@ namespace Sonneville.PriceTools
     public interface ITimeSeries : ISerializable
     {
         /// <summary>
-        /// Gets a value stored at a given index of the ITimeSeries.
-        /// </summary>
-        /// <param name="index">The index of the desired value.</param>
-        /// <returns>The value stored at the given index.</returns>
-        decimal this[int index] { get; }
-
-        /// <summary>
         /// Gets a value stored at a given DateTime index of the ITimeSeries.
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
@@ -36,5 +29,12 @@ namespace Sonneville.PriceTools
         /// Gets the last DateTime in the ITimeSeries.
         /// </summary>
         DateTime Tail { get; }
+
+        /// <summary>
+        /// Determines if the ITimeSeries has a valid value for a given date.
+        /// </summary>
+        /// <param name="date">The date to check.</param>
+        /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
+        bool HasValue(DateTime date);
     }
 }

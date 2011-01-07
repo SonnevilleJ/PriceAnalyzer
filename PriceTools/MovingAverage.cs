@@ -70,13 +70,19 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "index">The index of the value to calculate. The index of the current period is 0.</param>
         /// <returns>The value of this MovingAverage for the given period.</returns>
-        protected override decimal Calculate(int index)
+        protected override decimal Calculate(DateTime index)
         {
+            if(!HasValue(index))
+            {
+                throw new ArgumentOutOfRangeException("index", index,
+                                                      "Argument index must be a date within the span of this Indicator.");
+            }
+
             switch (_method)
             {
                 case MovingAverageMethod.Simple:
                     decimal sum = 0;
-                    for (int i = TimeSeries.Span + (index - Range); i < TimeSeries.Span + index; i++)
+                    for (DateTime i = index.Subtract(new TimeSpan(Range - 1, 0, 0, 0)); i <= index; i = IncrementDate(i))
                     {
                         sum += TimeSeries[i];
                     }
@@ -87,6 +93,16 @@ namespace Sonneville.PriceTools
                 default:
                     throw new NotImplementedException();
             }
+        }
+
+        /// <summary>
+        /// Determines if the MovingAverage has a valid value for a given date.
+        /// </summary>
+        /// <param name="date">The date to check.</param>
+        /// <returns>A value indicating if the MovingAverage has a valid value for the given date.</returns>
+        public override bool HasValue(DateTime date)
+        {
+            return (date >= Head.AddDays(Range - 1) && date <= Tail);
         }
     }
 }

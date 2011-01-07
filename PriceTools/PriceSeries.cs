@@ -138,16 +138,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the price within this PriceSeries.
-        /// </summary>
-        /// <param name = "index">The index of the IPricePeriod to retrieve.</param>
-        /// <returns>The IPricePeriod at <para>index</para>.</returns>
-        public decimal this[int index]
-        {
-            get { return _periods[index].Close; }
-        }
-
-        /// <summary>
         /// Gets a value stored at a given DateTime index of the ITimeSeries.
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
@@ -224,6 +214,11 @@ namespace Sonneville.PriceTools
         public IPricePeriod ToPricePeriod()
         {
             return new PricePeriod(this);
+        }
+
+        public bool HasValue(DateTime date)
+        {
+            return (date >= Head && date <= Tail);
         }
 
         #endregion
