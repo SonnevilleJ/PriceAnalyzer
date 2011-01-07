@@ -45,7 +45,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FidelityPortfolioCsvParserTest.cs" />
+    <Compile Include="FidelityTransactionHistoryCsvParserTest.cs" />
     <Compile Include="MovingAverageTest.cs" />
     <Compile Include="PortfolioTest.cs" />
     <Compile Include="PositionTest.cs" />

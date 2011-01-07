@@ -9,11 +9,11 @@ namespace Sonneville.PriceToolsTest
     
     
     /// <summary>
-    ///This is a test class for FidelityPortfolioCsvParserTest and is intended
-    ///to contain all FidelityPortfolioCsvParserTest Unit Tests
+    ///This is a test class for FidelityTransactionHistoryCsvParserTest and is intended
+    ///to contain all FidelityTransactionHistoryCsvParserTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class FidelityPortfolioCsvParserTest
+    public class FidelityTransactionHistoryCsvParserTest
     {
 
 
@@ -74,7 +74,7 @@ namespace Sonneville.PriceToolsTest
         {
             Stream csvStream = new MemoryStream(TestData.FidelityTransactions);
             FidelityTransactionHistoryCsvParser target = new FidelityTransactionHistoryCsvParser(csvStream);
-            
+
             IPortfolio portfolio = target.ParsePortfolio();
             decimal actual = portfolio[new DateTime(2010, 09, 13)];
 
