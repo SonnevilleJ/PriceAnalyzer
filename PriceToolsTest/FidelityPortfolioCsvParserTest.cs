@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceToolsTest
@@ -73,8 +74,11 @@ namespace Sonneville.PriceToolsTest
         {
             Stream csvStream = new MemoryStream(TestData.FidelityTransactions);
             FidelityTransactionHistoryCsvParser target = new FidelityTransactionHistoryCsvParser(csvStream);
+            
+            IPortfolio portfolio = target.ParsePortfolio();
+            decimal actual = portfolio[new DateTime(2010, 09, 13)];
+
             const decimal expected = 2848.4m;
-            decimal actual = target.ParsePortfolio().GetValue(new DateTime(2010, 09, 13));
             Assert.AreEqual(expected, actual);
         }
     }

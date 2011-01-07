@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="FidelityPortfolioCsvParserTest.cs" />
     <Compile Include="MovingAverageTest.cs" />
+    <Compile Include="PortfolioTest.cs" />
     <Compile Include="PositionTest.cs" />
     <Compile Include="PricePeriodTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />

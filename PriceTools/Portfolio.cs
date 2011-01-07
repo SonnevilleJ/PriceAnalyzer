@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
@@ -35,8 +34,12 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="openingDeposit">The amount deposited when opening the Portfolio.</param>
         public Portfolio(decimal openingDeposit)
-            : this(openingDeposit, new List<ITransaction>())
         {
+            if(openingDeposit < 0)
+            {
+                throw new ArgumentOutOfRangeException("openingDeposit", openingDeposit, "Cash must be greater than or equal to $0.00");
+            }
+            _availableCash = openingDeposit;
         }
 
         /// <summary>
@@ -44,13 +47,9 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="availableCash"></param>
         /// <param name="transactions"></param>
-        public Portfolio(decimal availableCash, IEnumerable<ITransaction> transactions)
+        public Portfolio(decimal availableCash, params ITransaction[] transactions)
+            : this(availableCash)
         {
-            if(availableCash < 0)
-            {
-                throw new ArgumentOutOfRangeException("availableCash", availableCash, "Cash must be greater than or equal to $0.00");
-            }
-            _availableCash = availableCash;
             foreach (ITransaction transaction in transactions)
             {
                 AddTransaction(transaction);
@@ -78,16 +77,6 @@ namespace Sonneville.PriceTools
         #endregion
 
         #region Implementation of ITimeSeries
-
-        /// <summary>
-        /// Gets a value stored at a given index of the ITimeSeries.
-        /// </summary>
-        /// <param name="index">The index of the desired value.</param>
-        /// <returns>The value stored at the given index.</returns>
-        public decimal this[int index]
-        {
-            get { throw new NotImplementedException(); }
-        }
 
         /// <summary>
         /// Gets a value stored at a given index of the ITimeSeries.
@@ -135,7 +124,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of open positions held in this Portfolio.
         /// </summary>
-        public IList<IPosition> OpenPositions
+        public IEnumerable<IPosition> OpenPositions
         {
             get
             {
@@ -167,18 +156,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal GetValue()
         {
-            return GetValue(DateTime.Today);
-        }
-
-        /// <summary>
-        ///   Gets the total value of this Portfolio as of a given <see cref = "DateTime" />.
-        /// </summary>
-        /// <param name = "asOfDate">The <see cref = "DateTime" /> of which the value should be retrieved.</param>
-        /// <returns>The total value of this Portfolio as of the given <see cref = "DateTime" />.</returns>
-        public decimal GetValue(DateTime asOfDate)
-        {
-            throw new NotImplementedException(); // TODO: consider asOfDate
-            return OpenPositions.Sum(position => position.TotalValue) + AvailableCash;
+            return this[DateTime.Today];
         }
 
         /// <summary>
