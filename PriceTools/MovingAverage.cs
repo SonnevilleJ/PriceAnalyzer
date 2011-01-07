@@ -52,6 +52,17 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Gets the <see cref="MovingAverageMethod"/> used by this MovingAverage.
+        /// </summary>
+        public MovingAverageMethod Method
+        {
+            get
+            {
+                return _method;
+            }
+        }
+
+        /// <summary>
         ///   Serializies a MovingAverage.
         /// </summary>
         /// <param name = "info"></param>
