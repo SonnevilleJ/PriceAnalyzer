@@ -64,7 +64,7 @@ namespace Sonneville.PriceTools
             {
                 _type = type;
             }
-            _ticker = ticker;
+            _ticker = ticker.ToUpperInvariant();
 
             if (shares < 0)
             {

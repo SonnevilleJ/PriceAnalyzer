@@ -82,7 +82,9 @@ namespace Sonneville.PriceToolsTest
             IPosition target = new Position(open);
 
             // No closing transaction (still hold these shares) so Value should return negative value of purchase price minus any commissions.
-            Assert.IsTrue(target.TotalValue == -507.95m);
+            const decimal expected = -539.75m;
+            decimal actual = target.GetValue(DateTime.Today);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod()]
@@ -103,23 +105,24 @@ namespace Sonneville.PriceToolsTest
 
             IPosition target = new Position(open, close);
 
-            // No longer hold these shares, so Value should return total profit (or negative loss) minus any commissions.
-            Assert.IsTrue(target.TotalValue == 34.1m);
+            // No longer hold these shares, so GetValue should return total profit (or negative loss) minus any commissions.
+            const decimal expected = -29.5m; // $50.00 profit - $79.50 commissions = $29.5 loss
+            decimal actual = target.GetValue(cDate);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod()]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ConstructWithNullOpenAndValidCloseThrowsException()
+        public void ConstructWithNullTransactionsThrowsException()
         {
-            const string ticker = "DE";
-            DateTime cDate = new DateTime(2001, 1, 1);
-            const decimal cPrice = 110.0m;      // sold at $110.00 per share
-            const double cShares = 5;           // sold 5 shares
-            const decimal cCommission = 7.95m;  // sold with $7.95 commission
-            ITransaction close = new Transaction(cDate, OrderType.Sell, ticker, cPrice, cShares, cCommission);
-            ITransaction open = null;
+            new Position(null);
+        }
 
-            Position target = new Position(open, close);
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentNullException))]
+        public void ConstructWithEmptyTransactionsThrowsException()
+        {
+            new Position(new ITransaction[0]);
         }
 
         [TestMethod]
@@ -135,7 +138,10 @@ namespace Sonneville.PriceToolsTest
             Transaction sell = new Transaction(date, OrderType.Sell, ticker, price + 10m, shares, commission);
 
             Position target = new Position(buy, sell);
-            Assert.IsTrue(target.RawReturn == 0.10m);
+
+            const decimal expected = 0.10m; // 10% raw return on investment
+            decimal actual = target.GetRawReturn(date);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
@@ -145,13 +151,16 @@ namespace Sonneville.PriceToolsTest
             DateTime date = new DateTime(2001, 1, 1);
             const decimal price = 100.0m;       // $100.00 per share
             const double shares = 5;            // 5 shares
-            const decimal commission = 5.0m;    // with $7.95 commission
+            const decimal commission = 5.0m;    // with $5 commission
 
             Transaction buy = new Transaction(date, OrderType.Buy, ticker, price, shares, commission);
             Transaction sell = new Transaction(date, OrderType.Sell, ticker, price + 10m, shares, commission);
 
             Position target = new Position(buy, sell);
-            Assert.IsTrue(target.TotalReturn == 0.1010101010101010101010101010101m);
+
+            const decimal expected = 0m; // 0% return; 100% of original investment
+            decimal actual = target.GetTotalReturn(date);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
@@ -159,63 +168,24 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = new DateTime(2001, 7, 1);
+            DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
             const decimal buyPrice = 100.0m;    // $100.00 per share
-            const decimal sellPrice = 110.0m;   // $110.00 per share
+            const decimal sellPrice = 120.0m;   // $110.00 per share
             const double shares = 5;            // 5 shares
-            const decimal commission = 5.0m;    // with $7.95 commission
+            const decimal commission = 5.0m;    // with $5 commission
 
             Transaction buy = new Transaction(buyDate, OrderType.Buy, ticker, buyPrice, shares, commission);
             Transaction sell = new Transaction(sellDate, OrderType.Sell, ticker, sellPrice, shares, commission);
 
             Position target = new Position(buy, sell);
-            Assert.IsTrue(target.TotalAnnualReturn == 0.2020202020202020202020202020202m);
-        }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidPositionException))]
-        public void ConstructPositionWithOpeningSell()
-        {
-            ConstructTransactions();
-            IPosition target = new Position(_sell);
-        }
+            const decimal expectedReturn = 0.1m; // 10% return; profit = $50; initial investment = $500
+            decimal actualReturn = target.GetTotalReturn(sellDate);
+            Assert.AreEqual(expectedReturn, actualReturn);
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidPositionException))]
-        public void ConstructPositionWithOpeningBuyToCover()
-        {
-            ConstructTransactions();
-            IPosition target = new Position(_buyToCover);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidPositionException))]
-        public void ConstructPositionWithClosingBuy()
-        {
-            ConstructTransactions();
-            IPosition target = new Position(_sellShort, _buy);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidPositionException))]
-        public void ConstructPositionWithClosingSellShort()
-        {
-            ConstructTransactions();
-            IPosition target = new Position(_buy, _sellShort);
-        }
-
-        private void ConstructTransactions()
-        {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2001, 1, 1);
-            const decimal price = 100.0m;       // $100.00 per share
-            const double shares = 5;            // 5 shares
-            const decimal commission = 7.95m;   // with $7.95 commission
-
-            _buy = new Transaction(date, OrderType.Buy, ticker, price, shares, commission);
-            _sell = new Transaction(date, OrderType.Sell, ticker, price, shares, commission);
-            _buyToCover = new Transaction(date, OrderType.BuyToCover, ticker, price, shares, commission);
-            _sellShort = new Transaction(date, OrderType.SellShort, ticker, price, shares, commission);
+            const decimal expected = 0.5m; // 50% annual rate return
+            decimal actual = target.GetTotalAnnualReturn(sellDate);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

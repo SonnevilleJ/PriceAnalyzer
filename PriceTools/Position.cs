@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
@@ -9,94 +11,334 @@ namespace Sonneville.PriceTools
     [Serializable]
     public class Position : IPosition
     {
-        private ITransaction _closingTransaction;
-        private ITransaction _openingTransaction;
+        private readonly IList<ITransaction> _additiveTransactions;
+        private readonly IList<ITransaction> _subtractiveTransactions;
+
+        #region Constructors
 
         /// <summary>
-        ///   Constructs a Position from an opening transaction and an optional closing transaction.
+        ///   Constructs a Position from existing <see cref = "ITransaction" />s.
         /// </summary>
-        /// <param name = "openingTransaction">The transaction which opened this trade.
-        ///   The OrderTYpe for opening transactions must be either <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" />.</param>
-        public Position(ITransaction openingTransaction)
-            : this(openingTransaction, null)
+        /// <param name = "transactions">The <see cref = "ITransaction" />s in this Position.</param>
+        public Position(params ITransaction[] transactions)
         {
-        }
-
-        /// <summary>
-        ///   Constructs a Position from an opening transaction and an optional closing transaction.
-        /// </summary>
-        /// <param name = "openingTransaction">The transaction which opened this trade.
-        ///   The OrderTYpe for opening transactions must be either <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" />.</param>
-        /// <param name = "closingTransaction">The optional transaction which closed this trade.
-        ///   The TransactionType for closing transactions must be either <see cref = "OrderType.Sell" /> or <see cref = "OrderType.BuyToCover" /> and must match the <see cref = "OrderType" /> of the opening transaction.</param>
-        public Position(ITransaction openingTransaction, ITransaction closingTransaction)
-        {
-            if (openingTransaction == null)
+            if (transactions == null || transactions.Length == 0)
             {
-                throw new ArgumentNullException("openingTransaction", "Opening ITransaction cannot be null.");
+                throw new ArgumentNullException("transactions");
             }
-            _openingTransaction = openingTransaction;
-            _closingTransaction = closingTransaction;
+
+            _additiveTransactions = new List<ITransaction>();
+            _subtractiveTransactions = new List<ITransaction>();
+            foreach (ITransaction transaction in transactions)
+            {
+                AddTransaction(transaction);
+            }
 
             Validate();
         }
 
+        #endregion
+
         private Position(SerializationInfo info, StreamingContext context)
         {
-            _openingTransaction = (ITransaction) info.GetValue("OpeningTransaction", typeof (ITransaction));
-            _closingTransaction = (ITransaction) info.GetValue("ClosingTransaction", typeof (ITransaction));
+            _additiveTransactions =
+                (IList<ITransaction>) info.GetValue("AdditiveTransactions", typeof (IList<ITransaction>));
+            _subtractiveTransactions =
+                (IList<ITransaction>) info.GetValue("SubtractiveTransactions", typeof (IList<ITransaction>));
+            Validate();
         }
 
-        private TimeSpan Duration
-        {
-            get { return new TimeSpan(_closingTransaction.SettlementDate.Ticks - _openingTransaction.SettlementDate.Ticks); }
-        }
+        #region IPosition Members
 
-        private decimal PurchaseValue
+        public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            get { return 0 - (_openingTransaction.Price*(decimal) _openingTransaction.Shares); }
-        }
-
-        private decimal SaleValue
-        {
-            get { return _closingTransaction == null ? 0 : (_closingTransaction.Price*(decimal) _closingTransaction.Shares); }
+            throw new NotImplementedException();
         }
 
         /// <summary>
-        ///   Gets the raw value of the Position, not including commissions..
+        ///   Gets an enumeration of all <see cref = "ITransaction" />s in this IPosition.
         /// </summary>
-        public decimal RawValue
+        public IEnumerable<ITransaction> Transactions
         {
-            get { return SaleValue + PurchaseValue; }
+            get
+            {
+                int count = _additiveTransactions.Count + _subtractiveTransactions.Count;
+                ITransaction[] list = new ITransaction[count];
+                _additiveTransactions.CopyTo(list, 0);
+                _subtractiveTransactions.CopyTo(list, _additiveTransactions.Count);
+
+                return list;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the total number of currently held shares.
+        /// </summary>
+        public double OpenShares
+        {
+            get { return GetOpenShares(DateTime.Now); }
+        }
+
+        /// <summary>
+        ///   Gets the <see cref = "IPosition.PositionStatus" /> of this Position as of a given <see cref = "DateTime" />.
+        /// </summary>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        public PositionStatus GetPositionStatus(DateTime date)
+        {
+            return GetOpenShares(date) == 0 ? PositionStatus.Open : PositionStatus.Closed;
+        }
+
+        /// <summary>
+        ///   Gets the current <see cref = "IPosition.PositionStatus" /> of this IPosition.
+        /// </summary>
+        public PositionStatus PositionStatus
+        {
+            get { return GetPositionStatus(DateTime.Now); }
+        }
+
+        /// <summary>
+        ///   Gets the total value of the Position, including commissions.
+        /// </summary>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        public decimal this[DateTime date]
+        {
+            get { return GetValue(date); }
+        }
+
+        /// <summary>
+        ///   Gets the span of the ITimeSeries.
+        /// </summary>
+        public int Span
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
+        ///   Gets the first DateTime in the ITimeSeries.
+        /// </summary>
+        public DateTime Head
+        {
+            get { return First.SettlementDate; }
+        }
+
+        /// <summary>
+        ///   Gets the last DateTime in the ITimeSeries.
+        /// </summary>
+        public DateTime Tail
+        {
+            get { return Last.SettlementDate; }
+        }
+
+        /// <summary>
+        ///   Determines if the ITimeSeries has a valid value for a given date.
+        /// </summary>
+        /// <param name = "date">The date to check.</param>
+        /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
+        public bool HasValue(DateTime date)
+        {
+            return date > Head && date < Tail;
+        }
+
+        /// <summary>
+        ///   Adds an <see cref = "ITransaction" /> to this IPosition.
+        ///   Note: An IPosition can only contain <see cref = "ITransaction" />s for a single ticker symbol.
+        /// </summary>
+        /// <param name = "transaction">The <see cref = "ITransaction" /> to add to the IPosition.</param>
+        public void AddTransaction(ITransaction transaction)
+        {
+            switch (transaction.OrderType)
+            {
+                case OrderType.Buy:
+                case OrderType.SellShort:
+                    IncreasePosition(transaction);
+                    break;
+                case OrderType.Sell:
+                case OrderType.BuyToCover:
+                    DecreasePosition(transaction);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("transaction", transaction,
+                                                          "Positions can only contain ITransaction types Buy, BuyToCover, Sell, and SellShort.");
+            }
+        }
+
+        /// <summary>
+        ///   Gets the value of the IPortfolio as of a given date.
+        /// </summary>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "considerCommissions">A value indicating whether commissions should be included in the result.</param>
+        /// <returns>The value of the IPortfolio as of the given date.</returns>
+        public decimal GetValue(DateTime date, bool considerCommissions)
+        {
+            decimal proceeds = GetProceeds(date);
+            decimal costs = GetCost(date);
+            decimal commissions = (considerCommissions ? GetCommissions(date) : 0);
+            return proceeds + costs + commissions;
+        }
+
+        /// <summary>
+        ///   Gets the value of the IPortfolio as of a given date.
+        /// </summary>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The value of the IPortfolio as of the given date.</returns>
+        public decimal GetValue(DateTime date)
+        {
+            return GetValue(date, true);
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private TimeSpan Duration
+        {
+            get { return Last.SettlementDate - First.SettlementDate; }
+        }
+
+        /// <summary>
+        ///   Gets or sets a <see cref = "ITransaction" /> which added to this Position.
+        ///   Typically <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" /> <see cref = "ITransaction" />s.
+        /// </summary>
+        private IEnumerable<ITransaction> AdditiveTransactions
+        {
+            get { return _additiveTransactions; }
+        }
+
+        /// <summary>
+        ///   Gets or sets a <see cref = "ITransaction" /> which subtracted from this Position.
+        ///   Typically <see cref = "OrderType.Sell" /> or <see cref = "OrderType.BuyToCover" /> <see cref = "ITransaction" />s.
+        /// </summary>
+        private IEnumerable<ITransaction> SubtractiveTransactions
+        {
+            get { return _subtractiveTransactions; }
+        }
+
+        private ITransaction Last
+        {
+            get { return SubtractiveTransactions.Last(); }
+        }
+
+        private ITransaction First
+        {
+            get { return AdditiveTransactions.First(); }
+        }
+
+        /// <summary>
+        ///   Gets the gross investment of this Position, ignoring any proceeds and commissions.
+        /// </summary>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The total amount spent on share purchases as a negative number.</returns>
+        public decimal GetCost(DateTime date)
+        {
+            return AdditiveTransactions.Where(transaction => transaction.SettlementDate <= date).Aggregate(0m,
+                                                                                                           (current,
+                                                                                                            transaction)
+                                                                                                           =>
+                                                                                                           current -
+                                                                                                           (transaction.
+                                                                                                                Price*
+                                                                                                            (decimal)
+                                                                                                            transaction.
+                                                                                                                Shares));
+        }
+
+        /// <summary>
+        ///   Gets the gross proceeds of this Position, ignoring all costs and commissions.
+        /// </summary>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
+        public decimal GetProceeds(DateTime date)
+        {
+            return SubtractiveTransactions.Where(transaction => transaction.SettlementDate <= date).Aggregate(0m,
+                                                                                                              (current,
+                                                                                                               transaction)
+                                                                                                              =>
+                                                                                                              current +
+                                                                                                              (transaction
+                                                                                                                   .
+                                                                                                                   Price*
+                                                                                                               (decimal)
+                                                                                                               transaction
+                                                                                                                   .
+                                                                                                                   Shares));
+        }
+
+        /// <summary>
+        ///   Gets the total commissions paid as of a given date.
+        /// </summary>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The total amount of commissions from <see cref = "ITransaction" />s as a negative number.</returns>
+        public decimal GetCommissions(DateTime date)
+        {
+            return GetCommissions(date, _additiveTransactions) + GetCommissions(date, _subtractiveTransactions);
         }
 
         /// <summary>
         ///   Gets the raw rate of return for this Position, not accounting for commissions.
         /// </summary>
-        public decimal RawReturn
+        public decimal GetRawReturn(DateTime date)
         {
-            get
+            if (GetClosedShares(date) > 0)
             {
-                if (_closingTransaction == null)
-                {
-                    throw new InvalidOperationException("Cannot calculate raw return for an open position.");
-                }
-                return 0 - decimal.Divide(RawValue, PurchaseValue);
+                return -(GetValue(date, false))/GetCost(date);
             }
+            throw new InvalidOperationException("Cannot calculate raw return for an open position.");
         }
 
         /// <summary>
         ///   Gets the total rate of return for this Position, after commissions.
         /// </summary>
-        public decimal TotalReturn
+        public decimal GetTotalReturn(DateTime date)
         {
-            get
+            if (GetClosedShares(date) > 0)
             {
-                if (_closingTransaction == null)
+                decimal proceeds = (GetProceeds(date) + GetCommissions(date, _additiveTransactions));
+                decimal costs = (GetCost(date) + GetCommissions(date, _subtractiveTransactions));
+                decimal profit = proceeds + costs;
+                return -(profit/GetCost(date));
+            }
+            throw new InvalidOperationException("Cannot calculate return for an open position.");
+        }
+
+        /// <summary>
+        ///   Validates the Position.
+        /// </summary>
+        public void Validate()
+        {
+            foreach (ITransaction aTransaction in AdditiveTransactions)
+            {
+                // Validate OrderType
+                switch (aTransaction.OrderType)
                 {
-                    throw new InvalidOperationException("Cannot calculate return for an open position.");
+                    case OrderType.Buy:
+                    case OrderType.SellShort:
+                        break;
+                    default:
+                        // Not an opening transaction
+                        throw new InvalidPositionException("Additive transactions must be of type Buy or SellShort.");
                 }
-                return decimal.Divide(SaleValue - ClosingTransaction.Commission, 0 - PurchaseValue - OpeningTransaction.Commission) - 1.0m;
+            }
+            foreach (ITransaction sTransaction in SubtractiveTransactions)
+            {
+                // Validate OrderType
+                switch (sTransaction.OrderType)
+                {
+                    case OrderType.Sell:
+                    case OrderType.BuyToCover:
+                        break;
+                    default:
+                        // Not an opening transaction
+                        throw new InvalidPositionException(
+                            "Subtractive transactions must be of type Sell or BuyToCover.");
+                }
+
+                // Verify that sold shares does not exceed available shares at the time of the transaction.
+                DateTime date = sTransaction.SettlementDate.Subtract(new TimeSpan(0, 0, 0, 1));
+                if (GetClosedShares(date) > GetOpenedShares(date))
+                {
+                    throw new InvalidPositionException(
+                        "Shares traded in subtractive transactions cannot exceed shares traded in additive transactions.");
+                }
             }
         }
 
@@ -106,114 +348,71 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        public decimal TotalAnnualReturn
+        public decimal GetTotalAnnualReturn(DateTime date)
         {
-            get
+            if (SubtractiveTransactions.Count() == 0)
             {
-                if (_closingTransaction == null)
-                {
-                    throw new InvalidOperationException("Cannot calculate return for an open position.");
-                }
-                return (TimeSpan.TicksPerDay*365/Duration.Ticks)*TotalReturn;
+                throw new InvalidOperationException("Cannot calculate return without any sale transactions.");
             }
-        }
-
-        #region IPosition Members
-
-        /// <summary>
-        ///   Gets or sets the opening transaction of this Position.
-        /// </summary>
-        public ITransaction OpeningTransaction
-        {
-            get { return _openingTransaction; }
-            set { _openingTransaction = value; }
+            decimal totalReturn = GetTotalReturn(date);
+            decimal time = (Duration.Days/365.0m);
+            return totalReturn/time;
         }
 
         /// <summary>
-        ///   Gets or sets the closing transaction of this Position.
+        ///   Gets the net shares held at a given date.
         /// </summary>
-        public ITransaction ClosingTransaction
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        private double GetOpenShares(DateTime date)
         {
-            get { return _closingTransaction; }
-            set { _closingTransaction = value; }
-        }
-
-        public PositionStatus PositionStatus
-        {
-            get
-            {
-                return OpeningTransaction.Shares != ClosingTransaction.Shares ? PositionStatus.Open : PositionStatus.Closed;
-            }
+            return GetOpenedShares(date) - GetClosedShares(date);
         }
 
         /// <summary>
-        ///   Gets the total value of the Position, including commissions.
+        ///   Gets the cumulative number of shares that have ever been owned before a given date.
         /// </summary>
-        public decimal TotalValue
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        private double GetOpenedShares(DateTime date)
         {
-            get
-            {
-                if (_closingTransaction != null)
-                {
-                    return (SaleValue - ClosingTransaction.Commission) + (PurchaseValue - OpeningTransaction.Commission);
-                }
-                else
-                {
-                    return PurchaseValue - OpeningTransaction.Commission;
-                }
-            }
+            return
+                AdditiveTransactions.Where(transaction => transaction.SettlementDate <= date).Select(
+                    transaction => transaction.Shares).Sum();
+        }
+
+        /// <summary>
+        ///   Gets the total number of shares that were owned but are no longer owned.
+        /// </summary>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        private double GetClosedShares(DateTime date)
+        {
+            return
+                SubtractiveTransactions.Where(transaction => transaction.SettlementDate <= date).Select(
+                    transaction => transaction.Shares).Sum();
+        }
+
+        /// <summary>
+        ///   Adds newly purchased shares to the IPosition.
+        /// </summary>
+        /// <param name = "transaction">An ITransaction that would open or add shares to the IPosition.</param>
+        private void IncreasePosition(ITransaction transaction)
+        {
+            _additiveTransactions.Add(transaction);
+        }
+
+        /// <summary>
+        ///   Adds newly sold shares to the IPosition.
+        /// </summary>
+        /// <param name = "transaction">An ITransaction that would close or subtract shares from the IPosition.</param>
+        private void DecreasePosition(ITransaction transaction)
+        {
+            _subtractiveTransactions.Add(transaction);
+        }
+
+        private static decimal GetCommissions(DateTime date, IEnumerable<ITransaction> transactions)
+        {
+            return -1*transactions.Sum(transaction => transaction.Commission*(decimal) transaction.Shares);
         }
 
         #endregion
-
-        private void Validate()
-        {
-            switch (_openingTransaction.OrderType)
-            {
-                case OrderType.Buy:
-                case OrderType.SellShort:
-                    break;
-                default:
-                    // Not an opening transaction
-                    throw new InvalidPositionException("Opening transaction must be of type Buy or SellShort.");
-            }
-            if (_closingTransaction == null)
-            {
-                // Not much to validate with a position that's still open.
-            }
-            else
-            {
-                bool mismatch = true;
-                switch (_openingTransaction.OrderType)
-                {
-                    case OrderType.Buy:
-                        if (_closingTransaction.OrderType == OrderType.Sell)
-                        {
-                            mismatch = false;
-                        }
-                        break;
-                    case OrderType.SellShort:
-                        if (_closingTransaction.OrderType == OrderType.BuyToCover)
-                        {
-                            mismatch = false;
-                        }
-                        break;
-                }
-                if (mismatch)
-                {
-                    throw new InvalidPositionException("Transaction types must match.");
-                }
-                if (_closingTransaction.SettlementDate < _openingTransaction.SettlementDate)
-                {
-                    throw new InvalidPositionException(
-                        "Closing transaction date must occur after opening transaction date.");
-                }
-                if (_closingTransaction.Shares > _openingTransaction.Shares)
-                {
-                    throw new InvalidPositionException(
-                        "Shares traded in closing transaction must be less than or equal to shares traded in opening transaction.");
-                }
-            }
-        }
     }
 }
