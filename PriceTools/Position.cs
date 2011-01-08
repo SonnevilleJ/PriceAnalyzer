@@ -52,7 +52,8 @@ namespace Sonneville.PriceTools
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            throw new NotImplementedException();
+            info.AddValue("additiveTransactions", _additiveTransactions);
+            info.AddValue("subtractiveTransactions", _subtractiveTransactions);
         }
 
         /// <summary>
@@ -110,7 +111,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public int Span
         {
-            get { throw new NotImplementedException(); }
+            get { return Duration.Days; }
         }
 
         /// <summary>
@@ -410,7 +411,7 @@ namespace Sonneville.PriceTools
 
         private static decimal GetCommissions(DateTime date, IEnumerable<ITransaction> transactions)
         {
-            return -1*transactions.Sum(transaction => transaction.Commission*(decimal) transaction.Shares);
+            return -1*transactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Commission*(decimal) transaction.Shares);
         }
 
         #endregion
