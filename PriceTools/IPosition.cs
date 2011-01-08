@@ -20,17 +20,6 @@ namespace Sonneville.PriceTools
         double OpenShares { get; }
 
         /// <summary>
-        ///   Gets the current <see cref = "PositionStatus" /> of this IPosition.
-        /// </summary>
-        PositionStatus PositionStatus { get; }
-
-        /// <summary>
-        ///   Gets the <see cref = "IPosition.PositionStatus" /> of this IPosition as of a given <see cref = "DateTime" />.
-        /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        PositionStatus GetPositionStatus(DateTime date);
-
-        /// <summary>
         ///   Adds an <see cref = "ITransaction" /> to this IPosition.
         ///   Note: An IPosition can only contain <see cref = "ITransaction" />s for a single ticker symbol.
         /// </summary>

@@ -81,10 +81,14 @@ namespace Sonneville.PriceToolsTest
 
             IPosition target = new Position(open);
 
+            const double expectedShares = oShares;
+            double actualShares = target.OpenShares;
+            Assert.AreEqual(expectedShares, actualShares);
+
             // No closing transaction (still hold these shares) so Value should return negative value of purchase price minus any commissions.
-            const decimal expected = -539.75m;
-            decimal actual = target.GetValue(DateTime.Today);
-            Assert.AreEqual(expected, actual);
+            const decimal expectedValue = -539.75m;
+            decimal actualValue = target.GetValue(DateTime.Today);
+            Assert.AreEqual(expectedValue, actualValue);
         }
 
         [TestMethod()]
@@ -137,7 +141,7 @@ namespace Sonneville.PriceToolsTest
             Transaction buy = new Transaction(date, OrderType.Buy, ticker, price, shares, commission);
             Transaction sell = new Transaction(date, OrderType.Sell, ticker, price + 10m, shares, commission);
 
-            Position target = new Position(buy, sell);
+            IPosition target = new Position(buy, sell);
 
             const decimal expected = 0.10m; // 10% raw return on investment
             decimal actual = target.GetRawReturn(date);
@@ -156,7 +160,7 @@ namespace Sonneville.PriceToolsTest
             Transaction buy = new Transaction(date, OrderType.Buy, ticker, price, shares, commission);
             Transaction sell = new Transaction(date, OrderType.Sell, ticker, price + 10m, shares, commission);
 
-            Position target = new Position(buy, sell);
+            IPosition target = new Position(buy, sell);
 
             const decimal expected = 0m; // 0% return; 100% of original investment
             decimal actual = target.GetTotalReturn(date);
@@ -177,7 +181,7 @@ namespace Sonneville.PriceToolsTest
             Transaction buy = new Transaction(buyDate, OrderType.Buy, ticker, buyPrice, shares, commission);
             Transaction sell = new Transaction(sellDate, OrderType.Sell, ticker, sellPrice, shares, commission);
 
-            Position target = new Position(buy, sell);
+            IPosition target = new Position(buy, sell);
 
             const decimal expectedReturn = 0.1m; // 10% return; profit = $50; initial investment = $500
             decimal actualReturn = target.GetTotalReturn(sellDate);

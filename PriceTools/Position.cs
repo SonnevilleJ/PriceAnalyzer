@@ -81,23 +81,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the <see cref = "IPosition.PositionStatus" /> of this Position as of a given <see cref = "DateTime" />.
-        /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        public PositionStatus GetPositionStatus(DateTime date)
-        {
-            return GetOpenShares(date) == 0 ? PositionStatus.Open : PositionStatus.Closed;
-        }
-
-        /// <summary>
-        ///   Gets the current <see cref = "IPosition.PositionStatus" /> of this IPosition.
-        /// </summary>
-        public PositionStatus PositionStatus
-        {
-            get { return GetPositionStatus(DateTime.Now); }
-        }
-
-        /// <summary>
         ///   Gets the total value of the Position, including commissions.
         /// </summary>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
