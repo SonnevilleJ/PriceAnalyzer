@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets an enumeration of all <see cref = "ITransaction" />s in this IPosition.
         /// </summary>
-        IEnumerable<ITransaction> Transactions { get; }
+        IList<ITransaction> Transactions { get; }
 
         /// <summary>
         ///   Gets the total number of currently held shares.

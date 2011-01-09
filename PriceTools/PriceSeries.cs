@@ -210,7 +210,7 @@ namespace Sonneville.PriceTools
 
         #endregion
 
-        #region IComparable Members
+        #region Overridden Equality Members
 
         /// <summary>
         ///   Determines whether the specified <see cref = "PriceSeries" /> is equal to the current <see cref = "PriceSeries" />.
@@ -268,13 +268,5 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
-
-        /// <summary>
-        ///   Performs validation for the PriceSeries.
-        /// </summary>
-        public override void Validate()
-        {
-            base.Validate();
-        }
     }
 }

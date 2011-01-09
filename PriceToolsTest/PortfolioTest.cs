@@ -139,6 +139,21 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedValue, actualValue);
         }
 
+        [TestMethod()]
+        public void PositionTest_OnePosition_TwoTransactions()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            IPortfolio target = new Portfolio(dateTime, amount);
+
+            DateTime withdrawalDate = dateTime.AddDays(1);
+            target.Withdraw(dateTime.AddDays(1), amount);
+
+            const decimal expected = 1;
+            decimal actual = target.Positions.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
         [TestMethod]
         public void HeadTestWithOneTransaction()
         {
@@ -217,6 +232,20 @@ namespace Sonneville.PriceToolsTest
 
             const string newTicker = "FTEXX"; // Fidelity Municipal Money Market
             target.AddTransaction(originalDate.AddDays(100), OrderType.Deposit, newTicker, 5000);
+        }
+
+        [TestMethod]
+        public void HasValueTest()
+        {
+            DateTime testDate = new DateTime(2011, 1, 8);
+            DateTime purchaseDate = testDate.AddDays(1);
+            const decimal amount = 10000m;
+            const string ticker = "FDRXX"; // Fidelity Cash Reserves
+            IPortfolio target = new Portfolio(purchaseDate, amount, ticker);
+
+            Assert.AreEqual(false, target.HasValue(testDate));
+            Assert.AreEqual(true, target.HasValue(purchaseDate));
+            Assert.AreEqual(true, target.HasValue(purchaseDate.AddDays(1)));
         }
     }
 }

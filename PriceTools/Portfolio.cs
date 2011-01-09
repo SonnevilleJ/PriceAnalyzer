@@ -128,7 +128,12 @@ namespace Sonneville.PriceTools
         /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
         public bool HasValue(DateTime date)
         {
-            return date > Head && date < Tail;
+            DateTime end = Tail;
+            if (GetValue(date) != 0)
+            {
+                end = date;
+            }
+            return date >= Head && date <= end;
         }
 
         #endregion

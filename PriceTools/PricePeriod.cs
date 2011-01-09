@@ -35,23 +35,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Constructs a PricePeriod object from an existing IPricePeriod.
-        /// </summary>
-        /// <param name = "existing">The IPricePeriod to clone.</param>
-        public PricePeriod(IPricePeriod existing)
-        {
-            _head = existing.Head;
-            _tail = existing.Tail;
-            _open = existing.Open;
-            _high = existing.High;
-            _low = existing.Low;
-            _close = existing.Close;
-            _volume = existing.Volume;
-
-            Validate(this);
-        }
-
-        /// <summary>
         ///   Constructs a PricePeriod object without volume.
         /// </summary>
         /// <param name = "head">The beginning of the PricePeriod.</param>
@@ -274,6 +257,8 @@ namespace Sonneville.PriceTools
 
         #endregion
 
+        #region Overridden Equality Members
+
         /// <summary>
         ///   Determines whether the specified <see cref = "PricePeriod" /> is equal to the current <see cref = "PricePeriod" />.
         /// </summary>
@@ -353,6 +338,8 @@ namespace Sonneville.PriceTools
             return !(left == right);
         }
 
+        #endregion
+
         /// <summary>
         ///   Returns a <see cref = "T:System.String" /> that represents the current <see cref = "PricePeriod" />.
         /// </summary>
@@ -363,14 +350,6 @@ namespace Sonneville.PriceTools
         public override string ToString()
         {
             return Head.ToShortDateString() + " close: " + Close;
-        }
-
-        /// <summary>
-        ///   Performs validation for the PricePeriod.
-        /// </summary>
-        public virtual void Validate()
-        {
-            Validate(this);
         }
     }
 }
