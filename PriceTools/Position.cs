@@ -11,8 +11,13 @@ namespace Sonneville.PriceTools
     [Serializable]
     public class Position : IPosition
     {
+        #region Private Members
+
+        private readonly string _ticker;
         private readonly IList<ITransaction> _additiveTransactions;
         private readonly IList<ITransaction> _subtractiveTransactions;
+
+        #endregion
 
         #region Constructors
 
@@ -27,6 +32,7 @@ namespace Sonneville.PriceTools
                 throw new ArgumentNullException("transactions");
             }
 
+            _ticker = transactions[0].Ticker;
             _additiveTransactions = new List<ITransaction>();
             _subtractiveTransactions = new List<ITransaction>();
             foreach (ITransaction transaction in transactions)
@@ -37,10 +43,14 @@ namespace Sonneville.PriceTools
             Validate();
         }
 
-        #endregion
-
-        private Position(SerializationInfo info, StreamingContext context)
+        /// <summary>
+        /// Deserializes a Position.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        protected Position(SerializationInfo info, StreamingContext context)
         {
+            _ticker = info.GetString("Ticker");
             _additiveTransactions =
                 (IList<ITransaction>) info.GetValue("AdditiveTransactions", typeof (IList<ITransaction>));
             _subtractiveTransactions =
@@ -48,12 +58,20 @@ namespace Sonneville.PriceTools
             Validate();
         }
 
+        #endregion
+
         #region IPosition Members
 
+        /// <summary>
+        /// Serializes a Position.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("additiveTransactions", _additiveTransactions);
-            info.AddValue("subtractiveTransactions", _subtractiveTransactions);
+            info.AddValue("Ticker", _ticker);
+            info.AddValue("AdditiveTransactions", _additiveTransactions);
+            info.AddValue("SubtractiveTransactions", _subtractiveTransactions);
         }
 
         /// <summary>
@@ -81,20 +99,20 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Gets the ticker symbol held by this Position.
+        /// </summary>
+        public string Ticker
+        {
+            get { return _ticker; }
+        }
+
+        /// <summary>
         ///   Gets the total value of the Position, including commissions.
         /// </summary>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         public decimal this[DateTime date]
         {
             get { return GetValue(date); }
-        }
-
-        /// <summary>
-        ///   Gets the span of the ITimeSeries.
-        /// </summary>
-        public int Span
-        {
-            get { return Duration.Days; }
         }
 
         /// <summary>
@@ -130,19 +148,25 @@ namespace Sonneville.PriceTools
         /// <param name = "transaction">The <see cref = "ITransaction" /> to add to the IPosition.</param>
         public void AddTransaction(ITransaction transaction)
         {
+            if (transaction.Ticker != _ticker)
+            {
+                throw new ArgumentOutOfRangeException(String.Format("Transactions added to this Position must have Ticker = {0}.", _ticker));
+            }
             switch (transaction.OrderType)
             {
+                case OrderType.Deposit:
                 case OrderType.Buy:
                 case OrderType.SellShort:
                     IncreasePosition(transaction);
                     break;
+                case OrderType.Withdrawal:
                 case OrderType.Sell:
                 case OrderType.BuyToCover:
                     DecreasePosition(transaction);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("transaction", transaction,
-                                                          "Positions can only contain ITransaction types Buy, BuyToCover, Sell, and SellShort.");
+                                                          "Positions can only contain ITransaction types Deposit, Withdrawal, Buy, BuyToCover, Sell, and SellShort.");
             }
         }
 
@@ -291,29 +315,43 @@ namespace Sonneville.PriceTools
         {
             foreach (ITransaction aTransaction in AdditiveTransactions)
             {
+                // Validate Ticker
+                if (aTransaction.Ticker != _ticker)
+                {
+                    throw new ArgumentOutOfRangeException(String.Format("Transactions added to this Position must have Ticker = {0}.", _ticker));
+                }
+               
                 // Validate OrderType
                 switch (aTransaction.OrderType)
                 {
+                    case OrderType.Deposit:
                     case OrderType.Buy:
                     case OrderType.SellShort:
                         break;
                     default:
                         // Not an opening transaction
-                        throw new InvalidPositionException("Additive transactions must be of type Buy or SellShort.");
+                        throw new InvalidPositionException("Additive transactions must be of type Deposit, Buy, or SellShort.");
                 }
             }
             foreach (ITransaction sTransaction in SubtractiveTransactions)
             {
+                // Validate Ticker
+                if (sTransaction.Ticker != _ticker)
+                {
+                    throw new ArgumentOutOfRangeException(String.Format("Transactions added to this Position must have Ticker = {0}.", _ticker));
+                }
+
                 // Validate OrderType
                 switch (sTransaction.OrderType)
                 {
+                    case OrderType.Withdrawal:
                     case OrderType.Sell:
                     case OrderType.BuyToCover:
                         break;
                     default:
                         // Not an opening transaction
                         throw new InvalidPositionException(
-                            "Subtractive transactions must be of type Sell or BuyToCover.");
+                            "Subtractive transactions must be of type Withdrawal, Sell, or BuyToCover.");
                 }
 
                 // Verify that sold shares does not exceed available shares at the time of the transaction.

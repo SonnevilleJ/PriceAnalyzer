@@ -56,7 +56,7 @@ namespace Sonneville.PriceTools
         public Transaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
         {
             _date = date;
-            if(type == OrderType.Deposit || type == OrderType.Withdrwawal)
+            if(type == OrderType.Deposit || type == OrderType.Withdrawal)
             {
                 throw new ArgumentOutOfRangeException("type", type, "Deposits and Withdrawals must use Deposit or Withdrawal instead of Transaction.");
             }

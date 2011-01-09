@@ -73,20 +73,17 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the value of all securities traded in this <see cref="ITransaction"/>.
-        /// </summary>
-        public decimal Price
-        {
-            get { return _amount; }
-        }
-
-        /// <summary>
         ///   Gets the commission charged for this <see cref="ITransaction"/>.
         /// </summary>
         public decimal Commission
         {
             get { return 0.0m; }
         }
+
+        /// <summary>
+        /// Gets the per-share price paid for this <see cref="ITransaction"/>.
+        /// </summary>
+        public abstract decimal Price { get; }
 
         #endregion
     }

@@ -9,17 +9,20 @@ namespace Sonneville.PriceTools
     public interface IPriceSeries : IPricePeriod, ITimeSeries
     {
         /// <summary>
+        /// Gets the beginning DateTime of the IPriceSeries.
+        /// </summary>
+        new DateTime Head { get; }
+
+        /// <summary>
+        /// Gets the ending DateTime of the IPriceSeries.
+        /// </summary>
+        new DateTime Tail { get; }
+
+        /// <summary>
         /// Inserts an IPricePeriod to this IPriceSeries.
         /// </summary>
         /// <param name="period">The IPricePeriod to insert into the IPriceSeries.</param>
         void InsertPeriod(IPricePeriod period);
-
-        /// <summary>
-        /// Converts this IPriceSeries to an IPricePeriod.
-        /// </summary>
-        /// <remarks>Note that this will result in a loss of resolution.</remarks>
-        /// <returns>A new IPricePeriod with the summarized price data from this IPriceSeries.</returns>
-        IPricePeriod ToPricePeriod();
 
         /// <summary>
         /// Gets the internal array of IPricePeriod objects stored within this IPriceSeries.
@@ -27,10 +30,10 @@ namespace Sonneville.PriceTools
         ReadOnlyCollection<PricePeriod> Periods { get; }
 
         /// <summary>
-        /// Gets the IPricePeriod at a given index within this IPriceSeries.
+        /// Gets the <see cref="IPricePeriod"/> at a given index within this IPriceSeries.
         /// </summary>
-        /// <param name="index">The index of the IPricePeriod to retrieve.</param>
-        /// <returns>The IPricePeriod stored at the given index.</returns>
+        /// <param name="index">The index of the <see cref="IPricePeriod"/> to retrieve.</param>
+        /// <returns>The <see cref="IPricePeriod"/> stored at the given index.</returns>
         new IPricePeriod this[DateTime index] { get; }
     }
 }

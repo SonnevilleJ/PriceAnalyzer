@@ -13,7 +13,7 @@
         /// <summary>
         ///   A cash withdrawal.
         /// </summary>
-        Withdrwawal,
+        Withdrawal,
 
         /// <summary>
         ///   A cash dividend was received.

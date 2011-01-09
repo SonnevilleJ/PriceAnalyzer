@@ -65,126 +65,78 @@ namespace Sonneville.PriceToolsTest
         #endregion
 
 
-        /// <summary>
-        ///A test for Portfolio Constructor
-        ///</summary>
         [TestMethod()]
-        public void PortfolioConstructorWithTransactionsTest()
-        {
-            const decimal availableCash = 10000m;
-            ITransaction[] transactions = null; // TODO: Initialize to an appropriate value
-            Portfolio target = new Portfolio(availableCash, transactions);
-            Assert.Inconclusive("TODO: Implement code to verify target");
-        }
-
-        /// <summary>
-        ///A test for Portfolio Constructor
-        ///</summary>
-        [TestMethod()]
-        public void PortfolioDefaultConstructorTest()
+        public void GetAvailableCashNoTransactions()
         {
             Portfolio target = new Portfolio();
-            Assert.AreEqual(0, target.AvailableCash);
+
+            const decimal expectedCash = 0;
+            decimal availableCash = target.GetAvailableCash(DateTime.Now);
+            Assert.AreEqual(expectedCash, availableCash);
         }
 
-        /// <summary>
-        ///A test for Portfolio Constructor
-        ///</summary>
         [TestMethod()]
-        public void PortfolioConstructorWithOpeningDepositTest()
+        public void GetValueNoTransactions()
         {
+            Portfolio target = new Portfolio();
+
+            const decimal expectedValue = 0;
+            decimal actualValue = target.GetValue(DateTime.Now);
+            Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        [TestMethod()]
+        public void GetAvailableCashOfDeposit()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
             const decimal openingDeposit = 10000m;
-            Portfolio target = new Portfolio(openingDeposit);
-            Assert.AreEqual(openingDeposit, target.AvailableCash);
+            Portfolio target = new Portfolio(dateTime, openingDeposit);
+
+            const decimal expectedCash = openingDeposit;
+            decimal availableCash = target.GetAvailableCash(dateTime);
+            Assert.AreEqual(expectedCash, availableCash);
         }
 
-        /// <summary>
-        ///A test for AddTransaction
-        ///</summary>
         [TestMethod()]
-        public void AddTransactionTest()
+        public void GetValueOfDeposit()
         {
-            Portfolio target = new Portfolio(); // TODO: Initialize to an appropriate value
-            ITransaction transaction = null; // TODO: Initialize to an appropriate value
-            target.AddTransaction(transaction);
-            Assert.Inconclusive("A method that does not return a value cannot be verified.");
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal openingDeposit = 10000m;
+            Portfolio target = new Portfolio(dateTime, openingDeposit);
+
+            const decimal expectedValue = openingDeposit;
+            decimal actualValue = target.GetValue(dateTime);
+            Assert.AreEqual(expectedValue, actualValue);
         }
 
-        /// <summary>
-        ///A test for HasValue
-        ///</summary>
         [TestMethod()]
-        public void HasValueTest()
+        public void GetAvailableCashAfterFullWithdrawal()
         {
-            Portfolio target = new Portfolio(); // TODO: Initialize to an appropriate value
-            DateTime date = new DateTime(); // TODO: Initialize to an appropriate value
-            bool expected = false; // TODO: Initialize to an appropriate value
-            bool actual;
-            actual = target.HasValue(date);
-            Assert.AreEqual(expected, actual);
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            Portfolio target = new Portfolio(dateTime, amount);
+
+            DateTime withdrawalDate = dateTime.AddDays(1);
+            target.Withdraw(dateTime.AddDays(1), amount);
+
+            const decimal expectedCash = 0;
+            decimal availableCash = target.GetAvailableCash(withdrawalDate);
+            Assert.AreEqual(expectedCash, availableCash);
         }
 
-        /// <summary>
-        ///A test for Head
-        ///</summary>
         [TestMethod()]
-        public void HeadTest()
+        public void GetValueAfterFullWithdrawal()
         {
-            Portfolio target = new Portfolio(); // TODO: Initialize to an appropriate value
-            DateTime actual;
-            actual = target.Head;
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            Portfolio target = new Portfolio(dateTime, amount);
 
-        /// <summary>
-        ///A test for Item
-        ///</summary>
-        [TestMethod()]
-        public void TestValueWithSingleDepositOnly()
-        {
-            DateTime date = new DateTime(2011, 1, 6);
-            const decimal amount = 500m;
-            Deposit deposit = new Deposit(date, amount);
-            Portfolio target = new Portfolio(0, deposit);
+            DateTime withdrawalDate = dateTime.AddDays(1);
+            target.Withdraw(dateTime.AddDays(1), amount);
 
-            decimal actual = target[date];
-
-            Assert.AreEqual(amount, actual);
-        }
-
-        /// <summary>
-        ///A test for OpenPositions
-        ///</summary>
-        [TestMethod()]
-        public void OpenPositionsTest()
-        {
-            Portfolio target = new Portfolio(); // TODO: Initialize to an appropriate value
-            IEnumerable<IPosition> actual;
-            actual = target.OpenPositions;
-            Assert.Inconclusive("Verify the correctness of this test method.");
-        }
-
-        /// <summary>
-        ///A test for Span
-        ///</summary>
-        [TestMethod()]
-        public void SpanTest()
-        {
-            Portfolio target = new Portfolio(500m);
-            Assert.AreEqual(1, target.Span);
-        }
-
-        /// <summary>
-        ///A test for Tail
-        ///</summary>
-        [TestMethod()]
-        public void TailTest()
-        {
-            Portfolio target = new Portfolio(); // TODO: Initialize to an appropriate value
-            DateTime actual;
-            actual = target.Tail;
-            Assert.Inconclusive("Verify the correctness of this test method.");
+            const decimal expectedValue = 0;
+            decimal actualValue = target.GetValue(withdrawalDate);
+            Assert.AreEqual(expectedValue, actualValue);
         }
     }
 }

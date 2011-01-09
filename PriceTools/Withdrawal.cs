@@ -20,9 +20,9 @@ namespace Sonneville.PriceTools
         /// Constructs a Withdrawal.
         /// </summary>
         /// <param name="dateTime">The DateTime of the Withdrawal.</param>
-        /// <param name="ticker">The holding from which cash is withdrawn.</param>
         /// <param name="amount">The amount of cash withdrawn.</param>
-        public Withdrawal(DateTime dateTime, string ticker, decimal amount) : base(dateTime, ticker, amount)
+        /// <param name="ticker">The holding from which cash is withdrawn.</param>
+        public Withdrawal(DateTime dateTime, decimal amount, string ticker) : base(dateTime, ticker, amount)
         {
         }
 
@@ -33,7 +33,15 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override OrderType OrderType
         {
-            get { return OrderType.Withdrwawal; }
+            get { return OrderType.Withdrawal; }
+        }
+
+        /// <summary>
+        /// Gets the per-share price paid for this <see cref="ITransaction"/>.
+        /// </summary>
+        public override decimal Price
+        {
+            get { return -1.0m; }
         }
 
         #endregion

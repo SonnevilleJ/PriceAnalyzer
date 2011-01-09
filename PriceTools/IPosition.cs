@@ -20,11 +20,23 @@ namespace Sonneville.PriceTools
         double OpenShares { get; }
 
         /// <summary>
+        /// Gets the ticker symbol held by this Position.
+        /// </summary>
+        string Ticker { get; }
+
+        /// <summary>
         ///   Adds an <see cref = "ITransaction" /> to this IPosition.
         ///   Note: An IPosition can only contain <see cref = "ITransaction" />s for a single ticker symbol.
         /// </summary>
         /// <param name = "transaction">The <see cref = "ITransaction" /> to add to the IPosition.</param>
         void AddTransaction(ITransaction transaction);
+
+        /// <summary>
+        ///   Gets the value of the IPortfolio as of a given date.
+        /// </summary>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The value of the IPortfolio as of the given date.</returns>
+        decimal GetValue(DateTime date);
 
         /// <summary>
         ///   Gets the value of the IPortfolio as of a given date.
@@ -69,13 +81,6 @@ namespace Sonneville.PriceTools
         ///   Gets the total rate of return for this IPosition, after commissions.
         /// </summary>
         decimal GetTotalReturn(DateTime date);
-
-        /// <summary>
-        ///   Gets the value of the IPortfolio as of a given date.
-        /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The value of the IPortfolio as of the given date.</returns>
-        decimal GetValue(DateTime date);
 
         /// <summary>
         ///   Gets the total rate of return on an annual basis for this Position.

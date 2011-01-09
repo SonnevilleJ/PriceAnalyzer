@@ -16,11 +16,6 @@ namespace Sonneville.PriceTools
         decimal this[DateTime index] { get; }
 
         /// <summary>
-        /// Gets the span of the ITimeSeries.
-        /// </summary>
-        int Span { get; }
-
-        /// <summary>
         /// Gets the first DateTime in the ITimeSeries.
         /// </summary>
         DateTime Head { get; }

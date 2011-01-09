@@ -234,13 +234,13 @@ namespace Sonneville.PriceTools.Data
             IPortfolio portfolio = new Portfolio();
             foreach(DataRow row in table.Rows)
             {
-                ITransaction transaction = null;
+                ITransaction transaction;
                 switch ((OrderType) row[OrderColumn])
                 {
                     case OrderType.Deposit:
                         transaction = new Deposit((DateTime) row[DateColumn], (decimal) row[PriceColumn]);
                         break;
-                    case OrderType.Withdrwawal:
+                    case OrderType.Withdrawal:
                         transaction = new Withdrawal((DateTime)row[DateColumn], (decimal)row[PriceColumn]);
                         break;
                     default:
@@ -252,7 +252,7 @@ namespace Sonneville.PriceTools.Data
                                                       (decimal) row[CommissionColumn]);
                         break;
                 }
-                portfolio.AddTransaction(transaction);
+                //portfolio.AddTransaction(transaction);
             }
             return portfolio;
         }

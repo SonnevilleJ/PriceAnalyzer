@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private readonly ITimeSeries _timeSeries;
+        private readonly IPriceSeries _priceSeries;
         private readonly Int32 _range;
         private readonly IDictionary<DateTime, decimal> _dictionary;
         private readonly object _padlock = new object();
@@ -25,12 +25,12 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs an Indicator for a given <see cref="ITimeSeries"/>.
         /// </summary>
-        /// <param name="timeSeries">The <see cref="ITimeSeries"/> to measure.</param>
+        /// <param name="priceSeries">The <see cref="ITimeSeries"/> to measure.</param>
         /// <param name="range">The range used by this indicator.</param>
-        protected Indicator(ITimeSeries timeSeries, int range)
+        protected Indicator(IPriceSeries priceSeries, int range)
         {
-            _timeSeries = timeSeries;
-            _dictionary = new Dictionary<DateTime, decimal>(timeSeries.Span - range);
+            _priceSeries = priceSeries;
+            _dictionary = new Dictionary<DateTime, decimal>(priceSeries.Periods.Count - range);
             _range = range;
         }
 
@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual DateTime Head
         {
-            get { return _timeSeries.Head; }
+            get { return _priceSeries.Head; }
         }
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual DateTime Tail
         {
-            get { return _timeSeries.Tail; }
+            get { return _priceSeries.Tail; }
         }
 
         /// <summary>
@@ -123,9 +123,9 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
         /// </summary>
-        protected ITimeSeries TimeSeries
+        protected ITimeSeries PriceSeries
         {
-            get { return _timeSeries; }
+            get { return _priceSeries; }
         }
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Sonneville.PriceTools
         protected Indicator(SerializationInfo info, StreamingContext context)
         {
             _dictionary = (IDictionary<DateTime, decimal>) info.GetValue("Dictionary", typeof (IDictionary<DateTime, decimal>));
-            _timeSeries = (ITimeSeries) info.GetValue("TimeSeries", typeof (ITimeSeries));
+            _priceSeries = (IPriceSeries) info.GetValue("priceSeries", typeof (IPriceSeries));
             _range = (Int32) info.GetValue("Range", typeof (Int32));
         }
 
@@ -172,7 +172,7 @@ namespace Sonneville.PriceTools
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Dictionary", _dictionary);
-            info.AddValue("TimeSeries", TimeSeries);
+            info.AddValue("priceSeries", PriceSeries);
             info.AddValue("Range", _range);
         }
 

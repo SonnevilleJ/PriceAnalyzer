@@ -62,8 +62,8 @@
     <Compile Include="ITimeSeries.cs" />
     <Compile Include="ITransaction.cs" />
     <Compile Include="MovingAverageMethod.cs" />
-    <Compile Include="OrderType.cs" />
     <Compile Include="Portfolio.cs" />
+    <Compile Include="OrderType.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="PriceSeries.cs" />
     <Compile Include="PricePeriod.cs" />

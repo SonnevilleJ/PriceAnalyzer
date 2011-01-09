@@ -9,24 +9,69 @@ namespace Sonneville.PriceTools
     public interface IPortfolio : ITimeSeries
     {
         /// <summary>
-        ///   Gets an <see cref = "IList{T}" /> of open positions held in this Portfolio.
+        ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
         /// </summary>
-        IEnumerable<IPosition> OpenPositions { get; }
+        IDictionary<string, IPosition> Positions { get; }
 
         /// <summary>
-        ///   Gets the amount of uninvested cash in this Portfolio.
+        ///   Gets the amount of uninvested cash in this IPortfolio.
         /// </summary>
-        decimal AvailableCash { get; }
+        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
+        decimal GetAvailableCash(DateTime asOfDate);
 
         /// <summary>
-        ///   Gets the current total value of this Portfolio.
+        /// Gets or sets the ticker to use for the holding of cash in this IPortfolio.
         /// </summary>
-        decimal GetValue();
+        string CashTicker { get; }
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this portfolio.
+        ///   Gets the current total value of this IPortfolio.
         /// </summary>
-        /// <param name="transaction">The <see cref="ITransaction"/> to add to this portfolio.</param>
-        void AddTransaction(ITransaction transaction);
+        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
+        decimal GetValue(DateTime asOfDate);
+
+        /// <summary>
+        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        /// </summary>
+        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
+        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
+        /// <param name="price">The per-share price of the ticker symbol.</param>
+        /// <param name="shares">The number of shares.</param>
+        /// <param name="commission">The commission charge for the transaction.</param>
+        void AddTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission);
+
+        /// <summary>
+        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        /// </summary>
+        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
+        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
+        /// <param name="price">The per-share price of the ticker symbol.</param>
+        /// <param name="shares">The number of shares.</param>
+        void AddTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares);
+
+        /// <summary>
+        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        /// </summary>
+        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
+        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
+        /// <param name="price">The per-share price of the ticker symbol.</param>
+        void AddTransaction(DateTime date, OrderType type, string ticker, decimal price);
+
+        /// <summary>
+        /// Deposits cash to this IPortfolio.
+        /// </summary>
+        /// <param name="dateTime">The <see cref="DateTime"/> of the deposit.</param>
+        /// <param name="cashAmount">The amount of cash deposited.</param>
+        void Deposit(DateTime dateTime, decimal cashAmount);
+
+        /// <summary>
+        /// Withdraws cash from this IPortfolio. AvailableCash must be greater than or equal to the withdrawn amount.
+        /// </summary>
+        /// <param name="dateTime">The <see cref="DateTime"/> of the withdrawal.</param>
+        /// <param name="cashAmount">The amount of cash withdrawn.</param>
+        void Withdraw(DateTime dateTime, decimal cashAmount);
     }
 }

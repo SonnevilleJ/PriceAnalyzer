@@ -164,10 +164,10 @@ namespace Sonneville.PriceToolsTest
             PriceSeries target = new PriceSeries(new PricePeriod(head, tail, open, high, low, close));
             for (int i = 1; i < max; i++)
             {
-                Assert.IsTrue(target.Span == i);
+                Assert.IsTrue(target.Periods.Count == i);
                 target.InsertPeriod(new PricePeriod(head.AddDays(i), tail.AddDays(i), open, high, low, close));
             }
-            Assert.IsTrue(target.Span == max);
+            Assert.IsTrue(target.Periods.Count == max);
         }
     }
 }

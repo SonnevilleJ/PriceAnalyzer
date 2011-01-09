@@ -12,55 +12,55 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private readonly IList<ITransaction> _transactions = new List<ITransaction>();
-        private decimal _availableCash;
+        private readonly string _ticker = String.Empty;
+        private readonly IDictionary<string, IPosition> _positions = new Dictionary<string, IPosition>();
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Constructs an empty Portfolio.
+        /// Constructs a Portfolio.
         /// </summary>
         public Portfolio()
-            : this(0.00m)
         {
+            
         }
 
         /// <summary>
-        /// Constructs a Portfolio with only an opening deposit.
+        /// Constructs a Portfolio with an opening deposit.
         /// </summary>
-        /// <param name="openingDeposit">The amount deposited when opening the Portfolio.</param>
-        public Portfolio(decimal openingDeposit)
-        {
-            if(openingDeposit < 0)
-            {
-                throw new ArgumentOutOfRangeException("openingDeposit", openingDeposit, "Cash must be greater than or equal to $0.00");
-            }
-            _availableCash = openingDeposit;
-        }
+        /// <param name="dateTime">The <see cref="DateTime"/> cash is deposit in the Portfolio.</param>
+        /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
+        public Portfolio(DateTime dateTime, decimal openingDeposit)
+            : this(dateTime, openingDeposit, String.Empty)
+        {}
 
         /// <summary>
-        /// Constructs a Portfolio with available cash and a list of previous transactions.
+        /// Constructs a Portfolio with an opening deposit invested in a given ticker symbol.
         /// </summary>
-        /// <param name="availableCash"></param>
-        /// <param name="transactions"></param>
-        public Portfolio(decimal availableCash, params ITransaction[] transactions)
-            : this(availableCash)
+        /// <param name="dateTime">The <see cref="DateTime"/> cash is deposit in the Portfolio.</param>
+        /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
+        /// <param name="ticker">The ticker symbol the deposit is invested in.</param>
+        public Portfolio(DateTime dateTime, decimal openingDeposit, string ticker)
         {
-            foreach (ITransaction transaction in transactions)
-            {
-                AddTransaction(transaction);
-            }
+            _ticker = ticker.ToUpperInvariant();
+            Deposit(dateTime, openingDeposit);
         }
 
         #endregion
 
         #region Implementation of ISerializable
 
+        /// <summary>
+        /// Deserializes a Portfolio.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         protected Portfolio(SerializationInfo info, StreamingContext context)
         {
-            throw new NotImplementedException();
+            _ticker = info.GetString("Ticker");
+            _positions = (IDictionary<string, IPosition>) info.GetValue("Positions", typeof (Dictionary<string, IPosition>));
         }
 
         /// <summary>
@@ -69,7 +69,8 @@ namespace Sonneville.PriceTools
         /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data. </param><param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization. </param><exception cref="T:System.Security.SecurityException">The caller does not have the required permission. </exception>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            throw new NotImplementedException();
+            info.AddValue("Ticker", _ticker);
+            info.AddValue("Positions", _positions);
         }
 
         #endregion
@@ -77,21 +78,13 @@ namespace Sonneville.PriceTools
         #region Implementation of ITimeSeries
 
         /// <summary>
-        /// Gets a value stored at a given index of the ITimeSeries.
+        /// Gets a value stored at a given DateTime index of the ITimeSeries.
         /// </summary>
-        /// <param name="index">The index of the desired value.</param>
-        /// <returns>The value stored at the given index.</returns>
+        /// <param name="index">The DateTime of the desired value.</param>
+        /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
         public decimal this[DateTime index]
         {
-            get { throw new NotImplementedException(); }
-        }
-
-        /// <summary>
-        /// Gets the span of the ITimeSeries.
-        /// </summary>
-        public int Span
-        {
-            get { throw new NotImplementedException(); }
+            get { return GetValue(index); }
         }
 
         /// <summary>
@@ -99,7 +92,16 @@ namespace Sonneville.PriceTools
         /// </summary>
         public DateTime Head
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                DateTime earliest = DateTime.Now;
+                // next line produces "Access to modified closure" warning in Resharper. This is expected/desired behavior.
+                foreach (var position in Positions.Values.Where(position => position.Head <= earliest))
+                {
+                    earliest = position.Head;
+                }
+                return earliest;
+            }
         }
 
         /// <summary>
@@ -107,12 +109,26 @@ namespace Sonneville.PriceTools
         /// </summary>
         public DateTime Tail
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                DateTime latest = new DateTime();
+                // next line produces "Access to modified closure" warning in Resharper. This is expected/desired behavior.
+                foreach (var position in Positions.Values.Where(position => position.Tail >= latest))
+                {
+                    latest = position.Head;
+                }
+                return latest;
+            }
         }
 
+        /// <summary>
+        /// Determines if the ITimeSeries has a valid value for a given date.
+        /// </summary>
+        /// <param name="date">The date to check.</param>
+        /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
         public bool HasValue(DateTime date)
         {
-            return (date >= Head && date <= Tail);
+            return date > Head && date < Tail;
         }
 
         #endregion
@@ -120,110 +136,121 @@ namespace Sonneville.PriceTools
         #region Implementation of IPortfolio
 
         /// <summary>
-        ///   Gets an <see cref = "IList{T}" /> of open positions held in this Portfolio.
+        ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
         /// </summary>
-        public IEnumerable<IPosition> OpenPositions
+        public IDictionary<string, IPosition> Positions
         {
-            get
-            {
-                throw new NotImplementedException();
-            }
+            get { return _positions; }
         }
 
         /// <summary>
-        ///   Gets the amount of uninvested cash in this Portfolio.
+        ///   Gets the amount of uninvested cash in this IPortfolio.
         /// </summary>
-        public decimal AvailableCash
+        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
+        public decimal GetAvailableCash(DateTime asOfDate)
         {
-            get
-            {
-                return _availableCash;
-            }
-            private set
-            {
-                if(value < 0.0m)
-                {
-                    throw new ArgumentOutOfRangeException("value", value, "Cash amount must be greater than or equal to $0.00.");
-                }
-                _availableCash = value;
-            }
+            return Positions.Values.Where(position => position.Ticker == CashTicker).Sum(position => position.GetValue(asOfDate));
         }
 
         /// <summary>
-        ///   Gets the current total value of this Portfolio.
+        /// Gets or sets the ticker to use for the holding of cash in this IPortfolio.
         /// </summary>
-        public decimal GetValue()
+        public string CashTicker
         {
-            return this[DateTime.Today];
+            get { return _ticker; }
         }
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this portfolio.
+        ///   Gets the current total value of this IPortfolio.
         /// </summary>
-        /// <param name="transaction">The <see cref="ITransaction"/> to add to this portfolio.</param>
-        public void AddTransaction(ITransaction transaction)
+        public decimal GetValue(DateTime asOfDate)
         {
-            switch (transaction.OrderType)
-            {
-                case OrderType.Buy:
-                    AddBuy(transaction);
-                    break;
-                case OrderType.BuyToCover:
-                    AddBuyToCover(transaction);
-                    break;
-                case OrderType.Deposit:
-                    AddDeposit(transaction);
-                    break;
-                case OrderType.Dividend:
-                    AddDividend(transaction);
-                    break;
-                case OrderType.Sell:
-                    AddSell(transaction);
-                    break;
-                case OrderType.SellShort:
-                    AddSellShort(transaction);
-                    break;
-                case OrderType.Withdrwawal:
-                    AddWithDrawal(transaction);
-                    break;
-            }
+            return Positions.Values.Sum(position => position.GetValue(asOfDate));
+        }
+
+        /// <summary>
+        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        /// </summary>
+        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
+        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
+        /// <param name="price">The per-share price of the ticker symbol.</param>
+        /// <param name="shares">The number of shares.</param>
+        /// <param name="commission">The commission charge for the transaction.</param>
+        public void AddTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
+        {
+            ITransaction transaction = new Transaction(date, type, ticker, price, shares, commission);
+            AddToPosition(transaction);
+        }
+
+        /// <summary>
+        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        /// </summary>
+        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
+        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
+        /// <param name="price">The per-share price of the ticker symbol.</param>
+        /// <param name="shares">The number of shares.</param>
+        public void AddTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares)
+        {
+            ITransaction transaction = new Transaction(date, type, ticker, price, shares);
+            AddToPosition(transaction);
+        }
+
+        /// <summary>
+        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        /// </summary>
+        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
+        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
+        /// <param name="price">The per-share price of the ticker symbol.</param>
+        public void AddTransaction(DateTime date, OrderType type, string ticker, decimal price)
+        {
+            ITransaction transaction = new Transaction(date, type, ticker, price);
+            AddToPosition(transaction);
+        }
+
+        /// <summary>
+        /// Deposits cash to this IPortfolio.
+        /// </summary>
+        /// <param name="dateTime">The <see cref="DateTime"/> of the deposit.</param>
+        /// <param name="cashAmount">The amount of cash deposited.</param>
+        public void Deposit(DateTime dateTime, decimal cashAmount)
+        {
+            Deposit deposit = new Deposit(dateTime, cashAmount, CashTicker);
+            AddToPosition(deposit);
+        }
+
+        /// <summary>
+        /// Withdraws cash from this IPortfolio. AvailableCash must be greater than or equal to the withdrawn amount.
+        /// </summary>
+        /// <param name="dateTime">The <see cref="DateTime"/> of the withdrawal.</param>
+        /// <param name="cashAmount">The amount of cash withdrawn.</param>
+        public void Withdraw(DateTime dateTime, decimal cashAmount)
+        {
+            Withdrawal withdrawal = new Withdrawal(dateTime, cashAmount, CashTicker);
+            AddToPosition(withdrawal);
         }
 
         #endregion
 
-        private void AddBuy(ITransaction transaction)
+        #region Private Methods
+
+        private void AddToPosition(ITransaction transaction)
         {
-            throw new NotImplementedException();
+            string ticker = transaction.Ticker;
+            IPosition position;
+            if (_positions.TryGetValue(ticker, out position))
+            {
+                position.AddTransaction(transaction);
+            }
+            else
+            {
+                position = new Position(transaction);
+                _positions[ticker] = position;
+            }
         }
 
-        private void AddBuyToCover(ITransaction transaction)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void AddDeposit(ITransaction transaction)
-        {
-            _transactions.Add((Deposit) transaction);
-        }
-
-        private void AddDividend(ITransaction transaction)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void AddSell(ITransaction transaction)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void AddSellShort(ITransaction transaction)
-        {
-            throw new NotImplementedException();
-        }
-
-        private void AddWithDrawal(ITransaction transaction)
-        {
-            throw new NotImplementedException();
-        }
+        #endregion
     }
 }

@@ -147,6 +147,11 @@ namespace Sonneville.PriceTools
             get { return ((IPriceSeries)this)[index].Close; }
         }
 
+        /// <summary>
+        /// Gets the <see cref="IPricePeriod"/> at a given index within this PriceSeries.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="IPricePeriod"/> to retrieve.</param>
+        /// <returns>The <see cref="IPricePeriod"/> stored at the given index.</returns>
         public IPricePeriod this[DateTime index]
         {
             get
@@ -157,14 +162,6 @@ namespace Sonneville.PriceTools
                 }
                 throw new ArgumentOutOfRangeException("index", index, String.Format("DateTime {0} was not found in this PriceSeries.", index));
             }
-        }
-
-        /// <summary>
-        ///   Gets the length of this PriceSeries.
-        /// </summary>
-        public int Span
-        {
-            get { return Periods.Count; }
         }
 
         #endregion
@@ -206,22 +203,14 @@ namespace Sonneville.PriceTools
             }
         }
 
-        /// <summary>
-        ///   Returns an IPricePeriod with the OHLC data for the entire PriceSeries.
-        ///   Note that resolution is lost, because a PricePeriod cannot be broken down into smaller PricePeriods.
-        /// </summary>
-        /// <returns>An IPricePeriod representing the cumulative price history for the duration of this PriceSeries.</returns>
-        public IPricePeriod ToPricePeriod()
-        {
-            return new PricePeriod(this);
-        }
-
         public bool HasValue(DateTime date)
         {
             return (date >= Head && date <= Tail);
         }
 
         #endregion
+
+        #region IComparable Members
 
         /// <summary>
         ///   Determines whether the specified <see cref = "PriceSeries" /> is equal to the current <see cref = "PriceSeries" />.
@@ -277,6 +266,8 @@ namespace Sonneville.PriceTools
         {
             return left != (PricePeriod) right;
         }
+
+        #endregion
 
         /// <summary>
         ///   Performs validation for the PriceSeries.
