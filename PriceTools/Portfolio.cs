@@ -96,7 +96,7 @@ namespace Sonneville.PriceTools
             {
                 DateTime earliest = DateTime.Now;
                 // next line produces "Access to modified closure" warning in Resharper. This is expected/desired behavior.
-                foreach (var position in Positions.Values.Where(position => position.Head <= earliest))
+                foreach (var position in Positions.Values.Where(position => position.Head < earliest))
                 {
                     earliest = position.Head;
                 }
@@ -113,9 +113,9 @@ namespace Sonneville.PriceTools
             {
                 DateTime latest = new DateTime();
                 // next line produces "Access to modified closure" warning in Resharper. This is expected/desired behavior.
-                foreach (var position in Positions.Values.Where(position => position.Tail >= latest))
+                foreach (var position in Positions.Values.Where(position => position.Tail > latest))
                 {
-                    latest = position.Head;
+                    latest = position.Tail;
                 }
                 return latest;
             }

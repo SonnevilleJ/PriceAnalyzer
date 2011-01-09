@@ -223,12 +223,12 @@ namespace Sonneville.PriceTools
 
         private ITransaction Last
         {
-            get { return SubtractiveTransactions.Last(); }
+            get { return Transactions.Last(); }
         }
 
         private ITransaction First
         {
-            get { return AdditiveTransactions.First(); }
+            get { return Transactions.First(); }
         }
 
         /// <summary>

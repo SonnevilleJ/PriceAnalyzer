@@ -68,7 +68,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void GetAvailableCashNoTransactions()
         {
-            Portfolio target = new Portfolio();
+            IPortfolio target = new Portfolio();
 
             const decimal expectedCash = 0;
             decimal availableCash = target.GetAvailableCash(DateTime.Now);
@@ -78,7 +78,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void GetValueNoTransactions()
         {
-            Portfolio target = new Portfolio();
+            IPortfolio target = new Portfolio();
 
             const decimal expectedValue = 0;
             decimal actualValue = target.GetValue(DateTime.Now);
@@ -90,7 +90,7 @@ namespace Sonneville.PriceToolsTest
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
             const decimal openingDeposit = 10000m;
-            Portfolio target = new Portfolio(dateTime, openingDeposit);
+            IPortfolio target = new Portfolio(dateTime, openingDeposit);
 
             const decimal expectedCash = openingDeposit;
             decimal availableCash = target.GetAvailableCash(dateTime);
@@ -102,7 +102,7 @@ namespace Sonneville.PriceToolsTest
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
             const decimal openingDeposit = 10000m;
-            Portfolio target = new Portfolio(dateTime, openingDeposit);
+            IPortfolio target = new Portfolio(dateTime, openingDeposit);
 
             const decimal expectedValue = openingDeposit;
             decimal actualValue = target.GetValue(dateTime);
@@ -114,7 +114,7 @@ namespace Sonneville.PriceToolsTest
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            Portfolio target = new Portfolio(dateTime, amount);
+            IPortfolio target = new Portfolio(dateTime, amount);
 
             DateTime withdrawalDate = dateTime.AddDays(1);
             target.Withdraw(dateTime.AddDays(1), amount);
@@ -129,7 +129,7 @@ namespace Sonneville.PriceToolsTest
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            Portfolio target = new Portfolio(dateTime, amount);
+            IPortfolio target = new Portfolio(dateTime, amount);
 
             DateTime withdrawalDate = dateTime.AddDays(1);
             target.Withdraw(dateTime.AddDays(1), amount);
@@ -137,6 +137,86 @@ namespace Sonneville.PriceToolsTest
             const decimal expectedValue = 0;
             decimal actualValue = target.GetValue(withdrawalDate);
             Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        [TestMethod]
+        public void HeadTestWithOneTransaction()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            IPortfolio target = new Portfolio(dateTime, amount);
+
+            DateTime expected = dateTime;
+            DateTime actual = target.Head;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void HeadTestWithTwoTransactions()
+        {
+            DateTime originalDate = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            IPortfolio target = new Portfolio(originalDate, amount);
+
+            DateTime newDate = originalDate.AddDays(10);
+            target.Deposit(newDate, amount);
+
+            DateTime expected = originalDate;
+            DateTime actual = target.Head;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TailTestWithOneTransaction()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            IPortfolio target = new Portfolio(dateTime, amount);
+
+            DateTime expected = dateTime;
+            DateTime actual = target.Tail;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TailTestWithTwoTransactions()
+        {
+            DateTime originalDate = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            IPortfolio target = new Portfolio(originalDate, amount);
+
+            DateTime newDate = originalDate.AddDays(10);
+            target.Deposit(newDate, amount);
+
+            DateTime expected = newDate;
+            DateTime actual = target.Tail;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CashTickerSetCorrectly()
+        {
+            DateTime originalDate = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            const string ticker = "FDRXX"; // Fidelity Cash Reserves
+            IPortfolio target = new Portfolio(originalDate, amount, ticker);
+
+            const string expected = ticker;
+            string actual = target.CashTicker;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void ExceptionThrownWhenDepositConflictsWithCashTicker()
+        {
+            DateTime originalDate = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            const string ticker = "FDRXX"; // Fidelity Cash Reserves
+            IPortfolio target = new Portfolio(originalDate, amount, ticker);
+
+            const string newTicker = "FTEXX"; // Fidelity Municipal Money Market
+            target.AddTransaction(originalDate.AddDays(100), OrderType.Deposit, newTicker, 5000);
         }
     }
 }
