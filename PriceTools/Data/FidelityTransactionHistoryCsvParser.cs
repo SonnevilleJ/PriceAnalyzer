@@ -16,7 +16,9 @@ namespace Sonneville.PriceTools.Data
         /// <param name = "csvStream"></param>
         public FidelityTransactionHistoryCsvParser(Stream csvStream)
             : base(csvStream)
-        {}
+        {
+            
+        }
 
         #endregion
 

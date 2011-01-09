@@ -72,14 +72,19 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void ParsePortfolioTest()
         {
-            Stream csvStream = new MemoryStream(TestData.FidelityTransactions);
-            FidelityTransactionHistoryCsvParser target = new FidelityTransactionHistoryCsvParser(csvStream);
+            using (Stream csvStream = new MemoryStream(TestData.FidelityTransactions))
+            {
+                IPortfolio portfolio;
+                using (FidelityTransactionHistoryCsvParser target = new FidelityTransactionHistoryCsvParser(csvStream))
+                {
+                    portfolio = target.ParsePortfolio();
+                }
 
-            IPortfolio portfolio = target.ParsePortfolio();
-            decimal actual = portfolio[new DateTime(2010, 09, 13)];
+                const decimal expected = 2848.4m;
+                decimal actual = portfolio.GetValue(new DateTime(2010, 09, 13));
+                Assert.AreEqual(expected, actual);
+            }
 
-            const decimal expected = 2848.4m;
-            Assert.AreEqual(expected, actual);
         }
     }
 }
