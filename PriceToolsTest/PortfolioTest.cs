@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Sonneville.PriceTools;
+﻿using Sonneville.PriceTools;
 using Sonneville.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
@@ -258,11 +257,7 @@ namespace Sonneville.PriceToolsTest
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
             IPortfolio expected = new Portfolio(purchaseDate, amount, ticker);
 
-            MemoryStream memoryStream = new MemoryStream();
-            TestUtilities.BinarySerialize(expected, memoryStream);
-            IPortfolio actual = (IPortfolio) TestUtilities.BinaryDeserialize(memoryStream);
-
-            Assert.AreEqual(expected, actual);
+            TestUtilities.VerifySerialization(expected);
         }
     }
 }

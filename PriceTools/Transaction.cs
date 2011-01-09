@@ -31,7 +31,9 @@ namespace Sonneville.PriceTools
         /// <param name="price">The price at which the Transaction took place.</param>
         public Transaction(DateTime date, OrderType type, string ticker, decimal price)
             : this(date, type, ticker, price, 1.0)
-        { }
+        {
+            
+        }
 
         /// <summary>
         /// Constructs a Transaction.

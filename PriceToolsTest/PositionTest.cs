@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.Utilities;
@@ -256,11 +255,7 @@ namespace Sonneville.PriceToolsTest
 
             IPosition expected = new Position(buy);
 
-            MemoryStream stream = new MemoryStream();
-            TestUtilities.BinarySerialize(expected, stream);
-            IPosition actual = (IPosition) TestUtilities.BinaryDeserialize(stream);
-
-            Assert.AreEqual(expected, actual);
+            TestUtilities.VerifySerialization(expected);
         }
     }
 }

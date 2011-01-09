@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.Utilities;
@@ -123,13 +122,9 @@ namespace Sonneville.PriceToolsTest
             IPricePeriod p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
             IPricePeriod p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
-            PriceSeries period = new PriceSeries(p1, p2, p3);
+            PriceSeries expected = new PriceSeries(p1, p2, p3);
 
-            MemoryStream stream = new MemoryStream();
-            TestUtilities.BinarySerialize(period, stream);
-            stream.Position = 0;
-            PriceSeries result = (PriceSeries)TestUtilities.BinaryDeserialize(stream);
-            Assert.AreEqual(result, period);
+            TestUtilities.VerifySerialization(expected);
         }
 
         [TestMethod]

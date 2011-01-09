@@ -1,8 +1,6 @@
-﻿using System.IO;
-using Sonneville.PriceTools;
+﻿using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Runtime.Serialization;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
@@ -124,11 +122,7 @@ namespace Sonneville.PriceToolsTest
 
             ITransaction expected = new Transaction(purchaseDate, OrderType.Buy, ticker, buyPrice, shares, commission);
 
-            MemoryStream stream = new MemoryStream();
-            TestUtilities.BinarySerialize(expected, stream);
-
-            ITransaction actual = (ITransaction)TestUtilities.BinaryDeserialize(stream);
-            Assert.AreEqual(expected, actual);
+            TestUtilities.VerifySerialization(expected);
         }
 
         /// <summary>
