@@ -4,7 +4,6 @@ using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Permissions;
 using Sonneville.PriceTools.Data;
 
@@ -74,28 +73,6 @@ namespace Sonneville.PriceTools
         {
             base.GetObjectData(info, context);
             info.AddValue("Periods", _periods);
-        }
-
-        /// <summary>
-        ///   Performs a binary serialization of an IPriceSeries to a <see cref = "Stream" />.
-        /// </summary>
-        /// <param name = "period">The IPriceSeries to serialize.</param>
-        /// <param name = "stream">The <see cref = "Stream" /> to use for serialization.</param>
-        public static void BinarySerialize(IPriceSeries period, Stream stream)
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, period);
-        }
-
-        /// <summary>
-        ///   Performs a binary deserialization of an IPriceSeries from a <see cref = "Stream" />.
-        /// </summary>
-        /// <param name = "stream">The <see cref = "Stream" /> to use for deserialization.</param>
-        /// <returns>An <see cref = "IPriceSeries" />.</returns>
-        public new static IPriceSeries BinaryDeserialize(Stream stream)
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            return (PriceSeries) formatter.Deserialize(stream);
         }
 
         #endregion

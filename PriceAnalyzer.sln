@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceChartTools", "PriceCha
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvReader", "CsvReader\CsvReader.csproj", "{9E171B34-27C7-4017-B624-803250B399D2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = PriceAnalyzer.vsmdi
@@ -81,6 +83,16 @@ Global
 		{9E171B34-27C7-4017-B624-803250B399D2}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{9E171B34-27C7-4017-B624-803250B399D2}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9E171B34-27C7-4017-B624-803250B399D2}.Release|x86.ActiveCfg = Release|Any CPU
+		{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

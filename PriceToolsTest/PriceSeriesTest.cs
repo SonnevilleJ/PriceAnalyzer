@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -125,9 +126,9 @@ namespace Sonneville.PriceToolsTest
             PriceSeries period = new PriceSeries(p1, p2, p3);
 
             MemoryStream stream = new MemoryStream();
-            PriceSeries.BinarySerialize(period, stream);
+            TestUtilities.BinarySerialize(period, stream);
             stream.Position = 0;
-            PriceSeries result = (PriceSeries)PriceSeries.BinaryDeserialize(stream);
+            PriceSeries result = (PriceSeries)TestUtilities.BinaryDeserialize(stream);
             Assert.AreEqual(result, period);
         }
 

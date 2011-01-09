@@ -1,7 +1,8 @@
-﻿using Sonneville.PriceTools;
+﻿using System.IO;
+using Sonneville.PriceTools;
+using Sonneville.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -246,6 +247,22 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(false, target.HasValue(testDate));
             Assert.AreEqual(true, target.HasValue(purchaseDate));
             Assert.AreEqual(true, target.HasValue(purchaseDate.AddDays(1)));
+        }
+
+        [TestMethod]
+        public void SerializePortfolioTest()
+        {
+            DateTime testDate = new DateTime(2011, 1, 8);
+            DateTime purchaseDate = testDate.AddDays(1);
+            const decimal amount = 10000m;
+            const string ticker = "FDRXX"; // Fidelity Cash Reserves
+            IPortfolio expected = new Portfolio(purchaseDate, amount, ticker);
+
+            MemoryStream memoryStream = new MemoryStream();
+            TestUtilities.BinarySerialize(expected, memoryStream);
+            IPortfolio actual = (IPortfolio) TestUtilities.BinaryDeserialize(memoryStream);
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }

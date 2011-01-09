@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -238,6 +240,27 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(false, target.HasValue(testDate));
             Assert.AreEqual(true, target.HasValue(purchaseDate));
             Assert.AreEqual(true, target.HasValue(purchaseDate.AddDays(1)));
+        }
+
+        [TestMethod]
+        public void SerializePositionTest()
+        {
+            const string ticker = "DE";
+            DateTime testDate = new DateTime(2001, 1, 1);
+            DateTime purchaseDate = testDate.AddDays(1);
+            const decimal buyPrice = 100.0m;    // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 5.0m;    // with $5 commission
+
+            ITransaction buy = new Transaction(purchaseDate, OrderType.Buy, ticker, buyPrice, shares, commission);
+
+            IPosition expected = new Position(buy);
+
+            MemoryStream stream = new MemoryStream();
+            TestUtilities.BinarySerialize(expected, stream);
+            IPosition actual = (IPosition) TestUtilities.BinaryDeserialize(stream);
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }
