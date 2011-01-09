@@ -116,7 +116,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void BinarySerializePriceSeriesTest()
+        public void SerializePriceSeriesTest()
         {
             IPricePeriod p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
             IPricePeriod p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);

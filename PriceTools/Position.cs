@@ -14,8 +14,8 @@ namespace Sonneville.PriceTools
         #region Private Members
 
         private readonly string _ticker;
-        private readonly IList<ITransaction> _additiveTransactions;
-        private readonly IList<ITransaction> _subtractiveTransactions;
+        private readonly List<Transaction> _additiveTransactions;
+        private readonly List<Transaction> _subtractiveTransactions;
 
         #endregion
 
@@ -33,8 +33,8 @@ namespace Sonneville.PriceTools
             }
 
             _ticker = transactions[0].Ticker;
-            _additiveTransactions = new List<ITransaction>();
-            _subtractiveTransactions = new List<ITransaction>();
+            _additiveTransactions = new List<Transaction>();
+            _subtractiveTransactions = new List<Transaction>();
             foreach (ITransaction transaction in transactions)
             {
                 AddTransaction(transaction);
@@ -52,9 +52,9 @@ namespace Sonneville.PriceTools
         {
             _ticker = info.GetString("Ticker");
             _additiveTransactions =
-                (IList<ITransaction>) info.GetValue("AdditiveTransactions", typeof (IList<ITransaction>));
+                (List<Transaction>) info.GetValue("AdditiveTransactions", typeof (List<Transaction>));
             _subtractiveTransactions =
-                (IList<ITransaction>) info.GetValue("SubtractiveTransactions", typeof (IList<ITransaction>));
+                (List<Transaction>) info.GetValue("SubtractiveTransactions", typeof (List<Transaction>));
             Validate();
         }
 
@@ -82,7 +82,7 @@ namespace Sonneville.PriceTools
             get
             {
                 int count = _additiveTransactions.Count + _subtractiveTransactions.Count;
-                ITransaction[] list = new ITransaction[count];
+                Transaction[] list = new Transaction[count];
                 _additiveTransactions.CopyTo(list, 0);
                 _subtractiveTransactions.CopyTo(list, _additiveTransactions.Count);
 
@@ -162,12 +162,12 @@ namespace Sonneville.PriceTools
                 case OrderType.Deposit:
                 case OrderType.Buy:
                 case OrderType.SellShort:
-                    IncreasePosition(transaction);
+                    IncreasePosition((Transaction) transaction);
                     break;
                 case OrderType.Withdrawal:
                 case OrderType.Sell:
                 case OrderType.BuyToCover:
-                    DecreasePosition(transaction);
+                    DecreasePosition((Transaction) transaction);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException("transaction", transaction,
@@ -421,7 +421,7 @@ namespace Sonneville.PriceTools
         ///   Adds newly purchased shares to the IPosition.
         /// </summary>
         /// <param name = "transaction">An ITransaction that would open or add shares to the IPosition.</param>
-        private void IncreasePosition(ITransaction transaction)
+        private void IncreasePosition(Transaction transaction)
         {
             _additiveTransactions.Add(transaction);
         }
@@ -430,7 +430,7 @@ namespace Sonneville.PriceTools
         ///   Adds newly sold shares to the IPosition.
         /// </summary>
         /// <param name = "transaction">An ITransaction that would close or subtract shares from the IPosition.</param>
-        private void DecreasePosition(ITransaction transaction)
+        private void DecreasePosition(Transaction transaction)
         {
             _subtractiveTransactions.Add(transaction);
         }

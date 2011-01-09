@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -84,7 +85,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod()]
-        public void BinarySerializePricePeriodTest()
+        public void SerializePricePeriodTest()
         {
             DateTime d1 = new DateTime(2010, 6, 1);
             DateTime d2 = new DateTime(2010, 8, 1);
@@ -96,11 +97,7 @@ namespace Sonneville.PriceToolsTest
 
             PricePeriod period = new PricePeriod(d1, d2, open, high, low, close, volume);
 
-            MemoryStream stream = new MemoryStream();
-            PricePeriod.BinarySerialize(period, stream);
-            stream.Position = 0;
-            IPricePeriod result = PricePeriod.BinaryDeserialize(stream);
-            Assert.AreEqual(result, period);
+            TestUtilities.VerifySerialization(period);
         }
 
         [TestMethod()]

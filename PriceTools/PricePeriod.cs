@@ -109,30 +109,6 @@ namespace Sonneville.PriceTools
             info.AddValue("Low", _low);
             info.AddValue("Close", _close);
             info.AddValue("Volume", _volume);
-
-            Validate(this);
-        }
-
-        /// <summary>
-        ///   Performs a binary serialization of an IPricePeriod to a <see cref = "Stream" />.
-        /// </summary>
-        /// <param name = "period">The IPricePeriod to serialize.</param>
-        /// <param name = "stream">The <see cref = "Stream" /> to serialize to.</param>
-        public static void BinarySerialize(IPricePeriod period, Stream stream)
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, period);
-        }
-
-        /// <summary>
-        ///   Performs a binary deserialization of an IPricePeriod from a <see cref = "Stream" />.
-        /// </summary>
-        /// <param name = "stream">The <see cref = "Stream" /> to deserialize from.</param>
-        /// <returns>The IPricePeriod object that was deserialized.</returns>
-        public static IPricePeriod BinaryDeserialize(Stream stream)
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            return (IPricePeriod) formatter.Deserialize(stream);
         }
 
         #endregion

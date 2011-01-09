@@ -94,7 +94,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the date and time at which the Transaction occured.
         /// </summary>
-        public DateTime SettlementDate
+        public virtual DateTime SettlementDate
         {
             get { return _date; }
         }
@@ -102,14 +102,14 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the TransactionType of this Transaction.
         /// </summary>
-        public OrderType OrderType
+        public virtual OrderType OrderType
         {
             get { return _type; }
         }
         /// <summary>
         /// Gets the ticker of the security traded.
         /// </summary>
-        public string Ticker
+        public virtual string Ticker
         {
             get { return _ticker; }
         }
@@ -117,7 +117,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the number of shares traded.
         /// </summary>
-        public double Shares
+        public virtual double Shares
         {
             get { return _shares; }
         }
@@ -125,7 +125,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the price at which the Transaction took place.
         /// </summary>
-        public decimal Price
+        public virtual decimal Price
         {
             get { return _price; }
         }
@@ -133,7 +133,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the commission paid for this Transaction.
         /// </summary>
-        public decimal Commission
+        public virtual decimal Commission
         {
             get { return _commission; }
         }
@@ -156,7 +156,7 @@ namespace Sonneville.PriceTools
         /// Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with the data needed to serialize the target object.
         /// </summary>
         /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data. </param><param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization. </param><exception cref="T:System.Security.SecurityException">The caller does not have the required permission. </exception>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Date", _date);
             info.AddValue("Type", _type);
