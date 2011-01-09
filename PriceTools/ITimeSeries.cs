@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a time series of data.
     /// </summary>
-    public interface ITimeSeries : ISerializable
+    public interface ITimeSeries : ISerializable, IEquatable<ITimeSeries>
     {
         /// <summary>
         /// Gets a value stored at a given DateTime index of the ITimeSeries.

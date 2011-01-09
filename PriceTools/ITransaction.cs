@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     ///   Represents a financial transaction or trade.
     /// </summary>
-    public interface ITransaction
+    public interface ITransaction : ISerializable, IEquatable<ITransaction>
     {
         /// <summary>
         ///   Gets the DateTime that the ITransaction occurred.

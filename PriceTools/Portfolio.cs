@@ -8,6 +8,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a portfolio of investments.
     /// </summary>
+    [Serializable]
     public class Portfolio : IPortfolio
     {
         #region Private Members
@@ -34,7 +35,9 @@ namespace Sonneville.PriceTools
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
         public Portfolio(DateTime dateTime, decimal openingDeposit)
             : this(dateTime, openingDeposit, String.Empty)
-        {}
+        {
+            
+        }
 
         /// <summary>
         /// Constructs a Portfolio with an opening deposit invested in a given ticker symbol.
@@ -254,6 +257,89 @@ namespace Sonneville.PriceTools
                 position = new Position(transaction);
                 _positions[ticker] = position;
             }
+        }
+
+        #endregion
+
+        #region Equality Checks
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(ITimeSeries other)
+        {
+            return Equals((object)other);
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(IPortfolio other)
+        {
+            return Equals((object)other);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+        /// </returns>
+        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof(Portfolio)) return false;
+            return this == (Portfolio)obj;
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                int result = _positions.GetHashCode();
+                result = (result * 397) ^ _ticker.GetHashCode();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator ==(Portfolio left, Portfolio right)
+        {
+            return (left._positions == right._positions &&
+                    left._ticker == right._ticker);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(Portfolio left, Portfolio right)
+        {
+            return !(left == right);
         }
 
         #endregion

@@ -187,61 +187,83 @@ namespace Sonneville.PriceTools
 
         #endregion
 
-        #region Overridden Equality Members
+        #region Equality Checks
 
         /// <summary>
-        ///   Determines whether the specified <see cref = "PriceSeries" /> is equal to the current <see cref = "PriceSeries" />.
+        /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
         /// <returns>
-        ///   true if the specified <see cref = "PriceSeries" /> is equal to the current <see cref = "PriceSeries" />; otherwise, false.
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
-        /// <param name = "obj">The <see cref = "PriceSeries" /> to compare with the current <see cref = "PriceSeries" />. </param>
-        /// <filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(ITimeSeries other)
         {
-            return (obj is PriceSeries) && (this == (PriceSeries) obj);
+            return Equals((object)other);
         }
 
         /// <summary>
-        ///   Serves as a hash function for the PriceSeries type.
+        /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
         /// <returns>
-        ///   A hash code for the current <see cref = "T:System.Object" />.
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(IPriceSeries other)
+        {
+            return Equals((object)other);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+        /// </returns>
+        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj)) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != typeof(PriceSeries)) return false;
+            return this == (PriceSeries)obj;
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"/>.
         /// </returns>
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            unchecked
+            {
+                int result = _periods.GetHashCode();
+                return result;
+            }
         }
 
-        ///<summary>
-        ///</summary>
-        ///<param name = "left"></param>
-        ///<param name = "right"></param>
-        ///<returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator ==(PriceSeries left, PriceSeries right)
         {
-            bool periodsMatch = !left._periods.Where((t, i) => t != right._periods[i]).Any();
-            // Same as below code:
-            //for (int i = 0; i < left._periods.Count; i++)
-            //{
-            //    if(left._periods[i] != right._periods[i])
-            //    {
-            //        periodsMatch = false;
-            //        break;
-            //    }
-            //}
-            return left == (PricePeriod) right && periodsMatch;
+            return left._periods.All(period => right._periods.Contains(period));
         }
 
-        ///<summary>
-        ///</summary>
-        ///<param name = "left"></param>
-        ///<param name = "right"></param>
-        ///<returns></returns>
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
         public static bool operator !=(PriceSeries left, PriceSeries right)
         {
-            return left != (PricePeriod) right;
+            return !(left == right);
         }
 
         #endregion

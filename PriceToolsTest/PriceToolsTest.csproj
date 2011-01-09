@@ -61,6 +61,10 @@
     <Compile Include="YahooDataManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CsvReader\CsvReader.csproj">
+      <Project>{9E171B34-27C7-4017-B624-803250B399D2}</Project>
+      <Name>CsvReader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>

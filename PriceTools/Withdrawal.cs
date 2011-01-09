@@ -5,6 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a cash withdrawal from an <see cref="IPortfolio"/>.
     /// </summary>
+    [Serializable]
     public sealed class Withdrawal : CashOrderBase
     {
         /// <summary>
