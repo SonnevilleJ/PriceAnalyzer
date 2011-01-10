@@ -32,5 +32,13 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
+
+        public override decimal Price
+        {
+            get
+            {
+                return -1 * base.Price;
+            }
+        }
     }
 }

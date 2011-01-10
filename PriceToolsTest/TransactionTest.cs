@@ -65,65 +65,7 @@ namespace Sonneville.PriceToolsTest
         #endregion
 
 
-        /// <summary>
-        ///A test for Shares
-        ///</summary>
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void NegativeSharesTest()
-        {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 100.0m;      // bought at $100.00 per share
-            const double shares = -5;           // bought 5 shares
-            const decimal commission = 7.95m;  // bought with $7.95 commission
-            new Transaction(date, OrderType.Buy, ticker, price, shares, commission);
-        }
-
-        /// <summary>
-        ///A test for Price
-        ///</summary>
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void NegativePriceTest()
-        {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = -100.0m;      // bought at $100.00 per share
-            const double shares = 5;           // bought 5 shares
-            const decimal commission = 7.95m;  // bought with $7.95 commission
-            new Transaction(date, OrderType.Buy, ticker, price, shares, commission);
-        }
-
-        /// <summary>
-        ///A test for Commission
-        ///</summary>
-        [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void NegativeCommissionTest()
-        {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 100.0m;      // bought at $100.00 per share
-            const double shares = 5;           // bought 5 shares
-            const decimal commission = -7.95m;  // bought with $7.95 commission
-            new Transaction(date, OrderType.Buy, ticker, price, shares, commission);
-        }
-
-        [TestMethod()]
-        public void SerializeTransactionTest()
-        {
-            const string ticker = "DE";
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime purchaseDate = testDate.AddDays(1);
-            const decimal buyPrice = 100.0m;    // $100.00 per share
-            const double shares = 5;            // 5 shares
-            const decimal commission = 5.0m;    // with $5 commission
-
-            ITransaction expected = new Transaction(purchaseDate, OrderType.Buy, ticker, buyPrice, shares, commission);
-
-            TestUtilities.VerifySerialization(expected);
-        }
+        #region Constructor Tests (Using Buy)
 
         /// <summary>
         ///A test for Transaction Constructor
@@ -136,11 +78,15 @@ namespace Sonneville.PriceToolsTest
             const OrderType type = OrderType.Buy;
             const decimal price = 100.0m;      // bought at $100.00 per share
 
+            const double shares = 1;
+            const decimal commission = 0.00m;
             Transaction target = new Transaction(date, type, ticker, price);
             Assert.AreEqual(ticker, target.Ticker);
             Assert.AreEqual(date, target.SettlementDate);
             Assert.AreEqual(type, target.OrderType);
             Assert.AreEqual(price, target.Price);
+            Assert.AreEqual(shares, target.Shares);
+            Assert.AreEqual(commission, target.Commission);
         }
 
         /// <summary>
@@ -155,19 +101,25 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 100.0m;      // bought at $100.00 per share
             const double shares = 5;           // bought 5 shares
 
+            const decimal commission = 0.00m;
             Transaction target = new Transaction(date, type, ticker, price, shares);
             Assert.AreEqual(ticker, target.Ticker);
             Assert.AreEqual(date, target.SettlementDate);
             Assert.AreEqual(type, target.OrderType);
             Assert.AreEqual(price, target.Price);
             Assert.AreEqual(shares, target.Shares);
+            Assert.AreEqual(commission, target.Commission);
         }
+
+        #endregion
+
+        #region Buy Tests
 
         /// <summary>
         ///A test for Transaction Constructor
         ///</summary>
         [TestMethod()]
-        public void TransactionConstructorTest3()
+        public void BuyTest()
         {
             const string ticker = "DE";
             DateTime date = new DateTime(2000, 1, 1);
@@ -184,5 +136,292 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(shares, target.Shares);
             Assert.AreEqual(commission, target.Commission);
         }
+
+        /// <summary>
+        ///A test for Shares
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void BuyWithNegativeSharesTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.Buy;
+            const decimal price = 100.0m;      // bought at $100.00 per share
+            const double shares = -5;           // bought 5 shares
+            const decimal commission = 7.95m;  // bought with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
+        ///A test for Price
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void BuyWithNegativePriceTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.Buy;
+            const decimal price = -100.0m;      // bought at $-100.00 per share - error
+            const double shares = 5;           // bought 5 shares
+            const decimal commission = 7.95m;  // bought with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
+        ///A test for Commission
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void BuyWithNegativeCommissionTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.Buy;
+            const decimal price = 100.0m;      // bought at $100.00 per share
+            const double shares = 5;           // bought 5 shares
+            const decimal commission = -7.95m;  // bought with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        [TestMethod()]
+        public void SerializeBuyTransactionTest()
+        {
+            const string ticker = "DE";
+            DateTime purchaseDate = new DateTime(2001, 1, 1);
+            const OrderType type = OrderType.Buy;
+            const decimal buyPrice = 100.0m;    // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 5.0m;    // with $5 commission
+
+            ITransaction expected = new Transaction(purchaseDate, type, ticker, buyPrice, shares, commission);
+
+            TestUtilities.VerifySerialization(expected);
+        }
+
+        #endregion
+
+        #region Sell Tests
+
+        /// <summary>
+        ///A test for Shares
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SellWithNegativeSharesTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.Sell;
+            const decimal price = 100.0m;      // sold at $100.00 per share
+            const double shares = -5;           // sold 5 shares
+            const decimal commission = 7.95m;  // sold with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
+        ///A test for Price
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SellWithNegativePriceTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.Sell;
+            const decimal price = -100.0m;      // sold at $-100.00 per share - error
+            const double shares = 5;           // sold 5 shares
+            const decimal commission = 7.95m;  // sold with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
+        ///A test for Commission
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SellWithNegativeCommissionTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.Sell;
+            const decimal price = 100.0m;      // sold at $100.00 per share
+            const double shares = 5;           // sold 5 shares
+            const decimal commission = -7.95m;  // sold with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
+        ///A test for Transaction Constructor
+        ///</summary>
+        [TestMethod()]
+        public void SellTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.Buy;
+            const decimal price = 100.0m; // bought at $100.00 per share
+            const double shares = 5; // bought 5 shares
+            const decimal commission = 7.95m; // bought with $7.95 commission
+
+            Transaction target = new Transaction(date, type, ticker, price, shares, commission);
+            Assert.AreEqual(ticker, target.Ticker);
+            Assert.AreEqual(date, target.SettlementDate);
+            Assert.AreEqual(type, target.OrderType);
+            Assert.AreEqual(price, target.Price);
+            Assert.AreEqual(shares, target.Shares);
+            Assert.AreEqual(commission, target.Commission);
+        }
+
+        #endregion
+
+        #region SellShort Tests
+
+        /// <summary>
+        ///A test for Shares
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SellShortWithNegativeSharesTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.SellShort;
+            const decimal price = 100.0m;      // sold at $100.00 per share
+            const double shares = -5;           // sold 5 shares
+            const decimal commission = 7.95m;  // sold with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
+        ///A test for Price
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SellShortWithNegativePriceTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.SellShort;
+            const decimal price = -100.0m;      // sold at $-100.00 per share - error
+            const double shares = 5;           // sold 5 shares
+            const decimal commission = 7.95m;  // sold with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
+        ///A test for Commission
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void SellShortWithNegativeCommissionTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.SellShort;
+            const decimal price = 100.0m;      // sold at $100.00 per share
+            const double shares = 5;           // sold 5 shares
+            const decimal commission = -7.95m;  // sold with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
+        ///A test for Transaction Constructor
+        ///</summary>
+        [TestMethod()]
+        public void SellShortTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.SellShort;
+            const decimal price = 100.0m; // sold at $100.00 per share
+            const double shares = 5; // sold 5 shares
+            const decimal commission = 7.95m; // sold with $7.95 commission
+
+            Transaction target = new Transaction(date, type, ticker, price, shares, commission);
+            Assert.AreEqual(ticker, target.Ticker);
+            Assert.AreEqual(date, target.SettlementDate);
+            Assert.AreEqual(type, target.OrderType);
+            Assert.AreEqual(price, target.Price);
+            Assert.AreEqual(shares, target.Shares);
+            Assert.AreEqual(commission, target.Commission);
+        }
+
+        #endregion
+
+        #region BuyToCover Tests
+
+        /// <summary>
+        ///A test for Shares
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void BuyToCoverWithNegativeSharesTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.BuyToCover;
+            const decimal price = 100.0m;      // bought at $100.00 per share
+            const double shares = -5;           // bought 5 shares
+            const decimal commission = 7.95m;  // bought with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
+        ///A test for Price
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void BuyToCoverWithNegativePriceTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.BuyToCover;
+            const decimal price = -100.0m;      // bought at $-100.00 per share - error
+            const double shares = 5;           // bought 5 shares
+            const decimal commission = 7.95m;  // bought with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
+        ///A test for Commission
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void BuyToCoverWithNegativeCommissionTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.BuyToCover;
+            const decimal price = 100.0m;      // bought at $100.00 per share
+            const double shares = 5;           // bought 5 shares
+            const decimal commission = -7.95m;  // bought with $7.95 commission
+            new Transaction(date, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
+        ///A test for Transaction Constructor
+        ///</summary>
+        [TestMethod()]
+        public void BuyToCoverTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2000, 1, 1);
+            const OrderType type = OrderType.BuyToCover;
+            const decimal price = 100.0m; // bought at $100.00 per share
+            const double shares = 5; // bought 5 shares
+            const decimal commission = 7.95m; // bought with $7.95 commission
+
+            Transaction target = new Transaction(date, type, ticker, price, shares, commission);
+            Assert.AreEqual(ticker, target.Ticker);
+            Assert.AreEqual(date, target.SettlementDate);
+            Assert.AreEqual(type, target.OrderType);
+            Assert.AreEqual(price, target.Price);
+            Assert.AreEqual(shares, target.Shares);
+            Assert.AreEqual(commission, target.Commission);
+        }
+
+        #endregion
     }
 }

@@ -183,9 +183,9 @@ namespace Sonneville.PriceTools
         /// <returns>The value of the IPortfolio as of the given date.</returns>
         public decimal GetValue(DateTime date, bool considerCommissions)
         {
-            decimal proceeds = GetProceeds(date);
-            decimal costs = GetCost(date);
-            decimal commissions = (considerCommissions ? GetCommissions(date) : 0);
+            decimal proceeds = GetProceeds(date);   // positive proceeds = gain, negative proceeds = loss
+            decimal costs = GetCost(date);          // positive costs = revenue, negative costs = expense
+            decimal commissions = (considerCommissions ? GetCommissions(date) : 0); // negative comissions = expense, positive comissions = revenue
             return proceeds + costs + commissions;
         }
 

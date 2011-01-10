@@ -123,7 +123,7 @@ namespace Sonneville.PriceToolsTest
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
             ITransaction target = new Deposit(dateTime, amount, ticker);
 
-            const decimal expectedPrice = 1.00m;
+            const decimal expectedPrice = -1.00m;
             decimal actualPrice = target.Price;
             Assert.AreEqual(expectedPrice, actualPrice);
         }
