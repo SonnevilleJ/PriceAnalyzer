@@ -13,8 +13,9 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private readonly string _ticker = String.Empty;
+        private readonly string _cashTicker = String.Empty;
         private readonly IDictionary<string, IPosition> _positions = new Dictionary<string, IPosition>();
+        private readonly ICollection<ITransaction> _cashTransactions = new List<ITransaction>();
 
         #endregion
 
@@ -47,7 +48,7 @@ namespace Sonneville.PriceTools
         /// <param name="ticker">The ticker symbol the deposit is invested in.</param>
         public Portfolio(DateTime dateTime, decimal openingDeposit, string ticker)
         {
-            _ticker = ticker.ToUpperInvariant();
+            _cashTicker = ticker.ToUpperInvariant();
             Deposit(dateTime, openingDeposit);
         }
 
@@ -62,8 +63,9 @@ namespace Sonneville.PriceTools
         /// <param name="context"></param>
         protected Portfolio(SerializationInfo info, StreamingContext context)
         {
-            _ticker = info.GetString("Ticker");
+            _cashTicker = info.GetString("Ticker");
             _positions = (IDictionary<string, IPosition>) info.GetValue("Positions", typeof (Dictionary<string, IPosition>));
+            _cashTransactions = (IList<ITransaction>) info.GetValue("CashTransactions", typeof (List<ITransaction>));
         }
 
         /// <summary>
@@ -72,8 +74,9 @@ namespace Sonneville.PriceTools
         /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data. </param><param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization. </param><exception cref="T:System.Security.SecurityException">The caller does not have the required permission. </exception>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Ticker", _ticker);
+            info.AddValue("Ticker", _cashTicker);
             info.AddValue("Positions", _positions);
+            info.AddValue("CashTransactions", _cashTransactions);
         }
 
         #endregion
@@ -98,10 +101,14 @@ namespace Sonneville.PriceTools
             get
             {
                 DateTime earliest = DateTime.Now;
-                // next line produces "Access to modified closure" warning in Resharper. This is expected/desired behavior.
+                // loops produce "Access to modified closure" warning in Resharper. This is expected/desired behavior.
                 foreach (var position in Positions.Values.Where(position => position.Head < earliest))
                 {
                     earliest = position.Head;
+                }
+                foreach (var transaction in CashTransactions.Where(transaction => transaction.SettlementDate < earliest))
+                {
+                    earliest = transaction.SettlementDate;
                 }
                 return earliest;
             }
@@ -115,10 +122,14 @@ namespace Sonneville.PriceTools
             get
             {
                 DateTime latest = new DateTime();
-                // next line produces "Access to modified closure" warning in Resharper. This is expected/desired behavior.
+                // loops produce "Access to modified closure" warning in Resharper. This is expected/desired behavior.
                 foreach (var position in Positions.Values.Where(position => position.Tail > latest))
                 {
                     latest = position.Tail;
+                }
+                foreach (var transaction in CashTransactions.Where(transaction => transaction.SettlementDate > latest))
+                {
+                    latest = transaction.SettlementDate;
                 }
                 return latest;
             }
@@ -152,12 +163,22 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        ///   Gets an <see cref="IList{T}"/> of cash transactions in this IPortfolio.
+        /// </summary>
+        public ICollection<ITransaction> CashTransactions
+        {
+            get { return _cashTransactions; }
+        }
+
+        /// <summary>
         ///   Gets the amount of uninvested cash in this IPortfolio.
         /// </summary>
         /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetAvailableCash(DateTime asOfDate)
         {
-            return Positions.Values.Where(position => position.Ticker == CashTicker).Sum(position => position.GetValue(asOfDate));
+            decimal cashDeposited = CashTransactions.Sum(transaction => transaction.Price*(decimal) transaction.Shares);
+            decimal cashInvested = Positions.Values.Aggregate<IPosition, decimal>(0, (current, position) => current - position.GetValue(asOfDate, true));
+            return 0 - (cashDeposited + cashInvested);
         }
 
         /// <summary>
@@ -165,7 +186,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public string CashTicker
         {
-            get { return _ticker; }
+            get { return _cashTicker; }
         }
 
         /// <summary>
@@ -173,7 +194,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal GetValue(DateTime asOfDate)
         {
-            return Positions.Values.Sum(position => position.GetValue(asOfDate));
+            return Positions.Values.Sum(position => position.GetValue(asOfDate)) + GetAvailableCash(asOfDate);
         }
 
         /// <summary>
@@ -187,8 +208,7 @@ namespace Sonneville.PriceTools
         /// <param name="commission">The commission charge for the transaction.</param>
         public void AddTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
         {
-            ITransaction transaction = new Transaction(date, type, ticker, price, shares, commission);
-            AddToPosition(transaction);
+            AddToPosition(ticker, type, date, shares, price, commission);
         }
 
         /// <summary>
@@ -201,8 +221,7 @@ namespace Sonneville.PriceTools
         /// <param name="shares">The number of shares.</param>
         public void AddTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares)
         {
-            ITransaction transaction = new Transaction(date, type, ticker, price, shares);
-            AddToPosition(transaction);
+            AddToPosition(ticker, type, date, shares, price, Position.DefaultCommission);
         }
 
         /// <summary>
@@ -214,8 +233,7 @@ namespace Sonneville.PriceTools
         /// <param name="price">The per-share price of the ticker symbol.</param>
         public void AddTransaction(DateTime date, OrderType type, string ticker, decimal price)
         {
-            ITransaction transaction = new Transaction(date, type, ticker, price);
-            AddToPosition(transaction);
+            AddToPosition(ticker, type, date, 1.0, price, Position.DefaultCommission);
         }
 
         /// <summary>
@@ -225,8 +243,8 @@ namespace Sonneville.PriceTools
         /// <param name="cashAmount">The amount of cash deposited.</param>
         public void Deposit(DateTime dateTime, decimal cashAmount)
         {
-            Deposit deposit = new Deposit(dateTime, cashAmount, CashTicker);
-            AddToPosition(deposit);
+            ITransaction deposit = TransactionFactory.CreateDeposit(dateTime, cashAmount, CashTicker);
+            _cashTransactions.Add(deposit);
         }
 
         /// <summary>
@@ -236,26 +254,75 @@ namespace Sonneville.PriceTools
         /// <param name="cashAmount">The amount of cash withdrawn.</param>
         public void Withdraw(DateTime dateTime, decimal cashAmount)
         {
+            VerifyAvailableCash(dateTime, cashAmount);
             Withdrawal withdrawal = new Withdrawal(dateTime, cashAmount, CashTicker);
-            AddToPosition(withdrawal);
+            _cashTransactions.Add(withdrawal);
         }
 
         #endregion
 
         #region Private Methods
 
-        private void AddToPosition(ITransaction transaction)
+        private void AddToPosition(string ticker, OrderType type, DateTime date, double shares, decimal price, decimal commission)
         {
-            string ticker = transaction.Ticker;
-            IPosition position;
-            if (_positions.TryGetValue(ticker, out position))
+            if(type == OrderType.Deposit)
             {
-                position.AddTransaction(transaction);
+                VerifyCashTicker(ticker);
+                Deposit(date, (decimal)shares * price);
             }
-            else
+            if(type == OrderType.Withdrawal)
             {
-                position = new Position(transaction);
+                VerifyCashTicker(ticker);
+                Withdraw(date, (decimal)shares * price);
+            }
+
+            IPosition position;
+            if (!_positions.TryGetValue(ticker, out position))
+            {
+                position = new Position(ticker);
                 _positions[ticker] = position;
+            }
+
+            switch (type)
+            {
+                case OrderType.Buy:
+                    VerifyAvailableCash(date, shares, price, commission);
+                    position.Buy(date, shares, price, commission);
+                    break;
+                case OrderType.SellShort:
+                    VerifyAvailableCash(date, shares, price, commission);
+                    position.Sell(date, shares, price, commission);
+                    break;
+                case OrderType.Sell:
+                    position.Sell(date, shares, price, commission);
+                    break;
+                case OrderType.BuyToCover:
+                    position.BuyToCover(date, shares, price, commission);
+                    break;
+            }
+        }
+
+        private void VerifyAvailableCash(DateTime date, double shares, decimal price, decimal commission)
+        {
+            var cost = (decimal)shares * price + commission;
+            VerifyAvailableCash(date, cost);
+        }
+
+        private void VerifyAvailableCash(DateTime date, decimal amount)
+        {
+            decimal availableCash = GetAvailableCash(date);
+            if (amount > availableCash)
+            {
+                throw new InvalidOperationException(
+                    String.Format("This transaction requires more cash than available at {0}.", date));
+            }
+        }
+
+        private void VerifyCashTicker(string ticker)
+        {
+            if (ticker != _cashTicker)
+            {
+                throw new InvalidOperationException(String.Format("Cash transactions for this Portfolio must use ticker {0}.", _cashTicker));
             }
         }
 
@@ -314,7 +381,7 @@ namespace Sonneville.PriceTools
             unchecked
             {
                 int result = _positions.GetHashCode();
-                result = (result * 397) ^ _ticker.GetHashCode();
+                result = (result * 397) ^ _cashTicker.GetHashCode();
                 return result;
             }
         }
@@ -327,8 +394,21 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator ==(Portfolio left, Portfolio right)
         {
-            return (left._positions == right._positions &&
-                    left._ticker == right._ticker);
+            bool positionsMatch = false;
+            if(left._positions.Count == right._positions.Count)
+            {
+                positionsMatch = left._positions.Values.All(position => right._positions.Values.Contains(position));
+            }
+
+            bool cashMatches = false;
+            if (left._cashTransactions.Count == right._cashTransactions.Count)
+            {
+                cashMatches = left._cashTransactions.All(transaction => right._cashTransactions.Contains(transaction));
+            }
+
+            bool tickersMatch = left._cashTicker == right._cashTicker;
+
+            return positionsMatch && cashMatches && tickersMatch;
         }
 
         /// <summary>

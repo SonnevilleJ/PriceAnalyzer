@@ -11,6 +11,11 @@ namespace Sonneville.PriceTools
     [Serializable]
     public class Position : IPosition
     {
+        /// <summary>
+        /// The default commission charged for a transaction.
+        /// </summary>
+        public const decimal DefaultCommission = 0.00m;
+
         #region Private Members
 
         private readonly string _ticker;
@@ -22,25 +27,18 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         /// <summary>
-        ///   Constructs a Position from existing <see cref = "ITransaction" />s.
+        /// Constructs a new Position that will handle transactions for a given ticker symbol.
         /// </summary>
-        /// <param name = "transactions">The <see cref = "ITransaction" />s in this Position.</param>
-        public Position(params ITransaction[] transactions)
+        /// <param name="ticker">The ticker symbol that this portfolio will hold. All transactions will use this ticker symbol.</param>
+        public Position(string ticker)
         {
-            if (transactions == null || transactions.Length == 0)
+            if(ticker == null)
             {
-                throw new ArgumentNullException("transactions");
+                throw new ArgumentNullException("ticker", "Ticker must not be null.");
             }
-
-            _ticker = transactions[0].Ticker;
+            _ticker = ticker;
             _additiveTransactions = new List<Transaction>();
             _subtractiveTransactions = new List<Transaction>();
-            foreach (ITransaction transaction in transactions)
-            {
-                AddTransaction(transaction);
-            }
-
-            Validate();
         }
 
         /// <summary>
@@ -95,7 +93,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public double OpenShares
         {
-            get { return GetOpenShares(DateTime.Now); }
+            get { return GetHeldShares(DateTime.Now); }
         }
 
         /// <summary>
@@ -104,6 +102,54 @@ namespace Sonneville.PriceTools
         public string Ticker
         {
             get { return _ticker; }
+        }
+
+        /// <summary>
+        /// Buys shares of the ticker held by this IPosition.
+        /// </summary>
+        /// <param name="date">The date of this transaction.</param>
+        /// <param name="shares">The number of shares in this transaction.</param>
+        /// <param name="price">The per-share price of this transaction.</param>
+        /// <param name="commission">The commission paid for this transaction.</param>
+        public void Buy(DateTime date, double shares, decimal price, decimal commission)
+        {
+            AddTransaction(shares, OrderType.Buy, date, price, commission);
+        }
+
+        /// <summary>
+        /// Buys shares of the ticker held by this IPosition to cover a previous ShortSell.
+        /// </summary>
+        /// <param name="date">The date of this transaction.</param>
+        /// <param name="shares">The number of shares in this transaction. Shares cannot exceed currently shorted shares.</param>
+        /// <param name="price">The per-share price of this transaction.</param>
+        /// <param name="commission">The commission paid for this transaction.</param>
+        public void BuyToCover(DateTime date, double shares, decimal price, decimal commission)
+        {
+            AddTransaction(shares, OrderType.BuyToCover, date, price, commission);
+        }
+
+        /// <summary>
+        /// Sells shares of the ticker held by this IPosition.
+        /// </summary>
+        /// <param name="date">The date of this transaction.</param>
+        /// <param name="shares">The number of shares in this transaction. Shares connot exceed currently held shares.</param>
+        /// <param name="price">The per-share price of this transaction.</param>
+        /// <param name="commission">The commission paid for this transaction.</param>
+        public void Sell(DateTime date, double shares, decimal price, decimal commission)
+        {
+            AddTransaction(shares, OrderType.Sell, date, price, commission);
+        }
+
+        /// <summary>
+        /// Sell short shares of the ticker held by this IPosition.
+        /// </summary>
+        /// <param name="date">The date of this transaction.</param>
+        /// <param name="shares">The number of shares in this transaction.</param>
+        /// <param name="price">The per-share price of this transaction.</param>
+        /// <param name="commission">The commission paid for this transaction.</param>
+        public void SellShort(DateTime date, double shares, decimal price, decimal commission)
+        {
+            AddTransaction(shares, OrderType.SellShort, date, price, commission);
         }
 
         /// <summary>
@@ -147,35 +193,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Adds an <see cref = "ITransaction" /> to this IPosition.
-        ///   Note: An IPosition can only contain <see cref = "ITransaction" />s for a single ticker symbol.
-        /// </summary>
-        /// <param name = "transaction">The <see cref = "ITransaction" /> to add to the IPosition.</param>
-        public void AddTransaction(ITransaction transaction)
-        {
-            if (transaction.Ticker != _ticker)
-            {
-                throw new ArgumentOutOfRangeException(String.Format("Transactions added to this Position must have Ticker = {0}.", _ticker));
-            }
-            switch (transaction.OrderType)
-            {
-                case OrderType.Deposit:
-                case OrderType.Buy:
-                case OrderType.SellShort:
-                    IncreasePosition((Transaction) transaction);
-                    break;
-                case OrderType.Withdrawal:
-                case OrderType.Sell:
-                case OrderType.BuyToCover:
-                    DecreasePosition((Transaction) transaction);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("transaction", transaction,
-                                                          "Positions can only contain ITransaction types Deposit, Withdrawal, Buy, BuyToCover, Sell, and SellShort.");
-            }
-        }
-
-        /// <summary>
         ///   Gets the value of the IPortfolio as of a given date.
         /// </summary>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
@@ -199,43 +216,6 @@ namespace Sonneville.PriceTools
             return GetValue(date, true);
         }
 
-        #endregion
-
-        #region Private Methods
-
-        private TimeSpan Duration
-        {
-            get { return Last.SettlementDate - First.SettlementDate; }
-        }
-
-        /// <summary>
-        ///   Gets or sets a <see cref = "ITransaction" /> which added to this Position.
-        ///   Typically <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" /> <see cref = "ITransaction" />s.
-        /// </summary>
-        private IEnumerable<ITransaction> AdditiveTransactions
-        {
-            get { return _additiveTransactions; }
-        }
-
-        /// <summary>
-        ///   Gets or sets a <see cref = "ITransaction" /> which subtracted from this Position.
-        ///   Typically <see cref = "OrderType.Sell" /> or <see cref = "OrderType.BuyToCover" /> <see cref = "ITransaction" />s.
-        /// </summary>
-        private IEnumerable<ITransaction> SubtractiveTransactions
-        {
-            get { return _subtractiveTransactions; }
-        }
-
-        private ITransaction Last
-        {
-            get { return Transactions.Last(); }
-        }
-
-        private ITransaction First
-        {
-            get { return Transactions.First(); }
-        }
-
         /// <summary>
         ///   Gets the gross investment of this Position, ignoring any proceeds and commissions.
         /// </summary>
@@ -249,7 +229,7 @@ namespace Sonneville.PriceTools
                                                                                                            =>
                                                                                                            current -
                                                                                                            (transaction.
-                                                                                                                Price*
+                                                                                                                Price *
                                                                                                             (decimal)
                                                                                                             transaction.
                                                                                                                 Shares));
@@ -269,7 +249,7 @@ namespace Sonneville.PriceTools
                                                                                                               current +
                                                                                                               (transaction
                                                                                                                    .
-                                                                                                                   Price*
+                                                                                                                   Price *
                                                                                                                (decimal)
                                                                                                                transaction
                                                                                                                    .
@@ -293,7 +273,7 @@ namespace Sonneville.PriceTools
         {
             if (GetClosedShares(date) > 0)
             {
-                return -(GetValue(date, false))/GetCost(date);
+                return -(GetValue(date, false)) / GetCost(date);
             }
             throw new InvalidOperationException("Cannot calculate raw return for an open position.");
         }
@@ -308,65 +288,9 @@ namespace Sonneville.PriceTools
                 decimal proceeds = (GetProceeds(date) + GetCommissions(date, _additiveTransactions));
                 decimal costs = (GetCost(date) + GetCommissions(date, _subtractiveTransactions));
                 decimal profit = proceeds + costs;
-                return -(profit/GetCost(date));
+                return -(profit / GetCost(date));
             }
             throw new InvalidOperationException("Cannot calculate return for an open position.");
-        }
-
-        /// <summary>
-        ///   Validates the Position.
-        /// </summary>
-        public void Validate()
-        {
-            foreach (ITransaction aTransaction in AdditiveTransactions)
-            {
-                // Validate Ticker
-                if (aTransaction.Ticker != _ticker)
-                {
-                    throw new ArgumentOutOfRangeException(String.Format("Transactions added to this Position must have Ticker = {0}.", _ticker));
-                }
-               
-                // Validate OrderType
-                switch (aTransaction.OrderType)
-                {
-                    case OrderType.Deposit:
-                    case OrderType.Buy:
-                    case OrderType.SellShort:
-                        break;
-                    default:
-                        // Not an opening transaction
-                        throw new InvalidPositionException("Additive transactions must be of type Deposit, Buy, or SellShort.");
-                }
-            }
-            foreach (ITransaction sTransaction in SubtractiveTransactions)
-            {
-                // Validate Ticker
-                if (sTransaction.Ticker != _ticker)
-                {
-                    throw new ArgumentOutOfRangeException(String.Format("Transactions added to this Position must have Ticker = {0}.", _ticker));
-                }
-
-                // Validate OrderType
-                switch (sTransaction.OrderType)
-                {
-                    case OrderType.Withdrawal:
-                    case OrderType.Sell:
-                    case OrderType.BuyToCover:
-                        break;
-                    default:
-                        // Not an opening transaction
-                        throw new InvalidPositionException(
-                            "Subtractive transactions must be of type Withdrawal, Sell, or BuyToCover.");
-                }
-
-                // Verify that sold shares does not exceed available shares at the time of the transaction.
-                DateTime date = sTransaction.SettlementDate.Subtract(new TimeSpan(0, 0, 0, 1));
-                if (GetClosedShares(date) > GetOpenedShares(date))
-                {
-                    throw new InvalidPositionException(
-                        "Shares traded in subtractive transactions cannot exceed shares traded in additive transactions.");
-                }
-            }
         }
 
         /// <summary>
@@ -382,15 +306,93 @@ namespace Sonneville.PriceTools
                 throw new InvalidOperationException("Cannot calculate return without any sale transactions.");
             }
             decimal totalReturn = GetTotalReturn(date);
-            decimal time = (Duration.Days/365.0m);
-            return totalReturn/time;
+            decimal time = (Duration.Days / 365.0m);
+            return totalReturn / time;
         }
+
+        #endregion
+
+        #region Private Methods
+
+        private void AddTransaction(double shares, OrderType type, DateTime date, decimal price, decimal commission)
+        {
+            ITransaction transaction = TransactionFactory.CreateTransaction(date, type, _ticker, price, shares, commission);
+
+            Validate(transaction); // verify transaction is apporpriate for this Position.
+            switch (type)
+            {
+                case OrderType.Buy:
+                case OrderType.SellShort:
+                    _additiveTransactions.Add((Transaction)transaction);
+                    break;
+                case OrderType.Sell:
+                case OrderType.BuyToCover:
+                    _subtractiveTransactions.Add((Transaction)transaction);
+                    break;
+            }
+        }
+
+        private TimeSpan Duration
+        {
+            get { return Last.SettlementDate - First.SettlementDate; }
+        }
+
+        /// <summary>
+        ///   Gets a list of <see cref = "ITransaction" />s which added to this Position.
+        ///   Typically <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" /> <see cref = "ITransaction" />s.
+        /// </summary>
+        private IEnumerable<ITransaction> AdditiveTransactions
+        {
+            get { return _additiveTransactions; }
+        }
+
+        /// <summary>
+        ///   Gets a list of <see cref = "ITransaction" />s which subtracted from this Position.
+        ///   Typically <see cref = "OrderType.Sell" /> or <see cref = "OrderType.BuyToCover" /> <see cref = "ITransaction" />s.
+        /// </summary>
+        private IEnumerable<ITransaction> SubtractiveTransactions
+        {
+            get { return _subtractiveTransactions; }
+        }
+
+        private ITransaction Last
+        {
+            get { return Transactions.Last(); }
+        }
+
+        private ITransaction First
+        {
+            get { return Transactions.First(); }
+        }
+
+        private void Validate(ITransaction transaction)
+        {
+            // Validate OrderType
+            switch (transaction.OrderType)
+            {
+                case OrderType.Buy:
+                case OrderType.SellShort:
+                    // long transactions are OK
+                    break;
+                case OrderType.BuyToCover:
+                case OrderType.Sell:
+                    // Verify that sold shares does not exceed available shares at the time of the transaction.
+                    DateTime date = transaction.SettlementDate.Subtract(new TimeSpan(0, 0, 0, 1));
+                    if (transaction.Shares > GetHeldShares(date))
+                    {
+                        throw new InvalidOperationException(
+                            "This transaction requires more shares than are currently held by this Position.");
+                    }
+                    break;
+            }
+        }
+
 
         /// <summary>
         ///   Gets the net shares held at a given date.
         /// </summary>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        private double GetOpenShares(DateTime date)
+        private double GetHeldShares(DateTime date)
         {
             return GetOpenedShares(date) - GetClosedShares(date);
         }
@@ -417,24 +419,6 @@ namespace Sonneville.PriceTools
                     transaction => transaction.Shares).Sum();
         }
 
-        /// <summary>
-        ///   Adds newly purchased shares to the IPosition.
-        /// </summary>
-        /// <param name = "transaction">An ITransaction that would open or add shares to the IPosition.</param>
-        private void IncreasePosition(Transaction transaction)
-        {
-            _additiveTransactions.Add(transaction);
-        }
-
-        /// <summary>
-        ///   Adds newly sold shares to the IPosition.
-        /// </summary>
-        /// <param name = "transaction">An ITransaction that would close or subtract shares from the IPosition.</param>
-        private void DecreasePosition(Transaction transaction)
-        {
-            _subtractiveTransactions.Add(transaction);
-        }
-
         private static decimal GetCommissions(DateTime date, IEnumerable<ITransaction> transactions)
         {
             return -1*transactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Commission*(decimal) transaction.Shares);
@@ -452,18 +436,6 @@ namespace Sonneville.PriceTools
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(ITimeSeries other)
-        {
-            return Equals((object)other);
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(IPosition other)
         {
             return Equals((object)other);
         }

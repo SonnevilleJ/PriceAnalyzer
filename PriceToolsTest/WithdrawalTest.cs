@@ -73,7 +73,7 @@ namespace Sonneville.PriceToolsTest
             DateTime dateTime = new DateTime(2011, 1, 9);
             const decimal amount = 1000m;
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            ITransaction target = new Withdrawal(dateTime, amount, ticker);
+            ITransaction target = TransactionFactory.CreateWithdrawal(dateTime, amount, ticker);
 
             DateTime expectedDate = dateTime;
             DateTime actualDate = target.SettlementDate;
@@ -89,7 +89,7 @@ namespace Sonneville.PriceToolsTest
             DateTime dateTime = new DateTime(2011, 1, 9);
             const decimal amount = 1000m;
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            ITransaction target = new Withdrawal(dateTime, amount, ticker);
+            ITransaction target = TransactionFactory.CreateWithdrawal(dateTime, amount, ticker);
 
             const OrderType expectedType = OrderType.Withdrawal;
             OrderType actualType = target.OrderType;
@@ -105,7 +105,7 @@ namespace Sonneville.PriceToolsTest
             DateTime dateTime = new DateTime(2011, 1, 9);
             const decimal amount = 1000m;
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            ITransaction target = new Withdrawal(dateTime, amount, ticker);
+            ITransaction target = TransactionFactory.CreateWithdrawal(dateTime, amount, ticker);
 
             const string expectedTicker = ticker;
             string actualTicker = target.Ticker;
@@ -121,9 +121,9 @@ namespace Sonneville.PriceToolsTest
             DateTime dateTime = new DateTime(2011, 1, 9);
             const decimal amount = 1000m;
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            ITransaction target = new Withdrawal(dateTime, amount, ticker);
+            ITransaction target = TransactionFactory.CreateWithdrawal(dateTime, amount, ticker);
 
-            const decimal expectedPrice = -1.00m;
+            const decimal expectedPrice = 1.00m; // Withdrawals return positive price
             decimal actualPrice = target.Price;
             Assert.AreEqual(expectedPrice, actualPrice);
         }
@@ -137,7 +137,7 @@ namespace Sonneville.PriceToolsTest
             DateTime dateTime = new DateTime(2011, 1, 9);
             const decimal amount = 1000m;
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            ITransaction target = new Withdrawal(dateTime, amount, ticker);
+            ITransaction target = TransactionFactory.CreateWithdrawal(dateTime, amount, ticker);
 
             const double expectedShares = (double)amount;
             double actualShares = target.Shares;
@@ -153,7 +153,7 @@ namespace Sonneville.PriceToolsTest
             DateTime dateTime = new DateTime(2011, 1, 9);
             const decimal amount = 1000m;
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            ITransaction target = new Withdrawal(dateTime, amount, ticker);
+            ITransaction target = TransactionFactory.CreateWithdrawal(dateTime, amount, ticker);
 
             const decimal expectedCommission = 0.00m;
             decimal actualCommission = target.Commission;
@@ -165,7 +165,7 @@ namespace Sonneville.PriceToolsTest
         {
             DateTime dateTime = new DateTime(2011, 1, 9);
             const decimal amount = 1000m;
-            ITransaction target = new Withdrawal(dateTime, amount);
+            ITransaction target = TransactionFactory.CreateWithdrawal(dateTime, amount);
 
             string expectedTicker = String.Empty;
             string actualTicker = target.Ticker;

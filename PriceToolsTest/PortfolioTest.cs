@@ -143,15 +143,42 @@ namespace Sonneville.PriceToolsTest
         public void PositionTest_OnePosition_TwoTransactions()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 1, 9);
+            const OrderType type = OrderType.Buy;
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            target.AddTransaction(buyDate, type, ticker, price, shares);
+
+            const decimal withdrawal = 5000m;
+            DateTime withdrawalDate = dateTime.AddDays(1);
+            target.Withdraw(withdrawalDate, withdrawal);
+
+            const decimal expected = 3;
+            decimal actual = target.Positions.Count + target.CashTransactions.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void WithdrawWithoutAvailableCash()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
             IPortfolio target = new Portfolio(dateTime, amount);
 
-            DateTime withdrawalDate = dateTime.AddDays(1);
-            target.Withdraw(dateTime.AddDays(1), amount);
+            DateTime buyDate = new DateTime(2011, 1, 9);
+            const OrderType type = OrderType.Buy;
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            target.AddTransaction(buyDate, type, ticker, price, shares);
 
-            const decimal expected = 1;
-            decimal actual = target.Positions.Count;
-            Assert.AreEqual(expected, actual);
+            DateTime withdrawalDate = dateTime.AddDays(1);
+            target.Withdraw(withdrawalDate, amount);
         }
 
         [TestMethod]
@@ -222,7 +249,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void ExceptionThrownWhenDepositConflictsWithCashTicker()
         {
             DateTime originalDate = new DateTime(2011, 1, 8);

@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   Represents a position taken using one or more <see cref = "ITransaction" />s.
+    ///   Represents a IPosition taken using one or more <see cref = "ITransaction" />s.
     /// </summary>
     public interface IPosition : ITimeSeries, ISerializable
     {
@@ -20,16 +20,45 @@ namespace Sonneville.PriceTools
         double OpenShares { get; }
 
         /// <summary>
-        /// Gets the ticker symbol held by this Position.
+        /// Gets the ticker symbol held by this IPosition.
         /// </summary>
         string Ticker { get; }
 
         /// <summary>
-        ///   Adds an <see cref = "ITransaction" /> to this IPosition.
-        ///   Note: An IPosition can only contain <see cref = "ITransaction" />s for a single ticker symbol.
+        /// Buys shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name = "transaction">The <see cref = "ITransaction" /> to add to the IPosition.</param>
-        void AddTransaction(ITransaction transaction);
+        /// <param name="date">The date of this transaction.</param>
+        /// <param name="shares">The number of shares in this transaction.</param>
+        /// <param name="price">The per-share price of this transaction.</param>
+        /// <param name="commission">The commission paid for this transaction.</param>
+        void Buy(DateTime date, double shares, decimal price, decimal commission);
+
+        /// <summary>
+        /// Buys shares of the ticker held by this IPosition to cover a previous ShortSell.
+        /// </summary>
+        /// <param name="date">The date of this transaction.</param>
+        /// <param name="shares">The number of shares in this transaction. Shares cannot exceed currently shorted shares.</param>
+        /// <param name="price">The per-share price of this transaction.</param>
+        /// <param name="commission">The commission paid for this transaction.</param>
+        void BuyToCover(DateTime date, double shares, decimal price, decimal commission);
+
+        /// <summary>
+        /// Sells shares of the ticker held by this IPosition.
+        /// </summary>
+        /// <param name="date">The date of this transaction.</param>
+        /// <param name="shares">The number of shares in this transaction. Shares connot exceed currently held shares.</param>
+        /// <param name="price">The per-share price of this transaction.</param>
+        /// <param name="commission">The commission paid for this transaction.</param>
+        void Sell(DateTime date, double shares, decimal price, decimal commission);
+
+        /// <summary>
+        /// Sell short shares of the ticker held by this IPosition.
+        /// </summary>
+        /// <param name="date">The date of this transaction.</param>
+        /// <param name="shares">The number of shares in this transaction.</param>
+        /// <param name="price">The per-share price of this transaction.</param>
+        /// <param name="commission">The commission paid for this transaction.</param>
+        void SellShort(DateTime date, double shares, decimal price, decimal commission);
 
         /// <summary>
         ///   Gets the value of the IPortfolio as of a given date.
@@ -47,14 +76,14 @@ namespace Sonneville.PriceTools
         decimal GetValue(DateTime date, bool considerCommissions);
 
         /// <summary>
-        ///   Gets the gross investment of this Position, ignoring any proceeds and commissions.
+        ///   Gets the gross investment of this IPosition, ignoring any proceeds and commissions.
         /// </summary>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount spent on share purchases.</returns>
         decimal GetCost(DateTime date);
 
         /// <summary>
-        ///   Gets the gross proceeds of this Position, ignoring all costs and commissions.
+        ///   Gets the gross proceeds of this IPosition, ignoring all costs and commissions.
         /// </summary>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of proceeds from share sales.</returns>
@@ -68,11 +97,6 @@ namespace Sonneville.PriceTools
         decimal GetCommissions(DateTime date);
 
         /// <summary>
-        ///   Validates the IPosition.
-        /// </summary>
-        void Validate();
-
-        /// <summary>
         ///   Gets the raw rate of return for this IPosition, not accounting for commissions.
         /// </summary>
         decimal GetRawReturn(DateTime date);
@@ -83,7 +107,7 @@ namespace Sonneville.PriceTools
         decimal GetTotalReturn(DateTime date);
 
         /// <summary>
-        ///   Gets the total rate of return on an annual basis for this Position.
+        ///   Gets the total rate of return on an annual basis for this IPosition.
         /// </summary>
         /// <remarks>
         ///   Assumes a year has 365 days.

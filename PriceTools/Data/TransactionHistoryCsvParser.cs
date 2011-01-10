@@ -234,25 +234,12 @@ namespace Sonneville.PriceTools.Data
             IPortfolio portfolio = new Portfolio();
             foreach(DataRow row in table.Rows)
             {
-                ITransaction transaction;
-                switch ((OrderType) row[OrderColumn])
-                {
-                    case OrderType.Deposit:
-                        transaction = new Deposit((DateTime) row[DateColumn], (decimal) row[PriceColumn]);
-                        break;
-                    case OrderType.Withdrawal:
-                        transaction = new Withdrawal((DateTime)row[DateColumn], (decimal)row[PriceColumn]);
-                        break;
-                    default:
-                        transaction = new Transaction((DateTime) row[DateColumn],
-                                                      (OrderType) row[OrderColumn],
-                                                      (string) row[SymbolColumn],
-                                                      (decimal) row[PriceColumn],
-                                                      (double) row[SharesColumn],
-                                                      (decimal) row[CommissionColumn]);
-                        break;
-                }
-                //portfolio.AddTransaction(transaction);
+                portfolio.AddTransaction((DateTime) row[DateColumn],
+                                         (OrderType) row[OrderColumn],
+                                         (string) row[SymbolColumn],
+                                         (decimal) row[PriceColumn],
+                                         (double) row[SharesColumn],
+                                         (decimal) row[CommissionColumn]);
             }
             return portfolio;
         }

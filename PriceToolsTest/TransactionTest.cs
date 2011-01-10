@@ -68,7 +68,7 @@ namespace Sonneville.PriceToolsTest
         #region Constructor Tests (Using Buy)
 
         /// <summary>
-        ///A test for Transaction Constructor
+        ///A test for ITransaction Constructor
         ///</summary>
         [TestMethod()]
         public void TransactionConstructorTest1()
@@ -80,7 +80,7 @@ namespace Sonneville.PriceToolsTest
 
             const double shares = 1;
             const decimal commission = 0.00m;
-            Transaction target = new Transaction(date, type, ticker, price);
+            ITransaction target = TransactionFactory.CreateTransaction(date, type, ticker, price);
             Assert.AreEqual(ticker, target.Ticker);
             Assert.AreEqual(date, target.SettlementDate);
             Assert.AreEqual(type, target.OrderType);
@@ -90,7 +90,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         /// <summary>
-        ///A test for Transaction Constructor
+        ///A test for ITransaction Constructor
         ///</summary>
         [TestMethod()]
         public void TransactionConstructorTest2()
@@ -102,7 +102,7 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5;           // bought 5 shares
 
             const decimal commission = 0.00m;
-            Transaction target = new Transaction(date, type, ticker, price, shares);
+            ITransaction target = TransactionFactory.CreateTransaction(date, type, ticker, price, shares);
             Assert.AreEqual(ticker, target.Ticker);
             Assert.AreEqual(date, target.SettlementDate);
             Assert.AreEqual(type, target.OrderType);
@@ -116,7 +116,7 @@ namespace Sonneville.PriceToolsTest
         #region Buy Tests
 
         /// <summary>
-        ///A test for Transaction Constructor
+        ///A test for ITransaction Constructor
         ///</summary>
         [TestMethod()]
         public void BuyTest()
@@ -128,7 +128,7 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5; // bought 5 shares
             const decimal commission = 7.95m; // bought with $7.95 commission
 
-            Transaction target = new Transaction(date, type, ticker, price, shares, commission);
+            ITransaction target = TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
             Assert.AreEqual(ticker, target.Ticker);
             Assert.AreEqual(date, target.SettlementDate);
             Assert.AreEqual(type, target.OrderType);
@@ -150,7 +150,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 100.0m;      // bought at $100.00 per share
             const double shares = -5;           // bought 5 shares
             const decimal commission = 7.95m;  // bought with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
@@ -166,7 +166,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = -100.0m;      // bought at $-100.00 per share - error
             const double shares = 5;           // bought 5 shares
             const decimal commission = 7.95m;  // bought with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 100.0m;      // bought at $100.00 per share
             const double shares = 5;           // bought 5 shares
             const decimal commission = -7.95m;  // bought with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         [TestMethod()]
@@ -195,9 +195,9 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5;            // 5 shares
             const decimal commission = 5.0m;    // with $5 commission
 
-            ITransaction expected = new Transaction(purchaseDate, type, ticker, buyPrice, shares, commission);
+            ITransaction target = TransactionFactory.CreateTransaction(purchaseDate, type, ticker, buyPrice, shares, commission);
 
-            TestUtilities.VerifySerialization(expected);
+            TestUtilities.VerifySerialization(target);
         }
 
         #endregion
@@ -217,7 +217,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 100.0m;      // sold at $100.00 per share
             const double shares = -5;           // sold 5 shares
             const decimal commission = 7.95m;  // sold with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = -100.0m;      // sold at $-100.00 per share - error
             const double shares = 5;           // sold 5 shares
             const decimal commission = 7.95m;  // sold with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
@@ -249,11 +249,11 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 100.0m;      // sold at $100.00 per share
             const double shares = 5;           // sold 5 shares
             const decimal commission = -7.95m;  // sold with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
-        ///A test for Transaction Constructor
+        ///A test for ITransaction Constructor
         ///</summary>
         [TestMethod()]
         public void SellTest()
@@ -265,7 +265,7 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5; // bought 5 shares
             const decimal commission = 7.95m; // bought with $7.95 commission
 
-            Transaction target = new Transaction(date, type, ticker, price, shares, commission);
+            ITransaction target = TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
             Assert.AreEqual(ticker, target.Ticker);
             Assert.AreEqual(date, target.SettlementDate);
             Assert.AreEqual(type, target.OrderType);
@@ -291,7 +291,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 100.0m;      // sold at $100.00 per share
             const double shares = -5;           // sold 5 shares
             const decimal commission = 7.95m;  // sold with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = -100.0m;      // sold at $-100.00 per share - error
             const double shares = 5;           // sold 5 shares
             const decimal commission = 7.95m;  // sold with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
@@ -323,11 +323,11 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 100.0m;      // sold at $100.00 per share
             const double shares = 5;           // sold 5 shares
             const decimal commission = -7.95m;  // sold with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
-        ///A test for Transaction Constructor
+        ///A test for ITransaction Constructor
         ///</summary>
         [TestMethod()]
         public void SellShortTest()
@@ -339,7 +339,7 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5; // sold 5 shares
             const decimal commission = 7.95m; // sold with $7.95 commission
 
-            Transaction target = new Transaction(date, type, ticker, price, shares, commission);
+            ITransaction target = TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
             Assert.AreEqual(ticker, target.Ticker);
             Assert.AreEqual(date, target.SettlementDate);
             Assert.AreEqual(type, target.OrderType);
@@ -365,7 +365,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 100.0m;      // bought at $100.00 per share
             const double shares = -5;           // bought 5 shares
             const decimal commission = 7.95m;  // bought with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
@@ -381,7 +381,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = -100.0m;      // bought at $-100.00 per share - error
             const double shares = 5;           // bought 5 shares
             const decimal commission = 7.95m;  // bought with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
@@ -397,11 +397,11 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 100.0m;      // bought at $100.00 per share
             const double shares = 5;           // bought 5 shares
             const decimal commission = -7.95m;  // bought with $7.95 commission
-            new Transaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
-        ///A test for Transaction Constructor
+        ///A test for ITransaction Constructor
         ///</summary>
         [TestMethod()]
         public void BuyToCoverTest()
@@ -413,7 +413,7 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5; // bought 5 shares
             const decimal commission = 7.95m; // bought with $7.95 commission
 
-            Transaction target = new Transaction(date, type, ticker, price, shares, commission);
+            ITransaction target = TransactionFactory.CreateTransaction(date, type, ticker, price, shares, commission);
             Assert.AreEqual(ticker, target.Ticker);
             Assert.AreEqual(date, target.SettlementDate);
             Assert.AreEqual(type, target.OrderType);
