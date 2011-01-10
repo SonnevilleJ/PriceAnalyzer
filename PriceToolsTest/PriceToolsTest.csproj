@@ -45,6 +45,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DepositTest.cs" />
     <Compile Include="FidelityTransactionHistoryCsvParserTest.cs" />
     <Compile Include="MovingAverageTest.cs" />
     <Compile Include="PortfolioTest.cs" />
@@ -58,6 +59,7 @@
       <DependentUpon>TestData.resx</DependentUpon>
     </Compile>
     <Compile Include="TransactionTest.cs" />
+    <Compile Include="WithdrawalTest.cs" />
     <Compile Include="YahooDataManagerTest.cs" />
   </ItemGroup>
   <ItemGroup>

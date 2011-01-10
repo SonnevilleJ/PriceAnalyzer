@@ -25,6 +25,14 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a Transaction.
         /// </summary>
+        protected Transaction()
+        {
+            
+        }
+
+        /// <summary>
+        /// Constructs a Transaction.
+        /// </summary>
         /// <param name="date">The date and time this Transaction took place.</param>
         /// <param name="type">The <see cref="PriceTools.OrderType"/> of this Transaction.</param>
         /// <param name="ticker">The ticker of the security bought or sold.</param>
@@ -44,8 +52,10 @@ namespace Sonneville.PriceTools
         /// <param name="price">The price at which the Transaction took place.</param>
         /// <param name="shares">The optional number of shares which were traded. Default = 1</param>
         public Transaction(DateTime date, OrderType type, string ticker, decimal price, double shares)
-            : this(date, type, ticker, price, shares, 0.0m)
-        { }
+            : this(date, type, ticker, price, shares, 0.00m)
+        {
+            
+        }
 
         /// <summary>
         /// Constructs a Transaction.
@@ -60,12 +70,6 @@ namespace Sonneville.PriceTools
         {
             _date = date;
             _ticker = ticker.ToUpperInvariant();
-
-            if (type == OrderType.Withdrawal || type == OrderType.Deposit)
-            {
-                throw new ArgumentOutOfRangeException("type", type,
-                                                      "Deposits and Withdrawals must use Deposit or Withdrawal instead of Transaction.");
-            }
             _type = type;
 
             if (shares < 0)

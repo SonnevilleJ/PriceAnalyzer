@@ -6,8 +6,10 @@ namespace Sonneville.PriceTools
     /// Represents a cash deposit to an <see cref="IPortfolio"/>.
     /// </summary>
     [Serializable]
-    public class Deposit : CashOrderBase
+    public sealed class Deposit : Transaction
     {
+        internal static readonly string DefaultTicker = String.Empty;
+
         #region Constructors
 
         /// <summary>
@@ -15,7 +17,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime">The DateTime of the Deposit.</param>
         /// <param name="amount">The amount of cash deposited.</param>
-        public Deposit(DateTime dateTime, decimal amount) : base(dateTime, OrderType.Deposit, amount)
+        public Deposit(DateTime dateTime, decimal amount) : this(dateTime, amount, DefaultTicker)
         {
         }
 
@@ -25,7 +27,7 @@ namespace Sonneville.PriceTools
         /// <param name="dateTime">The DateTime of the Deposit.</param>
         /// <param name="amount">The amount of cash deposited.</param>
         /// <param name="ticker">The holding to which cash is deposited.</param>
-        public Deposit(DateTime dateTime, decimal amount, string ticker) : base(dateTime, OrderType.Deposit, ticker, -1 * amount)
+        public Deposit(DateTime dateTime, decimal amount, string ticker) : base(dateTime, OrderType.Deposit, ticker, 1.0m, (double)amount, 0.00m)
         {
         }
 

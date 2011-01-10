@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents price history for a desired length of time.
     /// </summary>
-    public interface IPricePeriod : IComparable, ISerializable
+    public interface IPricePeriod : ISerializable
     {
         /// <summary>
         /// Gets the closing price for the IPricePeriod.
@@ -47,12 +47,5 @@ namespace Sonneville.PriceTools
         /// Gets the total volume of trades during the IPricePeriod.
         /// </summary>
         ulong? Volume { get; }
-
-        /// <summary>
-        /// Validates an IPricePeriod.
-        /// </summary>
-        /// <param name="pricePeriod">The IPricePeriod to validate.</param>
-        /// <returns>A value indicating if <paramref name="pricePeriod"/> is valid.</returns>
-        void Validate(PricePeriod pricePeriod);
     }
 }

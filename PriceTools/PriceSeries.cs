@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools
             }
             _periods.Sort((x, y) => DateTime.Compare(x.Head, y.Head));
 
-            Validate(this);
+            Validate();
         }
 
         #endregion
@@ -59,8 +59,6 @@ namespace Sonneville.PriceTools
             : base(info, context)
         {
             _periods = (List<PricePeriod>) info.GetValue("Periods", typeof (List<PricePeriod>));
-
-            Validate(this);
         }
 
         /// <summary>
@@ -197,18 +195,6 @@ namespace Sonneville.PriceTools
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(ITimeSeries other)
-        {
-            return Equals((object)other);
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(IPriceSeries other)
         {
             return Equals((object)other);
         }

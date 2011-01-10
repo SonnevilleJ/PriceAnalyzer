@@ -55,7 +55,7 @@ namespace Sonneville.PriceTools
                 (List<Transaction>) info.GetValue("AdditiveTransactions", typeof (List<Transaction>));
             _subtractiveTransactions =
                 (List<Transaction>) info.GetValue("SubtractiveTransactions", typeof (List<Transaction>));
-            Validate();
+            //Validate(); // DO NOT perform validation during deserialization. Until all objects are deserialized, validation will fail!
         }
 
         #endregion
@@ -509,9 +509,15 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator ==(Position left, Position right)
         {
-            return (left._additiveTransactions == right._additiveTransactions &&
-                    left._subtractiveTransactions == right._subtractiveTransactions &&
-                    left._ticker == right._ticker);
+            if (left._ticker == right._ticker)
+            {
+                if (left.Transactions.Count == right.Transactions.Count)
+                {
+                    return left.Transactions.All(transaction => right.Transactions.Contains(transaction));
+                }
+                return false;
+            }
+            return false;
         }
 
         /// <summary>

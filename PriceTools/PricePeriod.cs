@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Permissions;
 
 namespace Sonneville.PriceTools
@@ -69,7 +67,7 @@ namespace Sonneville.PriceTools
             _close = close;
             _volume = volume;
 
-            Validate(this);
+            Validate();
         }
 
         #endregion
@@ -90,8 +88,6 @@ namespace Sonneville.PriceTools
             _low = (decimal?) info.GetValue("Low", typeof (decimal?));
             _close = (decimal) info.GetValue("Close", typeof (decimal));
             _volume = (UInt64?) info.GetValue("Volume", typeof (UInt64?));
-
-            Validate(this);
         }
 
         /// <summary>
@@ -191,40 +187,20 @@ namespace Sonneville.PriceTools
         #region IPricePeriod Members
 
         /// <summary>
-        ///   Compares the current instance with another object of the same type.
+        ///   Validates a PricePeriod.
         /// </summary>
-        /// <returns>
-        ///   A 32-bit signed integer that indicates the relative order of the objects being compared. The return value has these meanings: Value Meaning Less than zero This instance is less than <paramref name = "obj" />. Zero This instance is equal to <paramref name = "obj" />. Greater than zero This instance is greater than <paramref name = "obj" />. 
-        /// </returns>
-        /// <param name = "obj">An object to compare with this instance. </param>
-        /// <exception cref = "T:System.ArgumentException"><paramref name = "obj" /> is not the same type as this instance. </exception>
-        /// <filterpriority>2</filterpriority>
-        public int CompareTo(object obj)
-        {
-            PricePeriod target = obj as PricePeriod;
-            if (target == null)
-            {
-                throw new InvalidOperationException("obj is not a PricePeriod.");
-            }
-            return Head.CompareTo(target.Head);
-        }
-
-        /// <summary>
-        ///   Validates an IPricePeriod.
-        /// </summary>
-        /// <param name = "pricePeriod">The IPricePeriod to validate.</param>
-        /// <returns>A value indicating if <paramref name = "pricePeriod" /> is valid.</returns>
-        public void Validate(PricePeriod pricePeriod)
+        /// <returns>A value indicating if the PricePeriod is valid.</returns>
+        protected void Validate()
         {
             List<string> errors = new List<string>();
 
-            if (pricePeriod.Head > pricePeriod.Tail)
+            if (Head > Tail)
                 errors.Add("Head must be earlier than Tail.");
-            if (pricePeriod.High < pricePeriod.Open || pricePeriod.High < pricePeriod.Low ||
-                pricePeriod.High < pricePeriod.Close)
+            if (High < Open || High < Low ||
+                High < Close)
                 errors.Add("High must be greater than or equal to the period's open, low, and close.");
-            if (pricePeriod.Low > pricePeriod.Open || pricePeriod.Low > pricePeriod.High ||
-                pricePeriod.Low > pricePeriod.Close)
+            if (Low > Open || Low > High ||
+                Low > Close)
                 errors.Add("Low must be less than or equal to the period's open, high, and close.");
 
             if (errors.Count != 0)
