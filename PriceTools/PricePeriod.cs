@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools
     ///   Represents a single price period. A price period could be any period of time (minute, hour, day, week, month, year, etc).
     /// </summary>
     [Serializable]
-    public class PricePeriod : IPricePeriod, ISerializable
+    public class PricePeriod : IPricePeriod
     {
         #region Private Members
 

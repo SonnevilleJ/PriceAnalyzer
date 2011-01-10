@@ -53,7 +53,6 @@
     <Compile Include="Indicator.cs" />
     <Compile Include="IPortfolio.cs" />
     <Compile Include="MovingAverage.cs" />
-    <Compile Include="InvalidPositionException.cs" />
     <Compile Include="InvalidPricePeriodException.cs" />
     <Compile Include="IPosition.cs" />
     <Compile Include="IPricePeriod.cs" />
