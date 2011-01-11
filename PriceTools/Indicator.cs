@@ -85,6 +85,11 @@ namespace Sonneville.PriceTools
             }
         }
 
+        /// <summary>
+        /// Increments a date by 1 day.
+        /// </summary>
+        /// <param name="date">The date to increment.</param>
+        /// <returns>A <see cref="DateTime"/> 1 day after <paramref name="date"/>.</returns>
         protected static DateTime IncrementDate(DateTime date)
         {
             return date.AddDays(1);

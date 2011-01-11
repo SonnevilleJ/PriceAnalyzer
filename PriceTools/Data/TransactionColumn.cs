@@ -3,8 +3,13 @@
     /// <summary>
     /// Columns used in a Transaction CSV file.
     /// </summary>
-    public enum TransactionColumns
+    public enum TransactionColumn
     {
+        /// <summary>
+        /// Represents a column that is unused.
+        /// </summary>
+        None = 0,
+
         /// <summary>
         /// Represents the Date column in a table of <see cref="ITransaction"/> elements.
         /// </summary>

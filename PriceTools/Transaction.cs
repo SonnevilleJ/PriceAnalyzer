@@ -111,6 +111,11 @@ namespace Sonneville.PriceTools
 
         #region Implementation of ISerializable
 
+        /// <summary>
+        /// Deserializes a Transaction object.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
         protected Transaction(SerializationInfo info, StreamingContext context)
         {
             _date = info.GetDateTime("Date");

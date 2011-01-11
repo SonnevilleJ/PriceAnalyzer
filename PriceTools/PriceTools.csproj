@@ -41,11 +41,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\FidelityTransactionHistoryCsvParser.cs" />
-    <Compile Include="Data\TransactionHistoryCsvParser.cs" />
+    <Compile Include="Data\FidelityTransactionHistoryCsvFile.cs" />
+    <Compile Include="Data\TransactionHistoryCsvFile.cs" />
     <Compile Include="Data\PriceSeriesProvider.cs" />
     <Compile Include="Data\PriceColumns.cs" />
-    <Compile Include="Data\TransactionColumns.cs" />
+    <Compile Include="Data\TransactionColumn.cs" />
     <Compile Include="Data\YahooDataManager.cs" />
     <Compile Include="Data\YahooPriceSeriesProvider.cs" />
     <Compile Include="Deposit.cs" />

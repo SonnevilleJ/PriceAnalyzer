@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Runtime.Serialization;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools
 {
@@ -50,6 +52,15 @@ namespace Sonneville.PriceTools
         {
             _cashTicker = ticker.ToUpperInvariant();
             Deposit(dateTime, openingDeposit);
+        }
+
+        /// <summary>
+        /// Constructs a Portfolio from a <see cref="TransactionHistoryCsvFile"/>.
+        /// </summary>
+        /// <param name="csvFile">The <see cref="TransactionHistoryCsvFile"/> containing transaction data.</param>
+        public Portfolio(TransactionHistoryCsvFile csvFile)
+        {
+            AddTransactionHistory(csvFile);
         }
 
         #endregion
@@ -257,6 +268,25 @@ namespace Sonneville.PriceTools
             VerifyAvailableCash(dateTime, cashAmount);
             Withdrawal withdrawal = new Withdrawal(dateTime, cashAmount, CashTicker);
             _cashTransactions.Add(withdrawal);
+        }
+
+        /// <summary>
+        /// Adds transaction history from a CSV file to the Portfolio.
+        /// </summary>
+        /// <param name="csvFile">The CSV file containing the transactions to add.</param>
+        public void AddTransactionHistory(TransactionHistoryCsvFile csvFile)
+        {
+            csvFile.Parse();
+
+            foreach (DataRow row in csvFile.DataTable.Rows)
+            {
+                AddTransaction((DateTime)row[csvFile.DateColumn],
+                               (OrderType)row[csvFile.OrderColumn],
+                               (string)row[csvFile.SymbolColumn],
+                               (decimal)row[csvFile.PriceColumn],
+                               (double)row[csvFile.SharesColumn],
+                               (decimal)row[csvFile.CommissionColumn]);
+            }
         }
 
         #endregion

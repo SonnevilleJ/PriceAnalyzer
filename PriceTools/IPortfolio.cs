@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools
 {
@@ -78,5 +79,11 @@ namespace Sonneville.PriceTools
         /// <param name="dateTime">The <see cref="DateTime"/> of the withdrawal.</param>
         /// <param name="cashAmount">The amount of cash withdrawn.</param>
         void Withdraw(DateTime dateTime, decimal cashAmount);
+
+        /// <summary>
+        /// Adds transaction history from a CSV file to the IPortfolio.
+        /// </summary>
+        /// <param name="csvFile">The CSV file containing the transactions to add.</param>
+        void AddTransactionHistory(TransactionHistoryCsvFile csvFile);
     }
 }

@@ -75,14 +75,14 @@ namespace Sonneville.PriceToolsTest
             using (Stream csvStream = new MemoryStream(TestData.FidelityTransactions))
             {
                 IPortfolio portfolio;
-                using (FidelityTransactionHistoryCsvParser target = new FidelityTransactionHistoryCsvParser(csvStream))
+                using (FidelityTransactionHistoryCsvFile target = new FidelityTransactionHistoryCsvFile(csvStream))
                 {
-                    portfolio = target.ParsePortfolio();
+                    portfolio = new Portfolio(target);
                 }
 
-                const decimal expected = 2848.4m;
-                decimal actual = portfolio.GetValue(new DateTime(2010, 09, 13));
-                Assert.AreEqual(expected, actual);
+                const decimal expectedValue = 2848.4m;
+                decimal actualValue = portfolio.GetValue(new DateTime(2010, 09, 13));
+                Assert.AreEqual(expectedValue, actualValue);
             }
 
         }
