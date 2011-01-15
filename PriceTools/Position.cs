@@ -378,10 +378,13 @@ namespace Sonneville.PriceTools
                 case OrderType.Sell:
                     // Verify that sold shares does not exceed available shares at the time of the transaction.
                     DateTime date = transaction.SettlementDate.Subtract(new TimeSpan(0, 0, 0, 1));
-                    if (transaction.Shares > GetHeldShares(date))
+                    double heldShares = GetHeldShares(date);
+                    if (transaction.Shares > heldShares)
                     {
                         throw new InvalidOperationException(
-                            "This transaction requires more shares than are currently held by this Position.");
+                            String.Format(
+                                "This transaction requires {0} shares, but only {1} shares are held by this Position as of {2}.",
+                                transaction.Shares, heldShares, date));
                     }
                     break;
             }

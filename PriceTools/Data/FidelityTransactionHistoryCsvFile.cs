@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.Data
         /// </summary>
         /// <param name = "csvStream"></param>
         public FidelityTransactionHistoryCsvFile(Stream csvStream)
-            : base(csvStream)
+            : base(csvStream, true)
         {
         }
 
@@ -42,6 +42,8 @@ namespace Sonneville.PriceTools.Data
                     return TransactionColumn.Shares;
                 case "PRICE ($)":
                     return TransactionColumn.PricePerShare;
+                case "AMOUNT ($)":
+                    return TransactionColumn.TotalBasis;
                 case "COMMISSION ($)":
                     return TransactionColumn.Commission;
                 default:

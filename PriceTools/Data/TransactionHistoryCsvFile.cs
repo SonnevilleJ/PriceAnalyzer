@@ -28,12 +28,23 @@ namespace Sonneville.PriceTools.Data
         /// </summary>
         /// <param name="csvStream">A <see cref="Stream"/> to the CSV data.</param>
         protected TransactionHistoryCsvFile(Stream csvStream)
+            : this(csvStream, false)
+        {
+        }
+
+        /// <summary>
+        /// Constructs a new TransactionHistoryCsvFile.
+        /// </summary>
+        /// <param name="csvStream">A <see cref="Stream"/> to the CSV data.</param>
+        /// <param name="useTotalBasis">A value indicating whether or not TotalBasis should be used to calculate price.</param>
+        protected TransactionHistoryCsvFile(Stream csvStream, bool useTotalBasis)
         {
             if (csvStream == null)
             {
                 throw new ArgumentNullException("csvStream");
             }
             _stream = csvStream;
+            UseTotalBasis = useTotalBasis;
 
             InitializeDataTable();
         }
@@ -91,7 +102,18 @@ namespace Sonneville.PriceTools.Data
         /// </summary>
         public int CommissionColumn { get; private set; }
 
+        /// <summary>
+        /// Gets the index of the Total Basis column in DataTable.
+        /// </summary>
+        public int TotalBasisColumn { get; private set; }
+
         #endregion
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the TotalBasis column should be used to calculate price.
+        /// </summary>
+        /// <remarks>Use the TotalBasis column when raw price is not included in the CSV file.</remarks>
+        private bool UseTotalBasis { get; set; }
 
         #region Private Methods
 
@@ -199,14 +221,32 @@ namespace Sonneville.PriceTools.Data
                         row.BeginEdit();
                         row[DateColumn] = ParseDateColumn(reader[_map[TransactionColumn.Date]]);
                         row[OrderColumn] = orderType;
+                        row[SymbolColumn] = ParseSymbolColumn(reader[_map[TransactionColumn.Symbol]]);
+                        row[SharesColumn] = ParseSharesColumn(reader[_map[TransactionColumn.Shares]]);
+                        row[CommissionColumn] = ParseCommissionColumn(reader[_map[TransactionColumn.Commission]]);
                         switch (orderType)
                         {
                             case OrderType.Buy:
                             case OrderType.Sell:
-                                row[SymbolColumn] = ParseSymbolColumn(reader[_map[TransactionColumn.Symbol]]);
-                                row[SharesColumn] = ParseSharesColumn(reader[_map[TransactionColumn.Shares]]);
-                                row[PriceColumn] = ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
-                                row[CommissionColumn] = ParseCommissionColumn(reader[_map[TransactionColumn.Commission]]);
+                                if (UseTotalBasis)
+                                {
+                                    row[PriceColumn] = ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]) / decimal.Parse(row[SharesColumn].ToString());
+                                }
+                                else
+                                {
+                                    row[PriceColumn] = ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                                }
+                                break;
+                            case OrderType.Deposit:
+                            case OrderType.Withdrawal:
+                                if (UseTotalBasis)
+                                {
+                                    row[PriceColumn] = ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]);
+                                }
+                                else
+                                {
+                                    row[PriceColumn] = ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                                }
                                 break;
                         }
                         row.EndEdit();
@@ -281,6 +321,16 @@ namespace Sonneville.PriceTools.Data
         /// <param name="text">The raw CSV data to parse.</param>
         /// <returns>The parsed comission price.</returns>
         protected virtual decimal ParseCommissionColumn(string text)
+        {
+            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text.Trim())) : 0.0m;
+        }
+
+        /// <summary>
+        /// Parses data from the TotalBasis column of the CSV data.
+        /// </summary>
+        /// <param name="text">The raw CSV data to parse.</param>
+        /// <returns>The parsed TotalBasis amount.</returns>
+        protected virtual decimal ParseTotalBasisColumn(string text)
         {
             return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text.Trim())) : 0.0m;
         }

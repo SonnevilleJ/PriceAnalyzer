@@ -9,11 +9,11 @@ namespace Sonneville.PriceToolsTest
     
     
     /// <summary>
-    ///This is a test class for FidelityTransactionHistoryCsvParserTest and is intended
-    ///to contain all FidelityTransactionHistoryCsvParserTest Unit Tests
+    ///This is a test class for FidelityTransactionHistoryCsvFileTest and is intended
+    ///to contain all FidelityTransactionHistoryCsvFileTest Unit Tests
     ///</summary>
     [TestClass()]
-    public class FidelityTransactionHistoryCsvParserTest
+    public class FidelityTransactionHistoryCsvFileTest
     {
 
 

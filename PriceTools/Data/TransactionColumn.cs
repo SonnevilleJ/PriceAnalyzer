@@ -38,6 +38,11 @@
         /// <summary>
         /// Represents the Commission column in a table of <see cref="ITransaction"/> elements.
         /// </summary>
-        Commission
+        Commission,
+
+        /// <summary>
+        /// Represents the Total Basis column in a table of <see cref="ITransaction"/> elements.
+        /// </summary>
+        TotalBasis
     }
 }
