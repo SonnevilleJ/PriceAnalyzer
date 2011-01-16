@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CashAccount.cs" />
     <Compile Include="Data\FidelityTransactionHistoryCsvFile.cs" />
     <Compile Include="Data\TransactionHistoryCsvFile.cs" />
     <Compile Include="Data\PriceSeriesProvider.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Data\YahooDataManager.cs" />
     <Compile Include="Data\YahooPriceSeriesProvider.cs" />
     <Compile Include="Deposit.cs" />
+    <Compile Include="ICashAccount.cs" />
     <Compile Include="Internal\DualIndexedCollection.cs" />
     <Compile Include="Indicator.cs" />
     <Compile Include="IPortfolio.cs" />
