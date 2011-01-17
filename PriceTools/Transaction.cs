@@ -36,24 +36,52 @@ namespace Sonneville.PriceTools
             _date = date;
             _ticker = ticker.ToUpperInvariant();
             _type = type;
-
-            if (shares < 0)
-            {
-                throw new ArgumentOutOfRangeException("shares", shares, "Shares must be greater than or equal to 0.00");
-            }
             _shares = shares;
-
-            if(price < 0.00m)
-            {
-                throw new ArgumentOutOfRangeException("price", price, "Price must be greater than or equal to 0.00");
-            }
             _price = price;
-
-            if(commission < 0.00m)
-            {
-                throw new ArgumentOutOfRangeException("commission", commission, "Commission must be greater than or equal to 0.00");
-            }
             _commission = commission;
+
+            switch (type)
+            {
+                case OrderType.DividendReceipt:
+                case OrderType.DividendReinvestment:
+                    if (shares != 0)
+                    {
+                        throw new ArgumentOutOfRangeException("shares", shares, "Dividend shares must be zero.");
+                    }
+                    if (commission != 0)
+                    {
+                        throw new ArgumentOutOfRangeException("commission", commission, "Commission for dividends must be zero.");
+                    }
+                    if (price <= 0)
+                    {
+                        throw new ArgumentOutOfRangeException("price", price, String.Format("Price for dividends must be greater than {0}.", 0D));
+                    }
+                    break;
+                case OrderType.Deposit:
+                case OrderType.Withdrawal:
+                    if (commission != 0)
+                    {
+                        throw new ArgumentOutOfRangeException("commission", commission, "Commission for dividends must be zero.");
+                    }
+                    break;
+                case OrderType.Buy:
+                case OrderType.BuyToCover:
+                case OrderType.Sell:
+                case OrderType.SellShort:
+                    if (shares < 0)
+                    {
+                        throw new ArgumentOutOfRangeException("shares", shares, "Shares must be greater than or equal to 0.00");
+                    }
+                    if (price < 0.00m)
+                    {
+                        throw new ArgumentOutOfRangeException("price", price, "Price must be greater than or equal to 0.00");
+                    }
+                    if (commission < 0.00m)
+                    {
+                        throw new ArgumentOutOfRangeException("commission", commission, "Commission must be greater than or equal to 0.00");
+                    }
+                    break;
+            }
         }
 
         #endregion

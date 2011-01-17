@@ -9,8 +9,6 @@ namespace Sonneville.PriceTools
     [Serializable]
     public sealed class Deposit : Transaction
     {
-        internal static readonly string DefaultTicker = String.Empty;
-
         #region Constructors
 
         /// <summary>
@@ -18,18 +16,13 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime">The DateTime of the Deposit.</param>
         /// <param name="amount">The amount of cash deposited.</param>
-        internal Deposit(DateTime dateTime, decimal amount) : this(dateTime, amount, DefaultTicker)
+        internal Deposit(DateTime dateTime, decimal amount)
+            : base(dateTime, OrderType.Deposit, String.Empty, 1.0m, (double)amount, 0.00m)
         {
-        }
-
-        /// <summary>
-        /// Constructs a Deposit.
-        /// </summary>
-        /// <param name="dateTime">The DateTime of the Deposit.</param>
-        /// <param name="amount">The amount of cash deposited.</param>
-        /// <param name="ticker">The holding to which cash is deposited.</param>
-        internal Deposit(DateTime dateTime, decimal amount, string ticker) : base(dateTime, OrderType.Deposit, ticker, 1.0m, (double)amount, 0.00m)
-        {
+            if (amount <= 0)
+            {
+                throw new ArgumentOutOfRangeException("amount", amount, "Amount of deposit must be greater than zero.");
+            }
         }
 
         #endregion
@@ -51,18 +44,7 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
-
-        /// <summary>
-        /// Gets the price at which the Deposit took place.
-        /// </summary>
-        public override decimal Price
-        {
-            get
-            {
-                return -1 * base.Price;
-            }
-        }
-
+        
         #region Equality Checks
 
         /// <summary>

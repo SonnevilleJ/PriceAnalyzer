@@ -77,7 +77,7 @@ namespace Sonneville.PriceToolsTest
                 IPortfolio portfolio;
                 using (FidelityTransactionHistoryCsvFile target = new FidelityTransactionHistoryCsvFile(csvStream))
                 {
-                    portfolio = new Portfolio(target);
+                    portfolio = new Portfolio(target, "FTEXX");
                 }
 
                 const decimal expectedValue = 2848.4m;

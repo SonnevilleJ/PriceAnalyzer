@@ -16,18 +16,12 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime">The DateTime of the Withdrawal.</param>
         /// <param name="amount">The amount of cash withdrawn.</param>
-        internal Withdrawal(DateTime dateTime, decimal amount) : this(dateTime, amount, Deposit.DefaultTicker)
+        internal Withdrawal(DateTime dateTime, decimal amount) : base(dateTime, OrderType.Withdrawal, String.Empty, 1.0m, (double)amount, 0.00m)
         {
-        }
-
-        /// <summary>
-        /// Constructs a Withdrawal.
-        /// </summary>
-        /// <param name="dateTime">The DateTime of the Withdrawal.</param>
-        /// <param name="amount">The amount of cash withdrawn.</param>
-        /// <param name="ticker">The holding from which cash is withdrawn.</param>
-        internal Withdrawal(DateTime dateTime, decimal amount, string ticker) : base(dateTime, OrderType.Withdrawal, ticker, 1.0m, (double)amount, 0.00m)
-        {
+            if (amount <= 0)
+            {
+                throw new ArgumentOutOfRangeException("amount", amount, "Amount of withdrawal must be greater than zero.");
+            }
         }
 
         #endregion

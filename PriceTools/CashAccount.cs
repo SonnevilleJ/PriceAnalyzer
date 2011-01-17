@@ -26,6 +26,7 @@ namespace Sonneville.PriceTools
         public CashAccount(string ticker)
         {
             _ticker = ticker != null ? ticker : String.Empty;
+            _cashTransactions = new List<ITransaction>();
         }
 
         /// <summary>
@@ -39,13 +40,20 @@ namespace Sonneville.PriceTools
             {
                 throw new ArgumentNullException("info");
             }
-            throw new NotImplementedException();
+            _ticker = info.GetString("Ticker");
+            _cashTransactions = (List<ITransaction>)info.GetValue("CashTransactions", typeof(List<ITransaction>));
         }
 
         #endregion
 
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+            info.AddValue("Ticker", _ticker);
+            info.AddValue("CashTransactions", _cashTransactions);
         }
 
         /// <summary>
@@ -65,6 +73,10 @@ namespace Sonneville.PriceTools
         /// <param name="amount">The amount of cash withdrawn from the CashAccount.</param>
         public void Withdraw(DateTime dateTime, decimal amount)
         {
+            if (GetCashBalance(dateTime) < amount)
+            {
+                throw new InvalidOperationException("Insufficient funds.");
+            }
             _cashTransactions.Add(new Withdrawal(dateTime, amount));
         }
 
@@ -77,6 +89,25 @@ namespace Sonneville.PriceTools
             {
                 return _ticker;
             }
+        }
+
+        public IList<ITransaction> Transactions
+        {
+            get
+            {   
+                return _cashTransactions.AsReadOnly();
+            }
+        }
+
+        /// <summary>
+        ///   Gets the balance of cash in this CashAccount.
+        /// </summary>
+        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
+        public decimal GetCashBalance(DateTime asOfDate)
+        {
+            decimal cashDeposited = _cashTransactions.Where(transaction => transaction.SettlementDate <= asOfDate && transaction.OrderType == OrderType.Deposit).Sum(transaction => transaction.Price * (decimal)transaction.Shares);
+            decimal cashWithdrawn = _cashTransactions.Where(transaction => transaction.SettlementDate <= asOfDate && transaction.OrderType == OrderType.Withdrawal).Sum(transaction => transaction.Price * (decimal)transaction.Shares);
+            return cashDeposited - cashWithdrawn;
         }
 
         #region Equality Checks

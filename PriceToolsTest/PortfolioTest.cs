@@ -157,8 +157,8 @@ namespace Sonneville.PriceToolsTest
             DateTime withdrawalDate = dateTime.AddDays(1);
             target.Withdraw(withdrawalDate, withdrawal);
 
-            const decimal expected = 3;
-            decimal actual = target.Positions.Count + target.CashTransactions.Count;
+            const decimal expected = 4;
+            decimal actual = target.Positions.Count + target.CashAccount.Transactions.Count;
             Assert.AreEqual(expected, actual);
         }
 

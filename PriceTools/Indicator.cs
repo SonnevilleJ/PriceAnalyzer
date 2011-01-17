@@ -29,6 +29,10 @@ namespace Sonneville.PriceTools
         /// <param name="range">The range used by this indicator.</param>
         protected Indicator(IPriceSeries priceSeries, int range)
         {
+            if (priceSeries == null)
+            {
+                throw new ArgumentNullException("priceSeries");
+            }
             _priceSeries = priceSeries;
             _dictionary = new Dictionary<DateTime, decimal>(priceSeries.Periods.Count - range);
             _range = range;
@@ -167,6 +171,10 @@ namespace Sonneville.PriceTools
         /// <param name="context"></param>
         protected Indicator(SerializationInfo info, StreamingContext context)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
             _dictionary = (IDictionary<DateTime, decimal>) info.GetValue("Dictionary", typeof (IDictionary<DateTime, decimal>));
             _priceSeries = (IPriceSeries) info.GetValue("priceSeries", typeof (IPriceSeries));
             _range = (Int32) info.GetValue("Range", typeof (Int32));
@@ -180,6 +188,10 @@ namespace Sonneville.PriceTools
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
             info.AddValue("Dictionary", _dictionary);
             info.AddValue("priceSeries", PriceSeries);
             info.AddValue("Range", _range);
@@ -210,6 +222,14 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator !=(Indicator left, Indicator right)
         {
+            if (left == null)
+            {
+                throw new ArgumentNullException("left");
+            }
+            if (right == null)
+            {
+                throw new ArgumentNullException("right");
+            }
             return !(left == right);
         }
 

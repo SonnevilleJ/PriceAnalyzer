@@ -18,7 +18,12 @@
         /// <summary>
         ///   A cash dividend was received.
         /// </summary>
-        Dividend,
+        DividendReceipt,
+
+        /// <summary>
+        /// A cash dividend was reinvested.
+        /// </summary>
+        DividendReinvestment,
 
         /// <summary>
         ///   A buy transaction or a new investment.

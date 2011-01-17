@@ -15,9 +15,8 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private readonly string _cashTicker = String.Empty;
         private readonly IDictionary<string, IPosition> _positions = new Dictionary<string, IPosition>();
-        private readonly ICollection<ITransaction> _cashTransactions = new List<ITransaction>();
+        private readonly CashAccount _cashAccount;
 
         #endregion
 
@@ -27,8 +26,13 @@ namespace Sonneville.PriceTools
         /// Constructs a Portfolio.
         /// </summary>
         public Portfolio()
+            : this(String.Empty)
+        {            
+        }
+
+        public Portfolio(string ticker)
         {
-            
+            _cashAccount = new CashAccount(ticker);
         }
 
         /// <summary>
@@ -38,8 +42,7 @@ namespace Sonneville.PriceTools
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
         public Portfolio(DateTime dateTime, decimal openingDeposit)
             : this(dateTime, openingDeposit, String.Empty)
-        {
-            
+        {            
         }
 
         /// <summary>
@@ -49,16 +52,20 @@ namespace Sonneville.PriceTools
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
         /// <param name="ticker">The ticker symbol the deposit is invested in.</param>
         public Portfolio(DateTime dateTime, decimal openingDeposit, string ticker)
+            : this(ticker)
         {
-            _cashTicker = ticker.ToUpperInvariant();
-            Deposit(dateTime, openingDeposit);
+            if (openingDeposit > 0)
+            {
+                Deposit(dateTime, openingDeposit);
+            }
         }
 
         /// <summary>
         /// Constructs a Portfolio from a <see cref="TransactionHistoryCsvFile"/>.
         /// </summary>
         /// <param name="csvFile">The <see cref="TransactionHistoryCsvFile"/> containing transaction data.</param>
-        public Portfolio(TransactionHistoryCsvFile csvFile)
+        public Portfolio(TransactionHistoryCsvFile csvFile, string ticker)
+            : this(ticker)
         {
             AddTransactionHistory(csvFile);
         }
@@ -74,9 +81,8 @@ namespace Sonneville.PriceTools
         /// <param name="context"></param>
         protected Portfolio(SerializationInfo info, StreamingContext context)
         {
-            _cashTicker = info.GetString("Ticker");
             _positions = (IDictionary<string, IPosition>) info.GetValue("Positions", typeof (Dictionary<string, IPosition>));
-            _cashTransactions = (IList<ITransaction>) info.GetValue("CashTransactions", typeof (List<ITransaction>));
+            _cashAccount = (CashAccount)info.GetValue("CashAccount", typeof(CashAccount));
         }
 
         /// <summary>
@@ -85,9 +91,8 @@ namespace Sonneville.PriceTools
         /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data. </param><param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization. </param><exception cref="T:System.Security.SecurityException">The caller does not have the required permission. </exception>
         public void GetObjectData(SerializationInfo info, StreamingContext context)
         {
-            info.AddValue("Ticker", _cashTicker);
             info.AddValue("Positions", _positions);
-            info.AddValue("CashTransactions", _cashTransactions);
+            info.AddValue("CashAccount", _cashAccount);
         }
 
         #endregion
@@ -113,11 +118,12 @@ namespace Sonneville.PriceTools
             {
                 DateTime earliest = DateTime.Now;
                 // loops produce "Access to modified closure" warning in Resharper. This is expected/desired behavior.
+                // TODO: use OrderBy and First instead of looping through all values.
                 foreach (var position in Positions.Values.Where(position => position.Head < earliest))
                 {
                     earliest = position.Head;
                 }
-                foreach (var transaction in CashTransactions.Where(transaction => transaction.SettlementDate < earliest))
+                foreach (var transaction in CashAccount.Transactions.Where(transaction => transaction.SettlementDate < earliest))
                 {
                     earliest = transaction.SettlementDate;
                 }
@@ -134,11 +140,12 @@ namespace Sonneville.PriceTools
             {
                 DateTime latest = new DateTime();
                 // loops produce "Access to modified closure" warning in Resharper. This is expected/desired behavior.
+                // TODO: use OrderBy and First instead of looping through all values.
                 foreach (var position in Positions.Values.Where(position => position.Tail > latest))
                 {
                     latest = position.Tail;
                 }
-                foreach (var transaction in CashTransactions.Where(transaction => transaction.SettlementDate > latest))
+                foreach (var transaction in CashAccount.Transactions.Where(transaction => transaction.SettlementDate > latest))
                 {
                     latest = transaction.SettlementDate;
                 }
@@ -166,7 +173,7 @@ namespace Sonneville.PriceTools
         #region Implementation of IPortfolio
 
         /// <summary>
-        ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
+        ///   Gets an <see cref = "IList{T}" /> of positions held in this Portfolio.
         /// </summary>
         public IDictionary<string, IPosition> Positions
         {
@@ -174,34 +181,34 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets an <see cref="IList{T}"/> of cash transactions in this IPortfolio.
+        ///   Gets the <see cref="ICashAccount"/> used by this Portfolio.
         /// </summary>
-        public ICollection<ITransaction> CashTransactions
+        public ICashAccount CashAccount
         {
-            get { return _cashTransactions; }
+            get { return _cashAccount; }
         }
 
+
+
         /// <summary>
-        ///   Gets the amount of uninvested cash in this IPortfolio.
+        ///   Gets the amount of uninvested cash in this Portfolio.
         /// </summary>
         /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetAvailableCash(DateTime asOfDate)
         {
-            decimal cashDeposited = CashTransactions.Sum(transaction => transaction.Price*(decimal) transaction.Shares);
-            decimal cashInvested = Positions.Values.Aggregate<IPosition, decimal>(0, (current, position) => current - position.GetValue(asOfDate, true));
-            return 0 - (cashDeposited + cashInvested);
+            return _cashAccount.GetCashBalance(asOfDate);
         }
 
         /// <summary>
-        /// Gets or sets the ticker to use for the holding of cash in this IPortfolio.
+        /// Gets or sets the ticker to use for the holding of cash in this Portfolio.
         /// </summary>
         public string CashTicker
         {
-            get { return _cashTicker; }
+            get { return _cashAccount.Ticker; }
         }
 
         /// <summary>
-        ///   Gets the current total value of this IPortfolio.
+        ///   Gets the current total value of this Portfolio.
         /// </summary>
         public decimal GetValue(DateTime asOfDate)
         {
@@ -209,7 +216,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
         /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
@@ -223,7 +230,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
         /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
@@ -236,7 +243,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
         /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
@@ -244,30 +251,36 @@ namespace Sonneville.PriceTools
         /// <param name="price">The per-share price of the ticker symbol.</param>
         public void AddTransaction(DateTime date, OrderType type, string ticker, decimal price)
         {
-            AddToPosition(ticker, type, date, 1.0, price, Position.DefaultCommission);
+            switch(type)
+            {
+                case OrderType.Deposit:
+                    throw new InvalidOperationException("Deposits must use Deposit() rather than this method.");
+                case OrderType.Withdrawal:
+                    throw new InvalidOperationException("Withdrawals must use Withdraw() rather than this method.");
+                default:
+                    AddToPosition(ticker, type, date, 1.0, price, Position.DefaultCommission);
+                    break;
+            }
         }
 
         /// <summary>
-        /// Deposits cash to this IPortfolio.
+        /// Deposits cash to this Portfolio.
         /// </summary>
         /// <param name="dateTime">The <see cref="DateTime"/> of the deposit.</param>
         /// <param name="cashAmount">The amount of cash deposited.</param>
         public void Deposit(DateTime dateTime, decimal cashAmount)
         {
-            ITransaction deposit = TransactionFactory.CreateDeposit(dateTime, cashAmount, CashTicker);
-            _cashTransactions.Add(deposit);
+            _cashAccount.Deposit(dateTime, cashAmount);
         }
 
         /// <summary>
-        /// Withdraws cash from this IPortfolio. AvailableCash must be greater than or equal to the withdrawn amount.
+        /// Withdraws cash from this Portfolio. AvailableCash must be greater than or equal to the withdrawn amount.
         /// </summary>
         /// <param name="dateTime">The <see cref="DateTime"/> of the withdrawal.</param>
         /// <param name="cashAmount">The amount of cash withdrawn.</param>
         public void Withdraw(DateTime dateTime, decimal cashAmount)
         {
-            VerifyAvailableCash(dateTime, cashAmount);
-            Withdrawal withdrawal = new Withdrawal(dateTime, cashAmount, CashTicker);
-            _cashTransactions.Add(withdrawal);
+            _cashAccount.Withdraw(dateTime, cashAmount);
         }
 
         /// <summary>
@@ -278,7 +291,10 @@ namespace Sonneville.PriceTools
         {
             csvFile.Parse();
 
-            foreach (DataRow row in csvFile.DataTable.Rows)
+            DataTable table = csvFile.DataTable;
+            // need to add transactions IN ORDER (oldest to newest)
+
+            foreach (DataRow row in table.Select(null, "Date ASC"))
             {
                 AddTransaction((DateTime)row[csvFile.DateColumn],
                                (OrderType)row[csvFile.OrderColumn],
@@ -295,67 +311,49 @@ namespace Sonneville.PriceTools
 
         private void AddToPosition(string ticker, OrderType type, DateTime date, double shares, decimal price, decimal commission)
         {
-            if(type == OrderType.Deposit)
+            IPosition position = GetPosition(ticker);
+            switch (type)
             {
-                VerifyCashTicker(ticker);
-                Deposit(date, (decimal)shares * price);
+                case OrderType.DividendReceipt:
+                case OrderType.Deposit:
+                    _cashAccount.Deposit(date, (decimal)shares);
+                    break;
+                case OrderType.Withdrawal:
+                    _cashAccount.Withdraw(date, (decimal)shares);
+                    break;
+                case OrderType.DividendReinvestment:
+                    position.Buy(date, shares, price, commission);
+                    break;
+                case OrderType.Buy:
+                    _cashAccount.Withdraw(date, (decimal)shares + commission);
+                    position.Buy(date, shares, price, commission);
+                    break;
+                case OrderType.SellShort:
+                    _cashAccount.Withdraw(date, (decimal)shares + commission);
+                    position.Sell(date, shares, price, commission);
+                    break;
+                case OrderType.Sell:
+                    position.Sell(date, shares, price, commission);
+                    _cashAccount.Deposit(date, (decimal)shares - commission);
+                    break;
+                case OrderType.BuyToCover:
+                    position.BuyToCover(date, shares, price, commission);
+                    _cashAccount.Deposit(date, (decimal)shares - commission);
+                    break;
             }
-            if(type == OrderType.Withdrawal)
-            {
-                VerifyCashTicker(ticker);
-                Withdraw(date, (decimal)shares * price);
-            }
+        }
 
+        private IPosition GetPosition(string ticker)
+        {
             IPosition position;
             if (!_positions.TryGetValue(ticker, out position))
             {
                 position = new Position(ticker);
                 _positions[ticker] = position;
             }
-
-            switch (type)
-            {
-                case OrderType.Buy:
-                    VerifyAvailableCash(date, shares, price, commission);
-                    position.Buy(date, shares, price, commission);
-                    break;
-                case OrderType.SellShort:
-                    VerifyAvailableCash(date, shares, price, commission);
-                    position.Sell(date, shares, price, commission);
-                    break;
-                case OrderType.Sell:
-                    position.Sell(date, shares, price, commission);
-                    break;
-                case OrderType.BuyToCover:
-                    position.BuyToCover(date, shares, price, commission);
-                    break;
-            }
+            return position;
         }
-
-        private void VerifyAvailableCash(DateTime date, double shares, decimal price, decimal commission)
-        {
-            var cost = (decimal)shares * price + commission;
-            VerifyAvailableCash(date, cost);
-        }
-
-        private void VerifyAvailableCash(DateTime date, decimal amount)
-        {
-            decimal availableCash = GetAvailableCash(date);
-            if (amount > availableCash)
-            {
-                throw new InvalidOperationException(
-                    String.Format("This transaction requires more cash than available at {0}.", date));
-            }
-        }
-
-        private void VerifyCashTicker(string ticker)
-        {
-            if (ticker != _cashTicker)
-            {
-                throw new InvalidOperationException(String.Format("Cash transactions for this Portfolio must use ticker {0}.", _cashTicker));
-            }
-        }
-
+        
         #endregion
 
         #region Equality Checks
@@ -411,7 +409,7 @@ namespace Sonneville.PriceTools
             unchecked
             {
                 int result = _positions.GetHashCode();
-                result = (result * 397) ^ _cashTicker.GetHashCode();
+                result = (result * 397) ^ _cashAccount.GetHashCode();
                 return result;
             }
         }
@@ -430,15 +428,9 @@ namespace Sonneville.PriceTools
                 positionsMatch = left._positions.Values.All(position => right._positions.Values.Contains(position));
             }
 
-            bool cashMatches = false;
-            if (left._cashTransactions.Count == right._cashTransactions.Count)
-            {
-                cashMatches = left._cashTransactions.All(transaction => right._cashTransactions.Contains(transaction));
-            }
+            bool cashMatches = left._cashAccount == right._cashAccount;
 
-            bool tickersMatch = left._cashTicker == right._cashTicker;
-
-            return positionsMatch && cashMatches && tickersMatch;
+            return positionsMatch && cashMatches;
         }
 
         /// <summary>

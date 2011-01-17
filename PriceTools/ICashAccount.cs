@@ -29,5 +29,16 @@ namespace Sonneville.PriceTools
         /// Gets the ticker symbol this ICashAccount is invested in.
         /// </summary>
         string Ticker { get; }
+
+        /// <summary>
+        /// Gets a <see cref="List{T}"/> of <see cref="ITransaction"/>s in this ICashAccount.
+        /// </summary>
+        IList<ITransaction> Transactions { get; }
+
+        /// <summary>
+        ///   Gets the balance of cash in this ICashAccount.
+        /// </summary>
+        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
+        decimal GetCashBalance(DateTime asOfDate);
     }
 }

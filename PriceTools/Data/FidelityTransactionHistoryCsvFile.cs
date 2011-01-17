@@ -62,13 +62,14 @@ namespace Sonneville.PriceTools.Data
             {
                 case "ELECTRONIC FUNDS TRANSFER RECEIVED":
                     return OrderType.Deposit;
+                case "YOU BOUGHT":
+                    return OrderType.Buy;
                 case "YOU SOLD":
                     return OrderType.Sell;
                 case "DIVIDEND RECEIVED":
-                    return OrderType.Dividend;
+                    return OrderType.DividendReceipt;
                 case "REINVESTMENT":
-                case "YOU BOUGHT":
-                    return OrderType.Buy;
+                    return OrderType.DividendReinvestment;
                 default:
                     throw new ArgumentOutOfRangeException("text", text, String.Format("Unknown order type: {0}.", text));
             }

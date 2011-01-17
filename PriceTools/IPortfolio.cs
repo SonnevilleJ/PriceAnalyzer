@@ -15,9 +15,9 @@ namespace Sonneville.PriceTools
         IDictionary<string, IPosition> Positions { get; }
 
         /// <summary>
-        ///   Gets an <see cref="IList{T}"/> of cash transactions in this IPortfolio.
+        ///   Gets the <see cref="ICashAccount"/> used by this IPortfolio.
         /// </summary>
-        ICollection<ITransaction> CashTransactions { get; }
+        ICashAccount CashAccount { get; }
 
         /// <summary>
         ///   Gets the amount of uninvested cash in this IPortfolio.

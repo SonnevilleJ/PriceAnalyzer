@@ -140,6 +140,12 @@ namespace Sonneville.PriceTools.Data
             DataColumn priceColumn = new DataColumn("Price", typeof(decimal));
             DataColumn commissionColumn = new DataColumn("Commission", typeof(decimal)) { DefaultValue = 0.00m };
 
+            // set default column values, just in case parser methods don't use default values
+            symbolColumn.DefaultValue = String.Empty;
+            sharesColumn.DefaultValue = 0.0;
+            priceColumn.DefaultValue = 0.00m;
+            commissionColumn.DefaultValue = 0.00m;
+
             // create table
             DataTable table = new DataTable {Locale = CultureInfo.InvariantCulture};
 
@@ -221,9 +227,12 @@ namespace Sonneville.PriceTools.Data
                         row.BeginEdit();
                         row[DateColumn] = ParseDateColumn(reader[_map[TransactionColumn.Date]]);
                         row[OrderColumn] = orderType;
-                        row[SymbolColumn] = ParseSymbolColumn(reader[_map[TransactionColumn.Symbol]]);
                         row[SharesColumn] = ParseSharesColumn(reader[_map[TransactionColumn.Shares]]);
                         row[CommissionColumn] = ParseCommissionColumn(reader[_map[TransactionColumn.Commission]]);
+                        if (orderType != OrderType.DividendReceipt)
+                        {
+                            row[SymbolColumn] = ParseSymbolColumn(reader[_map[TransactionColumn.Symbol]]);
+                        }
                         switch (orderType)
                         {
                             case OrderType.Buy:
