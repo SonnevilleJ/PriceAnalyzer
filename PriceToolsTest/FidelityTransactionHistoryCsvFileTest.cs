@@ -80,8 +80,8 @@ namespace Sonneville.PriceToolsTest
                     portfolio = new Portfolio(target, "FTEXX");
                 }
 
-                const decimal expectedValue = 2848.4m;
-                decimal actualValue = portfolio.GetValue(new DateTime(2010, 09, 13));
+                const decimal expectedValue = 2848.52m;
+                decimal actualValue = portfolio.GetValue(new DateTime(2010, 11, 16));
                 Assert.AreEqual(expectedValue, actualValue);
             }
 

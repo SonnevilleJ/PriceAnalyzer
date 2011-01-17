@@ -157,13 +157,13 @@ namespace Sonneville.PriceToolsTest
             target.Buy(buyDate, shares, price, commission);
             target.Sell(sellDate, shares, price + 10m, commission);
 
-            const decimal expected = 0.10m; // 10% raw return on investment
+            const decimal expected = 0.1m;      // 10% raw return on investment
             decimal actual = target.GetRawReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void TestReturn()
+        public void TestTotalReturn()
         {
             const string ticker = "DE";
             IPosition target = new Position(ticker);
@@ -177,7 +177,7 @@ namespace Sonneville.PriceToolsTest
             target.Buy(buyDate, shares, price, commission);
             target.Sell(sellDate, shares, price + 10m, commission);
             
-            const decimal expected = 0m; // 0% return; 100% of original investment
+            const decimal expected = 0.0m;      // 0% return; 100% of original investment
             decimal actual = target.GetTotalReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }

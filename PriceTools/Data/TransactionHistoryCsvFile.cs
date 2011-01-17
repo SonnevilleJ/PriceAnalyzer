@@ -231,6 +231,7 @@ namespace Sonneville.PriceTools.Data
                         row[CommissionColumn] = ParseCommissionColumn(reader[_map[TransactionColumn.Commission]]);
                         if (orderType != OrderType.DividendReceipt)
                         {
+                            // Portfolio currently can't support ticker symbols for dividend received, so ignore
                             row[SymbolColumn] = ParseSymbolColumn(reader[_map[TransactionColumn.Symbol]]);
                         }
                         switch (orderType)
@@ -246,6 +247,8 @@ namespace Sonneville.PriceTools.Data
                                     row[PriceColumn] = ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
                                 }
                                 break;
+                            case OrderType.DividendReceipt:
+                            case OrderType.DividendReinvestment:
                             case OrderType.Deposit:
                             case OrderType.Withdrawal:
                                 if (UseTotalBasis)

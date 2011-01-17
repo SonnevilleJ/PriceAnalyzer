@@ -105,9 +105,8 @@ namespace Sonneville.PriceTools
         /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetCashBalance(DateTime asOfDate)
         {
-            decimal cashDeposited = _cashTransactions.Where(transaction => transaction.SettlementDate <= asOfDate && transaction.OrderType == OrderType.Deposit).Sum(transaction => transaction.Price * (decimal)transaction.Shares);
-            decimal cashWithdrawn = _cashTransactions.Where(transaction => transaction.SettlementDate <= asOfDate && transaction.OrderType == OrderType.Withdrawal).Sum(transaction => transaction.Price * (decimal)transaction.Shares);
-            return cashDeposited - cashWithdrawn;
+            decimal totalCash = _cashTransactions.Where(transaction => transaction.SettlementDate <= asOfDate).Sum(transaction => transaction.Price * (decimal)transaction.Shares);
+            return totalCash;
         }
 
         #region Equality Checks

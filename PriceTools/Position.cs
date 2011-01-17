@@ -242,7 +242,7 @@ namespace Sonneville.PriceTools
         /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
         public decimal GetProceeds(DateTime date)
         {
-            return SubtractiveTransactions.Where(transaction => transaction.SettlementDate <= date).Aggregate(0m,
+            return -1 * SubtractiveTransactions.Where(transaction => transaction.SettlementDate <= date).Aggregate(0m,
                                                                                                               (current,
                                                                                                                transaction)
                                                                                                               =>

@@ -44,9 +44,9 @@ namespace Sonneville.PriceTools
             {
                 case OrderType.DividendReceipt:
                 case OrderType.DividendReinvestment:
-                    if (shares != 0)
+                    if (shares <= 0)
                     {
-                        throw new ArgumentOutOfRangeException("shares", shares, "Dividend shares must be zero.");
+                        throw new ArgumentOutOfRangeException("shares", shares, "Dividend shares must be greater than zero.");
                     }
                     if (commission != 0)
                     {
@@ -124,7 +124,24 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual decimal Price
         {
-            get { return _price; }
+            get
+            {
+                switch(OrderType)
+                {
+                    case PriceTools.OrderType.Deposit:
+                    case PriceTools.OrderType.DividendReceipt:
+                    case PriceTools.OrderType.DividendReinvestment:
+                    case PriceTools.OrderType.Buy:
+                    case PriceTools.OrderType.SellShort:
+                        return _price;
+                    case PriceTools.OrderType.Withdrawal:
+                    case PriceTools.OrderType.Sell:
+                    case PriceTools.OrderType.BuyToCover:
+                        return -1 * _price;
+                    default:
+                        throw new InvalidOperationException(String.Format("Unknown OrderType: {0}.", OrderType));
+                }
+            }
         }
 
         /// <summary>

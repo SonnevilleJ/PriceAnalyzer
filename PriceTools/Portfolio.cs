@@ -282,7 +282,6 @@ namespace Sonneville.PriceTools
         {
             _cashAccount.Withdraw(dateTime, cashAmount);
         }
-
         /// <summary>
         /// Adds transaction history from a CSV file to the Portfolio.
         /// </summary>
@@ -316,29 +315,37 @@ namespace Sonneville.PriceTools
             {
                 case OrderType.DividendReceipt:
                 case OrderType.Deposit:
-                    _cashAccount.Deposit(date, (decimal)shares);
+                    Deposit(date, price);
                     break;
                 case OrderType.Withdrawal:
-                    _cashAccount.Withdraw(date, (decimal)shares);
+                    Withdraw(date, price);
                     break;
                 case OrderType.DividendReinvestment:
+                    if (ticker == CashTicker)
+                    {
+                        // DividendReceipt already deposited into cash account, so no need to "buy" the CashTicker. Do nothing.
+                    }
+                    else
+                    {
+                    Withdraw(date, (decimal)shares + commission);
                     position.Buy(date, shares, price, commission);
+                    }
                     break;
                 case OrderType.Buy:
-                    _cashAccount.Withdraw(date, (decimal)shares + commission);
+                    Withdraw(date, (decimal)shares + commission);
                     position.Buy(date, shares, price, commission);
                     break;
                 case OrderType.SellShort:
-                    _cashAccount.Withdraw(date, (decimal)shares + commission);
+                    Withdraw(date, (decimal)shares + commission);
                     position.Sell(date, shares, price, commission);
                     break;
                 case OrderType.Sell:
                     position.Sell(date, shares, price, commission);
-                    _cashAccount.Deposit(date, (decimal)shares - commission);
+                    Deposit(date, ((decimal)shares * price) - commission);
                     break;
                 case OrderType.BuyToCover:
                     position.BuyToCover(date, shares, price, commission);
-                    _cashAccount.Deposit(date, (decimal)shares - commission);
+                    Deposit(date, (decimal)shares - commission);
                     break;
             }
         }
