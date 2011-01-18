@@ -214,7 +214,12 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal GetValue(DateTime asOfDate)
         {
-            return Positions.Values.Sum(position => position.GetValue(asOfDate)) + GetAvailableCash(asOfDate);
+            decimal balance = GetAvailableCash(asOfDate);
+            foreach (IPosition position in Positions.Values)
+            {
+                balance += position.GetInvestedValue(asOfDate);
+            }
+            return balance;
         }
 
         /// <summary>
@@ -253,16 +258,7 @@ namespace Sonneville.PriceTools
         /// <param name="price">The per-share price of the ticker symbol.</param>
         public void AddTransaction(DateTime date, OrderType type, string ticker, decimal price)
         {
-            switch(type)
-            {
-                case OrderType.Deposit:
-                    throw new InvalidOperationException("Deposits must use Deposit() rather than this method.");
-                case OrderType.Withdrawal:
-                    throw new InvalidOperationException("Withdrawals must use Withdraw() rather than this method.");
-                default:
-                    AddToPosition(ticker, type, date, 1.0, price, Position.DefaultCommission);
-                    break;
-            }
+            AddToPosition(ticker, type, date, 1.0, price, Position.DefaultCommission);
         }
 
         /// <summary>
@@ -292,10 +288,10 @@ namespace Sonneville.PriceTools
         {
             csvFile.Parse();
 
-            DataTable table = csvFile.DataTable;
             // need to add transactions IN ORDER (oldest to newest)
+            DataRow[] rows = csvFile.DataTable.Select(null, "Date ASC");
 
-            foreach (DataRow row in table.Select(null, "Date ASC"))
+            foreach (DataRow row in rows)
             {
                 AddTransaction((DateTime)row[csvFile.DateColumn],
                                (OrderType)row[csvFile.OrderColumn],
@@ -312,12 +308,18 @@ namespace Sonneville.PriceTools
 
         private void AddToPosition(string ticker, OrderType type, DateTime date, double shares, decimal price, decimal commission)
         {
-            IPosition position = GetPosition(ticker);
             switch (type)
             {
                 case OrderType.DividendReceipt:
                 case OrderType.Deposit:
-                    Deposit(date, price);
+                    if (ticker == CashTicker || ticker == String.Empty)
+                    {
+                        Deposit(date, price);
+                    }
+                    else
+                    {
+                        throw new InvalidOperationException(String.Format("Deposits must use ticker: {0}.", CashTicker));
+                    }
                     break;
                 case OrderType.Withdrawal:
                     Withdraw(date, price);
@@ -329,24 +331,24 @@ namespace Sonneville.PriceTools
                     }
                     else
                     {
-                    Withdraw(date, (price * (decimal)shares) + commission);
-                    position.Buy(date, shares, price, commission);
+                        Withdraw(date, (price * (decimal)shares) + commission);
+                        GetPosition(ticker).Buy(date, shares, price, commission);
                     }
                     break;
                 case OrderType.Buy:
                     Withdraw(date, (price * (decimal)shares) + commission);
-                    position.Buy(date, shares, price, commission);
+                    GetPosition(ticker).Buy(date, shares, price, commission);
                     break;
                 case OrderType.SellShort:
                     Withdraw(date, (price * (decimal)shares) + commission);
-                    position.Sell(date, shares, price, commission);
+                    GetPosition(ticker).Sell(date, shares, price, commission);
                     break;
                 case OrderType.Sell:
-                    position.Sell(date, shares, price, commission);
+                    GetPosition(ticker).Sell(date, shares, price, commission);
                     Deposit(date, ((decimal)shares * price) - commission);
                     break;
                 case OrderType.BuyToCover:
-                    position.BuyToCover(date, shares, price, commission);
+                    GetPosition(ticker).BuyToCover(date, shares, price, commission);
                     Deposit(date, ((decimal)shares * price) - commission);
                     break;
             }

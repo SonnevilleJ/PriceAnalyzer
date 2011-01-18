@@ -237,10 +237,19 @@ namespace Sonneville.PriceTools.Data
                         switch (orderType)
                         {
                             case OrderType.Buy:
+                                if (UseTotalBasis)
+                                {
+                                    row[PriceColumn] = (ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]) - (decimal)row[CommissionColumn]) / (decimal)((double)row[SharesColumn]);
+                                }
+                                else
+                                {
+                                    row[PriceColumn] = ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                                }
+                                break;
                             case OrderType.Sell:
                                 if (UseTotalBasis)
                                 {
-                                    row[PriceColumn] = ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]) / decimal.Parse(row[SharesColumn].ToString());
+                                    row[PriceColumn] = (ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]) + (decimal)row[CommissionColumn]) / (decimal)((double)row[SharesColumn]);
                                 }
                                 else
                                 {
