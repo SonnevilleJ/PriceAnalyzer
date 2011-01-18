@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a Transaction.
         /// </summary>
-        /// <param name="date">The date and time this Transaction took place.</param>
+        /// <param name="asOfDate">The asOfDate and time this Transaction took place.</param>
         /// <param name="type">The <see cref="PriceTools.OrderType"/> of this Transaction.</param>
         /// <param name="ticker">The ticker of the security bought or sold.</param>
         /// <param name="price">The price at which the Transaction took place.</param>
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a Transaction.
         /// </summary>
-        /// <param name="date">The date and time this Transaction took place.</param>
+        /// <param name="asOfDate">The asOfDate and time this Transaction took place.</param>
         /// <param name="type">The <see cref="PriceTools.OrderType"/> of this Transaction.</param>
         /// <param name="ticker">The ticker of the security bought or sold.</param>
         /// <param name="price">The price at which the Transaction took place.</param>
@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a Transaction.
         /// </summary>
-        /// <param name="date">The date and time this Transaction took place.</param>
+        /// <param name="asOfDate">The asOfDate and time this Transaction took place.</param>
         /// <param name="type">The <see cref="PriceTools.OrderType"/> of this Transaction.</param>
         /// <param name="ticker">The ticker of the security bought or sold.</param>
         /// <param name="price">The price at which the Transaction took place.</param>
@@ -48,21 +48,21 @@ namespace Sonneville.PriceTools
             //switch (type)
             //{
             //    case OrderType.Buy:
-            //        return new Transaction(date, OrderType.Buy, ticker, price, shares, commission);
+            //        return new Transaction(asOfDate, OrderType.Buy, ticker, price, shares, commission);
             //    case OrderType.BuyToCover:
-            //        return new Transaction(date, OrderType.BuyToCover, ticker, price, shares, commission);
+            //        return new Transaction(asOfDate, OrderType.BuyToCover, ticker, price, shares, commission);
             //    case OrderType.Deposit:
-            //        return new Deposit(date, price);
+            //        return new Deposit(asOfDate, price);
             //    case OrderType.DividendReceipt:
-            //        return new Transaction(date, OrderType.DividendReceipt, ticker, price, shares, commission);
+            //        return new Transaction(asOfDate, OrderType.DividendReceipt, ticker, price, shares, commission);
             //    case OrderType.DividendReinvestment:
-            //        return new Transaction(date, OrderType.DividendReinvestment, ticker, price, shares, commission);
+            //        return new Transaction(asOfDate, OrderType.DividendReinvestment, ticker, price, shares, commission);
             //    case OrderType.Sell:
-            //        return new Transaction(date, OrderType.Sell, ticker, price, shares, commission);
+            //        return new Transaction(asOfDate, OrderType.Sell, ticker, price, shares, commission);
             //    case OrderType.SellShort:
-            //        return new Transaction(date, OrderType.SellShort, ticker, price, shares, commission);
+            //        return new Transaction(asOfDate, OrderType.SellShort, ticker, price, shares, commission);
             //    case OrderType.Withdrawal:
-            //        return new Withdrawal(date, price, ticker);
+            //        return new Withdrawal(asOfDate, price, ticker);
             //    default:
             //        throw new InvalidOperationException(String.Format("Cannot create ITransaction of type: {0}", type));
             //}
@@ -71,7 +71,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a Deposit.
         /// </summary>
-        /// <param name="date">The date and time this Deposit took place.</param>
+        /// <param name="asOfDate">The asOfDate and time this Deposit took place.</param>
         /// <param name="amount">The amount of cash deposited.</param>
         public static ITransaction CreateDeposit(DateTime date, decimal amount)
         {
@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a Withdrawal.
         /// </summary>
-        /// <param name="date">The date and time this Withdrawal took place.</param>
+        /// <param name="asOfDate">The asOfDate and time this Withdrawal took place.</param>
         /// <param name="amount">The amount of cash withdrawn.</param>
         public static ITransaction CreateWithdrawal(DateTime date, decimal amount)
         {

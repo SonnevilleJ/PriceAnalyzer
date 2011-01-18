@@ -101,10 +101,10 @@ namespace Sonneville.PriceTools.Data
         }
 
         /// <summary>
-        /// Gets the beginning date component of the URL query string used to retrieve the price history.
+        /// Gets the beginning asOfDate component of the URL query string used to retrieve the price history.
         /// </summary>
         /// <param name="head">The first period for which to request price history.</param>
-        /// <returns>A partial URL query string containing the given beginning date.</returns>
+        /// <returns>A partial URL query string containing the given beginning asOfDate.</returns>
         protected override string GetUrlHeadDate(DateTime head)
         {
             string month = string.Format(CultureInfo.InvariantCulture, "a={0}&", head.Month - 1);
@@ -119,10 +119,10 @@ namespace Sonneville.PriceTools.Data
         }
 
         /// <summary>
-        /// Gets the ending date component of the URL query string used to retrieve the price history.
+        /// Gets the ending asOfDate component of the URL query string used to retrieve the price history.
         /// </summary>
         /// <param name="tail">The last period for which to request price history.</param>
-        /// <returns>A partial URL query string containing the given ending date.</returns>
+        /// <returns>A partial URL query string containing the given ending asOfDate.</returns>
         protected override string GetUrlTailDate(DateTime tail)
         {
             string month = string.Format(CultureInfo.InvariantCulture, "d={0}&", tail.Month - 1);

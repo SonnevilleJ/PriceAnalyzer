@@ -39,7 +39,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="asOfDate">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>
@@ -50,7 +50,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="asOfDate">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="asOfDate">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>

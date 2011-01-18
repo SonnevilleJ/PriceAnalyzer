@@ -26,10 +26,10 @@ namespace Sonneville.PriceTools
         DateTime Tail { get; }
 
         /// <summary>
-        /// Determines if the ITimeSeries has a valid value for a given date.
+        /// Determines if the ITimeSeries has a valid value for a given asOfDate.
         /// </summary>
-        /// <param name="date">The date to check.</param>
-        /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
+        /// <param name="asOfDate">The asOfDate to check.</param>
+        /// <returns>A value indicating if the ITimeSeries has a valid value for the given asOfDate.</returns>
         bool HasValue(DateTime date);
     }
 }

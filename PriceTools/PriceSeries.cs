@@ -179,10 +179,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Determines if the IPriceSeries has a valid value for a given date.
+        /// Determines if the IPriceSeries has a valid value for a given asOfDate.
         /// </summary>
-        /// <param name="date">The date to check.</param>
-        /// <returns>A value indicating if the IPriceSeries has a valid value for the given date.</returns>
+        /// <param name="asOfDate">The asOfDate to check.</param>
+        /// <returns>A value indicating if the IPriceSeries has a valid value for the given asOfDate.</returns>
         public bool HasValue(DateTime date)
         {
             return (date >= Head && date <= Tail);

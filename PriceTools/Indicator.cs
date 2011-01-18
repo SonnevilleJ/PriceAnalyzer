@@ -90,10 +90,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Increments a date by 1 day.
+        /// Increments a asOfDate by 1 day.
         /// </summary>
-        /// <param name="date">The date to increment.</param>
-        /// <returns>A <see cref="DateTime"/> 1 day after <paramref name="date"/>.</returns>
+        /// <param name="asOfDate">The asOfDate to increment.</param>
+        /// <returns>A <see cref="DateTime"/> 1 day after <paramref name="asOfDate"/>.</returns>
         protected static DateTime IncrementDate(DateTime date)
         {
             return date.AddDays(1);
@@ -150,11 +150,11 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Determines if the Indicator has a valid value for a given date.
+        /// Determines if the Indicator has a valid value for a given asOfDate.
         /// </summary>
-        /// <remarks>Assumes the Indicator has a valid value for every date of the underlying IPriceSeries.</remarks>
-        /// <param name="date">The date to check.</param>
-        /// <returns>A value indicating if the Indicator has a valid value for the given date.</returns>
+        /// <remarks>Assumes the Indicator has a valid value for every asOfDate of the underlying IPriceSeries.</remarks>
+        /// <param name="asOfDate">The asOfDate to check.</param>
+        /// <returns>A value indicating if the Indicator has a valid value for the given asOfDate.</returns>
         public virtual bool HasValue(DateTime date)
         {
             return (date >= Head && date <= Tail);

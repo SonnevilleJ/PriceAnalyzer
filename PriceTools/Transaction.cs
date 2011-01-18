@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a Transaction.
         /// </summary>
-        /// <param name="date">The date and time this Transaction took place.</param>
+        /// <param name="asOfDate">The asOfDate and time this Transaction took place.</param>
         /// <param name="type">The <see cref="PriceTools.OrderType"/> of this Transaction.</param>
         /// <param name="ticker">The ticker of the security bought or sold.</param>
         /// <param name="price">The price at which the Transaction took place.</param>
@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools
         #region Accessors
 
         /// <summary>
-        /// Gets the date and time at which the Transaction occured.
+        /// Gets the asOfDate and time at which the Transaction occured.
         /// </summary>
         public virtual DateTime SettlementDate
         {

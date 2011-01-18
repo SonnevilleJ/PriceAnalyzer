@@ -86,7 +86,7 @@ namespace Sonneville.PriceTools
             if(!HasValue(index))
             {
                 throw new ArgumentOutOfRangeException("index", index,
-                                                      "Argument index must be a date within the span of this Indicator.");
+                                                      "Argument index must be a asOfDate within the span of this Indicator.");
             }
 
             switch (_method)
@@ -107,10 +107,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Determines if the MovingAverage has a valid value for a given date.
+        /// Determines if the MovingAverage has a valid value for a given asOfDate.
         /// </summary>
-        /// <param name="date">The date to check.</param>
-        /// <returns>A value indicating if the MovingAverage has a valid value for the given date.</returns>
+        /// <param name="asOfDate">The asOfDate to check.</param>
+        /// <returns>A value indicating if the MovingAverage has a valid value for the given asOfDate.</returns>
         public override bool HasValue(DateTime date)
         {
             return (date >= Head.AddDays(Range - 1) && date <= Tail);

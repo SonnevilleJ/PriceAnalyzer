@@ -24,8 +24,8 @@
 //            _zero = timeSeries.Tail;
 //            for (int i = timeSeries.Periods - 1; i >= 0; i--)
 //            {
-//                DateTime date = ConvertIndexToDate(i);
-//                _collection[date] = timeSeries[date];
+//                DateTime asOfDate = ConvertIndexToDate(i);
+//                _collection[asOfDate] = timeSeries[asOfDate];
 //            }
 //        }
 

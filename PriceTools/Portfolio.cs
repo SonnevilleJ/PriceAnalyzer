@@ -154,10 +154,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Determines if the ITimeSeries has a valid value for a given date.
+        /// Determines if the ITimeSeries has a valid value for a given asOfDate.
         /// </summary>
-        /// <param name="date">The date to check.</param>
-        /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
+        /// <param name="asOfDate">The asOfDate to check.</param>
+        /// <returns>A value indicating if the ITimeSeries has a valid value for the given asOfDate.</returns>
         public bool HasValue(DateTime date)
         {
             DateTime end = Tail;
@@ -218,7 +218,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="asOfDate">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>
@@ -232,7 +232,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="asOfDate">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>
@@ -245,7 +245,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="asOfDate">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>
@@ -327,16 +327,16 @@ namespace Sonneville.PriceTools
                     }
                     else
                     {
-                    Withdraw(date, (decimal)shares + commission);
+                    Withdraw(date, (price * (decimal)shares) + commission);
                     position.Buy(date, shares, price, commission);
                     }
                     break;
                 case OrderType.Buy:
-                    Withdraw(date, (decimal)shares + commission);
+                    Withdraw(date, (price * (decimal)shares) + commission);
                     position.Buy(date, shares, price, commission);
                     break;
                 case OrderType.SellShort:
-                    Withdraw(date, (decimal)shares + commission);
+                    Withdraw(date, (price * (decimal)shares) + commission);
                     position.Sell(date, shares, price, commission);
                     break;
                 case OrderType.Sell:
@@ -345,7 +345,7 @@ namespace Sonneville.PriceTools
                     break;
                 case OrderType.BuyToCover:
                     position.BuyToCover(date, shares, price, commission);
-                    Deposit(date, (decimal)shares - commission);
+                    Deposit(date, ((decimal)shares * price) - commission);
                     break;
             }
         }
