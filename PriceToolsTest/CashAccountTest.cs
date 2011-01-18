@@ -129,20 +129,6 @@ namespace Sonneville.PriceToolsTest
         }
 
         /// <summary>
-        ///A test for Ticker
-        ///</summary>
-        [TestMethod()]
-        public void TickerTest()
-        {
-            const string ticker = "FTEXX";
-            ICashAccount target = new CashAccount(ticker);
-
-            const string expectedTicker = ticker;
-            string actualTicker = target.Ticker;
-            Assert.AreEqual(expectedTicker, actualTicker);
-        }
-
-        /// <summary>
         ///A test for Transactions
         ///</summary>
         [TestMethod()]
@@ -164,8 +150,7 @@ namespace Sonneville.PriceToolsTest
         {
             DateTime date = new DateTime(2011, 1, 16);
             const decimal amount = 10000m;
-            const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            ICashAccount expected = new CashAccount(ticker);
+            ICashAccount expected = new CashAccount();
             expected.Deposit(date, amount);
             expected.Withdraw(date, amount);
 

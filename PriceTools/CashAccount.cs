@@ -11,7 +11,6 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private readonly string _ticker;
         private readonly List<ITransaction> _cashTransactions;
 
         #endregion
@@ -19,13 +18,7 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         public CashAccount()
-            : this(String.Empty)
         {
-        }
-
-        public CashAccount(string ticker)
-        {
-            _ticker = ticker != null ? ticker : String.Empty;
             _cashTransactions = new List<ITransaction>();
         }
 
@@ -40,7 +33,6 @@ namespace Sonneville.PriceTools
             {
                 throw new ArgumentNullException("info");
             }
-            _ticker = info.GetString("Ticker");
             _cashTransactions = (List<ITransaction>)info.GetValue("CashTransactions", typeof(List<ITransaction>));
         }
 
@@ -52,7 +44,6 @@ namespace Sonneville.PriceTools
             {
                 throw new ArgumentNullException("info");
             }
-            info.AddValue("Ticker", _ticker);
             info.AddValue("CashTransactions", _cashTransactions);
         }
 
@@ -81,16 +72,8 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the ticker symbol this CashAccount is invested in.
+        /// Gets an <see cref="IList{ITransaction}"/> of <see cref="Deposit"/>s and <see cref="Withdrawal"/>s in this CashAccount.
         /// </summary>
-        public string Ticker
-        {
-            get
-            {
-                return _ticker;
-            }
-        }
-
         public IList<ITransaction> Transactions
         {
             get
@@ -149,8 +132,7 @@ namespace Sonneville.PriceTools
         {
             unchecked
             {
-                int result = _ticker.GetHashCode();
-                result = (result * 397) ^ _cashTransactions.GetHashCode();
+                int result = 397 * _cashTransactions.GetHashCode();
                 return result;
             }
         }
@@ -163,15 +145,13 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator ==(CashAccount left, CashAccount right)
         {
-            bool tickersMatch = left._ticker == right._ticker;
-
             bool cashMatches = false;
             if (left._cashTransactions.Count == right._cashTransactions.Count)
             {
                 cashMatches = left._cashTransactions.All(transaction => right._cashTransactions.Contains(transaction));
             }
 
-            return tickersMatch && cashMatches;
+            return cashMatches;
         }
 
         /// <summary>

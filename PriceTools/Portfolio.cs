@@ -17,6 +17,7 @@ namespace Sonneville.PriceTools
 
         private readonly IDictionary<string, IPosition> _positions = new Dictionary<string, IPosition>();
         private readonly CashAccount _cashAccount;
+        private readonly string _cashTicker;
 
         #endregion
 
@@ -32,7 +33,8 @@ namespace Sonneville.PriceTools
 
         public Portfolio(string ticker)
         {
-            _cashAccount = new CashAccount(ticker);
+            _cashTicker = ticker;
+            _cashAccount = new CashAccount();
         }
 
         /// <summary>
@@ -204,7 +206,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public string CashTicker
         {
-            get { return _cashAccount.Ticker; }
+            get { return _cashTicker; }
         }
 
         /// <summary>

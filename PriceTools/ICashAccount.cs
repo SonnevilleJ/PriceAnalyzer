@@ -26,11 +26,6 @@ namespace Sonneville.PriceTools
         void Withdraw(DateTime dateTime, decimal amount);
 
         /// <summary>
-        /// Gets the ticker symbol this ICashAccount is invested in.
-        /// </summary>
-        string Ticker { get; }
-
-        /// <summary>
         /// Gets a <see cref="List{T}"/> of <see cref="ITransaction"/>s in this ICashAccount.
         /// </summary>
         IList<ITransaction> Transactions { get; }
