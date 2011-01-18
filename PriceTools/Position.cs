@@ -233,6 +233,44 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        ///   Gets the value of any shares held the Portfolio as of a given asOfDate.
+        /// </summary>
+        /// <param name = "asOfDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The value of the shares held in the Portfolio as of the given asOfDate.</returns>
+        public decimal GetInvestedValue(DateTime asOfDate)
+        {
+            if (GetHeldShares(asOfDate) == 0)
+            {
+                return 0;
+            }
+
+            List<ITransaction> transactions = Transactions
+                .Where(transaction => transaction.SettlementDate <= asOfDate)
+                .OrderBy(transaction => transaction.SettlementDate).ToList();
+            int count = transactions.Count();
+
+            decimal value = 0.00m;
+
+            for (int i = 0; i < count; i++)
+            {
+                switch (transactions[i].OrderType)
+                {
+                    case OrderType.Buy:
+                    case OrderType.SellShort:
+                    case OrderType.DividendReinvestment:
+                        value += (transactions[i].Price * (decimal)transactions[i].Shares);
+                        break;
+                    case OrderType.Sell:
+                    case OrderType.BuyToCover:
+                        value -= (GetAverageCost(asOfDate) * (decimal)transactions[i].Shares);
+                        break;
+                }
+            }
+
+            return value >= 0.00m ? value : 0.00m;
+        }
+
+        /// <summary>
         ///   Gets the value of the IPortfolio as of a given asOfDate, excluding all commissions.
         /// </summary>
         /// <param name = "asOfDate">The <see cref = "DateTime" /> to use.</param>
@@ -275,7 +313,7 @@ namespace Sonneville.PriceTools
         {
             return -1 * SubtractiveTransactions
                 .Where(transaction => transaction.SettlementDate <= asOfDate)
-                .Aggregate(0m, (current, transaction) => current + (transaction.Price * (decimal)transaction.Shares));
+                .Sum(transaction => transaction.Price * (decimal)transaction.Shares);
         }
 
         /// <summary>

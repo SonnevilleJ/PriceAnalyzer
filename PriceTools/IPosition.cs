@@ -68,6 +68,13 @@ namespace Sonneville.PriceTools
         void SellShort(DateTime date, double shares, decimal price, decimal commission);
 
         /// <summary>
+        ///   Gets the value of any shares held the IPortfolio as of a given asOfDate.
+        /// </summary>
+        /// <param name = "asOfDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The value of the shares held in the IPortfolio as of the given asOfDate.</returns>
+        decimal GetInvestedValue(DateTime asOfDate);
+
+        /// <summary>
         ///   Gets the value of the IPortfolio as of a given asOfDate.
         /// </summary>
         /// <param name = "asOfDate">The <see cref = "DateTime" /> to use.</param>
