@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Determines if the ITimeSeries has a valid value for a given asOfDate.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate to check.</param>
+        /// <param name="date">The date to check.</param>
         /// <returns>A value indicating if the ITimeSeries has a valid value for the given asOfDate.</returns>
         bool HasValue(DateTime date);
     }

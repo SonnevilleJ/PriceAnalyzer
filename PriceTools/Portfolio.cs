@@ -31,6 +31,10 @@ namespace Sonneville.PriceTools
         {            
         }
 
+        /// <summary>
+        /// Constructs a Portfolio and assigns a ticker symbol to use as the Portfolio's <see cref="ICashAccount"/>.
+        /// </summary>
+        /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
         public Portfolio(string ticker)
         {
             _cashTicker = ticker;
@@ -66,6 +70,7 @@ namespace Sonneville.PriceTools
         /// Constructs a Portfolio from a <see cref="TransactionHistoryCsvFile"/>.
         /// </summary>
         /// <param name="csvFile">The <see cref="TransactionHistoryCsvFile"/> containing transaction data.</param>
+        /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
         public Portfolio(TransactionHistoryCsvFile csvFile, string ticker)
             : this(ticker)
         {
@@ -91,7 +96,7 @@ namespace Sonneville.PriceTools
         /// Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with the data needed to serialize the target object.
         /// </summary>
         /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data. </param><param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization. </param><exception cref="T:System.Security.SecurityException">The caller does not have the required permission. </exception>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Positions", _positions);
             info.AddValue("CashAccount", _cashAccount);
@@ -119,6 +124,7 @@ namespace Sonneville.PriceTools
             get
             {
                 DateTime earliest = DateTime.Now;
+
                 // loops produce "Access to modified closure" warning in Resharper. This is expected/desired behavior.
                 // TODO: use OrderBy and First instead of looping through all values.
                 foreach (var position in Positions.Values.Where(position => position.Head < earliest))
@@ -158,7 +164,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Determines if the ITimeSeries has a valid value for a given asOfDate.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate to check.</param>
+        /// <param name="date">The date to check.</param>
         /// <returns>A value indicating if the ITimeSeries has a valid value for the given asOfDate.</returns>
         public bool HasValue(DateTime date)
         {
@@ -214,18 +220,13 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal GetValue(DateTime asOfDate)
         {
-            decimal balance = GetAvailableCash(asOfDate);
-            foreach (IPosition position in Positions.Values)
-            {
-                balance += position.GetInvestedValue(asOfDate);
-            }
-            return balance;
+            return GetAvailableCash(asOfDate) + Positions.Values.Sum(position => position.GetInvestedValue(asOfDate));
         }
 
         /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
-        /// <param name="asOfDate">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>
@@ -239,7 +240,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
-        /// <param name="asOfDate">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>
@@ -252,7 +253,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
-        /// <param name="asOfDate">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>
@@ -377,18 +378,6 @@ namespace Sonneville.PriceTools
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(ITimeSeries other)
-        {
-            return Equals((object)other);
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(IPortfolio other)
         {
             return Equals((object)other);
         }

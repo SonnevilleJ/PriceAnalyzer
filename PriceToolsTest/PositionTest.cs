@@ -265,6 +265,20 @@ namespace Sonneville.PriceToolsTest
         }
 
         /// <summary>
+        ///A test for Ticker
+        ///</summary>
+        [TestMethod()]
+        public void TickerTest()
+        {
+            const string ticker = "DE";
+            IPosition target = new Position(ticker);
+
+            const string expectedTicker = ticker;
+            string actualTicker = target.Ticker;
+            Assert.AreEqual(expectedTicker, actualTicker);
+        }
+
+        /// <summary>
         ///A test for GetCost
         ///</summary>
         [TestMethod()]

@@ -51,7 +51,6 @@
     <Compile Include="Data\YahooPriceSeriesProvider.cs" />
     <Compile Include="Deposit.cs" />
     <Compile Include="ICashAccount.cs" />
-    <Compile Include="Internal\DualIndexedCollection.cs" />
     <Compile Include="Indicator.cs" />
     <Compile Include="IPortfolio.cs" />
     <Compile Include="MovingAverage.cs" />

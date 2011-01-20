@@ -242,10 +242,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CashTickerSetCorrectly()
         {
-            DateTime originalDate = new DateTime(2011, 1, 8);
-            const decimal amount = 10000m;
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            IPortfolio target = new Portfolio(originalDate, amount, ticker);
+            IPortfolio target = new Portfolio(ticker);
 
             const string expected = ticker;
             string actual = target.CashTicker;

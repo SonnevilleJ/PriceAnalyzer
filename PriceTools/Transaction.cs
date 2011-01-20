@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a Transaction.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate and time this Transaction took place.</param>
+        /// <param name="date">The date and time this Transaction took place.</param>
         /// <param name="type">The <see cref="PriceTools.OrderType"/> of this Transaction.</param>
         /// <param name="ticker">The ticker of the security bought or sold.</param>
         /// <param name="price">The price at which the Transaction took place.</param>
@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools
         #region Accessors
 
         /// <summary>
-        /// Gets the asOfDate and time at which the Transaction occured.
+        /// Gets The date and time at which the Transaction occured.
         /// </summary>
         public virtual DateTime SettlementDate
         {
@@ -128,15 +128,15 @@ namespace Sonneville.PriceTools
             {
                 switch(OrderType)
                 {
-                    case PriceTools.OrderType.Deposit:
-                    case PriceTools.OrderType.DividendReceipt:
-                    case PriceTools.OrderType.DividendReinvestment:
-                    case PriceTools.OrderType.Buy:
-                    case PriceTools.OrderType.SellShort:
+                    case OrderType.Deposit:
+                    case OrderType.DividendReceipt:
+                    case OrderType.DividendReinvestment:
+                    case OrderType.Buy:
+                    case OrderType.SellShort:
                         return _price;
-                    case PriceTools.OrderType.Withdrawal:
-                    case PriceTools.OrderType.Sell:
-                    case PriceTools.OrderType.BuyToCover:
+                    case OrderType.Withdrawal:
+                    case OrderType.Sell:
+                    case OrderType.BuyToCover:
                         return -1 * _price;
                     default:
                         throw new InvalidOperationException(String.Format("Unknown OrderType: {0}.", OrderType));

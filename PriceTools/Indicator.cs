@@ -92,8 +92,8 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Increments a asOfDate by 1 day.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate to increment.</param>
-        /// <returns>A <see cref="DateTime"/> 1 day after <paramref name="asOfDate"/>.</returns>
+        /// <param name="date">The asOfDate to increment.</param>
+        /// <returns>A <see cref="DateTime"/> 1 day after <paramref name="date"/>.</returns>
         protected static DateTime IncrementDate(DateTime date)
         {
             return date.AddDays(1);
@@ -153,7 +153,7 @@ namespace Sonneville.PriceTools
         /// Determines if the Indicator has a valid value for a given asOfDate.
         /// </summary>
         /// <remarks>Assumes the Indicator has a valid value for every asOfDate of the underlying IPriceSeries.</remarks>
-        /// <param name="asOfDate">The asOfDate to check.</param>
+        /// <param name="date">The asOfDate to check.</param>
         /// <returns>A value indicating if the Indicator has a valid value for the given asOfDate.</returns>
         public virtual bool HasValue(DateTime date)
         {
@@ -231,18 +231,6 @@ namespace Sonneville.PriceTools
                 throw new ArgumentNullException("right");
             }
             return !(left == right);
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(Indicator other)
-        {
-            return Equals((object)other);
         }
 
         /// <summary>

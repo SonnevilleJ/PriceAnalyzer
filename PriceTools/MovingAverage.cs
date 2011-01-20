@@ -109,7 +109,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Determines if the MovingAverage has a valid value for a given asOfDate.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate to check.</param>
+        /// <param name="date">The asOfDate to check.</param>
         /// <returns>A value indicating if the MovingAverage has a valid value for the given asOfDate.</returns>
         public override bool HasValue(DateTime date)
         {

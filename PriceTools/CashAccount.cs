@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
 {
+    /// <summary>
+    /// Represents a single account used to hold cash.
+    /// </summary>
     [Serializable]
     public class CashAccount : ICashAccount
     {
@@ -17,6 +19,9 @@ namespace Sonneville.PriceTools
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a new CashAccount.
+        /// </summary>
         public CashAccount()
         {
             _cashTransactions = new List<ITransaction>();
@@ -38,7 +43,12 @@ namespace Sonneville.PriceTools
 
         #endregion
 
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        /// <summary>
+        /// Serializes a CashAccount.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <param name="context"></param>
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (info == null)
             {
@@ -93,18 +103,6 @@ namespace Sonneville.PriceTools
         }
 
         #region Equality Checks
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ICashAccount other)
-        {
-            return Equals((object)other);
-        }
 
         /// <summary>
         /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.

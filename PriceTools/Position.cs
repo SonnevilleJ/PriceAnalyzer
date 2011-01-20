@@ -21,7 +21,6 @@ namespace Sonneville.PriceTools
         private readonly string _ticker;
         private readonly List<Transaction> _additiveTransactions;
         private readonly List<Transaction> _subtractiveTransactions;
-        private decimal _averageCost;
 
         #endregion
 
@@ -40,7 +39,6 @@ namespace Sonneville.PriceTools
             _ticker = ticker;
             _additiveTransactions = new List<Transaction>();
             _subtractiveTransactions = new List<Transaction>();
-            _averageCost = 0.00m;
         }
 
         /// <summary>
@@ -55,7 +53,6 @@ namespace Sonneville.PriceTools
                 (List<Transaction>) info.GetValue("AdditiveTransactions", typeof (List<Transaction>));
             _subtractiveTransactions =
                 (List<Transaction>) info.GetValue("SubtractiveTransactions", typeof (List<Transaction>));
-            _averageCost = info.GetDecimal("AverageCost");
             //Validate(); // DO NOT perform validation during deserialization. Until all objects are deserialized, validation will fail!
         }
 
@@ -68,12 +65,11 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-        public void GetObjectData(SerializationInfo info, StreamingContext context)
+        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             info.AddValue("Ticker", _ticker);
             info.AddValue("AdditiveTransactions", _additiveTransactions);
             info.AddValue("SubtractiveTransactions", _subtractiveTransactions);
-            info.AddValue("AverageCost", _averageCost);
         }
 
         /// <summary>
@@ -147,7 +143,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Buys shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate of this transaction.</param>
+        /// <param name="date">The asOfDate of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
@@ -159,7 +155,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Buys shares of the ticker held by this IPosition to cover a previous ShortSell.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate of this transaction.</param>
+        /// <param name="date">The asOfDate of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction. Shares cannot exceed currently shorted shares.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
@@ -171,7 +167,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Sells shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate of this transaction.</param>
+        /// <param name="date">The asOfDate of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction. Shares connot exceed currently held shares.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
@@ -183,7 +179,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Sell short shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate of this transaction.</param>
+        /// <param name="date">The asOfDate of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
@@ -282,7 +278,6 @@ namespace Sonneville.PriceTools
 
             double heldShares = GetHeldShares(asOfDate);
             double totalShares = GetOpenedShares(asOfDate);
-            double soldShares = totalShares - heldShares;
 
             decimal costOfUnsoldShares = 0.00m;
             if (totalShares != 0)

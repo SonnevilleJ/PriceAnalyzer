@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Buys shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate of this transaction.</param>
+        /// <param name="date">The date of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Buys shares of the ticker held by this IPosition to cover a previous ShortSell.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate of this transaction.</param>
+        /// <param name="date">The date of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction. Shares cannot exceed currently shorted shares.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
@@ -52,7 +52,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Sells shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate of this transaction.</param>
+        /// <param name="date">The date of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction. Shares connot exceed currently held shares.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
@@ -61,7 +61,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Sell short shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="asOfDate">The asOfDate of this transaction.</param>
+        /// <param name="date">The date of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
@@ -77,28 +77,28 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the value of the IPortfolio as of a given asOfDate.
         /// </summary>
-        /// <param name = "asOfDate">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the IPortfolio as of the given asOfDate.</returns>
         decimal GetValue(DateTime date);
 
         /// <summary>
         ///   Gets the gross investment of this IPosition, ignoring any proceeds and commissions.
         /// </summary>
-        /// <param name = "asOfDate">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount spent on share purchases.</returns>
         decimal GetCost(DateTime date);
 
         /// <summary>
         ///   Gets the gross proceeds of this IPosition, ignoring all totalCosts and commissions.
         /// </summary>
-        /// <param name = "asOfDate">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of proceeds from share sales.</returns>
         decimal GetProceeds(DateTime date);
 
         /// <summary>
         ///   Gets the total commissions paid as of a given asOfDate.
         /// </summary>
-        /// <param name = "asOfDate">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of commissions from <see cref = "ITransaction" />s.</returns>
         decimal GetCommissions(DateTime date);
 
