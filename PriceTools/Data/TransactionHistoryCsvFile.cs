@@ -147,25 +147,25 @@ namespace Sonneville.PriceTools.Data
             commissionColumn.DefaultValue = 0.00m;
 
             // create table
-            DataTable table = new DataTable {Locale = CultureInfo.InvariantCulture};
+            using (DataTable table = new DataTable {Locale = CultureInfo.InvariantCulture})
+            {
+                table.Columns.Add(dateColumn);
+                table.Columns.Add(orderColumn);
+                table.Columns.Add(symbolColumn);
+                table.Columns.Add(sharesColumn);
+                table.Columns.Add(priceColumn);
+                table.Columns.Add(commissionColumn);
 
-            // add columns to table
-            table.Columns.Add(dateColumn);
-            table.Columns.Add(orderColumn);
-            table.Columns.Add(symbolColumn);
-            table.Columns.Add(sharesColumn);
-            table.Columns.Add(priceColumn);
-            table.Columns.Add(commissionColumn);
+                // fill column indexes
+                DateColumn = table.Columns.IndexOf(dateColumn);
+                OrderColumn = table.Columns.IndexOf(orderColumn);
+                SymbolColumn = table.Columns.IndexOf(symbolColumn);
+                SharesColumn = table.Columns.IndexOf(sharesColumn);
+                PriceColumn = table.Columns.IndexOf(priceColumn);
+                CommissionColumn = table.Columns.IndexOf(commissionColumn);
 
-            // fill column indexes
-            DateColumn = table.Columns.IndexOf(dateColumn);
-            OrderColumn = table.Columns.IndexOf(orderColumn);
-            SymbolColumn = table.Columns.IndexOf(symbolColumn);
-            SharesColumn = table.Columns.IndexOf(sharesColumn);
-            PriceColumn = table.Columns.IndexOf(priceColumn);
-            CommissionColumn = table.Columns.IndexOf(commissionColumn);
-
-            DataTable = table;
+                DataTable = table;
+            }
         }
 
         #endregion
