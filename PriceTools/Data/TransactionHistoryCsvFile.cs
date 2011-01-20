@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools.Data
     {
         #region Private Members
 
-        private readonly IDictionary<TransactionColumn, int> _map = new Dictionary<TransactionColumn, int>(5);
+        private IDictionary<TransactionColumn, int> _map = new Dictionary<TransactionColumn, int>(5);
         private Stream _stream;
         private DataTable _dataTable;
         private bool _tableParsed;
@@ -47,6 +47,11 @@ namespace Sonneville.PriceTools.Data
             UseTotalBasis = useTotalBasis;
 
             InitializeDataTable();
+        }
+
+        ~TransactionHistoryCsvFile()
+        {
+            Dispose(false);
         }
 
         #endregion
@@ -190,16 +195,20 @@ namespace Sonneville.PriceTools.Data
         {
             if (disposing)
             {
-                if(_stream != null)
-                {
-                    _stream.Dispose();
-                    _stream = null;
-                }
-                if(_dataTable != null)
-                {
-                    _dataTable.Dispose();
-                    _dataTable = null;
-                }
+                // free managed objects here
+                _map = null;
+            }
+
+            // dispose of unmanaged objects here
+            if(_stream != null)
+            {
+                _stream.Dispose();
+                _stream = null;
+            }
+            if(_dataTable != null)
+            {
+                _dataTable.Dispose();
+                _dataTable = null;
             }
         }
 
