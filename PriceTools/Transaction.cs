@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
@@ -40,45 +41,45 @@ namespace Sonneville.PriceTools
             _price = price;
             _commission = commission;
 
-            switch (type)
+            switch (_type)
             {
                 case OrderType.DividendReceipt:
                 case OrderType.DividendReinvestment:
-                    if (shares <= 0)
+                    if (_shares <= 0)
                     {
-                        throw new ArgumentOutOfRangeException("shares", shares, "Dividend shares must be greater than zero.");
+                        throw new ArgumentOutOfRangeException("shares", _shares, "Dividend shares must be greater than zero.");
                     }
-                    if (commission != 0)
+                    if (_commission != 0)
                     {
-                        throw new ArgumentOutOfRangeException("commission", commission, "Commission for dividends must be zero.");
+                        throw new ArgumentOutOfRangeException("commission", _commission, "Commission for dividends must be zero.");
                     }
-                    if (price <= 0)
+                    if (_price <= 0)
                     {
-                        throw new ArgumentOutOfRangeException("price", price, String.Format("Price for dividends must be greater than {0}.", 0D));
+                        throw new ArgumentOutOfRangeException("price", _price, String.Format(CultureInfo.CurrentCulture, "Price for dividends must be greater than {0}.", 0D));
                     }
                     break;
                 case OrderType.Deposit:
                 case OrderType.Withdrawal:
-                    if (commission != 0)
+                    if (_commission != 0)
                     {
-                        throw new ArgumentOutOfRangeException("commission", commission, "Commission for dividends must be zero.");
+                        throw new ArgumentOutOfRangeException("commission", _commission, "Commission for dividends must be zero.");
                     }
                     break;
                 case OrderType.Buy:
                 case OrderType.BuyToCover:
                 case OrderType.Sell:
                 case OrderType.SellShort:
-                    if (shares < 0)
+                    if (_shares < 0)
                     {
-                        throw new ArgumentOutOfRangeException("shares", shares, "Shares must be greater than or equal to 0.00");
+                        throw new ArgumentOutOfRangeException("shares", _shares, "Shares must be greater than or equal to 0.00");
                     }
-                    if (price < 0.00m)
+                    if (_price < 0.00m)
                     {
-                        throw new ArgumentOutOfRangeException("price", price, "Price must be greater than or equal to 0.00");
+                        throw new ArgumentOutOfRangeException("price", _price, "Price must be greater than or equal to 0.00");
                     }
-                    if (commission < 0.00m)
+                    if (_commission < 0.00m)
                     {
-                        throw new ArgumentOutOfRangeException("commission", commission, "Commission must be greater than or equal to 0.00");
+                        throw new ArgumentOutOfRangeException("commission", _commission, "Commission must be greater than or equal to 0.00");
                     }
                     break;
             }
@@ -139,7 +140,7 @@ namespace Sonneville.PriceTools
                     case OrderType.BuyToCover:
                         return -1 * _price;
                     default:
-                        throw new InvalidOperationException(String.Format("Unknown OrderType: {0}.", OrderType));
+                        throw new InvalidOperationException(String.Format(CultureInfo.CurrentCulture, "Unknown OrderType: {0}.", OrderType));
                 }
             }
         }
@@ -163,6 +164,11 @@ namespace Sonneville.PriceTools
         /// <param name="context"></param>
         protected Transaction(SerializationInfo info, StreamingContext context)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
             _date = info.GetDateTime("Date");
             _type = (OrderType) info.GetValue("Type", typeof (OrderType));
             _price = info.GetDecimal("Price");
@@ -177,6 +183,11 @@ namespace Sonneville.PriceTools
         /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data. </param><param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization. </param><exception cref="T:System.Security.SecurityException">The caller does not have the required permission. </exception>
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
             info.AddValue("Date", _date);
             info.AddValue("Type", _type);
             info.AddValue("Price", _price);

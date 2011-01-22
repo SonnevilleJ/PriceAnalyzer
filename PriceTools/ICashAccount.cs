@@ -31,7 +31,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the balance of cash in this ICashAccount.
         /// </summary>
-        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
-        decimal GetCashBalance(DateTime asOfDate);
+        /// <param name="date">The <see cref="DateTime"/> to use.</param>
+        decimal GetCashBalance(DateTime date);
     }
 }

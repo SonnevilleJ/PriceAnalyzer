@@ -251,7 +251,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExceptionThrownWhenDepositConflictsWithCashTicker()
         {
             DateTime originalDate = new DateTime(2011, 1, 8);

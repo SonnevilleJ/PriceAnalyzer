@@ -25,11 +25,11 @@ namespace Sonneville.PriceTools
         string Ticker { get; }
 
         /// <summary>
-        /// Gets the average cost of all held shares in this IPosition as of a given asOfDate.
+        /// Gets the average cost of all held shares in this IPosition as of a given date.
         /// </summary>
-        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
-        /// <returns>The average cost of all shares held at <paramref name="asOfDate"/>.</returns>
-        decimal GetAverageCost(DateTime asOfDate);
+        /// <param name="date">The <see cref="DateTime"/> to use.</param>
+        /// <returns>The average cost of all shares held at <paramref name="date"/>.</returns>
+        decimal GetAverageCost(DateTime date);
 
         /// <summary>
         /// Buys shares of the ticker held by this IPosition.
@@ -68,17 +68,17 @@ namespace Sonneville.PriceTools
         void SellShort(DateTime date, double shares, decimal price, decimal commission);
 
         /// <summary>
-        ///   Gets the value of any shares held the IPortfolio as of a given asOfDate.
-        /// </summary>
-        /// <param name = "asOfDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The value of the shares held in the IPortfolio as of the given asOfDate.</returns>
-        decimal GetInvestedValue(DateTime asOfDate);
-
-        /// <summary>
-        ///   Gets the value of the IPortfolio as of a given asOfDate.
+        ///   Gets the value of any shares held the IPortfolio as of a given date.
         /// </summary>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The value of the IPortfolio as of the given asOfDate.</returns>
+        /// <returns>The value of the shares held in the IPortfolio as of the given date.</returns>
+        decimal GetInvestedValue(DateTime date);
+
+        /// <summary>
+        ///   Gets the value of the IPortfolio as of a given date.
+        /// </summary>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The value of the IPortfolio as of the given date.</returns>
         decimal GetValue(DateTime date);
 
         /// <summary>
@@ -96,7 +96,7 @@ namespace Sonneville.PriceTools
         decimal GetProceeds(DateTime date);
 
         /// <summary>
-        ///   Gets the total commissions paid as of a given asOfDate.
+        ///   Gets the total commissions paid as of a given date.
         /// </summary>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of commissions from <see cref = "ITransaction" />s.</returns>

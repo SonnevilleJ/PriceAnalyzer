@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.IO;
 
 namespace Sonneville.PriceTools.Data
@@ -30,6 +31,11 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The <see cref="TransactionColumn"/> of <paramref name="header"/>.</returns>
         protected override TransactionColumn ParseHeader(string header)
         {
+            if(String.IsNullOrWhiteSpace(header))
+            {
+                return TransactionColumn.None;
+            }
+
             switch (header.ToUpperInvariant())
             {
                 case "TRADE DATE":
@@ -58,6 +64,11 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed <see cref="OrderType"/>.</returns>
         protected override OrderType ParseOrderTypeColumn(string text)
         {
+            if(String.IsNullOrWhiteSpace(text))
+            {
+                throw new ArgumentNullException("text");
+            }
+
             switch (text.ToUpperInvariant())
             {
                 case "ELECTRONIC FUNDS TRANSFER RECEIVED":
@@ -71,7 +82,7 @@ namespace Sonneville.PriceTools.Data
                 case "REINVESTMENT":
                     return OrderType.DividendReinvestment;
                 default:
-                    throw new ArgumentOutOfRangeException("text", text, String.Format("Unknown order type: {0}.", text));
+                    throw new ArgumentOutOfRangeException("text", text, String.Format(CultureInfo.CurrentCulture, "Unknown order type: {0}.", text));
             }
         }
 

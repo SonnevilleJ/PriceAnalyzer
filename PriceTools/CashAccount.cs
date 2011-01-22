@@ -95,10 +95,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the balance of cash in this CashAccount.
         /// </summary>
-        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
-        public decimal GetCashBalance(DateTime asOfDate)
+        /// <param name="date">The <see cref="DateTime"/> to use.</param>
+        public decimal GetCashBalance(DateTime date)
         {
-            decimal totalCash = _cashTransactions.Where(transaction => transaction.SettlementDate <= asOfDate).Sum(transaction => transaction.Price * (decimal)transaction.Shares);
+            decimal totalCash = _cashTransactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Price * (decimal)transaction.Shares);
             return totalCash;
         }
 

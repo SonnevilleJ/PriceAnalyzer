@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.Serialization;
 using Sonneville.PriceTools.Data;
@@ -88,6 +89,11 @@ namespace Sonneville.PriceTools
         /// <param name="context"></param>
         protected Portfolio(SerializationInfo info, StreamingContext context)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
             _positions = (IDictionary<string, IPosition>) info.GetValue("Positions", typeof (Dictionary<string, IPosition>));
             _cashAccount = (CashAccount)info.GetValue("CashAccount", typeof(CashAccount));
         }
@@ -98,6 +104,11 @@ namespace Sonneville.PriceTools
         /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data. </param><param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization. </param><exception cref="T:System.Security.SecurityException">The caller does not have the required permission. </exception>
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
             info.AddValue("Positions", _positions);
             info.AddValue("CashAccount", _cashAccount);
         }
@@ -162,10 +173,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Determines if the ITimeSeries has a valid value for a given asOfDate.
+        /// Determines if the ITimeSeries has a valid value for a given date.
         /// </summary>
         /// <param name="date">The date to check.</param>
-        /// <returns>A value indicating if the ITimeSeries has a valid value for the given asOfDate.</returns>
+        /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
         public bool HasValue(DateTime date)
         {
             DateTime end = Tail;
@@ -201,10 +212,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the amount of uninvested cash in this Portfolio.
         /// </summary>
-        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
-        public decimal GetAvailableCash(DateTime asOfDate)
+        /// <param name="date">The <see cref="DateTime"/> to use.</param>
+        public decimal GetAvailableCash(DateTime date)
         {
-            return _cashAccount.GetCashBalance(asOfDate);
+            return _cashAccount.GetCashBalance(date);
         }
 
         /// <summary>
@@ -218,9 +229,9 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the current total value of this Portfolio.
         /// </summary>
-        public decimal GetValue(DateTime asOfDate)
+        public decimal GetValue(DateTime date)
         {
-            return GetAvailableCash(asOfDate) + Positions.Values.Sum(position => position.GetInvestedValue(asOfDate));
+            return GetAvailableCash(date) + Positions.Values.Sum(position => position.GetInvestedValue(date));
         }
 
         /// <summary>
@@ -287,6 +298,11 @@ namespace Sonneville.PriceTools
         /// <param name="csvFile">The CSV file containing the transactions to add.</param>
         public void AddTransactionHistory(TransactionHistoryCsvFile csvFile)
         {
+            if (csvFile == null)
+            {
+                throw new ArgumentNullException("csvFile");
+            }
+
             csvFile.Parse();
 
             // need to add transactions IN ORDER (oldest to newest)
@@ -313,13 +329,13 @@ namespace Sonneville.PriceTools
             {
                 case OrderType.DividendReceipt:
                 case OrderType.Deposit:
-                    if (ticker == CashTicker || ticker == String.Empty)
+                    if (ticker == CashTicker || String.IsNullOrWhiteSpace(ticker))
                     {
                         Deposit(date, price);
                     }
                     else
                     {
-                        throw new InvalidOperationException(String.Format("Deposits must use ticker: {0}.", CashTicker));
+                        throw new ArgumentOutOfRangeException(String.Format(CultureInfo.CurrentCulture, "Deposits must use ticker: {0}.", CashTicker));
                     }
                     break;
                 case OrderType.Withdrawal:

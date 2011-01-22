@@ -38,7 +38,6 @@ namespace Sonneville.PriceTools.Data
         /// </summary>
         protected PriceSeriesProvider()
         {
-            _table = new DataTable {Locale = CultureInfo.InvariantCulture};
         }
 
         /// <summary>
@@ -46,7 +45,7 @@ namespace Sonneville.PriceTools.Data
         /// </summary>
         ~PriceSeriesProvider()
         {
-            Dispose(true);
+            Dispose(false);
         }
 
         #endregion
@@ -115,17 +114,17 @@ namespace Sonneville.PriceTools.Data
         protected abstract string GetUrlTicker(string symbol);
 
         /// <summary>
-        ///   Gets the beginning asOfDate component of the URL query string used to retrieve the price history.
+        ///   Gets the beginning date component of the URL query string used to retrieve the price history.
         /// </summary>
         /// <param name = "head">The first period for which to request price history.</param>
-        /// <returns>A partial URL query string containing the given beginning asOfDate.</returns>
+        /// <returns>A partial URL query string containing the given beginning date.</returns>
         protected abstract string GetUrlHeadDate(DateTime head);
 
         /// <summary>
-        ///   Gets the ending asOfDate component of the URL query string used to retrieve the price history.
+        ///   Gets the ending date component of the URL query string used to retrieve the price history.
         /// </summary>
         /// <param name = "tail">The last period for which to request price history.</param>
-        /// <returns>A partial URL query string containing the given ending asOfDate.</returns>
+        /// <returns>A partial URL query string containing the given ending date.</returns>
         protected abstract string GetUrlTailDate(DateTime tail);
 
         /// <summary>
@@ -224,9 +223,13 @@ namespace Sonneville.PriceTools.Data
 
         private void InitializePriceTable()
         {
-            int fields = MapHeaders();
+            if(_table != null)
+            {
+                _table.Dispose();
+            }
             _table = new DataTable {Locale = CultureInfo.InvariantCulture};
-
+            int fields = MapHeaders();
+            
             if ((fields & (int) PriceColumns.Date) == (int) PriceColumns.Date)
             {
                 DataColumn dateColumn = new DataColumn("Date", typeof (DateTime));
@@ -369,8 +372,8 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         ///   Downloads a CSV data file containing daily price history.
         /// </summary>
-        /// <param name = "head">The beginning of the asOfDate range to price.</param>
-        /// <param name = "tail">The end of the asOfDate range to price.</param>
+        /// <param name = "head">The beginning of the date range to price.</param>
+        /// <param name = "tail">The end of the date range to price.</param>
         /// <param name = "symbol">The ticker symbol of the security to price.</param>
         /// <returns>A <see cref = "Stream" /> containing the price data in CSV format.</returns>
         /// <exception cref = "System.Net.WebException"></exception>
@@ -382,8 +385,8 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         ///   Downloads a CSV data file containing price history.
         /// </summary>
-        /// <param name = "head">The beginning of the asOfDate range to price.</param>
-        /// <param name = "tail">The end of the asOfDate range to price.</param>
+        /// <param name = "head">The beginning of the date range to price.</param>
+        /// <param name = "tail">The end of the date range to price.</param>
         /// <param name = "symbol">The ticker symbol of the security to price.</param>
         /// <param name = "resolution">The <see cref = "PriceSeriesResolution" /> to use when retrieving price data.</param>
         /// <returns>A <see cref = "Stream" /> containing the price data in CSV format.</returns>
@@ -392,15 +395,17 @@ namespace Sonneville.PriceTools.Data
         {
             Stream result;
             string url = FormUrlQuery(head, tail, symbol, resolution);
-            WebClient client = new WebClient();
-            try
+            using (WebClient client = new WebClient())
             {
-                result = client.OpenRead(url);
-            }
-            catch (WebException)
-            {
-                // Pass exception on to client code
-                throw;
+                try
+                {
+                    result = client.OpenRead(url);
+                }
+                catch (WebException)
+                {
+                    // Pass exception on to client code
+                    throw;
+                }
             }
             return result;
         }
@@ -408,8 +413,8 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         ///   Downloads a CSV data file
         /// </summary>
-        /// <param name = "head">The beginning of the asOfDate range to price.</param>
-        /// <param name = "tail">The end of the asOfDate range to price.</param>
+        /// <param name = "head">The beginning of the date range to price.</param>
+        /// <param name = "tail">The end of the date range to price.</param>
         /// <param name = "index">The <see cref = "StockIndex" /> to price.</param>
         /// <param name = "resolution">The <see cref = "PriceSeriesResolution" /> to use when retrieving price data.</param>
         /// <returns>A <see cref = "Stream" /> containing the price data in CSV format.</returns>

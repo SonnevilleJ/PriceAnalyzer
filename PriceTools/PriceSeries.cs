@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Security.Permissions;
+using System.Security;
 using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools
@@ -58,7 +59,12 @@ namespace Sonneville.PriceTools
         protected PriceSeries(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
-            _periods = (List<PricePeriod>) info.GetValue("Periods", typeof (List<PricePeriod>));
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
+            _periods = (List<PricePeriod>)info.GetValue("Periods", typeof(List<PricePeriod>));
         }
 
         /// <summary>
@@ -66,9 +72,14 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "info">SerializationInfo</param>
         /// <param name = "context">StreamingContext</param>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        [SecurityCritical]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
             base.GetObjectData(info, context);
             info.AddValue("Periods", _periods);
         }
@@ -135,7 +146,7 @@ namespace Sonneville.PriceTools
                 {
                     return period;
                 }
-                throw new ArgumentOutOfRangeException("index", index, String.Format("DateTime {0} was not found in this PriceSeries.", index));
+                throw new ArgumentOutOfRangeException("index", index, String.Format(CultureInfo.CurrentCulture, "DateTime {0} was not found in this PriceSeries.", index));
             }
         }
 
@@ -149,6 +160,11 @@ namespace Sonneville.PriceTools
         /// <param name = "period">A PricePeriod to be added to this PriceSeries.</param>
         public void InsertPeriod(IPricePeriod period)
         {
+            if (period == null)
+            {
+                throw new ArgumentNullException("period");
+            }
+
             _periods.Add(period as PricePeriod);
             if (period.Head < Head || Head == DateTime.MinValue)
             {
@@ -179,10 +195,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Determines if the IPriceSeries has a valid value for a given asOfDate.
+        /// Determines if the IPriceSeries has a valid value for a given date.
         /// </summary>
-        /// <param name="date">The asOfDate to check.</param>
-        /// <returns>A value indicating if the IPriceSeries has a valid value for the given asOfDate.</returns>
+        /// <param name="date">The date to check.</param>
+        /// <returns>A value indicating if the IPriceSeries has a valid value for the given date.</returns>
         public bool HasValue(DateTime date)
         {
             return (date >= Head && date <= Tail);

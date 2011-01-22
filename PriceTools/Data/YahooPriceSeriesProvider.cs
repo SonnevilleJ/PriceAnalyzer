@@ -26,22 +26,17 @@ namespace Sonneville.PriceTools.Data
         /// <returns>A string representing the ticker symbol of the requested <see cref="StockIndex"/>.</returns>
         public override string GetIndexTicker(StockIndex index)
         {
-            string ticker;
             switch(index)
             {
                 case StockIndex.StandardAndPoors500:
-                    ticker = "^GSPC";
-                    break;
+                    return "^GSPC";
                 case StockIndex.DowJonesIndustrialAverage:
-                    ticker = "^DJI";
-                    break;
+                    return "^DJI";
                 case StockIndex.NasdaqCompositeIndex:
-                    ticker = "^IXIC";
-                    break;
+                    return "^IXIC";
                 default:
-                    throw new ArgumentOutOfRangeException(string.Format("Unknown StockIndex {0}.", index));
+                    throw new NotImplementedException(String.Format(CultureInfo.CurrentCulture, "Unknown StockIndex {0}.", index));
             }
-            return ticker;
         }
 
         /// <summary>
@@ -101,15 +96,15 @@ namespace Sonneville.PriceTools.Data
         }
 
         /// <summary>
-        /// Gets the beginning asOfDate component of the URL query string used to retrieve the price history.
+        /// Gets the beginning date component of the URL query string used to retrieve the price history.
         /// </summary>
         /// <param name="head">The first period for which to request price history.</param>
-        /// <returns>A partial URL query string containing the given beginning asOfDate.</returns>
+        /// <returns>A partial URL query string containing the given beginning date.</returns>
         protected override string GetUrlHeadDate(DateTime head)
         {
-            string month = string.Format(CultureInfo.InvariantCulture, "a={0}&", head.Month - 1);
-            string day = string.Format(CultureInfo.InvariantCulture, "b={0}&", head.Day);
-            string year = string.Format(CultureInfo.InvariantCulture, "c={0}&", head.Year);
+            string month = String.Format(CultureInfo.InvariantCulture, "a={0}&", head.Month - 1);
+            string day = String.Format(CultureInfo.InvariantCulture, "b={0}&", head.Day);
+            string year = String.Format(CultureInfo.InvariantCulture, "c={0}&", head.Year);
 
             StringBuilder builder = new StringBuilder(3);
             builder.Append(month);
@@ -119,15 +114,15 @@ namespace Sonneville.PriceTools.Data
         }
 
         /// <summary>
-        /// Gets the ending asOfDate component of the URL query string used to retrieve the price history.
+        /// Gets the ending date component of the URL query string used to retrieve the price history.
         /// </summary>
         /// <param name="tail">The last period for which to request price history.</param>
-        /// <returns>A partial URL query string containing the given ending asOfDate.</returns>
+        /// <returns>A partial URL query string containing the given ending date.</returns>
         protected override string GetUrlTailDate(DateTime tail)
         {
-            string month = string.Format(CultureInfo.InvariantCulture, "d={0}&", tail.Month - 1);
-            string day = string.Format(CultureInfo.InvariantCulture, "e={0}&", tail.Day);
-            string year = string.Format(CultureInfo.InvariantCulture, "f={0}&", tail.Year);
+            string month = String.Format(CultureInfo.InvariantCulture, "d={0}&", tail.Month - 1);
+            string day = String.Format(CultureInfo.InvariantCulture, "e={0}&", tail.Day);
+            string year = String.Format(CultureInfo.InvariantCulture, "f={0}&", tail.Year);
 
             StringBuilder builder = new StringBuilder(3);
             builder.Append(month);
@@ -143,24 +138,19 @@ namespace Sonneville.PriceTools.Data
         /// <returns>A partial URL query string containing a marker which requests the given <see cref="PriceSeriesResolution"/>.</returns>
         protected override string GetUrlResolution(PriceSeriesResolution resolution)
         {
-            string result;
             switch (resolution)
             {
                 case PriceSeriesResolution.Days:
-                    result = "g=d&";
-                    break;
+                    return "g=d&";
                 case PriceSeriesResolution.Weeks:
-                    result = "g=w&";
-                    break;
+                    return "g=w&";
                 case PriceSeriesResolution.Months:
-                    result = "g=m&";
-                    break;
+                    return "g=m&";
                 default:
-                    throw new NotSupportedException(string.Format(CultureInfo.InvariantCulture,
+                    throw new NotSupportedException(String.Format(CultureInfo.CurrentCulture,
                                                                   "Resolution {0} is not supported by this provider.",
                                                                   resolution));
             }
-            return result;
         }
 
         /// <summary>

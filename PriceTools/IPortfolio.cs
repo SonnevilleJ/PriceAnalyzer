@@ -22,8 +22,8 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the amount of uninvested cash in this IPortfolio.
         /// </summary>
-        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
-        decimal GetAvailableCash(DateTime asOfDate);
+        /// <param name="date">The <see cref="DateTime"/> to use.</param>
+        decimal GetAvailableCash(DateTime date);
 
         /// <summary>
         /// Gets or sets the ticker to use for the holding of cash in this IPortfolio.
@@ -33,8 +33,8 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the current total value of this IPortfolio.
         /// </summary>
-        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
-        decimal GetValue(DateTime asOfDate);
+        /// <param name="date">The <see cref="DateTime"/> to use.</param>
+        decimal GetValue(DateTime date);
 
         /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this IPortfolio.

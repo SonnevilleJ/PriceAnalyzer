@@ -49,6 +49,9 @@ namespace Sonneville.PriceTools.Data
             InitializeDataTable();
         }
 
+        /// <summary>
+        /// Allows an <see cref="T:System.Object"/> to attempt to free resources and perform other cleanup operations before the <see cref="T:System.Object"/> is reclaimed by garbage collection.
+        /// </summary>
         ~TransactionHistoryCsvFile()
         {
             Dispose(false);
@@ -107,11 +110,6 @@ namespace Sonneville.PriceTools.Data
         /// </summary>
         public int CommissionColumn { get; private set; }
 
-        /// <summary>
-        /// Gets the index of the Total Basis column in DataTable.
-        /// </summary>
-        public int TotalBasisColumn { get; private set; }
-
         #endregion
 
         /// <summary>
@@ -138,38 +136,57 @@ namespace Sonneville.PriceTools.Data
         private void InitializeDataTable()
         {
             // create columns
-            DataColumn dateColumn = new DataColumn("Date", typeof (DateTime));
-            DataColumn orderColumn = new DataColumn("Order Type", typeof(OrderType));
-            DataColumn symbolColumn = new DataColumn("Symbol", typeof(string));
-            DataColumn sharesColumn = new DataColumn("Shares", typeof(double));
-            DataColumn priceColumn = new DataColumn("Price", typeof(decimal));
-            DataColumn commissionColumn = new DataColumn("Commission", typeof(decimal)) { DefaultValue = 0.00m };
+            DataColumn dateColumn = null;
+            DataColumn orderColumn = null;
+            DataColumn symbolColumn = null;
+            DataColumn sharesColumn = null;
+            DataColumn priceColumn = null;
+            DataColumn commissionColumn = null;
 
-            // set default column values, just in case parser methods don't use default values
-            symbolColumn.DefaultValue = String.Empty;
-            sharesColumn.DefaultValue = 0.0;
-            priceColumn.DefaultValue = 0.00m;
-            commissionColumn.DefaultValue = 0.00m;
-
-            // create table
-            using (DataTable table = new DataTable {Locale = CultureInfo.InvariantCulture})
+            try
             {
-                table.Columns.Add(dateColumn);
-                table.Columns.Add(orderColumn);
-                table.Columns.Add(symbolColumn);
-                table.Columns.Add(sharesColumn);
-                table.Columns.Add(priceColumn);
-                table.Columns.Add(commissionColumn);
+                dateColumn = new DataColumn("Date", typeof (DateTime));
+                orderColumn = new DataColumn("Order Type", typeof (OrderType));
+                symbolColumn = new DataColumn("Symbol", typeof (string));
+                sharesColumn = new DataColumn("Shares", typeof (double));
+                priceColumn = new DataColumn("Price", typeof (decimal));
+                commissionColumn = new DataColumn("Commission", typeof (decimal)) {DefaultValue = 0.00m};
 
-                // fill column indexes
-                DateColumn = table.Columns.IndexOf(dateColumn);
-                OrderColumn = table.Columns.IndexOf(orderColumn);
-                SymbolColumn = table.Columns.IndexOf(symbolColumn);
-                SharesColumn = table.Columns.IndexOf(sharesColumn);
-                PriceColumn = table.Columns.IndexOf(priceColumn);
-                CommissionColumn = table.Columns.IndexOf(commissionColumn);
+                // set default column values, just in case parser methods don't use default values
+                symbolColumn.DefaultValue = String.Empty;
+                sharesColumn.DefaultValue = 0.0;
+                priceColumn.DefaultValue = 0.00m;
+                commissionColumn.DefaultValue = 0.00m;
 
-                DataTable = table;
+                // create table
+                using (DataTable table = new DataTable {Locale = CultureInfo.InvariantCulture})
+                {
+                    table.Columns.Add(dateColumn);
+                    table.Columns.Add(orderColumn);
+                    table.Columns.Add(symbolColumn);
+                    table.Columns.Add(sharesColumn);
+                    table.Columns.Add(priceColumn);
+                    table.Columns.Add(commissionColumn);
+
+                    // fill column indexes
+                    DateColumn = table.Columns.IndexOf(dateColumn);
+                    OrderColumn = table.Columns.IndexOf(orderColumn);
+                    SymbolColumn = table.Columns.IndexOf(symbolColumn);
+                    SharesColumn = table.Columns.IndexOf(sharesColumn);
+                    PriceColumn = table.Columns.IndexOf(priceColumn);
+                    CommissionColumn = table.Columns.IndexOf(commissionColumn);
+
+                    DataTable = table;
+                }
+            }
+            finally
+            {
+                if (dateColumn != null) dateColumn.Dispose();
+                if (orderColumn != null) orderColumn.Dispose();
+                if (symbolColumn != null) symbolColumn.Dispose();
+                if (sharesColumn != null) sharesColumn.Dispose();
+                if (priceColumn != null) priceColumn.Dispose();
+                if (commissionColumn != null) commissionColumn.Dispose();
             }
         }
 
@@ -305,7 +322,7 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed <see cref="DateTime"/>.</returns>
         protected virtual DateTime ParseDateColumn(string text)
         {
-            return DateTime.Parse(text.Trim());
+            return DateTime.Parse(text.Trim(), CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -332,7 +349,7 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed number of shares.</returns>
         protected virtual double ParseSharesColumn(string text)
         {
-            return text.Trim().Length != 0 ? Math.Abs(double.Parse(text.Trim())) : 0.0;
+            return text.Trim().Length != 0 ? Math.Abs(double.Parse(text.Trim(), CultureInfo.InvariantCulture)) : 0.0;
         }
 
         /// <summary>
@@ -342,7 +359,7 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed per-share price.</returns>
         protected virtual decimal ParsePriceColumn(string text)
         {
-            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text.Trim())) : 0.0m;
+            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture)) : 0.0m;
         }
 
         /// <summary>
@@ -352,7 +369,7 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed comission price.</returns>
         protected virtual decimal ParseCommissionColumn(string text)
         {
-            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text.Trim())) : 0.0m;
+            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture)) : 0.0m;
         }
 
         /// <summary>
@@ -362,7 +379,7 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed TotalBasis amount.</returns>
         protected virtual decimal ParseTotalBasisColumn(string text)
         {
-            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text.Trim())) : 0.0m;
+            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture)) : 0.0m;
         }
 
         #endregion

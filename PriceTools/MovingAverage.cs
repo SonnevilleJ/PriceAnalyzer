@@ -48,6 +48,11 @@ namespace Sonneville.PriceTools
         protected MovingAverage(SerializationInfo info, StreamingContext context)
             : base(info, context)
         {
+            if(info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
             _method = (MovingAverageMethod) info.GetValue("Method", typeof (MovingAverageMethod));
         }
 
@@ -70,6 +75,11 @@ namespace Sonneville.PriceTools
         [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public override void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
             base.GetObjectData(info, context);
             info.AddValue("Method", _method);
         }
@@ -86,7 +96,7 @@ namespace Sonneville.PriceTools
             if(!HasValue(index))
             {
                 throw new ArgumentOutOfRangeException("index", index,
-                                                      "Argument index must be a asOfDate within the span of this Indicator.");
+                                                      "Argument index must be a date within the span of this Indicator.");
             }
 
             switch (_method)
@@ -107,10 +117,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Determines if the MovingAverage has a valid value for a given asOfDate.
+        /// Determines if the MovingAverage has a valid value for a given date.
         /// </summary>
-        /// <param name="date">The asOfDate to check.</param>
-        /// <returns>A value indicating if the MovingAverage has a valid value for the given asOfDate.</returns>
+        /// <param name="date">The date to check.</param>
+        /// <returns>A value indicating if the MovingAverage has a valid value for the given date.</returns>
         public override bool HasValue(DateTime date)
         {
             return (date >= Head.AddDays(Range - 1) && date <= Tail);

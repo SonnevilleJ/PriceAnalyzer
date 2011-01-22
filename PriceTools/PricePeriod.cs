@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Security;
 using System.Security.Permissions;
 
 namespace Sonneville.PriceTools
@@ -81,6 +82,11 @@ namespace Sonneville.PriceTools
         /// <param name = "context"></param>
         protected PricePeriod(SerializationInfo info, StreamingContext context)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
             _head = (DateTime) info.GetValue("Head", typeof (DateTime));
             _tail = (DateTime) info.GetValue("Tail", typeof (DateTime));
             _open = (decimal?) info.GetValue("Open", typeof (decimal?));
@@ -95,9 +101,14 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "info">SerializationInfo</param>
         /// <param name = "context">StreamingContext</param>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        [SecurityCritical]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
+            if (info == null)
+            {
+                throw new ArgumentNullException("info");
+            }
+
             info.AddValue("Head", _head);
             info.AddValue("Tail", _tail);
             info.AddValue("Open", _open);
@@ -221,7 +232,7 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return (obj is PricePeriod) && (this == (PricePeriod) obj);
+            return (this == obj as PricePeriod);
         }
 
         /// <summary>

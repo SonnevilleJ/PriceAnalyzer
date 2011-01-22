@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Security;
 using System.Security.Permissions;
 
 namespace Sonneville.PriceTools
@@ -90,9 +91,9 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Increments a asOfDate by 1 day.
+        /// Increments a date by 1 day.
         /// </summary>
-        /// <param name="date">The asOfDate to increment.</param>
+        /// <param name="date">The date to increment.</param>
         /// <returns>A <see cref="DateTime"/> 1 day after <paramref name="date"/>.</returns>
         protected static DateTime IncrementDate(DateTime date)
         {
@@ -150,11 +151,11 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Determines if the Indicator has a valid value for a given asOfDate.
+        /// Determines if the Indicator has a valid value for a given date.
         /// </summary>
-        /// <remarks>Assumes the Indicator has a valid value for every asOfDate of the underlying IPriceSeries.</remarks>
-        /// <param name="date">The asOfDate to check.</param>
-        /// <returns>A value indicating if the Indicator has a valid value for the given asOfDate.</returns>
+        /// <remarks>Assumes the Indicator has a valid value for every date of the underlying IPriceSeries.</remarks>
+        /// <param name="date">The date to check.</param>
+        /// <returns>A value indicating if the Indicator has a valid value for the given date.</returns>
         public virtual bool HasValue(DateTime date)
         {
             return (date >= Head && date <= Tail);
@@ -185,7 +186,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
+        [SecurityCritical]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (info == null)
@@ -209,6 +210,11 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator ==(Indicator left, Indicator right)
         {
+            if (left == null || right == null)
+            {
+                return false;
+            }
+
             return (left._dictionary == right._dictionary &&
                     left._priceSeries == right._priceSeries &&
                     left._range == right._range);
@@ -222,14 +228,6 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator !=(Indicator left, Indicator right)
         {
-            if (left == null)
-            {
-                throw new ArgumentNullException("left");
-            }
-            if (right == null)
-            {
-                throw new ArgumentNullException("right");
-            }
             return !(left == right);
         }
 
