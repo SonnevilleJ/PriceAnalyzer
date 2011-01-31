@@ -7,21 +7,21 @@ using System.Runtime.Serialization;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   A trade made for a financial security. A Position is comprised of an opening transaction, and optionally, a closing transaction.
+    ///   A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.
     /// </summary>
     [Serializable]
     public class Position : IPosition
     {
         /// <summary>
-        /// The default commission charged for a transaction.
+        /// The default commission charged for a shareTransaction.
         /// </summary>
         public const decimal DefaultCommission = 0.00m;
 
         #region Private Members
 
         private readonly string _ticker;
-        private readonly List<ITransaction> _additiveTransactions;
-        private readonly List<ITransaction> _subtractiveTransactions;
+        private readonly List<IShareTransaction> _additiveTransactions;
+        private readonly List<IShareTransaction> _subtractiveTransactions;
 
         #endregion
 
@@ -38,8 +38,8 @@ namespace Sonneville.PriceTools
                 throw new ArgumentNullException("ticker", "Ticker must not be null.");
             }
             _ticker = ticker;
-            _additiveTransactions = new List<ITransaction>();
-            _subtractiveTransactions = new List<ITransaction>();
+            _additiveTransactions = new List<IShareTransaction>();
+            _subtractiveTransactions = new List<IShareTransaction>();
         }
 
         /// <summary>
@@ -56,9 +56,9 @@ namespace Sonneville.PriceTools
 
             _ticker = info.GetString("Ticker");
             _additiveTransactions =
-                (List<ITransaction>) info.GetValue("AdditiveTransactions", typeof (List<ITransaction>));
+                (List<IShareTransaction>) info.GetValue("AdditiveTransactions", typeof (List<IShareTransaction>));
             _subtractiveTransactions =
-                (List<ITransaction>) info.GetValue("SubtractiveTransactions", typeof (List<ITransaction>));
+                (List<IShareTransaction>) info.GetValue("SubtractiveTransactions", typeof (List<IShareTransaction>));
             //Validate(); // DO NOT perform validation during deserialization. Until all objects are deserialized, validation will fail!
         }
 
@@ -84,14 +84,14 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "ITransaction" />s in this IPosition.
+        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this IPosition.
         /// </summary>
-        public IList<ITransaction> Transactions
+        public IList<IShareTransaction> Transactions
         {
             get
             {
                 int count = _additiveTransactions.Count + _subtractiveTransactions.Count;
-                Transaction[] list = new Transaction[count];
+                ShareTransaction[] list = new ShareTransaction[count];
                 _additiveTransactions.CopyTo(list, 0);
                 _subtractiveTransactions.CopyTo(list, _additiveTransactions.Count);
 
@@ -122,7 +122,7 @@ namespace Sonneville.PriceTools
         /// <returns>The average cost of all shares held at <paramref name="date"/>.</returns>
         public decimal GetAverageCost(DateTime date)
         {
-            List<ITransaction> transactions = Transactions
+            List<IShareTransaction> transactions = Transactions
                 .Where(transaction => transaction.SettlementDate <= date)
                 .OrderBy(transaction => transaction.SettlementDate).ToList();
             int count = transactions.Count();
@@ -154,10 +154,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Buys shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="date">The date of this transaction.</param>
-        /// <param name="shares">The number of shares in this transaction.</param>
-        /// <param name="price">The per-share price of this transaction.</param>
-        /// <param name="commission">The commission paid for this transaction.</param>
+        /// <param name="date">The date of this shareTransaction.</param>
+        /// <param name="shares">The number of shares in this shareTransaction.</param>
+        /// <param name="price">The per-share price of this shareTransaction.</param>
+        /// <param name="commission">The commission paid for this shareTransaction.</param>
         public void Buy(DateTime date, double shares, decimal price, decimal commission)
         {
             AddTransaction(shares, OrderType.Buy, date, price, commission);
@@ -166,10 +166,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Buys shares of the ticker held by this IPosition to cover a previous ShortSell.
         /// </summary>
-        /// <param name="date">The date of this transaction.</param>
-        /// <param name="shares">The number of shares in this transaction. Shares cannot exceed currently shorted shares.</param>
-        /// <param name="price">The per-share price of this transaction.</param>
-        /// <param name="commission">The commission paid for this transaction.</param>
+        /// <param name="date">The date of this shareTransaction.</param>
+        /// <param name="shares">The number of shares in this shareTransaction. Shares cannot exceed currently shorted shares.</param>
+        /// <param name="price">The per-share price of this shareTransaction.</param>
+        /// <param name="commission">The commission paid for this shareTransaction.</param>
         public void BuyToCover(DateTime date, double shares, decimal price, decimal commission)
         {
             AddTransaction(shares, OrderType.BuyToCover, date, price, commission);
@@ -178,10 +178,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Sells shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="date">The date of this transaction.</param>
-        /// <param name="shares">The number of shares in this transaction. Shares connot exceed currently held shares.</param>
-        /// <param name="price">The per-share price of this transaction.</param>
-        /// <param name="commission">The commission paid for this transaction.</param>
+        /// <param name="date">The date of this shareTransaction.</param>
+        /// <param name="shares">The number of shares in this shareTransaction. Shares connot exceed currently held shares.</param>
+        /// <param name="price">The per-share price of this shareTransaction.</param>
+        /// <param name="commission">The commission paid for this shareTransaction.</param>
         public void Sell(DateTime date, double shares, decimal price, decimal commission)
         {
             AddTransaction(shares, OrderType.Sell, date, price, commission);
@@ -190,10 +190,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Sell short shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="date">The date of this transaction.</param>
-        /// <param name="shares">The number of shares in this transaction.</param>
-        /// <param name="price">The per-share price of this transaction.</param>
-        /// <param name="commission">The commission paid for this transaction.</param>
+        /// <param name="date">The date of this shareTransaction.</param>
+        /// <param name="shares">The number of shares in this shareTransaction.</param>
+        /// <param name="price">The per-share price of this shareTransaction.</param>
+        /// <param name="commission">The commission paid for this shareTransaction.</param>
         public void SellShort(DateTime date, double shares, decimal price, decimal commission)
         {
             AddTransaction(shares, OrderType.SellShort, date, price, commission);
@@ -251,7 +251,7 @@ namespace Sonneville.PriceTools
                 return 0;
             }
 
-            List<ITransaction> transactions = Transactions
+            List<IShareTransaction> transactions = Transactions
                 .Where(transaction => transaction.SettlementDate <= date)
                 .OrderBy(transaction => transaction.SettlementDate).ToList();
             int count = transactions.Count();
@@ -326,7 +326,7 @@ namespace Sonneville.PriceTools
         ///   Gets the total commissions paid as of a given date.
         /// </summary>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of commissions from <see cref = "ITransaction" />s as a negative number.</returns>
+        /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s as a negative number.</returns>
         public decimal GetCommissions(DateTime date)
         {
             return Transactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Commission);
@@ -377,18 +377,18 @@ namespace Sonneville.PriceTools
 
         private void AddTransaction(double shares, OrderType type, DateTime date, decimal price, decimal commission)
         {
-            ITransaction transaction = TransactionFactory.CreateTransaction(date, type, _ticker, price, shares, commission);
+            IShareTransaction shareTransaction = TransactionFactory.CreateTransaction(date, type, _ticker, price, shares, commission);
 
-            Validate(transaction); // verify transaction is apporpriate for this Position.
+            Validate(shareTransaction); // verify shareTransaction is apporpriate for this Position.
             switch (type)
             {
                 case OrderType.Buy:
                 case OrderType.SellShort:
-                    _additiveTransactions.Add(transaction);
+                    _additiveTransactions.Add(shareTransaction);
                     break;
                 case OrderType.Sell:
                 case OrderType.BuyToCover:
-                    _subtractiveTransactions.Add(transaction);
+                    _subtractiveTransactions.Add(shareTransaction);
                     break;
             }
         }
@@ -399,37 +399,37 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets a list of <see cref = "ITransaction" />s which added to this Position.
-        ///   Typically <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" /> <see cref = "ITransaction" />s.
+        ///   Gets a list of <see cref = "IShareTransaction" />s which added to this Position.
+        ///   Typically <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" /> <see cref = "IShareTransaction" />s.
         /// </summary>
-        private IEnumerable<ITransaction> AdditiveTransactions
+        private IEnumerable<IShareTransaction> AdditiveTransactions
         {
             get { return _additiveTransactions; }
         }
 
         /// <summary>
-        ///   Gets a list of <see cref = "ITransaction" />s which subtracted from this Position.
-        ///   Typically <see cref = "OrderType.Sell" /> or <see cref = "OrderType.BuyToCover" /> <see cref = "ITransaction" />s.
+        ///   Gets a list of <see cref = "IShareTransaction" />s which subtracted from this Position.
+        ///   Typically <see cref = "OrderType.Sell" /> or <see cref = "OrderType.BuyToCover" /> <see cref = "IShareTransaction" />s.
         /// </summary>
-        private IEnumerable<ITransaction> SubtractiveTransactions
+        private IEnumerable<IShareTransaction> SubtractiveTransactions
         {
             get { return _subtractiveTransactions; }
         }
 
-        private ITransaction Last
+        private IShareTransaction Last
         {
             get { return Transactions.Last(); }
         }
 
-        private ITransaction First
+        private IShareTransaction First
         {
             get { return Transactions.First(); }
         }
 
-        private void Validate(ITransaction transaction)
+        private void Validate(IShareTransaction shareTransaction)
         {
             // Validate OrderType
-            switch (transaction.OrderType)
+            switch (shareTransaction.OrderType)
             {
                 case OrderType.Buy:
                 case OrderType.SellShort:
@@ -437,15 +437,15 @@ namespace Sonneville.PriceTools
                     break;
                 case OrderType.BuyToCover:
                 case OrderType.Sell:
-                    // Verify that sold shares does not exceed available shares at the time of the transaction.
-                    DateTime date = transaction.SettlementDate.Subtract(new TimeSpan(0, 0, 0, 1));
+                    // Verify that sold shares does not exceed available shares at the time of the shareTransaction.
+                    DateTime date = shareTransaction.SettlementDate.Subtract(new TimeSpan(0, 0, 0, 1));
                     double heldShares = GetHeldShares(date);
-                    if (transaction.Shares > heldShares)
+                    if (shareTransaction.Shares > heldShares)
                     {
                         throw new InvalidOperationException(
                             String.Format(CultureInfo.CurrentCulture, 
-                                "This transaction requires {0} shares, but only {1} shares are held by this Position as of {2}.",
-                                transaction.Shares, heldShares, date));
+                                "This shareTransaction requires {0} shares, but only {1} shares are held by this Position as of {2}.",
+                                shareTransaction.Shares, heldShares, date));
                     }
                     break;
             }

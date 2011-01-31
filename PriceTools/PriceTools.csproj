@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Buy.cs" />
+    <Compile Include="BuyToCover.cs" />
     <Compile Include="CashAccount.cs" />
+    <Compile Include="CashTransaction.cs" />
     <Compile Include="Data\FidelityTransactionHistoryCsvFile.cs" />
     <Compile Include="Data\TransactionHistoryCsvFile.cs" />
     <Compile Include="Data\PriceSeriesProvider.cs" />
@@ -50,7 +53,10 @@
     <Compile Include="Data\YahooDataManager.cs" />
     <Compile Include="Data\YahooPriceSeriesProvider.cs" />
     <Compile Include="Deposit.cs" />
+    <Compile Include="DividendReceipt.cs" />
+    <Compile Include="DividendReinvestment.cs" />
     <Compile Include="ICashAccount.cs" />
+    <Compile Include="ICashTransaction.cs" />
     <Compile Include="Indicator.cs" />
     <Compile Include="IPortfolio.cs" />
     <Compile Include="MovingAverage.cs" />
@@ -59,7 +65,7 @@
     <Compile Include="IPricePeriod.cs" />
     <Compile Include="IPriceSeries.cs" />
     <Compile Include="ITimeSeries.cs" />
-    <Compile Include="ITransaction.cs" />
+    <Compile Include="IShareTransaction.cs" />
     <Compile Include="MovingAverageMethod.cs" />
     <Compile Include="Portfolio.cs" />
     <Compile Include="OrderType.cs" />
@@ -68,8 +74,10 @@
     <Compile Include="PricePeriod.cs" />
     <Compile Include="PriceSeriesResolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sell.cs" />
+    <Compile Include="SellShort.cs" />
     <Compile Include="StockIndex.cs" />
-    <Compile Include="Transaction.cs" />
+    <Compile Include="ShareTransaction.cs" />
     <Compile Include="TransactionFactory.cs" />
     <Compile Include="Withdrawal.cs" />
   </ItemGroup>

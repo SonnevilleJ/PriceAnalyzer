@@ -24,14 +24,14 @@ namespace Sonneville.PriceTools
         void Withdraw(DateTime dateTime, decimal amount);
 
         /// <summary>
-        /// Gets a <see cref="List{T}"/> of <see cref="ITransaction"/>s in this ICashAccount.
+        /// Gets a <see cref="List{T}"/> of <see cref="IShareTransaction"/>s in this ICashAccount.
         /// </summary>
-        IList<ITransaction> Transactions { get; }
+        IList<ICashTransaction> Transactions { get; }
 
         /// <summary>
         ///   Gets the balance of cash in this ICashAccount.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> to use.</param>
-        decimal GetCashBalance(DateTime date);
+        /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
+        decimal GetCashBalance(DateTime asOfDate);
     }
 }

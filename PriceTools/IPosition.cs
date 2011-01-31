@@ -5,14 +5,14 @@ using System.Runtime.Serialization;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   Represents a IPosition taken using one or more <see cref = "ITransaction" />s.
+    ///   Represents a IPosition taken using one or more <see cref = "IShareTransaction" />s.
     /// </summary>
     public interface IPosition : ITimeSeries, ISerializable
     {
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "ITransaction" />s in this IPosition.
+        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this IPosition.
         /// </summary>
-        IList<ITransaction> Transactions { get; }
+        IList<IShareTransaction> Transactions { get; }
 
         /// <summary>
         ///   Gets the total number of currently held shares.
@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools
         ///   Gets the total commissions paid as of a given date.
         /// </summary>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of commissions from <see cref = "ITransaction" />s.</returns>
+        /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s.</returns>
         decimal GetCommissions(DateTime date);
 
         /// <summary>

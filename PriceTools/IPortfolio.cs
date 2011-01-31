@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools
         decimal GetValue(DateTime date);
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        ///   Adds an <see cref="IShareTransaction"/> to this IPortfolio.
         /// </summary>
         /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools
         void AddTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission);
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        ///   Adds an <see cref="IShareTransaction"/> to this IPortfolio.
         /// </summary>
         /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
@@ -58,7 +58,7 @@ namespace Sonneville.PriceTools
         void AddTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares);
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        ///   Adds an <see cref="IShareTransaction"/> to this IPortfolio.
         /// </summary>
         /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>

@@ -5,10 +5,10 @@ using System.Runtime.Serialization;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// A transaction (or order) for a financial security.
+    /// Represents a transaction (or order) for a financial security.
     /// </summary>
     [Serializable]
-    public class Transaction : ITransaction
+    public abstract class ShareTransaction : IShareTransaction
     {
         #region Private Members
         
@@ -24,65 +24,35 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         /// <summary>
-        /// Constructs a Transaction.
+        /// Constructs a ShareTransaction.
         /// </summary>
-        /// <param name="date">The date and time this Transaction took place.</param>
-        /// <param name="type">The <see cref="PriceTools.OrderType"/> of this Transaction.</param>
+        /// <param name="date">The date and time this ShareTransaction took place.</param>
+        /// <param name="type">The <see cref="OrderType"/> of this ShareTransaction.</param>
         /// <param name="ticker">The ticker of the security bought or sold.</param>
-        /// <param name="price">The price at which the Transaction took place.</param>
+        /// <param name="price">The price at which the ShareTransaction took place.</param>
         /// <param name="shares">The optional number of shares which were traded. Default = 1</param>
-        /// <param name="commission">The optional commission paid for this Transaction. Default = $0.00</param>
-        internal Transaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
+        /// <param name="commission">The optional commission paid for this ShareTransaction. Default = $0.00</param>
+        protected ShareTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
         {
+            if (shares < 0)
+            {
+                throw new ArgumentOutOfRangeException("shares", _shares, "Shares must be greater than or equal to 0.00");
+            }
+            if (price < 0.00m)
+            {
+                throw new ArgumentOutOfRangeException("price", _price, "Price must be greater than or equal to 0.00");
+            }
+            if (commission < 0.00m)
+            {
+                throw new ArgumentOutOfRangeException("commission", _commission, String.Format(CultureInfo.CurrentCulture, "Commission must be greater than or equal to 0.00"));
+            }
+
             _date = date;
             _ticker = ticker.ToUpperInvariant();
             _type = type;
             _shares = shares;
             _price = price;
             _commission = commission;
-
-            switch (_type)
-            {
-                case OrderType.DividendReceipt:
-                case OrderType.DividendReinvestment:
-                    if (_shares <= 0)
-                    {
-                        throw new ArgumentOutOfRangeException("shares", _shares, "Dividend shares must be greater than zero.");
-                    }
-                    if (_commission != 0)
-                    {
-                        throw new ArgumentOutOfRangeException("commission", _commission, "Commission for dividends must be zero.");
-                    }
-                    if (_price <= 0)
-                    {
-                        throw new ArgumentOutOfRangeException("price", _price, String.Format(CultureInfo.CurrentCulture, "Price for dividends must be greater than {0}.", 0D));
-                    }
-                    break;
-                case OrderType.Deposit:
-                case OrderType.Withdrawal:
-                    if (_commission != 0)
-                    {
-                        throw new ArgumentOutOfRangeException("commission", _commission, "Commission for dividends must be zero.");
-                    }
-                    break;
-                case OrderType.Buy:
-                case OrderType.BuyToCover:
-                case OrderType.Sell:
-                case OrderType.SellShort:
-                    if (_shares < 0)
-                    {
-                        throw new ArgumentOutOfRangeException("shares", _shares, "Shares must be greater than or equal to 0.00");
-                    }
-                    if (_price < 0.00m)
-                    {
-                        throw new ArgumentOutOfRangeException("price", _price, "Price must be greater than or equal to 0.00");
-                    }
-                    if (_commission < 0.00m)
-                    {
-                        throw new ArgumentOutOfRangeException("commission", _commission, "Commission must be greater than or equal to 0.00");
-                    }
-                    break;
-            }
         }
 
         #endregion
@@ -90,24 +60,25 @@ namespace Sonneville.PriceTools
         #region Accessors
 
         /// <summary>
-        /// Gets The date and time at which the Transaction occured.
+        /// Gets The date and time at which the ShareTransaction occured.
         /// </summary>
-        public virtual DateTime SettlementDate
+        public DateTime SettlementDate
         {
             get { return _date; }
         }
 
         /// <summary>
-        /// Gets the TransactionType of this Transaction.
+        /// Gets the TransactionType of this ShareTransaction.
         /// </summary>
-        public virtual OrderType OrderType
+        public OrderType OrderType
         {
             get { return _type; }
         }
+
         /// <summary>
         /// Gets the ticker of the security traded.
         /// </summary>
-        public virtual string Ticker
+        public string Ticker
         {
             get { return _ticker; }
         }
@@ -115,40 +86,26 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the number of shares traded.
         /// </summary>
-        public virtual double Shares
+        public double Shares
         {
             get { return _shares; }
         }
 
         /// <summary>
-        /// Gets the price at which the Transaction took place.
+        /// Gets the price at which the ShareTransaction took place.
         /// </summary>
         public virtual decimal Price
         {
             get
             {
-                switch(OrderType)
-                {
-                    case OrderType.Deposit:
-                    case OrderType.DividendReceipt:
-                    case OrderType.DividendReinvestment:
-                    case OrderType.Buy:
-                    case OrderType.SellShort:
-                        return _price;
-                    case OrderType.Withdrawal:
-                    case OrderType.Sell:
-                    case OrderType.BuyToCover:
-                        return -1 * _price;
-                    default:
-                        throw new InvalidOperationException(String.Format(CultureInfo.CurrentCulture, "Unknown OrderType: {0}.", OrderType));
-                }
+                return _price;
             }
         }
 
         /// <summary>
-        /// Gets the commission paid for this Transaction.
+        /// Gets the commission paid for this ShareTransaction.
         /// </summary>
-        public virtual decimal Commission
+        public decimal Commission
         {
             get { return _commission; }
         }
@@ -158,11 +115,11 @@ namespace Sonneville.PriceTools
         #region Implementation of ISerializable
 
         /// <summary>
-        /// Deserializes a Transaction object.
+        /// Deserializes a ShareTransaction object.
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
-        protected Transaction(SerializationInfo info, StreamingContext context)
+        protected ShareTransaction(SerializationInfo info, StreamingContext context)
         {
             if (info == null)
             {
@@ -206,7 +163,7 @@ namespace Sonneville.PriceTools
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator==(Transaction left, Transaction right)
+        public static bool operator==(ShareTransaction left, ShareTransaction right)
         {
             return (left._commission == right._commission &&
                     left._date == right._date &&
@@ -222,7 +179,7 @@ namespace Sonneville.PriceTools
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(Transaction left, Transaction right)
+        public static bool operator !=(ShareTransaction left, ShareTransaction right)
         {
             return !(left == right);
         }
@@ -234,7 +191,7 @@ namespace Sonneville.PriceTools
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ITransaction other)
+        public bool Equals(IShareTransaction other)
         {
             return Equals((object)other);
         }
@@ -250,8 +207,8 @@ namespace Sonneville.PriceTools
         {
             if (ReferenceEquals(null, obj)) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(Transaction)) return false;
-            return this == (Transaction)obj;
+            if (obj is ShareTransaction) return this == (ShareTransaction)obj;
+            return false;
         }
 
         /// <summary>

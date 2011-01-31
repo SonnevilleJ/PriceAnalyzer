@@ -235,7 +235,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this Portfolio.
+        ///   Adds an <see cref="IShareTransaction"/> to this Portfolio.
         /// </summary>
         /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
@@ -249,7 +249,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this Portfolio.
+        ///   Adds an <see cref="IShareTransaction"/> to this Portfolio.
         /// </summary>
         /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
@@ -262,7 +262,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this Portfolio.
+        ///   Adds an <see cref="IShareTransaction"/> to this Portfolio.
         /// </summary>
         /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
