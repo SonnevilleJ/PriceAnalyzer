@@ -38,6 +38,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -55,10 +58,16 @@
     <Compile Include="Deposit.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="DividendReinvestment.cs" />
+    <Compile Include="Entities.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Entities.edmx</DependentUpon>
+    </Compile>
     <Compile Include="ICashAccount.cs" />
     <Compile Include="ICashTransaction.cs" />
     <Compile Include="Indicator.cs" />
     <Compile Include="IPortfolio.cs" />
+    <Compile Include="ITransaction.cs" />
     <Compile Include="MovingAverage.cs" />
     <Compile Include="InvalidPricePeriodException.cs" />
     <Compile Include="IPosition.cs" />
@@ -91,10 +100,18 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <None Include="Class Diagrams\DataClasses.cd" />
+    <EntityDeploy Include="Entities.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>Entities.Designer.cs</LastGenOutput>
+    </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Entities.edmx.sql" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

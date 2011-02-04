@@ -6,12 +6,11 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a transaction for an <see cref="ICashAccount"/>.
     /// </summary>
-    public abstract class CashTransaction : ICashTransaction, IEquatable<CashTransaction>
+    public abstract partial class CashTransaction : ICashTransaction, IEquatable<CashTransaction>
     {
         #region Private Members
 
         private readonly DateTime _settlementDate;
-        private readonly OrderType _orderType;
         private readonly decimal _amount;
 
         #endregion
@@ -26,9 +25,8 @@ namespace Sonneville.PriceTools
         /// <param name="amount">The amount of cash in this CashTransaction.</param>
         protected CashTransaction(DateTime settlementDate, OrderType orderType, decimal amount)
         {
-            _settlementDate = settlementDate;
-            _orderType = orderType;
-            _amount = amount;
+            SettlementDate = settlementDate;
+            Amount = amount;
         }
 
         /// <summary>
@@ -41,8 +39,11 @@ namespace Sonneville.PriceTools
             if(info == null) throw new ArgumentNullException("info");
 
             _settlementDate = info.GetDateTime("SettlementDate");
-            _orderType = (OrderType) info.GetValue("OrderType", typeof (OrderType));
             _amount = info.GetDecimal("Amount");
+        }
+
+        protected CashTransaction()
+        {
         }
 
         #endregion
@@ -58,7 +59,7 @@ namespace Sonneville.PriceTools
             if(info == null) throw new ArgumentNullException("info");
 
             info.AddValue("SettlementDate", _settlementDate);
-            info.AddValue("OrderType", _orderType);
+            info.AddValue("OrderType", OrderType);
             info.AddValue("Amount", _amount);
         }
 
@@ -148,31 +149,12 @@ namespace Sonneville.PriceTools
 
         #endregion
 
-        #region Implementation of ICashTransaction
-
-        /// <summary>
-        ///   Gets the DateTime that the CashTransaction occurred.
-        /// </summary>
-        public DateTime SettlementDate
-        {
-            get { return _settlementDate; }
-        }
+        #region Implementation of ITransaction
 
         /// <summary>
         ///   Gets the <see cref = "PriceTools.OrderType" /> of this CashTransaction.
         /// </summary>
-        public OrderType OrderType
-        {
-            get { return _orderType; }
-        }
-
-        /// <summary>
-        ///   Gets the amount of cash in this CashTransaction.
-        /// </summary>
-        public decimal Amount
-        {
-            get { return _amount; }
-        }
+        public abstract OrderType OrderType { get; }
 
         #endregion
     }

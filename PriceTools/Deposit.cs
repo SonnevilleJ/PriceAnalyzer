@@ -6,10 +6,12 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a cash deposit to an <see cref="IPortfolio"/>.
     /// </summary>
-    [Serializable]
-    public sealed class Deposit : CashTransaction
+    public sealed partial class Deposit : CashTransaction
     {
         #region Constructors
+
+        private Deposit()
+        {}
 
         /// <summary>
         /// Constructs a Deposit.
@@ -17,7 +19,7 @@ namespace Sonneville.PriceTools
         /// <param name="dateTime">The DateTime of the Deposit.</param>
         /// <param name="amount">The amount of cash deposited.</param>
         public Deposit(DateTime dateTime, decimal amount)
-            : base(dateTime, OrderType.Deposit, amount)
+            : base(dateTime, PriceTools.OrderType.Deposit, amount)
         {
             if (amount <= 0)
             {
@@ -41,6 +43,14 @@ namespace Sonneville.PriceTools
         public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
         {
             base.GetObjectData(info, context);
+        }
+
+        /// <summary>
+        ///   Gets the <see cref = "PriceTools.OrderType" /> of this CashTransaction.
+        /// </summary>
+        public override OrderType OrderType
+        {
+            get { return OrderType.Deposit; }
         }
 
         #endregion

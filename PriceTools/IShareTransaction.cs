@@ -6,18 +6,8 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   Represents a transaction (or order) for a financial security.
     /// </summary>
-    public interface IShareTransaction : ISerializable, IEquatable<IShareTransaction>
+    public interface IShareTransaction : ITransaction, ISerializable, IEquatable<IShareTransaction>
     {
-        /// <summary>
-        ///   Gets the DateTime that the IShareTransaction occurred.
-        /// </summary>
-        DateTime SettlementDate { get; }
-
-        /// <summary>
-        ///   Gets the <see cref = "PriceTools.OrderType" /> of this IShareTransaction.
-        /// </summary>
-        OrderType OrderType { get; }
-
         /// <summary>
         ///   Gets the ticker symbol of the security traded in this IShareTransaction.
         /// </summary>

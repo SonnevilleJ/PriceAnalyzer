@@ -6,10 +6,12 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a cash withdrawal from an <see cref="IPortfolio"/>.
     /// </summary>
-    [Serializable]
-    public sealed class Withdrawal : CashTransaction
+    public sealed partial class Withdrawal : CashTransaction
     {
         #region Constructors
+
+        private Withdrawal()
+        {}
 
         /// <summary>
         /// Constructs a Withdrawal.
@@ -17,7 +19,7 @@ namespace Sonneville.PriceTools
         /// <param name="dateTime">The DateTime of the Withdrawal.</param>
         /// <param name="amount">The amount of cash withdrawn.</param>
         public Withdrawal(DateTime dateTime, decimal amount)
-            : base(dateTime, OrderType.Withdrawal, amount)
+            : base(dateTime, PriceTools.OrderType.Withdrawal, amount)
         {
             if (amount <= 0)
             {
@@ -41,6 +43,14 @@ namespace Sonneville.PriceTools
         public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
         {
             base.GetObjectData(info, context);
+        }
+
+        /// <summary>
+        ///   Gets the <see cref = "PriceTools.OrderType" /> of this CashTransaction.
+        /// </summary>
+        public override OrderType OrderType
+        {
+            get { return OrderType.Withdrawal; }
         }
 
         #endregion

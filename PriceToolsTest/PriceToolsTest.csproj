@@ -37,6 +37,7 @@
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -90,6 +91,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.Config" />
     <None Include="Resources\FidelityTransactions.csv" />
     <None Include="Resources\SPX price 24 aug 2010.xlsx" />
     <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
