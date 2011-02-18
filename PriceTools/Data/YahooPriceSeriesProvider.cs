@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.Data
                 case StockIndex.NasdaqCompositeIndex:
                     return "^IXIC";
                 default:
-                    throw new NotImplementedException(String.Format(CultureInfo.CurrentCulture, "Unknown StockIndex {0}.", index));
+                    throw new NotImplementedException(String.Format(CultureInfo.CurrentCulture, "Unknown Stock Index: {0}.", index));
             }
         }
 

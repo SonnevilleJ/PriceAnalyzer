@@ -56,7 +56,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod()]
-        public void SerializeSellShortTransactionTest()
+        public void EntitySellShortTransactionTest()
         {
             const string ticker = "DE";
             DateTime purchaseDate = new DateTime(2001, 1, 1);
@@ -67,7 +67,7 @@ namespace Sonneville.PriceToolsTest
 
             IShareTransaction target = TransactionFactory.CreateTransaction(purchaseDate, type, ticker, buyPrice, shares, commission);
 
-            TestUtilities.VerifySerialization(target);
+            TestUtilities.VerifyTransactionEntity(target);
         }
 
         /// <summary>

@@ -217,10 +217,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the amount of uninvested cash in this Portfolio.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> to use.</param>
-        public decimal GetAvailableCash(DateTime date)
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
+        public decimal GetAvailableCash(DateTime settlementDate)
         {
-            return _cashAccount.GetCashBalance(date);
+            return _cashAccount.GetCashBalance(settlementDate);
         }
 
         /// <summary>
@@ -234,68 +234,68 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the current total value of this Portfolio.
         /// </summary>
-        public decimal GetValue(DateTime date)
+        public decimal GetValue(DateTime settlementDate)
         {
-            return GetAvailableCash(date) + Positions.Values.Sum(position => position.GetInvestedValue(date));
+            return GetAvailableCash(settlementDate) + Positions.Values.Sum(position => position.GetInvestedValue(settlementDate));
         }
 
         /// <summary>
         ///   Adds an <see cref="IShareTransaction"/> to this Portfolio.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="settlementDate">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>
         /// <param name="shares">The number of shares.</param>
         /// <param name="commission">The commission charge for the transaction.</param>
-        public void AddTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
+        public void AddTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares, decimal commission)
         {
-            AddToPosition(ticker, type, date, shares, price, commission);
+            AddToPosition(ticker, type, settlementDate, shares, price, commission);
         }
 
         /// <summary>
         ///   Adds an <see cref="IShareTransaction"/> to this Portfolio.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="settlementDate">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>
         /// <param name="shares">The number of shares.</param>
-        public void AddTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares)
+        public void AddTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares)
         {
-            AddToPosition(ticker, type, date, shares, price, Position.DefaultCommission);
+            AddToPosition(ticker, type, settlementDate, shares, price, Position.DefaultCommission);
         }
 
         /// <summary>
         ///   Adds an <see cref="IShareTransaction"/> to this Portfolio.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> of the transaction.</param>
+        /// <param name="settlementDate">The <see cref="DateTime"/> of the transaction.</param>
         /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
         /// <param name="ticker">The ticker symbol to use for the transaction.</param>
         /// <param name="price">The per-share price of the ticker symbol.</param>
-        public void AddTransaction(DateTime date, OrderType type, string ticker, decimal price)
+        public void AddTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price)
         {
-            AddToPosition(ticker, type, date, 1.0, price, Position.DefaultCommission);
+            AddToPosition(ticker, type, settlementDate, 1.0, price, Position.DefaultCommission);
         }
 
         /// <summary>
         /// Deposits cash to this Portfolio.
         /// </summary>
-        /// <param name="dateTime">The <see cref="DateTime"/> of the deposit.</param>
+        /// <param name="settlementDate">The <see cref="DateTime"/> of the deposit.</param>
         /// <param name="cashAmount">The amount of cash deposited.</param>
-        public void Deposit(DateTime dateTime, decimal cashAmount)
+        public void Deposit(DateTime settlementDate, decimal cashAmount)
         {
-            _cashAccount.Deposit(dateTime, cashAmount);
+            _cashAccount.Deposit(settlementDate, cashAmount);
         }
 
         /// <summary>
         /// Withdraws cash from this Portfolio. AvailableCash must be greater than or equal to the withdrawn amount.
         /// </summary>
-        /// <param name="dateTime">The <see cref="DateTime"/> of the withdrawal.</param>
+        /// <param name="settlementDate">The <see cref="DateTime"/> of the withdrawal.</param>
         /// <param name="cashAmount">The amount of cash withdrawn.</param>
-        public void Withdraw(DateTime dateTime, decimal cashAmount)
+        public void Withdraw(DateTime settlementDate, decimal cashAmount)
         {
-            _cashAccount.Withdraw(dateTime, cashAmount);
+            _cashAccount.Withdraw(settlementDate, cashAmount);
         }
         /// <summary>
         /// Adds transaction history from a CSV file to the Portfolio.

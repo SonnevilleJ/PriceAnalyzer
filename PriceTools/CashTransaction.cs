@@ -13,6 +13,9 @@
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a CashTransaction.
+        /// </summary>
         protected internal CashTransaction()
         {
         }
@@ -102,9 +105,11 @@
 
         #endregion
 
+        /// <summary>
+        /// Ensure Amount is positive for Deposit and negative for Withdrawal.
+        /// </summary>
         partial void OnAmountChanged()
         {
-            // ensure Amount is positive for Deposit and negative for Withdrawal
             if ((OrderType == OrderType.Deposit && Amount < 0) || (OrderType == OrderType.Withdrawal && Amount > 0))
             {
                 Amount = -Amount;

@@ -90,19 +90,19 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
-        public void SerializeDepositTransactionTest()
+        [TestMethod]
+        public void EntityDepositTest()
         {
             DateTime date = new DateTime(2001, 1, 1);
             const decimal amount = 100.00m;   // $100.00
 
             ICashTransaction target = new Deposit
-                                          {
-                                              SettlementDate = date,
-                                              Amount = amount
-                                          };
+            {
+                SettlementDate = date,
+                Amount = amount
+            };
 
-            TestUtilities.VerifySerialization(target);
+            TestUtilities.VerifyTransactionEntity(target);
         }
     }
 }

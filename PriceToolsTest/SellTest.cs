@@ -57,7 +57,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod()]
-        public void SerializeSellTransactionTest()
+        public void EntitySellTransactionTest()
         {
             const string ticker = "DE";
             DateTime date = new DateTime(2001, 1, 1);
@@ -74,7 +74,7 @@ namespace Sonneville.PriceToolsTest
                                                Commission = commission
                                            };
 
-            TestUtilities.VerifySerialization(target);
+            TestUtilities.VerifyTransactionEntity(target);
         }
 
         /// <summary>

@@ -15,11 +15,6 @@ namespace Sonneville.PriceTools
         IList<IShareTransaction> Transactions { get; }
 
         /// <summary>
-        ///   Gets the total number of currently held shares.
-        /// </summary>
-        double OpenShares { get; }
-
-        /// <summary>
         /// Gets the ticker symbol held by this IPosition.
         /// </summary>
         string Ticker { get; }
@@ -27,90 +22,90 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the average cost of all held shares in this IPosition as of a given date.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> to use.</param>
-        /// <returns>The average cost of all shares held at <paramref name="date"/>.</returns>
-        decimal GetAverageCost(DateTime date);
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
+        /// <returns>The average cost of all shares held at <paramref name="settlementDate"/>.</returns>
+        decimal GetAverageCost(DateTime settlementDate);
 
         /// <summary>
         /// Buys shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="date">The date of this transaction.</param>
+        /// <param name="settlementDate">The date of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
-        void Buy(DateTime date, double shares, decimal price, decimal commission);
+        void Buy(DateTime settlementDate, double shares, decimal price, decimal commission);
 
         /// <summary>
         /// Buys shares of the ticker held by this IPosition to cover a previous ShortSell.
         /// </summary>
-        /// <param name="date">The date of this transaction.</param>
+        /// <param name="settlementDate">The date of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction. Shares cannot exceed currently shorted shares.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
-        void BuyToCover(DateTime date, double shares, decimal price, decimal commission);
+        void BuyToCover(DateTime settlementDate, double shares, decimal price, decimal commission);
 
         /// <summary>
         /// Sells shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="date">The date of this transaction.</param>
+        /// <param name="settlementDate">The date of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction. Shares connot exceed currently held shares.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
-        void Sell(DateTime date, double shares, decimal price, decimal commission);
+        void Sell(DateTime settlementDate, double shares, decimal price, decimal commission);
 
         /// <summary>
         /// Sell short shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="date">The date of this transaction.</param>
+        /// <param name="settlementDate">The date of this transaction.</param>
         /// <param name="shares">The number of shares in this transaction.</param>
         /// <param name="price">The per-share price of this transaction.</param>
         /// <param name="commission">The commission paid for this transaction.</param>
-        void SellShort(DateTime date, double shares, decimal price, decimal commission);
+        void SellShort(DateTime settlementDate, double shares, decimal price, decimal commission);
 
         /// <summary>
         ///   Gets the value of any shares held the IPortfolio as of a given date.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the IPortfolio as of the given date.</returns>
-        decimal GetInvestedValue(DateTime date);
+        decimal GetInvestedValue(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the value of the IPortfolio as of a given date.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the IPortfolio as of the given date.</returns>
-        decimal GetValue(DateTime date);
+        decimal GetValue(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the gross investment of this IPosition, ignoring any proceeds and commissions.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount spent on share purchases.</returns>
-        decimal GetCost(DateTime date);
+        decimal GetCost(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the gross proceeds of this IPosition, ignoring all totalCosts and commissions.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of proceeds from share sales.</returns>
-        decimal GetProceeds(DateTime date);
+        decimal GetProceeds(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the total commissions paid as of a given date.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s.</returns>
-        decimal GetCommissions(DateTime date);
+        decimal GetCommissions(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the raw rate of return for this IPosition, not accounting for commissions.
         /// </summary>
-        decimal GetRawReturn(DateTime date);
+        decimal GetRawReturn(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the total rate of return for this IPosition, after commissions.
         /// </summary>
-        decimal GetTotalReturn(DateTime date);
+        decimal GetTotalReturn(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the total rate of return on an annual basis for this IPosition.
@@ -118,6 +113,6 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        decimal GetTotalAnnualReturn(DateTime date);
+        decimal GetTotalAnnualReturn(DateTime settlementDate);
     }
 }

@@ -14,6 +14,9 @@ namespace Sonneville.PriceTools
 
         #region Constructors
 
+        /// <summary>
+        /// Constructs a ShareTransaction.
+        /// </summary>
         protected internal ShareTransaction()
         {
         }
@@ -85,8 +88,9 @@ namespace Sonneville.PriceTools
                     case OrderType.BuyToCover:
                     case OrderType.Sell:
                         return -1;
+                    default:
+                        return 0; // unknown
                 }
-                return 0; // unknown
             }
         }
 

@@ -100,14 +100,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the total number of currently held shares.
-        /// </summary>
-        public double OpenShares
-        {
-            get { return GetHeldShares(DateTime.Now); }
-        }
-
-        /// <summary>
         /// Gets the ticker symbol held by this Position.
         /// </summary>
         public string Ticker
@@ -118,12 +110,12 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the average cost of all held shares in this Position as of a given date.
         /// </summary>
-        /// <param name="date">The <see cref="DateTime"/> to use.</param>
-        /// <returns>The average cost of all shares held at <paramref name="date"/>.</returns>
-        public decimal GetAverageCost(DateTime date)
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
+        /// <returns>The average cost of all shares held at <paramref name="settlementDate"/>.</returns>
+        public decimal GetAverageCost(DateTime settlementDate)
         {
             List<IShareTransaction> transactions = Transactions
-                .Where(transaction => transaction.SettlementDate <= date)
+                .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .OrderBy(transaction => transaction.SettlementDate).ToList();
             int count = transactions.Count();
 
@@ -154,58 +146,58 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Buys shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="date">The date of this shareTransaction.</param>
+        /// <param name="settlementDate">The date of this shareTransaction.</param>
         /// <param name="shares">The number of shares in this shareTransaction.</param>
         /// <param name="price">The per-share price of this shareTransaction.</param>
         /// <param name="commission">The commission paid for this shareTransaction.</param>
-        public void Buy(DateTime date, double shares, decimal price, decimal commission)
+        public void Buy(DateTime settlementDate, double shares, decimal price, decimal commission)
         {
-            AddTransaction(shares, OrderType.Buy, date, price, commission);
+            AddTransaction(shares, OrderType.Buy, settlementDate, price, commission);
         }
 
         /// <summary>
         /// Buys shares of the ticker held by this IPosition to cover a previous ShortSell.
         /// </summary>
-        /// <param name="date">The date of this shareTransaction.</param>
+        /// <param name="settlementDate">The date of this shareTransaction.</param>
         /// <param name="shares">The number of shares in this shareTransaction. Shares cannot exceed currently shorted shares.</param>
         /// <param name="price">The per-share price of this shareTransaction.</param>
         /// <param name="commission">The commission paid for this shareTransaction.</param>
-        public void BuyToCover(DateTime date, double shares, decimal price, decimal commission)
+        public void BuyToCover(DateTime settlementDate, double shares, decimal price, decimal commission)
         {
-            AddTransaction(shares, OrderType.BuyToCover, date, price, commission);
+            AddTransaction(shares, OrderType.BuyToCover, settlementDate, price, commission);
         }
 
         /// <summary>
         /// Sells shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="date">The date of this shareTransaction.</param>
+        /// <param name="settlementDate">The date of this shareTransaction.</param>
         /// <param name="shares">The number of shares in this shareTransaction. Shares connot exceed currently held shares.</param>
         /// <param name="price">The per-share price of this shareTransaction.</param>
         /// <param name="commission">The commission paid for this shareTransaction.</param>
-        public void Sell(DateTime date, double shares, decimal price, decimal commission)
+        public void Sell(DateTime settlementDate, double shares, decimal price, decimal commission)
         {
-            AddTransaction(shares, OrderType.Sell, date, price, commission);
+            AddTransaction(shares, OrderType.Sell, settlementDate, price, commission);
         }
 
         /// <summary>
         /// Sell short shares of the ticker held by this IPosition.
         /// </summary>
-        /// <param name="date">The date of this shareTransaction.</param>
+        /// <param name="settlementDate">The date of this shareTransaction.</param>
         /// <param name="shares">The number of shares in this shareTransaction.</param>
         /// <param name="price">The per-share price of this shareTransaction.</param>
         /// <param name="commission">The commission paid for this shareTransaction.</param>
-        public void SellShort(DateTime date, double shares, decimal price, decimal commission)
+        public void SellShort(DateTime settlementDate, double shares, decimal price, decimal commission)
         {
-            AddTransaction(shares, OrderType.SellShort, date, price, commission);
+            AddTransaction(shares, OrderType.SellShort, settlementDate, price, commission);
         }
 
         /// <summary>
         ///   Gets the total value of the Position, including commissions.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        public decimal this[DateTime date]
+        /// <param name = "index">The <see cref = "DateTime" /> to use.</param>
+        public decimal this[DateTime index]
         {
-            get { return GetValue(date); }
+            get { return GetValue(index); }
         }
 
         /// <summary>
@@ -242,17 +234,17 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the value of any shares held the Portfolio as of a given date.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the Portfolio as of the given date.</returns>
-        public decimal GetInvestedValue(DateTime date)
+        public decimal GetInvestedValue(DateTime settlementDate)
         {
-            if (GetHeldShares(date) == 0)
+            if (GetHeldShares(settlementDate) == 0)
             {
                 return 0;
             }
 
             List<IShareTransaction> transactions = Transactions
-                .Where(transaction => transaction.SettlementDate <= date)
+                .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .OrderBy(transaction => transaction.SettlementDate).ToList();
             int count = transactions.Count();
 
@@ -269,7 +261,7 @@ namespace Sonneville.PriceTools
                         break;
                     case OrderType.Sell:
                     case OrderType.BuyToCover:
-                        value -= (GetAverageCost(date) * (decimal)transactions[i].Shares);
+                        value -= (GetAverageCost(settlementDate) * (decimal)transactions[i].Shares);
                         break;
                 }
             }
@@ -280,15 +272,15 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the value of the IPortfolio as of a given date, excluding all commissions.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the IPortfolio as of the given date.</returns>
-        public decimal GetValue(DateTime date)
+        public decimal GetValue(DateTime settlementDate)
         {
-            decimal proceeds = GetProceeds(date);   // positive proceeds = gain, negative proceeds = loss
-            decimal totalCosts = GetCost(date);     // positive totalCosts = revenue, negative totalCosts = expense
+            decimal proceeds = GetProceeds(settlementDate);   // positive proceeds = gain, negative proceeds = loss
+            decimal totalCosts = GetCost(settlementDate);     // positive totalCosts = revenue, negative totalCosts = expense
 
-            double heldShares = GetHeldShares(date);
-            double totalShares = GetOpenedShares(date);
+            double heldShares = GetHeldShares(settlementDate);
+            double totalShares = GetOpenedShares(settlementDate);
 
             decimal costOfUnsoldShares = 0.00m;
             if (totalShares != 0)
@@ -301,46 +293,46 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the gross investment of this Position, ignoring any proceeds and commissions.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount spent on share purchases as a negative number.</returns>
-        public decimal GetCost(DateTime date)
+        public decimal GetCost(DateTime settlementDate)
         {
             return AdditiveTransactions
-                .Where(transaction => transaction.SettlementDate <= date)
+                .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .Sum(transaction => transaction.Price * (decimal)transaction.Shares);
         }
 
         /// <summary>
         ///   Gets the gross proceeds of this Position, ignoring all totalCosts and commissions.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
-        public decimal GetProceeds(DateTime date)
+        public decimal GetProceeds(DateTime settlementDate)
         {
             return -1 * SubtractiveTransactions
-                .Where(transaction => transaction.SettlementDate <= date)
+                .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .Sum(transaction => transaction.Price * (decimal)transaction.Shares);
         }
 
         /// <summary>
         ///   Gets the total commissions paid as of a given date.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s as a negative number.</returns>
-        public decimal GetCommissions(DateTime date)
+        public decimal GetCommissions(DateTime settlementDate)
         {
-            return Transactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Commission);
+            return Transactions.Where(transaction => transaction.SettlementDate <= settlementDate).Sum(transaction => transaction.Commission);
         }
 
         /// <summary>
         ///   Gets the raw rate of return for this Position, not accounting for commissions.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        public decimal GetRawReturn(DateTime date)
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        public decimal GetRawReturn(DateTime settlementDate)
         {
-            if (GetClosedShares(date) > 0)
+            if (GetClosedShares(settlementDate) > 0)
             {
-                return (GetValue(date) / GetCost(date)) - 1;
+                return (GetValue(settlementDate) / GetCost(settlementDate)) - 1;
             }
             throw new InvalidOperationException("Cannot calculate raw return for an open position.");
         }
@@ -348,12 +340,12 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the total rate of return for this Position, after commissions.
         /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        public decimal GetTotalReturn(DateTime date)
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        public decimal GetTotalReturn(DateTime settlementDate)
         {
-            decimal proceeds = GetProceeds(date);
-            decimal costs = GetCost(date);
-            decimal commissions = GetCommissions(date);
+            decimal proceeds = GetProceeds(settlementDate);
+            decimal costs = GetCost(settlementDate);
+            decimal commissions = GetCommissions(settlementDate);
             decimal profit = proceeds - costs - commissions;
             return (profit / costs);
         }
@@ -364,9 +356,9 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        public decimal GetTotalAnnualReturn(DateTime date)
+        public decimal GetTotalAnnualReturn(DateTime settlementDate)
         {
-            decimal totalReturn = GetTotalReturn(date);
+            decimal totalReturn = GetTotalReturn(settlementDate);
             decimal time = (Duration.Days / 365.0m);
             return totalReturn / time;
         }
@@ -444,7 +436,7 @@ namespace Sonneville.PriceTools
                     {
                         throw new InvalidOperationException(
                             String.Format(CultureInfo.CurrentCulture, 
-                                "This shareTransaction requires {0} shares, but only {1} shares are held by this Position as of {2}.",
+                                "This Transaction requires {0} shares, but only {1} shares are held by this Position as of {2}.",
                                 shareTransaction.Shares, heldShares, date));
                     }
                     break;

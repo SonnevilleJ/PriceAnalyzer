@@ -15,22 +15,12 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         /// <summary>
-        ///   Constructs a MovingAverage <see cref = "Indicator" /> for a given <see cref = "ITimeSeries" />.
-        /// </summary>
-        /// <param name = "series">The <see cref = "IPriceSeries" /> to average.</param>
-        /// <param name = "range">The range of this MovingAverage.</param>
-        public MovingAverage(IPriceSeries series, int range)
-            : this(series, range, MovingAverageMethod.Simple)
-        {
-        }
-
-        /// <summary>
         ///   Constructs a new Averager using the specified <see cref = "MovingAverageMethod" />
         /// </summary>
         /// <param name = "series">The <see cref="IPriceSeries"/> containing the data to be averaged.</param>
         /// <param name = "range">The number of periods to average together.</param>
         /// <param name = "movingAverageMethod">The calculation method to use when averaging.</param>
-        public MovingAverage(IPriceSeries series, int range, MovingAverageMethod movingAverageMethod)
+        public MovingAverage(IPriceSeries series, int range, MovingAverageMethod movingAverageMethod = MovingAverageMethod.Simple)
             : base(series, range)
         {
             _method = movingAverageMethod;

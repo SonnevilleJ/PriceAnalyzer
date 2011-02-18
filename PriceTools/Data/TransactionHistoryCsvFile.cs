@@ -27,17 +27,8 @@ namespace Sonneville.PriceTools.Data
         /// Constructs a new TransactionHistoryCsvFile.
         /// </summary>
         /// <param name="csvStream">A <see cref="Stream"/> to the CSV data.</param>
-        protected TransactionHistoryCsvFile(Stream csvStream)
-            : this(csvStream, false)
-        {
-        }
-
-        /// <summary>
-        /// Constructs a new TransactionHistoryCsvFile.
-        /// </summary>
-        /// <param name="csvStream">A <see cref="Stream"/> to the CSV data.</param>
         /// <param name="useTotalBasis">A value indicating whether or not TotalBasis should be used to calculate price.</param>
-        protected TransactionHistoryCsvFile(Stream csvStream, bool useTotalBasis)
+        protected TransactionHistoryCsvFile(Stream csvStream, bool useTotalBasis = false)
         {
             if (csvStream == null)
             {

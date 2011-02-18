@@ -38,7 +38,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod()]
-        public void SerializeDividendReceiptTransactionTest()
+        public void EntityDividendReceiptTransactionTest()
         {
             const string ticker = "DE";
             DateTime date = new DateTime(2001, 1, 17);
@@ -53,7 +53,7 @@ namespace Sonneville.PriceToolsTest
                                                Shares = shares,
                                            };
 
-            TestUtilities.VerifySerialization(target);
+            TestUtilities.VerifyTransactionEntity(target);
         }
 
         /// <summary>
