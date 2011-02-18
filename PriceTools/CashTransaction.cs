@@ -1,66 +1,29 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a transaction for an <see cref="ICashAccount"/>.
     /// </summary>
-    public abstract partial class CashTransaction : ICashTransaction, IEquatable<CashTransaction>
+    public abstract partial class CashTransaction : ICashTransaction
     {
         #region Private Members
 
-        private readonly DateTime _settlementDate;
-        private readonly decimal _amount;
+        private OrderType _type;
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
-        /// Constructs a CashTransaction.
-        /// </summary>
-        /// <param name="settlementDate">The DateTime the CashTransaction takes place.</param>
-        /// <param name="orderType">The <see cref="OrderType"/> of the CashTransaction. Must be Deposit or Withdrawal.</param>
-        /// <param name="amount">The amount of cash in this CashTransaction.</param>
-        protected CashTransaction(DateTime settlementDate, OrderType orderType, decimal amount)
-        {
-            SettlementDate = settlementDate;
-            Amount = amount;
-        }
-
-        /// <summary>
-        /// Deserializes a CashTransaction.
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        protected CashTransaction(SerializationInfo info, StreamingContext context)
-        {
-            if(info == null) throw new ArgumentNullException("info");
-
-            _settlementDate = info.GetDateTime("SettlementDate");
-            _amount = info.GetDecimal("Amount");
-        }
-
         protected CashTransaction()
         {
         }
 
-        #endregion
-
-        #region Implementation of ISerializable
-
-        /// <summary>
-        /// Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with the data needed to serialize the target object.
-        /// </summary>
-        /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data. </param><param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization. </param><exception cref="T:System.Security.SecurityException">The caller does not have the required permission. </exception>
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        protected CashTransaction(DateTime settlementDate, OrderType type, decimal amount)
         {
-            if(info == null) throw new ArgumentNullException("info");
-
-            info.AddValue("SettlementDate", _settlementDate);
-            info.AddValue("OrderType", OrderType);
-            info.AddValue("Amount", _amount);
+            SettlementDate = settlementDate;
+            OrderType = type;
+            Amount = amount;
         }
 
         #endregion
@@ -75,11 +38,9 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator ==(CashTransaction left, CashTransaction right)
         {
-            bool typesMatch = left.OrderType == right.OrderType;
-            bool datesMatch = left._settlementDate == right._settlementDate;
-            bool amountsMatch = left._amount == right._amount;
-
-            return typesMatch && datesMatch && amountsMatch;
+            return left.OrderType == right.OrderType &&
+                   left.SettlementDate == right.SettlementDate &&
+                   left.Amount == right.Amount;
         }
 
         /// <summary>
@@ -91,6 +52,18 @@ namespace Sonneville.PriceTools
         public static bool operator !=(CashTransaction left, CashTransaction right)
         {
             return !(left == right);
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(ITransaction other)
+        {
+            return Equals((object) other);
         }
 
         /// <summary>
@@ -109,30 +82,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(CashTransaction other)
-        {
-            return Equals((object)other);
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ICashTransaction other)
-        {
-            return Equals((object)other);
-        }
-
-        /// <summary>
         /// Serves as a hash function for a particular type. 
         /// </summary>
         /// <returns>
@@ -143,7 +92,7 @@ namespace Sonneville.PriceTools
         {
             unchecked
             {
-                return (_settlementDate.GetHashCode()*397) ^ _amount.GetHashCode();
+                return (SettlementDate.GetHashCode()*397) ^ Amount.GetHashCode();
             }
         }
 
@@ -154,7 +103,11 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the <see cref = "PriceTools.OrderType" /> of this CashTransaction.
         /// </summary>
-        public abstract OrderType OrderType { get; }
+        public OrderType OrderType
+        {
+            get { return _type; }
+            protected set { _type = value; }
+        }
 
         #endregion
     }

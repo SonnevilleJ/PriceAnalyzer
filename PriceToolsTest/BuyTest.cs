@@ -21,29 +21,30 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void BuyWithNegativeSharesTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 100.00m;      // bought at $100.00 per share
             const double shares = -5;           // bought -5 shares - error
-            const decimal commission = 7.95m;   // bought with $7.95 commission
-            
-            new Buy(date, ticker, price, shares, commission);
+
+            new Buy
+                {
+                    Shares = shares,
+                };
         }
 
         /// <summary>
         ///A test for Price
         ///</summary>
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void BuyWithNegativePriceTest()
+        public void BuyPriceNegativeTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = -100.00m;     // bought at $-100.00 per share - error
-            const double shares = 5;            // bought 5 shares
-            const decimal commission = 7.95m;   // bought with $7.95 commission
-            
-            new Buy(date, ticker, price, shares, commission);
+            const decimal price = -100.00m;     // bought at $100.00 per share
+
+            IShareTransaction target = new Buy
+            {
+                Price = price,
+            };
+
+            const decimal expected = 100.00m;
+            decimal actual = target.Price;
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -53,17 +54,16 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void BuyWithNegativeCommissionTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 100.00m;      // bought at $100.00 per share
-            const double shares = 5;            // bought 5 shares
             const decimal commission = -7.95m;  // bought with $-7.95 commission - error
 
-            new Buy(date, ticker, price, shares, commission);
+            new Buy
+                {
+                    Commission = commission
+                };
         }
 
         [TestMethod()]
-        public void SerializeBuyTransactionTest()
+        public void EntityBuyTest()
         {
             const string ticker = "DE";
             DateTime date = new DateTime(2001, 1, 1);
@@ -71,9 +71,16 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5;            // 5 shares
             const decimal commission = 5.0m;    // with $5 commission
 
-            IShareTransaction target = new Buy(date, ticker, price, shares, commission);
+            IShareTransaction target = new Buy
+                                           {
+                                               SettlementDate = date,
+                                               Ticker = ticker,
+                                               Price = price,
+                                               Shares = shares,
+                                               Commission = commission
+                                           };
 
-            TestUtilities.VerifySerialization(target);
+            TestUtilities.VerifyTransactionEntity(target);
         }
 
         /// <summary>
@@ -83,12 +90,11 @@ namespace Sonneville.PriceToolsTest
         public void BuyTickerTest()
         {
             const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 100.00m;      // bought at $100.00 per share
-            const double shares = 5;            // bought 5 shares
-            const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = new Buy(date, ticker, price, shares, commission);
+            IShareTransaction target = new Buy
+                                           {
+                                               Ticker = ticker,
+                                           };
 
             const string expected = ticker;
             string actual = target.Ticker;
@@ -101,13 +107,12 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void BuySettlementDateTest()
         {
-            const string ticker = "DE";
             DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 100.00m;      // bought at $100.00 per share
-            const double shares = 5;            // bought 5 shares
-            const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = new Buy(date, ticker, price, shares, commission);
+            IShareTransaction target = new Buy
+                                           {
+                                               SettlementDate = date,
+                                           };
 
             DateTime expected = date;
             DateTime actual = target.SettlementDate;
@@ -120,13 +125,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void BuyOrderTypeTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 100.00m;      // bought at $100.00 per share
-            const double shares = 5;            // bought 5 shares
-            const decimal commission = 7.95m;   // bought with $7.95 commission
-
-            IShareTransaction target = new Buy(date, ticker, price, shares, commission);
+            IShareTransaction target = new Buy();
 
             const OrderType expected = OrderType.Buy;
             OrderType actual = target.OrderType;
@@ -137,15 +136,14 @@ namespace Sonneville.PriceToolsTest
         ///A test for Price
         ///</summary>
         [TestMethod()]
-        public void BuyPriceTest()
+        public void BuyPricePositiveTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
             const decimal price = 100.00m;      // bought at $100.00 per share
-            const double shares = 5;            // bought 5 shares
-            const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = new Buy(date, ticker, price, shares, commission);
+            IShareTransaction target = new Buy
+                                           {
+                                               Price = price,
+                                           };
 
             const decimal expected = 100.00m;
             decimal actual = target.Price;
@@ -158,13 +156,12 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void BuySharesTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 100.00m;      // bought at $100.00 per share
             const double shares = 5;            // bought 5 shares
-            const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = new Buy(date, ticker, price, shares, commission);
+            IShareTransaction target = new Buy
+                                           {
+                                               Shares = shares,
+                                           };
 
             const double expected = shares;
             double actual = target.Shares;
@@ -177,23 +174,16 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void BuyCommissionTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 100.00m;      // buy at $100.00 per share
-            const double shares = 5;            // buy 5 shares
             const decimal commission = 7.95m;   // $7.95 trading commission
 
-            IShareTransaction target = new Buy(date, ticker, price, shares, commission);
+            IShareTransaction target = new Buy
+                                           {
+                                               Commission = commission
+                                           };
 
             const decimal expected = commission;
             decimal actual = target.Commission;
             Assert.AreEqual(expected, actual);
         }
-
-
-
-
-
-
     }
 }

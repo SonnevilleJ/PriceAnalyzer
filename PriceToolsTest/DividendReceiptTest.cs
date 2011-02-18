@@ -15,27 +15,26 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DividendReceiptWithNegativeSharesTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2011, 1, 15);
-            const decimal price = 2.0m;         // dividend of $2.00 per share
             const double shares = -5;           // received -5 shares - error
 
-            new DividendReceipt(date, ticker, price, shares);
+            new DividendReceipt
+                {
+                    Shares = shares,
+                };
         }
 
         /// <summary>
         ///A test for Price
         ///</summary>
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DividendReceiptWithNegativePriceTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2011, 1, 15);
             const decimal price = -2.0m;        // bought at $-2.00 per share - error
-            const double shares = 5;            // received 5 shares
 
-            new DividendReceipt(date, ticker, price, shares);
+            new DividendReceipt
+                {
+                    Price = price,
+                };
         }
 
         [TestMethod()]
@@ -46,9 +45,45 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 2.00m;     // $2.00 per share
             const double shares = 5;            // received 5 shares
 
-            IShareTransaction target = new DividendReceipt(date, ticker, price, shares);
+            IShareTransaction target = new DividendReceipt
+                                           {
+                                               SettlementDate = date,
+                                               Ticker = ticker,
+                                               Price = price,
+                                               Shares = shares,
+                                           };
 
             TestUtilities.VerifySerialization(target);
+        }
+
+        /// <summary>
+        ///A test for Ticker
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void DividendReinvestmentCommissionNegativeTest()
+        {
+            const decimal commission = -7.95m;  // commission of $7.95 - error
+
+            new DividendReceipt
+            {
+                Commission = commission
+            };
+        }
+
+        /// <summary>
+        ///A test for Ticker
+        ///</summary>
+        [TestMethod()]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void DividendReinvestmentCommissionPositiveTest()
+        {
+            const decimal commission = 7.95m;   // commission of $7.95 - error
+
+            new DividendReceipt
+            {
+                Commission = commission
+            };
         }
 
         /// <summary>
@@ -58,11 +93,11 @@ namespace Sonneville.PriceToolsTest
         public void DividendReceiptTickerTest()
         {
             const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 2.00m;        // received $2.00 per share
-            const double shares = 5;            // received 5 shares
 
-            IShareTransaction target = new DividendReceipt(date, ticker, price, shares);
+            IShareTransaction target = new DividendReceipt
+                                           {
+                                               Ticker = ticker,
+                                           };
 
             const string expected = ticker;
             string actual = target.Ticker;
@@ -75,12 +110,12 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void DividendReceiptSettlementDateTest()
         {
-            const string ticker = "DE";
             DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 2.00m;        // received $2.00 per share
-            const double shares = 5;            // received 5 shares
 
-            IShareTransaction target = new DividendReceipt(date, ticker, price, shares);
+            IShareTransaction target = new DividendReceipt
+                                           {
+                                               SettlementDate = date,
+                                           };
 
             DateTime expected = date;
             DateTime actual = target.SettlementDate;
@@ -93,15 +128,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void DividendReceiptOrderTypeTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const OrderType type = OrderType.DividendReceipt;
-            const decimal price = 2.00m;        // received $2.00 per share
-            const double shares = 5;            // received 5 shares
+            IShareTransaction target = new DividendReceipt();
 
-            IShareTransaction target = new DividendReceipt(date, ticker, price, shares);
-
-            const OrderType expected = type;
+            const OrderType expected = OrderType.DividendReceipt;
             OrderType actual = target.OrderType;
             Assert.AreEqual(expected, actual);
         }
@@ -112,12 +141,12 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void DividendReceiptPriceTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
             const decimal price = 2.00m;        // received $2.00 per share
-            const double shares = 5;            // received 5 shares
 
-            IShareTransaction target = new DividendReceipt(date, ticker, price, shares);
+            IShareTransaction target = new DividendReceipt
+                                           {
+                                               Price = price,
+                                           };
 
             const decimal expected = price;
             decimal actual = target.Price;
@@ -130,12 +159,12 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void DividendReceiptSharesTest()
         {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
-            const decimal price = 2.00m;        // received $2.00 per share
             const double shares = 5;            // received 5 shares
 
-            IShareTransaction target = new DividendReceipt(date, ticker, price, shares);
+            IShareTransaction target = new DividendReceipt
+                                           {
+                                               Shares = shares,
+                                           };
 
             const double expected = shares;
             double actual = target.Shares;

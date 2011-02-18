@@ -1,14 +1,20 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a transaction to sell shares.
     /// </summary>
-    [Serializable]
-    public sealed class Sell : ShareTransaction
+    public sealed partial class Sell : ShareTransaction
     {
+        /// <summary>
+        /// Constructs a Sell ShareTransaction.
+        /// </summary>
+        public Sell()
+        {
+            OrderType = OrderType.Sell;
+        }
+
         /// <summary>
         /// Constructs a Sell ShareTransaction.
         /// </summary>
@@ -20,27 +26,6 @@ namespace Sonneville.PriceTools
         public Sell(DateTime date, string ticker, decimal price, double shares, decimal commission)
             : base(date, OrderType.Sell, ticker, price, shares, commission)
         {
-        }
-
-        /// <summary>
-        /// Deserializes a Sell.
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        private Sell(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-
-        /// <summary>
-        /// Gets the price at which the ShareTransaction took place.
-        /// </summary>
-        public override decimal Price
-        {
-            get
-            {
-                return -1 * base.Price;
-            }
         }
     }
 }

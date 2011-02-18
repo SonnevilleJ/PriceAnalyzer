@@ -1,14 +1,20 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a transaction to buy shares.
     /// </summary>
-    [Serializable]
-    public sealed class Buy : ShareTransaction
+    public sealed partial class Buy : ShareTransaction
     {
+        /// <summary>
+        /// Constructs a Buy ShareTransaction.
+        /// </summary>
+        public Buy()
+        {
+            OrderType = OrderType.Buy;
+        }
+
         /// <summary>
         /// Constructs a Buy ShareTransaction.
         /// </summary>
@@ -20,26 +26,6 @@ namespace Sonneville.PriceTools
         public Buy(DateTime date, string ticker, decimal price, double shares, decimal commission)
             : base(date, OrderType.Buy, ticker, price, shares, commission)
         {
-        }
-
-        /// <summary>
-        /// Deserializes a Buy.
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        private Buy(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-        }
-
-        /// <summary>
-        /// Serializes a Buy.
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            base.GetObjectData(info, context);
         }
     }
 }

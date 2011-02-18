@@ -1,12 +1,11 @@
-﻿using System;
-using System.Runtime.Serialization;
+﻿using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     ///   Represents a transaction (or order) for a financial security.
     /// </summary>
-    public interface IShareTransaction : ITransaction, ISerializable, IEquatable<IShareTransaction>
+    public interface IShareTransaction : ITransaction
     {
         /// <summary>
         ///   Gets the ticker symbol of the security traded in this IShareTransaction.

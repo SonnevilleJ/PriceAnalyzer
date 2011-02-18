@@ -28,7 +28,6 @@ namespace Sonneville.PriceToolsTest
         ///A test for Price
         ///</summary>
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SellShortWithNegativePriceTest()
         {
             const string ticker = "DE";
