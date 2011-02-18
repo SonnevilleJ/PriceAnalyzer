@@ -1,5 +1,4 @@
 ﻿using System;
-using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.Utilities;
@@ -15,56 +14,6 @@ namespace Sonneville.PriceToolsTest
     [TestClass()]
     public class PricePeriodTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
         [TestMethod()]
         public void ComparePricePeriodTest()
         {
@@ -157,7 +106,7 @@ namespace Sonneville.PriceToolsTest
 
             try
             {
-                PricePeriod target = new PricePeriod(d2, d1, open, high, low, close);
+                new PricePeriod(d2, d1, open, high, low, close);
             }
             catch
             {
@@ -181,7 +130,7 @@ namespace Sonneville.PriceToolsTest
 
             try
             {
-                PricePeriod target = new PricePeriod(d1, d2, open, low, high, close);
+                new PricePeriod(d1, d2, open, low, high, close);
             }
             catch
             {
@@ -205,7 +154,7 @@ namespace Sonneville.PriceToolsTest
 
             try
             {
-                PricePeriod target = new PricePeriod(d1, d2, high, open, low, close);
+                new PricePeriod(d1, d2, high, open, low, close);
             }
             catch
             {
@@ -229,7 +178,7 @@ namespace Sonneville.PriceToolsTest
 
             try
             {
-                PricePeriod target = new PricePeriod(d1, d2, low, high, open, close);
+                new PricePeriod(d1, d2, low, high, open, close);
             }
             catch
             {

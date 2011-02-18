@@ -153,11 +153,11 @@ namespace Sonneville.PriceTools
         /// Determines if the Indicator has a valid value for a given date.
         /// </summary>
         /// <remarks>Assumes the Indicator has a valid value for every date of the underlying IPriceSeries.</remarks>
-        /// <param name="date">The date to check.</param>
+        /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the Indicator has a valid value for the given date.</returns>
-        public virtual bool HasValue(DateTime date)
+        public virtual bool HasValue(DateTime settlementDate)
         {
-            return (date >= Head && date <= Tail);
+            return (settlementDate >= Head && settlementDate <= Tail);
         }
 
         #endregion

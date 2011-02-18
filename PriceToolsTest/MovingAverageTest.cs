@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 
@@ -10,56 +7,6 @@ namespace Sonneville.PriceToolsTest
     [TestClass()]
     public class MovingAverageTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
         [TestMethod]
         public void DefaultConstructorAssignsSimpleMethod()
         {
@@ -86,7 +33,7 @@ namespace Sonneville.PriceToolsTest
             IPriceSeries series = new PriceSeries(p1, p2, p3, p4, p5, p6);
 
             const int range = 2;
-            MovingAverage ma = new MovingAverage(series, range, MovingAverageMethod.Simple);
+            MovingAverage ma = new MovingAverage(series, range);
 
             for (int i = range; i < series.Periods.Count; i++)
             {
@@ -113,7 +60,7 @@ namespace Sonneville.PriceToolsTest
             // create 4 day moving average
             const int range = 4;
             int span = series.Periods.Count - (range - 1);
-            MovingAverage avg = new MovingAverage(series, range, MovingAverageMethod.Simple);
+            MovingAverage avg = new MovingAverage(series, range);
             Assert.IsTrue(avg.Range == range);
             avg.CalculateAll();
             Assert.IsTrue(avg.Last == 2.5m);

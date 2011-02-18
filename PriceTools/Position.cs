@@ -219,16 +219,16 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Determines if the ITimeSeries has a valid value for a given date.
         /// </summary>
-        /// <param name = "date">The date to check.</param>
+        /// <param name = "settlementDate">The date to check.</param>
         /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
-        public bool HasValue(DateTime date)
+        public bool HasValue(DateTime settlementDate)
         {
             DateTime end = Tail;
-            if (GetValue(date) != 0)
+            if (GetValue(settlementDate) != 0)
             {
-                end = date;
+                end = settlementDate;
             }
-            return date >= Head && date <= end;
+            return settlementDate >= Head && settlementDate <= end;
         }
 
         /// <summary>
@@ -532,15 +532,9 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator ==(Position left, Position right)
         {
-            if (left._ticker == right._ticker)
-            {
-                if (left.Transactions.Count == right.Transactions.Count)
-                {
-                    return left.Transactions.All(transaction => right.Transactions.Contains(transaction));
-                }
-                return false;
-            }
-            return false;
+            return left._ticker == right._ticker &&
+                left.Transactions.Count == right.Transactions.Count &&
+                left.Transactions.All(transaction => right.Transactions.Contains(transaction));
         }
 
         /// <summary>

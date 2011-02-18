@@ -1,6 +1,4 @@
-﻿using System.Runtime.Serialization;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
     ///   Represents a transaction (or order) for a financial security.

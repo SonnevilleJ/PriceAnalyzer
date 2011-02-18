@@ -109,11 +109,11 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Determines if the MovingAverage has a valid value for a given date.
         /// </summary>
-        /// <param name="date">The date to check.</param>
+        /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the MovingAverage has a valid value for the given date.</returns>
-        public override bool HasValue(DateTime date)
+        public override bool HasValue(DateTime settlementDate)
         {
-            return (date >= Head.AddDays(Range - 1) && date <= Tail);
+            return (settlementDate >= Head.AddDays(Range - 1) && settlementDate <= Tail);
         }
     }
 }

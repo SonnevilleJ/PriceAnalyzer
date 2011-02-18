@@ -95,7 +95,7 @@ namespace Sonneville.PriceTools
         /// <returns>An <see cref = "IPriceSeries" /> created from the CSV data.</returns>
         public static IPriceSeries LoadFromCsv(Stream csvStream)
         {
-            return YahooDataManager.PriceParser.ParsePriceSeries(csvStream);
+            return YahooPriceSeriesProvider.Instance.ParsePriceSeries(csvStream);
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Sonneville.PriceTools
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
         decimal ITimeSeries.this[DateTime index]
         {
-            get { return ((IPriceSeries)this)[index].Close; }
+            get { return this[index].Close; }
         }
 
         /// <summary>
@@ -197,11 +197,11 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Determines if the IPriceSeries has a valid value for a given date.
         /// </summary>
-        /// <param name="date">The date to check.</param>
+        /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the IPriceSeries has a valid value for the given date.</returns>
-        public bool HasValue(DateTime date)
+        public bool HasValue(DateTime settlementDate)
         {
-            return (date >= Head && date <= Tail);
+            return (settlementDate >= Head && settlementDate <= Tail);
         }
 
         #endregion

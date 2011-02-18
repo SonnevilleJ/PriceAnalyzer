@@ -180,16 +180,16 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Determines if the ITimeSeries has a valid value for a given date.
         /// </summary>
-        /// <param name="date">The date to check.</param>
+        /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
-        public bool HasValue(DateTime date)
+        public bool HasValue(DateTime settlementDate)
         {
             DateTime end = Tail;
-            if (GetValue(date) != 0)
+            if (GetValue(settlementDate) != 0)
             {
-                end = date;
+                end = settlementDate;
             }
-            return date >= Head && date <= end;
+            return settlementDate >= Head && settlementDate <= end;
         }
 
         #endregion

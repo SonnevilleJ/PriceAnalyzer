@@ -7,15 +7,54 @@ namespace Sonneville.PriceTools.Data
     /// <summary>
     ///   Parses an <see cref = "IPriceSeries" /> from Yahoo! CSV files.
     /// </summary>
-    public sealed class YahooPriceSeriesProvider : PriceSeriesProvider
+    public sealed class YahooPriceSeriesProvider : PriceSeriesProvider, IDisposable
     {
+        #region Private Members
+
+        private static YahooPriceSeriesProvider _instance;
+
+        #endregion
+
         #region Constructors
 
-        internal YahooPriceSeriesProvider()
+        private YahooPriceSeriesProvider()
         {
         }
 
+        ~YahooPriceSeriesProvider()
+        {
+            Dispose(false);
+        }
+
         #endregion
+
+        #region IDispose Implementation
+        
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                // dispose of managed resources here
+            }
+
+            if (_instance != null)
+            {
+                _instance.Dispose();
+                _instance = null;
+            }
+
+            base.Dispose(disposing);
+        }
+
+        #endregion
+        
+        /// <summary>
+        /// Gets the instance of the PriceSeriesProvider.
+        /// </summary>
+        public static YahooPriceSeriesProvider Instance
+        {
+            get { return _instance ?? (_instance = new YahooPriceSeriesProvider()); }
+        }
 
         #region IPriceSeriesProvider Implementation
 
