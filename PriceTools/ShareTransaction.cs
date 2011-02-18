@@ -14,19 +14,8 @@ namespace Sonneville.PriceTools
 
         #region Constructors
 
-        protected ShareTransaction()
+        protected internal ShareTransaction()
         {
-            SettlementDate = DateTime.Today;
-        }
-
-        protected ShareTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
-        {
-            SettlementDate = date;
-            OrderType = type;
-            Ticker = ticker;
-            Price = price;
-            Shares = shares;
-            Commission = commission;
         }
 
         #endregion

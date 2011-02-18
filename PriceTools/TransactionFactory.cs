@@ -25,17 +25,59 @@ namespace Sonneville.PriceTools
                 case OrderType.Withdrawal:
                     throw new ArgumentOutOfRangeException("type", String.Format(CultureInfo.CurrentCulture, "Deposits and Withdrawals must be created with CreateDeposit() or CreateWithdrawal()."));
                 case OrderType.Buy:
-                    return new Buy(date, ticker, price, shares, commission);
+                    return new Buy
+                               {
+                                   SettlementDate = date,
+                                   Ticker = ticker,
+                                   Price = price,
+                                   Shares = shares,
+                                   Commission = commission
+                               };
                 case OrderType.BuyToCover:
-                    return new BuyToCover(date, ticker, price, shares, commission);
+                    return new BuyToCover
+                               {
+                                   SettlementDate = date,
+                                   Ticker = ticker,
+                                   Price = price,
+                                   Shares = shares,
+                                   Commission = commission
+                               };
                 case OrderType.DividendReceipt:
-                    return new DividendReceipt(date, ticker, price, shares);
+                    return new DividendReceipt
+                               {
+                                   SettlementDate = date,
+                                   Ticker = ticker,
+                                   Price = price,
+                                   Shares = shares,
+                                   Commission = commission
+                               };
                 case OrderType.DividendReinvestment:
-                    return new DividendReinvestment(date, ticker, price, shares);
+                    return new DividendReinvestment
+                               {
+                                   SettlementDate = date,
+                                   Ticker = ticker,
+                                   Price = price,
+                                   Shares = shares,
+                                   Commission = commission
+                               };
                 case OrderType.Sell:
-                    return new Sell(date, ticker, price, shares, commission);
+                    return new Sell
+                               {
+                                   SettlementDate = date,
+                                   Ticker = ticker,
+                                   Price = price,
+                                   Shares = shares,
+                                   Commission = commission
+                               };
                 case OrderType.SellShort:
-                    return new SellShort(date, ticker, price, shares, commission);
+                    return new SellShort
+                               {
+                                   SettlementDate = date,
+                                   Ticker = ticker,
+                                   Price = price,
+                                   Shares = shares,
+                                   Commission = commission
+                               };
                 default:
                     throw new ArgumentOutOfRangeException("type", String.Format(CultureInfo.CurrentCulture, "Unknown OrderType: {0}", type));
             }

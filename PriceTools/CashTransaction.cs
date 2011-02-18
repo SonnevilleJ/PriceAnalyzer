@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a transaction for an <see cref="ICashAccount"/>.
@@ -15,15 +13,8 @@ namespace Sonneville.PriceTools
 
         #region Constructors
 
-        protected CashTransaction()
+        protected internal CashTransaction()
         {
-        }
-
-        protected CashTransaction(DateTime settlementDate, OrderType type, decimal amount)
-        {
-            SettlementDate = settlementDate;
-            OrderType = type;
-            Amount = amount;
         }
 
         #endregion
@@ -63,7 +54,7 @@ namespace Sonneville.PriceTools
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(ITransaction other)
         {
-            return Equals((object) other);
+            return Equals((object)other);
         }
 
         /// <summary>
@@ -92,7 +83,7 @@ namespace Sonneville.PriceTools
         {
             unchecked
             {
-                return (SettlementDate.GetHashCode()*397) ^ Amount.GetHashCode();
+                return (SettlementDate.GetHashCode() * 397) ^ Amount.GetHashCode();
             }
         }
 
@@ -110,5 +101,14 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
+
+        partial void OnAmountChanged()
+        {
+            // ensure Amount is positive for Deposit and negative for Withdrawal
+            if ((OrderType == OrderType.Deposit && Amount < 0) || (OrderType == OrderType.Withdrawal && Amount > 0))
+            {
+                Amount = -Amount;
+            }
+        }
     }
 }

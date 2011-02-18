@@ -135,17 +135,19 @@ namespace Sonneville.PriceTools
             get
             {
                 DateTime earliest = DateTime.Now;
+                if(CashAccount.Transactions.Count > 0)
+                {
+                    ICashTransaction first = CashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).First();
+                    
+                    earliest = first.SettlementDate;
+                }
+                if (Positions.Values.Count > 0)
+                {
+                    IShareTransaction first = Positions.Values.OrderBy(position => position.Head).First().Transactions.OrderBy(trans => trans.SettlementDate).First();
 
-                // loops produce "Access to modified closure" warning in Resharper. This is expected/desired behavior.
-                // TODO: use OrderBy and First instead of looping through all values.
-                foreach (var position in Positions.Values.Where(position => position.Head < earliest))
-                {
-                    earliest = position.Head;
+                    earliest = first.SettlementDate;
                 }
-                foreach (var transaction in CashAccount.Transactions.Where(transaction => transaction.SettlementDate < earliest))
-                {
-                    earliest = transaction.SettlementDate;
-                }
+
                 return earliest;
             }
         }
@@ -157,17 +159,20 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                DateTime latest = new DateTime();
-                // loops produce "Access to modified closure" warning in Resharper. This is expected/desired behavior.
-                // TODO: use OrderBy and First instead of looping through all values.
-                foreach (var position in Positions.Values.Where(position => position.Tail > latest))
+                DateTime latest = DateTime.Now;
+                if (Positions.Values.Count > 0)
                 {
-                    latest = position.Tail;
+                    IShareTransaction first = Positions.Values.OrderBy(position => position.Head).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last();
+
+                    latest = first.SettlementDate;
                 }
-                foreach (var transaction in CashAccount.Transactions.Where(transaction => transaction.SettlementDate > latest))
+                if (CashAccount.Transactions.Count > 0)
                 {
-                    latest = transaction.SettlementDate;
+                    ICashTransaction first = CashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).Last();
+
+                    latest = first.SettlementDate;
                 }
+
                 return latest;
             }
         }

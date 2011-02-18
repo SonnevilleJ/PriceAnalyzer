@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Data;
-using System.Data.Objects;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.Utilities;
@@ -13,10 +11,15 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void DepositEntityTest()
         {
-            DateTime dateTime = new DateTime(2011, 1, 9);
+            DateTime date = new DateTime(2011, 1, 9);
             const decimal amount = 1000.00m;
 
-            Deposit target = new Deposit(dateTime, amount);
+            Deposit target = new Deposit
+                                 {
+                                     SettlementDate = date,
+                                     Amount = amount
+                                 };
+
             TestUtilities.VerifyTransactionEntity(target);
         }
 
@@ -26,11 +29,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void DepositDateTest()
         {
-            DateTime dateTime = new DateTime(2011, 1, 9);
-            const decimal amount = 1000.00m;
-            ICashTransaction target = new Deposit(dateTime, amount);
+            DateTime date = new DateTime(2011, 1, 9);
 
-            DateTime expected = dateTime;
+            ICashTransaction target = new Deposit
+                                          {
+                                              SettlementDate = date,
+                                          };
+
+            DateTime expected = date;
             DateTime actual = target.SettlementDate;
             Assert.AreEqual(expected, actual);
         }
@@ -41,9 +47,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void DepositOrderTypeTest()
         {
-            DateTime dateTime = new DateTime(2011, 1, 9);
-            const decimal amount = 1000.00m;
-            ICashTransaction target = new Deposit(dateTime, amount);
+            ICashTransaction target = new Deposit();
 
             const OrderType expected = OrderType.Deposit;
             OrderType actual = target.OrderType;
@@ -56,11 +60,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void DepositAmountPositiveTest()
         {
-            DateTime dateTime = new DateTime(2011, 1, 9);
             const decimal amount = 1000.00m;
-            ICashTransaction target = new Deposit(dateTime, amount);
 
-            const decimal expected = amount;
+            ICashTransaction target = new Deposit
+                                          {
+                                              Amount = amount
+                                          };
+
+            const decimal expected = 1000.00m;
             decimal actual = target.Amount;
             Assert.AreEqual(expected, actual);
         }
@@ -69,13 +76,18 @@ namespace Sonneville.PriceToolsTest
         ///A test for Amount
         ///</summary>
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DepositAmountNegativeTest()
         {
-            DateTime dateTime = new DateTime(2011, 1, 9);
             const decimal amount = -1000.00m;
 
-            new Deposit(dateTime, amount);
+            ICashTransaction target = new Deposit
+            {
+                Amount = amount
+            };
+
+            const decimal expected = 1000.00m;
+            decimal actual = target.Amount;
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod()]
@@ -84,7 +96,11 @@ namespace Sonneville.PriceToolsTest
             DateTime date = new DateTime(2001, 1, 1);
             const decimal amount = 100.00m;   // $100.00
 
-            ICashTransaction target = new Deposit(date, amount);
+            ICashTransaction target = new Deposit
+                                          {
+                                              SettlementDate = date,
+                                              Amount = amount
+                                          };
 
             TestUtilities.VerifySerialization(target);
         }

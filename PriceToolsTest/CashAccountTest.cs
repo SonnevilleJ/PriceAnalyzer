@@ -1,7 +1,6 @@
 ﻿using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using System.Collections.Generic;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
@@ -15,58 +14,6 @@ namespace Sonneville.PriceToolsTest
     [TestClass()]
     public class CashAccountTest
     {
-
-
-        private TestContext testContextInstance;
-
-        /// <summary>
-        ///Gets or sets the test context which provides
-        ///information about and functionality for the current test run.
-        ///</summary>
-        public TestContext TestContext
-        {
-            get
-            {
-                return testContextInstance;
-            }
-            set
-            {
-                testContextInstance = value;
-            }
-        }
-
-        #region Additional test attributes
-        // 
-        //You can use the following additional attributes as you write your tests:
-        //
-        //Use ClassInitialize to run code before running the first test in the class
-        //[ClassInitialize()]
-        //public static void MyClassInitialize(TestContext testContext)
-        //{
-        //}
-        //
-        //Use ClassCleanup to run code after all tests in a class have run
-        //[ClassCleanup()]
-        //public static void MyClassCleanup()
-        //{
-        //}
-        //
-        //Use TestInitialize to run code before running each test
-        //[TestInitialize()]
-        //public void MyTestInitialize()
-        //{
-        //}
-        //
-        //Use TestCleanup to run code after each test has run
-        //[TestCleanup()]
-        //public void MyTestCleanup()
-        //{
-        //}
-        //
-        #endregion
-
-
-
         /// <summary>
         ///A test for Deposit
         ///</summary>
@@ -87,13 +34,16 @@ namespace Sonneville.PriceToolsTest
         ///A test for Deposit
         ///</summary>
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DepositNegativeTest()
         {
             ICashAccount target = new CashAccount();
             DateTime dateTime = new DateTime(2010, 1, 16);
             const decimal amount = -500.00m;
             target.Deposit(dateTime, amount);
+
+            const decimal expectedValue = 500.00m;
+            decimal actualValue = target.GetCashBalance(dateTime);
+            Assert.AreEqual(expectedValue, actualValue);
         }
 
         /// <summary>
@@ -117,7 +67,6 @@ namespace Sonneville.PriceToolsTest
         ///A test for Withdraw
         ///</summary>
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void WithdrawNegativeTest()
         {
             ICashAccount target = new CashAccount();
@@ -126,6 +75,10 @@ namespace Sonneville.PriceToolsTest
             const decimal withdraw = -500.00m;
             target.Deposit(dateTime, deposit);
             target.Withdraw(dateTime, withdraw);
+
+            const decimal expectedValue = 0.00m;
+            decimal actualValue = target.GetCashBalance(dateTime);
+            Assert.AreEqual(expectedValue, actualValue);
         }
 
         /// <summary>

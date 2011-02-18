@@ -14,11 +14,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void WithdrawalDateTest()
         {
-            DateTime dateTime = new DateTime(2011, 1, 9);
-            const decimal amount = 1000.00m;
-            ICashTransaction target = new Withdrawal(dateTime, amount);
+            DateTime date = new DateTime(2011, 1, 9);
 
-            DateTime expected = dateTime;
+            ICashTransaction target = new Withdrawal
+                                          {
+                                              SettlementDate = date,
+                                          };
+
+            DateTime expected = date;
             DateTime actual = target.SettlementDate;
             Assert.AreEqual(expected, actual);
         }
@@ -29,9 +32,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void WithdrawalOrderTypeTest()
         {
-            DateTime dateTime = new DateTime(2011, 1, 9);
-            const decimal amount = 1000.00m;
-            ICashTransaction target = new Withdrawal(dateTime, amount);
+            ICashTransaction target = new Withdrawal();
 
             const OrderType expected = OrderType.Withdrawal;
             OrderType actual = target.OrderType;
@@ -44,11 +45,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void WithdrawalAmountPositiveTest()
         {
-            DateTime dateTime = new DateTime(2011, 1, 9);
             const decimal amount = 1000.00m;
-            ICashTransaction target = new Withdrawal(dateTime, amount);
 
-            const decimal expected = amount;
+            ICashTransaction target = new Withdrawal
+                                          {
+                                              Amount = amount
+                                          };
+
+            const decimal expected = -1000.00m;
             decimal actual = target.Amount;
             Assert.AreEqual(expected, actual);
         }
@@ -57,12 +61,18 @@ namespace Sonneville.PriceToolsTest
         ///A test for Amount
         ///</summary>
         [TestMethod()]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void WithdrawalAmountNegativeTest()
         {
-            DateTime dateTime = new DateTime(2011, 1, 9);
             const decimal amount = -1000.00m;
-            new Withdrawal(dateTime, amount);
+
+            ICashTransaction target = new Withdrawal
+            {
+                Amount = amount
+            };
+
+            const decimal expected = -1000.00m;
+            decimal actual = target.Amount;
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod()]
@@ -71,7 +81,11 @@ namespace Sonneville.PriceToolsTest
             DateTime date = new DateTime(2001, 1, 1);
             const decimal amount = 100.00m;   // $100.00
 
-            ICashTransaction target = new Withdrawal(date, amount);
+            ICashTransaction target = new Withdrawal
+                                          {
+                                              SettlementDate = date,
+                                              Amount = amount
+                                          };
 
             TestUtilities.VerifySerialization(target);
         }

@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Deconstructs a CashAccount
+        /// Deserializes a CashAccount
         /// </summary>
         /// <param name="info"></param>
         /// <param name="context"></param>
@@ -64,7 +64,11 @@ namespace Sonneville.PriceTools
         /// <param name="amount">The amount of cash deposited into the CashAccount.</param>
         public void Deposit(DateTime dateTime, decimal amount)
         {
-            _cashTransactions.Add(new Deposit(dateTime, amount));
+            _cashTransactions.Add(new Deposit
+                                      {
+                                          SettlementDate = dateTime,
+                                          Amount = amount
+                                      });
         }
 
         /// <summary>
@@ -78,7 +82,11 @@ namespace Sonneville.PriceTools
             {
                 throw new InvalidOperationException("Insufficient funds.");
             }
-            _cashTransactions.Add(new Withdrawal(dateTime, amount));
+            _cashTransactions.Add(new Withdrawal
+                                      {
+                                          SettlementDate = dateTime,
+                                          Amount = amount
+                                      });
         }
 
         /// <summary>
@@ -98,9 +106,9 @@ namespace Sonneville.PriceTools
         /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetCashBalance(DateTime asOfDate)
         {
-            decimal depositedCash = _cashTransactions.Where(transaction => transaction.SettlementDate <= asOfDate && transaction.OrderType == OrderType.Deposit).Sum(transaction => transaction.Amount);
-            decimal withdrawnCash = _cashTransactions.Where(transaction => transaction.SettlementDate <= asOfDate && transaction.OrderType == OrderType.Withdrawal).Sum(transaction => transaction.Amount);
-            return depositedCash - withdrawnCash;
+            return _cashTransactions
+                .Where(transaction => transaction.SettlementDate <= asOfDate)
+                .Sum(transaction => transaction.Amount);
         }
 
         #region Equality Checks

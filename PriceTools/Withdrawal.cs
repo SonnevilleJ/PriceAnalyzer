@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a cash withdrawal from an <see cref="IPortfolio"/>.
@@ -9,23 +7,12 @@ namespace Sonneville.PriceTools
     {
         #region Constructors
 
-        private Withdrawal()
-        {
-            OrderType = OrderType.Withdrawal;
-        }
-
         /// <summary>
         /// Constructs a Withdrawal.
         /// </summary>
-        /// <param name="dateTime">The DateTime of the Withdrawal.</param>
-        /// <param name="amount">The amount of cash withdrawn.</param>
-        public Withdrawal(DateTime dateTime, decimal amount)
-            : base(dateTime, OrderType.Withdrawal, amount)
+        public Withdrawal()
         {
-            if (amount <= 0)
-            {
-                throw new ArgumentOutOfRangeException("amount", amount, "Amount of withdrawal must be greater than zero.");
-            }
+            OrderType = OrderType.Withdrawal;
         }
 
         #endregion
