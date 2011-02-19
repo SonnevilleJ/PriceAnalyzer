@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools
         private decimal? _low;
         private decimal? _open;
         private DateTime _tail;
-        private UInt64? _volume;
+        private Int64? _volume;
 
         #endregion
 
@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools
         /// <param name = "low">The lowest price during this period.</param>
         /// <param name = "close">The price at the close of this period.</param>
         /// <param name = "volume">The total volume during this period.</param>
-        public PricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, UInt64? volume = null)
+        public PricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
         {
             _head = head;
             _tail = tail;
@@ -77,7 +77,7 @@ namespace Sonneville.PriceTools
             _high = (decimal?) info.GetValue("High", typeof (decimal?));
             _low = (decimal?) info.GetValue("Low", typeof (decimal?));
             _close = (decimal) info.GetValue("Close", typeof (decimal));
-            _volume = (UInt64?) info.GetValue("Volume", typeof (UInt64?));
+            _volume = (Int64?) info.GetValue("Volume", typeof (Int64?));
         }
 
         /// <summary>
@@ -145,10 +145,20 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets or sets the total volume for this IPricePeriod.
         /// </summary>
-        public UInt64? Volume
+        public Int64? Volume
         {
             get { return _volume; }
             protected set { _volume = value; }
+        }
+
+        /// <summary>
+        /// Gets a value stored at a given DateTime index of the ITimeSeries.
+        /// </summary>
+        /// <param name="index">The DateTime of the desired value.</param>
+        /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
+        public decimal this[DateTime index]
+        {
+            get { return HasValue(index) ? Close : 0.00m; }
         }
 
         /// <summary>
@@ -167,6 +177,16 @@ namespace Sonneville.PriceTools
         {
             get { return _tail; }
             protected set { _tail = value; }
+        }
+
+        /// <summary>
+        /// Determines if the ITimeSeries has a valid value for a given date.
+        /// </summary>
+        /// <param name="settlementDate">The date to check.</param>
+        /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
+        public bool HasValue(DateTime settlementDate)
+        {
+            return settlementDate >= Head && settlementDate <= Tail;
         }
 
         /// <summary>

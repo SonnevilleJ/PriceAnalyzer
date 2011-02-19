@@ -24,7 +24,7 @@ namespace Sonneville.PriceToolsTest
             const decimal high = 120.00m;
             const decimal low = 80.00m;
             const decimal close = 110.00m;
-            const UInt64 volume = 1000;
+            const Int64 volume = 1000;
 
             PricePeriod period1 = new PricePeriod(d1, d2, open, high, low, close, volume);
             PricePeriod period2 = new PricePeriod(d2, d3, open, high, low, close, volume);
@@ -42,7 +42,7 @@ namespace Sonneville.PriceToolsTest
             const decimal high = 120.00m;
             const decimal low = 80.00m;
             const decimal close = 110.00m;
-            const UInt64 volume = 1000;
+            const Int64 volume = 1000;
 
             PricePeriod target = new PricePeriod(head, tail, open, high, low, close, volume);
 
@@ -65,7 +65,7 @@ namespace Sonneville.PriceToolsTest
             const decimal high = 120.00m;
             const decimal low = 80.00m;
             const decimal close = 110.00m;
-            const UInt64 volume = 1000;
+            const Int64 volume = 1000;
 
             PricePeriod target = new PricePeriod(d1, d2, open, high, low, close, volume);
             

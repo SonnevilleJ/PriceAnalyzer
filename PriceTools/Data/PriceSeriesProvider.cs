@@ -348,7 +348,7 @@ namespace Sonneville.PriceTools.Data
                 decimal? high = null;
                 decimal? low = null;
                 decimal close = 0m;
-                UInt64? volume = null;
+                Int64? volume = null;
                 decimal? dividend = null;
 
                 DateTime date = (DateTime) row[_tableDateColumn];
@@ -357,7 +357,7 @@ namespace Sonneville.PriceTools.Data
                 if (_fileLowColumn != null) low = row[(int) _tableLowColumn] as decimal?;
                 close = (decimal) row[_tableCloseColumn];
                 if (_fileVolumeColumn != null)
-                    volume = Convert.ToUInt64(row[(int) _tableVolumeColumn], CultureInfo.InvariantCulture);
+                    volume = Convert.ToInt64(row[(int) _tableVolumeColumn], CultureInfo.InvariantCulture);
                 if (_fileDividendsColumn != null) dividend = row[(int) _tableDividendsColumn] as decimal?;
 
                 list.Add(new PricePeriod(date, date, open, high, low, close, volume));

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Data.Objects.DataClasses;
 
 namespace Sonneville.PriceTools
 {
@@ -8,16 +10,6 @@ namespace Sonneville.PriceTools
     /// </summary>
     public interface IPriceSeries : IPricePeriod, ITimeSeries
     {
-        /// <summary>
-        /// Gets the beginning DateTime of the IPriceSeries.
-        /// </summary>
-        new DateTime Head { get; }
-
-        /// <summary>
-        /// Gets the ending DateTime of the IPriceSeries.
-        /// </summary>
-        new DateTime Tail { get; }
-
         /// <summary>
         /// Inserts an IPricePeriod to this IPriceSeries.
         /// </summary>

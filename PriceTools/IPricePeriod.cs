@@ -6,17 +6,12 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents price history for a desired length of time.
     /// </summary>
-    public interface IPricePeriod : ISerializable
+    public interface IPricePeriod : ITimeSeries, ISerializable
     {
         /// <summary>
         /// Gets the closing price for the IPricePeriod.
         /// </summary>
         decimal Close { get; }
-
-        /// <summary>
-        /// Gets the beginning DateTime of the IPricePeriod.
-        /// </summary>
-        DateTime Head { get; }
 
         /// <summary>
         /// Gets the highest price that occurred during the IPricePeriod.
@@ -34,11 +29,6 @@ namespace Sonneville.PriceTools
         decimal? Open { get; }
 
         /// <summary>
-        /// Gets the ending DateTime of the IPricePeriod.
-        /// </summary>
-        DateTime Tail { get; }
-
-        /// <summary>
         /// Gets a TimeSpan representing the total duration of the IPricePeriod.
         /// </summary>
         TimeSpan TimeSpan { get; }
@@ -46,6 +36,6 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the total volume of trades during the IPricePeriod.
         /// </summary>
-        ulong? Volume { get; }
+        Int64? Volume { get; }
     }
 }
