@@ -1,18 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Data.Objects.DataClasses;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     ///   Represents a IPosition taken using one or more <see cref = "IShareTransaction" />s.
     /// </summary>
-    public interface IPosition : ITimeSeries, ISerializable
+    public interface IPosition : ITimeSeries
     {
         /// <summary>
         ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this IPosition.
         /// </summary>
-        IList<IShareTransaction> Transactions { get; }
+        EntityCollection<ShareTransaction> Transactions { get; }
 
         /// <summary>
         /// Gets the ticker symbol held by this IPosition.
@@ -25,42 +24,6 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         /// <returns>The average cost of all shares held at <paramref name="settlementDate"/>.</returns>
         decimal GetAverageCost(DateTime settlementDate);
-
-        /// <summary>
-        /// Buys shares of the ticker held by this IPosition.
-        /// </summary>
-        /// <param name="settlementDate">The date of this transaction.</param>
-        /// <param name="shares">The number of shares in this transaction.</param>
-        /// <param name="price">The per-share price of this transaction.</param>
-        /// <param name="commission">The commission paid for this transaction.</param>
-        void Buy(DateTime settlementDate, double shares, decimal price, decimal commission);
-
-        /// <summary>
-        /// Buys shares of the ticker held by this IPosition to cover a previous ShortSell.
-        /// </summary>
-        /// <param name="settlementDate">The date of this transaction.</param>
-        /// <param name="shares">The number of shares in this transaction. Shares cannot exceed currently shorted shares.</param>
-        /// <param name="price">The per-share price of this transaction.</param>
-        /// <param name="commission">The commission paid for this transaction.</param>
-        void BuyToCover(DateTime settlementDate, double shares, decimal price, decimal commission);
-
-        /// <summary>
-        /// Sells shares of the ticker held by this IPosition.
-        /// </summary>
-        /// <param name="settlementDate">The date of this transaction.</param>
-        /// <param name="shares">The number of shares in this transaction. Shares connot exceed currently held shares.</param>
-        /// <param name="price">The per-share price of this transaction.</param>
-        /// <param name="commission">The commission paid for this transaction.</param>
-        void Sell(DateTime settlementDate, double shares, decimal price, decimal commission);
-
-        /// <summary>
-        /// Sell short shares of the ticker held by this IPosition.
-        /// </summary>
-        /// <param name="settlementDate">The date of this transaction.</param>
-        /// <param name="shares">The number of shares in this transaction.</param>
-        /// <param name="price">The per-share price of this transaction.</param>
-        /// <param name="commission">The commission paid for this transaction.</param>
-        void SellShort(DateTime settlementDate, double shares, decimal price, decimal commission);
 
         /// <summary>
         ///   Gets the value of any shares held the IPortfolio as of a given date.
@@ -114,5 +77,41 @@ namespace Sonneville.PriceTools
         ///   Assumes a year has 365 days.
         /// </remarks>
         decimal GetTotalAnnualReturn(DateTime settlementDate);
+
+        /// <summary>
+        /// Buys shares of the ticker held by this IPosition.
+        /// </summary>
+        /// <param name="settlementDate">The date of this shareTransaction.</param>
+        /// <param name="shares">The number of shares in this shareTransaction.</param>
+        /// <param name="price">The per-share price of this shareTransaction.</param>
+        /// <param name="commission">The commission paid for this shareTransaction.</param>
+        void Buy(DateTime settlementDate, double shares, decimal price, decimal commission);
+
+        /// <summary>
+        /// Buys shares of the ticker held by this IPosition to cover a previous ShortSell.
+        /// </summary>
+        /// <param name="settlementDate">The date of this shareTransaction.</param>
+        /// <param name="shares">The number of shares in this shareTransaction. Shares cannot exceed currently shorted shares.</param>
+        /// <param name="price">The per-share price of this shareTransaction.</param>
+        /// <param name="commission">The commission paid for this shareTransaction.</param>
+        void BuyToCover(DateTime settlementDate, double shares, decimal price, decimal commission);
+
+        /// <summary>
+        /// Sells shares of the ticker held by this IPosition.
+        /// </summary>
+        /// <param name="settlementDate">The date of this shareTransaction.</param>
+        /// <param name="shares">The number of shares in this shareTransaction. Shares connot exceed currently held shares.</param>
+        /// <param name="price">The per-share price of this shareTransaction.</param>
+        /// <param name="commission">The commission paid for this shareTransaction.</param>
+        void Sell(DateTime settlementDate, double shares, decimal price, decimal commission);
+
+        /// <summary>
+        /// Sell short shares of the ticker held by this IPosition.
+        /// </summary>
+        /// <param name="settlementDate">The date of this shareTransaction.</param>
+        /// <param name="shares">The number of shares in this shareTransaction.</param>
+        /// <param name="price">The per-share price of this shareTransaction.</param>
+        /// <param name="commission">The commission paid for this shareTransaction.</param>
+        void SellShort(DateTime settlementDate, double shares, decimal price, decimal commission);
     }
 }

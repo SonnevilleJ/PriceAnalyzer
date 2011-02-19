@@ -75,9 +75,11 @@ namespace Sonneville.PriceToolsTest
             IPricePeriod p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
             IPricePeriod p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
-            PriceSeries expected = new PriceSeries(p1, p2, p3);
+            PriceSeries target = new PriceSeries(p1, p2, p3);
 
-            TestUtilities.VerifySerialization(expected);
+            IPriceSeries actual = ((IPriceSeries)TestUtilities.Serialize(target));
+            Assert.AreEqual(target, actual);
+
         }
 
         [TestMethod]

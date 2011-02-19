@@ -233,9 +233,11 @@ namespace Sonneville.PriceToolsTest
             DateTime purchaseDate = testDate.AddDays(1);
             const decimal amount = 10000m;
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            IPortfolio expected = new Portfolio(purchaseDate, amount, ticker);
+            IPortfolio target = new Portfolio(purchaseDate, amount, ticker);
 
-            TestUtilities.VerifySerialization(expected);
+            const decimal expected = amount;
+            decimal actual = ((IPortfolio)TestUtilities.Serialize(target)).GetValue(purchaseDate);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

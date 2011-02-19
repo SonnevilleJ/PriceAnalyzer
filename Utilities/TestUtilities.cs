@@ -11,38 +11,19 @@ namespace Sonneville.Utilities
     public static class TestUtilities
     {
         /// <summary>
-        ///   Performs a binary serialization of an object to a <see cref = "Stream" />.
+        ///   Performs a binary serialization and deserialization of an object to a <see cref = "Stream" />.
         /// </summary>
         /// <param name = "obj">The object to serialize.</param>
-        /// <param name = "stream">The <see cref = "Stream" /> to use for serialization.</param>
-        private static void Serialize(object obj, Stream stream)
+        public static object Serialize(object obj)
         {
-            new BinaryFormatter().Serialize(stream, obj);
-            stream.Flush();
-            stream.Position = 0; // reset cursor to enable immediate deserialization
-        }
-        
-        /// <summary>
-        ///   Performs a binary deserialization of an object from a <see cref = "Stream" />.
-        /// </summary>
-        /// <param name = "stream">The <see cref = "Stream" /> to use for deserialization.</param>
-        /// <returns>The deserialized object.</returns>
-        private static object Deserialize(Stream stream)
-        {
-            return new BinaryFormatter().Deserialize(stream);
-        }
-
-        /// <summary>
-        /// Verifies that an object serializes and deserializes correctly and equates to the original object.
-        /// </summary>
-        /// <param name="expected">The object to test.</param>
-        public static void VerifySerialization(object expected)
-        {
-            using (FileStream stream = GetTemporaryFile())
+            using (Stream stream = GetTemporaryFile())
             {
-                Serialize(expected, stream);
-                object actual = Deserialize(stream);
-                Assert.AreEqual(expected, actual);
+                BinaryFormatter formatter = new BinaryFormatter();
+                formatter.Serialize(stream, obj);
+                stream.Flush();
+                stream.Position = 0; // reset cursor to enable immediate deserialization
+
+                return formatter.Deserialize(stream);
             }
         }
 

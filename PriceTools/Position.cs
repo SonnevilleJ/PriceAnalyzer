@@ -2,15 +2,13 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     ///   A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.
     /// </summary>
-    [Serializable]
-    public class Position : IPosition
+    public partial class Position : IPosition
     {
         /// <summary>
         /// The default commission charged for a shareTransaction.
@@ -19,10 +17,6 @@ namespace Sonneville.PriceTools
 
         #region Private Members
 
-        private readonly string _ticker;
-        private readonly List<IShareTransaction> _additiveTransactions;
-        private readonly List<IShareTransaction> _subtractiveTransactions;
-
         #endregion
 
         #region Constructors
@@ -30,81 +24,29 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a new Position that will handle transactions for a given ticker symbol.
         /// </summary>
-        /// <param name="ticker">The ticker symbol that this portfolio will hold. All transactions will use this ticker symbol.</param>
-        public Position(string ticker)
+        public Position()
         {
-            if(ticker == null)
-            {
-                throw new ArgumentNullException("ticker", "Ticker must not be null.");
-            }
-            _ticker = ticker;
-            _additiveTransactions = new List<IShareTransaction>();
-            _subtractiveTransactions = new List<IShareTransaction>();
         }
 
         /// <summary>
-        /// Deserializes a Position.
+        /// Constructs a new Position that will handle transactions for a given ticker symbol.
         /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        protected Position(SerializationInfo info, StreamingContext context)
+        /// <param name="ticker">The ticker symbol that this portfolio will hold. All transactions will use this ticker symbol.</param>
+        public Position(string ticker)
         {
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
-
-            _ticker = info.GetString("Ticker");
-            _additiveTransactions =
-                (List<IShareTransaction>) info.GetValue("AdditiveTransactions", typeof (List<IShareTransaction>));
-            _subtractiveTransactions =
-                (List<IShareTransaction>) info.GetValue("SubtractiveTransactions", typeof (List<IShareTransaction>));
-            //Validate(); // DO NOT perform validation during deserialization. Until all objects are deserialized, validation will fail!
+            Ticker = ticker;
         }
 
         #endregion
 
         #region IPosition Members
 
-        /// <summary>
-        /// Serializes a Position.
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
+        partial void OnTickerChanging(string value)
         {
-            if(info == null)
+            if (value == null)
             {
-                throw new ArgumentNullException("info");
+                throw new ArgumentNullException("value", "Ticker must not be null.");
             }
-
-            info.AddValue("Ticker", _ticker);
-            info.AddValue("AdditiveTransactions", _additiveTransactions);
-            info.AddValue("SubtractiveTransactions", _subtractiveTransactions);
-        }
-
-        /// <summary>
-        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this IPosition.
-        /// </summary>
-        public IList<IShareTransaction> Transactions
-        {
-            get
-            {
-                int count = _additiveTransactions.Count + _subtractiveTransactions.Count;
-                ShareTransaction[] list = new ShareTransaction[count];
-                _additiveTransactions.CopyTo(list, 0);
-                _subtractiveTransactions.CopyTo(list, _additiveTransactions.Count);
-
-                return list;
-            }
-        }
-
-        /// <summary>
-        /// Gets the ticker symbol held by this Position.
-        /// </summary>
-        public string Ticker
-        {
-            get { return _ticker; }
         }
 
         /// <summary>
@@ -114,7 +56,7 @@ namespace Sonneville.PriceTools
         /// <returns>The average cost of all shares held at <paramref name="settlementDate"/>.</returns>
         public decimal GetAverageCost(DateTime settlementDate)
         {
-            List<IShareTransaction> transactions = Transactions
+            List<ShareTransaction> transactions = Transactions
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .OrderBy(transaction => transaction.SettlementDate).ToList();
             int count = transactions.Count();
@@ -243,7 +185,7 @@ namespace Sonneville.PriceTools
                 return 0;
             }
 
-            List<IShareTransaction> transactions = Transactions
+            List<ShareTransaction> transactions = Transactions
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .OrderBy(transaction => transaction.SettlementDate).ToList();
             int count = transactions.Count();
@@ -367,27 +309,37 @@ namespace Sonneville.PriceTools
 
         #region Private Methods
 
-        private void AddTransaction(double shares, OrderType type, DateTime date, decimal price, decimal commission)
+        private void AddTransaction(IShareTransaction shareTransaction)
         {
-            IShareTransaction shareTransaction = TransactionFactory.CreateTransaction(date, type, _ticker, price, shares, commission);
+            // verify shareTransaction is apporpriate for this Position.
+            Validate(shareTransaction);
+            
+            Transactions.Add((ShareTransaction) shareTransaction);
+        }
 
-            Validate(shareTransaction); // verify shareTransaction is apporpriate for this Position.
-            switch (type)
-            {
-                case OrderType.Buy:
-                case OrderType.SellShort:
-                    _additiveTransactions.Add(shareTransaction);
-                    break;
-                case OrderType.Sell:
-                case OrderType.BuyToCover:
-                    _subtractiveTransactions.Add(shareTransaction);
-                    break;
-            }
+        private void AddTransaction(double shares, OrderType type, DateTime settlementDate, decimal price, decimal commission)
+        {
+            ShareTransaction shareTransaction = TransactionFactory.CreateTransaction(settlementDate, type, Ticker, price, shares, commission);
+            
+            // verify shareTransaction is apporpriate for this Position.
+            Validate(shareTransaction);
+
+            Transactions.Add(shareTransaction);
         }
 
         private TimeSpan Duration
         {
             get { return Last.SettlementDate - First.SettlementDate; }
+        }
+
+        private static IEnumerable<OrderType> Additive
+        {
+            get { return new[] {OrderType.Buy, OrderType.SellShort}; }
+        }
+
+        private static IEnumerable<OrderType> Subtractive
+        {
+            get { return new[] {OrderType.Sell, OrderType.BuyToCover}; }
         }
 
         /// <summary>
@@ -396,7 +348,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         private IEnumerable<IShareTransaction> AdditiveTransactions
         {
-            get { return _additiveTransactions; }
+            get { return Transactions.Where(t => Additive.Contains(t.OrderType)); }
         }
 
         /// <summary>
@@ -405,7 +357,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         private IEnumerable<IShareTransaction> SubtractiveTransactions
         {
-            get { return _subtractiveTransactions; }
+            get { return Transactions.Where(t => Subtractive.Contains(t.OrderType)); }
         }
 
         private IShareTransaction Last
@@ -443,7 +395,6 @@ namespace Sonneville.PriceTools
             }
         }
 
-
         /// <summary>
         ///   Gets the net shares held at a given date.
         /// </summary>
@@ -473,79 +424,6 @@ namespace Sonneville.PriceTools
             return
                 SubtractiveTransactions.Where(transaction => transaction.SettlementDate <= date).Select(
                     transaction => transaction.Shares).Sum();
-        }
-
-        #endregion
-
-        #region Equality Checks
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ITimeSeries other)
-        {
-            return Equals((object)other);
-        }
-
-        /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(Position)) return false;
-            return this == (Position)obj;
-        }
-
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int result = _ticker.GetHashCode();
-                result = (result * 397) ^ _additiveTransactions.GetHashCode();
-                result = (result * 397) ^ _subtractiveTransactions.GetHashCode();
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator ==(Position left, Position right)
-        {
-            return left._ticker == right._ticker &&
-                left.Transactions.Count == right.Transactions.Count &&
-                left.Transactions.All(transaction => right.Transactions.Contains(transaction));
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator !=(Position left, Position right)
-        {
-            return !(left == right);
         }
 
         #endregion

@@ -36,17 +36,24 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void SerializePricePeriodTest()
         {
-            DateTime d1 = new DateTime(2010, 6, 1);
-            DateTime d2 = new DateTime(2010, 8, 1);
+            DateTime head = new DateTime(2010, 6, 1);
+            DateTime tail = new DateTime(2010, 8, 1);
             const decimal open = 100.00m;
             const decimal high = 120.00m;
             const decimal low = 80.00m;
             const decimal close = 110.00m;
             const UInt64 volume = 1000;
 
-            PricePeriod period = new PricePeriod(d1, d2, open, high, low, close, volume);
+            PricePeriod target = new PricePeriod(head, tail, open, high, low, close, volume);
 
-            TestUtilities.VerifySerialization(period);
+            IPricePeriod actual = ((IPricePeriod) TestUtilities.Serialize(target));
+            Assert.AreEqual(head, actual.Head);
+            Assert.AreEqual(tail, actual.Tail);
+            Assert.AreEqual(open, actual.Open);
+            Assert.AreEqual(high, actual.High);
+            Assert.AreEqual(low, actual.Low);
+            Assert.AreEqual(close, actual.Close);
+            Assert.AreEqual(volume, actual.Volume);
         }
 
         [TestMethod()]

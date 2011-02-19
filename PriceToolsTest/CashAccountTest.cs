@@ -101,11 +101,13 @@ namespace Sonneville.PriceToolsTest
         {
             DateTime date = new DateTime(2011, 1, 16);
             const decimal amount = 10000m;
-            ICashAccount expected = new CashAccount();
-            expected.Deposit(date, amount);
-            expected.Withdraw(date, amount);
+            ICashAccount target = new CashAccount();
+            target.Deposit(date, amount);
+            target.Withdraw(date, amount);
 
-            TestUtilities.VerifySerialization(expected);
+            const decimal expected = 0m;
+            decimal actual = ((ICashAccount) TestUtilities.Serialize(target)).GetCashBalance(date);
+            Assert.AreEqual(expected, actual);
         }
     }
 }

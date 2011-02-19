@@ -1,12 +1,11 @@
 using System;
-using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a time series of data.
     /// </summary>
-    public interface ITimeSeries : ISerializable, IEquatable<ITimeSeries>
+    public interface ITimeSeries : IEquatable<object>
     {
         /// <summary>
         /// Gets a value stored at a given DateTime index of the ITimeSeries.

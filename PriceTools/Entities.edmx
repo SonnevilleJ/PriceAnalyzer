@@ -7,16 +7,25 @@
     <Schema Namespace="Entities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
   <EntityContainer Name="EntitiesStoreContainer">
     <EntitySet Name="Transactions" EntityType="Entities.Store.Transactions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Positions" EntityType="Entities.Store.Positions" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Transactions_ShareTransaction" EntityType="Entities.Store.Transactions_ShareTransaction" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_CashTransaction" EntityType="Entities.Store.Transactions_CashTransaction" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_Deposit" EntityType="Entities.Store.Transactions_Deposit" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_Withdrawal" EntityType="Entities.Store.Transactions_Withdrawal" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Transactions_ShareTransaction" EntityType="Entities.Store.Transactions_ShareTransaction" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_SellShort" EntityType="Entities.Store.Transactions_SellShort" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_BuyToCover" EntityType="Entities.Store.Transactions_BuyToCover" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_Sell" EntityType="Entities.Store.Transactions_Sell" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_DividendReceipt" EntityType="Entities.Store.Transactions_DividendReceipt" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_DividendReinvestment" EntityType="Entities.Store.Transactions_DividendReinvestment" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_Buy" EntityType="Entities.Store.Transactions_Buy" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="PositionShareTransaction" Association="Entities.Store.PositionShareTransaction">
+      <End Role="Position" EntitySet="Positions" />
+      <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ShareTransaction_inherits_Transaction" Association="Entities.Store.FK_ShareTransaction_inherits_Transaction">
+      <End Role="Transaction" EntitySet="Transactions" />
+      <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
+    </AssociationSet>
     <AssociationSet Name="FK_CashTransaction_inherits_Transaction" Association="Entities.Store.FK_CashTransaction_inherits_Transaction">
       <End Role="Transaction" EntitySet="Transactions" />
       <End Role="CashTransaction" EntitySet="Transactions_CashTransaction" />
@@ -28,10 +37,6 @@
     <AssociationSet Name="FK_Withdrawal_inherits_CashTransaction" Association="Entities.Store.FK_Withdrawal_inherits_CashTransaction">
       <End Role="CashTransaction" EntitySet="Transactions_CashTransaction" />
       <End Role="Withdrawal" EntitySet="Transactions_Withdrawal" />
-    </AssociationSet>
-    <AssociationSet Name="FK_ShareTransaction_inherits_Transaction" Association="Entities.Store.FK_ShareTransaction_inherits_Transaction">
-      <End Role="Transaction" EntitySet="Transactions" />
-      <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
     </AssociationSet>
     <AssociationSet Name="FK_SellShort_inherits_ShareTransaction" Association="Entities.Store.FK_SellShort_inherits_ShareTransaction">
       <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
@@ -65,6 +70,25 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SettlementDate" Type="datetime" Nullable="false" />
   </EntityType>
+  <EntityType Name="Positions">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ticker" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Transactions_ShareTransaction">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Shares" Type="float" Nullable="false" />
+    <Property Name="Price" Type="decimal" Nullable="false" />
+    <Property Name="Commission" Type="decimal" Nullable="false" />
+    <Property Name="Ticker" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="TransactionType" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+    <Property Name="Position_Id" Type="int" Nullable="true" />
+  </EntityType>
   <EntityType Name="Transactions_CashTransaction">
     <Key>
       <PropertyRef Name="Id" />
@@ -82,17 +106,6 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Transactions_ShareTransaction">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Shares" Type="float" Nullable="false" />
-    <Property Name="Price" Type="decimal" Nullable="false" />
-    <Property Name="Commission" Type="decimal" Nullable="false" />
-    <Property Name="Ticker" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="TransactionType" Type="int" Nullable="false" />
     <Property Name="Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Transactions_SellShort">
@@ -131,6 +144,30 @@
     </Key>
     <Property Name="Id" Type="int" Nullable="false" />
   </EntityType>
+  <Association Name="PositionShareTransaction">
+    <End Role="Position" Type="Entities.Store.Positions" Multiplicity="0..1" />
+    <End Role="ShareTransaction" Type="Entities.Store.Transactions_ShareTransaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Position">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShareTransaction">
+        <PropertyRef Name="Position_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ShareTransaction_inherits_Transaction">
+    <End Role="Transaction" Type="Entities.Store.Transactions" Multiplicity="1" />
+    <End Role="ShareTransaction" Type="Entities.Store.Transactions_ShareTransaction" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Transaction">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ShareTransaction">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_CashTransaction_inherits_Transaction">
     <End Role="Transaction" Type="Entities.Store.Transactions" Multiplicity="1" />
     <End Role="CashTransaction" Type="Entities.Store.Transactions_CashTransaction" Multiplicity="0..1" />
@@ -163,18 +200,6 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="Withdrawal">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_ShareTransaction_inherits_Transaction">
-    <End Role="Transaction" Type="Entities.Store.Transactions" Multiplicity="1" />
-    <End Role="ShareTransaction" Type="Entities.Store.Transactions_ShareTransaction" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Transaction">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShareTransaction">
         <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -257,6 +282,11 @@
       <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Entities" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="Container" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Transactions" EntityType="Entities.Transaction" />
+          <EntitySet Name="Positions" EntityType="Entities.Position" />
+          <AssociationSet Name="PositionShareTransaction" Association="Entities.PositionShareTransaction">
+            <End Role="Position" EntitySet="Positions" />
+            <End Role="ShareTransaction" EntitySet="Transactions" />
+          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Transaction" Abstract="true">
           <Key>
@@ -290,6 +320,7 @@
             </Documentation>
           </Property>
           <Property Type="Int32" Name="TransactionType" Nullable="false" cg:GetterAccess="Protected" cg:SetterAccess="Protected" />
+          <NavigationProperty Name="Position" Relationship="Entities.PositionShareTransaction" FromRole="ShareTransaction" ToRole="Position" />
         </EntityType>
         <EntityType Name="SellShort" BaseType="Entities.ShareTransaction" />
         <EntityType Name="BuyToCover" BaseType="Entities.ShareTransaction" />
@@ -297,6 +328,26 @@
         <EntityType Name="DividendReceipt" BaseType="Entities.ShareTransaction" />
         <EntityType Name="DividendReinvestment" BaseType="Entities.ShareTransaction" />
         <EntityType Name="Buy" BaseType="Entities.ShareTransaction" />
+        <EntityType Name="Position">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Ticker" Nullable="false" >
+            <Documentation>
+              <Summary>Gets the ticker symbol held by this Position.</Summary>
+            </Documentation>
+          </Property>
+          <NavigationProperty Name="Transactions" Relationship="Entities.PositionShareTransaction" FromRole="Position" ToRole="ShareTransaction" >
+            <Documentation>
+              <Summary>A collection of all &lt;see cref = "IShareTransaction" /&gt;s in this IPosition.</Summary>
+            </Documentation>
+          </NavigationProperty>
+        </EntityType>
+        <Association Name="PositionShareTransaction">
+          <End Type="Entities.Position" Role="Position" Multiplicity="0..1" />
+          <End Type="Entities.ShareTransaction" Role="ShareTransaction" Multiplicity="*" />
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -308,6 +359,16 @@
         <MappingFragment StoreEntitySet="Transactions">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="SettlementDate" ColumnName="SettlementDate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Entities.ShareTransaction)">
+        <MappingFragment StoreEntitySet="Transactions_ShareTransaction">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Shares" ColumnName="Shares" />
+          <ScalarProperty Name="Price" ColumnName="Price" />
+          <ScalarProperty Name="Commission" ColumnName="Commission" />
+          <ScalarProperty Name="Ticker" ColumnName="Ticker" />
+          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
         </MappingFragment>
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(Entities.CashTransaction)">
@@ -324,16 +385,6 @@
       <EntityTypeMapping TypeName="IsTypeOf(Entities.Withdrawal)">
         <MappingFragment StoreEntitySet="Transactions_Withdrawal">
           <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.ShareTransaction)">
-        <MappingFragment StoreEntitySet="Transactions_ShareTransaction">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Shares" ColumnName="Shares" />
-          <ScalarProperty Name="Price" ColumnName="Price" />
-          <ScalarProperty Name="Commission" ColumnName="Commission" />
-          <ScalarProperty Name="Ticker" ColumnName="Ticker" />
-          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
         </MappingFragment>
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(Entities.SellShort)">
@@ -367,6 +418,23 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="Positions">
+      <EntityTypeMapping TypeName="IsTypeOf(Entities.Position)">
+        <MappingFragment StoreEntitySet="Positions">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Ticker" ColumnName="Ticker" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="PositionShareTransaction" TypeName="Entities.PositionShareTransaction" StoreEntitySet="Transactions_ShareTransaction">
+      <EndProperty Name="Position">
+        <ScalarProperty Name="Id" ColumnName="Position_Id" />
+      </EndProperty>
+      <EndProperty Name="ShareTransaction">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="Position_Id" IsNull="false" />
+    </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -385,74 +453,80 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="Entities" >
-        <EntityTypeShape EntityType="Entities.Transaction" Width="1.5" PointX="4.875" PointY="0.75" Height="1.4033821614583331" />
-        <EntityTypeShape EntityType="Entities.CashTransaction" Width="1.5" PointX="2.5" PointY="1.25" Height="1.211080729166667" />
+      <Diagram Name="Entities" ZoomLevel="81" >
+        <EntityTypeShape EntityType="Entities.Transaction" Width="1.5" PointX="3.75" PointY="6" Height="1.4033821614583331" />
+        <EntityTypeShape EntityType="Entities.CashTransaction" Width="1.5" PointX="1.375" PointY="6.5" Height="1.211080729166667" />
         <InheritanceConnector EntityType="Entities.CashTransaction" ManuallyRouted="false" >
-          <ConnectorPoint PointX="4.875" PointY="1.7016910807291665" />
-          <ConnectorPoint PointX="4" PointY="1.7016910807291665" />
+          <ConnectorPoint PointX="3.75" PointY="6.9516910807291659" />
+          <ConnectorPoint PointX="2.875" PointY="6.9516910807291659" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Deposit" PointX="1.625" PointY="3.875" Width="1.5" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.Deposit" PointX="0.5" PointY="9.125" Width="1.5" Height="1.0187792968749996" />
         <InheritanceConnector ManuallyRouted="false" EntityType="Entities.Deposit">
-          <ConnectorPoint PointX="3.25" PointY="2.461080729166667" />
-          <ConnectorPoint PointX="3.25" PointY="3.5" />
-          <ConnectorPoint PointX="2.375" PointY="3.5" />
-          <ConnectorPoint PointX="2.375" PointY="3.875" />
+          <ConnectorPoint PointX="2.125" PointY="7.7110807291666674" />
+          <ConnectorPoint PointX="2.125" PointY="8.75" />
+          <ConnectorPoint PointX="1.25" PointY="8.75" />
+          <ConnectorPoint PointX="1.25" PointY="9.125" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Withdrawal" PointX="3.875" PointY="3.875" Width="1.5" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.Withdrawal" PointX="2.75" PointY="9.125" Width="1.5" Height="1.0187792968749996" />
         <InheritanceConnector ManuallyRouted="false" EntityType="Entities.Withdrawal">
-          <ConnectorPoint PointX="3.25" PointY="2.461080729166667" />
-          <ConnectorPoint PointX="3.25" PointY="3.5" />
-          <ConnectorPoint PointX="4.625" PointY="3.5" />
-          <ConnectorPoint PointX="4.625" PointY="3.875" />
+          <ConnectorPoint PointX="2.125" PointY="7.7110807291666674" />
+          <ConnectorPoint PointX="2.125" PointY="8.75" />
+          <ConnectorPoint PointX="3.5" PointY="8.75" />
+          <ConnectorPoint PointX="3.5" PointY="9.125" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.ShareTransaction" Width="1.5" PointX="7.125" PointY="1.25" Height="1.9802864583333331" />
+        <EntityTypeShape EntityType="Entities.ShareTransaction" Width="1.5" PointX="6" PointY="6.5" Height="1.9802864583333331" />
         <InheritanceConnector EntityType="Entities.ShareTransaction" ManuallyRouted="false" >
-          <ConnectorPoint PointX="6.375" PointY="1.7016910807291665" />
-          <ConnectorPoint PointX="7.125" PointY="1.7016910807291665" />
+          <ConnectorPoint PointX="5.25" PointY="6.9516910807291667" />
+          <ConnectorPoint PointX="6" PointY="6.9516910807291667" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.SellShort" Width="1.5" PointX="8.125" PointY="3.625" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.SellShort" Width="1.5" PointX="7" PointY="8.875" Height="1.0187792968749996" />
         <InheritanceConnector EntityType="Entities.SellShort" ManuallyRouted="false" >
-          <ConnectorPoint PointX="7.875" PointY="3.2302864583333331" />
-          <ConnectorPoint PointX="7.875" PointY="3.425" />
-          <ConnectorPoint PointX="8.875" PointY="3.425" />
-          <ConnectorPoint PointX="8.875" PointY="3.625" />
+          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
+          <ConnectorPoint PointX="6.75" PointY="8.675" />
+          <ConnectorPoint PointX="7.75" PointY="8.675" />
+          <ConnectorPoint PointX="7.75" PointY="8.875" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.BuyToCover" Width="1.5" PointX="8.125" PointY="5" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.BuyToCover" Width="1.5" PointX="7" PointY="10.25" Height="1.0187792968749996" />
         <InheritanceConnector EntityType="Entities.BuyToCover" ManuallyRouted="false" >
-          <ConnectorPoint PointX="7.875" PointY="3.2302864583333331" />
-          <ConnectorPoint PointX="7.875" PointY="4.808" />
-          <ConnectorPoint PointX="8.875" PointY="4.808" />
-          <ConnectorPoint PointX="8.875" PointY="5" />
+          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
+          <ConnectorPoint PointX="6.75" PointY="10.058" />
+          <ConnectorPoint PointX="7.75" PointY="10.058" />
+          <ConnectorPoint PointX="7.75" PointY="10.25" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Sell" Width="1.5" PointX="6.125" PointY="5" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.Sell" Width="1.5" PointX="5" PointY="10.25" Height="1.0187792968749996" />
         <InheritanceConnector EntityType="Entities.Sell" ManuallyRouted="false" >
-          <ConnectorPoint PointX="7.875" PointY="3.2302864583333331" />
-          <ConnectorPoint PointX="7.875" PointY="4.808" />
-          <ConnectorPoint PointX="6.875" PointY="4.808" />
-          <ConnectorPoint PointX="6.875" PointY="5" />
+          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
+          <ConnectorPoint PointX="6.75" PointY="10.058" />
+          <ConnectorPoint PointX="5.75" PointY="10.058" />
+          <ConnectorPoint PointX="5.75" PointY="10.25" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.DividendReceipt" Width="1.5" PointX="6.125" PointY="6.375" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.DividendReceipt" Width="1.5" PointX="5" PointY="11.625" Height="1.0187792968749996" />
         <InheritanceConnector EntityType="Entities.DividendReceipt" ManuallyRouted="false" >
-          <ConnectorPoint PointX="7.875" PointY="3.2302864583333331" />
-          <ConnectorPoint PointX="7.875" PointY="6.183" />
-          <ConnectorPoint PointX="6.875" PointY="6.183" />
-          <ConnectorPoint PointX="6.875" PointY="6.375" />
+          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
+          <ConnectorPoint PointX="6.75" PointY="11.433" />
+          <ConnectorPoint PointX="5.75" PointY="11.433" />
+          <ConnectorPoint PointX="5.75" PointY="11.625" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.DividendReinvestment" Width="1.5" PointX="8.125" PointY="6.375" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.DividendReinvestment" Width="1.5" PointX="7" PointY="11.625" Height="1.0187792968749996" />
         <InheritanceConnector EntityType="Entities.DividendReinvestment" ManuallyRouted="false" >
-          <ConnectorPoint PointX="7.875" PointY="3.2302864583333331" />
-          <ConnectorPoint PointX="7.875" PointY="6.183" />
-          <ConnectorPoint PointX="8.875" PointY="6.183" />
-          <ConnectorPoint PointX="8.875" PointY="6.375" />
+          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
+          <ConnectorPoint PointX="6.75" PointY="11.433" />
+          <ConnectorPoint PointX="7.75" PointY="11.433" />
+          <ConnectorPoint PointX="7.75" PointY="11.625" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Buy" Width="1.5" PointX="6.125" PointY="3.625" Height="1.0187792968749996" />
-        <InheritanceConnector EntityType="Entities.Buy" >
-          <ConnectorPoint PointX="7.875" PointY="3.2302864583333331" />
-          <ConnectorPoint PointX="7.875" PointY="3.425" />
-          <ConnectorPoint PointX="6.875" PointY="3.425" />
-          <ConnectorPoint PointX="6.875" PointY="3.625" />
+        <EntityTypeShape EntityType="Entities.Buy" Width="1.5" PointX="5" PointY="8.875" Height="1.0187792968749996" />
+        <InheritanceConnector EntityType="Entities.Buy" ManuallyRouted="false" >
+          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
+          <ConnectorPoint PointX="6.75" PointY="8.675" />
+          <ConnectorPoint PointX="5.75" PointY="8.675" />
+          <ConnectorPoint PointX="5.75" PointY="8.875" />
         </InheritanceConnector>
+        <EntityTypeShape EntityType="Entities.Position" Width="1.5" PointX="2.375" PointY="3.125" Height="1.4033821614583326" />
+        <AssociationConnector Association="Entities.PositionShareTransaction" ManuallyRouted="true">
+          <ConnectorPoint PointX="3.875" PointY="3.922841796875" />
+          <ConnectorPoint PointX="6.7431606165033129" PointY="3.922841796875" />
+          <ConnectorPoint PointX="6.7431606165033129" PointY="6.5" />
+        </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

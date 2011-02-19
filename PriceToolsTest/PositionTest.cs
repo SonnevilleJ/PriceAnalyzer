@@ -200,7 +200,7 @@ namespace Sonneville.PriceToolsTest
         public void SerializePositionTest()
         {
             const string ticker = "DE";
-            IPosition expected = new Position(ticker);
+            IPosition target = new Position(ticker);
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime purchaseDate = testDate.AddDays(1);
@@ -208,9 +208,12 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5;            // 5 shares
             const decimal commission = 5.00m;    // with $5 commission
 
-            expected.Buy(purchaseDate, shares, buyPrice, commission);
+            target.Buy(purchaseDate, shares, buyPrice, commission);
 
-            TestUtilities.VerifySerialization(expected);
+            decimal expected = target.GetValue(purchaseDate);
+            decimal actual = ((IPosition) TestUtilities.Serialize(target)).GetValue(purchaseDate);
+            Assert.AreEqual(expected, actual);
+
         }
 
         /// <summary>
