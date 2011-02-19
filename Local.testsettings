@@ -23,7 +23,7 @@
       <DataCollectors>
         <DataCollector uri="datacollector://microsoft/CodeCoverage/1.0" assemblyQualifiedName="Microsoft.VisualStudio.TestTools.CodeCoverage.CoveragePlugIn, Microsoft.VisualStudio.QualityTools.Plugins.CodeCoverage, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" friendlyName="Code Coverage">
           <Configuration>
-            <CodeCoverage keyFile="C:\Dev\Sonneville.pfx" xmlns="">
+            <CodeCoverage keyFile="C:\Dev\Sonneville.snk" xmlns="">
               <Regular>
                 <CodeCoverageItem binaryFile="PriceTools\bin\Debug\Sonneville.PriceTools.dll" pdbFile="PriceTools\bin\Debug\Sonneville.PriceTools.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="PriceToolsTest\bin\Debug\PriceToolsTest.dll" pdbFile="PriceToolsTest\bin\Debug\PriceToolsTest.pdb" instrumentInPlace="true" />
