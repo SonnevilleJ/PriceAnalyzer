@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Constructs a new Position that will handle transactions for a given ticker symbol.
         /// </summary>
-        public Position()
+        private Position()
         {
         }
 
