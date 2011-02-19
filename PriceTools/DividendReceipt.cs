@@ -12,5 +12,10 @@
         {
             OrderType = OrderType.DividendReceipt;
         }
+
+        public override decimal TotalValue
+        {
+            get { return Price - Commission; }
+        }
     }
 }

@@ -16,11 +16,6 @@ namespace Sonneville.PriceTools
         EntityCollection<Position> Positions { get; }
 
         /// <summary>
-        ///   Gets the <see cref="ICashAccount"/> used by this IPortfolio.
-        /// </summary>
-        CashAccount CashAccount { get; }
-
-        /// <summary>
         ///   Gets the amount of uninvested cash in this IPortfolio.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
@@ -38,34 +33,9 @@ namespace Sonneville.PriceTools
         decimal GetValue(DateTime settlementDate);
 
         /// <summary>
-        ///   Adds an <see cref="IShareTransaction"/> to this IPortfolio.
+        ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> of the transaction.</param>
-        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
-        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
-        /// <param name="price">The per-share price of the ticker symbol.</param>
-        /// <param name="shares">The number of shares.</param>
-        /// <param name="commission">The commission charge for the transaction.</param>
-        void AddTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares, decimal commission);
-
-        /// <summary>
-        ///   Adds an <see cref="IShareTransaction"/> to this IPortfolio.
-        /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> of the transaction.</param>
-        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
-        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
-        /// <param name="price">The per-share price of the ticker symbol.</param>
-        /// <param name="shares">The number of shares.</param>
-        void AddTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares);
-
-        /// <summary>
-        ///   Adds an <see cref="IShareTransaction"/> to this IPortfolio.
-        /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> of the transaction.</param>
-        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
-        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
-        /// <param name="price">The per-share price of the ticker symbol.</param>
-        void AddTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price);
+        void AddTransaction(ITransaction transaction);
 
         /// <summary>
         /// Deposits cash to this IPortfolio.

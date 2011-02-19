@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using System.Globalization;
 using System.Linq;
 using Sonneville.PriceTools.Data;
 
@@ -169,42 +168,55 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Adds an <see cref="IShareTransaction"/> to this Portfolio.
+        ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> of the transaction.</param>
-        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
-        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
-        /// <param name="price">The per-share price of the ticker symbol.</param>
-        /// <param name="shares">The number of shares.</param>
-        /// <param name="commission">The commission charge for the transaction.</param>
-        public void AddTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares, decimal commission)
+        public void AddTransaction(ITransaction transaction)
         {
-            AddToPosition(ticker, type, settlementDate, shares, price, commission);
-        }
-
-        /// <summary>
-        ///   Adds an <see cref="IShareTransaction"/> to this Portfolio.
-        /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> of the transaction.</param>
-        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
-        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
-        /// <param name="price">The per-share price of the ticker symbol.</param>
-        /// <param name="shares">The number of shares.</param>
-        public void AddTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares)
-        {
-            AddToPosition(ticker, type, settlementDate, shares, price);
-        }
-
-        /// <summary>
-        ///   Adds an <see cref="IShareTransaction"/> to this Portfolio.
-        /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> of the transaction.</param>
-        /// <param name="type">The <see cref="OrderType"/> of the transaction.</param>
-        /// <param name="ticker">The ticker symbol to use for the transaction.</param>
-        /// <param name="price">The per-share price of the ticker symbol.</param>
-        public void AddTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price)
-        {
-            AddToPosition(ticker, type, settlementDate, 1.0, price);
+            switch (transaction.OrderType)
+            {
+                case OrderType.DividendReceipt:
+                    DividendReceipt d = ((DividendReceipt) transaction);
+                    Deposit(d.SettlementDate, d.TotalValue);
+                    break;
+                case OrderType.Deposit:
+                    Deposit((Deposit) transaction);
+                    break;
+                case OrderType.Withdrawal:
+                    Withdraw((Withdrawal) transaction);
+                    break;
+                case OrderType.DividendReinvestment:
+                    DividendReinvestment dr = ((DividendReinvestment) transaction);
+                    if (dr.Ticker == CashTicker)
+                    {
+                        // DividendReceipt already deposited into cash account, so no need to "buy" the CashTicker. Do nothing.
+                    }
+                    else
+                    {
+                        Withdraw(dr.SettlementDate, dr.TotalValue);
+                        GetPosition(dr.Ticker).Buy(dr.SettlementDate, dr.Shares, dr.Price, dr.Commission);
+                    }
+                    break;
+                case OrderType.Buy:
+                    Buy buy = ((Buy) transaction);
+                    Withdraw(buy.SettlementDate, buy.TotalValue);
+                    GetPosition(buy.Ticker).AddTransaction(buy);
+                    break;
+                case OrderType.SellShort:
+                    SellShort sellShort = ((SellShort) transaction);
+                    Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
+                    GetPosition(sellShort.Ticker).AddTransaction(sellShort);
+                    break;
+                case OrderType.Sell:
+                    Sell sell = ((Sell) transaction);
+                    GetPosition(sell.Ticker).AddTransaction(sell);
+                    Deposit(sell.SettlementDate, sell.TotalValue);
+                    break;
+                case OrderType.BuyToCover:
+                    BuyToCover buyToCover = ((BuyToCover) transaction);
+                    GetPosition(buyToCover.Ticker).AddTransaction(buyToCover);
+                    Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
+                    break;
+            }
         }
 
         /// <summary>
@@ -218,6 +230,14 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Deposits cash to this Portfolio.
+        /// </summary>
+        public void Deposit(Deposit deposit)
+        {
+            CashAccount.Deposit(deposit);
+        }
+
+        /// <summary>
         /// Withdraws cash from this Portfolio. AvailableCash must be greater than or equal to the withdrawn amount.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> of the withdrawal.</param>
@@ -225,6 +245,14 @@ namespace Sonneville.PriceTools
         public void Withdraw(DateTime settlementDate, decimal cashAmount)
         {
             CashAccount.Withdraw(settlementDate, cashAmount);
+        }
+
+        /// <summary>
+        /// Withdraws cash from this Portfolio. Available cash must be greater than or equal to the withdrawn amount.
+        /// </summary>
+        public void Withdraw(Withdrawal withdrawal)
+        {
+            CashAccount.Withdraw(withdrawal);
         }
 
         /// <summary>
@@ -245,66 +273,19 @@ namespace Sonneville.PriceTools
 
             foreach (DataRow row in rows)
             {
-                AddTransaction((DateTime)row[csvFile.DateColumn],
-                               (OrderType)row[csvFile.OrderColumn],
-                               (string)row[csvFile.SymbolColumn],
-                               (decimal)row[csvFile.PriceColumn],
-                               (double)row[csvFile.SharesColumn],
-                               (decimal)row[csvFile.CommissionColumn]);
+                AddTransaction(TransactionFactory.CreateTransaction(
+                    (DateTime) row[csvFile.DateColumn],
+                    (OrderType) row[csvFile.OrderColumn],
+                    (string) row[csvFile.SymbolColumn],
+                    (decimal) row[csvFile.PriceColumn],
+                    (double) row[csvFile.SharesColumn],
+                    (decimal) row[csvFile.CommissionColumn]));
             }
         }
 
         #endregion
 
         #region Private Methods
-
-        private void AddToPosition(string ticker, OrderType type, DateTime date, double shares, decimal price, decimal commission = 0.00m)
-        {
-            switch (type)
-            {
-                case OrderType.DividendReceipt:
-                case OrderType.Deposit:
-                    if (ticker == CashTicker || String.IsNullOrWhiteSpace(ticker))
-                    {
-                        Deposit(date, price);
-                    }
-                    else
-                    {
-                        throw new ArgumentOutOfRangeException(String.Format(CultureInfo.CurrentCulture, "Deposits must use ticker: {0}.", CashTicker));
-                    }
-                    break;
-                case OrderType.Withdrawal:
-                    Withdraw(date, price);
-                    break;
-                case OrderType.DividendReinvestment:
-                    if (ticker == CashTicker)
-                    {
-                        // DividendReceipt already deposited into cash account, so no need to "buy" the CashTicker. Do nothing.
-                    }
-                    else
-                    {
-                        Withdraw(date, (price * (decimal)shares) + commission);
-                        GetPosition(ticker).Buy(date, shares, price, commission);
-                    }
-                    break;
-                case OrderType.Buy:
-                    Withdraw(date, (price * (decimal)shares) + commission);
-                    GetPosition(ticker).Buy(date, shares, price, commission);
-                    break;
-                case OrderType.SellShort:
-                    Withdraw(date, (price * (decimal)shares) + commission);
-                    GetPosition(ticker).Sell(date, shares, price, commission);
-                    break;
-                case OrderType.Sell:
-                    GetPosition(ticker).Sell(date, shares, price, commission);
-                    Deposit(date, ((decimal)shares * price) - commission);
-                    break;
-                case OrderType.BuyToCover:
-                    GetPosition(ticker).BuyToCover(date, shares, price, commission);
-                    Deposit(date, ((decimal)shares * price) - commission);
-                    break;
-            }
-        }
 
         private IPosition GetPosition(string ticker)
         {

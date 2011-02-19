@@ -377,7 +377,7 @@
         </EntityType>
         <EntityType Name="CashTransaction" BaseType="Entities.Transaction" Abstract="true" >
           <Property Type="Decimal" Name="Amount" Nullable="false" cg:SetterAccess="Public" />
-          <NavigationProperty Name="CashAccount" Relationship="Entities.CashAccountCashTransaction" FromRole="CashTransaction" ToRole="CashAccount" />
+          <NavigationProperty Name="CashAccount" Relationship="Entities.CashAccountCashTransaction" FromRole="CashTransaction" ToRole="CashAccount" cg:SetterAccess="Private" />
         </EntityType>
         <EntityType Name="Deposit" BaseType="Entities.CashTransaction" >
         </EntityType>
@@ -401,7 +401,7 @@
             </Documentation>
           </Property>
           <Property Type="Int32" Name="TransactionType" Nullable="false" cg:GetterAccess="Protected" cg:SetterAccess="Protected" />
-          <NavigationProperty Name="Position" Relationship="Entities.PositionShareTransaction" FromRole="ShareTransaction" ToRole="Position" />
+          <NavigationProperty Name="Position" Relationship="Entities.PositionShareTransaction" FromRole="ShareTransaction" ToRole="Position" cg:SetterAccess="Private" />
         </EntityType>
         <EntityType Name="SellShort" BaseType="Entities.ShareTransaction" />
         <EntityType Name="BuyToCover" BaseType="Entities.ShareTransaction" />

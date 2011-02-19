@@ -89,25 +89,25 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod()]
-        public void PositionTest_OnePosition_TwoTransactions()
+        public void PositionTest_OnePosition_TwoCashTransactions()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
             IPortfolio target = new Portfolio(dateTime, deposit);
 
             DateTime buyDate = new DateTime(2011, 1, 9);
-            const OrderType type = OrderType.Buy;
             const string ticker = "DE";
             const decimal price = 50.00m;
             const double shares = 2;
-            target.AddTransaction(buyDate, type, ticker, price, shares);
+            Buy buy = new Buy {SettlementDate = buyDate, Ticker = ticker, Price = price, Shares = shares};
+            target.AddTransaction(buy);
 
             const decimal withdrawal = 5000m;
             DateTime withdrawalDate = dateTime.AddDays(1);
             target.Withdraw(withdrawalDate, withdrawal);
 
-            const int expectedTransactions = 4;
-            int actualTransactions = target.Positions.Count + target.CashAccount.Transactions.Count;
+            const int expectedTransactions = 1;
+            int actualTransactions = target.Positions.Count;
             Assert.AreEqual(expectedTransactions, actualTransactions);
 
             const decimal expectedValue = 5000m;
@@ -124,11 +124,11 @@ namespace Sonneville.PriceToolsTest
             IPortfolio target = new Portfolio(dateTime, amount);
 
             DateTime buyDate = new DateTime(2011, 1, 9);
-            const OrderType type = OrderType.Buy;
             const string ticker = "DE";
             const decimal price = 50.00m;
             const double shares = 2;
-            target.AddTransaction(buyDate, type, ticker, price, shares);
+            Buy buy = new Buy { SettlementDate = buyDate, Ticker = ticker, Price = price, Shares = shares };
+            target.AddTransaction(buy);
 
             DateTime withdrawalDate = dateTime.AddDays(1);
             target.Withdraw(withdrawalDate, amount);
@@ -197,19 +197,6 @@ namespace Sonneville.PriceToolsTest
             const string expected = ticker;
             string actual = target.CashTicker;
             Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void ExceptionThrownWhenDepositConflictsWithCashTicker()
-        {
-            DateTime originalDate = new DateTime(2011, 1, 8);
-            const decimal amount = 10000m;
-            const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            IPortfolio target = new Portfolio(originalDate, amount, ticker);
-
-            const string newTicker = "FTEXX"; // Fidelity Municipal Money Market
-            target.AddTransaction(originalDate.AddDays(100), OrderType.Deposit, newTicker, 5000);
         }
 
         [TestMethod]

@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools
     public static class TransactionFactory
     {
         /// <summary>
-        /// Constructs a ShareTransaction.
+        /// Constructs a Transaction.
         /// </summary>
         /// <param name="date">The date and time this ShareTransaction took place.</param>
         /// <param name="type">The <see cref="OrderType"/> of this ShareTransaction.</param>
@@ -17,13 +17,22 @@ namespace Sonneville.PriceTools
         /// <param name="price">The price at which the ShareTransaction took place.</param>
         /// <param name="shares">The optional number of shares which were traded. Default = 1</param>
         /// <param name="commission">The optional commission paid for this ShareTransaction. Default = $0.00</param>
-        public static ShareTransaction CreateTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
+        public static ITransaction CreateTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
         {
             switch (type)
             {
                 case OrderType.Deposit:
+                    return new Deposit
+                               {
+                                   SettlementDate = date,
+                                   Amount = price,
+                               };
                 case OrderType.Withdrawal:
-                    throw new ArgumentOutOfRangeException("type", String.Format(CultureInfo.CurrentCulture, "Deposits and Withdrawals must be created with CreateDeposit() or CreateWithdrawal()."));
+                    return new Withdrawal
+                               {
+                                   SettlementDate = date,
+                                   Amount = price,
+                               };
                 case OrderType.Buy:
                     return new Buy
                                {
@@ -81,6 +90,14 @@ namespace Sonneville.PriceTools
                 default:
                     throw new ArgumentOutOfRangeException("type", String.Format(CultureInfo.CurrentCulture, "Unknown OrderType: {0}", type));
             }
+        }
+
+        /// <summary>
+        /// Constructs a ShareTransaction.
+        /// </summary>
+        public static ShareTransaction CreateShareTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares, decimal commission)
+        {
+            return (ShareTransaction) CreateTransaction(settlementDate, type, ticker, price, shares, commission);
         }
     }
 }

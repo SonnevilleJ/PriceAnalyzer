@@ -17,11 +17,21 @@ namespace Sonneville.PriceTools
         void Deposit(DateTime dateTime, decimal amount);
 
         /// <summary>
+        /// Deposits cash into the ICashAccount.
+        /// </summary>
+        void Deposit(Deposit deposit);
+
+        /// <summary>
         /// Withdraws cash from the ICashAccount.
         /// </summary>
         /// <param name="dateTime">The <see cref="DateTime"/> cash is withdrawn from the ICashAccount.</param>
         /// <param name="amount">The amount of cash withdrawn from the ICashAccount.</param>
         void Withdraw(DateTime dateTime, decimal amount);
+
+        /// <summary>
+        /// Withdraws cash from the ICashAccount.
+        /// </summary>
+        void Withdraw(Withdrawal withdrawal);
 
         /// <summary>
         /// Gets a <see cref="List{T}"/> of <see cref="ICashTransaction"/>s in this ICashAccount.

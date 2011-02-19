@@ -291,22 +291,26 @@ namespace Sonneville.PriceTools
             return totalReturn/time;
         }
 
-        #endregion
-
-        #region Private Methods
-
-        private void AddTransaction(IShareTransaction shareTransaction)
+        /// <summary>
+        /// Adds an IShareTransaction to the Position.
+        /// </summary>
+        /// <param name="shareTransaction"></param>
+        public void AddTransaction(IShareTransaction shareTransaction)
         {
             // verify shareTransaction is apporpriate for this Position.
             Validate(shareTransaction);
 
-            Transactions.Add((ShareTransaction) shareTransaction);
+            Transactions.Add((ShareTransaction)shareTransaction);
         }
+
+        #endregion
+
+        #region Private Methods
 
         private void AddTransaction(double shares, OrderType type, DateTime settlementDate, decimal price,
                                     decimal commission)
         {
-            ShareTransaction shareTransaction = TransactionFactory.CreateTransaction(settlementDate, type, Ticker, price,
+            ShareTransaction shareTransaction = TransactionFactory.CreateShareTransaction(settlementDate, type, Ticker, price,
                                                                                      shares, commission);
 
             // verify shareTransaction is apporpriate for this Position.

@@ -24,5 +24,10 @@
         ///   Gets the commission charged for this IShareTransaction.
         /// </summary>
         decimal Commission { get; }
+
+        /// <summary>
+        ///   Gets the total value of this IShareTransaction, including commissions.
+        /// </summary>
+        decimal TotalValue { get; }
     }
 }

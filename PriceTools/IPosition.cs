@@ -113,5 +113,11 @@ namespace Sonneville.PriceTools
         /// <param name="price">The per-share price of this shareTransaction.</param>
         /// <param name="commission">The commission paid for this shareTransaction.</param>
         void SellShort(DateTime settlementDate, double shares, decimal price, decimal commission);
+
+        /// <summary>
+        /// Adds an IShareTransaction to the Position.
+        /// </summary>
+        /// <param name="shareTransaction"></param>
+        void AddTransaction(IShareTransaction shareTransaction);
     }
 }

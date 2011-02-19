@@ -421,7 +421,7 @@ namespace Sonneville.PriceTools
             {
                 return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CashAccount>("Entities.CashAccountCashTransaction", "CashAccount").Value;
             }
-            set
+            private set
             {
                 ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CashAccount>("Entities.CashAccountCashTransaction", "CashAccount").Value = value;
             }
@@ -437,7 +437,7 @@ namespace Sonneville.PriceTools
             {
                 return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CashAccount>("Entities.CashAccountCashTransaction", "CashAccount");
             }
-            set
+            private set
             {
                 if ((value != null))
                 {
@@ -1059,7 +1059,7 @@ namespace Sonneville.PriceTools
             {
                 return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Position>("Entities.PositionShareTransaction", "Position").Value;
             }
-            set
+            private set
             {
                 ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Position>("Entities.PositionShareTransaction", "Position").Value = value;
             }
@@ -1075,7 +1075,7 @@ namespace Sonneville.PriceTools
             {
                 return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Position>("Entities.PositionShareTransaction", "Position");
             }
-            set
+            private set
             {
                 if ((value != null))
                 {

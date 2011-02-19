@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 02/19/2011 00:55:29
+-- Date Created: 02/19/2011 14:00:20
 -- Generated from EDMX file: C:\Dev\PriceAnalyzer\PriceTools\Entities.edmx
 -- --------------------------------------------------
 
@@ -25,6 +25,9 @@ IF OBJECT_ID(N'[dbo].[FK_PortfolioPosition]', 'F') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[FK_CashAccountPortfolio]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Portfolios] DROP CONSTRAINT [FK_CashAccountPortfolio];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CashAccountCashTransaction]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Transactions_CashTransaction] DROP CONSTRAINT [FK_CashAccountCashTransaction];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ShareTransaction_inherits_Transaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Transactions_ShareTransaction] DROP CONSTRAINT [FK_ShareTransaction_inherits_Transaction];
