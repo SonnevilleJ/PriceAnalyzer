@@ -8,20 +8,6 @@ namespace Sonneville.PriceToolsTest
     [TestClass]
     public class DepositTest
     {
-        [TestMethod]
-        public void DepositEntityTest()
-        {
-            DateTime date = new DateTime(2011, 1, 9);
-            const decimal amount = 1000.00m;
-
-            Deposit target = new Deposit
-                                 {
-                                     SettlementDate = date,
-                                     Amount = amount
-                                 };
-
-            TestUtilities.VerifyTransactionEntity(target);
-        }
 
         /// <summary>
         ///A test for Date
@@ -97,10 +83,10 @@ namespace Sonneville.PriceToolsTest
             const decimal amount = 100.00m;   // $100.00
 
             ICashTransaction target = new Deposit
-            {
-                SettlementDate = date,
-                Amount = amount
-            };
+                                          {
+                                              SettlementDate = date,
+                                              Amount = amount
+                                          };
 
             TestUtilities.VerifyTransactionEntity(target);
         }

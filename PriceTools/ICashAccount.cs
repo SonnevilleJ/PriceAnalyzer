@@ -24,7 +24,7 @@ namespace Sonneville.PriceTools
         void Withdraw(DateTime dateTime, decimal amount);
 
         /// <summary>
-        /// Gets a <see cref="List{T}"/> of <see cref="IShareTransaction"/>s in this ICashAccount.
+        /// Gets a <see cref="List{T}"/> of <see cref="ICashTransaction"/>s in this ICashAccount.
         /// </summary>
         EntityCollection<CashTransaction> Transactions { get; }
 

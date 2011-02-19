@@ -16,7 +16,7 @@ namespace Sonneville.PriceToolsTest
         ///A test for Deposit
         ///</summary>
         [TestMethod()]
-        public void DepositPositiveTest()
+        public void DepositTest()
         {
             ICashAccount target = new CashAccount();
             DateTime dateTime = new DateTime(2010, 1, 16);
@@ -27,52 +27,18 @@ namespace Sonneville.PriceToolsTest
             decimal actualValue = target.GetCashBalance(dateTime);
             Assert.AreEqual(expectedValue, actualValue);
         }
-
-        /// <summary>
-        ///A test for Deposit
-        ///</summary>
-        [TestMethod()]
-        public void DepositNegativeTest()
-        {
-            ICashAccount target = new CashAccount();
-            DateTime dateTime = new DateTime(2010, 1, 16);
-            const decimal amount = -500.00m;
-            target.Deposit(dateTime, amount);
-
-            const decimal expectedValue = 500.00m;
-            decimal actualValue = target.GetCashBalance(dateTime);
-            Assert.AreEqual(expectedValue, actualValue);
-        }
-
+        
         /// <summary>
         ///A test for Withdraw
         ///</summary>
         [TestMethod()]
-        public void WithdrawPositiveTest()
+        public void WithdrawTest()
         {
             ICashAccount target = new CashAccount();
             DateTime dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
             target.Deposit(dateTime, amount);
             target.Withdraw(dateTime, amount);
-
-            const decimal expectedValue = 0.00m;
-            decimal actualValue = target.GetCashBalance(dateTime);
-            Assert.AreEqual(expectedValue, actualValue);
-        }
-
-        /// <summary>
-        ///A test for Withdraw
-        ///</summary>
-        [TestMethod()]
-        public void WithdrawNegativeTest()
-        {
-            ICashAccount target = new CashAccount();
-            DateTime dateTime = new DateTime(2010, 1, 16);
-            const decimal deposit = 500.00m;
-            const decimal withdraw = -500.00m;
-            target.Deposit(dateTime, deposit);
-            target.Withdraw(dateTime, withdraw);
 
             const decimal expectedValue = 0.00m;
             decimal actualValue = target.GetCashBalance(dateTime);
@@ -108,6 +74,18 @@ namespace Sonneville.PriceToolsTest
             const decimal expected = 0m;
             decimal actual = ((ICashAccount) TestUtilities.Serialize(target)).GetCashBalance(date);
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void EntityCashAccountTest()
+        {
+            DateTime date = new DateTime(2011, 1, 16);
+            const decimal amount = 10000m;
+            ICashAccount target = new CashAccount();
+            target.Deposit(date, amount);
+            target.Withdraw(date, amount);
+
+            TestUtilities.VerifyCashAccountEntity(target);
         }
     }
 }

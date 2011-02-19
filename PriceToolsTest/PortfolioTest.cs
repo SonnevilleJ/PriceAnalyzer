@@ -239,5 +239,17 @@ namespace Sonneville.PriceToolsTest
             decimal actual = ((IPortfolio)TestUtilities.Serialize(target)).GetValue(purchaseDate);
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void EntityPortfolioTest()
+        {
+            DateTime testDate = new DateTime(2011, 1, 8);
+            DateTime purchaseDate = testDate.AddDays(1);
+            const decimal amount = 10000m;
+            const string ticker = "FDRXX"; // Fidelity Cash Reserves
+            IPortfolio target = new Portfolio(purchaseDate, amount, ticker);
+
+            TestUtilities.VerifyPortfolioEntity(target);
+        }
     }
 }

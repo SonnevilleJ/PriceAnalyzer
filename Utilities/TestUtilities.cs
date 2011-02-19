@@ -58,5 +58,20 @@ namespace Sonneville.Utilities
         {
             VerifyEntitySerialize((Transaction)transaction, "Transactions");
         }
+
+        public static void VerifyCashAccountEntity(ICashAccount cashAccount)
+        {
+            VerifyEntitySerialize((CashAccount) cashAccount, "CashAccounts");
+        }
+
+        public static void VerifyPositionEntity(IPosition position)
+        {
+            VerifyEntitySerialize((Position) position, "Positions");
+        }
+
+        public static void VerifyPortfolioEntity(IPortfolio portfolio)
+        {
+            VerifyEntitySerialize((Portfolio) portfolio, "Portfolios");
+        }
     }
 }
