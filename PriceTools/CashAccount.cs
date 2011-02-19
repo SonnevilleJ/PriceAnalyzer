@@ -1,61 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a single account used to hold cash.
     /// </summary>
-    [Serializable]
-    public class CashAccount : ICashAccount
+    public partial class CashAccount : ICashAccount
     {
         #region Private Members
-
-        private readonly List<ICashTransaction> _cashTransactions;
 
         #endregion
 
         #region Constructors
 
-        /// <summary>
-        /// Constructs a new CashAccount.
-        /// </summary>
-        public CashAccount()
-        {
-            _cashTransactions = new List<ICashTransaction>();
-        }
-
-        /// <summary>
-        /// Deserializes a CashAccount
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        protected CashAccount(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
-            _cashTransactions = (List<ICashTransaction>)info.GetValue("CashTransactions", typeof(List<ICashTransaction>));
-        }
-
         #endregion
-
-        /// <summary>
-        /// Serializes a CashAccount.
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
-            info.AddValue("CashTransactions", _cashTransactions);
-        }
 
         /// <summary>
         /// Deposits cash into the CashAccount.
@@ -64,7 +23,7 @@ namespace Sonneville.PriceTools
         /// <param name="amount">The amount of cash deposited into the CashAccount.</param>
         public void Deposit(DateTime dateTime, decimal amount)
         {
-            _cashTransactions.Add(new Deposit
+            Transactions.Add(new Deposit
                                       {
                                           SettlementDate = dateTime,
                                           Amount = amount
@@ -82,22 +41,11 @@ namespace Sonneville.PriceTools
             {
                 throw new InvalidOperationException("Insufficient funds.");
             }
-            _cashTransactions.Add(new Withdrawal
+            Transactions.Add(new Withdrawal
                                       {
                                           SettlementDate = dateTime,
                                           Amount = amount
                                       });
-        }
-
-        /// <summary>
-        /// Gets an <see cref="IList{IShareTransaction}"/> of <see cref="Deposit"/>s and <see cref="Withdrawal"/>s in this CashAccount.
-        /// </summary>
-        public IList<ICashTransaction> Transactions
-        {
-            get
-            {   
-                return _cashTransactions.AsReadOnly();
-            }
         }
 
         /// <summary>
@@ -106,7 +54,7 @@ namespace Sonneville.PriceTools
         /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetCashBalance(DateTime asOfDate)
         {
-            return _cashTransactions
+            return Transactions
                 .Where(transaction => transaction.SettlementDate <= asOfDate)
                 .Sum(transaction => transaction.Amount);
         }
@@ -139,7 +87,7 @@ namespace Sonneville.PriceTools
         {
             unchecked
             {
-                int result = 397 * _cashTransactions.GetHashCode();
+                int result = 397 * Transactions.GetHashCode();
                 return result;
             }
         }
@@ -153,9 +101,9 @@ namespace Sonneville.PriceTools
         public static bool operator ==(CashAccount left, CashAccount right)
         {
             bool cashMatches = false;
-            if (left._cashTransactions.Count == right._cashTransactions.Count)
+            if (left.Transactions.Count == right.Transactions.Count)
             {
-                cashMatches = left._cashTransactions.All(transaction => right._cashTransactions.Contains(transaction));
+                cashMatches = left.Transactions.All(transaction => right.Transactions.Contains(transaction));
             }
 
             return cashMatches;

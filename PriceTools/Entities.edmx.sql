@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 02/18/2011 23:08:59
+-- Date Created: 02/19/2011 00:55:29
 -- Generated from EDMX file: C:\Dev\PriceAnalyzer\PriceTools\Entities.edmx
 -- --------------------------------------------------
 
@@ -19,6 +19,12 @@ GO
 
 IF OBJECT_ID(N'[dbo].[FK_PositionShareTransaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Transactions_ShareTransaction] DROP CONSTRAINT [FK_PositionShareTransaction];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PortfolioPosition]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Positions] DROP CONSTRAINT [FK_PortfolioPosition];
+GO
+IF OBJECT_ID(N'[dbo].[FK_CashAccountPortfolio]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[Portfolios] DROP CONSTRAINT [FK_CashAccountPortfolio];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ShareTransaction_inherits_Transaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Transactions_ShareTransaction] DROP CONSTRAINT [FK_ShareTransaction_inherits_Transaction];
@@ -60,6 +66,12 @@ IF OBJECT_ID(N'[dbo].[Transactions]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Positions]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Positions];
+GO
+IF OBJECT_ID(N'[dbo].[Portfolios]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[Portfolios];
+GO
+IF OBJECT_ID(N'[dbo].[CashAccounts]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[CashAccounts];
 GO
 IF OBJECT_ID(N'[dbo].[Transactions_ShareTransaction]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Transactions_ShareTransaction];
@@ -106,7 +118,22 @@ GO
 -- Creating table 'Positions'
 CREATE TABLE [dbo].[Positions] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [Ticker] nvarchar(max)  NOT NULL
+    [Ticker] nvarchar(max)  NOT NULL,
+    [Portfolio_Id] int  NULL
+);
+GO
+
+-- Creating table 'Portfolios'
+CREATE TABLE [dbo].[Portfolios] (
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [CashTicker] nvarchar(max)  NOT NULL,
+    [CashAccount_Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'CashAccounts'
+CREATE TABLE [dbo].[CashAccounts] (
+    [Id] int IDENTITY(1,1) NOT NULL
 );
 GO
 
@@ -125,7 +152,8 @@ GO
 -- Creating table 'Transactions_CashTransaction'
 CREATE TABLE [dbo].[Transactions_CashTransaction] (
     [Amount] decimal(18,0)  NOT NULL,
-    [Id] int  NOT NULL
+    [Id] int  NOT NULL,
+    [CashAccount_Id] int  NULL
 );
 GO
 
@@ -190,6 +218,18 @@ GO
 -- Creating primary key on [Id] in table 'Positions'
 ALTER TABLE [dbo].[Positions]
 ADD CONSTRAINT [PK_Positions]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'Portfolios'
+ALTER TABLE [dbo].[Portfolios]
+ADD CONSTRAINT [PK_Portfolios]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'CashAccounts'
+ALTER TABLE [dbo].[CashAccounts]
+ADD CONSTRAINT [PK_CashAccounts]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -269,6 +309,48 @@ ADD CONSTRAINT [FK_PositionShareTransaction]
 CREATE INDEX [IX_FK_PositionShareTransaction]
 ON [dbo].[Transactions_ShareTransaction]
     ([Position_Id]);
+GO
+
+-- Creating foreign key on [Portfolio_Id] in table 'Positions'
+ALTER TABLE [dbo].[Positions]
+ADD CONSTRAINT [FK_PortfolioPosition]
+    FOREIGN KEY ([Portfolio_Id])
+    REFERENCES [dbo].[Portfolios]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PortfolioPosition'
+CREATE INDEX [IX_FK_PortfolioPosition]
+ON [dbo].[Positions]
+    ([Portfolio_Id]);
+GO
+
+-- Creating foreign key on [CashAccount_Id] in table 'Portfolios'
+ALTER TABLE [dbo].[Portfolios]
+ADD CONSTRAINT [FK_CashAccountPortfolio]
+    FOREIGN KEY ([CashAccount_Id])
+    REFERENCES [dbo].[CashAccounts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CashAccountPortfolio'
+CREATE INDEX [IX_FK_CashAccountPortfolio]
+ON [dbo].[Portfolios]
+    ([CashAccount_Id]);
+GO
+
+-- Creating foreign key on [CashAccount_Id] in table 'Transactions_CashTransaction'
+ALTER TABLE [dbo].[Transactions_CashTransaction]
+ADD CONSTRAINT [FK_CashAccountCashTransaction]
+    FOREIGN KEY ([CashAccount_Id])
+    REFERENCES [dbo].[CashAccounts]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_CashAccountCashTransaction'
+CREATE INDEX [IX_FK_CashAccountCashTransaction]
+ON [dbo].[Transactions_CashTransaction]
+    ([CashAccount_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Transactions_ShareTransaction'

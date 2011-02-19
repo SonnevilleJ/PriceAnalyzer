@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Security;
-using System.Security.Permissions;
 
 namespace Sonneville.PriceTools
 {
@@ -34,20 +33,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Constructs a PricePeriod object without volume.
-        /// </summary>
-        /// <param name = "head">The beginning of the PricePeriod.</param>
-        /// <param name = "tail">The end of the PricePeriod.</param>
-        /// <param name = "open">The price at the open of this period.</param>
-        /// <param name = "high">The highest price during this period.</param>
-        /// <param name = "low">The lowest price during this period.</param>
-        /// <param name = "close">The price at the close of this period.</param>
-        public PricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close)
-            : this(head, tail, open, high, low, close, null)
-        {
-        }
-
-        /// <summary>
         ///   Constructs a PricePeriod object.
         /// </summary>
         /// <param name = "head">The beginning DateTime of this period.</param>
@@ -57,8 +42,7 @@ namespace Sonneville.PriceTools
         /// <param name = "low">The lowest price during this period.</param>
         /// <param name = "close">The price at the close of this period.</param>
         /// <param name = "volume">The total volume during this period.</param>
-        public PricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close,
-                           UInt64? volume)
+        public PricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, UInt64? volume = null)
         {
             _head = head;
             _tail = tail;

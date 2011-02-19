@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
+using System.Data.Objects.DataClasses;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a single account used to hold cash.
     /// </summary>
-    public interface ICashAccount : ISerializable
+    public interface ICashAccount
     {
         /// <summary>
         /// Deposits cash into the ICashAccount.
@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets a <see cref="List{T}"/> of <see cref="IShareTransaction"/>s in this ICashAccount.
         /// </summary>
-        IList<ICashTransaction> Transactions { get; }
+        EntityCollection<CashTransaction> Transactions { get; }
 
         /// <summary>
         ///   Gets the balance of cash in this ICashAccount.

@@ -73,14 +73,13 @@
     <Compile Include="Indicator.cs" />
     <Compile Include="IPortfolio.cs" />
     <Compile Include="ITransaction.cs" />
-    <Compile Include="MovingAverage.cs" />
+    <Compile Include="SimpleMovingAverage.cs" />
     <Compile Include="InvalidPricePeriodException.cs" />
     <Compile Include="IPosition.cs" />
     <Compile Include="IPricePeriod.cs" />
     <Compile Include="IPriceSeries.cs" />
     <Compile Include="ITimeSeries.cs" />
     <Compile Include="IShareTransaction.cs" />
-    <Compile Include="MovingAverageMethod.cs" />
     <Compile Include="Portfolio.cs" />
     <Compile Include="OrderType.cs" />
     <Compile Include="Position.cs" />
@@ -106,7 +105,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
-    <None Include="Class Diagrams\DataClasses.cd" />
     <EntityDeploy Include="Entities.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Entities.Designer.cs</LastGenOutput>
@@ -118,6 +116,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Entities.edmx.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Class Diagrams\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

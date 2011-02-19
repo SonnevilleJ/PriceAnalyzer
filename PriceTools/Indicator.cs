@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Runtime.Serialization;
-using System.Security;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// A generic indicator used to transform ITimeSeries data to identify a trend, correlation, reversal, or other meaningful information about the underlying ITimeSeries data.
     /// </summary>
-    [Serializable]
     public abstract class Indicator : ITimeSeries
     {
         #region Private Members
@@ -158,121 +155,6 @@ namespace Sonneville.PriceTools
         public virtual bool HasValue(DateTime settlementDate)
         {
             return (settlementDate >= Head && settlementDate <= Tail);
-        }
-
-        #endregion
-
-        #region Implementation of ISerializable
-
-        /// <summary>
-        /// Serialization constructor.
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        protected Indicator(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
-            _dictionary = (IDictionary<DateTime, decimal>) info.GetValue("Dictionary", typeof (IDictionary<DateTime, decimal>));
-            _priceSeries = (IPriceSeries) info.GetValue("priceSeries", typeof (IPriceSeries));
-            _range = (Int32) info.GetValue("Range", typeof (Int32));
-        }
-
-        /// <summary>
-        /// Serializies an Indicator.
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        [SecurityCritical]
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
-            info.AddValue("Dictionary", _dictionary);
-            info.AddValue("priceSeries", PriceSeries);
-            info.AddValue("Range", _range);
-        }
-
-        #endregion
-
-        #region Equality Checks
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator ==(Indicator left, Indicator right)
-        {
-            if (left == null || right == null)
-            {
-                return false;
-            }
-
-            return (left._dictionary == right._dictionary &&
-                    left._priceSeries == right._priceSeries &&
-                    left._range == right._range);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator !=(Indicator left, Indicator right)
-        {
-            return !(left == right);
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ITimeSeries other)
-        {
-            return Equals((object)other);
-        }
-
-        /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(Indicator)) return false;
-            return this == (Indicator)obj;
-        }
-
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int result = _dictionary.GetHashCode();
-                result = (result * 397) ^ _priceSeries.GetHashCode();
-                result = (result * 397) ^ _range.GetHashCode();
-                return result;
-            }
         }
 
         #endregion

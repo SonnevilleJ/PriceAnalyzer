@@ -5,20 +5,8 @@ using Sonneville.PriceTools;
 namespace Sonneville.PriceToolsTest
 {
     [TestClass()]
-    public class MovingAverageTest
+    public class SimpleMovingAverageTest
     {
-        [TestMethod]
-        public void DefaultConstructorAssignsSimpleMethod()
-        {
-            DateTime date = new DateTime(2011, 1, 6);
-            const int value = 2;
-            PricePeriod p1 = new PricePeriod(date.AddDays(1), date.AddDays(1), value, value, value, value);
-            IPriceSeries series = new PriceSeries(p1);
-
-            MovingAverage ma = new MovingAverage(series, 1);
-            Assert.IsTrue(ma.Method == MovingAverageMethod.Simple);
-        }
-
         [TestMethod]
         public void FlatPeriodReturnsSameAverage()
         {
@@ -33,7 +21,7 @@ namespace Sonneville.PriceToolsTest
             IPriceSeries series = new PriceSeries(p1, p2, p3, p4, p5, p6);
 
             const int range = 2;
-            MovingAverage ma = new MovingAverage(series, range);
+            SimpleMovingAverage ma = new SimpleMovingAverage(series, range);
 
             for (int i = range; i < series.Periods.Count; i++)
             {
@@ -60,7 +48,7 @@ namespace Sonneville.PriceToolsTest
             // create 4 day moving average
             const int range = 4;
             int span = series.Periods.Count - (range - 1);
-            MovingAverage avg = new MovingAverage(series, range);
+            SimpleMovingAverage avg = new SimpleMovingAverage(series, range);
             Assert.IsTrue(avg.Range == range);
             avg.CalculateAll();
             Assert.IsTrue(avg.Last == 2.5m);

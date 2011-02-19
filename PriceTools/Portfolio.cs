@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.Serialization;
 using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools
@@ -11,14 +9,9 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a portfolio of investments.
     /// </summary>
-    [Serializable]
-    public class Portfolio : IPortfolio
+    public partial class Portfolio : IPortfolio
     {
         #region Private Members
-
-        private readonly IDictionary<string, IPosition> _positions = new Dictionary<string, IPosition>();
-        private readonly CashAccount _cashAccount;
-        private readonly string _cashTicker;
 
         #endregion
 
@@ -38,8 +31,8 @@ namespace Sonneville.PriceTools
         /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
         public Portfolio(string ticker)
         {
-            _cashTicker = ticker;
-            _cashAccount = new CashAccount();
+            CashTicker = ticker;
+            CashAccount = new CashAccount();
         }
 
         /// <summary>
@@ -61,10 +54,7 @@ namespace Sonneville.PriceTools
         public Portfolio(DateTime dateTime, decimal openingDeposit, string ticker)
             : this(ticker)
         {
-            if (openingDeposit > 0)
-            {
-                Deposit(dateTime, openingDeposit);
-            }
+            Deposit(dateTime, openingDeposit);
         }
 
         /// <summary>
@@ -76,41 +66,6 @@ namespace Sonneville.PriceTools
             : this(ticker)
         {
             AddTransactionHistory(csvFile);
-        }
-
-        #endregion
-
-        #region Implementation of ISerializable
-
-        /// <summary>
-        /// Deserializes a Portfolio.
-        /// </summary>
-        /// <param name="info"></param>
-        /// <param name="context"></param>
-        protected Portfolio(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
-
-            _positions = (IDictionary<string, IPosition>) info.GetValue("Positions", typeof (Dictionary<string, IPosition>));
-            _cashAccount = (CashAccount)info.GetValue("CashAccount", typeof(CashAccount));
-        }
-
-        /// <summary>
-        /// Populates a <see cref="T:System.Runtime.Serialization.SerializationInfo"/> with the data needed to serialize the target object.
-        /// </summary>
-        /// <param name="info">The <see cref="T:System.Runtime.Serialization.SerializationInfo"/> to populate with data. </param><param name="context">The destination (see <see cref="T:System.Runtime.Serialization.StreamingContext"/>) for this serialization. </param><exception cref="T:System.Security.SecurityException">The caller does not have the required permission. </exception>
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
-
-            info.AddValue("Positions", _positions);
-            info.AddValue("CashAccount", _cashAccount);
         }
 
         #endregion
@@ -141,9 +96,9 @@ namespace Sonneville.PriceTools
                     
                     earliest = first.SettlementDate;
                 }
-                if (Positions.Values.Count > 0)
+                if (Positions.Count > 0)
                 {
-                    IShareTransaction first = Positions.Values.OrderBy(position => position.Head).First().Transactions.OrderBy(trans => trans.SettlementDate).First();
+                    IShareTransaction first = Positions.OrderBy(position => position.Head).First().Transactions.OrderBy(trans => trans.SettlementDate).First();
 
                     earliest = first.SettlementDate;
                 }
@@ -160,9 +115,9 @@ namespace Sonneville.PriceTools
             get
             {
                 DateTime latest = DateTime.Now;
-                if (Positions.Values.Count > 0)
+                if (Positions.Count > 0)
                 {
-                    IShareTransaction first = Positions.Values.OrderBy(position => position.Head).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last();
+                    IShareTransaction first = Positions.OrderBy(position => position.Head).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last();
 
                     latest = first.SettlementDate;
                 }
@@ -197,38 +152,12 @@ namespace Sonneville.PriceTools
         #region Implementation of IPortfolio
 
         /// <summary>
-        ///   Gets an <see cref = "IList{T}" /> of positions held in this Portfolio.
-        /// </summary>
-        public IDictionary<string, IPosition> Positions
-        {
-            get { return _positions; }
-        }
-
-        /// <summary>
-        ///   Gets the <see cref="ICashAccount"/> used by this Portfolio.
-        /// </summary>
-        public ICashAccount CashAccount
-        {
-            get { return _cashAccount; }
-        }
-
-
-
-        /// <summary>
         ///   Gets the amount of uninvested cash in this Portfolio.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetAvailableCash(DateTime settlementDate)
         {
-            return _cashAccount.GetCashBalance(settlementDate);
-        }
-
-        /// <summary>
-        /// Gets or sets the ticker to use for the holding of cash in this Portfolio.
-        /// </summary>
-        public string CashTicker
-        {
-            get { return _cashTicker; }
+            return CashAccount.GetCashBalance(settlementDate);
         }
 
         /// <summary>
@@ -236,7 +165,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal GetValue(DateTime settlementDate)
         {
-            return GetAvailableCash(settlementDate) + Positions.Values.Sum(position => position.GetInvestedValue(settlementDate));
+            return GetAvailableCash(settlementDate) + Positions.Sum(position => position.GetInvestedValue(settlementDate));
         }
 
         /// <summary>
@@ -263,7 +192,7 @@ namespace Sonneville.PriceTools
         /// <param name="shares">The number of shares.</param>
         public void AddTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares)
         {
-            AddToPosition(ticker, type, settlementDate, shares, price, Position.DefaultCommission);
+            AddToPosition(ticker, type, settlementDate, shares, price);
         }
 
         /// <summary>
@@ -275,7 +204,7 @@ namespace Sonneville.PriceTools
         /// <param name="price">The per-share price of the ticker symbol.</param>
         public void AddTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price)
         {
-            AddToPosition(ticker, type, settlementDate, 1.0, price, Position.DefaultCommission);
+            AddToPosition(ticker, type, settlementDate, 1.0, price);
         }
 
         /// <summary>
@@ -285,7 +214,7 @@ namespace Sonneville.PriceTools
         /// <param name="cashAmount">The amount of cash deposited.</param>
         public void Deposit(DateTime settlementDate, decimal cashAmount)
         {
-            _cashAccount.Deposit(settlementDate, cashAmount);
+            CashAccount.Deposit(settlementDate, cashAmount);
         }
 
         /// <summary>
@@ -295,8 +224,9 @@ namespace Sonneville.PriceTools
         /// <param name="cashAmount">The amount of cash withdrawn.</param>
         public void Withdraw(DateTime settlementDate, decimal cashAmount)
         {
-            _cashAccount.Withdraw(settlementDate, cashAmount);
+            CashAccount.Withdraw(settlementDate, cashAmount);
         }
+
         /// <summary>
         /// Adds transaction history from a CSV file to the Portfolio.
         /// </summary>
@@ -328,7 +258,7 @@ namespace Sonneville.PriceTools
 
         #region Private Methods
 
-        private void AddToPosition(string ticker, OrderType type, DateTime date, double shares, decimal price, decimal commission)
+        private void AddToPosition(string ticker, OrderType type, DateTime date, double shares, decimal price, decimal commission = 0.00m)
         {
             switch (type)
             {
@@ -378,11 +308,11 @@ namespace Sonneville.PriceTools
 
         private IPosition GetPosition(string ticker)
         {
-            IPosition position;
-            if (!_positions.TryGetValue(ticker, out position))
+            Position position = Positions.Where(p => p.Ticker == ticker).FirstOrDefault();
+            if(position == null)
             {
                 position = new Position(ticker);
-                _positions[ticker] = position;
+                Positions.Add(position);
             }
             return position;
         }
@@ -390,18 +320,6 @@ namespace Sonneville.PriceTools
         #endregion
 
         #region Equality Checks
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ITimeSeries other)
-        {
-            return Equals((object)other);
-        }
 
         /// <summary>
         /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
@@ -429,8 +347,8 @@ namespace Sonneville.PriceTools
         {
             unchecked
             {
-                int result = _positions.GetHashCode();
-                result = (result * 397) ^ _cashAccount.GetHashCode();
+                int result = Positions.GetHashCode();
+                result = (result * 397) ^ CashAccount.GetHashCode();
                 return result;
             }
         }
@@ -444,12 +362,12 @@ namespace Sonneville.PriceTools
         public static bool operator ==(Portfolio left, Portfolio right)
         {
             bool positionsMatch = false;
-            if(left._positions.Count == right._positions.Count)
+            if(left.Positions.Count == right.Positions.Count)
             {
-                positionsMatch = left._positions.Values.All(position => right._positions.Values.Contains(position));
+                positionsMatch = left.Positions.All(position => right.Positions.Contains(position));
             }
 
-            bool cashMatches = left._cashAccount == right._cashAccount;
+            bool cashMatches = left.CashAccount == right.CashAccount;
 
             return positionsMatch && cashMatches;
         }
