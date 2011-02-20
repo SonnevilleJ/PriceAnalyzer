@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Runtime.Serialization;
-using System.Security;
 using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools
@@ -13,8 +10,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   Represents a set of PricePeriods.
     /// </summary>
-    [Serializable]
-    public class PriceSeries : PricePeriod, IPriceSeries
+    public partial class PriceSeries : PricePeriod, IPriceSeries
     {
         #region Private Members
 
@@ -25,6 +21,13 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         /// <summary>
+        ///   Constructs a PriceSeries object.
+        /// </summary>
+        public PriceSeries()
+        {
+        }
+
+        /// <summary>
         ///   Constructs a PriceSeries object from several PricePeriods.
         /// </summary>
         /// <param name = "periods"></param>
@@ -32,56 +35,14 @@ namespace Sonneville.PriceTools
         {
             if (periods == null)
                 throw new ArgumentNullException(
-                    "periods", "Argument periods must be a single-dimension array of one or more IPricePeriods.");
-
-            _periods = new List<PricePeriod>(periods.Length);
-            Head = periods[0].Head;
-            Open = periods[0].Open;
+                    "periods", "Argument periods must be one or more IPricePeriods.");
 
             foreach (IPricePeriod p in periods)
             {
                 InsertPeriod(p);
             }
-            _periods.Sort((x, y) => DateTime.Compare(x.Head, y.Head));
 
             Validate();
-        }
-
-        #endregion
-
-        #region Serialization
-
-        /// <summary>
-        ///   Serialization constructor.
-        /// </summary>
-        /// <param name = "info"></param>
-        /// <param name = "context"></param>
-        protected PriceSeries(SerializationInfo info, StreamingContext context)
-            : base(info, context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
-
-            _periods = (List<PricePeriod>)info.GetValue("Periods", typeof(List<PricePeriod>));
-        }
-
-        /// <summary>
-        ///   Serializes a PriceSeries object.
-        /// </summary>
-        /// <param name = "info">SerializationInfo</param>
-        /// <param name = "context">StreamingContext</param>
-        [SecurityCritical]
-        public override void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException("info");
-            }
-
-            base.GetObjectData(info, context);
-            info.AddValue("Periods", _periods);
         }
 
         #endregion
@@ -116,21 +77,13 @@ namespace Sonneville.PriceTools
         #region Accessors
 
         /// <summary>
-        ///   Gets a readonly collection of PricePeriod objects stored in this PriceSeries.
-        /// </summary>
-        public ReadOnlyCollection<PricePeriod> Periods
-        {
-            get { return _periods.AsReadOnly(); }
-        }
-
-        /// <summary>
         /// Gets a value stored at a given DateTime index of the ITimeSeries.
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
         decimal ITimeSeries.this[DateTime index]
         {
-            get { return this[index].Close; }
+            get { return ((IPriceSeries)this)[index].Close; }
         }
 
         /// <summary>
@@ -138,7 +91,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="index">The index of the <see cref="IPricePeriod"/> to retrieve.</param>
         /// <returns>The <see cref="IPricePeriod"/> stored at the given index.</returns>
-        public IPricePeriod this[DateTime index]
+        IPricePeriod IPriceSeries.this[DateTime index]
         {
             get
             {
@@ -165,7 +118,7 @@ namespace Sonneville.PriceTools
                 throw new ArgumentNullException("period");
             }
 
-            _periods.Add(period as PricePeriod);
+            Periods.Add(period as PricePeriod);
             if (period.Head < Head || Head == DateTime.MinValue)
             {
                 Head = period.Head;
@@ -194,50 +147,9 @@ namespace Sonneville.PriceTools
             }
         }
 
-        /// <summary>
-        /// Determines if the IPriceSeries has a valid value for a given date.
-        /// </summary>
-        /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the IPriceSeries has a valid value for the given date.</returns>
-        public bool HasValue(DateTime settlementDate)
-        {
-            return (settlementDate >= Head && settlementDate <= Tail);
-        }
-
         #endregion
 
         #region Equality Checks
-
-        /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(PriceSeries)) return false;
-            return this == (PriceSeries)obj;
-        }
-
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int result = _periods.GetHashCode();
-                return result;
-            }
-        }
 
         /// <summary>
         /// 
@@ -247,7 +159,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator ==(PriceSeries left, PriceSeries right)
         {
-            return left._periods.All(period => right._periods.Contains(period));
+            return left.Periods.All(period => right.Periods.Contains(period));
         }
 
         /// <summary>

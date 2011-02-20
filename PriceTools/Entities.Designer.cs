@@ -22,6 +22,7 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("Entities", "PortfolioPosition", "Portfolio", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.Portfolio), "Position", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.Position))]
 [assembly: EdmRelationshipAttribute("Entities", "CashAccountPortfolio", "CashAccount", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Sonneville.PriceTools.CashAccount), "Portfolio", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.Portfolio))]
 [assembly: EdmRelationshipAttribute("Entities", "CashAccountCashTransaction", "CashAccount", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.CashAccount), "CashTransaction", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.CashTransaction))]
+[assembly: EdmRelationshipAttribute("Entities", "PriceSeriesPricePeriod", "PriceSeries", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.PriceSeries), "PricePeriod", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.PricePeriod))]
 
 #endregion
 
@@ -136,6 +137,22 @@ namespace Sonneville.PriceTools
             }
         }
         private ObjectSet<CashAccount> _CashAccounts;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<PricePeriod> PricePeriods
+        {
+            get
+            {
+                if ((_PricePeriods == null))
+                {
+                    _PricePeriods = base.CreateObjectSet<PricePeriod>("PricePeriods");
+                }
+                return _PricePeriods;
+            }
+        }
+        private ObjectSet<PricePeriod> _PricePeriods;
 
         #endregion
         #region AddTo Methods
@@ -170,6 +187,14 @@ namespace Sonneville.PriceTools
         public void AddToCashAccounts(CashAccount cashAccount)
         {
             base.AddObject("CashAccounts", cashAccount);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the PricePeriods EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToPricePeriods(PricePeriod pricePeriod)
+        {
+            base.AddObject("PricePeriods", pricePeriod);
         }
 
         #endregion
@@ -829,6 +854,292 @@ namespace Sonneville.PriceTools
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Portfolio>("Entities.PortfolioPosition", "Portfolio", value);
+                }
+            }
+        }
+
+        #endregion
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="PricePeriod")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    [KnownTypeAttribute(typeof(PriceSeries))]
+    public partial class PricePeriod : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new PricePeriod object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="head">Initial value of the Head property.</param>
+        /// <param name="tail">Initial value of the Tail property.</param>
+        /// <param name="close">Initial value of the Close property.</param>
+        public static PricePeriod CreatePricePeriod(global::System.Int32 id, global::System.DateTime head, global::System.DateTime tail, global::System.Decimal close)
+        {
+            PricePeriod pricePeriod = new PricePeriod();
+            pricePeriod.Id = id;
+            pricePeriod.Head = head;
+            pricePeriod.Tail = tail;
+            pricePeriod.Close = close;
+            return pricePeriod;
+        }
+
+        #endregion
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 Id
+        {
+            get
+            {
+                return _Id;
+            }
+            set
+            {
+                if (_Id != value)
+                {
+                    OnIdChanging(value);
+                    ReportPropertyChanging("Id");
+                    _Id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("Id");
+                    OnIdChanged();
+                }
+            }
+        }
+        private global::System.Int32 _Id;
+        partial void OnIdChanging(global::System.Int32 value);
+        partial void OnIdChanged();
+    
+        /// <summary>
+        /// The beginning DateTime for this IPricePeriod.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime Head
+        {
+            get
+            {
+                return _Head;
+            }
+            protected set
+            {
+                OnHeadChanging(value);
+                ReportPropertyChanging("Head");
+                _Head = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Head");
+                OnHeadChanged();
+            }
+        }
+        private global::System.DateTime _Head;
+        partial void OnHeadChanging(global::System.DateTime value);
+        partial void OnHeadChanged();
+    
+        /// <summary>
+        /// The ending DateTime for this IPricePeriod.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.DateTime Tail
+        {
+            get
+            {
+                return _Tail;
+            }
+            protected set
+            {
+                OnTailChanging(value);
+                ReportPropertyChanging("Tail");
+                _Tail = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Tail");
+                OnTailChanged();
+            }
+        }
+        private global::System.DateTime _Tail;
+        partial void OnTailChanging(global::System.DateTime value);
+        partial void OnTailChanged();
+    
+        /// <summary>
+        /// The price at the open of this IPricePeriod.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> Open
+        {
+            get
+            {
+                return _Open;
+            }
+            protected set
+            {
+                OnOpenChanging(value);
+                ReportPropertyChanging("Open");
+                _Open = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Open");
+                OnOpenChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _Open;
+        partial void OnOpenChanging(Nullable<global::System.Decimal> value);
+        partial void OnOpenChanged();
+    
+        /// <summary>
+        /// The highest transaction price during this IPricePeriod.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> High
+        {
+            get
+            {
+                return _High;
+            }
+            protected set
+            {
+                OnHighChanging(value);
+                ReportPropertyChanging("High");
+                _High = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("High");
+                OnHighChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _High;
+        partial void OnHighChanging(Nullable<global::System.Decimal> value);
+        partial void OnHighChanged();
+    
+        /// <summary>
+        /// The lowest transaction price during this IPricePeriod.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Decimal> Low
+        {
+            get
+            {
+                return _Low;
+            }
+            protected set
+            {
+                OnLowChanging(value);
+                ReportPropertyChanging("Low");
+                _Low = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Low");
+                OnLowChanged();
+            }
+        }
+        private Nullable<global::System.Decimal> _Low;
+        partial void OnLowChanging(Nullable<global::System.Decimal> value);
+        partial void OnLowChanged();
+    
+        /// <summary>
+        /// The price at the close of this IPricePeriod.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Decimal Close
+        {
+            get
+            {
+                return _Close;
+            }
+            protected set
+            {
+                OnCloseChanging(value);
+                ReportPropertyChanging("Close");
+                _Close = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Close");
+                OnCloseChanged();
+            }
+        }
+        private global::System.Decimal _Close;
+        partial void OnCloseChanging(global::System.Decimal value);
+        partial void OnCloseChanged();
+    
+        /// <summary>
+        /// The total number of shares traded during this IPricePeriod.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int64> Volume
+        {
+            get
+            {
+                return _Volume;
+            }
+            protected set
+            {
+                OnVolumeChanging(value);
+                ReportPropertyChanging("Volume");
+                _Volume = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("Volume");
+                OnVolumeChanged();
+            }
+        }
+        private Nullable<global::System.Int64> _Volume;
+        partial void OnVolumeChanging(Nullable<global::System.Int64> value);
+        partial void OnVolumeChanged();
+
+        #endregion
+    
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="PriceSeries")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class PriceSeries : PricePeriod
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new PriceSeries object.
+        /// </summary>
+        /// <param name="id">Initial value of the Id property.</param>
+        /// <param name="head">Initial value of the Head property.</param>
+        /// <param name="tail">Initial value of the Tail property.</param>
+        /// <param name="close">Initial value of the Close property.</param>
+        public static PriceSeries CreatePriceSeries(global::System.Int32 id, global::System.DateTime head, global::System.DateTime tail, global::System.Decimal close)
+        {
+            PriceSeries priceSeries = new PriceSeries();
+            priceSeries.Id = id;
+            priceSeries.Head = head;
+            priceSeries.Tail = tail;
+            priceSeries.Close = close;
+            return priceSeries;
+        }
+
+        #endregion
+    
+        #region Navigation Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [XmlIgnoreAttribute()]
+        [SoapIgnoreAttribute()]
+        [DataMemberAttribute()]
+        [EdmRelationshipNavigationPropertyAttribute("Entities", "PriceSeriesPricePeriod", "PricePeriod")]
+        public EntityCollection<PricePeriod> Periods
+        {
+            get
+            {
+                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<PricePeriod>("Entities.PriceSeriesPricePeriod", "PricePeriod");
+            }
+            private set
+            {
+                if ((value != null))
+                {
+                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PricePeriod>("Entities.PriceSeriesPricePeriod", "PricePeriod", value);
                 }
             }
         }

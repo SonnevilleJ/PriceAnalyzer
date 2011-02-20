@@ -73,5 +73,10 @@ namespace Sonneville.Utilities
         {
             VerifyEntitySerialize((Portfolio) portfolio, "Portfolios");
         }
+
+        public static void VerifyPricePeriodoEntity(IPricePeriod pricePeriod)
+        {
+            VerifyEntitySerialize((PricePeriod) pricePeriod, "PricePeriods");
+        }
     }
 }

@@ -44,7 +44,7 @@ namespace Sonneville.PriceToolsTest
             const decimal close = 110.00m;
             const Int64 volume = 1000;
 
-            PricePeriod target = new PricePeriod(head, tail, open, high, low, close, volume);
+            IPricePeriod target = new PricePeriod(head, tail, open, high, low, close, volume);
 
             IPricePeriod actual = ((IPricePeriod) TestUtilities.Serialize(target));
             Assert.AreEqual(head, actual.Head);
@@ -54,6 +54,22 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(low, actual.Low);
             Assert.AreEqual(close, actual.Close);
             Assert.AreEqual(volume, actual.Volume);
+        }
+
+        [TestMethod()]
+        public void EntityPricePeriodTest()
+        {
+            DateTime head = new DateTime(2010, 6, 1);
+            DateTime tail = new DateTime(2010, 8, 1);
+            const decimal open = 100.00m;
+            const decimal high = 120.00m;
+            const decimal low = 80.00m;
+            const decimal close = 110.00m;
+            const Int64 volume = 1000;
+
+            IPricePeriod target = new PricePeriod(head, tail, open, high, low, close, volume);
+
+            TestUtilities.VerifyPricePeriodoEntity(target);
         }
 
         [TestMethod()]
@@ -67,7 +83,7 @@ namespace Sonneville.PriceToolsTest
             const decimal close = 110.00m;
             const Int64 volume = 1000;
 
-            PricePeriod target = new PricePeriod(d1, d2, open, high, low, close, volume);
+            IPricePeriod target = new PricePeriod(d1, d2, open, high, low, close, volume);
             
             Assert.IsTrue(target.Head == d1);
             Assert.IsTrue(target.Tail == d2);
@@ -88,7 +104,7 @@ namespace Sonneville.PriceToolsTest
             const decimal low = 80.00m;
             const decimal close = 110.00m;
 
-            PricePeriod target = new PricePeriod(d1, d2, open, high, low, close);
+            IPricePeriod target = new PricePeriod(d1, d2, open, high, low, close);
             
             Assert.IsTrue(target.Head == d1);
             Assert.IsTrue(target.Tail == d2);

@@ -61,7 +61,7 @@ namespace Sonneville.PriceToolsTest
             IPricePeriod p1 = new PricePeriod(DateTime.Parse("1/6/2011"), DateTime.Parse("1/6/2011"), 10, 12, 10, 11, 50);
             IPricePeriod p2 = new PricePeriod(DateTime.Parse("1/7/2011"), DateTime.Parse("1/7/2011"), 11, 13, 10, 13, 60);
 
-            PriceSeries series = new PriceSeries(p2);
+            IPriceSeries series = new PriceSeries(p2);
             Assert.IsTrue(series.Open == p2.Open);
 
             series.InsertPeriod(p1);
@@ -75,15 +75,26 @@ namespace Sonneville.PriceToolsTest
             IPricePeriod p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
             IPricePeriod p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
 
-            PriceSeries target = new PriceSeries(p1, p2, p3);
+            IPriceSeries target = new PriceSeries(p1, p2, p3);
 
             IPriceSeries actual = ((IPriceSeries)TestUtilities.Serialize(target));
             Assert.AreEqual(target, actual);
-
         }
 
         [TestMethod]
-        public void PriceSeriesSortTest()
+        public void EntityPriceSeriesTest()
+        {
+            IPricePeriod p1 = new PricePeriod(DateTime.Parse("1/1/2010"), DateTime.Parse("1/2/2010"), 10, 12, 10, 11, 50);
+            IPricePeriod p2 = new PricePeriod(DateTime.Parse("1/2/2010"), DateTime.Parse("1/3/2010"), 11, 13, 10, 13, 60);
+            IPricePeriod p3 = new PricePeriod(DateTime.Parse("1/3/2010"), DateTime.Parse("1/4/2010"), 13, 14, 9, 11, 80);
+
+            IPriceSeries target = new PriceSeries(p1, p2, p3);
+
+            TestUtilities.VerifyPricePeriodoEntity(target);
+        }
+
+        [TestMethod]
+        public void PriceSeriesIndexerTest()
         {
             DateTime d1 = DateTime.Parse("1/1/2010");
             DateTime d2 = DateTime.Parse("1/2/2010");
@@ -102,7 +113,7 @@ namespace Sonneville.PriceToolsTest
         ///A test for Span
         ///</summary>
         [TestMethod()]
-        public void SpanTest()
+        public void InsertPeriodTest()
         {
             DateTime head = new DateTime(2011, 1, 6);
             DateTime tail = new DateTime(2011, 1, 6);
@@ -112,7 +123,7 @@ namespace Sonneville.PriceToolsTest
             const decimal close = 1.0m;
 
             const int max = 10;
-            PriceSeries target = new PriceSeries(new PricePeriod(head, tail, open, high, low, close));
+            IPriceSeries target = new PriceSeries(new PricePeriod(head, tail, open, high, low, close));
             for (int i = 1; i < max; i++)
             {
                 Assert.IsTrue(target.Periods.Count == i);

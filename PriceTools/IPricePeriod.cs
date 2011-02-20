@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents price history for a desired length of time.
     /// </summary>
-    public interface IPricePeriod : ITimeSeries, ISerializable
+    public interface IPricePeriod : ITimeSeries
     {
         /// <summary>
         /// Gets the closing price for the IPricePeriod.

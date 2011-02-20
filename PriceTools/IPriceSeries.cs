@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the internal array of IPricePeriod objects stored within this IPriceSeries.
         /// </summary>
-        ReadOnlyCollection<PricePeriod> Periods { get; }
+        EntityCollection<PricePeriod> Periods { get; }
 
         /// <summary>
         /// Gets the <see cref="IPricePeriod"/> at a given index within this IPriceSeries.
