@@ -10,10 +10,6 @@ namespace Sonneville.PriceTools
     /// </summary>
     public partial class Portfolio : IPortfolio
     {
-        #region Private Members
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -95,12 +91,15 @@ namespace Sonneville.PriceTools
                     
                     earliest = first.SettlementDate;
                 }
-                if (Positions.Count > 0)
-                {
-                    IShareTransaction first = Positions.OrderBy(position => position.Head).First().Transactions.OrderBy(trans => trans.SettlementDate).First();
+                // An opening deposit is required before transactions will be processed.
+                // Therefore, the below code should never be necessary.
+                //
+                //if (Positions.Count > 0)
+                //{
+                //    IShareTransaction first = Positions.OrderBy(position => position.Head).First().Transactions.OrderBy(trans => trans.SettlementDate).First();
 
-                    earliest = first.SettlementDate;
-                }
+                //    earliest = first.SettlementDate;
+                //}
 
                 return earliest;
             }
@@ -168,6 +167,63 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        ///   Gets the raw rate of return for this IMeasurableSecurityBasket, not accounting for commissions.
+        /// </summary>
+        public decimal GetRawReturn(DateTime settlementDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///   Gets the total rate of return for this IMeasurableSecurityBasket, after commissions.
+        /// </summary>
+        public decimal GetTotalReturn(DateTime settlementDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///   Gets the total rate of return on an annual basis for this IMeasurableSecurityBasket.
+        /// </summary>
+        /// <remarks>
+        ///   Assumes a year has 365 days.
+        /// </remarks>
+        public decimal GetAverageAnnualReturn(DateTime settlementDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        ///   Gets the gross investment of this IMeasurableSecurityBasket, ignoring any proceeds and commissions.
+        /// </summary>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The total amount spent on share purchases.</returns>
+        public decimal GetCost(DateTime settlementDate)
+        {
+            return Positions.Sum(p => p.GetCost(settlementDate));
+        }
+
+        /// <summary>
+        ///   Gets the gross proceeds of this IMeasurableSecurityBasket, ignoring all totalCosts and commissions.
+        /// </summary>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The total amount of proceeds from share sales.</returns>
+        public decimal GetProceeds(DateTime settlementDate)
+        {
+            return Positions.Sum(p => p.GetProceeds(settlementDate));
+        }
+
+        /// <summary>
+        ///   Gets the total commissions paid as of a given date.
+        /// </summary>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s.</returns>
+        public decimal GetCommissions(DateTime settlementDate)
+        {
+            return Positions.Sum(p => p.GetCommissions(settlementDate));
+        }
+
+        /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
         public void AddTransaction(ITransaction transaction)
@@ -188,7 +244,8 @@ namespace Sonneville.PriceTools
                     DividendReinvestment dr = ((DividendReinvestment) transaction);
                     if (dr.Ticker == CashTicker)
                     {
-                        // DividendReceipt already deposited into cash account, so no need to "buy" the CashTicker. Do nothing.
+                        // DividendReceipt already deposited into cash account,
+                        // so no need to "buy" the CashTicker. Do nothing.
                     }
                     else
                     {
@@ -298,72 +355,6 @@ namespace Sonneville.PriceTools
             return position;
         }
         
-        #endregion
-
-        #region Equality Checks
-
-        /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
-        {
-            if (ReferenceEquals(null, obj)) return false;
-            if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != typeof(Portfolio)) return false;
-            return this == (Portfolio)obj;
-        }
-
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int result = Positions.GetHashCode();
-                result = (result * 397) ^ CashAccount.GetHashCode();
-                return result;
-            }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator ==(Portfolio left, Portfolio right)
-        {
-            bool positionsMatch = false;
-            if(left.Positions.Count == right.Positions.Count)
-            {
-                positionsMatch = left.Positions.All(position => right.Positions.Contains(position));
-            }
-
-            bool cashMatches = left.CashAccount == right.CashAccount;
-
-            return positionsMatch && cashMatches;
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator !=(Portfolio left, Portfolio right)
-        {
-            return !(left == right);
-        }
-
         #endregion
     }
 }

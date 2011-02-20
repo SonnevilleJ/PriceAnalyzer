@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Data.Objects.DataClasses;
 
 namespace Sonneville.PriceTools
@@ -8,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    public interface IPriceSeries : IPricePeriod, ITimeSeries
+    public interface IPriceSeries : IPricePeriod
     {
         /// <summary>
         /// Inserts an IPricePeriod to this IPriceSeries.
