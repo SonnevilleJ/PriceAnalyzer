@@ -77,6 +77,22 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
+        public void SerializeDepositTest()
+        {
+            DateTime date = new DateTime(2001, 1, 1);
+            const decimal amount = 100.00m;   // $100.00
+
+            ICashTransaction expected = new Deposit
+                                          {
+                                              SettlementDate = date,
+                                              Amount = amount
+                                          };
+
+            ICashTransaction actual = (ICashTransaction)TestUtilities.Serialize(expected);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void EntityDepositTest()
         {
             DateTime date = new DateTime(2001, 1, 1);

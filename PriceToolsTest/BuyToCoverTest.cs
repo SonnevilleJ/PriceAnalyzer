@@ -57,11 +57,33 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod()]
+        public void SerializeBuyToCoverTransactionTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2001, 1, 1);
+            const decimal price = -100.00m;     // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 5.0m;    // with $5 commission
+
+            IShareTransaction expected = new BuyToCover
+                                           {
+                                               SettlementDate = date,
+                                               Ticker = ticker,
+                                               Price = price,
+                                               Shares = shares,
+                                               Commission = commission
+                                           };
+
+            IShareTransaction actual = (IShareTransaction)TestUtilities.Serialize(expected);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
         public void EntityBuyToCoverTransactionTest()
         {
             const string ticker = "DE";
             DateTime date = new DateTime(2001, 1, 1);
-            const decimal price = -100.00m;   // $100.00 per share
+            const decimal price = -100.00m;     // $100.00 per share
             const double shares = 5;            // 5 shares
             const decimal commission = 5.0m;    // with $5 commission
 
