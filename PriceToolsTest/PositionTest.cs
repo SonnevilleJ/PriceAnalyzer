@@ -40,9 +40,9 @@ namespace Sonneville.PriceToolsTest
 
         [TestMethod()]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void ConstructWithNullTickerThrowsException()
+        public void NullTickerThrowsException()
         {
-            new Position(null);
+            new Position {Ticker = null};
         }
 
         [TestMethod]
@@ -106,7 +106,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = 0.5m;          // 50% annual rate return
-            decimal actual = target.GetTotalAnnualReturn(sellDate);
+            decimal actual = target.GetAverageAnnualReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 

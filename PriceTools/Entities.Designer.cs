@@ -805,7 +805,7 @@ namespace Sonneville.PriceTools
             {
                 return _Ticker;
             }
-            private set
+            set
             {
                 OnTickerChanging(value);
                 ReportPropertyChanging("Ticker");

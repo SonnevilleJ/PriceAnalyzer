@@ -475,7 +475,7 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Ticker" Nullable="false" cg:SetterAccess="Private" >
+          <Property Type="String" Name="Ticker" Nullable="false" cg:SetterAccess="Public" >
             <Documentation>
               <Summary>Gets the ticker symbol held by this Position.</Summary>
             </Documentation>

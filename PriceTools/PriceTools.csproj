@@ -70,6 +70,7 @@
     </Compile>
     <Compile Include="ICashAccount.cs" />
     <Compile Include="ICashTransaction.cs" />
+    <Compile Include="IMeasurableSecurityBasket.cs" />
     <Compile Include="Indicator.cs" />
     <Compile Include="IPortfolio.cs" />
     <Compile Include="ITransaction.cs" />

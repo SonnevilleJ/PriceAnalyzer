@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   Represents a IPosition taken using one or more <see cref = "IShareTransaction" />s.
     /// </summary>
-    public interface IPosition : ITimeSeries
+    public interface IPosition : IMeasurableSecurityBasket
     {
         /// <summary>
         ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this IPosition.
@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the ticker symbol held by this IPosition.
         /// </summary>
-        string Ticker { get; }
+        string Ticker { get; set; }
 
         /// <summary>
         /// Gets the average cost of all held shares in this IPosition as of a given date.
@@ -31,52 +31,6 @@ namespace Sonneville.PriceTools
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the IPortfolio as of the given date.</returns>
         decimal GetInvestedValue(DateTime settlementDate);
-
-        /// <summary>
-        ///   Gets the value of the IPortfolio as of a given date.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The value of the IPortfolio as of the given date.</returns>
-        decimal GetValue(DateTime settlementDate);
-
-        /// <summary>
-        ///   Gets the gross investment of this IPosition, ignoring any proceeds and commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount spent on share purchases.</returns>
-        decimal GetCost(DateTime settlementDate);
-
-        /// <summary>
-        ///   Gets the gross proceeds of this IPosition, ignoring all totalCosts and commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of proceeds from share sales.</returns>
-        decimal GetProceeds(DateTime settlementDate);
-
-        /// <summary>
-        ///   Gets the total commissions paid as of a given date.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s.</returns>
-        decimal GetCommissions(DateTime settlementDate);
-
-        /// <summary>
-        ///   Gets the raw rate of return for this IPosition, not accounting for commissions.
-        /// </summary>
-        decimal GetRawReturn(DateTime settlementDate);
-
-        /// <summary>
-        ///   Gets the total rate of return for this IPosition, after commissions.
-        /// </summary>
-        decimal GetTotalReturn(DateTime settlementDate);
-
-        /// <summary>
-        ///   Gets the total rate of return on an annual basis for this IPosition.
-        /// </summary>
-        /// <remarks>
-        ///   Assumes a year has 365 days.
-        /// </remarks>
-        decimal GetTotalAnnualReturn(DateTime settlementDate);
 
         /// <summary>
         /// Buys shares of the ticker held by this IPosition.

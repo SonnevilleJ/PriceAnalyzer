@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Constructs a new Position that will handle transactions for a given ticker symbol.
         /// </summary>
-        private Position()
+        public Position()
         {
         }
 
@@ -284,7 +284,7 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        public decimal GetTotalAnnualReturn(DateTime settlementDate)
+        public decimal GetAverageAnnualReturn(DateTime settlementDate)
         {
             decimal totalReturn = GetTotalReturn(settlementDate);
             decimal time = (Duration.Days/365.0m);
@@ -305,46 +305,7 @@ namespace Sonneville.PriceTools
 
         #endregion
 
-        #region Private Methods
-
-        private void AddTransaction(double shares, OrderType type, DateTime settlementDate, decimal price,
-                                    decimal commission)
-        {
-            ShareTransaction shareTransaction = TransactionFactory.CreateShareTransaction(settlementDate, type, Ticker, price,
-                                                                                     shares, commission);
-
-            // verify shareTransaction is apporpriate for this Position.
-            Validate(shareTransaction);
-
-            Transactions.Add(shareTransaction);
-        }
-
-        private void Validate(IShareTransaction shareTransaction)
-        {
-            // Validate OrderType
-            switch (shareTransaction.OrderType)
-            {
-                case OrderType.Buy:
-                case OrderType.SellShort:
-                    // long transactions are OK
-                    break;
-                case OrderType.BuyToCover:
-                case OrderType.Sell:
-                    // Verify that sold shares does not exceed available shares at the time of the shareTransaction.
-                    DateTime date = shareTransaction.SettlementDate.Subtract(new TimeSpan(0, 0, 0, 1));
-                    double heldShares = GetHeldShares(date);
-                    if (shareTransaction.Shares > heldShares)
-                    {
-                        throw new InvalidOperationException(
-                            String.Format(CultureInfo.CurrentCulture,
-                                          "This Transaction requires {0} shares, but only {1} shares are held by this Position as of {2}.",
-                                          shareTransaction.Shares, heldShares, date));
-                    }
-                    break;
-            }
-        }
-
-        #region Helper Methods
+        #region Helper Properties
 
         private TimeSpan Duration
         {
@@ -353,12 +314,12 @@ namespace Sonneville.PriceTools
 
         private static IEnumerable<OrderType> Additive
         {
-            get { return new[] {OrderType.Buy, OrderType.SellShort}; }
+            get { return new[] { OrderType.Buy, OrderType.SellShort }; }
         }
 
         private static IEnumerable<OrderType> Subtractive
         {
-            get { return new[] {OrderType.Sell, OrderType.BuyToCover}; }
+            get { return new[] { OrderType.Sell, OrderType.BuyToCover }; }
         }
 
         /// <summary>
@@ -390,6 +351,44 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
+
+        #region Helper Methods
+
+        private void AddTransaction(double shares, OrderType type, DateTime settlementDate, decimal price, decimal commission)
+        {
+            ShareTransaction shareTransaction = TransactionFactory.CreateShareTransaction(settlementDate, type, Ticker, price,
+                                                                                     shares, commission);
+
+            // verify shareTransaction is apporpriate for this Position.
+            Validate(shareTransaction);
+
+            Transactions.Add(shareTransaction);
+        }
+
+        private void Validate(IShareTransaction shareTransaction)
+        {
+            // Validate OrderType
+            switch (shareTransaction.OrderType)
+            {
+                case OrderType.Buy:
+                case OrderType.SellShort:
+                    // new holdings are OK
+                    break;
+                case OrderType.BuyToCover:
+                case OrderType.Sell:
+                    // Verify that closed holdings do not exceed available shares at the time of the shareTransaction.
+                    DateTime date = shareTransaction.SettlementDate.Subtract(new TimeSpan(0, 0, 0, 1));
+                    double heldShares = GetHeldShares(date);
+                    if (shareTransaction.Shares > heldShares)
+                    {
+                        throw new InvalidOperationException(
+                            String.Format(CultureInfo.CurrentCulture,
+                                          "This Transaction requires {0} shares, but only {1} shares are held by this Position as of {2}.",
+                                          shareTransaction.Shares, heldShares, date));
+                    }
+                    break;
+            }
+        }
 
         /// <summary>
         ///   Gets the net shares held at a given date.
@@ -426,9 +425,9 @@ namespace Sonneville.PriceTools
 
         partial void OnTickerChanging(string value)
         {
-            if (value == null)
+            if (string.IsNullOrWhiteSpace(value))
             {
-                throw new ArgumentNullException("value", "Ticker must not be null.");
+                throw new ArgumentNullException("value", "Ticker must not be null, empty, or whitespace.");
             }
         }
     }
