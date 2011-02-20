@@ -262,7 +262,7 @@ namespace Sonneville.PriceTools
             {
                 return (GetValue(settlementDate)/GetCost(settlementDate)) - 1;
             }
-            throw new InvalidOperationException("Cannot calculate raw return for an open position.");
+            throw new InvalidOperationException("Cannot calculate raw return without proceeds.");
         }
 
         /// <summary>
@@ -358,11 +358,7 @@ namespace Sonneville.PriceTools
         {
             ShareTransaction shareTransaction = TransactionFactory.CreateShareTransaction(settlementDate, type, Ticker, price,
                                                                                      shares, commission);
-
-            // verify shareTransaction is apporpriate for this Position.
-            Validate(shareTransaction);
-
-            Transactions.Add(shareTransaction);
+            AddTransaction(shareTransaction);
         }
 
         private void Validate(IShareTransaction shareTransaction)

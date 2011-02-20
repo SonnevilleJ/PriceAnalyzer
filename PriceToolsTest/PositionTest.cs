@@ -15,19 +15,19 @@ namespace Sonneville.PriceToolsTest
     public class PositionTest
     {
         [TestMethod()]
-        public void GetValueReturnsCorrectProfitWithoutCommissions()
+        public void GetValueReturnsCorrectWithoutCommissionsAfterGain()
         {
             const string ticker = "DE";
             IPosition target = new Position(ticker);
 
             DateTime oDate = new DateTime(2000, 1, 1);
-            const decimal oPrice = 100.00m;      // bought at $100.00 per share
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const double oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
             target.Buy(oDate, oShares, oPrice, oCommission);
 
             DateTime cDate = new DateTime(2001, 1, 1);
-            const decimal cPrice = 110.00m;      // sold at $110.00 per share
+            const decimal cPrice = 110.00m;     // sold at $110.00 per share
             const double cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
             target.Sell(cDate, cShares, cPrice, cCommission);
@@ -39,6 +39,47 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod()]
+        public void GetValueReturnsCorrectWithoutCommissionsAfterLoss()
+        {
+            const string ticker = "DE";
+            IPosition target = new Position(ticker);
+
+            DateTime oDate = new DateTime(2000, 1, 1);
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
+            const double oShares = 5;           // bought 5 shares
+            const decimal oCommission = 7.95m;  // bought with $7.95 commission
+            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            DateTime cDate = new DateTime(2001, 1, 1);
+            const decimal cPrice = 90.00m;      // sold at $90.00 per share - $10 per share loss
+            const double cShares = 5;           // sold 5 shares
+            const decimal cCommission = 7.95m;  // sold with $7.95 commission
+            target.Sell(cDate, cShares, cPrice, cCommission);
+
+            // No longer hold these shares, so GetValue should return total profit (or negative loss) minus any commissions.
+            const decimal expected = 450.00m;   // sold all shares for $550.00
+            decimal actual = target.GetValue(cDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
+        public void IndexerReturnsGetValue()
+        {
+            const string ticker = "DE";
+            IPosition target = new Position(ticker);
+
+            DateTime oDate = new DateTime(2000, 1, 1);
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
+            const double oShares = 5;           // bought 5 shares
+            const decimal oCommission = 7.95m;  // bought with $7.95 commission
+            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            decimal expected = target.GetValue(oDate);
+            decimal actual = target[oDate];
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod()]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullTickerThrowsException()
         {
@@ -46,7 +87,82 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void RawReturnTest()
+        public void GetInvestedValueTestBuy()
+        {
+            const string ticker = "DE";
+            IPosition target = new Position(ticker);
+
+            DateTime buyDate = new DateTime(2001, 1, 1);
+            const decimal price = 100.00m;      // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 7.95m;   // with $7.95 commission
+
+            target.Buy(buyDate, shares, price, commission);
+
+            const decimal expected = 500.00m;   // $500 currently invested
+            decimal actual = target.GetInvestedValue(buyDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetInvestedValueTestSellHalf()
+        {
+            const string ticker = "DE";
+            IPosition target = new Position(ticker);
+
+            DateTime buyDate = new DateTime(2001, 1, 1);
+            DateTime sellDate = buyDate.AddDays(1);
+            const decimal price = 100.00m;      // $100.00 per share
+            const double shares = 10;           // 10 shares
+            const decimal commission = 7.95m;   // with $7.95 commission
+
+            target.Buy(buyDate, shares, price, commission);
+            target.Sell(sellDate, shares / 2, price + 10m, commission);
+
+            const decimal expected = 500.00m;   // $500 still invested
+            decimal actual = target.GetInvestedValue(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetInvestedValueTestSellAll()
+        {
+            const string ticker = "DE";
+            IPosition target = new Position(ticker);
+
+            DateTime buyDate = new DateTime(2001, 1, 1);
+            DateTime sellDate = buyDate.AddDays(1);
+            const decimal price = 100.00m;      // $100.00 per share
+            const double shares = 10;           // 10 shares
+            const decimal commission = 7.95m;   // with $7.95 commission
+
+            target.Buy(buyDate, shares, price, commission);
+            target.Sell(sellDate, shares, price + 10m, commission);
+
+            const decimal expected = 0.00m;     // $0.00 currently invested
+            decimal actual = target.GetInvestedValue(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void SellTooManySharesTest()
+        {
+            const string ticker = "DE";
+            IPosition target = new Position(ticker);
+
+            DateTime buyDate = new DateTime(2001, 1, 1);
+            DateTime sellDate = buyDate.AddDays(1);
+            const decimal price = 100.00m;      // $100.00 per share
+            const double shares = 10;           // 10 shares
+            const decimal commission = 7.95m;   // with $7.95 commission
+
+            target.Buy(buyDate, shares, price, commission);
+            target.Sell(sellDate, shares + 1, price + 10m, commission);
+        }
+
+        [TestMethod]
+        public void GetRawReturnTest()
         {
             const string ticker = "DE";
             IPosition target = new Position(ticker);
@@ -66,7 +182,25 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void TotalReturnTest()
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void GetRawReturnWithoutProceedsTest()
+        {
+            const string ticker = "DE";
+            IPosition target = new Position(ticker);
+
+            DateTime buyDate = new DateTime(2001, 1, 1);
+            DateTime sellDate = buyDate.AddDays(1);
+            const decimal price = 100.00m;       // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 7.95m;   // with $7.95 commission
+
+            target.Buy(buyDate, shares, price, commission);
+
+            target.GetRawReturn(sellDate);
+        }
+
+        [TestMethod]
+        public void GetTotalReturnTest()
         {
             const string ticker = "DE";
             IPosition target = new Position(ticker);
@@ -86,7 +220,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void TotalAnnualReturnTest()
+        public void GetAverageAnnualReturnTest()
         {
             const string ticker = "DE";
             IPosition target = new Position(ticker);
