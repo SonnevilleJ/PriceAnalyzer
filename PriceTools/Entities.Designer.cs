@@ -428,6 +428,30 @@ namespace Sonneville.PriceTools
         private global::System.Decimal _Amount;
         partial void OnAmountChanging(global::System.Decimal value);
         partial void OnAmountChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        private global::System.Int32 TransactionType
+        {
+            get
+            {
+                return _TransactionType;
+            }
+            set
+            {
+                OnTransactionTypeChanging(value);
+                ReportPropertyChanging("TransactionType");
+                _TransactionType = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("TransactionType");
+                OnTransactionTypeChanged();
+            }
+        }
+        private global::System.Int32 _TransactionType;
+        partial void OnTransactionTypeChanging(global::System.Int32 value);
+        partial void OnTransactionTypeChanged();
 
         #endregion
     
@@ -1334,7 +1358,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
         [DataMemberAttribute()]
-        protected global::System.Int32 TransactionType
+        private global::System.Int32 TransactionType
         {
             get
             {

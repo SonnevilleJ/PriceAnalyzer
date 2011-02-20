@@ -128,7 +128,7 @@
     <Property Name="Low" Type="decimal" Nullable="true" />
     <Property Name="Close" Type="decimal" Nullable="false" />
     <Property Name="Volume" Type="bigint" Nullable="true" />
-    <Property Name="PriceSery_Id" Type="int" Nullable="true" />
+    <Property Name="PriceSeriesPricePeriod_PricePeriod_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Transactions_ShareTransaction">
     <Key>
@@ -147,6 +147,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Amount" Type="decimal" Nullable="false" />
+    <Property Name="TransactionType" Type="int" Nullable="false" />
     <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="CashAccount_Id" Type="int" Nullable="true" />
   </EntityType>
@@ -260,7 +261,7 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="PricePeriod">
-        <PropertyRef Name="PriceSery_Id" />
+        <PropertyRef Name="PriceSeriesPricePeriod_PricePeriod_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -437,6 +438,7 @@
         <EntityType Name="CashTransaction" BaseType="Entities.Transaction" Abstract="true" >
           <Property Type="Decimal" Name="Amount" Nullable="false" cg:SetterAccess="Public" />
           <NavigationProperty Name="CashAccount" Relationship="Entities.CashAccountCashTransaction" FromRole="CashTransaction" ToRole="CashAccount" cg:SetterAccess="Private" />
+          <Property Type="Int32" Name="TransactionType" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
         </EntityType>
         <EntityType Name="Deposit" BaseType="Entities.CashTransaction" >
         </EntityType>
@@ -459,7 +461,7 @@
               <Summary>The ticker of the security.</Summary>
             </Documentation>
           </Property>
-          <Property Type="Int32" Name="TransactionType" Nullable="false" cg:GetterAccess="Protected" cg:SetterAccess="Protected" />
+          <Property Type="Int32" Name="TransactionType" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
           <NavigationProperty Name="Position" Relationship="Entities.PositionShareTransaction" FromRole="ShareTransaction" ToRole="Position" cg:SetterAccess="Private" />
         </EntityType>
         <EntityType Name="SellShort" BaseType="Entities.ShareTransaction" />
@@ -601,6 +603,7 @@
         <MappingFragment StoreEntitySet="Transactions_CashTransaction">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="Amount" ColumnName="Amount" />
+          <ScalarProperty Name="TransactionType" ColumnName="TransactionType" />
         </MappingFragment>
       </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(Entities.Deposit)">
@@ -723,12 +726,12 @@
     </AssociationSetMapping>
     <AssociationSetMapping Name="PriceSeriesPricePeriod" TypeName="Entities.PriceSeriesPricePeriod" StoreEntitySet="PricePeriods">
       <EndProperty Name="PriceSeries">
-        <ScalarProperty Name="Id" ColumnName="PriceSery_Id" />
+        <ScalarProperty Name="Id" ColumnName="PriceSeriesPricePeriod_PricePeriod_Id" />
       </EndProperty>
       <EndProperty Name="PricePeriod">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
-      <Condition ColumnName="PriceSery_Id" IsNull="false" />
+      <Condition ColumnName="PriceSeriesPricePeriod_PricePeriod_Id" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
@@ -750,21 +753,21 @@
     <edmx:Diagrams>
       <Diagram Name="Entities" ZoomLevel="81" >
         <EntityTypeShape EntityType="Entities.Transaction" Width="1.5" PointX="3.75" PointY="6" Height="1.4033821614583331" />
-        <EntityTypeShape EntityType="Entities.CashTransaction" Width="1.5" PointX="1.375" PointY="6.5" Height="1.211080729166667" />
+        <EntityTypeShape EntityType="Entities.CashTransaction" Width="1.5" PointX="1.375" PointY="6.5" Height="1.5956835937499996" />
         <InheritanceConnector EntityType="Entities.CashTransaction" ManuallyRouted="false" >
-          <ConnectorPoint PointX="3.75" PointY="6.9516910807291659" />
-          <ConnectorPoint PointX="2.875" PointY="6.9516910807291659" />
+          <ConnectorPoint PointX="3.75" PointY="6.9516910807291667" />
+          <ConnectorPoint PointX="2.875" PointY="6.9516910807291667" />
         </InheritanceConnector>
         <EntityTypeShape EntityType="Entities.Deposit" PointX="0.5" PointY="9.125" Width="1.5" Height="1.0187792968749996" />
         <InheritanceConnector ManuallyRouted="false" EntityType="Entities.Deposit">
-          <ConnectorPoint PointX="2.125" PointY="7.7110807291666674" />
+          <ConnectorPoint PointX="2.125" PointY="8.09568359375" />
           <ConnectorPoint PointX="2.125" PointY="8.75" />
           <ConnectorPoint PointX="1.25" PointY="8.75" />
           <ConnectorPoint PointX="1.25" PointY="9.125" />
         </InheritanceConnector>
         <EntityTypeShape EntityType="Entities.Withdrawal" PointX="2.75" PointY="9.125" Width="1.5" Height="1.0187792968749996" />
         <InheritanceConnector ManuallyRouted="false" EntityType="Entities.Withdrawal">
-          <ConnectorPoint PointX="2.125" PointY="7.7110807291666674" />
+          <ConnectorPoint PointX="2.125" PointY="8.09568359375" />
           <ConnectorPoint PointX="2.125" PointY="8.75" />
           <ConnectorPoint PointX="3.5" PointY="8.75" />
           <ConnectorPoint PointX="3.5" PointY="9.125" />

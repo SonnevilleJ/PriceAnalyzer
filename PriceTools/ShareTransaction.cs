@@ -150,18 +150,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ShareTransaction other)
-        {
-            return this == other;
-        }
-
-        /// <summary>
         /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
         /// </summary>
         /// <returns>
@@ -171,7 +159,7 @@ namespace Sonneville.PriceTools
         public override bool Equals(object obj)
         {
             if (obj as ShareTransaction == null) return false;
-            return Equals((ShareTransaction) obj);
+            return this == (ShareTransaction) obj;
         }
 
         /// <summary>

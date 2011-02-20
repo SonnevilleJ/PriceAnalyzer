@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 02/19/2011 19:52:05
+-- Date Created: 02/19/2011 21:16:16
 -- Generated from EDMX file: C:\Dev\PriceAnalyzer\PriceTools\Entities.edmx
 -- --------------------------------------------------
 
@@ -162,7 +162,7 @@ CREATE TABLE [dbo].[PricePeriods] (
     [Low] decimal(18,0)  NULL,
     [Close] decimal(18,0)  NOT NULL,
     [Volume] bigint  NULL,
-    [PriceSery_Id] int  NULL
+    [PriceSeriesPricePeriod_PricePeriod_Id] int  NULL
 );
 GO
 
@@ -181,6 +181,7 @@ GO
 -- Creating table 'Transactions_CashTransaction'
 CREATE TABLE [dbo].[Transactions_CashTransaction] (
     [Amount] decimal(18,0)  NOT NULL,
+    [TransactionType] int  NOT NULL,
     [Id] int  NOT NULL,
     [CashAccount_Id] int  NULL
 );
@@ -400,10 +401,10 @@ ON [dbo].[Transactions_CashTransaction]
     ([CashAccount_Id]);
 GO
 
--- Creating foreign key on [PriceSery_Id] in table 'PricePeriods'
+-- Creating foreign key on [PriceSeriesPricePeriod_PricePeriod_Id] in table 'PricePeriods'
 ALTER TABLE [dbo].[PricePeriods]
 ADD CONSTRAINT [FK_PriceSeriesPricePeriod]
-    FOREIGN KEY ([PriceSery_Id])
+    FOREIGN KEY ([PriceSeriesPricePeriod_PricePeriod_Id])
     REFERENCES [dbo].[PricePeriods_PriceSeries]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
@@ -411,7 +412,7 @@ ADD CONSTRAINT [FK_PriceSeriesPricePeriod]
 -- Creating non-clustered index for FOREIGN KEY 'FK_PriceSeriesPricePeriod'
 CREATE INDEX [IX_FK_PriceSeriesPricePeriod]
 ON [dbo].[PricePeriods]
-    ([PriceSery_Id]);
+    ([PriceSeriesPricePeriod_PricePeriod_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Transactions_ShareTransaction'

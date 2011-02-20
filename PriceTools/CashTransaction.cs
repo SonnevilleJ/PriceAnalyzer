@@ -1,16 +1,12 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a transaction for an <see cref="ICashAccount"/>.
     /// </summary>
     public abstract partial class CashTransaction : ICashTransaction
     {
-        #region Private Members
-
-        private OrderType _type;
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -29,8 +25,8 @@
         /// </summary>
         public OrderType OrderType
         {
-            get { return _type; }
-            protected set { _type = value; }
+            get { return (OrderType) TransactionType; }
+            protected set { TransactionType = (Int32) value; }
         }
 
         #endregion
@@ -90,18 +86,6 @@
         }
 
         /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(CashTransaction other)
-        {
-            return this == other;
-        }
-
-        /// <summary>
         /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
         /// </summary>
         /// <returns>
@@ -111,7 +95,7 @@
         public override bool Equals(object obj)
         {
             if (obj as CashTransaction == null) return false;
-            return Equals((CashTransaction)obj);
+            return this == (CashTransaction) obj;
         }
 
         /// <summary>
