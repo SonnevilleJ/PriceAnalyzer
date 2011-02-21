@@ -12,7 +12,7 @@ namespace Sonneville.PriceToolsTest
         ///A test for Date
         ///</summary>
         [TestMethod()]
-        public void WithdrawalDateTest()
+        public void WithdrawalSettlementDateTest()
         {
             DateTime date = new DateTime(2011, 1, 9);
 

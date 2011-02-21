@@ -8,12 +8,11 @@ namespace Sonneville.PriceToolsTest
     [TestClass]
     public class DepositTest
     {
-
         /// <summary>
         ///A test for Date
         ///</summary>
         [TestMethod()]
-        public void DepositDateTest()
+        public void DepositSettlementDateTest()
         {
             DateTime date = new DateTime(2011, 1, 9);
 

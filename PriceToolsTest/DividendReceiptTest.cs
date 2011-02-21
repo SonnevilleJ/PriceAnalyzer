@@ -12,7 +12,7 @@ namespace Sonneville.PriceToolsTest
         ///A test for Amount
         ///</summary>
         [TestMethod()]
-        public void DividendReceiptWithNegativeAmountTest()
+        public void DividendReceiptAmountNegativeTest()
         {
             const decimal price = -2.0m;        // bought at $-2.00 per share - error
 
@@ -90,7 +90,7 @@ namespace Sonneville.PriceToolsTest
         ///A test for Amount
         ///</summary>
         [TestMethod()]
-        public void DividendReceiptAmountTest()
+        public void DividendReceiptAmountPositiveTest()
         {
             const decimal price = 2.00m;        // received $2.00 per share
 
