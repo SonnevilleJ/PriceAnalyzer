@@ -39,7 +39,7 @@ namespace Sonneville.PriceTools
         /// <returns>The average cost of all shares held at <paramref name = "settlementDate" />.</returns>
         public decimal GetAverageCost(DateTime settlementDate)
         {
-            List<ShareTransaction> transactions = Transactions
+            List<ShareTransaction> transactions = EFTransactions
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .OrderBy(transaction => transaction.SettlementDate).ToList();
             int count = transactions.Count();
@@ -168,7 +168,7 @@ namespace Sonneville.PriceTools
                 return 0;
             }
 
-            List<ShareTransaction> transactions = Transactions
+            List<ShareTransaction> transactions = EFTransactions
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .OrderBy(transaction => transaction.SettlementDate).ToList();
             int count = transactions.Count();
@@ -192,6 +192,14 @@ namespace Sonneville.PriceTools
             }
 
             return value >= 0.00m ? value : 0.00m;
+        }
+
+        /// <summary>
+        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IMeasurableSecurityBasket.
+        /// </summary>
+        public IList<ITransaction> Transactions
+        {
+            get { return new List<ITransaction>(EFTransactions); }
         }
 
         /// <summary>
@@ -248,7 +256,7 @@ namespace Sonneville.PriceTools
         public decimal GetCommissions(DateTime settlementDate)
         {
             return
-                Transactions.Where(transaction => transaction.SettlementDate <= settlementDate).Sum(
+                EFTransactions.Where(transaction => transaction.SettlementDate <= settlementDate).Sum(
                     transaction => transaction.Commission);
         }
 
@@ -297,10 +305,14 @@ namespace Sonneville.PriceTools
         /// <param name="shareTransaction"></param>
         public void AddTransaction(IShareTransaction shareTransaction)
         {
+            // Simulate delay; helps for sorting
+            // A delay is not necessary for any reason.
+            shareTransaction.SettlementDate.AddTicks(1);
+
             // verify shareTransaction is apporpriate for this Position.
             Validate(shareTransaction);
 
-            Transactions.Add((ShareTransaction)shareTransaction);
+            EFTransactions.Add((ShareTransaction)shareTransaction);
         }
 
         #endregion
@@ -328,7 +340,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         private IEnumerable<IShareTransaction> AdditiveTransactions
         {
-            get { return Transactions.Where(t => Additive.Contains(t.OrderType)); }
+            get { return EFTransactions.Where(t => Additive.Contains(t.OrderType)); }
         }
 
         /// <summary>
@@ -337,17 +349,17 @@ namespace Sonneville.PriceTools
         /// </summary>
         private IEnumerable<IShareTransaction> SubtractiveTransactions
         {
-            get { return Transactions.Where(t => Subtractive.Contains(t.OrderType)); }
+            get { return EFTransactions.Where(t => Subtractive.Contains(t.OrderType)); }
         }
 
         private IShareTransaction Last
         {
-            get { return Transactions.OrderBy(t => t.SettlementDate).Last(); }
+            get { return EFTransactions.OrderBy(t => t.SettlementDate).Last(); }
         }
 
         private IShareTransaction First
         {
-            get { return Transactions.OrderBy(t => t.SettlementDate).First(); }
+            get { return EFTransactions.OrderBy(t => t.SettlementDate).First(); }
         }
 
         #endregion

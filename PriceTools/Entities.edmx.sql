@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 02/19/2011 21:16:16
+-- Date Created: 02/20/2011 20:12:50
 -- Generated from EDMX file: C:\Dev\PriceAnalyzer\PriceTools\Entities.edmx
 -- --------------------------------------------------
 
@@ -489,9 +489,9 @@ GO
 
 -- Creating foreign key on [Id] in table 'Transactions_DividendReceipt'
 ALTER TABLE [dbo].[Transactions_DividendReceipt]
-ADD CONSTRAINT [FK_DividendReceipt_inherits_ShareTransaction]
+ADD CONSTRAINT [FK_DividendReceipt_inherits_CashTransaction]
     FOREIGN KEY ([Id])
-    REFERENCES [dbo].[Transactions_ShareTransaction]
+    REFERENCES [dbo].[Transactions_CashTransaction]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO

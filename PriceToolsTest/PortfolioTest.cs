@@ -185,20 +185,214 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
-        public void AddTransactionTest()
+        [TestMethod]
+        public void IndexerTest()
         {
-            //DateTime dateTime = new DateTime(2011, 1, 8);
-            //const decimal deposit = 10000m;
-            //IPortfolio target = new Portfolio(dateTime, deposit);
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            IPortfolio target = new Portfolio(dateTime, amount);
 
-            //DateTime buyDate = new DateTime(2011, 1, 9);
-            //const string ticker = "DE";
-            //const decimal price = 50.00m;
-            //const double shares = 2;
-            //Buy buy = new Buy {SettlementDate = buyDate, Ticker = ticker, Price = price, Shares = shares};
-            //target.AddTransaction(buy);
+            decimal expectedValue = target.GetValue(dateTime);
+            decimal actualValue = target[dateTime];
+            Assert.AreEqual(expectedValue, actualValue);
+        }
 
+        [TestMethod()]
+        public void AddTransactionDepositTest()
+        {
+            DateTime date = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            IPortfolio target = new Portfolio();
+
+            Deposit deposit = new Deposit
+                                  {
+                                      SettlementDate = date,
+                                      Amount = amount
+                                  };
+            target.AddTransaction(deposit);
+
+            Assert.IsTrue(target.Transactions.Contains(deposit));
+        }
+
+        [TestMethod()]
+        public void AddTransactionWithdrawalTest()
+        {
+            DateTime date = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            IPortfolio target = new Portfolio();
+
+            Deposit deposit = new Deposit
+                                  {
+                                      SettlementDate = date,
+                                      Amount = amount
+                                  };
+            target.AddTransaction(deposit);
+
+            Assert.IsTrue(target.Transactions.Contains(deposit));
+        }
+
+        [TestMethod()]
+        public void AddBuyTransactionTest()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime date = new DateTime(2011, 1, 9);
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            Buy buy = new Buy {SettlementDate = date, Ticker = ticker, Price = price, Shares = shares};
+            target.AddTransaction(buy);
+
+            Assert.IsTrue(target.Transactions.Contains(buy));
+        }
+
+        [TestMethod()]
+        public void AddSellTransactionTest()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 1, 9);
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            Buy buy = new Buy
+                          {
+                              SettlementDate = buyDate,
+                              Ticker = ticker,
+                              Price = price,
+                              Shares = shares
+                          };
+            Sell sell = new Sell
+                            {
+                                SettlementDate = buyDate.AddDays(1),
+                                Ticker = ticker,
+                                Price = price,
+                                Shares = shares
+                            };
+
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
+
+            Assert.IsTrue(target.Transactions.Contains(buy)); 
+            Assert.IsTrue(target.Transactions.Contains(sell));
+        }
+
+        [TestMethod()]
+        public void AddBuyToCoverTransactionTest()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 1, 9);
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            SellShort sellShort = new SellShort
+                                      {
+                                          SettlementDate = buyDate,
+                                          Ticker = ticker,
+                                          Price = price,
+                                          Shares = shares
+                                      };
+            BuyToCover buyToCover = new BuyToCover
+                                        {
+                                            SettlementDate = buyDate.AddDays(1),
+                                            Ticker = ticker,
+                                            Price = price,
+                                            Shares = shares
+                                        };
+
+            target.AddTransaction(sellShort);
+            target.AddTransaction(buyToCover);
+
+            Assert.IsTrue(target.Transactions.Contains(sellShort));
+            Assert.IsTrue(target.Transactions.Contains(buyToCover));
+        }
+
+        [TestMethod()]
+        public void AddSellShortTransactionTest()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime date = new DateTime(2011, 1, 9);
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            SellShort sellShort = new SellShort { SettlementDate = date, Ticker = ticker, Price = price, Shares = shares };
+            target.AddTransaction(sellShort);
+
+            Assert.IsTrue(target.Transactions.Contains(sellShort));
+        }
+
+        [TestMethod()]
+        public void AddDividendReceiptTransactionTest()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 1, 9);
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            Buy buy = new Buy
+                          {
+                              SettlementDate = buyDate,
+                              Ticker = ticker,
+                              Price = price,
+                              Shares = shares
+                          };
+            DividendReceipt dividendReceipt = new DividendReceipt
+                                                  {
+                                                      SettlementDate = buyDate.AddDays(1),
+                                                      Amount = 1 * (decimal)shares
+                                                  };
+
+            target.AddTransaction(buy);
+            target.AddTransaction(dividendReceipt);
+
+            Assert.IsTrue(target.Transactions.Contains(buy));
+            Assert.IsTrue(target.Transactions.Contains(dividendReceipt));
+        }
+
+        [TestMethod()]
+        public void AddDividendReinvestmentTransactionTest()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 1, 9);
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            Buy buy = new Buy
+                          {
+                              SettlementDate = buyDate,
+                              Ticker = ticker,
+                              Price = price,
+                              Shares = shares
+                          };
+            DividendReinvestment dividendReinvestment = new DividendReinvestment
+                                                            {
+                                                                SettlementDate = buyDate.AddDays(1),
+                                                                Ticker = ticker,
+                                                                Price = 1,
+                                                                Shares = shares
+                                                            };
+
+            target.AddTransaction(buy);
+            target.AddTransaction(dividendReinvestment);
+
+            Assert.IsTrue(target.Transactions.Contains(buy));
+            Assert.IsTrue(target.Transactions.Contains(dividendReinvestment));
         }
 
         [TestMethod()]
@@ -226,6 +420,36 @@ namespace Sonneville.PriceToolsTest
             const decimal expectedValue = 5000m;
             decimal actualValue = target.GetValue(buyDate);
             Assert.AreEqual(expectedValue, actualValue);
+        }
+
+        [TestMethod()]
+        public void TransactionsTest()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);   // first transaction: deposit
+
+            DateTime buyDate = new DateTime(2011, 1, 9);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal price = 50.00m;
+            const double shares = 2;
+
+            // second transaction: implicit withdrawal from buy1
+            // third transaction: buy1
+            // fourth transaction: implicit withdrawal from buy2
+            // fifth transaction: buy2
+            Buy buy1 = new Buy {SettlementDate = buyDate, Ticker = de, Price = price, Shares = shares};
+            Buy buy2 = new Buy {SettlementDate = buyDate, Ticker = msft, Price = price, Shares = shares};
+            target.AddTransaction(buy1);
+            target.AddTransaction(buy2);
+            
+            const int expectedTransactions = 5;
+            int actualTransactions = target.Transactions.Count;
+            Assert.AreEqual(expectedTransactions, actualTransactions);
+
+            Assert.IsTrue(target.Transactions.Contains(buy1));
+            Assert.IsTrue(target.Transactions.Contains(buy2));
         }
 
         [TestMethod]

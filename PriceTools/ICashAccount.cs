@@ -22,6 +22,12 @@ namespace Sonneville.PriceTools
         void Deposit(Deposit deposit);
 
         /// <summary>
+        /// Deposits a cash dividend into the ICashAccount.
+        /// </summary>
+        /// <param name="dividendReceipt"></param>
+        void Deposit(DividendReceipt dividendReceipt);
+
+        /// <summary>
         /// Withdraws cash from the ICashAccount.
         /// </summary>
         /// <param name="dateTime">The <see cref="DateTime"/> cash is withdrawn from the ICashAccount.</param>

@@ -55,10 +55,7 @@ namespace Sonneville.PriceTools
                     return new DividendReceipt
                                {
                                    SettlementDate = date,
-                                   Ticker = ticker,
-                                   Price = price,
-                                   Shares = shares,
-                                   Commission = commission
+                                   Amount = price
                                };
                 case OrderType.DividendReinvestment:
                     return new DividendReinvestment

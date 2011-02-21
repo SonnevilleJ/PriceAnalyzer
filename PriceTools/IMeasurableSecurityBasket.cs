@@ -1,12 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Represents a measurable basket of securities whose value changes over time.
+    ///   Represents a measurable basket of securities whose value changes over time.
     /// </summary>
     public interface IMeasurableSecurityBasket : ITimeSeries
     {
+        /// <summary>
+        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IMeasurableSecurityBasket.
+        /// </summary>
+        IList<ITransaction> Transactions { get; }
+
         /// <summary>
         ///   Gets the value of the IMeasurableSecurityBasket as of a given date.
         /// </summary>
@@ -40,7 +46,7 @@ namespace Sonneville.PriceTools
         decimal GetCost(DateTime settlementDate);
 
         /// <summary>
-        ///   Gets the gross proceeds of this IMeasurableSecurityBasket, ignoring all totalCosts and commissions.
+        ///   Gets the gross proceeds of this IMeasurableSecurityBasket, ignoring all costs and commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of proceeds from share sales.</returns>
@@ -52,5 +58,12 @@ namespace Sonneville.PriceTools
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s.</returns>
         decimal GetCommissions(DateTime settlementDate);
+
+        /// <summary>
+        ///   Gets the value of any shares held the IMeasurableSecurityBasket as of a given date.
+        /// </summary>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The value of the shares held in the IMeasurableSecurityBasket as of the given date.</returns>
+        decimal GetInvestedValue(DateTime settlementDate);
     }
 }

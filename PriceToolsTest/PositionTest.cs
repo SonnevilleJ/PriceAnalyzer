@@ -169,7 +169,7 @@ namespace Sonneville.PriceToolsTest
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;       // $100.00 per share
+            const decimal price = 100.00m;      // $100.00 per share
             const double shares = 5;            // 5 shares
             const decimal commission = 7.95m;   // with $7.95 commission
 
@@ -190,7 +190,7 @@ namespace Sonneville.PriceToolsTest
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;       // $100.00 per share
+            const decimal price = 100.00m;      // $100.00 per share
             const double shares = 5;            // 5 shares
             const decimal commission = 7.95m;   // with $7.95 commission
 
@@ -227,10 +227,10 @@ namespace Sonneville.PriceToolsTest
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
-            const decimal buyPrice = 100.00m;        // $100.00 per share
-            const decimal sellPrice = 112.00m;       // $102.00 per share
+            const decimal buyPrice = 100.00m;       // $100.00 per share
+            const decimal sellPrice = 112.00m;      // $102.00 per share
             const double shares = 5;                // 5 shares
-            const decimal commission = 5.00m;        // with $5 commission
+            const decimal commission = 5.00m;       // with $5 commission
 
             target.Buy(buyDate, shares, buyPrice, commission);
             target.Sell(sellDate, shares, sellPrice, commission);
@@ -255,10 +255,10 @@ namespace Sonneville.PriceToolsTest
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
-            const decimal buyPrice = 100.00m;    // $100.00 per share
-            const decimal sellPrice = 120.00m;   // $110.00 per share
+            const decimal buyPrice = 100.00m;   // $100.00 per share
+            const decimal sellPrice = 120.00m;  // $110.00 per share
             const double shares = 5;            // 5 shares
-            const decimal commission = 5.00m;    // with $5 commission
+            const decimal commission = 5.00m;   // with $5 commission
 
             longPosition.Buy(buyDate, shares, buyPrice, commission);
             longPosition.Sell(sellDate, shares, sellPrice, commission);
@@ -280,9 +280,9 @@ namespace Sonneville.PriceToolsTest
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime purchaseDate = testDate.AddDays(1);
-            const decimal buyPrice = 100.00m;    // $100.00 per share
+            const decimal buyPrice = 100.00m;   // $100.00 per share
             const double shares = 5;            // 5 shares
-            const decimal commission = 5.00m;    // with $5 commission
+            const decimal commission = 5.00m;   // with $5 commission
 
             target.Buy(purchaseDate, shares, buyPrice, commission);
 
@@ -300,7 +300,7 @@ namespace Sonneville.PriceToolsTest
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime buyDate = testDate.AddDays(1);
-            const decimal buyPrice = 50.00m;     // $50.00 per share
+            const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
@@ -310,7 +310,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
 
             DateTime sellDate = testDate.AddDays(2);
-            const decimal sellPrice = 75.00m;    // $75.00 per share
+            const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(sellDate, sharesSold, sellPrice, commission);
@@ -320,7 +320,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
 
             DateTime buyDate2 = testDate.AddDays(3);
-            const decimal buyPrice2 = 100.00m;   // $100.00 per share
+            const decimal buyPrice2 = 100.00m;  // $100.00 per share
             const double sharesBought2 = 5;     // 5 shares
 
             target.Buy(buyDate2, sharesBought2, buyPrice2, commission);
@@ -338,9 +338,9 @@ namespace Sonneville.PriceToolsTest
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime purchaseDate = testDate.AddDays(1);
-            const decimal buyPrice = 100.00m;    // $100.00 per share
+            const decimal buyPrice = 100.00m;   // $100.00 per share
             const double shares = 5;            // 5 shares
-            const decimal commission = 5.00m;    // with $5 commission
+            const decimal commission = 5.00m;   // with $5 commission
 
             target.Buy(purchaseDate, shares, buyPrice, commission);
 

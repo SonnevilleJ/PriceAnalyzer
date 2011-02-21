@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction for receipt of dividends.
     /// </summary>
-    public sealed partial class DividendReceipt : ShareTransaction
+    public sealed partial class DividendReceipt : CashTransaction
     {
         /// <summary>
         /// Constructs a DividendReceipt Transaction.
@@ -11,11 +11,6 @@
         public DividendReceipt()
         {
             OrderType = OrderType.DividendReceipt;
-        }
-
-        public override decimal TotalValue
-        {
-            get { return Price - Commission; }
         }
     }
 }

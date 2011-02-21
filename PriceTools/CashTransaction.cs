@@ -7,6 +7,12 @@ namespace Sonneville.PriceTools
     /// </summary>
     public abstract partial class CashTransaction : ICashTransaction
     {
+        #region Private Members
+
+        private readonly int _uniqueID = new Random(DateTime.Now.Millisecond).Next();
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
@@ -94,8 +100,7 @@ namespace Sonneville.PriceTools
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            if (obj as CashTransaction == null) return false;
-            return this == (CashTransaction) obj;
+            return this == obj as CashTransaction;
         }
 
         /// <summary>
@@ -107,13 +112,7 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            unchecked
-            {
-                int result = SettlementDate.GetHashCode();
-                result = (result * 397) ^ Amount.GetHashCode();
-                result = (result * 397) ^ OrderType.GetHashCode();
-                return result;
-            }
+            return _uniqueID;
         }
 
         #endregion

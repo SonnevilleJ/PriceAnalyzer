@@ -74,8 +74,8 @@
       <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
       <End Role="Sell" EntitySet="Transactions_Sell" />
     </AssociationSet>
-    <AssociationSet Name="FK_DividendReceipt_inherits_ShareTransaction" Association="Entities.Store.FK_DividendReceipt_inherits_ShareTransaction">
-      <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
+    <AssociationSet Name="FK_DividendReceipt_inherits_CashTransaction" Association="Entities.Store.FK_DividendReceipt_inherits_CashTransaction">
+      <End Role="CashTransaction" EntitySet="Transactions_CashTransaction" />
       <End Role="DividendReceipt" EntitySet="Transactions_DividendReceipt" />
     </AssociationSet>
     <AssociationSet Name="FK_DividendReinvestment_inherits_ShareTransaction" Association="Entities.Store.FK_DividendReinvestment_inherits_ShareTransaction">
@@ -361,11 +361,11 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_DividendReceipt_inherits_ShareTransaction">
-    <End Role="ShareTransaction" Type="Entities.Store.Transactions_ShareTransaction" Multiplicity="1" />
+  <Association Name="FK_DividendReceipt_inherits_CashTransaction">
+    <End Role="CashTransaction" Type="Entities.Store.Transactions_CashTransaction" Multiplicity="1" />
     <End Role="DividendReceipt" Type="Entities.Store.Transactions_DividendReceipt" Multiplicity="0..1" />
     <ReferentialConstraint>
-      <Principal Role="ShareTransaction">
+      <Principal Role="CashTransaction">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="DividendReceipt">
@@ -467,7 +467,7 @@
         <EntityType Name="SellShort" BaseType="Entities.ShareTransaction" />
         <EntityType Name="BuyToCover" BaseType="Entities.ShareTransaction" />
         <EntityType Name="Sell" BaseType="Entities.ShareTransaction" />
-        <EntityType Name="DividendReceipt" BaseType="Entities.ShareTransaction" />
+        <EntityType Name="DividendReceipt" BaseType="Entities.CashTransaction" />
         <EntityType Name="DividendReinvestment" BaseType="Entities.ShareTransaction" />
         <EntityType Name="Buy" BaseType="Entities.ShareTransaction" />
         <EntityType Name="Position">
@@ -480,7 +480,7 @@
               <Summary>Gets the ticker symbol held by this Position.</Summary>
             </Documentation>
           </Property>
-          <NavigationProperty Name="Transactions" Relationship="Entities.PositionShareTransaction" FromRole="Position" ToRole="ShareTransaction" cg:SetterAccess="Private" >
+          <NavigationProperty Name="EFTransactions" Relationship="Entities.PositionShareTransaction" FromRole="Position" ToRole="ShareTransaction" cg:SetterAccess="Private" cg:GetterAccess="Private" >
             <Documentation>
               <Summary>A collection of all &lt;see cref = "IShareTransaction" /&gt;s in this IPosition.</Summary>
             </Documentation>
@@ -751,92 +751,87 @@
     </edmx:Options>
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram Name="Entities" ZoomLevel="81" >
-        <EntityTypeShape EntityType="Entities.Transaction" Width="1.5" PointX="3.75" PointY="6" Height="1.4033821614583331" />
-        <EntityTypeShape EntityType="Entities.CashTransaction" Width="1.5" PointX="1.375" PointY="6.5" Height="1.5956835937499996" />
+      <Diagram Name="Entities" ZoomLevel="44" >
+        <EntityTypeShape EntityType="Entities.Transaction" Width="1.5" PointX="4.5" PointY="6" Height="1.4033821614583331" />
+        <EntityTypeShape EntityType="Entities.CashTransaction" Width="1.5" PointX="1.5" PointY="7.125" Height="1.5956835937499996" />
         <InheritanceConnector EntityType="Entities.CashTransaction" ManuallyRouted="false" >
-          <ConnectorPoint PointX="3.75" PointY="6.9516910807291667" />
-          <ConnectorPoint PointX="2.875" PointY="6.9516910807291667" />
+          <ConnectorPoint PointX="4.5" PointY="6.9552862234072919" />
+          <ConnectorPoint PointX="2.656252" PointY="6.9552862234072919" />
+          <ConnectorPoint PointX="2.656252" PointY="7.125" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Deposit" PointX="0.5" PointY="9.125" Width="1.5" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.Deposit" PointX="0.5" PointY="10.875" Width="1.5" Height="1.0187792968749996" />
         <InheritanceConnector ManuallyRouted="false" EntityType="Entities.Deposit">
-          <ConnectorPoint PointX="2.125" PointY="8.09568359375" />
-          <ConnectorPoint PointX="2.125" PointY="8.75" />
-          <ConnectorPoint PointX="1.25" PointY="8.75" />
-          <ConnectorPoint PointX="1.25" PointY="9.125" />
+          <ConnectorPoint PointX="2.25" PointY="8.72068359375" />
+          <ConnectorPoint PointX="2.25" PointY="10.5" />
+          <ConnectorPoint PointX="1.25" PointY="10.5" />
+          <ConnectorPoint PointX="1.25" PointY="10.875" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Withdrawal" PointX="2.75" PointY="9.125" Width="1.5" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.Withdrawal" PointX="2.5" PointY="10.875" Width="1.5" Height="1.0187792968749996" />
         <InheritanceConnector ManuallyRouted="false" EntityType="Entities.Withdrawal">
-          <ConnectorPoint PointX="2.125" PointY="8.09568359375" />
-          <ConnectorPoint PointX="2.125" PointY="8.75" />
-          <ConnectorPoint PointX="3.5" PointY="8.75" />
-          <ConnectorPoint PointX="3.5" PointY="9.125" />
+          <ConnectorPoint PointX="2.25" PointY="8.72068359375" />
+          <ConnectorPoint PointX="2.25" PointY="10.5" />
+          <ConnectorPoint PointX="3.25" PointY="10.5" />
+          <ConnectorPoint PointX="3.25" PointY="10.875" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.ShareTransaction" Width="1.5" PointX="6" PointY="6.5" Height="1.9802864583333331" />
+        <EntityTypeShape EntityType="Entities.ShareTransaction" Width="1.5" PointX="7.5" PointY="6.5" Height="2.1725878906249996" />
         <InheritanceConnector EntityType="Entities.ShareTransaction" ManuallyRouted="false" >
-          <ConnectorPoint PointX="5.25" PointY="6.9516910807291667" />
           <ConnectorPoint PointX="6" PointY="6.9516910807291667" />
+          <ConnectorPoint PointX="7.5" PointY="6.9516910807291667" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.SellShort" Width="1.5" PointX="7" PointY="8.875" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.SellShort" Width="1.5" PointX="10.5" PointY="10.875" Height="1.0187792968749996" />
         <InheritanceConnector EntityType="Entities.SellShort" ManuallyRouted="false" >
-          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
-          <ConnectorPoint PointX="6.75" PointY="8.675" />
-          <ConnectorPoint PointX="7.75" PointY="8.675" />
-          <ConnectorPoint PointX="7.75" PointY="8.875" />
+          <ConnectorPoint PointX="8.25" PointY="8.672587890625" />
+          <ConnectorPoint PointX="8.25" PointY="10.5" />
+          <ConnectorPoint PointX="11.25" PointY="10.5" />
+          <ConnectorPoint PointX="11.25" PointY="10.875" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.BuyToCover" Width="1.5" PointX="7" PointY="10.25" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.BuyToCover" Width="1.5" PointX="8.5" PointY="10.875" Height="1.0187792968749996" />
         <InheritanceConnector EntityType="Entities.BuyToCover" ManuallyRouted="false" >
-          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
-          <ConnectorPoint PointX="6.75" PointY="10.058" />
-          <ConnectorPoint PointX="7.75" PointY="10.058" />
-          <ConnectorPoint PointX="7.75" PointY="10.25" />
+          <ConnectorPoint PointX="8.25" PointY="8.672587890625" />
+          <ConnectorPoint PointX="8.25" PointY="10.5" />
+          <ConnectorPoint PointX="9.25" PointY="10.5" />
+          <ConnectorPoint PointX="9.25" PointY="10.875" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Sell" Width="1.5" PointX="5" PointY="10.25" Height="1.0187792968749996" />
-        <InheritanceConnector EntityType="Entities.Sell" ManuallyRouted="false" >
-          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
-          <ConnectorPoint PointX="6.75" PointY="10.058" />
-          <ConnectorPoint PointX="5.75" PointY="10.058" />
-          <ConnectorPoint PointX="5.75" PointY="10.25" />
+        <EntityTypeShape EntityType="Entities.Sell" Width="1.5" PointX="6.5" PointY="10.875" Height="1.0187792968749996" />
+        <InheritanceConnector EntityType="Entities.Sell" ManuallyRouted="true" >
+          <ConnectorPoint PointX="8.25" PointY="8.672587890625" />
+          <ConnectorPoint PointX="8.25" PointY="10.503040808787898" />
+          <ConnectorPoint PointX="7.25" PointY="10.503040808787898" />
+          <ConnectorPoint PointX="7.25" PointY="10.875" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.DividendReceipt" Width="1.5" PointX="5" PointY="11.625" Height="1.0187792968749996" />
-        <InheritanceConnector EntityType="Entities.DividendReceipt" ManuallyRouted="false" >
-          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
-          <ConnectorPoint PointX="6.75" PointY="11.433" />
-          <ConnectorPoint PointX="5.75" PointY="11.433" />
-          <ConnectorPoint PointX="5.75" PointY="11.625" />
-        </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.DividendReinvestment" Width="1.5" PointX="7" PointY="11.625" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.DividendReceipt" Width="1.5" PointX="3.25" PointY="9.125" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.DividendReinvestment" Width="1.5" PointX="5.25" PointY="9.125" Height="1.0187792968749996" />
         <InheritanceConnector EntityType="Entities.DividendReinvestment" ManuallyRouted="false" >
-          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
-          <ConnectorPoint PointX="6.75" PointY="11.433" />
-          <ConnectorPoint PointX="7.75" PointY="11.433" />
-          <ConnectorPoint PointX="7.75" PointY="11.625" />
+          <ConnectorPoint PointX="8.2464006041801312" PointY="8.672587890625" />
+          <ConnectorPoint PointX="8.2464006041801312" PointY="8.922587890625" />
+          <ConnectorPoint PointX="6" PointY="8.922587890625" />
+          <ConnectorPoint PointX="6" PointY="9.125" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Buy" Width="1.5" PointX="5" PointY="8.875" Height="1.0187792968749996" />
+        <EntityTypeShape EntityType="Entities.Buy" Width="1.5" PointX="4.625" PointY="10.875" Height="1.0187792968749996" />
         <InheritanceConnector EntityType="Entities.Buy" ManuallyRouted="false" >
-          <ConnectorPoint PointX="6.75" PointY="8.4802864583333335" />
-          <ConnectorPoint PointX="6.75" PointY="8.675" />
-          <ConnectorPoint PointX="5.75" PointY="8.675" />
-          <ConnectorPoint PointX="5.75" PointY="8.875" />
+          <ConnectorPoint PointX="8.25" PointY="8.672587890625" />
+          <ConnectorPoint PointX="8.25" PointY="10.5" />
+          <ConnectorPoint PointX="5.375" PointY="10.5" />
+          <ConnectorPoint PointX="5.375" PointY="10.875" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Position" Width="1.5" PointX="6" PointY="3.875" Height="1.7879850260416657" />
+        <EntityTypeShape EntityType="Entities.Position" Width="1.5" PointX="7.5" PointY="3.875" Height="1.7879850260416657" />
         <AssociationConnector Association="Entities.PositionShareTransaction" ManuallyRouted="false">
-          <ConnectorPoint PointX="6.7431606165033129" PointY="5.6629850260416656" />
-          <ConnectorPoint PointX="6.7431606165033129" PointY="6.5" />
+          <ConnectorPoint PointX="8.25" PointY="5.6629850260416656" />
+          <ConnectorPoint PointX="8.25" PointY="6.5" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Entities.Portfolio" Width="1.5" PointX="3.75" PointY="2.5" Height="1.7879850260416665" />
+        <EntityTypeShape EntityType="Entities.Portfolio" Width="1.5" PointX="4.5" PointY="2.5" Height="1.7879850260416665" />
         <AssociationConnector Association="Entities.PortfolioPosition">
-          <ConnectorPoint PointX="5.25" PointY="4.0814925130208337" />
           <ConnectorPoint PointX="6" PointY="4.0814925130208337" />
+          <ConnectorPoint PointX="7.5" PointY="4.0814925130208337" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Entities.CashAccount" Width="1.5" PointX="1.375" PointY="3.875" Height="1.59568359375" />
+        <EntityTypeShape EntityType="Entities.CashAccount" Width="1.5" PointX="1.5" PointY="3.875" Height="1.59568359375" />
         <AssociationConnector Association="Entities.CashAccountPortfolio">
-          <ConnectorPoint PointX="2.875" PointY="4.0814925130208337" />
-          <ConnectorPoint PointX="3.75" PointY="4.0814925130208337" />
+          <ConnectorPoint PointX="3" PointY="4.0814925130208337" />
+          <ConnectorPoint PointX="4.5" PointY="4.0814925130208337" />
         </AssociationConnector>
         <AssociationConnector Association="Entities.CashAccountCashTransaction">
-          <ConnectorPoint PointX="2.125" PointY="5.47068359375" />
-          <ConnectorPoint PointX="2.125" PointY="6.5" />
+          <ConnectorPoint PointX="2.25" PointY="5.47068359375" />
+          <ConnectorPoint PointX="2.25" PointY="7.125" />
         </AssociationConnector>
         <EntityTypeShape EntityType="Entities.PricePeriod" Width="1.5" PointX="14.625" PointY="2.5" Height="2.5571907552083326" />
         <EntityTypeShape EntityType="Entities.PriceSeries" Width="1.5" PointX="11.875" PointY="2.5" Height="1.0187792968750031" />
@@ -848,6 +843,12 @@
           <ConnectorPoint PointX="13.375" PointY="2.8514124043782552" />
           <ConnectorPoint PointX="14.625" PointY="2.8514124043782552" />
         </AssociationConnector>
+        <InheritanceConnector EntityType="Entities.DividendReceipt" >
+          <ConnectorPoint PointX="2.25" PointY="8.72068359375" />
+          <ConnectorPoint PointX="2.25" PointY="8.875" />
+          <ConnectorPoint PointX="4" PointY="8.875" />
+          <ConnectorPoint PointX="4" PointY="9.125" />
+        </InheritanceConnector>
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

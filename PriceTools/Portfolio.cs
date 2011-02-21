@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using Sonneville.PriceTools.Data;
@@ -115,15 +116,11 @@ namespace Sonneville.PriceTools
                 DateTime latest = DateTime.Now;
                 if (Positions.Count > 0)
                 {
-                    IShareTransaction first = Positions.OrderBy(position => position.Head).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last();
-
-                    latest = first.SettlementDate;
+                    latest = Positions.OrderBy(position => position.Head).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last().SettlementDate;
                 }
                 if (CashAccount.Transactions.Count > 0)
                 {
-                    ICashTransaction first = CashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).Last();
-
-                    latest = first.SettlementDate;
+                    latest = ((ITransaction) CashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).Last()).SettlementDate;
                 }
 
                 return latest;
@@ -224,6 +221,41 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this IPosition.
+        /// </summary>
+        public IList<ITransaction> Transactions
+        {
+            get
+            {
+                IList<ITransaction> list = new List<ITransaction>();
+                foreach (Position p in Positions)
+                {
+                    foreach (ShareTransaction st in p.Transactions)
+                    {
+                        list.Add(st);
+                    }
+                }
+                foreach (CashTransaction ct in CashAccount.Transactions)
+                {
+                    list.Add(ct);
+                }
+
+                list.OrderBy(t => t.SettlementDate);
+                return list;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the value of all shares held the IPortfolio as of a given date.
+        /// </summary>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The value of the shares held in the IPortfolio as of the given date.</returns>
+        public decimal GetInvestedValue(DateTime settlementDate)
+        {
+            return Positions.Sum(p => p.GetInvestedValue(settlementDate));
+        }
+
+        /// <summary>
         ///   Adds an <see cref="ITransaction"/> to this Portfolio.
         /// </summary>
         public void AddTransaction(ITransaction transaction)
@@ -231,8 +263,7 @@ namespace Sonneville.PriceTools
             switch (transaction.OrderType)
             {
                 case OrderType.DividendReceipt:
-                    DividendReceipt d = ((DividendReceipt) transaction);
-                    Deposit(d.SettlementDate, d.TotalValue);
+                    Deposit((DividendReceipt) transaction);
                     break;
                 case OrderType.Deposit:
                     Deposit((Deposit) transaction);
@@ -250,7 +281,7 @@ namespace Sonneville.PriceTools
                     else
                     {
                         Withdraw(dr.SettlementDate, dr.TotalValue);
-                        GetPosition(dr.Ticker).Buy(dr.SettlementDate, dr.Shares, dr.Price, dr.Commission);
+                        GetPosition(dr.Ticker).AddTransaction(dr);
                     }
                     break;
                 case OrderType.Buy:
@@ -274,6 +305,11 @@ namespace Sonneville.PriceTools
                     Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
                     break;
             }
+        }
+
+        private void Deposit(DividendReceipt dividendReceipt)
+        {
+            CashAccount.Deposit(dividendReceipt);
         }
 
         /// <summary>

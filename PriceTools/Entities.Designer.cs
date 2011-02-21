@@ -401,6 +401,7 @@ namespace Sonneville.PriceTools
     [DataContractAttribute(IsReference=true)]
     [KnownTypeAttribute(typeof(Deposit))]
     [KnownTypeAttribute(typeof(Withdrawal))]
+    [KnownTypeAttribute(typeof(DividendReceipt))]
     public abstract partial class CashTransaction : Transaction
     {
         #region Primitive Properties
@@ -533,7 +534,7 @@ namespace Sonneville.PriceTools
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="DividendReceipt")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    public partial class DividendReceipt : ShareTransaction
+    public partial class DividendReceipt : CashTransaction
     {
         #region Factory Method
     
@@ -542,19 +543,13 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="id">Initial value of the Id property.</param>
         /// <param name="settlementDate">Initial value of the SettlementDate property.</param>
-        /// <param name="shares">Initial value of the Shares property.</param>
-        /// <param name="price">Initial value of the Price property.</param>
-        /// <param name="commission">Initial value of the Commission property.</param>
-        /// <param name="ticker">Initial value of the Ticker property.</param>
-        public static DividendReceipt CreateDividendReceipt(global::System.Int32 id, global::System.DateTime settlementDate, global::System.Double shares, global::System.Decimal price, global::System.Decimal commission, global::System.String ticker)
+        /// <param name="amount">Initial value of the Amount property.</param>
+        public static DividendReceipt CreateDividendReceipt(global::System.Int32 id, global::System.DateTime settlementDate, global::System.Decimal amount)
         {
             DividendReceipt dividendReceipt = new DividendReceipt();
             dividendReceipt.Id = id;
             dividendReceipt.SettlementDate = settlementDate;
-            dividendReceipt.Shares = shares;
-            dividendReceipt.Price = price;
-            dividendReceipt.Commission = commission;
-            dividendReceipt.Ticker = ticker;
+            dividendReceipt.Amount = amount;
             return dividendReceipt;
         }
 
@@ -829,13 +824,13 @@ namespace Sonneville.PriceTools
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Entities", "PositionShareTransaction", "ShareTransaction")]
-        public EntityCollection<ShareTransaction> Transactions
+        private EntityCollection<ShareTransaction> EFTransactions
         {
             get
             {
                 return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ShareTransaction>("Entities.PositionShareTransaction", "ShareTransaction");
             }
-            private set
+            set
             {
                 if ((value != null))
                 {
@@ -1250,7 +1245,6 @@ namespace Sonneville.PriceTools
     [KnownTypeAttribute(typeof(SellShort))]
     [KnownTypeAttribute(typeof(BuyToCover))]
     [KnownTypeAttribute(typeof(Sell))]
-    [KnownTypeAttribute(typeof(DividendReceipt))]
     [KnownTypeAttribute(typeof(DividendReinvestment))]
     [KnownTypeAttribute(typeof(Buy))]
     public abstract partial class ShareTransaction : Transaction

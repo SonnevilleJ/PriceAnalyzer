@@ -8,6 +8,12 @@ namespace Sonneville.PriceTools
     /// </summary>
     public abstract partial class ShareTransaction : IShareTransaction
     {
+        #region Private Members
+
+        private readonly int _uniqueID = new Random(DateTime.Now.Millisecond).Next();
+
+        #endregion
+        
         #region Constructors
 
         /// <summary>
@@ -158,8 +164,7 @@ namespace Sonneville.PriceTools
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            if (obj as ShareTransaction == null) return false;
-            return this == (ShareTransaction) obj;
+            return this == obj as ShareTransaction;
         }
 
         /// <summary>
@@ -171,16 +176,7 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            unchecked
-            {
-                int result = SettlementDate.GetHashCode();
-                result = (result*397) ^ Shares.GetHashCode();
-                result = (result*397) ^ Price.GetHashCode();
-                result = (result*397) ^ Commission.GetHashCode();
-                result = (result*397) ^ (Ticker != null ? Ticker.GetHashCode() : 0);
-                result = (result*397) ^ OrderType.GetHashCode();
-                return result;
-            }
+            return _uniqueID;
         }
 
         #endregion
