@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
 using Sonneville.PriceTools.Data;
 
@@ -354,25 +353,9 @@ namespace Sonneville.PriceTools
         /// <param name="csvFile">The CSV file containing the transactions to add.</param>
         public void AddTransactionHistory(TransactionHistoryCsvFile csvFile)
         {
-            if (csvFile == null)
+            foreach (ITransaction transaction in csvFile.Transactions)
             {
-                throw new ArgumentNullException("csvFile");
-            }
-
-            csvFile.Parse();
-
-            // need to add transactions IN ORDER (oldest to newest)
-            DataRow[] rows = csvFile.DataTable.Select(null, "Date ASC");
-
-            foreach (DataRow row in rows)
-            {
-                AddTransaction(TransactionFactory.CreateTransaction(
-                    (DateTime) row[csvFile.DateColumn],
-                    (OrderType) row[csvFile.OrderColumn],
-                    (string) row[csvFile.SymbolColumn],
-                    (decimal) row[csvFile.PriceColumn],
-                    (double) row[csvFile.SharesColumn],
-                    (decimal) row[csvFile.CommissionColumn]));
+                AddTransaction(transaction);
             }
         }
 

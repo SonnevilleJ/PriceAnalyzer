@@ -23,11 +23,8 @@ namespace Sonneville.PriceToolsTest
         {
             using (Stream csvStream = new MemoryStream(TestData.FidelityTransactions))
             {
-                IPortfolio portfolio;
-                using (FidelityTransactionHistoryCsvFile target = new FidelityTransactionHistoryCsvFile(csvStream))
-                {
-                    portfolio = new Portfolio(target, "FTEXX");
-                }
+                FidelityTransactionHistoryCsvFile target = new FidelityTransactionHistoryCsvFile(csvStream);
+                IPortfolio portfolio = new Portfolio(target, "FTEXX");
 
                 const decimal expectedValue = 2848.43m;
                 decimal actualValue = portfolio.GetValue(new DateTime(2010, 11, 16));

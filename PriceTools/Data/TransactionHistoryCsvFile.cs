@@ -10,14 +10,15 @@ namespace Sonneville.PriceTools.Data
     /// <summary>
     ///   Parses a single <see cref = "IPortfolio" /> from CSV data for an investment portfolio.
     /// </summary>
-    public abstract class TransactionHistoryCsvFile : IDisposable
+    public abstract class TransactionHistoryCsvFile
     {
         #region Private Members
 
-        private IDictionary<TransactionColumn, int> _map = new Dictionary<TransactionColumn, int>(5);
-        private Stream _stream;
-        private DataTable _dataTable;
+        private readonly IDictionary<TransactionColumn, int> _map = new Dictionary<TransactionColumn, int>(5);
+        private readonly Stream _stream;
+        private readonly bool _useTotalBasis;
         private bool _tableParsed;
+        private readonly List<ITransaction> _transactions = new List<ITransaction>();
 
         #endregion
 
@@ -35,17 +36,7 @@ namespace Sonneville.PriceTools.Data
                 throw new ArgumentNullException("csvStream");
             }
             _stream = csvStream;
-            UseTotalBasis = useTotalBasis;
-
-            InitializeDataTable();
-        }
-
-        /// <summary>
-        /// Allows an <see cref="T:System.Object"/> to attempt to free resources and perform other cleanup operations before the <see cref="T:System.Object"/> is reclaimed by garbage collection.
-        /// </summary>
-        ~TransactionHistoryCsvFile()
-        {
-            Dispose(false);
+            _useTotalBasis = useTotalBasis;
         }
 
         #endregion
@@ -53,61 +44,21 @@ namespace Sonneville.PriceTools.Data
         #region Public Properties
 
         /// <summary>
-        /// Gets a <see cref="DataTable"/> containing the data in this CSV file.
+        /// Gets a list of all ITransactions in the file.
         /// </summary>
-        public DataTable DataTable
+        public IEnumerable<ITransaction> Transactions
         {
             get
             {
-                return _dataTable;
-            }
-            private set
-            {
-                if (_dataTable != null)
+                if (!_tableParsed)
                 {
-                    _dataTable.Dispose();
+                    Parse();
                 }
-                _dataTable = value;
+                return _transactions;
             }
         }
 
-        /// <summary>
-        /// Gets the index of the Date column in DataTable.
-        /// </summary>
-        public int DateColumn { get; private set; }
-
-        /// <summary>
-        /// Gets the index of the Order column in DataTable.
-        /// </summary>
-        public int OrderColumn { get; private set; }
-
-        /// <summary>
-        /// Gets the index of the Symbol column in DataTable.
-        /// </summary>
-        public int SymbolColumn { get; private set; }
-
-        /// <summary>
-        /// Gets the index of the Shares column in DataTable.
-        /// </summary>
-        public int SharesColumn { get; private set; }
-
-        /// <summary>
-        /// Gets the index of the PRice column in DataTable.
-        /// </summary>
-        public int PriceColumn { get; private set; }
-
-        /// <summary>
-        /// Gets the index of the Commission column in DataTable.
-        /// </summary>
-        public int CommissionColumn { get; private set; }
-
         #endregion
-
-        /// <summary>
-        /// Gets or sets a value indicating whether the TotalBasis column should be used to calculate price.
-        /// </summary>
-        /// <remarks>Use the TotalBasis column when raw price is not included in the CSV file.</remarks>
-        private bool UseTotalBasis { get; set; }
 
         #region Private Methods
 
@@ -116,7 +67,7 @@ namespace Sonneville.PriceTools.Data
             string[] headers = reader.GetFieldHeaders();
             for (int i = 0; i < headers.Length; i++)
             {
-                TransactionColumn column = ParseHeader(headers[i]);
+                TransactionColumn column = ParseColumnHeader(headers[i]);
                 if (column != TransactionColumn.None)
                 {
                     _map.Add(column, i);
@@ -124,174 +75,66 @@ namespace Sonneville.PriceTools.Data
             }
         }
 
-        private void InitializeDataTable()
-        {
-            // create columns
-            DataColumn dateColumn = null;
-            DataColumn orderColumn = null;
-            DataColumn symbolColumn = null;
-            DataColumn sharesColumn = null;
-            DataColumn priceColumn = null;
-            DataColumn commissionColumn = null;
-
-            try
-            {
-                dateColumn = new DataColumn("Date", typeof (DateTime));
-                orderColumn = new DataColumn("Order Type", typeof (OrderType));
-                symbolColumn = new DataColumn("Symbol", typeof (string));
-                sharesColumn = new DataColumn("Shares", typeof (double));
-                priceColumn = new DataColumn("Price", typeof (decimal));
-                commissionColumn = new DataColumn("Commission", typeof (decimal)) {DefaultValue = 0.00m};
-
-                // set default column values, just in case parser methods don't use default values
-                symbolColumn.DefaultValue = String.Empty;
-                sharesColumn.DefaultValue = 0.0;
-                priceColumn.DefaultValue = 0.00m;
-                commissionColumn.DefaultValue = 0.00m;
-
-                // create table
-                using (DataTable table = new DataTable {Locale = CultureInfo.InvariantCulture})
-                {
-                    table.Columns.Add(dateColumn);
-                    table.Columns.Add(orderColumn);
-                    table.Columns.Add(symbolColumn);
-                    table.Columns.Add(sharesColumn);
-                    table.Columns.Add(priceColumn);
-                    table.Columns.Add(commissionColumn);
-
-                    // fill column indexes
-                    DateColumn = table.Columns.IndexOf(dateColumn);
-                    OrderColumn = table.Columns.IndexOf(orderColumn);
-                    SymbolColumn = table.Columns.IndexOf(symbolColumn);
-                    SharesColumn = table.Columns.IndexOf(sharesColumn);
-                    PriceColumn = table.Columns.IndexOf(priceColumn);
-                    CommissionColumn = table.Columns.IndexOf(commissionColumn);
-
-                    DataTable = table;
-                }
-            }
-            finally
-            {
-                if (dateColumn != null) dateColumn.Dispose();
-                if (orderColumn != null) orderColumn.Dispose();
-                if (symbolColumn != null) symbolColumn.Dispose();
-                if (sharesColumn != null) sharesColumn.Dispose();
-                if (priceColumn != null) priceColumn.Dispose();
-                if (commissionColumn != null) commissionColumn.Dispose();
-            }
-        }
-
-        #endregion
-
-        #region IDisposable Implementation
-
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        /// <summary>
-        ///   Performs application-defined tasks associated with freeing, releasing, or resetting umanaged resources.
-        /// </summary>
-        /// <param name="disposing">A value indicating whether or not the object should be disposed.</param>
-        protected virtual void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                // free managed objects here
-                _map = null;
-            }
-
-            // dispose of unmanaged objects here
-            if(_stream != null)
-            {
-                _stream.Dispose();
-                _stream = null;
-            }
-            if(_dataTable != null)
-            {
-                _dataTable.Dispose();
-                _dataTable = null;
-            }
-        }
-
-        #endregion
-
-        #region Public Methods
-
         /// <summary>
         ///   Parses a <see cref = "DataTable" /> from a given CSV data stream.
         /// </summary>
         /// <returns>A <see cref = "DataTable" /> of the CSV data.</returns>
-        public void Parse()
+        private void Parse()
         {
-            if (!_tableParsed)
+            if (_tableParsed) return;
+            using (CsvReader reader = new CsvReader(new StreamReader(_stream), true))
             {
-                using (CsvReader reader = new CsvReader(new StreamReader(_stream), true))
-                {
-                    MapHeaders(reader);
+                MapHeaders(reader);
 
-                    InitializeDataTable();
-                    while (reader.ReadNextRecord())
+                while (reader.ReadNextRecord())
+                {
+                    string ticker = string.Empty;
+                    decimal price;
+
+                    OrderType orderType = ParseOrderTypeColumn(reader[_map[TransactionColumn.OrderType]]);
+                    DateTime settlementDate = ParseDateColumn(reader[_map[TransactionColumn.Date]]);
+                    double shares = ParseSharesColumn(reader[_map[TransactionColumn.Shares]]);
+                    decimal commission = ParseCommissionColumn(reader[_map[TransactionColumn.Commission]]);
+
+                    if (orderType != OrderType.DividendReceipt)
                     {
-                        OrderType orderType = ParseOrderTypeColumn(reader[_map[TransactionColumn.OrderType]]);
-                        DataRow row = DataTable.NewRow();
-                        row.BeginEdit();
-                        row[DateColumn] = ParseDateColumn(reader[_map[TransactionColumn.Date]]);
-                        row[OrderColumn] = orderType;
-                        row[SharesColumn] = ParseSharesColumn(reader[_map[TransactionColumn.Shares]]);
-                        row[CommissionColumn] = ParseCommissionColumn(reader[_map[TransactionColumn.Commission]]);
-                        if (orderType != OrderType.DividendReceipt)
-                        {
-                            // Portfolio currently can't support ticker symbols for dividend received, so ignore
-                            row[SymbolColumn] = ParseSymbolColumn(reader[_map[TransactionColumn.Symbol]]);
-                        }
-                        switch (orderType)
-                        {
-                            case OrderType.Buy:
-                                if (UseTotalBasis)
-                                {
-                                    row[PriceColumn] = (ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]) - (decimal)row[CommissionColumn]) / (decimal)((double)row[SharesColumn]);
-                                }
-                                else
-                                {
-                                    row[PriceColumn] = ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
-                                }
-                                break;
-                            case OrderType.Sell:
-                                if (UseTotalBasis)
-                                {
-                                    row[PriceColumn] = (ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]) + (decimal)row[CommissionColumn]) / (decimal)((double)row[SharesColumn]);
-                                }
-                                else
-                                {
-                                    row[PriceColumn] = ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
-                                }
-                                break;
-                            case OrderType.DividendReceipt:
-                            case OrderType.DividendReinvestment:
-                            case OrderType.Deposit:
-                            case OrderType.Withdrawal:
-                                if (UseTotalBasis)
-                                {
-                                    row[PriceColumn] = ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]);
-                                }
-                                else
-                                {
-                                    row[PriceColumn] = ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
-                                }
-                                break;
-                        }
-                        row.EndEdit();
-                        DataTable.Rows.Add(row);
+                        // Portfolio currently can't support ticker symbols for dividend received, so ignore
+                        ticker = ParseSymbolColumn(reader[_map[TransactionColumn.Symbol]]);
                     }
-                    _tableParsed = true;
+                    switch (orderType)
+                    {
+                        case OrderType.Buy:
+                            price = _useTotalBasis
+                                        ? (ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]) - commission)/(decimal) (shares)
+                                        : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                            break;
+                        case OrderType.Sell:
+                            price = _useTotalBasis
+                                        ? (ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]) + commission)/(decimal) (shares)
+                                        : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                            break;
+                        case OrderType.DividendReceipt:
+                        case OrderType.DividendReinvestment:
+                        case OrderType.Deposit:
+                        case OrderType.Withdrawal:
+                            price = _useTotalBasis
+                                ? ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]])
+                                : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                            break;
+                        default:
+                            throw new NotImplementedException();
+                    }
+                    _transactions.Add(TransactionFactory.CreateTransaction(
+                        settlementDate,
+                        orderType,
+                        ticker,
+                        price,
+                        shares,
+                        commission));
                 }
+                _transactions.Sort((left, right) => DateTime.Compare(left.SettlementDate, right.SettlementDate));
+
+                _tableParsed = true;
             }
         }
 
@@ -300,11 +143,11 @@ namespace Sonneville.PriceTools.Data
         #region Abstract/Virtual Methods
 
         /// <summary>
-        /// Parses the headers of a TransactionHistoryCsv file.
+        /// Parses the column headers of a TransactionHistoryCsv file.
         /// </summary>
         /// <param name="header">A header from the CSV file</param>
         /// <returns>The <see cref="TransactionColumn"/> of <paramref name="header"/>.</returns>
-        protected abstract TransactionColumn ParseHeader(string header);
+        protected abstract TransactionColumn ParseColumnHeader(string header);
 
         /// <summary>
         /// Parses data from the Date column of the CSV data.
@@ -313,7 +156,12 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed <see cref="DateTime"/>.</returns>
         protected virtual DateTime ParseDateColumn(string text)
         {
-            return DateTime.Parse(text.Trim(), CultureInfo.InvariantCulture);
+            string result = text.Trim();
+            if(string.IsNullOrWhiteSpace(result))
+            {
+                throw new ArgumentNullException("text", "Parsed date was returned as null or whitespace.");
+            }
+            return DateTime.Parse(result, CultureInfo.InvariantCulture);
         }
 
         /// <summary>
@@ -330,7 +178,12 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed ticker symbol.</returns>
         protected virtual string ParseSymbolColumn(string text)
         {
-            return text.Trim().ToUpperInvariant();
+            string result = text.Trim();
+            if (string.IsNullOrWhiteSpace(result))
+            {
+                throw new ArgumentNullException("text", "Parsed ticker symbol was returned as null or whitespace.");
+            }
+            return result.ToUpperInvariant();
         }
 
         /// <summary>
@@ -340,7 +193,10 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed number of shares.</returns>
         protected virtual double ParseSharesColumn(string text)
         {
-            return text.Trim().Length != 0 ? Math.Abs(double.Parse(text.Trim(), CultureInfo.InvariantCulture)) : 0.0;
+            string result = text.Trim();
+            return string.IsNullOrWhiteSpace(result)
+                       ? 0.0
+                       : Math.Abs(double.Parse(text.Trim(), CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -350,7 +206,10 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed per-share price.</returns>
         protected virtual decimal ParsePriceColumn(string text)
         {
-            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture)) : 0.0m;
+            string result = text.Trim();
+            return string.IsNullOrWhiteSpace(result)
+                       ? 0.00m
+                       : Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -360,7 +219,10 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed comission price.</returns>
         protected virtual decimal ParseCommissionColumn(string text)
         {
-            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture)) : 0.0m;
+            string result = text.Trim();
+            return string.IsNullOrWhiteSpace(result)
+                       ? 0.00m
+                       : Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture));
         }
 
         /// <summary>
@@ -370,7 +232,10 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed TotalBasis amount.</returns>
         protected virtual decimal ParseTotalBasisColumn(string text)
         {
-            return text.Trim().Length != 0 ? Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture)) : 0.0m;
+            string result = text.Trim();
+            return string.IsNullOrWhiteSpace(result)
+                       ? 0.00m
+                       : Math.Abs(decimal.Parse(result, CultureInfo.InvariantCulture));
         }
 
         #endregion

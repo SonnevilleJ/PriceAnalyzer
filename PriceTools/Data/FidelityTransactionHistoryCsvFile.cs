@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools.Data
         /// </summary>
         /// <param name="header">A header from the CSV file</param>
         /// <returns>The <see cref="TransactionColumn"/> of <paramref name="header"/>.</returns>
-        protected override TransactionColumn ParseHeader(string header)
+        protected override TransactionColumn ParseColumnHeader(string header)
         {
             if(String.IsNullOrWhiteSpace(header))
             {
