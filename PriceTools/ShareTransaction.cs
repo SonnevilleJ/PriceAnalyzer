@@ -8,12 +8,6 @@ namespace Sonneville.PriceTools
     /// </summary>
     public abstract partial class ShareTransaction : IShareTransaction
     {
-        #region Private Members
-
-        private readonly int _uniqueID = new Random(DateTime.Now.Millisecond).Next();
-
-        #endregion
-        
         #region Constructors
 
         /// <summary>
@@ -176,7 +170,7 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return _uniqueID;
+            return base.GetHashCode();
         }
 
         #endregion

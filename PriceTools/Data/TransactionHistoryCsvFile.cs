@@ -96,9 +96,11 @@ namespace Sonneville.PriceTools.Data
                     double shares = ParseSharesColumn(reader[_map[TransactionColumn.Shares]]);
                     decimal commission = ParseCommissionColumn(reader[_map[TransactionColumn.Commission]]);
 
-                    if (orderType != OrderType.DividendReceipt)
+                    if (orderType != OrderType.Deposit &&
+                        orderType != OrderType.Withdrawal &&
+                        orderType != OrderType.DividendReceipt)
                     {
-                        // Portfolio currently can't support ticker symbols for dividend received, so ignore
+                        // Portfolio currently can't support ticker symbols for cash transactions, so ignore
                         ticker = ParseSymbolColumn(reader[_map[TransactionColumn.Symbol]]);
                     }
                     switch (orderType)

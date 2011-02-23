@@ -123,13 +123,7 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return ((((((Head.GetHashCode() << 5)
-                        ^ Tail.GetHashCode() << 5)
-                       ^ Open.GetHashCode() << 5)
-                      ^ High.GetHashCode() << 5)
-                     ^ Low.GetHashCode() << 5)
-                    ^ Close.GetHashCode() << 5)
-                   ^ Volume.GetHashCode();
+            return base.GetHashCode();
         }
 
 

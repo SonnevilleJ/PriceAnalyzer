@@ -99,6 +99,9 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static bool operator ==(CashAccount left, CashAccount right)
         {
+            if (ReferenceEquals(null, left)) return false;
+            if (ReferenceEquals(null, right)) return false;
+
             bool cashMatches = false;
             if (left.Transactions.Count == right.Transactions.Count)
             {
@@ -128,8 +131,6 @@ namespace Sonneville.PriceTools
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(CashAccount other)
         {
-            if (ReferenceEquals(null, other)) return false;
-            if (ReferenceEquals(this, other)) return true;
             return other == this;
         }
 
@@ -155,10 +156,7 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            unchecked
-            {
-                return Transactions.Aggregate(0, (current, t) => (current*397) + t.GetHashCode());
-            }
+            return base.GetHashCode();
         }
 
         #endregion

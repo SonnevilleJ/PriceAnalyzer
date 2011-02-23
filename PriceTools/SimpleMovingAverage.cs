@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         /// <summary>
-        ///   Constructs a new Averager using the specified <see cref = "MovingAverageMethod" />
+        ///   Constructs a new Simple Moving Average.
         /// </summary>
         /// <param name = "series">The <see cref="IPriceSeries"/> containing the data to be averaged.</param>
         /// <param name = "range">The number of periods to average together.</param>
