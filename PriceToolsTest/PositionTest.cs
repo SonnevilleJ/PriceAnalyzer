@@ -5,8 +5,6 @@ using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
-
-
     /// <summary>
     ///This is a test class for PositionTest and is intended
     ///to contain all PositionTest Unit Tests

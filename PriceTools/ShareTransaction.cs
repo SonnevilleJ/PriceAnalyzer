@@ -44,12 +44,12 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the TransactionType of this ShareTransaction.
+        ///   Gets the <see cref="OrderType"/> of this ShareTransaction.
         /// </summary>
         public OrderType OrderType
         {
-            get { return (OrderType) TransactionType; }
-            protected set { TransactionType = (Int32) value; }
+            get { return (OrderType) EFTransactionType; }
+            protected set { EFTransactionType = (Int32) value; }
         }
 
         /// <summary>

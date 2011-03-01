@@ -1,47 +1,10 @@
-﻿using System;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Represents a transaction for an <see cref="ICashAccount"/>.
+    /// Represents a price quote for a financial security.
     /// </summary>
-    public abstract partial class CashTransaction : ICashTransaction
+    public partial class PriceQuote : IPriceQuote
     {
-        #region Constructors
-
-        /// <summary>
-        /// Constructs a CashTransaction.
-        /// </summary>
-        protected internal CashTransaction()
-        {
-        }
-
-        #endregion
-
-        #region Implementation of ITransaction
-
-        /// <summary>
-        ///   Gets the <see cref = "PriceTools.OrderType" /> of this CashTransaction.
-        /// </summary>
-        public OrderType OrderType
-        {
-            get { return (OrderType) EFTransactionType; }
-            protected set { EFTransactionType = (Int32) value; }
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Ensure Amount is positive for Deposit and negative for Withdrawal.
-        /// </summary>
-        partial void OnAmountChanged()
-        {
-            if ((OrderType == OrderType.Deposit && Amount < 0) || (OrderType == OrderType.Withdrawal && Amount > 0))
-            {
-                Amount = -Amount;
-            }
-        }
-
         #region Equality Checks
 
         /// <summary>
@@ -49,14 +12,14 @@ namespace Sonneville.PriceTools
         /// <param name = "left"></param>
         /// <param name = "right"></param>
         /// <returns></returns>
-        public static bool operator ==(CashTransaction left, CashTransaction right)
+        public static bool operator ==(PriceQuote left, PriceQuote right)
         {
             if (ReferenceEquals(null, left)) return false;
             if (ReferenceEquals(null, right)) return false;
 
-            return (left.OrderType == right.OrderType &&
-                    left.SettlementDate == right.SettlementDate &&
-                    left.Amount == right.Amount);
+            return (left.SettlementDate == right.SettlementDate &&
+                    left.Price == right.Price &&
+                    left.Volume == right.Volume);
         }
 
         /// <summary>
@@ -64,14 +27,14 @@ namespace Sonneville.PriceTools
         /// <param name = "left"></param>
         /// <param name = "right"></param>
         /// <returns></returns>
-        public static bool operator !=(CashTransaction left, CashTransaction right)
+        public static bool operator !=(PriceQuote left, PriceQuote right)
         {
             return !(left == right);
         }
 
         #endregion
 
-        #region Implementation of IEquatable<ITransaction>
+        #region Implementation of IEquatable<IPriceQuote>
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -80,7 +43,7 @@ namespace Sonneville.PriceTools
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ITransaction other)
+        public bool Equals(IPriceQuote other)
         {
             return Equals((object)other);
         }
@@ -94,7 +57,7 @@ namespace Sonneville.PriceTools
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return this == obj as CashTransaction;
+            return this == obj as PriceQuote;
         }
 
         /// <summary>
@@ -106,9 +69,14 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            unchecked
+            {
+                int result = _SettlementDate.GetHashCode();
+                result = (result*397) ^ _Price.GetHashCode();
+                result = (result*397) ^ (_Volume.HasValue ? _Volume.Value.GetHashCode() : 0);
+                return result;
+            }
         }
-
         #endregion
     }
 }

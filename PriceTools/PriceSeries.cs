@@ -1,150 +1,150 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.IO;
 using System.Linq;
-using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   Represents a set of PricePeriods.
+    ///   Represents a time series of PriceQuotes.
     /// </summary>
-    public partial class PriceSeries : PricePeriod, IPriceSeries
+    public partial class PriceSeries : IPriceSeries
     {
-        #region Private Members
-
-        private readonly List<PricePeriod> _periods;
-
-        #endregion
-
-        #region Constructors
+        #region Overrides of IPricePeriod
 
         /// <summary>
-        ///   Constructs a PriceSeries object.
+        ///   Gets the total volume of trades during the IPricePeriod.
         /// </summary>
-        public PriceSeries()
+        public long? Volume
         {
+            get { return EFVolume ?? PriceQuotes.Sum(q => q.Volume); }
+            set { EFVolume = value; }
         }
 
         /// <summary>
-        ///   Constructs a PriceSeries object from several PricePeriods.
+        ///   Gets the data point stored at a given index within this IPriceSeries.
         /// </summary>
-        /// <param name = "periods"></param>
-        public PriceSeries(params IPricePeriod[] periods)
+        /// <param name = "index">The index to retrieve.</param>
+        /// <returns>The data point stored at the given index.</returns>
+        IPriceQuote IPriceSeries.this[DateTime index]
         {
-            if (periods == null)
-                throw new ArgumentNullException(
-                    "periods", "Argument periods must be one or more IPricePeriods.");
+            get { return PriceQuotes.Where(q => q.SettlementDate <= index).OrderBy(q => q.SettlementDate).Last(); }
+        }
 
-            foreach (IPricePeriod p in periods)
+        /// <summary>
+        ///   Gets the first DateTime in the ITimeSeries.
+        /// </summary>
+        public DateTime Head
+        {
+            get { return EFHead ?? PriceQuotes.Min(q => q.SettlementDate); }
+            set { EFHead = value; }
+        }
+
+        /// <summary>
+        ///   Gets the last DateTime in the ITimeSeries.
+        /// </summary>
+        public DateTime Tail
+        {
+            get { return EFTail ?? PriceQuotes.Max(q => q.SettlementDate); }
+            set { EFTail = value; }
+        }
+
+        /// <summary>
+        ///   Determines if the ITimeSeries has a valid value for a given date.
+        /// </summary>
+        /// <param name = "settlementDate">The date to check.</param>
+        /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
+        public bool HasValue(DateTime settlementDate)
+        {
+            return settlementDate >= Head && settlementDate <= Tail;
+        }
+
+        /// <summary>
+        ///   Event which is invoked when new price data is available for the IPriceSeries.
+        /// </summary>
+        public event EventHandler<NewPriceDataAvailableEventArgs> NewPriceDataAvailable;
+
+        /// <summary>
+        ///   Gets a <see cref = "IPriceSeries.TimeSpan" /> value indicating the length of time covered by this IPriceSeries.
+        /// </summary>
+        public TimeSpan TimeSpan
+        {
+            get { return Tail - Head; }
+        }
+
+        /// <summary>
+        ///   Adds one or more <see cref = "IPriceQuote" />s to the IPriceSeries.
+        /// </summary>
+        /// <param name = "priceQuote">The <see cref = "IPriceQuote" />s to add.</param>
+        public void AddPriceQuote(params IPriceQuote[] priceQuote)
+        {
+            DateTime[] dates = new DateTime[priceQuote.Count()];
+            for (int i = 0; i < priceQuote.Length; i++)
             {
-                InsertPeriod(p);
+                IPriceQuote quote = priceQuote[i];
+                PriceQuotes.Add((PriceQuote) quote);
+                dates[i] = quote.SettlementDate;
             }
-
-            Validate();
-        }
-
-        #endregion
-
-        #region CSV Loader
-
-        /// <summary>
-        ///   Loads an <see cref = "IPriceSeries" /> from a given CSV stream.
-        /// </summary>
-        /// <param name = "csvStream">A <see cref = "Stream" /> to the CSV data.</param>
-        /// <returns>An <see cref = "IPriceSeries" /> created from the CSV data.</returns>
-        public static IPriceSeries LoadFromCsv(Stream csvStream)
-        {
-            return YahooPriceSeriesProvider.Instance.ParsePriceSeries(csvStream);
-        }
-
-        /// <summary>
-        ///   Loads an <see cref = "IPriceSeries" /> from a given CSV stream.
-        /// </summary>
-        /// <param name = "csvFilePath">The path to the CSV data.</param>
-        /// <returns>An <see cref = "IPriceSeries" /> created from the CSV data.</returns>
-        public static IPriceSeries LoadFromCsv(string csvFilePath)
-        {
-            using (FileStream file = File.OpenRead(csvFilePath))
+            NewPriceDataAvailableEventArgs args = new NewPriceDataAvailableEventArgs
+                                                      {
+                                                          Indices = dates
+                                                      };
+            if (NewPriceDataAvailable != null)
             {
-                return LoadFromCsv(file);
+                NewPriceDataAvailable(this, args);
             }
         }
 
-        #endregion
-
-        #region Accessors
+        /// <summary>
+        ///   Gets the last price for the IPricePeriod.
+        /// </summary>
+        public decimal Last
+        {
+            get { return Close; }
+        }
 
         /// <summary>
-        /// Gets a value stored at a given DateTime index of the ITimeSeries.
+        ///   Gets the closing price for the IPricePeriod.
         /// </summary>
-        /// <param name="index">The DateTime of the desired value.</param>
+        public decimal Close
+        {
+            get { return EFClose ?? PriceQuotes.OrderBy(q => q.SettlementDate).Last().Price; }
+            set { EFClose = value; }
+        }
+
+        /// <summary>
+        ///   Gets the highest price that occurred during the IPricePeriod.
+        /// </summary>
+        public decimal? High
+        {
+            get { return EFHigh ?? PriceQuotes.Max(q => q.Price); }
+            set { EFHigh = value; }
+        }
+
+        /// <summary>
+        ///   Gets the lowest price that occurred during  the IPricePeriod.
+        /// </summary>
+        public decimal? Low
+        {
+            get { return EFLow ?? PriceQuotes.Min(q => q.Price); }
+            set { EFLow = value; }
+        }
+
+        /// <summary>
+        ///   Gets the opening price for the IPricePeriod.
+        /// </summary>
+        public decimal? Open
+        {
+            get { return EFOpen ?? PriceQuotes.OrderBy(q => q.SettlementDate).First().Price; }
+            set { EFOpen = value; }
+        }
+
+        /// <summary>
+        ///   Gets a value stored at a given DateTime index of the PricePeriod.
+        /// </summary>
+        /// <param name = "index">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
-        decimal ITimeSeries.this[DateTime index]
+        public decimal this[DateTime index]
         {
-            get { return ((IPriceSeries)this)[index].Close; }
-        }
-
-        /// <summary>
-        /// Gets the <see cref="IPricePeriod"/> at a given index within this PriceSeries.
-        /// </summary>
-        /// <param name="index">The index of the <see cref="IPricePeriod"/> to retrieve.</param>
-        /// <returns>The <see cref="IPricePeriod"/> stored at the given index.</returns>
-        IPricePeriod IPriceSeries.this[DateTime index]
-        {
-            get
-            {
-                foreach (PricePeriod period in Periods.Where(period => period.Head <= index && period.Tail >= index))
-                {
-                    return period;
-                }
-                throw new ArgumentOutOfRangeException("index", index, String.Format(CultureInfo.CurrentCulture, "DateTime {0} was not found in this PriceSeries.", index));
-            }
-        }
-
-        #endregion
-
-        #region IPriceSeries Members
-
-        /// <summary>
-        ///   Inserts price data from a given PricePeriod into this PriceSeries.
-        /// </summary>
-        /// <param name = "period">A PricePeriod to be added to this PriceSeries.</param>
-        public void InsertPeriod(IPricePeriod period)
-        {
-            if (period == null)
-            {
-                throw new ArgumentNullException("period");
-            }
-
-            Periods.Add(period as PricePeriod);
-            if (period.Head < Head || Head == DateTime.MinValue)
-            {
-                Head = period.Head;
-                Open = period.Open;
-            }
-            if (period.Tail > Tail)
-            {
-                Tail = period.Tail;
-                Close = period.Close;
-            }
-            if (High == null || period.High > High)
-            {
-                High = period.High;
-            }
-            if (Low == null || period.Low < Low)
-            {
-                Low = period.Low;
-            }
-            if (Volume == null)
-            {
-                Volume = period.Volume;
-            }
-            else
-            {
-                Volume += period.Volume;
-            }
+            get { return ((IPriceSeries)this)[index].Price; }
         }
 
         #endregion
@@ -152,25 +152,79 @@ namespace Sonneville.PriceTools
         #region Equality Checks
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
+        /// <param name = "left"></param>
+        /// <param name = "right"></param>
         /// <returns></returns>
         public static bool operator ==(PriceSeries left, PriceSeries right)
         {
-            return left.Periods.All(period => right.Periods.Contains(period));
+            if (ReferenceEquals(null, left)) return false;
+            if (ReferenceEquals(null, right)) return false;
+
+            bool priceQuotesMatch = false;
+            if (left.PriceQuotes.Count == right.PriceQuotes.Count)
+            {
+                priceQuotesMatch = left.PriceQuotes.All(quote => right.PriceQuotes.Contains(quote));
+            }
+
+            return priceQuotesMatch &&
+                left.EFClose == right.EFClose &&
+                left.EFHead == right.EFHead &&
+                left.EFHigh == right.EFHigh &&
+                left.EFLow == right.EFLow &&
+                left.EFOpen == right.EFOpen &&
+                left.EFTail == right.EFTail &&
+                left.EFVolume == right.EFVolume;
         }
 
         /// <summary>
-        /// 
         /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
+        /// <param name = "left"></param>
+        /// <param name = "right"></param>
         /// <returns></returns>
         public static bool operator !=(PriceSeries left, PriceSeries right)
         {
             return !(left == right);
+        }
+
+        #endregion
+
+        #region Implementation of IEquatable<IPriceSeries>
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(IPriceSeries other)
+        {
+            return Equals((object)other);
+        }
+
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+        /// </returns>
+        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
+        public override bool Equals(object obj)
+        {
+            return this == obj as PriceSeries;
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
 
         #endregion

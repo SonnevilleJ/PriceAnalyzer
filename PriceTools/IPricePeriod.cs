@@ -3,10 +3,15 @@
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Represents price history for a desired length of time.
+    /// Represents a defined period of price data.
     /// </summary>
     public interface IPricePeriod : ITimeSeries
     {
+        /// <summary>
+        /// Gets the last price for the IPricePeriod.
+        /// </summary>
+        decimal Last { get; }
+
         /// <summary>
         /// Gets the closing price for the IPricePeriod.
         /// </summary>
@@ -26,11 +31,6 @@ namespace Sonneville.PriceTools
         /// Gets the opening price for the IPricePeriod.
         /// </summary>
         decimal? Open { get; }
-
-        /// <summary>
-        /// Gets a TimeSpan representing the total duration of the IPricePeriod.
-        /// </summary>
-        TimeSpan TimeSpan { get; }
 
         /// <summary>
         /// Gets the total volume of trades during the IPricePeriod.

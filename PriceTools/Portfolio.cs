@@ -226,18 +226,12 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                IList<ITransaction> list = new List<ITransaction>();
+                List<ITransaction> list = new List<ITransaction>();
                 foreach (Position p in Positions)
                 {
-                    foreach (ShareTransaction st in p.Transactions)
-                    {
-                        list.Add(st);
-                    }
+                    list.AddRange(p.Transactions);
                 }
-                foreach (CashTransaction ct in CashAccount.Transactions)
-                {
-                    list.Add(ct);
-                }
+                list.AddRange(CashAccount.Transactions);
 
                 list.OrderBy(t => t.SettlementDate);
                 return list;

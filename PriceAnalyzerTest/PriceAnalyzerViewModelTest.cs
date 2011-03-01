@@ -7,11 +7,5 @@ namespace PriceAnalyzerTest
     [TestClass]
     public class PriceAnalyzerViewModelTest
     {
-        [TestMethod]
-        public void TestMethod1()
-        {
-            IPriceSeries priceSeries = new PriceSeries();
-            PriceAnalyzerViewModel vm = new PriceAnalyzerViewModel();
-        }
     }
 }

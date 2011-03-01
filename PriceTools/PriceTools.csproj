@@ -73,19 +73,22 @@
     <Compile Include="IMeasurableSecurityBasket.cs" />
     <Compile Include="Indicator.cs" />
     <Compile Include="IPortfolio.cs" />
+    <Compile Include="IPricePeriod.cs" />
+    <Compile Include="IPriceQuote.cs" />
+    <Compile Include="IPriceSeries.cs" />
     <Compile Include="ITransaction.cs" />
+    <Compile Include="NewPriceDataAvailableEventArgs.cs" />
+    <Compile Include="PricePeriod.cs" />
+    <Compile Include="PriceQuote.cs" />
+    <Compile Include="PriceSeries.cs" />
     <Compile Include="SimpleMovingAverage.cs" />
     <Compile Include="InvalidPricePeriodException.cs" />
     <Compile Include="IPosition.cs" />
-    <Compile Include="IPricePeriod.cs" />
-    <Compile Include="IPriceSeries.cs" />
     <Compile Include="ITimeSeries.cs" />
     <Compile Include="IShareTransaction.cs" />
     <Compile Include="Portfolio.cs" />
     <Compile Include="OrderType.cs" />
     <Compile Include="Position.cs" />
-    <Compile Include="PriceSeries.cs" />
-    <Compile Include="PricePeriod.cs" />
     <Compile Include="PriceSeriesResolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sell.cs" />
@@ -110,7 +113,6 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Entities.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Sonneville.snk" />
   </ItemGroup>
   <ItemGroup>
