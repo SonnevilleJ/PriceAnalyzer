@@ -71,8 +71,8 @@ namespace Sonneville.PriceToolsTest
             target.Deposit(date, amount);
             target.Withdraw(date, amount);
 
-            const decimal expected = 0m;
-            decimal actual = ((ICashAccount) TestUtilities.Serialize(target)).GetCashBalance(date);
+            ICashAccount expected = target;
+            ICashAccount actual = ((ICashAccount) TestUtilities.Serialize(target));
             Assert.AreEqual(expected, actual);
         }
 

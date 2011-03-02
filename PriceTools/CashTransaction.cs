@@ -82,7 +82,19 @@ namespace Sonneville.PriceTools
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(ITransaction other)
         {
-            return Equals((object)other);
+            return Equals(other as object);
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(ICashTransaction other)
+        {
+            return Equals(other as object);
         }
 
         /// <summary>
@@ -106,7 +118,19 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            unchecked
+            {
+                // The following code identifies two "equal" objects as the same.
+                // However, this causes a glitch where Entity Framework 4.0
+                // will not add a duplicate CashTransaction to a CashAccount.
+                // Therefore, the fowllowing code has been replaced with the active code.
+
+                //int result = SettlementDate.GetHashCode();
+                //result = (result * 397) ^ Amount.GetHashCode();
+                //return (result * 397) ^ (int)OrderType;
+
+                return base.GetHashCode();
+            }
         }
 
         #endregion

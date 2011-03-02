@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a single account used to hold cash.
     /// </summary>
-    public partial class CashAccount : ICashAccount, IEquatable<CashAccount>
+    public partial class CashAccount : ICashAccount
     {
         #region Private Members
 
@@ -102,10 +102,24 @@ namespace Sonneville.PriceTools
             if (ReferenceEquals(null, left)) return false;
             if (ReferenceEquals(null, right)) return false;
 
-            bool cashMatches = false;
+            bool cashMatches = true;
             if (left.Transactions.Count == right.Transactions.Count)
             {
-                cashMatches = left.Transactions.All(transaction => right.Transactions.Contains(transaction));
+                // workaround for glitch in Entity Framework:
+                // EF 4.0 calls GetHashCode() rather than Equals() on collection elements
+                // which means we have to manually check each item in both collections.
+                foreach (var transaction in left.Transactions)
+                {
+                    if (right.Transactions.Where(
+                            t=>t.OrderType == transaction.OrderType &&
+                            t.Amount == transaction.Amount &&
+                            t.SettlementDate == transaction.SettlementDate
+                            ).Count() == 0)
+                    {
+                        cashMatches = false;
+                        break;
+                    }
+                }
             }
 
             return cashMatches;
@@ -132,6 +146,11 @@ namespace Sonneville.PriceTools
         public bool Equals(CashAccount other)
         {
             return other == this;
+        }
+
+        public bool Equals(ICashAccount other)
+        {
+            return (CashAccount) other == this;
         }
 
         /// <summary>

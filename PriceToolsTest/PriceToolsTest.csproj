@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuyToCoverTest.cs" />
+    <Compile Include="EntityFramework.cs" />
     <Compile Include="PriceQuoteTest.cs" />
     <Compile Include="WithdrawalTest.cs" />
     <Compile Include="DepositTest.cs" />

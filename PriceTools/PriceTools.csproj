@@ -82,7 +82,6 @@
     <Compile Include="PriceQuote.cs" />
     <Compile Include="PriceSeries.cs" />
     <Compile Include="SimpleMovingAverage.cs" />
-    <Compile Include="InvalidPricePeriodException.cs" />
     <Compile Include="IPosition.cs" />
     <Compile Include="ITimeSeries.cs" />
     <Compile Include="IShareTransaction.cs" />

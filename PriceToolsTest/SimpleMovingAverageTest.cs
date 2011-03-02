@@ -1,64 +1,125 @@
-﻿//using System;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using Sonneville.PriceTools;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
 
-//namespace Sonneville.PriceToolsTest
-//{
-//    [TestClass()]
-//    public class SimpleMovingAverageTest
-//    {
-//        [TestMethod]
-//        public void FlatPeriodReturnsSameAverage()
-//        {
-//            DateTime date = new DateTime(2011, 1, 6);
-//            const int value = 2;
-//            PricePeriod p1 = new PricePeriod(date.AddDays(1), date.AddDays(1), value, value, value, value);
-//            PricePeriod p2 = new PricePeriod(date.AddDays(2), date.AddDays(2), value, value, value, value);
-//            PricePeriod p3 = new PricePeriod(date.AddDays(3), date.AddDays(3), value, value, value, value);
-//            PricePeriod p4 = new PricePeriod(date.AddDays(4), date.AddDays(4), value, value, value, value);
-//            PricePeriod p5 = new PricePeriod(date.AddDays(5), date.AddDays(5), value, value, value, value);
-//            PricePeriod p6 = new PricePeriod(date.AddDays(6), date.AddDays(6), value, value, value, value);
-//            IPriceSeries series = new PriceSeries(p1, p2, p3, p4, p5, p6);
+namespace Sonneville.PriceToolsTest
+{
+    [TestClass()]
+    public class SimpleMovingAverageTest
+    {
+        [TestMethod]
+        public void ResolutionDaysByDefault()
+        {
+            IPriceSeries priceSeries = new PriceSeries();
+            DateTime date = new DateTime(2011, 3, 1);
+            for (int i = 0; i < 20; i++)
+            {
+                IPriceQuote quote = new PriceQuote {SettlementDate = date.AddDays(i), Price = 1};
+                priceSeries.AddPriceQuote(quote);
+            }
 
-//            const int range = 2;
-//            SimpleMovingAverage ma = new SimpleMovingAverage(series, range);
+            const int range = 5;
+            SimpleMovingAverage target = new SimpleMovingAverage(priceSeries, range);
 
-//            for (int i = range; i < series.Periods.Count; i++)
-//            {
-//                Assert.IsTrue(ma[date.AddDays(i)] == value);
-//            }
-//        }
+            const PriceSeriesResolution expected = PriceSeriesResolution.Days;
+            PriceSeriesResolution actual = target.Resolution;
+            Assert.AreEqual(expected, actual);
+        }
 
-//        [TestMethod]
-//        public void RisingAndFallingMovingAverageReturnsCorrectValues()
-//        {
-//            DateTime date = new DateTime(2000, 1, 1);
-//            PricePeriod p1 = new PricePeriod(date, date, 1, 1, 1, 1);
-//            PricePeriod p2 = new PricePeriod(date.AddDays(1), date.AddDays(1), 2, 2, 2, 2);
-//            PricePeriod p3 = new PricePeriod(date.AddDays(2), date.AddDays(2), 3, 3, 3, 3);
-//            PricePeriod p4 = new PricePeriod(date.AddDays(3), date.AddDays(3), 4, 4, 4, 4);
-//            PricePeriod p5 = new PricePeriod(date.AddDays(4), date.AddDays(4), 5, 5, 5, 5);
-//            PricePeriod p6 = new PricePeriod(date.AddDays(5), date.AddDays(5), 4, 4, 4, 4);
-//            PricePeriod p7 = new PricePeriod(date.AddDays(6), date.AddDays(6), 3, 3, 3, 3);
-//            PricePeriod p8 = new PricePeriod(date.AddDays(7), date.AddDays(7), 2, 2, 2, 2);
-//            PricePeriod p9 = new PricePeriod(date.AddDays(8), date.AddDays(8), 1, 1, 1, 1);
+        [TestMethod]
+        public void HeadTest()
+        {
+            DateTime date = new DateTime(2011, 3, 1);
+            IPriceSeries priceSeries = CreateTestPriceSeries(10, date, 1);
+            const int range = 4;
 
-//            IPriceSeries series = new PriceSeries(p1, p2, p3, p4, p5, p6, p7, p8, p9);
+            SimpleMovingAverage target = new SimpleMovingAverage(priceSeries, range);
 
-//            // create 4 day moving average
-//            const int range = 4;
-//            int span = series.Periods.Count - (range - 1);
-//            SimpleMovingAverage avg = new SimpleMovingAverage(series, range);
-//            Assert.IsTrue(avg.Range == range);
-//            avg.CalculateAll();
-//            Assert.IsTrue(avg.Last == 2.5m);
-//            Assert.IsTrue(avg[date.AddDays(3)] == 2.5m);
-//            Assert.IsTrue(avg[date.AddDays(4)] == 3.5m);
-//            Assert.IsTrue(avg[date.AddDays(5)] == 4.0m);
-//            Assert.IsTrue(avg[date.AddDays(6)] == 4.0m);
-//            Assert.IsTrue(avg[date.AddDays(7)] == 3.5m);
-//            Assert.IsTrue(avg[date.AddDays(8)] == 2.5m);
-//            Assert.IsTrue(avg.Span == span);
-//        }
-//    }
-//}
+            DateTime expected = date.AddDays(3);
+            DateTime actual = target.Head;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void QueryBeforeHeadThrowsException()
+        {
+            IPriceSeries series = CreateTestPriceSeries(4, new DateTime(2011, 1, 6), 2);
+            SimpleMovingAverage ma = new SimpleMovingAverage(series, 2);
+
+            var result = ma[ma.Head.Subtract(new TimeSpan(1))];
+        }
+
+        [TestMethod]
+        public void FlatPeriodReturnsSameAverage()
+        {
+            DateTime date = new DateTime(2011, 3, 1);
+            const int price = 2;
+
+            IPriceSeries series = CreateTestPriceSeries(10, date, price);
+
+            const int range = 2;
+            SimpleMovingAverage ma = new SimpleMovingAverage(series, range);
+
+            const decimal expected = price;
+            for (int i = range; i < series.PriceQuotes.Count; i++)
+            {
+                decimal actual = ma[date.AddDays(i)];
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        [TestMethod]
+        public void RisingAndFallingMovingAverageReturnsCorrectValues()
+        {
+            DateTime date = new DateTime(2000, 1, 1);
+            PriceQuote p1 = new PriceQuote {SettlementDate = date, Price = 1};
+            PriceQuote p2 = new PriceQuote {SettlementDate = date.AddDays(1), Price = 2 };
+            PriceQuote p3 = new PriceQuote { SettlementDate = date.AddDays(2), Price = 3 };
+            PriceQuote p4 = new PriceQuote { SettlementDate = date.AddDays(3), Price = 4 };
+            PriceQuote p5 = new PriceQuote { SettlementDate = date.AddDays(4), Price = 5 };
+            PriceQuote p6 = new PriceQuote { SettlementDate = date.AddDays(5), Price = 4 };
+            PriceQuote p7 = new PriceQuote { SettlementDate = date.AddDays(6), Price = 3 };
+            PriceQuote p8 = new PriceQuote { SettlementDate = date.AddDays(7), Price = 2 };
+            PriceQuote p9 = new PriceQuote { SettlementDate = date.AddDays(8), Price = 1 };
+
+            IPriceSeries series = new PriceSeries();
+            series.AddPriceQuote(p1, p2, p3, p4, p5, p6, p7, p8, p9);
+
+            // create 4 day moving average
+            const int range = 4;
+            SimpleMovingAverage target = new SimpleMovingAverage(series, range);
+
+            target.CalculateAll();
+            Assert.AreEqual(2.5m, target[date.AddDays(3)]);
+            Assert.AreEqual(3.5m, target[date.AddDays(4)]);
+            Assert.AreEqual(4.0m, target[date.AddDays(5)]);
+            Assert.AreEqual(4.0m, target[date.AddDays(6)]);
+            Assert.AreEqual(3.5m, target[date.AddDays(7)]);
+            Assert.AreEqual(2.5m, target[date.AddDays(8)]);
+        }
+
+        [TestMethod]
+        public void SpanTest()
+        {
+            IPriceSeries series = CreateTestPriceSeries(90, new DateTime(2011, 3, 1), 100);
+            const int range = 30;
+
+            SimpleMovingAverage target = new SimpleMovingAverage(series, range);
+
+            int expected = series.PriceQuotes.Count - (range - 1);
+            int actual = target.Span;
+            Assert.AreEqual(expected, actual);
+        }
+
+        private static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
+        {
+            IPriceSeries series = new PriceSeries();
+            for (int i = 0; i < count; i++)
+            {
+                series.AddPriceQuote(new PriceQuote {SettlementDate = startDate.AddDays(i), Price = price});
+            }
+            return series;
+        }
+    }
+}

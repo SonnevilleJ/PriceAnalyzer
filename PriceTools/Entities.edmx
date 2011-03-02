@@ -548,12 +548,12 @@
               <Summary>The price at which the security is available.</Summary>
             </Documentation>
           </Property>
-          <Property Name="Volume" Nullable="true" Type="Int64">
+          <Property Name="Volume" Nullable="true" Type="Int64" DefaultValue="1">
             <Documentation>
               <Summary>The number of shares traded.</Summary>
             </Documentation>
           </Property>
-          <NavigationProperty Name="PriceSery" Relationship="Entities.PriceSeriesPriceQuote" FromRole="PriceQuote" ToRole="PriceSeries" />
+          <NavigationProperty Name="PriceSeries" Relationship="Entities.PriceSeriesPriceQuote" FromRole="PriceQuote" ToRole="PriceSeries" />
         </EntityType>
         <Association Name="PriceSeriesPriceQuote">
           <End Type="Entities.PriceSeries" Role="PriceSeries" Multiplicity="0..1" />

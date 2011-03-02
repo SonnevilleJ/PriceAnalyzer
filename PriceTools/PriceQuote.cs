@@ -5,6 +5,11 @@
     /// </summary>
     public partial class PriceQuote : IPriceQuote
     {
+        public override string ToString()
+        {
+            return string.Format("{0}: {1} shares @ {2:c}", SettlementDate, Volume, Price);
+        }
+
         #region Equality Checks
 
         /// <summary>
@@ -45,7 +50,7 @@
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(IPriceQuote other)
         {
-            return Equals((object)other);
+            return Equals(other as object);
         }
 
         /// <summary>

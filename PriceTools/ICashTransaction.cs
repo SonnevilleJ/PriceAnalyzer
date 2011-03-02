@@ -1,9 +1,11 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a transaction for an <see cref="ICashAccount"/>.
     /// </summary>
-    public interface ICashTransaction : ITransaction
+    public interface ICashTransaction : ITransaction, IEquatable<ICashTransaction>
     {
         /// <summary>
         ///   Gets the amount of cash in this ICashTransaction.

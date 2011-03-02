@@ -1027,7 +1027,7 @@ namespace Sonneville.PriceTools
                 OnVolumeChanged();
             }
         }
-        private Nullable<global::System.Int64> _Volume;
+        private Nullable<global::System.Int64> _Volume = 1;
         partial void OnVolumeChanging(Nullable<global::System.Int64> value);
         partial void OnVolumeChanged();
 
@@ -1042,7 +1042,7 @@ namespace Sonneville.PriceTools
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Entities", "PriceSeriesPriceQuote", "PriceSeries")]
-        public PriceSeries PriceSery
+        public PriceSeries PriceSeries
         {
             get
             {
@@ -1058,7 +1058,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         [BrowsableAttribute(false)]
         [DataMemberAttribute()]
-        public EntityReference<PriceSeries> PriceSeryReference
+        public EntityReference<PriceSeries> PriceSeriesReference
         {
             get
             {

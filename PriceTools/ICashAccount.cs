@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a single account used to hold cash.
     /// </summary>
-    public interface ICashAccount
+    public interface ICashAccount : IEquatable<ICashAccount>
     {
         /// <summary>
         /// Deposits cash into the ICashAccount.
