@@ -16,7 +16,7 @@ namespace Sonneville.PriceToolsTest
         public void GetValueReturnsCorrectWithoutCommissionsAfterGain()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
@@ -40,7 +40,7 @@ namespace Sonneville.PriceToolsTest
         public void GetValueReturnsCorrectWithoutCommissionsAfterLoss()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
@@ -64,7 +64,7 @@ namespace Sonneville.PriceToolsTest
         public void IndexerReturnsGetValue()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
@@ -73,7 +73,7 @@ namespace Sonneville.PriceToolsTest
             target.Buy(oDate, oShares, oPrice, oCommission);
 
             decimal expected = target.GetValue(oDate);
-            decimal actual = target[oDate];
+            decimal? actual = target[oDate];
             Assert.AreEqual(expected, actual);
         }
 
@@ -81,14 +81,14 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullTickerThrowsException()
         {
-            new Position {Ticker = null};
+            PositionFactory.CreatePosition(null);
         }
 
         [TestMethod]
         public void GetInvestedValueTestBuy()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             const decimal price = 100.00m;      // $100.00 per share
@@ -106,7 +106,7 @@ namespace Sonneville.PriceToolsTest
         public void GetInvestedValueTestSellHalf()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = buyDate.AddDays(1);
@@ -126,7 +126,7 @@ namespace Sonneville.PriceToolsTest
         public void GetInvestedValueTestSellAll()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = buyDate.AddDays(1);
@@ -147,7 +147,7 @@ namespace Sonneville.PriceToolsTest
         public void SellTooManySharesTest()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = buyDate.AddDays(1);
@@ -163,7 +163,7 @@ namespace Sonneville.PriceToolsTest
         public void GetRawReturnTest()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = buyDate.AddDays(1);
@@ -184,7 +184,7 @@ namespace Sonneville.PriceToolsTest
         public void GetRawReturnWithoutProceedsTest()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = buyDate.AddDays(1);
@@ -201,7 +201,7 @@ namespace Sonneville.PriceToolsTest
         public void GetTotalReturnTest()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = buyDate.AddDays(1);
@@ -221,7 +221,7 @@ namespace Sonneville.PriceToolsTest
         public void GetAverageAnnualReturnTest()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
@@ -248,8 +248,8 @@ namespace Sonneville.PriceToolsTest
             const string longTicker = "DE";
             const string shortTicker = "GM";
             // Must create different positions because all transactions must use same ticker
-            IPosition longPosition = new Position(longTicker);
-            IPosition shortPosition = new Position(shortTicker);
+            IPosition longPosition = PositionFactory.CreatePosition(longTicker);
+            IPosition shortPosition = PositionFactory.CreatePosition(shortTicker);
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
@@ -274,7 +274,7 @@ namespace Sonneville.PriceToolsTest
         public void HasValueTest()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime purchaseDate = testDate.AddDays(1);
@@ -294,7 +294,7 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime buyDate = testDate.AddDays(1);
@@ -332,7 +332,7 @@ namespace Sonneville.PriceToolsTest
         public void SerializePositionTest()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime purchaseDate = testDate.AddDays(1);
@@ -351,7 +351,7 @@ namespace Sonneville.PriceToolsTest
         public void EntityPositionTest()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime purchaseDate = testDate.AddDays(1);
@@ -371,7 +371,7 @@ namespace Sonneville.PriceToolsTest
         public void TickerTest()
         {
             const string ticker = "DE";
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             const string expectedTicker = ticker;
             string actualTicker = target.Ticker;
@@ -386,7 +386,7 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime buyDate = testDate.AddDays(1);
@@ -408,7 +408,7 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime buyDate = testDate.AddDays(1);
@@ -436,7 +436,7 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime buyDate = testDate.AddDays(1);
@@ -458,7 +458,7 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime buyDate = testDate.AddDays(1);
@@ -486,7 +486,7 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime buyDate = testDate.AddDays(1);
@@ -508,7 +508,7 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = new Position(ticker);
+            IPosition target = PositionFactory.CreatePosition(ticker);
 
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime buyDate = testDate.AddDays(1);

@@ -21,6 +21,8 @@ namespace Sonneville.PriceAnalyzer
         public MainWindow()
         {
             InitializeComponent();
+            
+            axis1.DebugMe();
         }
     }
 }

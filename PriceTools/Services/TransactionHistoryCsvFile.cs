@@ -5,7 +5,7 @@ using System.Globalization;
 using System.IO;
 using LumenWorks.Framework.IO.Csv;
 
-namespace Sonneville.PriceTools.Data
+namespace Sonneville.PriceTools.Services
 {
     /// <summary>
     ///   Parses a single <see cref = "IPortfolio" /> from CSV data for an investment portfolio.
@@ -15,7 +15,6 @@ namespace Sonneville.PriceTools.Data
         #region Private Members
 
         private readonly IDictionary<TransactionColumn, int> _map = new Dictionary<TransactionColumn, int>(5);
-        private readonly Stream _stream;
         private readonly bool _useTotalBasis;
         private bool _tableParsed;
         private readonly List<ITransaction> _transactions = new List<ITransaction>();
@@ -35,8 +34,9 @@ namespace Sonneville.PriceTools.Data
             {
                 throw new ArgumentNullException("csvStream");
             }
-            _stream = csvStream;
             _useTotalBasis = useTotalBasis;
+
+            Parse(csvStream);
         }
 
         #endregion
@@ -44,16 +44,12 @@ namespace Sonneville.PriceTools.Data
         #region Public Properties
 
         /// <summary>
-        /// Gets a list of all ITransactions in the file.
+        /// Gets a list of all <see cref="ITransaction"/>s in the file.
         /// </summary>
         public IEnumerable<ITransaction> Transactions
         {
             get
             {
-                if (!_tableParsed)
-                {
-                    Parse();
-                }
                 return _transactions;
             }
         }
@@ -78,11 +74,10 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         ///   Parses a <see cref = "DataTable" /> from a given CSV data stream.
         /// </summary>
-        /// <returns>A <see cref = "DataTable" /> of the CSV data.</returns>
-        private void Parse()
+        private void Parse(Stream stream)
         {
             if (_tableParsed) return;
-            using (CsvReader reader = new CsvReader(new StreamReader(_stream), true))
+            using (CsvReader reader = new CsvReader(new StreamReader(stream), true))
             {
                 MapHeaders(reader);
 
@@ -94,7 +89,7 @@ namespace Sonneville.PriceTools.Data
                     OrderType orderType = ParseOrderTypeColumn(reader[_map[TransactionColumn.OrderType]]);
                     DateTime settlementDate = ParseDateColumn(reader[_map[TransactionColumn.Date]]);
                     double shares = ParseSharesColumn(reader[_map[TransactionColumn.Shares]]);
-                    decimal commission = ParseCommissionColumn(reader[_map[TransactionColumn.Commission]]);
+                    decimal commission = ParsePriceColumn(reader[_map[TransactionColumn.Commission]]);
 
                     if (orderType != OrderType.Deposit &&
                         orderType != OrderType.Withdrawal &&
@@ -107,12 +102,12 @@ namespace Sonneville.PriceTools.Data
                     {
                         case OrderType.Buy:
                             price = _useTotalBasis
-                                        ? (ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]) - commission)/(decimal) (shares)
+                                        ? (ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) - commission) / (decimal)(shares)
                                         : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
                             break;
                         case OrderType.Sell:
                             price = _useTotalBasis
-                                        ? (ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]]) + commission)/(decimal) (shares)
+                                        ? (ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) + commission) / (decimal)(shares)
                                         : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
                             break;
                         case OrderType.DividendReceipt:
@@ -120,8 +115,8 @@ namespace Sonneville.PriceTools.Data
                         case OrderType.Deposit:
                         case OrderType.Withdrawal:
                             price = _useTotalBasis
-                                ? ParseTotalBasisColumn(reader[_map[TransactionColumn.TotalBasis]])
-                                : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                                        ? ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]])
+                                        : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
                             break;
                         default:
                             throw new NotImplementedException();
@@ -147,7 +142,7 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         /// Parses the column headers of a TransactionHistoryCsv file.
         /// </summary>
-        /// <param name="header">A header from the CSV file</param>
+        /// <param name="header">A column header from the CSV file.</param>
         /// <returns>The <see cref="TransactionColumn"/> of <paramref name="header"/>.</returns>
         protected abstract TransactionColumn ParseColumnHeader(string header);
 
@@ -202,7 +197,7 @@ namespace Sonneville.PriceTools.Data
         }
 
         /// <summary>
-        /// Parses data from the Price column of the CSV data.
+        /// Parses data from one of the price columns of the CSV data.
         /// </summary>
         /// <param name="text">The raw CSV data to parse.</param>
         /// <returns>The parsed per-share price.</returns>
@@ -212,32 +207,6 @@ namespace Sonneville.PriceTools.Data
             return string.IsNullOrWhiteSpace(result)
                        ? 0.00m
                        : Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture));
-        }
-
-        /// <summary>
-        /// Parses data from the Comission column of the CSV data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns>The parsed comission price.</returns>
-        protected virtual decimal ParseCommissionColumn(string text)
-        {
-            string result = text.Trim();
-            return string.IsNullOrWhiteSpace(result)
-                       ? 0.00m
-                       : Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture));
-        }
-
-        /// <summary>
-        /// Parses data from the TotalBasis column of the CSV data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns>The parsed TotalBasis amount.</returns>
-        protected virtual decimal ParseTotalBasisColumn(string text)
-        {
-            string result = text.Trim();
-            return string.IsNullOrWhiteSpace(result)
-                       ? 0.00m
-                       : Math.Abs(decimal.Parse(result, CultureInfo.InvariantCulture));
         }
 
         #endregion

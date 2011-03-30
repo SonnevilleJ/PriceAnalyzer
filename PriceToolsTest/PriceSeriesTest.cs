@@ -1,431 +1,335 @@
-﻿using System;
+﻿using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
+using System;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
     /// <summary>
-    /// Summary description for PriceSeriesTest
-    /// </summary>
-    [TestClass]
+    ///This is a test class for PriceSeriesTest and is intended
+    ///to contain all PriceSeriesTest Unit Tests
+    ///</summary>
+    [TestClass()]
     public class PriceSeriesTest
     {
-        [TestMethod]
-        public void TimeSpanTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            IPriceSeries target = new PriceSeries();
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(new TimeSpan(2, 4, 30, 0), target.TimeSpan);
-        }
-
-        [TestMethod]
-        public void OpenTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            IPriceSeries target = new PriceSeries();
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(q1.Price, target.Open);
-        }
-
-        [TestMethod]
-        public void HighTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            IPriceSeries target = new PriceSeries();
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(q3.Price, target.High);
-        }
-
-        [TestMethod]
-        public void LowTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            IPriceSeries target = new PriceSeries();
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(q2.Price, target.Low);
-        }
-
-        [TestMethod]
+        /// <summary>
+        ///A test for Close
+        ///</summary>
+        [TestMethod()]
         public void CloseTest()
         {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
 
-            IPriceSeries target = new PriceSeries();
-            target.AddPriceQuote(q1, q2, q3);
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
 
-            Assert.AreEqual(q3.Price, target.Close);
+            decimal expected = p3.Close;
+            decimal actual = target.Close;
+            Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        /// <summary>
+        ///A test for Head
+        ///</summary>
+        [TestMethod()]
+        public void HeadTest()
+        {
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            DateTime expected = p1.Head;
+            DateTime actual = target.Head;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for High
+        ///</summary>
+        [TestMethod()]
+        public void HighTest()
+        {
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            decimal? expected = p2.High;
+            decimal? actual = target.High;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Item
+        ///</summary>
+        [TestMethod()]
+        public void IndexerValueAtHeadTest()
+        {
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            decimal? expected = target.Open;
+            decimal? actual = target[p1.Head];
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Item
+        ///</summary>
+        [TestMethod()]
+        public void IndexerValueAtTailTest()
+        {
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            decimal? expected = p3.Close;
+            decimal? actual = target[target.Tail];
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Item
+        ///</summary>
+        [TestMethod()]
+        public void IndexerValueBeforeHeadTest()
+        {
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+            
+            Assert.IsNull(target[p1.Head.Subtract(new TimeSpan(1))]);
+        }
+
+        /// <summary>
+        ///A test for Item
+        ///</summary>
+        [TestMethod()]
+        public void IndexerValueAfterTailTest()
+        {
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            Assert.IsNull(target[p3.Tail.Add(new TimeSpan(1))]);
+        }
+
+        /// <summary>
+        ///A test for Low
+        ///</summary>
+        [TestMethod()]
+        public void LowTest()
+        {
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            decimal? expected = p3.Low;
+            decimal? actual = target.Low;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Open
+        ///</summary>
+        [TestMethod()]
+        public void OpenTest()
+        {
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            decimal? expected = p1.Open;
+            decimal? actual = target.Open;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for PricePeriods
+        ///</summary>
+        [TestMethod()]
+        public void PricePeriodsTest()
+        {
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            Assert.AreEqual(3, target.PricePeriods.Count);
+            Assert.IsTrue(target.PricePeriods.Contains(p1));
+            Assert.IsTrue(target.PricePeriods.Contains(p2));
+            Assert.IsTrue(target.PricePeriods.Contains(p3));
+        }
+
+        /// <summary>
+        ///A test for Tail
+        ///</summary>
+        [TestMethod()]
+        public void TailTest()
+        {
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            DateTime expected = p3.Tail;
+            DateTime actual = target.Tail;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Ticker
+        ///</summary>
+        [TestMethod()]
+        public void TickerTest()
+        {
+            const string ticker = "test";
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries(ticker);
+
+            const string expected = ticker;
+            string actual = target.Ticker;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Volume
+        ///</summary>
+        [TestMethod()]
         public void VolumeTest()
         {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
 
-            IPriceSeries target = new PriceSeries();
-            target.AddPriceQuote(q1, q2, q3);
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
 
-            Assert.AreEqual(q1.Volume + q2.Volume + q3.Volume, target.Volume);
-        }
-
-        [TestMethod]
-        public void TimeSpanTestAfterAddingSubsequentPriceQuoteTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-            IPriceQuote q4 = GetQuote4();
-
-            IPriceSeries target = new PriceSeries();
-
-            target.AddPriceQuote(q1, q2, q3);
-            Assert.AreEqual(new TimeSpan(2, 4, 30, 0), target.TimeSpan);
-
-            target.AddPriceQuote(q4);
-            Assert.AreEqual(new TimeSpan(2, 6, 30, 0), target.TimeSpan);
-        }
-
-        [TestMethod]
-        public void OpenTestAfterAddingSubsequentPriceQuoteTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-            IPriceQuote q4 = GetQuote4();
-
-            IPriceSeries target = new PriceSeries();
-
-            target.AddPriceQuote(q1, q2, q3);
-            Assert.AreEqual(q1.Price, target.Open);
-
-            target.AddPriceQuote(q4);
-            Assert.AreEqual(q1.Price, target.Open);
-        }
-
-        [TestMethod]
-        public void HighTestAfterAddingSubsequentPriceQuoteTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-            IPriceQuote q4 = GetQuote4();
-
-            IPriceSeries target = new PriceSeries();
-
-            target.AddPriceQuote(q1, q2, q3);
-            Assert.AreEqual(q3.Price, target.High);
-
-            target.AddPriceQuote(q4);
-            Assert.AreEqual(q3.Price, target.High);
-        }
-
-        [TestMethod]
-        public void LowTestAfterAddingSubsequentPriceQuoteTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-            IPriceQuote q4 = GetQuote4();
-
-            IPriceSeries target = new PriceSeries();
-
-            target.AddPriceQuote(q1, q2, q3);
-            Assert.AreEqual(q2.Price, target.Low);
-
-            target.AddPriceQuote(q4);
-            Assert.AreEqual(q2.Price, target.Low);
-        }
-
-        [TestMethod]
-        public void CloseTestAfterAddingSubsequentPriceQuoteTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-            IPriceQuote q4 = GetQuote4();
-
-            IPriceSeries target = new PriceSeries();
-
-            target.AddPriceQuote(q1, q2, q3);
-            Assert.AreEqual(q3.Price, target.Close);
-
-            target.AddPriceQuote(q4);
-            Assert.AreEqual(q4.Price, target.Close);
-        }
-
-        [TestMethod]
-        public void VolumeTestAfterAddingSubsequentPriceQuoteTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-            IPriceQuote q4 = GetQuote4();
-
-            IPriceSeries target = new PriceSeries();
-
-            target.AddPriceQuote(q1, q2, q3);
-            Assert.AreEqual(q1.Volume + q2.Volume + q3.Volume, target.Volume);
-
-            target.AddPriceQuote(q4);
-            Assert.AreEqual(q1.Volume + q2.Volume + q3.Volume + q4.Volume, target.Volume);
-        }
-
-        [TestMethod]
-        public void OpenTestAfterAddingPriorPriceQuote()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            IPriceSeries target = new PriceSeries();
-            
-            target.AddPriceQuote(q2, q3);
-            Assert.AreEqual(q2.Price, target.Open);
-
-            target.AddPriceQuote(q1);
-            Assert.AreEqual(q1.Price, target.Open);
-        }
-
-        [TestMethod]
-        public void OpenOverrideTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            const decimal open = 7.0m;
-            PriceSeries target = new PriceSeries {Open = open};
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(open, target.Open);
-        }
-
-        [TestMethod]
-        public void HighOverrideTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            const decimal high = 7.0m;
-            PriceSeries target = new PriceSeries { High = high };
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(high, target.High);
-        }
-
-        [TestMethod]
-        public void LowOverrideTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            const decimal low = 7.0m;
-            PriceSeries target = new PriceSeries { Low = low };
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(low, target.Low);
-        }
-
-        [TestMethod]
-        public void CloseOverrideTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            const decimal close = 7.0m;
-            PriceSeries target = new PriceSeries { Close = close };
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(close, target.Close);
-        }
-
-        [TestMethod]
-        public void HeadOverrideTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            DateTime head = new DateTime(2011, 2, 28);
-            PriceSeries target = new PriceSeries { Head = head };
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(head, target.Head);
-        }
-
-        [TestMethod]
-        public void TailOverrideTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            DateTime tail = new DateTime(2011, 2, 28);
-            PriceSeries target = new PriceSeries { Tail = tail };
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(tail, target.Tail);
-        }
-
-        [TestMethod]
-        public void VolumeOverrideTest()
-        {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
-
-            const long volume = 7000;
-            PriceSeries target = new PriceSeries { Volume = volume };
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(volume, target.Volume);
+            long? expected = p1.Volume + p3.Volume; // p2 has no volume
+            long? actual = target.Volume;
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void SerializePriceSeriesTest()
         {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
 
-            IPriceSeries target = new PriceSeries();
-            target.AddPriceQuote(q1, q2, q3);
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
 
-            IPriceSeries actual = ((IPriceSeries)TestUtilities.Serialize(target));
+            PriceSeries actual = ((PriceSeries)TestUtilities.Serialize(target));
             Assert.AreEqual(target, actual);
         }
 
         [TestMethod]
         public void EntityPriceSeriesTest()
         {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
+            PricePeriod p1 = CreatePeriod1();
+            PricePeriod p2 = CreatePeriod2();
+            PricePeriod p3 = CreatePeriod3();
 
-
-            IPriceSeries target = new PriceSeries();
-            target.AddPriceQuote(q1, q2, q3);
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
 
             TestUtilities.VerifyPriceSeriesEntity(target);
         }
 
-        [TestMethod]
-        public void PriceSeriesIndexerTest()
+        private static PricePeriod CreatePeriod1()
         {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
+            DateTime head = new DateTime(2011, 3, 11);
+            DateTime tail = head.AddDays(1);
+            const decimal open = 100.00m;
+            const decimal high = 110.00m;
+            const decimal low = 90.00m;
+            const decimal close = 100.00m;
+            const long volume = 20000;
 
-
-            IPriceSeries target = new PriceSeries();
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(q2, target[q2.SettlementDate]);
-            Assert.AreEqual(q1, target[q2.SettlementDate - new TimeSpan(1)]);
-            Assert.AreEqual(q2, target[q2.SettlementDate + new TimeSpan(1)]);
+            return PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
         }
 
-        /// <summary>
-        ///A test for PriceQuotes
-        ///</summary>
-        [TestMethod]
-        public void PriceQuotesTest()
+        private static PricePeriod CreatePeriod2()
         {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
+            DateTime head = new DateTime(2011, 3, 12);
+            DateTime tail = head.AddDays(1);
+            const decimal open = 100.00m;
+            const decimal high = 120.00m;
+            const decimal low = 100.00m;
+            const decimal close = 110.00m;
 
-            IPriceSeries target = new PriceSeries();
-            target.AddPriceQuote(q1, q2, q3);
-
-            Assert.AreEqual(3, target.PriceQuotes.Count);
+            return PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
         }
 
-        [TestMethod]
-        public void NewPriceDataAvailableEventTest()
+        private static PricePeriod CreatePeriod3()
         {
-            IPriceQuote q1 = GetQuote1();
-            IPriceQuote q2 = GetQuote2();
-            IPriceQuote q3 = GetQuote3();
+            DateTime head = new DateTime(2011, 3, 13);
+            DateTime tail = head.AddDays(1);
+            const decimal open = 110.00m;
+            const decimal high = 110.00m;
+            const decimal low = 80.00m;
+            const decimal close = 90.00m;
+            const long volume = 10000;
 
-            IPriceSeries target = new PriceSeries();
-            int count = 0;
-            target.NewPriceDataAvailable += delegate { count++; };
-            target.AddPriceQuote(q1, q2, q3);
-            Assert.AreEqual(1, count);
-
-            target = new PriceSeries();
-            count = 0;
-            target.NewPriceDataAvailable += delegate { count++; };
-            target.AddPriceQuote(q1);
-            target.AddPriceQuote(q2);
-            target.AddPriceQuote(q3);
-
-            Assert.AreEqual(3, count);
-        }
-
-        private static PriceQuote GetQuote1()
-        {
-            return new PriceQuote
-                       {
-                           SettlementDate = DateTime.Parse("2/28/2011 9:30 AM"),
-                           Price = 10,
-                           Volume = 50
-                       };
-        }
-
-        private static PriceQuote GetQuote2()
-        {
-            return new PriceQuote
-                       {
-                           SettlementDate = DateTime.Parse("3/1/2011 10:00 AM"),
-                           Price = 9,
-                           Volume = 60
-                       };
-        }
-
-        private static PriceQuote GetQuote3()
-        {
-            return new PriceQuote
-                       {
-                           SettlementDate = DateTime.Parse("3/2/2011 2:00 PM"),
-                           Price = 14,
-                           Volume = 50
-                       };
-        }
-
-        private static PriceQuote GetQuote4()
-        {
-            return new PriceQuote
-            {
-                SettlementDate = DateTime.Parse("3/2/2011 4:00 PM"),
-                Price = 11,
-                Volume = 30
-            };
+            return PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
         }
     }
 }

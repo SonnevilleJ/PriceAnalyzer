@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceTools
 {
@@ -72,7 +72,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
-        public decimal this[DateTime index]
+        public decimal? this[DateTime index]
         {
             get { return GetValue(index); }
         }

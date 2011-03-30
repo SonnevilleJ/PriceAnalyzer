@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
-        decimal this[DateTime index] { get; }
+        decimal? this[DateTime index] { get; }
 
         /// <summary>
         /// Gets the first DateTime in the ITimeSeries.

@@ -38,6 +38,8 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
@@ -49,6 +51,9 @@
     <Compile Include="BuyToCoverTest.cs" />
     <Compile Include="EntityFramework.cs" />
     <Compile Include="PriceQuoteTest.cs" />
+    <Compile Include="PriceSeriesProviderTest.cs" />
+    <Compile Include="PriceSeriesTest.cs" />
+    <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="WithdrawalTest.cs" />
     <Compile Include="DepositTest.cs" />
     <Compile Include="DividendReinvestmentTest.cs" />
@@ -60,7 +65,7 @@
     <Compile Include="PortfolioTest.cs" />
     <Compile Include="PositionTest.cs" />
     <Compile Include="PricePeriodTest.cs" />
-    <Compile Include="PriceSeriesTest.cs" />
+    <Compile Include="QuotedPricePeriodTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SellTest.cs" />
     <Compile Include="TestData.Designer.cs">
@@ -94,6 +99,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config" />
+    <None Include="Resources\DE_PriceData_Yahoo.csv" />
     <None Include="Resources\FidelityTransactions.csv" />
     <None Include="Resources\SPX price 24 aug 2010.xlsx" />
     <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />

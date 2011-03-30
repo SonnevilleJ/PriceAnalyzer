@@ -1,28 +1,46 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceTools
 {
-    public partial class PriceSeries : IPriceSeries
+    /// <summary>
+    /// Represents a defined period of price data.
+    /// </summary>
+    public partial class StaticPricePeriod
     {
         #region Constructors
 
-        internal PriceSeries()
+        private StaticPricePeriod()
         {
+        }
+
+        internal StaticPricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
+        {
+            // validate first
+            if(head > tail) throw new InvalidOperationException();
+            if(high < open) throw new InvalidOperationException();
+            if(high < close) throw new InvalidOperationException();
+            if(low > open) throw new InvalidOperationException();
+            if(low > close) throw new InvalidOperationException();
+
+            EFHead = head;
+            EFTail = tail;
+            EFOpen = open;
+            EFHigh = high;
+            EFLow = low;
+            EFClose = close;
+            EFVolume = volume;
         }
 
         #endregion
 
-        #region Overrides of PricePeriod
+        #region Implementation of IPricePeriod
 
         /// <summary>
         /// Gets the closing price for the IPricePeriod.
         /// </summary>
         public override decimal Close
         {
-            get { return PricePeriods.Last().Close; }
+            get { return EFClose; }
         }
 
         /// <summary>
@@ -30,15 +48,15 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal? High
         {
-            get { return PricePeriods.Max(p => p.High); }
+            get { return EFHigh; }
         }
 
         /// <summary>
-        /// Gets the lowest price that occurred during the IPricePeriod.
+        /// Gets the lowest price that occurred during  the IPricePeriod.
         /// </summary>
         public override decimal? Low
         {
-            get { return PricePeriods.Min(p => p.Low); }
+            get { return EFLow; }
         }
 
         /// <summary>
@@ -46,7 +64,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal? Open
         {
-            get { return PricePeriods.First().Open; }
+            get { return EFOpen; }
         }
 
         /// <summary>
@@ -54,7 +72,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override long? Volume
         {
-            get { return PricePeriods.Sum(p => p.Volume); }
+            get { return EFVolume; }
         }
 
         /// <summary>
@@ -66,12 +84,11 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                var pricePeriods = PricePeriods.Where(p=>p.HasValue(index)).ToList();
-                if (pricePeriods.Count == 0)
+                if (HasValue(index))
                 {
-                    return null;
+                    return Close;
                 }
-                return pricePeriods[0].Close;
+                return null;
             }
         }
 
@@ -80,7 +97,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override DateTime Head
         {
-            get { return PricePeriods.Min(p => p.Head); }
+            get { return EFHead; }
         }
 
         /// <summary>
@@ -88,7 +105,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override DateTime Tail
         {
-            get { return PricePeriods.Max(p => p.Tail); }
+            get { return EFTail; }
         }
 
         #endregion
@@ -100,29 +117,12 @@ namespace Sonneville.PriceTools
         /// <param name = "left"></param>
         /// <param name = "right"></param>
         /// <returns></returns>
-        public static bool operator ==(PriceSeries left, PriceSeries right)
+        public static bool operator ==(StaticPricePeriod left, StaticPricePeriod right)
         {
             if (ReferenceEquals(null, left)) return false;
             if (ReferenceEquals(null, right)) return false;
 
-            bool pricePeriodsMatch = true;
-            if (left.PricePeriods.Count == right.PricePeriods.Count)
-            {
-                IList<PricePeriod> leftList = left.PricePeriods.ToList();
-                IList<PricePeriod> rightList = right.PricePeriods.ToList();
-
-                for (int i = 0; i < leftList.Count; i++)
-                {
-                    if(leftList[i] != rightList[i])
-                    {
-                        pricePeriodsMatch = false;
-                        break;
-                    }
-                }
-            }
-
-            return pricePeriodsMatch &&
-                left.Close == right.Close &&
+            return left.Close == right.Close &&
                 left.Head == right.Head &&
                 left.High == right.High &&
                 left.Low == right.Low &&
@@ -136,7 +136,7 @@ namespace Sonneville.PriceTools
         /// <param name = "left"></param>
         /// <param name = "right"></param>
         /// <returns></returns>
-        public static bool operator !=(PriceSeries left, PriceSeries right)
+        public static bool operator !=(StaticPricePeriod left, StaticPricePeriod right)
         {
             return !(left == right);
         }
@@ -154,7 +154,7 @@ namespace Sonneville.PriceTools
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return this == obj as PriceSeries;
+            return this == obj as StaticPricePeriod;
         }
 
         /// <summary>
@@ -170,10 +170,5 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
-        
-        private void DownloadPriceData(PriceSeriesProvider provider, DateTime index)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

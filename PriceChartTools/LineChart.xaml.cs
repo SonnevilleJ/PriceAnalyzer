@@ -32,12 +32,29 @@ namespace Sonneville.PriceChartTools
         /// </summary>
         public RoutedEvent TimeSeriesUpdated;
         
-        public ITimeSeries TimeSeries {
-            get { return _timeSeries; }
+        public ITimeSeries TimeSeries
+        {
+            get
+            {
+                return _timeSeries;
+            }
             set
             {
                 _timeSeries = value;
                 RaiseEvent(new RoutedEventArgs {RoutedEvent = TimeSeriesUpdated, Source = TimeSeries});
-            }}
+            }
+        }
+
+        public void Chart(DateTime head, DateTime tail)
+        {
+            DrawAxis(head, tail);
+        }
+
+        private void DrawAxis(DateTime head, DateTime tail)
+        {
+            DrawingImage di = new DrawingImage();
+            PathGeometry geometry;
+
+        }
     }
 }

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 02/28/2011 21:31:03
+-- Date Created: 03/12/2011 22:27:53
 -- Generated from EDMX file: C:\Dev\PriceAnalyzer\PriceTools\Entities.edmx
 -- --------------------------------------------------
 
@@ -29,14 +29,23 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_CashAccountCashTransaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Transactions_CashTransaction] DROP CONSTRAINT [FK_CashAccountCashTransaction];
 GO
-IF OBJECT_ID(N'[dbo].[FK_PriceSeriesPriceQuote]', 'F') IS NOT NULL
-    ALTER TABLE [dbo].[PriceQuotes] DROP CONSTRAINT [FK_PriceSeriesPriceQuote];
+IF OBJECT_ID(N'[dbo].[FK_QuotedPricePeriodPriceQuote]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PriceQuotes] DROP CONSTRAINT [FK_QuotedPricePeriodPriceQuote];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PriceSeriesPricePeriod]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PricePeriods] DROP CONSTRAINT [FK_PriceSeriesPricePeriod];
 GO
 IF OBJECT_ID(N'[dbo].[FK_ShareTransaction_inherits_Transaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Transactions_ShareTransaction] DROP CONSTRAINT [FK_ShareTransaction_inherits_Transaction];
 GO
 IF OBJECT_ID(N'[dbo].[FK_CashTransaction_inherits_Transaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Transactions_CashTransaction] DROP CONSTRAINT [FK_CashTransaction_inherits_Transaction];
+GO
+IF OBJECT_ID(N'[dbo].[FK_QuotedPricePeriod_inherits_PricePeriod]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PricePeriods_QuotedPricePeriod] DROP CONSTRAINT [FK_QuotedPricePeriod_inherits_PricePeriod];
+GO
+IF OBJECT_ID(N'[dbo].[FK_PriceSeries_inherits_PricePeriod]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PricePeriods_PriceSeries] DROP CONSTRAINT [FK_PriceSeries_inherits_PricePeriod];
 GO
 IF OBJECT_ID(N'[dbo].[FK_Deposit_inherits_CashTransaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Transactions_Deposit] DROP CONSTRAINT [FK_Deposit_inherits_CashTransaction];
@@ -62,6 +71,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_Buy_inherits_ShareTransaction]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[Transactions_Buy] DROP CONSTRAINT [FK_Buy_inherits_ShareTransaction];
 GO
+IF OBJECT_ID(N'[dbo].[FK_StaticPricePeriod_inherits_PricePeriod]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[PricePeriods_StaticPricePeriod] DROP CONSTRAINT [FK_StaticPricePeriod_inherits_PricePeriod];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -82,14 +94,20 @@ GO
 IF OBJECT_ID(N'[dbo].[PriceQuotes]', 'U') IS NOT NULL
     DROP TABLE [dbo].[PriceQuotes];
 GO
-IF OBJECT_ID(N'[dbo].[PriceSeries]', 'U') IS NOT NULL
-    DROP TABLE [dbo].[PriceSeries];
+IF OBJECT_ID(N'[dbo].[PricePeriods]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PricePeriods];
 GO
 IF OBJECT_ID(N'[dbo].[Transactions_ShareTransaction]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Transactions_ShareTransaction];
 GO
 IF OBJECT_ID(N'[dbo].[Transactions_CashTransaction]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Transactions_CashTransaction];
+GO
+IF OBJECT_ID(N'[dbo].[PricePeriods_QuotedPricePeriod]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PricePeriods_QuotedPricePeriod];
+GO
+IF OBJECT_ID(N'[dbo].[PricePeriods_PriceSeries]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PricePeriods_PriceSeries];
 GO
 IF OBJECT_ID(N'[dbo].[Transactions_Deposit]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Transactions_Deposit];
@@ -114,6 +132,9 @@ IF OBJECT_ID(N'[dbo].[Transactions_DividendReinvestment]', 'U') IS NOT NULL
 GO
 IF OBJECT_ID(N'[dbo].[Transactions_Buy]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Transactions_Buy];
+GO
+IF OBJECT_ID(N'[dbo].[PricePeriods_StaticPricePeriod]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[PricePeriods_StaticPricePeriod];
 GO
 
 -- --------------------------------------------------
@@ -152,23 +173,17 @@ GO
 -- Creating table 'PriceQuotes'
 CREATE TABLE [dbo].[PriceQuotes] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [QuotedDateTime] datetime  NOT NULL,
+    [SettlementDate] datetime  NOT NULL,
     [Price] decimal(18,0)  NOT NULL,
     [Volume] bigint  NULL,
-    [PriceSery_Id] int  NULL
+    [QuotedPricePeriod_Id] int  NULL
 );
 GO
 
--- Creating table 'PriceSeries'
-CREATE TABLE [dbo].[PriceSeries] (
+-- Creating table 'PricePeriods'
+CREATE TABLE [dbo].[PricePeriods] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [EFOpen] decimal(18,0)  NULL,
-    [EFHigh] decimal(18,0)  NULL,
-    [EFLow] decimal(18,0)  NULL,
-    [EFClose] decimal(18,0)  NULL,
-    [EFVolume] bigint  NULL,
-    [EFHead] datetime  NULL,
-    [EFTail] datetime  NULL
+    [PriceSeriesPricePeriod_PricePeriod_Id] int  NULL
 );
 GO
 
@@ -190,6 +205,19 @@ CREATE TABLE [dbo].[Transactions_CashTransaction] (
     [EFTransactionType] int  NOT NULL,
     [Id] int  NOT NULL,
     [CashAccount_Id] int  NULL
+);
+GO
+
+-- Creating table 'PricePeriods_QuotedPricePeriod'
+CREATE TABLE [dbo].[PricePeriods_QuotedPricePeriod] (
+    [Id] int  NOT NULL
+);
+GO
+
+-- Creating table 'PricePeriods_PriceSeries'
+CREATE TABLE [dbo].[PricePeriods_PriceSeries] (
+    [Ticker] nvarchar(max)  NOT NULL,
+    [Id] int  NOT NULL
 );
 GO
 
@@ -241,6 +269,19 @@ CREATE TABLE [dbo].[Transactions_Buy] (
 );
 GO
 
+-- Creating table 'PricePeriods_StaticPricePeriod'
+CREATE TABLE [dbo].[PricePeriods_StaticPricePeriod] (
+    [EFOpen] decimal(18,0)  NULL,
+    [EFHigh] decimal(18,0)  NULL,
+    [EFLow] decimal(18,0)  NULL,
+    [EFVolume] bigint  NULL,
+    [EFClose] decimal(18,0)  NOT NULL,
+    [EFHead] datetime  NOT NULL,
+    [EFTail] datetime  NOT NULL,
+    [Id] int  NOT NULL
+);
+GO
+
 -- --------------------------------------------------
 -- Creating all PRIMARY KEY constraints
 -- --------------------------------------------------
@@ -275,9 +316,9 @@ ADD CONSTRAINT [PK_PriceQuotes]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
--- Creating primary key on [Id] in table 'PriceSeries'
-ALTER TABLE [dbo].[PriceSeries]
-ADD CONSTRAINT [PK_PriceSeries]
+-- Creating primary key on [Id] in table 'PricePeriods'
+ALTER TABLE [dbo].[PricePeriods]
+ADD CONSTRAINT [PK_PricePeriods]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -290,6 +331,18 @@ GO
 -- Creating primary key on [Id] in table 'Transactions_CashTransaction'
 ALTER TABLE [dbo].[Transactions_CashTransaction]
 ADD CONSTRAINT [PK_Transactions_CashTransaction]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'PricePeriods_QuotedPricePeriod'
+ALTER TABLE [dbo].[PricePeriods_QuotedPricePeriod]
+ADD CONSTRAINT [PK_PricePeriods_QuotedPricePeriod]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'PricePeriods_PriceSeries'
+ALTER TABLE [dbo].[PricePeriods_PriceSeries]
+ADD CONSTRAINT [PK_PricePeriods_PriceSeries]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -338,6 +391,12 @@ GO
 -- Creating primary key on [Id] in table 'Transactions_Buy'
 ALTER TABLE [dbo].[Transactions_Buy]
 ADD CONSTRAINT [PK_Transactions_Buy]
+    PRIMARY KEY CLUSTERED ([Id] ASC);
+GO
+
+-- Creating primary key on [Id] in table 'PricePeriods_StaticPricePeriod'
+ALTER TABLE [dbo].[PricePeriods_StaticPricePeriod]
+ADD CONSTRAINT [PK_PricePeriods_StaticPricePeriod]
     PRIMARY KEY CLUSTERED ([Id] ASC);
 GO
 
@@ -401,18 +460,32 @@ ON [dbo].[Transactions_CashTransaction]
     ([CashAccount_Id]);
 GO
 
--- Creating foreign key on [PriceSery_Id] in table 'PriceQuotes'
+-- Creating foreign key on [QuotedPricePeriod_Id] in table 'PriceQuotes'
 ALTER TABLE [dbo].[PriceQuotes]
-ADD CONSTRAINT [FK_PriceSeriesPriceQuote]
-    FOREIGN KEY ([PriceSery_Id])
-    REFERENCES [dbo].[PriceSeries]
+ADD CONSTRAINT [FK_QuotedPricePeriodPriceQuote]
+    FOREIGN KEY ([QuotedPricePeriod_Id])
+    REFERENCES [dbo].[PricePeriods_QuotedPricePeriod]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 
--- Creating non-clustered index for FOREIGN KEY 'FK_PriceSeriesPriceQuote'
-CREATE INDEX [IX_FK_PriceSeriesPriceQuote]
+-- Creating non-clustered index for FOREIGN KEY 'FK_QuotedPricePeriodPriceQuote'
+CREATE INDEX [IX_FK_QuotedPricePeriodPriceQuote]
 ON [dbo].[PriceQuotes]
-    ([PriceSery_Id]);
+    ([QuotedPricePeriod_Id]);
+GO
+
+-- Creating foreign key on [PriceSeriesPricePeriod_PricePeriod_Id] in table 'PricePeriods'
+ALTER TABLE [dbo].[PricePeriods]
+ADD CONSTRAINT [FK_PriceSeriesPricePeriod]
+    FOREIGN KEY ([PriceSeriesPricePeriod_PricePeriod_Id])
+    REFERENCES [dbo].[PricePeriods_PriceSeries]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+-- Creating non-clustered index for FOREIGN KEY 'FK_PriceSeriesPricePeriod'
+CREATE INDEX [IX_FK_PriceSeriesPricePeriod]
+ON [dbo].[PricePeriods]
+    ([PriceSeriesPricePeriod_PricePeriod_Id]);
 GO
 
 -- Creating foreign key on [Id] in table 'Transactions_ShareTransaction'
@@ -429,6 +502,24 @@ ALTER TABLE [dbo].[Transactions_CashTransaction]
 ADD CONSTRAINT [FK_CashTransaction_inherits_Transaction]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Transactions]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'PricePeriods_QuotedPricePeriod'
+ALTER TABLE [dbo].[PricePeriods_QuotedPricePeriod]
+ADD CONSTRAINT [FK_QuotedPricePeriod_inherits_PricePeriod]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[PricePeriods]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'PricePeriods_PriceSeries'
+ALTER TABLE [dbo].[PricePeriods_PriceSeries]
+ADD CONSTRAINT [FK_PriceSeries_inherits_PricePeriod]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[PricePeriods]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO
@@ -501,6 +592,15 @@ ALTER TABLE [dbo].[Transactions_Buy]
 ADD CONSTRAINT [FK_Buy_inherits_ShareTransaction]
     FOREIGN KEY ([Id])
     REFERENCES [dbo].[Transactions_ShareTransaction]
+        ([Id])
+    ON DELETE NO ACTION ON UPDATE NO ACTION;
+GO
+
+-- Creating foreign key on [Id] in table 'PricePeriods_StaticPricePeriod'
+ALTER TABLE [dbo].[PricePeriods_StaticPricePeriod]
+ADD CONSTRAINT [FK_StaticPricePeriod_inherits_PricePeriod]
+    FOREIGN KEY ([Id])
+    REFERENCES [dbo].[PricePeriods]
         ([Id])
     ON DELETE NO ACTION ON UPDATE NO ACTION;
 GO

@@ -10,12 +10,18 @@ namespace Sonneville.PriceTools
     /// </summary>
     public partial class Position : IPosition
     {
+        #region Private Members
+
+        private IPriceSeries _priceSeries;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
         ///   Constructs a new Position that will handle transactions for a given ticker symbol.
         /// </summary>
-        public Position()
+        private Position()
         {
         }
 
@@ -23,7 +29,7 @@ namespace Sonneville.PriceTools
         ///   Constructs a new Position that will handle transactions for a given ticker symbol.
         /// </summary>
         /// <param name = "ticker">The ticker symbol that this portfolio will hold. All transactions will use this ticker symbol.</param>
-        public Position(string ticker)
+        internal Position(string ticker)
         {
             Ticker = ticker;
         }
@@ -120,7 +126,7 @@ namespace Sonneville.PriceTools
         ///   Gets the total value of the Position, including commissions.
         /// </summary>
         /// <param name = "index">The <see cref = "DateTime" /> to use.</param>
-        public decimal this[DateTime index]
+        public decimal? this[DateTime index]
         {
             get { return GetValue(index); }
         }
@@ -163,35 +169,7 @@ namespace Sonneville.PriceTools
         /// <returns>The value of the shares held in the Portfolio as of the given date.</returns>
         public decimal GetInvestedValue(DateTime settlementDate)
         {
-            if (GetHeldShares(settlementDate) == 0)
-            {
-                return 0;
-            }
-
-            List<ShareTransaction> transactions = EFTransactions
-                .Where(transaction => transaction.SettlementDate <= settlementDate)
-                .OrderBy(transaction => transaction.SettlementDate).ToList();
-            int count = transactions.Count();
-
-            decimal value = 0.00m;
-
-            for (int i = 0; i < count; i++)
-            {
-                switch (transactions[i].OrderType)
-                {
-                    case OrderType.Buy:
-                    case OrderType.SellShort:
-                    case OrderType.DividendReinvestment:
-                        value += (transactions[i].Price*(decimal) transactions[i].Shares);
-                        break;
-                    case OrderType.Sell:
-                    case OrderType.BuyToCover:
-                        value -= (GetAverageCost(settlementDate)*(decimal) transactions[i].Shares);
-                        break;
-                }
-            }
-
-            return value >= 0.00m ? value : 0.00m;
+            return (decimal)GetHeldShares(settlementDate) * (PriceSeries[settlementDate] ?? 0);
         }
 
         /// <summary>
@@ -360,6 +338,11 @@ namespace Sonneville.PriceTools
         private IShareTransaction First
         {
             get { return EFTransactions.OrderBy(t => t.SettlementDate).First(); }
+        }
+
+        private IPriceSeries PriceSeries
+        {
+            get { return _priceSeries ?? (_priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker)); }
         }
 
         #endregion

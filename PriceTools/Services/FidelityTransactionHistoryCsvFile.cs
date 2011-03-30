@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.IO;
 
-namespace Sonneville.PriceTools.Data
+namespace Sonneville.PriceTools.Services
 {
     /// <summary>
     ///   Parses an <see cref = "IPortfolio" /> from Fidelity CSV data.

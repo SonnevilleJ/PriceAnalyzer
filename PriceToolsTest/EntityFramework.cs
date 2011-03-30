@@ -34,7 +34,7 @@ namespace Sonneville.PriceToolsTest
             Portfolio.CreatePortfolio(0, text);
 
             PriceQuote.CreatePriceQuote(0, date, 0);
-            PriceSeries.CreatePriceSeries(0);
+            PriceSeries.CreatePriceSeries(0, text);
         }
     }
 }

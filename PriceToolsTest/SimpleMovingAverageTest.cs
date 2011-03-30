@@ -10,13 +10,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ResolutionDaysByDefault()
         {
-            IPriceSeries priceSeries = new PriceSeries();
             DateTime date = new DateTime(2011, 3, 1);
-            for (int i = 0; i < 20; i++)
-            {
-                IPriceQuote quote = new PriceQuote {SettlementDate = date.AddDays(i), Price = 1};
-                priceSeries.AddPriceQuote(quote);
-            }
+            IPriceSeries priceSeries = CreateTestPriceSeries(20, date, 1);
 
             const int range = 5;
             SimpleMovingAverage target = new SimpleMovingAverage(priceSeries, range);
@@ -62,9 +57,9 @@ namespace Sonneville.PriceToolsTest
             SimpleMovingAverage ma = new SimpleMovingAverage(series, range);
 
             const decimal expected = price;
-            for (int i = range; i < series.PriceQuotes.Count; i++)
+            for (int i = range; i < series.PricePeriods.Count; i++)
             {
-                decimal actual = ma[date.AddDays(i)];
+                decimal? actual = ma[date.AddDays(i)];
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -72,19 +67,37 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void RisingAndFallingMovingAverageReturnsCorrectValues()
         {
-            DateTime date = new DateTime(2000, 1, 1);
-            PriceQuote p1 = new PriceQuote {SettlementDate = date, Price = 1};
-            PriceQuote p2 = new PriceQuote {SettlementDate = date.AddDays(1), Price = 2 };
-            PriceQuote p3 = new PriceQuote { SettlementDate = date.AddDays(2), Price = 3 };
-            PriceQuote p4 = new PriceQuote { SettlementDate = date.AddDays(3), Price = 4 };
-            PriceQuote p5 = new PriceQuote { SettlementDate = date.AddDays(4), Price = 5 };
-            PriceQuote p6 = new PriceQuote { SettlementDate = date.AddDays(5), Price = 4 };
-            PriceQuote p7 = new PriceQuote { SettlementDate = date.AddDays(6), Price = 3 };
-            PriceQuote p8 = new PriceQuote { SettlementDate = date.AddDays(7), Price = 2 };
-            PriceQuote p9 = new PriceQuote { SettlementDate = date.AddDays(8), Price = 1 };
+            QuotedPricePeriod p1 = new QuotedPricePeriod();
+            QuotedPricePeriod p2 = new QuotedPricePeriod();
+            QuotedPricePeriod p3 = new QuotedPricePeriod();
+            QuotedPricePeriod p4 = new QuotedPricePeriod();
+            QuotedPricePeriod p5 = new QuotedPricePeriod();
+            QuotedPricePeriod p6 = new QuotedPricePeriod();
+            QuotedPricePeriod p7 = new QuotedPricePeriod();
+            QuotedPricePeriod p8 = new QuotedPricePeriod();
+            QuotedPricePeriod p9 = new QuotedPricePeriod();
 
-            IPriceSeries series = new PriceSeries();
-            series.AddPriceQuote(p1, p2, p3, p4, p5, p6, p7, p8, p9);
+            DateTime date = new DateTime(2000, 1, 1);
+            p1.AddPriceQuote(new PriceQuote {SettlementDate = date, Price = 1});
+            p2.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(1), Price = 2});
+            p3.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(2), Price = 3});
+            p4.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(3), Price = 4});
+            p5.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(4), Price = 5});
+            p6.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(5), Price = 4});
+            p7.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(6), Price = 3});
+            p8.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(7), Price = 2});
+            p9.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(8), Price = 1});
+
+            IPriceSeries series = PriceSeriesFactory.CreatePriceSeries("test");
+            series.PricePeriods.Add(p1);
+            series.PricePeriods.Add(p2);
+            series.PricePeriods.Add(p3);
+            series.PricePeriods.Add(p4);
+            series.PricePeriods.Add(p5);
+            series.PricePeriods.Add(p6);
+            series.PricePeriods.Add(p7);
+            series.PricePeriods.Add(p8);
+            series.PricePeriods.Add(p9);
 
             // create 4 day moving average
             const int range = 4;
@@ -107,17 +120,19 @@ namespace Sonneville.PriceToolsTest
 
             SimpleMovingAverage target = new SimpleMovingAverage(series, range);
 
-            int expected = series.PriceQuotes.Count - (range - 1);
+            int expected = series.PricePeriods.Count - (range - 1);
             int actual = target.Span;
             Assert.AreEqual(expected, actual);
         }
 
         private static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
         {
-            IPriceSeries series = new PriceSeries();
+            IPriceSeries series = PriceSeriesFactory.CreatePriceSeries("test");
             for (int i = 0; i < count; i++)
             {
-                series.AddPriceQuote(new PriceQuote {SettlementDate = startDate.AddDays(i), Price = price});
+                QuotedPricePeriod period = new QuotedPricePeriod();
+                period.AddPriceQuote(new PriceQuote {SettlementDate = startDate.AddDays(i), Price = price});
+                series.PricePeriods.Add(period);
             }
             return series;
         }

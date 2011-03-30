@@ -2,12 +2,10 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceToolsTest
 {
-    
-    
     /// <summary>
     ///This is a test class for FidelityTransactionHistoryCsvFileTest and is intended
     ///to contain all FidelityTransactionHistoryCsvFileTest Unit Tests

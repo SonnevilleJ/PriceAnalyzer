@@ -34,14 +34,14 @@ namespace Sonneville.PriceTools
                 throw new InvalidOperationException("The TimeSpan of priceSeries is too narrow for the given PriceSeriesResolution.");
             }
             PriceSeries = priceSeries;
-            Dictionary = new Dictionary<DateTime, decimal>(priceSeries.PriceQuotes.Count - range);
+            Dictionary = new Dictionary<DateTime, decimal?>(priceSeries.PricePeriods.Count - range);
             Range = range;
             Resolution = resolution;
         }
 
         #endregion
 
-        private IDictionary<DateTime, decimal> Dictionary { get; set; }
+        private IDictionary<DateTime, decimal?> Dictionary { get; set; }
 
         #region Accessors
 
@@ -66,7 +66,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public decimal Last
         {
-            get { return this[Tail]; }
+            get { return this[Tail].Value; }
         }
 
         #endregion
@@ -76,7 +76,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
         /// <returns>The value of this Indicator for the given period.</returns>
-        protected abstract decimal Calculate(DateTime index);
+        protected abstract decimal? Calculate(DateTime index);
 
         /// <summary>
         /// Pre-caches all values for this Indicator.
@@ -110,11 +110,11 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
         /// <returns>THe value of the ITimeSeries as of the given DateTime.</returns>
-        public virtual decimal this[DateTime index]
+        public virtual decimal? this[DateTime index]
         {
             get
             {
-                decimal value;
+                decimal? value;
                 return Dictionary.TryGetValue(index, out value) ? value : Calculate(index);
             }
             protected set { Dictionary[index] = value; }

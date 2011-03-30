@@ -11,9 +11,11 @@
     <EntitySet Name="Portfolios" EntityType="Entities.Store.Portfolios" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CashAccounts" EntityType="Entities.Store.CashAccounts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PriceQuotes" EntityType="Entities.Store.PriceQuotes" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="PriceSeries" EntityType="Entities.Store.PriceSeries" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PricePeriods" EntityType="Entities.Store.PricePeriods" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_ShareTransaction" EntityType="Entities.Store.Transactions_ShareTransaction" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_CashTransaction" EntityType="Entities.Store.Transactions_CashTransaction" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PricePeriods_QuotedPricePeriod" EntityType="Entities.Store.PricePeriods_QuotedPricePeriod" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PricePeriods_PriceSeries" EntityType="Entities.Store.PricePeriods_PriceSeries" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_Deposit" EntityType="Entities.Store.Transactions_Deposit" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_Withdrawal" EntityType="Entities.Store.Transactions_Withdrawal" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_SellShort" EntityType="Entities.Store.Transactions_SellShort" store:Type="Tables" Schema="dbo" />
@@ -22,6 +24,7 @@
     <EntitySet Name="Transactions_DividendReceipt" EntityType="Entities.Store.Transactions_DividendReceipt" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_DividendReinvestment" EntityType="Entities.Store.Transactions_DividendReinvestment" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_Buy" EntityType="Entities.Store.Transactions_Buy" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="PricePeriods_StaticPricePeriod" EntityType="Entities.Store.PricePeriods_StaticPricePeriod" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="PositionShareTransaction" Association="Entities.Store.PositionShareTransaction">
       <End Role="Position" EntitySet="Positions" />
       <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
@@ -38,9 +41,13 @@
       <End Role="CashAccount" EntitySet="CashAccounts" />
       <End Role="CashTransaction" EntitySet="Transactions_CashTransaction" />
     </AssociationSet>
-    <AssociationSet Name="PriceSeriesPriceQuote" Association="Entities.Store.PriceSeriesPriceQuote">
-      <End Role="PriceSeries" EntitySet="PriceSeries" />
+    <AssociationSet Name="QuotedPricePeriodPriceQuote" Association="Entities.Store.QuotedPricePeriodPriceQuote">
+      <End Role="QuotedPricePeriod" EntitySet="PricePeriods_QuotedPricePeriod" />
       <End Role="PriceQuote" EntitySet="PriceQuotes" />
+    </AssociationSet>
+    <AssociationSet Name="PriceSeriesPricePeriod" Association="Entities.Store.PriceSeriesPricePeriod">
+      <End Role="PriceSeries" EntitySet="PricePeriods_PriceSeries" />
+      <End Role="PricePeriod" EntitySet="PricePeriods" />
     </AssociationSet>
     <AssociationSet Name="FK_ShareTransaction_inherits_Transaction" Association="Entities.Store.FK_ShareTransaction_inherits_Transaction">
       <End Role="Transaction" EntitySet="Transactions" />
@@ -49,6 +56,14 @@
     <AssociationSet Name="FK_CashTransaction_inherits_Transaction" Association="Entities.Store.FK_CashTransaction_inherits_Transaction">
       <End Role="Transaction" EntitySet="Transactions" />
       <End Role="CashTransaction" EntitySet="Transactions_CashTransaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_QuotedPricePeriod_inherits_PricePeriod" Association="Entities.Store.FK_QuotedPricePeriod_inherits_PricePeriod">
+      <End Role="PricePeriod" EntitySet="PricePeriods" />
+      <End Role="QuotedPricePeriod" EntitySet="PricePeriods_QuotedPricePeriod" />
+    </AssociationSet>
+    <AssociationSet Name="FK_PriceSeries_inherits_PricePeriod" Association="Entities.Store.FK_PriceSeries_inherits_PricePeriod">
+      <End Role="PricePeriod" EntitySet="PricePeriods" />
+      <End Role="PriceSeries" EntitySet="PricePeriods_PriceSeries" />
     </AssociationSet>
     <AssociationSet Name="FK_Deposit_inherits_CashTransaction" Association="Entities.Store.FK_Deposit_inherits_CashTransaction">
       <End Role="CashTransaction" EntitySet="Transactions_CashTransaction" />
@@ -81,6 +96,10 @@
     <AssociationSet Name="FK_Buy_inherits_ShareTransaction" Association="Entities.Store.FK_Buy_inherits_ShareTransaction">
       <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
       <End Role="Buy" EntitySet="Transactions_Buy" />
+    </AssociationSet>
+    <AssociationSet Name="FK_StaticPricePeriod_inherits_PricePeriod" Association="Entities.Store.FK_StaticPricePeriod_inherits_PricePeriod">
+      <End Role="PricePeriod" EntitySet="PricePeriods" />
+      <End Role="StaticPricePeriod" EntitySet="PricePeriods_StaticPricePeriod" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Transactions">
@@ -117,23 +136,17 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="QuotedDateTime" Type="datetime" Nullable="false" />
+    <Property Name="SettlementDate" Type="datetime" Nullable="false" />
     <Property Name="Price" Type="decimal" Nullable="false" />
-    <Property Name="Volume" Type="bigint" Nullable="true" />
-    <Property Name="PriceSery_Id" Type="int" Nullable="true" />
+    <Property Name="Volume" Type="bigint" Nullable="true" DefaultValue="1" />
+    <Property Name="QuotedPricePeriod_Id" Type="int" Nullable="true" />
   </EntityType>
-  <EntityType Name="PriceSeries">
+  <EntityType Name="PricePeriods">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="EFOpen" Type="decimal" Nullable="true" />
-    <Property Name="EFHigh" Type="decimal" Nullable="true" />
-    <Property Name="EFLow" Type="decimal" Nullable="true" />
-    <Property Name="EFClose" Type="decimal" Nullable="true" />
-    <Property Name="EFVolume" Type="bigint" Nullable="true" />
-    <Property Name="EFHead" Type="datetime" Nullable="true" />
-    <Property Name="EFTail" Type="datetime" Nullable="true" />
+    <Property Name="PriceSeriesPricePeriod_PricePeriod_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Transactions_ShareTransaction">
     <Key>
@@ -155,6 +168,19 @@
     <Property Name="EFTransactionType" Type="int" Nullable="false" />
     <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="CashAccount_Id" Type="int" Nullable="true" />
+  </EntityType>
+  <EntityType Name="PricePeriods_QuotedPricePeriod">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PricePeriods_PriceSeries">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Ticker" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="Transactions_Deposit">
     <Key>
@@ -202,6 +228,19 @@
     <Key>
       <PropertyRef Name="Id" />
     </Key>
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="PricePeriods_StaticPricePeriod">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="EFOpen" Type="decimal" Nullable="true" />
+    <Property Name="EFHigh" Type="decimal" Nullable="true" />
+    <Property Name="EFLow" Type="decimal" Nullable="true" />
+    <Property Name="EFVolume" Type="bigint" Nullable="true" />
+    <Property Name="EFClose" Type="decimal" Nullable="false" />
+    <Property Name="EFHead" Type="datetime" Nullable="false" />
+    <Property Name="EFTail" Type="datetime" Nullable="false" />
     <Property Name="Id" Type="int" Nullable="false" />
   </EntityType>
   <Association Name="PositionShareTransaction">
@@ -252,15 +291,27 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="PriceSeriesPriceQuote">
-    <End Role="PriceSeries" Type="Entities.Store.PriceSeries" Multiplicity="0..1" />
+  <Association Name="QuotedPricePeriodPriceQuote">
+    <End Role="QuotedPricePeriod" Type="Entities.Store.PricePeriods_QuotedPricePeriod" Multiplicity="0..1" />
     <End Role="PriceQuote" Type="Entities.Store.PriceQuotes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="QuotedPricePeriod">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PriceQuote">
+        <PropertyRef Name="QuotedPricePeriod_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="PriceSeriesPricePeriod">
+    <End Role="PriceSeries" Type="Entities.Store.PricePeriods_PriceSeries" Multiplicity="0..1" />
+    <End Role="PricePeriod" Type="Entities.Store.PricePeriods" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="PriceSeries">
         <PropertyRef Name="Id" />
       </Principal>
-      <Dependent Role="PriceQuote">
-        <PropertyRef Name="PriceSery_Id" />
+      <Dependent Role="PricePeriod">
+        <PropertyRef Name="PriceSeriesPricePeriod_PricePeriod_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -284,6 +335,30 @@
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="CashTransaction">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_QuotedPricePeriod_inherits_PricePeriod">
+    <End Role="PricePeriod" Type="Entities.Store.PricePeriods" Multiplicity="1" />
+    <End Role="QuotedPricePeriod" Type="Entities.Store.PricePeriods_QuotedPricePeriod" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="PricePeriod">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="QuotedPricePeriod">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_PriceSeries_inherits_PricePeriod">
+    <End Role="PricePeriod" Type="Entities.Store.PricePeriods" Multiplicity="1" />
+    <End Role="PriceSeries" Type="Entities.Store.PricePeriods_PriceSeries" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="PricePeriod">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="PriceSeries">
         <PropertyRef Name="Id" />
       </Dependent>
     </ReferentialConstraint>
@@ -384,6 +459,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_StaticPricePeriod_inherits_PricePeriod">
+    <End Role="PricePeriod" Type="Entities.Store.PricePeriods" Multiplicity="1" />
+    <End Role="StaticPricePeriod" Type="Entities.Store.PricePeriods_StaticPricePeriod" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="PricePeriod">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="StaticPricePeriod">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -410,10 +497,14 @@
             <End Role="CashTransaction" EntitySet="Transactions" />
           </AssociationSet>
           <EntitySet Name="PriceQuotes" EntityType="Entities.PriceQuote" />
-          <EntitySet Name="PriceSeries" EntityType="Entities.PriceSeries" />
-          <AssociationSet Name="PriceSeriesPriceQuote" Association="Entities.PriceSeriesPriceQuote">
-            <End Role="PriceSeries" EntitySet="PriceSeries" />
+          <EntitySet Name="PricePeriods" EntityType="Entities.PricePeriod" />
+          <AssociationSet Name="QuotedPricePeriodPriceQuote" Association="Entities.QuotedPricePeriodPriceQuote">
+            <End Role="QuotedPricePeriod" EntitySet="PricePeriods" />
             <End Role="PriceQuote" EntitySet="PriceQuotes" />
+          </AssociationSet>
+          <AssociationSet Name="PriceSeriesPricePeriod" Association="Entities.PriceSeriesPricePeriod">
+            <End Role="PriceSeries" EntitySet="PricePeriods" />
+            <End Role="PricePeriod" EntitySet="PricePeriods" />
           </AssociationSet>
           </EntityContainer>
         <EntityType Name="Transaction" Abstract="true">
@@ -516,19 +607,8 @@
           <End Type="Entities.CashAccount" Role="CashAccount" Multiplicity="0..1" />
           <End Type="Entities.CashTransaction" Role="CashTransaction" Multiplicity="*" />
         </Association>
-        <EntityType Name="PriceSeries">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="PriceQuotes" Relationship="Entities.PriceSeriesPriceQuote" FromRole="PriceSeries" ToRole="PriceQuote" />
-          <Property Type="Decimal" Name="EFOpen" cg:GetterAccess="Private" cg:SetterAccess="Private" Nullable="true" />
-          <Property Type="Decimal" Name="EFHigh" Nullable="true" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <Property Type="Decimal" Name="EFLow" Nullable="true" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <Property Type="Decimal" Name="EFClose" Nullable="true" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <Property Type="Int64" Name="EFVolume" Nullable="true" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <Property Type="DateTime" Name="EFHead" Nullable="true" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <Property Type="DateTime" Name="EFTail" Nullable="true" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+        <EntityType Name="QuotedPricePeriod" BaseType="Entities.PricePeriod">
+          <NavigationProperty Name="PriceQuotes" Relationship="Entities.QuotedPricePeriodPriceQuote" FromRole="QuotedPricePeriod" ToRole="PriceQuote" />
         </EntityType>
         <EntityType Name="PriceQuote">
           <Documentation>
@@ -553,11 +633,34 @@
               <Summary>The number of shares traded.</Summary>
             </Documentation>
           </Property>
-          <NavigationProperty Name="PriceSeries" Relationship="Entities.PriceSeriesPriceQuote" FromRole="PriceQuote" ToRole="PriceSeries" />
+          <NavigationProperty Name="QuotedPricePeriod" Relationship="Entities.QuotedPricePeriodPriceQuote" FromRole="PriceQuote" ToRole="QuotedPricePeriod" />
         </EntityType>
-        <Association Name="PriceSeriesPriceQuote">
-          <End Type="Entities.PriceSeries" Role="PriceSeries" Multiplicity="0..1" />
+        <EntityType Name="StaticPricePeriod" BaseType="Entities.PricePeriod">
+          <Property Type="Decimal" Name="EFOpen" Nullable="true" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Type="Decimal" Name="EFHigh" Nullable="true" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Type="Decimal" Name="EFLow" Nullable="true" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Type="Int64" Name="EFVolume" Nullable="true" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Type="Decimal" Name="EFClose" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
+          <Property Type="DateTime" Name="EFHead" cg:GetterAccess="Private" cg:SetterAccess="Private" Nullable="false" />
+          <Property Type="DateTime" Name="EFTail" cg:GetterAccess="Private" cg:SetterAccess="Private" Nullable="false" />
+        </EntityType>
+        <EntityType Name="PricePeriod" Abstract="true">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
+        <Association Name="QuotedPricePeriodPriceQuote">
+          <End Type="Entities.QuotedPricePeriod" Role="QuotedPricePeriod" Multiplicity="0..1" />
           <End Type="Entities.PriceQuote" Role="PriceQuote" Multiplicity="*" />
+        </Association>
+        <EntityType Name="PriceSeries" BaseType="Entities.PricePeriod" >
+          <NavigationProperty Name="PricePeriods" Relationship="Entities.PriceSeriesPricePeriod" FromRole="PriceSeries" ToRole="PricePeriod" />
+          <Property Type="String" Name="Ticker" Nullable="false" />
+        </EntityType>
+        <Association Name="PriceSeriesPricePeriod">
+          <End Type="Entities.PriceSeries" Role="PriceSeries" Multiplicity="0..1" />
+          <End Type="Entities.PricePeriod" Role="PricePeriod" Multiplicity="*" />
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -657,21 +760,37 @@
       <EntityTypeMapping TypeName="IsTypeOf(Entities.PriceQuote)">
         <MappingFragment StoreEntitySet="PriceQuotes">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="SettlementDate" ColumnName="QuotedDateTime" />
+          <ScalarProperty Name="SettlementDate" ColumnName="SettlementDate" />
           <ScalarProperty Name="Price" ColumnName="Price" />
           <ScalarProperty Name="Volume" ColumnName="Volume" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="PriceSeries">
+    <EntitySetMapping Name="PricePeriods">
+      <EntityTypeMapping TypeName="IsTypeOf(Entities.PricePeriod)">
+        <MappingFragment StoreEntitySet="PricePeriods">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Entities.QuotedPricePeriod)">
+        <MappingFragment StoreEntitySet="PricePeriods_QuotedPricePeriod">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
       <EntityTypeMapping TypeName="IsTypeOf(Entities.PriceSeries)">
-        <MappingFragment StoreEntitySet="PriceSeries">
+        <MappingFragment StoreEntitySet="PricePeriods_PriceSeries">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Ticker" ColumnName="Ticker" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(Entities.StaticPricePeriod)">
+        <MappingFragment StoreEntitySet="PricePeriods_StaticPricePeriod">
           <ScalarProperty Name="Id" ColumnName="Id" />
           <ScalarProperty Name="EFOpen" ColumnName="EFOpen" />
           <ScalarProperty Name="EFHigh" ColumnName="EFHigh" />
           <ScalarProperty Name="EFLow" ColumnName="EFLow" />
-          <ScalarProperty Name="EFClose" ColumnName="EFClose" />
           <ScalarProperty Name="EFVolume" ColumnName="EFVolume" />
+          <ScalarProperty Name="EFClose" ColumnName="EFClose" />
           <ScalarProperty Name="EFHead" ColumnName="EFHead" />
           <ScalarProperty Name="EFTail" ColumnName="EFTail" />
         </MappingFragment>
@@ -712,14 +831,23 @@
       </EndProperty>
       <Condition ColumnName="CashAccount_Id" IsNull="false" />
     </AssociationSetMapping>
-    <AssociationSetMapping Name="PriceSeriesPriceQuote" TypeName="Entities.PriceSeriesPriceQuote" StoreEntitySet="PriceQuotes">
-      <EndProperty Name="PriceSeries">
-        <ScalarProperty Name="Id" ColumnName="PriceSery_Id" />
+    <AssociationSetMapping Name="QuotedPricePeriodPriceQuote" TypeName="Entities.QuotedPricePeriodPriceQuote" StoreEntitySet="PriceQuotes">
+      <EndProperty Name="QuotedPricePeriod">
+        <ScalarProperty Name="Id" ColumnName="QuotedPricePeriod_Id" />
       </EndProperty>
       <EndProperty Name="PriceQuote">
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
-      <Condition ColumnName="PriceSery_Id" IsNull="false" />
+      <Condition ColumnName="QuotedPricePeriod_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="PriceSeriesPricePeriod" TypeName="Entities.PriceSeriesPricePeriod" StoreEntitySet="PricePeriods">
+      <EndProperty Name="PriceSeries">
+        <ScalarProperty Name="Id" ColumnName="PriceSeriesPricePeriod_PricePeriod_Id" />
+      </EndProperty>
+      <EndProperty Name="PricePeriod">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="PriceSeriesPricePeriod_PricePeriod_Id" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
@@ -821,17 +949,40 @@
           <ConnectorPoint PointX="2.25" PointY="5.47068359375" />
           <ConnectorPoint PointX="2.25" PointY="7.125" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Entities.PriceSeries" PointX="11.875" PointY="3.875" Width="1.5" Height="1.5956835937499996" />
+        <EntityTypeShape EntityType="Entities.QuotedPricePeriod" PointX="14" PointY="6.25" Width="1.5" Height="1.0187792968749996" />
         <InheritanceConnector EntityType="Entities.DividendReceipt" ManuallyRouted="false" >
           <ConnectorPoint PointX="2.25" PointY="8.72068359375" />
           <ConnectorPoint PointX="2.25" PointY="8.97068359375" />
           <ConnectorPoint PointX="4.25" PointY="8.97068359375" />
           <ConnectorPoint PointX="4.25" PointY="9.125" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.PriceQuote" PointX="11.875" PointY="7.5" Width="1.5" Height="1.9802864583333335" />
-        <AssociationConnector Association="Entities.PriceSeriesPriceQuote">
-          <ConnectorPoint PointX="12.625" PointY="5.47068359375" />
-          <ConnectorPoint PointX="12.625" PointY="7.5" />
+        <EntityTypeShape EntityType="Entities.PriceQuote" PointX="14" PointY="9.875" Width="1.5" Height="1.9802864583333335" />
+        <EntityTypeShape EntityType="Entities.StaticPricePeriod" Width="1.5" PointX="16.125" PointY="6.25" Height="1.9802864583333335" />
+        <EntityTypeShape EntityType="Entities.PricePeriod" Width="1.5" PointX="15.125" PointY="4.125" Height="1.2110807291666665" />
+        <InheritanceConnector EntityType="Entities.StaticPricePeriod" >
+          <ConnectorPoint PointX="15.875" PointY="5.3360807291666665" />
+          <ConnectorPoint PointX="15.875" PointY="5.875" />
+          <ConnectorPoint PointX="16.875" PointY="5.875" />
+          <ConnectorPoint PointX="16.875" PointY="6.25" />
+        </InheritanceConnector>
+        <InheritanceConnector EntityType="Entities.QuotedPricePeriod" >
+          <ConnectorPoint PointX="15.875" PointY="5.3360807291666665" />
+          <ConnectorPoint PointX="15.875" PointY="5.875" />
+          <ConnectorPoint PointX="14.75" PointY="5.875" />
+          <ConnectorPoint PointX="14.75" PointY="6.25" />
+        </InheritanceConnector>
+        <AssociationConnector Association="Entities.QuotedPricePeriodPriceQuote">
+          <ConnectorPoint PointX="14.75" PointY="7.4610807291666665" />
+          <ConnectorPoint PointX="14.75" PointY="9.875" />
+        </AssociationConnector>
+        <EntityTypeShape EntityType="Entities.PriceSeries" Width="1.5" PointX="11.75" PointY="4.125" Height="1.4033821614583335" />
+        <InheritanceConnector EntityType="Entities.PriceSeries" >
+          <ConnectorPoint PointX="15.125" PointY="4.9687465667724613" />
+          <ConnectorPoint PointX="13.25" PointY="4.9687465667724613" />
+        </InheritanceConnector>
+        <AssociationConnector Association="Entities.PriceSeriesPricePeriod">
+          <ConnectorPoint PointX="13.25" PointY="4.4843732833862306" />
+          <ConnectorPoint PointX="15.125" PointY="4.4843732833862306" />
         </AssociationConnector>
       </Diagram>
     </edmx:Diagrams>

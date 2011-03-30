@@ -193,7 +193,7 @@ namespace Sonneville.PriceToolsTest
             IPortfolio target = new Portfolio(dateTime, amount);
 
             decimal expectedValue = target.GetValue(dateTime);
-            decimal actualValue = target[dateTime];
+            decimal? actualValue = target[dateTime];
             Assert.AreEqual(expectedValue, actualValue);
         }
 

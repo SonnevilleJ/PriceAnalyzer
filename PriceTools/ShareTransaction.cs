@@ -21,6 +21,27 @@ namespace Sonneville.PriceTools
 
         #region Accessors
 
+        /// <summary>
+        ///   Gets the <see cref="OrderType"/> of this ShareTransaction.
+        /// </summary>
+        public OrderType OrderType
+        {
+            get { return (OrderType) EFTransactionType; }
+            protected set { EFTransactionType = (Int32) value; }
+        }
+
+        /// <summary>
+        ///   Gets the total value of this ShareTransaction, including commissions.
+        /// </summary>
+        public virtual decimal TotalValue
+        {
+            get { return (Price * (decimal)Shares) + Commission; }
+        }
+
+        #endregion
+
+        #region Private Methods
+
         private int PriceDirection
         {
             get
@@ -43,22 +64,9 @@ namespace Sonneville.PriceTools
             }
         }
 
-        /// <summary>
-        ///   Gets the <see cref="OrderType"/> of this ShareTransaction.
-        /// </summary>
-        public OrderType OrderType
-        {
-            get { return (OrderType) EFTransactionType; }
-            protected set { EFTransactionType = (Int32) value; }
-        }
+        #endregion
 
-        /// <summary>
-        ///   Gets the total value of this ShareTransaction, including commissions.
-        /// </summary>
-        public virtual decimal TotalValue
-        {
-            get { return (Price * (decimal)Shares) + Commission; }
-        }
+        #region Change Handlers
 
         partial void OnCommissionChanging(decimal value)
         {

@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "index">The index of the value to calculate. The index of the current period is 0.</param>
         /// <returns>The value of this MovingAverage for the given period.</returns>
-        protected override decimal Calculate(DateTime index)
+        protected override decimal? Calculate(DateTime index)
         {
             if (!HasValue(index))
             {
@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools
             decimal sum = 0;
             for (DateTime i = index.Subtract(new TimeSpan(Range - 1, 0, 0, 0)); i <= index; i = IncrementDate(i))
             {
-                sum += PriceSeries[i];
+                sum += PriceSeries[i].Value;
             }
             lock (Padlock)
             {
