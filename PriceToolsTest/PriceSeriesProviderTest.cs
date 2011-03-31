@@ -15,7 +15,7 @@ namespace Sonneville.PriceToolsTest
     {
         private const string Ticker = "DE";
         private static readonly DateTime Head = new DateTime(2011, 1, 3);
-        private static readonly DateTime Tail = new DateTime(2011, 3, 16);
+        private static readonly DateTime Tail = new DateTime(2011, 3, 15);
         private const int PeriodCount = 50;
 
         /// <summary>
@@ -80,7 +80,7 @@ namespace Sonneville.PriceToolsTest
         private static void TestDateRange(IPriceSeries series)
         {
             Assert.AreEqual(Head, series.Head);
-            Assert.AreEqual(Tail, series.Tail);
+            Assert.AreEqual(Tail.AddDays(1), series.Tail);
         }
     }
 }
