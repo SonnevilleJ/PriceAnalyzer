@@ -56,7 +56,8 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A partial URL query string containing the given ending date.</returns>
         protected override string GetUrlTailDate(DateTime tail)
         {
-            return String.Format("enddate={0}+{1}%2C+{2}&", TranslateMonth(tail.Month), tail.Day, tail.Year);
+            int day = tail.Day - 1; // Google Finance returns an extra day of price history for some reason
+            return String.Format("enddate={0}+{1}%2C+{2}&", TranslateMonth(tail.Month), day, tail.Year);
         }
 
         /// <summary>
