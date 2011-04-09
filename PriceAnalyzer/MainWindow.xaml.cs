@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using Sonneville.PriceChartTools;
 
 namespace Sonneville.PriceAnalyzer
 {
@@ -22,7 +23,7 @@ namespace Sonneville.PriceAnalyzer
         {
             InitializeComponent();
             
-            axis1.DebugMe();
+            var chart = new LineChartControl();
         }
     }
 }

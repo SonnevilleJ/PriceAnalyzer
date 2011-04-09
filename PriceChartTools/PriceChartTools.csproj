@@ -49,11 +49,25 @@
     <Compile Include="Axis.xaml.cs">
       <DependentUpon>Axis.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChartBuilder.cs" />
+    <Compile Include="CardinalDirection.cs" />
+    <Compile Include="Chart.cs" />
+    <Compile Include="ChartLegend.xaml.cs">
+      <DependentUpon>ChartLegend.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ChartLegendItem.cs" />
+    <Compile Include="ChartStyle.cs" />
+    <Compile Include="ChartStyleGridlines.cs" />
+    <Compile Include="DataCollection.cs" />
+    <Compile Include="DataSeries.cs" />
     <Compile Include="LineChart.xaml.cs">
       <DependentUpon>LineChart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="LineChartControl.xaml.cs">
+      <DependentUpon>LineChartControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LinePattern.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Symbols.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
@@ -66,7 +80,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="ChartLegend.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="LineChart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LineChartControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
