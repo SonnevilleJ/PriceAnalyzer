@@ -71,22 +71,5 @@ namespace Sonneville.PriceToolsTest
             IPriceQuote actual = ((IPriceQuote) TestUtilities.Serialize(target));
             Assert.AreEqual(target, actual);
         }
-
-        [TestMethod]
-        public void EntityPriceSeriesTest()
-        {
-            DateTime quotedDateTime = new DateTime(2011, 2, 28);
-            const int price = 10;
-            const int volume = 1000;
-
-            IPriceQuote target = new PriceQuote
-            {
-                SettlementDate = quotedDateTime,
-                Price = price,
-                Volume = volume
-            };
-
-            TestUtilities.VerifyPriceQuoteEntity(target);
-        }
     }
 }

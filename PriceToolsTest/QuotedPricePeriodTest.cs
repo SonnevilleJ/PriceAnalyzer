@@ -14,9 +14,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void TimeSpanTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             target.AddPriceQuote(q1, q2, q3);
@@ -27,9 +27,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void OpenTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             target.AddPriceQuote(q1, q2, q3);
@@ -40,9 +40,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void HighTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             target.AddPriceQuote(q1, q2, q3);
@@ -53,9 +53,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void LowTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             target.AddPriceQuote(q1, q2, q3);
@@ -66,9 +66,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CloseTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             target.AddPriceQuote(q1, q2, q3);
@@ -79,9 +79,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void LastTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             target.AddPriceQuote(q1, q2, q3);
@@ -92,9 +92,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void VolumeTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             target.AddPriceQuote(q1, q2, q3);
@@ -105,10 +105,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void TimeSpanTestAfterAddingSubsequentPriceQuoteTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
-            IPriceQuote q4 = CreateQuote4();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
+            IPriceQuote q4 = TestUtilities.CreateQuote4();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
 
@@ -122,10 +122,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void OpenTestAfterAddingSubsequentPriceQuoteTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
-            IPriceQuote q4 = CreateQuote4();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
+            IPriceQuote q4 = TestUtilities.CreateQuote4();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
 
@@ -139,10 +139,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void HighTestAfterAddingSubsequentPriceQuoteTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
-            IPriceQuote q4 = CreateQuote4();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
+            IPriceQuote q4 = TestUtilities.CreateQuote4();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
 
@@ -156,10 +156,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void LowTestAfterAddingSubsequentPriceQuoteTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
-            IPriceQuote q4 = CreateQuote4();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
+            IPriceQuote q4 = TestUtilities.CreateQuote4();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
 
@@ -173,10 +173,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CloseTestAfterAddingSubsequentPriceQuoteTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
-            IPriceQuote q4 = CreateQuote4();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
+            IPriceQuote q4 = TestUtilities.CreateQuote4();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
 
@@ -190,10 +190,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void VolumeTestAfterAddingSubsequentPriceQuoteTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
-            IPriceQuote q4 = CreateQuote4();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
+            IPriceQuote q4 = TestUtilities.CreateQuote4();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
 
@@ -207,9 +207,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void OpenTestAfterAddingPriorPriceQuote()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             
@@ -223,9 +223,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void SerializeQuotedPricePeriodTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             target.AddPriceQuote(q1, q2, q3);
@@ -235,25 +235,11 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void EntityQuotedPricePeriodTest()
-        {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
-
-
-            QuotedPricePeriod target = new QuotedPricePeriod();
-            target.AddPriceQuote(q1, q2, q3);
-
-            TestUtilities.VerifyPricePeriodEntity(target);
-        }
-
-        [TestMethod]
         public void QuotedPricePeriodIndexerTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             target.AddPriceQuote(q1, q2, q3);
@@ -269,9 +255,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void PriceQuotesTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             target.AddPriceQuote(q1, q2, q3);
@@ -282,9 +268,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void NewPriceDataAvailableEventTest()
         {
-            IPriceQuote q1 = CreateQuote1();
-            IPriceQuote q2 = CreateQuote2();
-            IPriceQuote q3 = CreateQuote3();
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
             int count = 0;
@@ -300,46 +286,6 @@ namespace Sonneville.PriceToolsTest
             target.AddPriceQuote(q3);
 
             Assert.AreEqual(3, count);
-        }
-
-        private static PriceQuote CreateQuote1()
-        {
-            return new PriceQuote
-                       {
-                           SettlementDate = DateTime.Parse("2/28/2011 9:30 AM"),
-                           Price = 10,
-                           Volume = 50
-                       };
-        }
-
-        private static PriceQuote CreateQuote2()
-        {
-            return new PriceQuote
-                       {
-                           SettlementDate = DateTime.Parse("3/1/2011 10:00 AM"),
-                           Price = 9,
-                           Volume = 60
-                       };
-        }
-
-        private static PriceQuote CreateQuote3()
-        {
-            return new PriceQuote
-                       {
-                           SettlementDate = DateTime.Parse("3/2/2011 2:00 PM"),
-                           Price = 14,
-                           Volume = 50
-                       };
-        }
-
-        private static PriceQuote CreateQuote4()
-        {
-            return new PriceQuote
-            {
-                SettlementDate = DateTime.Parse("3/2/2011 4:00 PM"),
-                Price = 11,
-                Volume = 30
-            };
         }
     }
 }

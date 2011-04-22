@@ -39,22 +39,6 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
-        public void EntityDividendReceiptTransactionTest()
-        {
-            DateTime date = new DateTime(2001, 1, 17);
-            const decimal price = 2.00m;        // $2.00 per share
-            const double shares = 5;            // received 5 shares
-
-            DividendReceipt target = new DividendReceipt
-                                           {
-                                               SettlementDate = date,
-                                               Amount = price * (decimal)shares,
-                                           };
-
-            TestUtilities.VerifyTransactionEntity(target);
-        }
-
         /// <summary>
         ///A test for SettlementDate
         ///</summary>

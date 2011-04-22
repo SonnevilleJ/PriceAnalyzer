@@ -77,27 +77,6 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
-        public void EntitySellShortTransactionTest()
-        {
-            const string ticker = "DE";
-            DateTime settlementDate = new DateTime(2001, 1, 1);
-            const decimal price = 100.00m;   // $100.00 per share
-            const double shares = 5;            // 5 shares
-            const decimal commission = 5.0m;    // with $5 commission
-
-            IShareTransaction target = new SellShort
-                                           {
-                                               SettlementDate = settlementDate,
-                                               Ticker = ticker,
-                                               Price = price,
-                                               Shares = shares,
-                                               Commission = commission,
-                                           };
-
-            TestUtilities.VerifyTransactionEntity(target);
-        }
-
         /// <summary>
         ///A test for Ticker
         ///</summary>

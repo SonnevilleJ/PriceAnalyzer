@@ -75,17 +75,5 @@ namespace Sonneville.PriceToolsTest
             ICashAccount actual = ((ICashAccount) TestUtilities.Serialize(target));
             Assert.AreEqual(expected, actual);
         }
-
-        [TestMethod]
-        public void EntityCashAccountTest()
-        {
-            DateTime date = new DateTime(2011, 1, 16);
-            const decimal amount = 10000m;
-            ICashAccount target = new CashAccount();
-            target.Deposit(date, amount);
-            target.Withdraw(date, amount);
-
-            TestUtilities.VerifyCashAccountEntity(target);
-        }
     }
 }

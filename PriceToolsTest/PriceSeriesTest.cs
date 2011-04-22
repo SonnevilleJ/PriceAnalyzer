@@ -18,9 +18,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void CloseTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -38,9 +38,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void HeadTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -58,9 +58,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void HighTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -78,9 +78,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void IndexerValueAtHeadTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -98,9 +98,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void IndexerValueAtTailTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -118,9 +118,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void IndexerValueBeforeHeadTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -136,9 +136,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void IndexerValueAfterTailTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -154,9 +154,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void LowTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -174,9 +174,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void OpenTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -194,9 +194,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void PricePeriodsTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -215,9 +215,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void TailTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -249,9 +249,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void VolumeTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -266,9 +266,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void SerializePriceSeriesTest()
         {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
 
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.PricePeriods.Add(p1);
@@ -277,59 +277,6 @@ namespace Sonneville.PriceToolsTest
 
             PriceSeries actual = ((PriceSeries)TestUtilities.Serialize(target));
             Assert.AreEqual(target, actual);
-        }
-
-        [TestMethod]
-        public void EntityPriceSeriesTest()
-        {
-            PricePeriod p1 = CreatePeriod1();
-            PricePeriod p2 = CreatePeriod2();
-            PricePeriod p3 = CreatePeriod3();
-
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
-
-            TestUtilities.VerifyPriceSeriesEntity(target);
-        }
-
-        private static PricePeriod CreatePeriod1()
-        {
-            DateTime head = new DateTime(2011, 3, 11);
-            DateTime tail = head.AddDays(1);
-            const decimal open = 100.00m;
-            const decimal high = 110.00m;
-            const decimal low = 90.00m;
-            const decimal close = 100.00m;
-            const long volume = 20000;
-
-            return PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
-        }
-
-        private static PricePeriod CreatePeriod2()
-        {
-            DateTime head = new DateTime(2011, 3, 12);
-            DateTime tail = head.AddDays(1);
-            const decimal open = 100.00m;
-            const decimal high = 120.00m;
-            const decimal low = 100.00m;
-            const decimal close = 110.00m;
-
-            return PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
-        }
-
-        private static PricePeriod CreatePeriod3()
-        {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
-            const decimal open = 110.00m;
-            const decimal high = 110.00m;
-            const decimal low = 80.00m;
-            const decimal close = 90.00m;
-            const long volume = 10000;
-
-            return PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
         }
     }
 }

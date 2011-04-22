@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -35,6 +36,258 @@ namespace Sonneville.PriceToolsTest
 
             PriceQuote.CreatePriceQuote(0, date, 0);
             PriceSeries.CreatePriceSeries(0, text);
+        }
+
+        [TestMethod()]
+        public void EntityBuyTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2001, 1, 1);
+            const decimal price = 100.00m;      // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 5.0m;    // with $5 commission
+
+            IShareTransaction target = new Buy
+            {
+                SettlementDate = date,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            TestUtilities.VerifyTransactionEntity(target);
+        }
+
+        [TestMethod()]
+        public void EntityBuyToCoverTransactionTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2001, 1, 1);
+            const decimal price = -100.00m;     // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 5.0m;    // with $5 commission
+
+            IShareTransaction target = new BuyToCover
+            {
+                SettlementDate = date,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            TestUtilities.VerifyTransactionEntity(target);
+        }
+
+        [TestMethod]
+        public void EntityCashAccountTest()
+        {
+            DateTime date = new DateTime(2011, 1, 16);
+            const decimal amount = 10000m;
+            ICashAccount target = new CashAccount();
+            target.Deposit(date, amount);
+            target.Withdraw(date, amount);
+
+            TestUtilities.VerifyCashAccountEntity(target);
+        }
+
+        [TestMethod]
+        public void EntityDepositTest()
+        {
+            DateTime date = new DateTime(2001, 1, 1);
+            const decimal amount = 100.00m;   // $100.00
+
+            ICashTransaction target = new Deposit
+            {
+                SettlementDate = date,
+                Amount = amount
+            };
+
+            TestUtilities.VerifyTransactionEntity(target);
+        }
+
+        [TestMethod()]
+        public void EntityDividendReceiptTransactionTest()
+        {
+            DateTime date = new DateTime(2001, 1, 17);
+            const decimal price = 2.00m;        // $2.00 per share
+            const double shares = 5;            // received 5 shares
+
+            DividendReceipt target = new DividendReceipt
+            {
+                SettlementDate = date,
+                Amount = price * (decimal)shares,
+            };
+
+            TestUtilities.VerifyTransactionEntity(target);
+        }
+
+        [TestMethod()]
+        public void EntityDividendReinvestmentTransactionTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2001, 1, 1);
+            const decimal price = 2.00m;        // $2.00 per share
+            const double shares = 5;            // received 5 shares
+
+            IShareTransaction target = new DividendReinvestment
+            {
+                SettlementDate = date,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+            };
+
+            TestUtilities.VerifyTransactionEntity(target);
+        }
+
+        [TestMethod]
+        public void EntityPortfolioTest()
+        {
+            DateTime testDate = new DateTime(2011, 1, 8);
+            DateTime purchaseDate = testDate.AddDays(1);
+            const decimal amount = 10000m;
+            const string ticker = "FDRXX"; // Fidelity Cash Reserves
+            IPortfolio target = new Portfolio(purchaseDate, amount, ticker);
+
+            TestUtilities.VerifyPortfolioEntity(target);
+        }
+
+        [TestMethod]
+        public void EntityPositionTest()
+        {
+            const string ticker = "DE";
+            IPosition target = PositionFactory.CreatePosition(ticker);
+
+            DateTime testDate = new DateTime(2001, 1, 1);
+            DateTime purchaseDate = testDate.AddDays(1);
+            const decimal buyPrice = 100.00m;    // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 5.00m;    // with $5 commission
+
+            target.Buy(purchaseDate, shares, buyPrice, commission);
+
+            TestUtilities.VerifyPositionEntity(target);
+        }
+
+        [TestMethod]
+        public void EntityPriceSeriesTest()
+        {
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            TestUtilities.VerifyPriceSeriesEntity(target);
+        }
+
+        [TestMethod]
+        public void EntityPriceQuoteTest()
+        {
+            DateTime quotedDateTime = new DateTime(2011, 2, 28);
+            const int price = 10;
+            const int volume = 1000;
+
+            IPriceQuote target = new PriceQuote
+            {
+                SettlementDate = quotedDateTime,
+                Price = price,
+                Volume = volume
+            };
+
+            TestUtilities.VerifyPriceQuoteEntity(target);
+        }
+
+        [TestMethod]
+        public void EntityQuotedPricePeriodTest()
+        {
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
+
+
+            QuotedPricePeriod target = new QuotedPricePeriod();
+            target.AddPriceQuote(q1, q2, q3);
+
+            TestUtilities.VerifyPricePeriodEntity(target);
+        }
+
+        [TestMethod()]
+        public void EntitySellShortTransactionTest()
+        {
+            const string ticker = "DE";
+            DateTime settlementDate = new DateTime(2001, 1, 1);
+            const decimal price = 100.00m;   // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 5.0m;    // with $5 commission
+
+            IShareTransaction target = new SellShort
+            {
+                SettlementDate = settlementDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission,
+            };
+
+            TestUtilities.VerifyTransactionEntity(target);
+        }
+
+        [TestMethod()]
+        public void EntitySellTransactionTest()
+        {
+            const string ticker = "DE";
+            DateTime date = new DateTime(2001, 1, 1);
+            const decimal price = 100.00m;   // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 5.0m;    // with $5 commission
+
+            IShareTransaction target = new Sell
+            {
+                SettlementDate = date,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            TestUtilities.VerifyTransactionEntity(target);
+        }
+
+        [TestMethod]
+        public void EntityStaticPricePeriodTest()
+        {
+            DateTime head = new DateTime(2011, 3, 13);
+            DateTime tail = head.AddDays(1);
+            const decimal open = 10.00m;
+            const decimal high = 11.00m;
+            const decimal low = 9.00m;
+            const decimal close = 10.00m;
+            const long volume = 1000;
+
+            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+            TestUtilities.VerifyPricePeriodEntity(target);
+        }
+
+        [TestMethod()]
+        public void EntityWithdrawalTransactionTest()
+        {
+            DateTime date = new DateTime(2001, 1, 1);
+            const decimal amount = 100.00m;   // $100.00
+
+            ICashTransaction target = new Withdrawal
+            {
+                SettlementDate = date,
+                Amount = amount
+            };
+
+            TestUtilities.VerifyTransactionEntity(target);
         }
     }
 }
