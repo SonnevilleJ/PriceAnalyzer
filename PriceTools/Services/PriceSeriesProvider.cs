@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -12,23 +13,9 @@ namespace Sonneville.PriceTools.Services
     {
         #region Private Members
 
-        private PriceHistoryCsvFile _file;
-
         #endregion
 
         #region Constructors
-
-        #endregion
-
-        #region Static Properties
-
-        /// <summary>
-        /// Gets the default <see cref="PriceSeriesProvider"/>.
-        /// </summary>
-        public static PriceSeriesProvider DefaultProvider
-        {
-            get { return new YahooPriceSeriesProvider(); }
-        }
 
         #endregion
 
@@ -43,8 +30,14 @@ namespace Sonneville.PriceTools.Services
         /// <returns>An <see cref="IPriceSeries"/> containing <paramref name="ticker"/>'s price history.</returns>
         public IPriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail)
         {
-            _file = GetPriceHistoryCsvFile(ticker, head, tail);
-            return ConstructPriceSeries(ticker);
+            IPriceSeries series = PriceSeriesFactory.CreatePriceSeries(ticker);
+            var pricePeriods = GetPriceHistoryCsvFile(ticker, head, tail).PricePeriods;
+            foreach (PricePeriod t in pricePeriods)
+            {
+                series.PricePeriods.Add(t);
+            }
+
+            return series;
         }
 
         /// <summary>
@@ -60,6 +53,18 @@ namespace Sonneville.PriceTools.Services
             {
                 return CreatePriceHistoryCsvFile(stream);
             }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="IPricePeriod"/>s containing price history for the requested DateTime.
+        /// </summary>
+        /// <param name="ticker">The ticker symbol to price.</param>
+        /// <param name="head">The first date to price.</param>
+        /// <param name="tail">The last date to price.</param>
+        /// <returns></returns>
+        public IEnumerable<PricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail)
+        {
+            return GetPriceHistoryCsvFile(ticker, head, tail).PricePeriods;
         }
 
         /// <summary>
@@ -85,18 +90,6 @@ namespace Sonneville.PriceTools.Services
             string url = FormUrlQuery(ticker, head, tail);
             WebClient client = new WebClient();
             return client.OpenRead(url);
-        }
-
-        private IPriceSeries ConstructPriceSeries(string ticker)
-        {
-            IPriceSeries series = PriceSeriesFactory.CreatePriceSeries(ticker);
-            var pricePeriods = _file.PricePeriods;
-            foreach (PricePeriod t in pricePeriods)
-            {
-                series.PricePeriods.Add(t);
-            }
-
-            return series;
         }
 
         #endregion

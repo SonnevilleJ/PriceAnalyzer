@@ -97,7 +97,9 @@ namespace Sonneville.PriceToolsTest
 
             target.Buy(buyDate, shares, price, commission);
 
-            const decimal expected = 500.00m;   // $500 currently invested
+            // DE price @ 29 Dec 2000 = $45.81
+            // invested value should be $45.81 * 5 shares = $229.05
+            const decimal expected = 229.05m;
             decimal actual = target.GetInvestedValue(buyDate);
             Assert.AreEqual(expected, actual);
         }
@@ -117,7 +119,9 @@ namespace Sonneville.PriceToolsTest
             target.Buy(buyDate, shares, price, commission);
             target.Sell(sellDate, shares / 2, price + 10m, commission);
 
-            const decimal expected = 500.00m;   // $500 still invested
+            // DE price @ 29 Dec 2000 = $44.81
+            // invested value should be $44.81 * 5 shares = $224.05
+            const decimal expected = 224.05m;
             decimal actual = target.GetInvestedValue(sellDate);
             Assert.AreEqual(expected, actual);
         }

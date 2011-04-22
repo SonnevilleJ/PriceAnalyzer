@@ -84,8 +84,9 @@
     <Compile Include="Services\PriceSeriesProvider.cs" />
     <Compile Include="Services\TransactionColumn.cs" />
     <Compile Include="Services\TransactionHistoryCsvFile.cs" />
-    <Compile Include="Services\DefaultPriceHistoryCsvFile.cs" />
+    <Compile Include="Services\GenericPriceHistoryCsvFile.cs" />
     <Compile Include="Services\YahooPriceSeriesProvider.cs" />
+    <Compile Include="Settings.cs" />
     <Compile Include="StaticPricePeriod.cs" />
     <Compile Include="PriceQuote.cs" />
     <Compile Include="QuotedPricePeriod.cs" />

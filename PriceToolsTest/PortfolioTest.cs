@@ -417,7 +417,13 @@ namespace Sonneville.PriceToolsTest
             int actualTransactions = target.Positions.Count;
             Assert.AreEqual(expectedTransactions, actualTransactions);
 
-            const decimal expectedValue = 5000m;
+            // DE price @ 7 Jan 2011 = $84.34
+            // invested value should be $84.34 * 5 shares = $168.68
+            // starting cash = 10,000
+            // purchase cost = 50.00 * 2 shares = 100.00
+            // withdrawal = 5,000
+            // total value should be = 10,000 - 100.00 - 5,000 + 168.68 = 5068.68
+            const decimal expectedValue = 5068.68m;
             decimal actualValue = target.GetValue(buyDate);
             Assert.AreEqual(expectedValue, actualValue);
         }

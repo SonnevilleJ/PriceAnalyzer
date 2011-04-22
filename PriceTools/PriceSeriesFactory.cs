@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Constructs an IPriceSeries object.
@@ -11,40 +9,31 @@ namespace Sonneville.PriceTools
         /// Constructs an <see cref="IPriceSeries"/> for the given ticker.
         /// </summary>
         /// <param name="ticker">The ticker symbol of the IPriceSeries.</param>
-        /// <returns>The IPriceSeries for the given ticker.</returns>
-        public static IPriceSeries CreatePriceSeries(string ticker)
-        {
-            return CreatePriceSeries(ticker, false);
-        }
-
-        /// <summary>
-        /// Constructs an <see cref="IPriceSeries"/> for the given ticker.
-        /// </summary>
-        /// <param name="ticker">The ticker symbol of the IPriceSeries.</param>
         /// <param name="loadFromDatabase"></param>
         /// <returns>The IPriceSeries for the given ticker.</returns>
-        private static IPriceSeries CreatePriceSeries(string ticker, bool loadFromDatabase)
+        public static IPriceSeries CreatePriceSeries(string ticker, bool loadFromDatabase = false)
         {
-            if (loadFromDatabase)
+            return loadFromDatabase ? LoadPriceSeries(ticker) : GetEmptyPriceSeries(ticker);
+        }
+
+        private static IPriceSeries LoadPriceSeries(string ticker)
+        {
+            using (var db = new Container())
             {
-                try
+                foreach (var period in db.PricePeriods)
                 {
-                    using (var db = new Container())
+                    PriceSeries series = period as PriceSeries;
+                    if (series != null && series.Ticker == ticker)
                     {
-                        foreach (var period in db.PricePeriods)
-                        {
-                            PriceSeries series = period as PriceSeries;
-                            if (series != null && series.Ticker == ticker)
-                            {
-                                return series;
-                            }
-                        }
+                        return series;
                     }
                 }
-                catch (EntityException)
-                {
-                }
             }
+            return GetEmptyPriceSeries(ticker);
+        }
+
+        private static PriceSeries GetEmptyPriceSeries(string ticker)
+        {
             return new PriceSeries { Ticker = ticker };
         }
     }

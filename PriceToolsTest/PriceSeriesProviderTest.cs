@@ -27,7 +27,7 @@ namespace Sonneville.PriceToolsTest
             var testData = TestData.DE_PriceData_Yahoo;
             using (var stream = new MemoryStream(testData))
             {
-                PriceHistoryCsvFile target = new DefaultPriceHistoryCsvFile(stream);
+                PriceHistoryCsvFile target = new GenericPriceHistoryCsvFile(stream);
                 TestPriceHistoryData(target);
             }
         }

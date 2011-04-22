@@ -5,13 +5,13 @@ namespace Sonneville.PriceTools.Services
     /// <summary>
     /// Represents a file store containing historical price data from Yahoo! Finance.
     /// </summary>
-    public sealed class DefaultPriceHistoryCsvFile : PriceHistoryCsvFile
+    public sealed class GenericPriceHistoryCsvFile : PriceHistoryCsvFile
     {
         /// <summary>
-        /// Constructs a DefaultPriceHistoryCsvFile.
+        /// Constructs a GenericPriceHistoryCsvFile.
         /// </summary>
         /// <param name="stream">The CSV data stream to parse.</param>
-        public DefaultPriceHistoryCsvFile(Stream stream) : base(stream)
+        public GenericPriceHistoryCsvFile(Stream stream) : base(stream)
         {
         }
 

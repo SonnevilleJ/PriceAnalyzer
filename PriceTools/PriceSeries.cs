@@ -66,12 +66,18 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                var pricePeriods = PricePeriods.Where(p=>p.HasValue(index)).ToList();
-                if (pricePeriods.Count == 0)
+                if (!HasValue(index))
                 {
-                    return null;
+                    if (Settings.CanConnectToInternet)
+                    {
+                        DownloadPriceData(Settings.PreferredPriceSeriesProvider, index);
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
-                return pricePeriods[0].Close;
+                return GetLatestPrice(index);
             }
         }
 
@@ -89,6 +95,45 @@ namespace Sonneville.PriceTools
         public override DateTime Tail
         {
             get { return PricePeriods.Max(p => p.Tail); }
+        }
+
+        /// <summary>
+        /// Determines if the PriceSeries has a valid value for a given date.
+        /// </summary>
+        /// <param name="settlementDate">The date to check.</param>
+        /// <returns>A value indicating if the PriceSeries has a valid value for the given date.</returns>
+        public override bool HasValue(DateTime settlementDate)
+        {
+            return PricePeriods.Count > 0 ? base.HasValue(settlementDate) : false;
+        }
+
+        #endregion
+
+        #region Private Methods
+        
+        private void DownloadPriceData(PriceSeriesProvider provider, DateTime index)
+        {
+            DateTime head = index.Subtract(new TimeSpan(7, 0, 0, 0));
+            DateTime tail = index;
+
+            foreach (var pricePeriod in provider.GetPricePeriods(Ticker, head, tail))
+            {
+                PricePeriods.Add(pricePeriod);
+            }
+        }
+
+        /// <summary>
+        /// Gets the most recent price quote before or at <paramref name="settlementDate"/>.
+        /// </summary>
+        /// <param name="settlementDate">The DateTime to price.</param>
+        /// <returns></returns>
+        private decimal? GetLatestPrice(DateTime settlementDate)
+        {
+            if (PricePeriods.Any(p => p.HasValue(settlementDate)))
+            {
+                return PricePeriods.Where(p => p.HasValue(settlementDate)).First()[settlementDate];
+            }
+            return PricePeriods.Where(p => p.Tail <= settlementDate).First().Close;
         }
 
         #endregion
@@ -170,10 +215,5 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
-        
-        private void DownloadPriceData(PriceSeriesProvider provider, DateTime index)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

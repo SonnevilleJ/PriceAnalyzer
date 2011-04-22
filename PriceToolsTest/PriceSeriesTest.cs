@@ -12,6 +12,18 @@ namespace Sonneville.PriceToolsTest
     [TestClass()]
     public class PriceSeriesTest
     {
+        [ClassCleanup]
+        public static void ClassCleanup()
+        {
+            Settings.SetDefaultSettings();
+        }
+
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Settings.SetDefaultSettings();
+        }
+
         /// <summary>
         ///A test for Close
         ///</summary>
@@ -32,6 +44,43 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void HasValue1Test()
+        {
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            Assert.IsFalse(target.HasValue(DateTime.Now));
+        }
+
+        [TestMethod]
+        public void HasValue2Test()
+        {
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            Assert.IsTrue(target.HasValue(p1.Head));
+        }
+
+        [TestMethod]
+        public void HasValue3Test()
+        {
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            Assert.IsTrue(target.HasValue(p3.Tail));
+        }
+
         /// <summary>
         ///A test for Head
         ///</summary>
@@ -50,6 +99,13 @@ namespace Sonneville.PriceToolsTest
             DateTime expected = p1.Head;
             DateTime actual = target.Head;
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void HeadEmptyTest()
+        {
+            var test = PriceSeriesFactory.CreatePriceSeries("test").Head;
         }
 
         /// <summary>
@@ -78,6 +134,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void IndexerValueAtHeadTest()
         {
+            Settings.CanConnectToInternet = false;
+
             PricePeriod p1 = TestUtilities.CreatePeriod1();
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
@@ -98,6 +156,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void IndexerValueAtTailTest()
         {
+            Settings.CanConnectToInternet = false;
+
             PricePeriod p1 = TestUtilities.CreatePeriod1();
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
@@ -118,6 +178,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void IndexerValueBeforeHeadTest()
         {
+            Settings.CanConnectToInternet = false;
+
             PricePeriod p1 = TestUtilities.CreatePeriod1();
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
@@ -136,6 +198,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod()]
         public void IndexerValueAfterTailTest()
         {
+            Settings.CanConnectToInternet = false;
+
             PricePeriod p1 = TestUtilities.CreatePeriod1();
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
@@ -227,6 +291,13 @@ namespace Sonneville.PriceToolsTest
             DateTime expected = p3.Tail;
             DateTime actual = target.Tail;
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void TailEmptyTest()
+        {
+            var test = PriceSeriesFactory.CreatePriceSeries("test").Tail;
         }
 
         /// <summary>

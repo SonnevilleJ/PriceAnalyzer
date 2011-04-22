@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
         protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream)
         {
-            return new DefaultPriceHistoryCsvFile(stream);
+            return new GenericPriceHistoryCsvFile(stream);
         }
 
         #region URL Management
@@ -75,7 +75,7 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A partial URL query string containing the given beginning date.</returns>
         protected override string GetUrlHeadDate(DateTime head)
         {
-            string month = String.Format(CultureInfo.InvariantCulture, "a={0}&", head.Month - 1);
+            string month = String.Format(CultureInfo.InvariantCulture, "a={0:00}&", head.Month - 1);
             string day = String.Format(CultureInfo.InvariantCulture, "b={0}&", head.Day);
             string year = String.Format(CultureInfo.InvariantCulture, "c={0}&", head.Year);
 
@@ -93,7 +93,7 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A partial URL query string containing the given ending date.</returns>
         protected override string GetUrlTailDate(DateTime tail)
         {
-            string month = String.Format(CultureInfo.InvariantCulture, "d={0}&", tail.Month - 1);
+            string month = String.Format(CultureInfo.InvariantCulture, "d={0:00}&", tail.Month - 1);
             string day = String.Format(CultureInfo.InvariantCulture, "e={0}&", tail.Day);
             string year = String.Format(CultureInfo.InvariantCulture, "f={0}&", tail.Year);
 

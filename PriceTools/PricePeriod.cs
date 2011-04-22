@@ -74,7 +74,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the PricePeriod has a valid value for the given date.</returns>
-        public bool HasValue(DateTime settlementDate)
+        public virtual bool HasValue(DateTime settlementDate)
         {
             return Head <= settlementDate && Tail >= settlementDate;
         }
