@@ -9,13 +9,13 @@ namespace Sonneville.PriceToolsTest
     ///This is a test class for PriceQuoteTest and is intended
     ///to contain all PriceQuoteTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PriceQuoteTest
     {
         /// <summary>
         ///A test for Price
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PriceTest()
         {
             IPriceQuote target = new PriceQuote();
@@ -29,7 +29,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for SettlementDate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void QuotedDateTimeTest()
         {
             IPriceQuote target = new PriceQuote();
@@ -43,7 +43,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Volume
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void VolumeTest()
         {
             IPriceQuote target = new PriceQuote();

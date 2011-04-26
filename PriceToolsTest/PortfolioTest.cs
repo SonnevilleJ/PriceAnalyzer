@@ -9,9 +9,16 @@ namespace Sonneville.PriceToolsTest
     ///This is a test class for Portfolio and is intended
     ///to contain all Portfolio Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PortfolioTest
     {
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Settings.SetDefaultSettings();
+            Settings.CanConnectToInternet = false;
+        }
+
         [TestMethod]
         public void ConstructorTest1()
         {
@@ -111,7 +118,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(0, target.GetAvailableCash(openDate));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetAvailableCashNoTransactions()
         {
             IPortfolio target = new Portfolio();
@@ -121,7 +128,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedCash, availableCash);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetValueNoTransactions()
         {
             IPortfolio target = new Portfolio();
@@ -131,7 +138,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetAvailableCashOfDeposit()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -143,7 +150,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedCash, availableCash);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetValueOfDeposit()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -155,7 +162,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetAvailableCashAfterFullWithdrawal()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -170,7 +177,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedCash, availableCash);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetValueAfterFullWithdrawal()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -186,6 +193,439 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
+        public void GetRawReturnTest()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 1, 10);
+            DateTime sellDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal price = 100.00m;      // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 7.95m;   // with $7.95 commission
+            Buy buy = new Buy
+            {
+                SettlementDate = buyDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            target.AddTransaction(buy);
+
+            // TODO: Assign correct expected values
+            Assert.Fail();
+            const decimal expected = 0.0m;      // 0% raw return on investment
+            decimal actual = target.GetRawReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetRawReturnFromClosedPortfolioTest()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 1, 10);
+            DateTime sellDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal price = 100.00m;      // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 7.95m;   // with $7.95 commission
+            Buy buy = new Buy
+            {
+                SettlementDate = buyDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+            Sell sell = new Sell
+            {
+                SettlementDate = sellDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
+
+            // TODO: Assign correct expected values
+            Assert.Fail();
+            const decimal expected = 0.0m;      // 0% raw return on investment
+            decimal actual = target.GetRawReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetTotalReturnTest()
+        {
+            DateTime dateTime = new DateTime(2001, 1, 1);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2001, 1, 1);
+            DateTime sellDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal price = 100.00m;       // $100.00 per share
+            const double shares = 5;             // 5 shares
+            const decimal commission = 5.00m;    // with $5 commission
+            Buy buy = new Buy
+            {
+                SettlementDate = buyDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            target.AddTransaction(buy);
+
+            // TODO: Assign correct expected values
+            Assert.Fail();
+            const decimal expected = -0.02m;      // negative 2% return; 98% of original investment
+            decimal actual = target.GetTotalReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetTotalReturnFromClosedPortfolioTest()
+        {
+            DateTime dateTime = new DateTime(2001, 1, 1);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2001, 1, 1);
+            DateTime sellDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal price = 100.00m;       // $100.00 per share
+            const double shares = 5;             // 5 shares
+            const decimal commission = 5.00m;    // with $5 commission
+            Buy buy = new Buy
+            {
+                SettlementDate = buyDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+            Sell sell = new Sell
+            {
+                SettlementDate = sellDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
+
+            // TODO: Assign correct expected values
+            Assert.Fail();
+            const decimal expected = -0.02m;      // negative 2% return; 98% of original investment
+            decimal actual = target.GetTotalReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetAverageAnnualReturnTest()
+        {
+            DateTime dateTime = new DateTime(2001, 1, 1);
+            const decimal deposit = 505.00m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2001, 1, 1);
+            DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
+            const string ticker = "DE";
+            const decimal buyPrice = 100.00m;       // $100.00 per share
+            const double shares = 5;                // 5 shares
+            const decimal commission = 5.00m;       // with $5 commission
+            Buy buy = new Buy
+            {
+                SettlementDate = buyDate,
+                Ticker = ticker,
+                Price = buyPrice,
+                Shares = shares,
+                Commission = commission
+            };
+
+            target.AddTransaction(buy);
+
+            // TODO: Assign correct expected values
+            Assert.Fail();
+            const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
+            decimal actualReturn = target.GetTotalReturn(sellDate);
+            Assert.AreEqual(expectedReturn, actualReturn);
+
+            const decimal expected = 0.5m;          // 50% annual rate return
+            decimal actual = target.GetAverageAnnualReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetAverageAnnualReturnFromClosedPortfolioTest()
+        {
+            DateTime dateTime = new DateTime(2001, 1, 1);
+            const decimal deposit = 505.00m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2001, 1, 1);
+            DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
+            const string ticker = "DE";
+            const decimal buyPrice = 100.00m;       // $100.00 per share
+            const decimal sellPrice = 112.00m;      // $112.00 per share
+            const double shares = 5;                // 5 shares
+            const decimal commission = 5.00m;       // with $5 commission
+            Buy buy = new Buy
+            {
+                SettlementDate = buyDate,
+                Ticker = ticker,
+                Price = buyPrice,
+                Shares = shares,
+                Commission = commission
+            };
+            Sell sell = new Sell
+            {
+                SettlementDate = sellDate,
+                Ticker = ticker,
+                Price = sellPrice,
+                Shares = shares,
+                Commission = commission
+            };
+
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
+
+            // TODO: Assign correct expected values
+            Assert.Fail();
+            const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
+            decimal actualReturn = target.GetTotalReturn(sellDate);
+            Assert.AreEqual(expectedReturn, actualReturn);
+
+            const decimal expected = 0.5m;          // 50% annual rate return
+            decimal actual = target.GetAverageAnnualReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetInvestedValueFromEmptyPortfolio()
+        {
+            IPortfolio target = new Portfolio();
+            Assert.AreEqual(0.0m, target.GetInvestedValue(DateTime.Now));
+        }
+
+        [TestMethod]
+        public void GetInvestedValue()
+        {
+            Settings.CanConnectToInternet = true;
+
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 4, 25);
+            DateTime sellDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            const decimal commission = 7.95m;
+            Buy buy = new Buy
+            {
+                SettlementDate = buyDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            target.AddTransaction(buy);
+
+            const decimal expected = 189.44m; // closing price 25 April 2011 = $94.72 * 2 shares = 189.44
+            decimal actual = target.GetInvestedValue(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetInvestedValueFromClosedPortfolio()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 4, 25);
+            DateTime sellDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            const decimal commission = 7.95m;
+            Buy buy = new Buy
+            {
+                SettlementDate = buyDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+            Sell sell = new Sell
+            {
+                SettlementDate = sellDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
+
+            const decimal expected = 0.00m; // all shares sold = no value
+            decimal actual = target.GetInvestedValue(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetCostFromEmptyPortfolio()
+        {
+            IPortfolio target = new Portfolio();
+            Assert.AreEqual(0.0m, target.GetCost(DateTime.Now));
+        }
+
+        [TestMethod]
+        public void GetCost()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 4, 25);
+            DateTime sellDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            const decimal commission = 7.95m;
+            Buy buy = new Buy
+            {
+                SettlementDate = buyDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+            Sell sell = new Sell
+            {
+                SettlementDate = sellDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
+
+            const decimal expected = 100.00m;
+            decimal actual = target.GetCost(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetProceedsFromEmptyPortfolio()
+        {
+            IPortfolio target = new Portfolio();
+            Assert.AreEqual(0.0m, target.GetProceeds(DateTime.Now));
+        }
+
+        [TestMethod]
+        public void GetProceeds()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 4, 25);
+            DateTime sellDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            const decimal commission = 7.95m;
+            Buy buy = new Buy
+            {
+                SettlementDate = buyDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+            Sell sell = new Sell
+            {
+                SettlementDate = sellDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
+
+            const decimal expected = 100.00m;
+            decimal actual = target.GetProceeds(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetCommissionsFromEmptyPortfolio()
+        {
+            IPortfolio target = new Portfolio();
+            Assert.AreEqual(0.0m, target.GetCommissions(DateTime.Now));
+        }
+
+        [TestMethod]
+        public void GetCommission()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 4, 25);
+            DateTime sellDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal price = 50.00m;
+            const double shares = 2;
+            const decimal commission = 7.95m;
+            Buy buy = new Buy
+            {
+                SettlementDate = buyDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+            Sell sell = new Sell
+            {
+                SettlementDate = sellDate,
+                Ticker = ticker,
+                Price = price,
+                Shares = shares,
+                Commission = commission
+            };
+
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
+
+            const decimal expected = 15.90m; // two $7.95 commissions paid
+            decimal actual = target.GetCommissions(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void IndexerTest()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -197,7 +637,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void AddTransactionDepositTest()
         {
             DateTime date = new DateTime(2011, 1, 8);
@@ -214,7 +654,7 @@ namespace Sonneville.PriceToolsTest
             Assert.IsTrue(target.Transactions.Contains(deposit));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void AddTransactionWithdrawalTest()
         {
             DateTime date = new DateTime(2011, 1, 8);
@@ -231,7 +671,7 @@ namespace Sonneville.PriceToolsTest
             Assert.IsTrue(target.Transactions.Contains(deposit));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void AddBuyTransactionTest()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -248,7 +688,7 @@ namespace Sonneville.PriceToolsTest
             Assert.IsTrue(target.Transactions.Contains(buy));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void AddSellTransactionTest()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -281,7 +721,7 @@ namespace Sonneville.PriceToolsTest
             Assert.IsTrue(target.Transactions.Contains(sell));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void AddBuyToCoverTransactionTest()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -314,7 +754,7 @@ namespace Sonneville.PriceToolsTest
             Assert.IsTrue(target.Transactions.Contains(buyToCover));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void AddSellShortTransactionTest()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -331,7 +771,7 @@ namespace Sonneville.PriceToolsTest
             Assert.IsTrue(target.Transactions.Contains(sellShort));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void AddDividendReceiptTransactionTest()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -362,7 +802,7 @@ namespace Sonneville.PriceToolsTest
             Assert.IsTrue(target.Transactions.Contains(dividendReceipt));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void AddDividendReinvestmentTransactionTest()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -395,7 +835,7 @@ namespace Sonneville.PriceToolsTest
             Assert.IsTrue(target.Transactions.Contains(dividendReinvestment));
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void PositionTest_OnePosition_TwoCashTransactions()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -423,12 +863,16 @@ namespace Sonneville.PriceToolsTest
             // purchase cost = 50.00 * 2 shares = 100.00
             // withdrawal = 5,000
             // total value should be = 10,000 - 100.00 - 5,000 + 168.68 = 5068.68
-            const decimal expectedValue = 5068.68m;
+            
+            // uncomment the below line when connecting to the internet to retrieve price data
+            //const decimal expectedValue = 5068.68m;
+
+            const decimal expectedValue = 4900.00m;
             decimal actualValue = target.GetValue(buyDate);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void TransactionsTest()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);

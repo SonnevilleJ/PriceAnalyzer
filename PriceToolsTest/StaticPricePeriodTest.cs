@@ -9,13 +9,13 @@ namespace Sonneville.PriceToolsTest
     ///This is a test class for StaticPricePeriodTest and is intended
     ///to contain all StaticPricePeriodTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class StaticPricePeriodTest
     {
         /// <summary>
         ///A test for Close
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void CloseTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -32,7 +32,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Head
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void HeadTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -52,7 +52,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Head
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void HeadBeforeTailTest()
         {
@@ -73,7 +73,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for High
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void HighTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -94,7 +94,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for High
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void HighLessThanOpenTest()
         {
@@ -112,7 +112,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for High
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void HighLessThanCloseTest()
         {
@@ -130,7 +130,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndexerValueAtHeadTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -151,7 +151,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndexerValueAtTailTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -172,7 +172,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndexerValueBeforeHeadTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -191,7 +191,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndexerValueAfterTailTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -210,7 +210,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Close
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void LastTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -227,7 +227,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Low
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void LowTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -248,7 +248,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Low
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void LowGreaterThanOpenTest()
         {
@@ -266,7 +266,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Low
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void LowGreaterThanCloseTest()
         {
@@ -284,7 +284,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Open
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OpenTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -305,7 +305,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Tail
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TailTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -326,7 +326,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Volume
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void VolumeTest()
         {
             DateTime head = new DateTime(2011, 3, 13);

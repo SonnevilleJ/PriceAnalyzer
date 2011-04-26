@@ -9,7 +9,7 @@ namespace Sonneville.PriceToolsTest
     ///This is a test class for PriceSeriesTest and is intended
     ///to contain all PriceSeriesTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PriceSeriesTest
     {
         [ClassCleanup]
@@ -22,12 +22,13 @@ namespace Sonneville.PriceToolsTest
         public void TestInitialize()
         {
             Settings.SetDefaultSettings();
+            Settings.CanConnectToInternet = false;
         }
 
         /// <summary>
         ///A test for Close
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void CloseTest()
         {
             PricePeriod p1 = TestUtilities.CreatePeriod1();
@@ -84,7 +85,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Head
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void HeadTest()
         {
             PricePeriod p1 = TestUtilities.CreatePeriod1();
@@ -111,7 +112,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for High
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void HighTest()
         {
             PricePeriod p1 = TestUtilities.CreatePeriod1();
@@ -131,11 +132,9 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndexerValueAtHeadTest()
         {
-            Settings.CanConnectToInternet = false;
-
             PricePeriod p1 = TestUtilities.CreatePeriod1();
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
@@ -153,11 +152,9 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndexerValueAtTailTest()
         {
-            Settings.CanConnectToInternet = false;
-
             PricePeriod p1 = TestUtilities.CreatePeriod1();
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
@@ -175,11 +172,9 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndexerValueBeforeHeadTest()
         {
-            Settings.CanConnectToInternet = false;
-
             PricePeriod p1 = TestUtilities.CreatePeriod1();
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
@@ -195,11 +190,9 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void IndexerValueAfterTailTest()
         {
-            Settings.CanConnectToInternet = false;
-
             PricePeriod p1 = TestUtilities.CreatePeriod1();
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
@@ -209,13 +202,15 @@ namespace Sonneville.PriceToolsTest
             target.PricePeriods.Add(p2);
             target.PricePeriods.Add(p3);
 
-            Assert.IsNull(target[p3.Tail.Add(new TimeSpan(1))]);
+            var expected = p3.Close;
+            var actual = target[p3.Tail.Add(new TimeSpan(1))];
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
         ///A test for Low
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void LowTest()
         {
             PricePeriod p1 = TestUtilities.CreatePeriod1();
@@ -235,7 +230,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Open
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void OpenTest()
         {
             PricePeriod p1 = TestUtilities.CreatePeriod1();
@@ -255,7 +250,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for PricePeriods
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void PricePeriodsTest()
         {
             PricePeriod p1 = TestUtilities.CreatePeriod1();
@@ -276,7 +271,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Tail
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TailTest()
         {
             PricePeriod p1 = TestUtilities.CreatePeriod1();
@@ -303,7 +298,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Ticker
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TickerTest()
         {
             const string ticker = "test";
@@ -317,7 +312,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Volume
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void VolumeTest()
         {
             PricePeriod p1 = TestUtilities.CreatePeriod1();

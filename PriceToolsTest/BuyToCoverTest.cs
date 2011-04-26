@@ -11,7 +11,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Shares
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void BuyToCoverWithNegativeSharesTest()
         {
@@ -26,7 +26,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Price
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyToCoverPricePositiveTest()
         {
             const decimal price = 100.00m;      // bought at $100.00 per share
@@ -44,7 +44,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Commission
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void BuyToCoverWithNegativeCommissionTest()
         {
@@ -56,7 +56,7 @@ namespace Sonneville.PriceToolsTest
                 };
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SerializeBuyToCoverTransactionTest()
         {
             const string ticker = "DE";
@@ -81,7 +81,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Ticker
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyToCoverTickerTest()
         {
             const string ticker = "DE";
@@ -99,7 +99,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for SettlementDate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyToCoverSettlementDateTest()
         {
             DateTime date = new DateTime(2000, 1, 1);
@@ -117,7 +117,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for OrderType
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyToCoverOrderTypeTest()
         {
             IShareTransaction target = new BuyToCover();
@@ -130,7 +130,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Price
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyToCoverPriceNegativeTest()
         {
             const decimal price = -100.00m;      // bought at $100.00 per share
@@ -148,7 +148,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Shares
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyToCoverSharesTest()
         {
             const double shares = 5;            // bought 5 shares
@@ -166,7 +166,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Commission
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyToCoverCommissionTest()
         {
             const decimal commission = 7.95m;   // $7.95 trading commission

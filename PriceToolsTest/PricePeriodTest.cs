@@ -11,10 +11,10 @@
 //    ///This is a test class for PricePeriodTest and is intended
 //    ///to contain all PricePeriodTest Unit Tests
 //    ///</summary>
-//    [TestClass()]
+//    [TestClass]
 //    public class PricePeriodTest
 //    {
-//        [TestMethod()]
+//        [TestMethod]
 //        public void SerializePricePeriodTest()
 //        {
 //            DateTime head = new DateTime(2010, 6, 1);
@@ -46,7 +46,7 @@
 //            Assert.AreEqual(volume, actual.Volume);
 //        }
 
-//        [TestMethod()]
+//        [TestMethod]
 //        public void EntityPricePeriodTest()
 //        {
 //            DateTime head = new DateTime(2010, 6, 1);
@@ -62,7 +62,7 @@
 //            TestUtilities.VerifyPriceSeriesEntity(target);
 //        }
 
-//        [TestMethod()]
+//        [TestMethod]
 //        public void PricePeriodConstructorTest()
 //        {
 //            DateTime d1 = new DateTime(2010, 6, 1);
@@ -84,7 +84,7 @@
 //            Assert.IsTrue(target.Volume == volume);
 //        }
 
-//        [TestMethod()]
+//        [TestMethod]
 //        public void PricePeriodConstructorTestNullVolume()
 //        {
 //            DateTime d1 = new DateTime(2010, 6, 1);
@@ -105,7 +105,7 @@
 //            Assert.IsNull(target.Volume);
 //        }
 
-//        [TestMethod()]
+//        [TestMethod]
 //        public void PricePeriodMismatchedDateTimes()
 //        {
 //            DateTime d1 = new DateTime(2010, 6, 1);
@@ -129,7 +129,7 @@
 //            Assert.IsTrue(caught);
 //        }
 
-//        [TestMethod()]
+//        [TestMethod]
 //        public void PricePeriodMismatchedHighLow()
 //        {
 //            DateTime d1 = new DateTime(2010, 6, 1);
@@ -153,7 +153,7 @@
 //            Assert.IsTrue(caught);
 //        }
 
-//        [TestMethod()]
+//        [TestMethod]
 //        public void PricePeriodMismatchedOpenHigh()
 //        {
 //            DateTime d1 = new DateTime(2010, 6, 1);
@@ -177,7 +177,7 @@
 //            Assert.IsTrue(caught);
 //        }
 
-//        [TestMethod()]
+//        [TestMethod]
 //        public void PricePeriodMismatchedOpenLow()
 //        {
 //            DateTime d1 = new DateTime(2010, 6, 1);

@@ -11,7 +11,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Shares
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SellShortWithNegativeSharesTest()
         {
@@ -27,7 +27,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Price
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SellShortWithNegativePriceTest()
         {
             const string ticker = "DE";
@@ -42,7 +42,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Commission
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SellShortWithNegativeCommissionTest()
         {
@@ -55,7 +55,7 @@ namespace Sonneville.PriceToolsTest
             TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SerializeSellShortTransactionTest()
         {
             const string ticker = "DE";
@@ -80,7 +80,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Ticker
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SellShortTickerTest()
         {
             const string ticker = "DE";
@@ -100,7 +100,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for SettlementDate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SellShortSettlementDateTest()
         {
             const string ticker = "DE";
@@ -120,7 +120,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for OrderType
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SellShortOrderTypeTest()
         {
             const string ticker = "DE";
@@ -140,7 +140,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Price
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SellShortPriceTest()
         {
             const string ticker = "DE";
@@ -160,7 +160,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Shares
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SellShortSharesTest()
         {
             const string ticker = "DE";
@@ -180,7 +180,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Commission
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void SellShortCommissionTest()
         {
             const string ticker = "DE";

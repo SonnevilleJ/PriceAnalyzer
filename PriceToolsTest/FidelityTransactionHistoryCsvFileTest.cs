@@ -10,13 +10,20 @@ namespace Sonneville.PriceToolsTest
     ///This is a test class for FidelityTransactionHistoryCsvFileTest and is intended
     ///to contain all FidelityTransactionHistoryCsvFileTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class FidelityTransactionHistoryCsvFileTest
     {
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Settings.SetDefaultSettings();
+            Settings.CanConnectToInternet = false;
+        }
+
         /// <summary>
         ///A test for ParsePortfolio
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void ParsePortfolioTest()
         {
             using (Stream csvStream = new MemoryStream(TestData.FidelityTransactions))

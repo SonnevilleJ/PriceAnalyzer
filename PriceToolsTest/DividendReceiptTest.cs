@@ -11,7 +11,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Amount
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DividendReceiptAmountNegativeTest()
         {
             const decimal price = -2.0m;        // bought at $-2.00 per share - error
@@ -22,7 +22,7 @@ namespace Sonneville.PriceToolsTest
                 };
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SerializeDividendReceiptTransactionTest()
         {
             DateTime date = new DateTime(2001, 1, 17);
@@ -42,7 +42,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for SettlementDate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DividendReceiptSettlementDateTest()
         {
             DateTime date = new DateTime(2000, 1, 1);
@@ -60,7 +60,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for OrderType
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DividendReceiptOrderTypeTest()
         {
             DividendReceipt target = new DividendReceipt();
@@ -73,7 +73,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Amount
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DividendReceiptAmountPositiveTest()
         {
             const decimal price = 2.00m;        // received $2.00 per share

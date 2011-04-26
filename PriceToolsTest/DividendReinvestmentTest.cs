@@ -11,7 +11,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Shares
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DividendReinvestmentWithNegativeSharesTest()
         {
@@ -26,7 +26,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Price
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DividendReinvestmentPriceNegativeTest()
         {
             const decimal price = -2.00m;       // reinvested $-2.00 per share - error
@@ -41,7 +41,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SerializeDividendReinvestmentTransactionTest()
         {
             const string ticker = "DE";
@@ -64,7 +64,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Ticker
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DividendReinvestmentCommissionNegativeTest()
         {
@@ -79,7 +79,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Ticker
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DividendReinvestmentCommissionPositiveTest()
         {
@@ -94,7 +94,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Ticker
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DividendReinvestmentTickerTest()
         {
             const string ticker = "DE";
@@ -112,7 +112,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for SettlementDate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DividendReinvestmentSettlementDateTest()
         {
             DateTime date = new DateTime(2000, 1, 1);
@@ -130,7 +130,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for OrderType
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DividendReinvestmentOrderTypeTest()
         {
             IShareTransaction target = new DividendReinvestment();
@@ -143,7 +143,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Price
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DividendReinvestmentPricePositiveTest()
         {
             const decimal price = 2.00m;        // reinvested $2.00 per share
@@ -161,7 +161,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Shares
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DividendReinvestmentSharesTest()
         {
             const double shares = 5;            // reinvested 5 shares

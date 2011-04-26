@@ -9,13 +9,13 @@ namespace Sonneville.PriceToolsTest
     ///This is a test class for ICashAccountTest and is intended
     ///to contain all ICashAccountTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class CashAccountTest
     {
         /// <summary>
         ///A test for Deposit
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void DepositTest()
         {
             ICashAccount target = new CashAccount();
@@ -31,7 +31,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Withdraw
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void WithdrawTest()
         {
             ICashAccount target = new CashAccount();
@@ -48,7 +48,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Transactions
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TransactionsTest()
         {
             ICashAccount target = new CashAccount();

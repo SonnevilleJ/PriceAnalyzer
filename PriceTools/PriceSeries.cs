@@ -74,7 +74,7 @@ namespace Sonneville.PriceTools
                     }
                     else
                     {
-                        return null;
+                        return GetLatestPrice(index);
                     }
                 }
                 return GetLatestPrice(index);
@@ -133,7 +133,10 @@ namespace Sonneville.PriceTools
             {
                 return PricePeriods.Where(p => p.HasValue(settlementDate)).First()[settlementDate];
             }
-            return PricePeriods.Where(p => p.Tail <= settlementDate).First().Close;
+            var periods = PricePeriods.Where(p => p.Tail <= settlementDate);
+            return periods.Count() > 0
+                       ? periods.OrderBy(p=>p.Tail).Last().Close
+                       : (decimal?) null;
         }
 
         #endregion

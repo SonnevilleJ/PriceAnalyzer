@@ -76,7 +76,7 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A partial URL query string containing a marker which requests dividend data.</returns>
         protected override string GetUrlDividends()
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
 
         /// <summary>

@@ -65,5 +65,13 @@ namespace Sonneville.PriceTools
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the IMeasurableSecurityBasket as of the given date.</returns>
         decimal GetInvestedValue(DateTime settlementDate);
+
+        /// <summary>
+        /// Gets the percentage value of the whole IMeasurableSecurityBasket attributable to <paramref name="ticker"/>.
+        /// </summary>
+        /// <param name="settlementDate">The date which to measure.</param>
+        /// <param name="ticker">The ticker symbol which to measure.</param>
+        /// <returns>The percentage value of the whole IMeasurableSecurityBasket attributable to <paramref name="ticker"/>.</returns>
+        decimal GetPercentOfWhole(DateTime settlementDate, string ticker);
     }
 }

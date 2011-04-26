@@ -163,34 +163,63 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the raw rate of return for this IMeasurableSecurityBasket, not accounting for commissions.
+        ///   Gets the raw rate of return for this Portfolio, not accounting for commissions.
         /// </summary>
         public decimal GetRawReturn(DateTime settlementDate)
         {
-            throw new NotImplementedException();
+            return GetValue(settlementDate)/GetCost(settlementDate) - 1;
         }
 
         /// <summary>
-        ///   Gets the total rate of return for this IMeasurableSecurityBasket, after commissions.
+        ///   Gets the total rate of return for this Portfolio, after commissions.
         /// </summary>
         public decimal GetTotalReturn(DateTime settlementDate)
         {
-            throw new NotImplementedException();
+            decimal proceeds = GetProceeds(settlementDate);
+            decimal costs = GetCost(settlementDate);
+            decimal commissions = GetCommissions(settlementDate);
+            decimal profit = proceeds - costs - commissions;
+            return (profit / costs);
         }
 
         /// <summary>
-        ///   Gets the total rate of return on an annual basis for this IMeasurableSecurityBasket.
+        ///   Gets the total rate of return on an annual basis for this Portfolio.
         /// </summary>
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
         public decimal GetAverageAnnualReturn(DateTime settlementDate)
         {
-            throw new NotImplementedException();
+            decimal sum = 0;
+            var totalReturn = GetTotalReturn(settlementDate);
+
+            foreach (var position in Positions)
+            {
+                sum += GetPercentOfWhole(settlementDate, position.Ticker)*totalReturn;
+            }
+
+            return sum;
         }
 
         /// <summary>
-        ///   Gets the gross investment of this IMeasurableSecurityBasket, ignoring any proceeds and commissions.
+        /// Gets the percentage value of the whole Portfolio attributable to <paramref name="ticker"/>.
+        /// </summary>
+        /// <param name="settlementDate">The date which to measure.</param>
+        /// <param name="ticker">The ticker symbol which to measure.</param>
+        /// <returns>The percentage value of the whole Portfolio attributable to <paramref name="ticker"/>.</returns>
+        public decimal GetPercentOfWhole(DateTime settlementDate, string ticker)
+        {
+            var position = GetPosition(ticker);
+            var investedValue = GetValue(settlementDate);
+            if (investedValue > 0 && position.HasValue(settlementDate))
+            {
+                return position.GetInvestedValue(settlementDate) / investedValue;
+            }
+            return 0.00m; // 0%
+        }
+
+        /// <summary>
+        ///   Gets the gross investment of this Portfolio, ignoring any proceeds and commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount spent on share purchases.</returns>
@@ -200,7 +229,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the gross proceeds of this IMeasurableSecurityBasket, ignoring all totalCosts and commissions.
+        ///   Gets the gross proceeds of this Portfolio, ignoring all totalCosts and commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of proceeds from share sales.</returns>

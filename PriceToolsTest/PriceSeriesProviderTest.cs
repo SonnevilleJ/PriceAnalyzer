@@ -10,7 +10,7 @@ namespace Sonneville.PriceToolsTest
     ///This is a test class for PriceHistoryCsvFileTest and is intended
     ///to contain all PriceHistoryCsvFileTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PriceHistoryCsvFileTest
     {
         private const string Ticker = "DE";
@@ -21,7 +21,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for GetPriceSeries
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void YahooResxTest()
         {
             var testData = TestData.DE_PriceData_Yahoo;
@@ -32,7 +32,7 @@ namespace Sonneville.PriceToolsTest
             }
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void YahooDownloadTest()
         {
             var provider = new YahooPriceSeriesProvider();
@@ -40,7 +40,7 @@ namespace Sonneville.PriceToolsTest
             TestPriceHistoryData(target);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void YahooPriceSeriesTest()
         {
             var provider = new YahooPriceSeriesProvider();
@@ -48,7 +48,7 @@ namespace Sonneville.PriceToolsTest
             TestDateRange(priceSeries);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GoogleDownloadTest()
         {
             var provider = new GooglePriceSeriesProvider();
@@ -56,7 +56,7 @@ namespace Sonneville.PriceToolsTest
             TestPriceHistoryData(target);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GooglePriceSeriesTest()
         {
             var provider = new GooglePriceSeriesProvider();

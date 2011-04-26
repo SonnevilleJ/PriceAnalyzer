@@ -9,10 +9,17 @@ namespace Sonneville.PriceToolsTest
     ///This is a test class for PositionTest and is intended
     ///to contain all PositionTest Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class PositionTest
     {
-        [TestMethod()]
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Settings.SetDefaultSettings();
+            Settings.CanConnectToInternet = false;
+        }
+
+        [TestMethod]
         public void GetValueReturnsCorrectWithoutCommissionsAfterGain()
         {
             const string ticker = "DE";
@@ -36,7 +43,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void GetValueReturnsCorrectWithoutCommissionsAfterLoss()
         {
             const string ticker = "DE";
@@ -60,7 +67,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void IndexerReturnsGetValue()
         {
             const string ticker = "DE";
@@ -77,7 +84,7 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullTickerThrowsException()
         {
@@ -87,6 +94,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetInvestedValueTestBuy()
         {
+            Settings.CanConnectToInternet = true;
+
             const string ticker = "DE";
             IPosition target = PositionFactory.CreatePosition(ticker);
 
@@ -107,6 +116,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetInvestedValueTestSellHalf()
         {
+            Settings.CanConnectToInternet = true;
+
             const string ticker = "DE";
             IPosition target = PositionFactory.CreatePosition(ticker);
 
@@ -230,7 +241,7 @@ namespace Sonneville.PriceToolsTest
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
             const decimal buyPrice = 100.00m;       // $100.00 per share
-            const decimal sellPrice = 112.00m;      // $102.00 per share
+            const decimal sellPrice = 112.00m;      // $112.00 per share
             const double shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
@@ -354,7 +365,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Ticker
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void TickerTest()
         {
             const string ticker = "DE";
@@ -368,7 +379,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for GetCost
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetCostWithBuyOnlyTest()
         {
             const string ticker = "DE";
@@ -390,7 +401,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for GetCost
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetCostWithBuyAndSellTest()
         {
             const string ticker = "DE";
@@ -418,7 +429,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for GetProceeds
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetProceedsWithBuyOnlyTest()
         {
             const string ticker = "DE";
@@ -440,7 +451,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for GetProceeds
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetProceedsWithBuyAndSellTest()
         {
             const string ticker = "DE";
@@ -468,7 +479,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for GetCommissions
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetCommissionsWithBuyOnlyTest()
         {
             const string ticker = "DE";
@@ -490,7 +501,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for GetCommissions
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void GetCommissionsWithBuyAndSellTest()
         {
             const string ticker = "DE";

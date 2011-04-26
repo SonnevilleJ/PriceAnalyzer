@@ -38,7 +38,7 @@ namespace Sonneville.PriceToolsTest
             PriceSeries.CreatePriceSeries(0, text);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EntityBuyTest()
         {
             const string ticker = "DE";
@@ -59,7 +59,7 @@ namespace Sonneville.PriceToolsTest
             TestUtilities.VerifyTransactionEntity(target);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EntityBuyToCoverTransactionTest()
         {
             const string ticker = "DE";
@@ -107,7 +107,7 @@ namespace Sonneville.PriceToolsTest
             TestUtilities.VerifyTransactionEntity(target);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EntityDividendReceiptTransactionTest()
         {
             DateTime date = new DateTime(2001, 1, 17);
@@ -123,7 +123,7 @@ namespace Sonneville.PriceToolsTest
             TestUtilities.VerifyTransactionEntity(target);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EntityDividendReinvestmentTransactionTest()
         {
             const string ticker = "DE";
@@ -217,7 +217,7 @@ namespace Sonneville.PriceToolsTest
             TestUtilities.VerifyPricePeriodEntity(target);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EntitySellShortTransactionTest()
         {
             const string ticker = "DE";
@@ -238,7 +238,7 @@ namespace Sonneville.PriceToolsTest
             TestUtilities.VerifyTransactionEntity(target);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EntitySellTransactionTest()
         {
             const string ticker = "DE";
@@ -275,7 +275,7 @@ namespace Sonneville.PriceToolsTest
             TestUtilities.VerifyPricePeriodEntity(target);
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void EntityWithdrawalTransactionTest()
         {
             DateTime date = new DateTime(2001, 1, 1);

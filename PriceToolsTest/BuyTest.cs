@@ -11,13 +11,13 @@ namespace Sonneville.PriceToolsTest
     ///This is a test class for Buy and is intended
     ///to contain all Buy Unit Tests
     ///</summary>
-    [TestClass()]
+    [TestClass]
     public class BuyTest
     {
         /// <summary>
         ///A test for Shares
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void BuyWithNegativeSharesTest()
         {
@@ -32,7 +32,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Price
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyPriceNegativeTest()
         {
             const decimal price = -100.00m;     // bought at $100.00 per share
@@ -50,7 +50,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Commission
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void BuyWithNegativeCommissionTest()
         {
@@ -62,7 +62,7 @@ namespace Sonneville.PriceToolsTest
                 };
         }
 
-        [TestMethod()]
+        [TestMethod]
         public void SerializeBuyTest()
         {
             const string ticker = "DE";
@@ -87,7 +87,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Ticker
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyTickerTest()
         {
             const string ticker = "DE";
@@ -105,7 +105,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for SettlementDate
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuySettlementDateTest()
         {
             DateTime date = new DateTime(2000, 1, 1);
@@ -123,7 +123,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for OrderType
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyOrderTypeTest()
         {
             IShareTransaction target = new Buy();
@@ -136,7 +136,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Price
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyPricePositiveTest()
         {
             const decimal price = 100.00m;      // bought at $100.00 per share
@@ -154,7 +154,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Shares
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuySharesTest()
         {
             const double shares = 5;            // bought 5 shares
@@ -172,7 +172,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for Commission
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void BuyCommissionTest()
         {
             const decimal commission = 7.95m;   // $7.95 trading commission

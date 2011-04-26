@@ -4,9 +4,16 @@ using Sonneville.PriceTools;
 
 namespace Sonneville.PriceToolsTest
 {
-    [TestClass()]
+    [TestClass]
     public class SimpleMovingAverageTest
     {
+        [TestInitialize]
+        public void TestInitialize()
+        {
+            Settings.SetDefaultSettings();
+            Settings.CanConnectToInternet = false;
+        }
+
         [TestMethod]
         public void ResolutionDaysByDefault()
         {

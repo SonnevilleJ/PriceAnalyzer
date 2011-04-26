@@ -11,13 +11,13 @@
 //    ///This is a test class for YahooDataManagerTest and is intended
 //    ///to contain all YahooDataManagerTest Unit Tests
 //    ///</summary>
-//    [TestClass()]
+//    [TestClass]
 //    public class YahooDataManagerTest
 //    {
 //        /// <summary>
 //        ///A test for PriceParser
 //        ///</summary>
-//        [TestMethod()]
+//        [TestMethod]
 //        public void PriceParserTest()
 //        {
 //            IPriceSeries actual;
