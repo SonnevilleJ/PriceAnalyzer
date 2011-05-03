@@ -344,5 +344,35 @@ namespace Sonneville.PriceToolsTest
             PriceSeries actual = ((PriceSeries)TestUtilities.Serialize(target));
             Assert.AreEqual(target, actual);
         }
+
+        [TestMethod]
+        public void TestIndexerWhenNotConnectedToInternet()
+        {
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
+
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.PricePeriods.Add(p1);
+            target.PricePeriods.Add(p2);
+            target.PricePeriods.Add(p3);
+
+            var expected = p2.Close;
+            var actual = target[p3.Head.Subtract(new TimeSpan(1))];
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void TestIndexerWhenConnectedToInternet()
+        {
+            Settings.CanConnectToInternet = true;
+
+            DateTime dateTime = new DateTime(2011, 5, 2, 22, 52, 0);
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("DE");
+
+            const decimal expected = 97.39m;
+            decimal? actual = target[dateTime];
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

@@ -66,16 +66,9 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                if (!HasValue(index))
+                if (!HasValue(index) && Settings.CanConnectToInternet)
                 {
-                    if (Settings.CanConnectToInternet)
-                    {
-                        DownloadPriceData(Settings.PreferredPriceSeriesProvider, index);
-                    }
-                    else
-                    {
-                        return GetLatestPrice(index);
-                    }
+                    DownloadPriceData(Settings.PreferredPriceSeriesProvider, index);
                 }
                 return GetLatestPrice(index);
             }
@@ -159,14 +152,7 @@ namespace Sonneville.PriceTools
                 IList<PricePeriod> leftList = left.PricePeriods.ToList();
                 IList<PricePeriod> rightList = right.PricePeriods.ToList();
 
-                for (int i = 0; i < leftList.Count; i++)
-                {
-                    if(leftList[i] != rightList[i])
-                    {
-                        pricePeriodsMatch = false;
-                        break;
-                    }
-                }
+                pricePeriodsMatch = !leftList.Where((t, i) => t != rightList[i]).Any();
             }
 
             return pricePeriodsMatch &&

@@ -190,12 +190,11 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, shares, price + 10m, commission);
 
             const decimal expected = 0.1m;      // 10% raw return on investment
-            decimal actual = target.GetRawReturn(sellDate);
+            decimal? actual = target.GetRawReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void GetRawReturnWithoutProceedsTest()
         {
             const string ticker = "DE";
@@ -209,7 +208,7 @@ namespace Sonneville.PriceToolsTest
 
             target.Buy(buyDate, shares, price, commission);
 
-            target.GetRawReturn(sellDate);
+            Assert.IsNull(target.GetRawReturn(sellDate));
         }
 
         [TestMethod]
