@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the raw rate of return for this IMeasurableSecurityBasket, not accounting for commissions.
         /// </summary>
-        decimal GetRawReturn(DateTime settlementDate);
+        decimal? GetRawReturn(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the total rate of return for this IMeasurableSecurityBasket, after commissions.

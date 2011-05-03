@@ -242,13 +242,11 @@ namespace Sonneville.PriceTools
         ///   Gets the raw rate of return for this Position, not accounting for commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        public decimal GetRawReturn(DateTime settlementDate)
+        public decimal? GetRawReturn(DateTime settlementDate)
         {
-            if (GetClosedShares(settlementDate) > 0)
-            {
-                return (GetValue(settlementDate)/GetCost(settlementDate)) - 1;
-            }
-            throw new InvalidOperationException("Cannot calculate raw return without proceeds.");
+            return GetClosedShares(settlementDate) > 0
+                       ? (decimal?) ((GetValue(settlementDate)/GetCost(settlementDate)) - 1)
+                       : null;
         }
 
         /// <summary>

@@ -165,9 +165,14 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the raw rate of return for this Portfolio, not accounting for commissions.
         /// </summary>
-        public decimal GetRawReturn(DateTime settlementDate)
+        public decimal? GetRawReturn(DateTime settlementDate)
         {
-            return GetValue(settlementDate)/GetCost(settlementDate) - 1;
+            decimal proceeds = GetProceeds(settlementDate);
+            decimal costs = GetCost(settlementDate);
+            decimal profit = proceeds - costs;
+            return proceeds != 0
+                ? (profit / costs)
+                : (decimal?) null;
         }
 
         /// <summary>

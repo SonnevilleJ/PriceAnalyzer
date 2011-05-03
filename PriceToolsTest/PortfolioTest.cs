@@ -216,11 +216,7 @@ namespace Sonneville.PriceToolsTest
 
             target.AddTransaction(buy);
 
-            // TODO: Assign correct expected values
-            Assert.Fail();
-            const decimal expected = 0.0m;      // 0% raw return on investment
-            decimal actual = target.GetRawReturn(sellDate);
-            Assert.AreEqual(expected, actual);
+            Assert.IsNull(target.GetRawReturn(sellDate));
         }
 
         [TestMethod]
@@ -256,10 +252,8 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(buy);
             target.AddTransaction(sell);
 
-            // TODO: Assign correct expected values
-            Assert.Fail();
             const decimal expected = 0.0m;      // 0% raw return on investment
-            decimal actual = target.GetRawReturn(sellDate);
+            decimal? actual = target.GetRawReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -426,7 +420,7 @@ namespace Sonneville.PriceToolsTest
         {
             Settings.CanConnectToInternet = true;
 
-            DateTime dateTime = new DateTime(2011, 1, 8);
+            DateTime dateTime = new DateTime(2011, 4, 8);
             const decimal deposit = 10000m;
             IPortfolio target = new Portfolio(dateTime, deposit);
 
