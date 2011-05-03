@@ -22,6 +22,8 @@ namespace Sonneville.PriceTools
             CanConnectToInternet = true;
 
             PreferredPriceSeriesProvider = new YahooPriceSeriesProvider();
+            MarketOpen = new TimeSpan(9, 30, 0);
+            MarketClose = new TimeSpan(16, 0, 0);
         }
 
         public static bool CanConnectToInternet { get; set; }
@@ -29,5 +31,9 @@ namespace Sonneville.PriceTools
         public static PriceSeriesProvider PreferredPriceSeriesProvider { get; set; }
 
         public static bool DatabaseIsActive { get; private set; }
+
+        public static TimeSpan MarketOpen { get; private set; }
+
+        public static TimeSpan MarketClose { get; private set; }
     }
 }

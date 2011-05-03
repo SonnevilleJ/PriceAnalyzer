@@ -14,8 +14,8 @@ namespace Sonneville.PriceToolsTest
     public class PriceHistoryCsvFileTest
     {
         private const string Ticker = "DE";
-        private static readonly DateTime Head = new DateTime(2011, 1, 3);
-        private static readonly DateTime Tail = new DateTime(2011, 3, 15);
+        private static readonly DateTime Head = new DateTime(2011, 1, 3).Add(Settings.MarketOpen);
+        private static readonly DateTime Tail = new DateTime(2011, 3, 15).Add(Settings.MarketClose);
         private const int PeriodCount = 50;
 
         /// <summary>

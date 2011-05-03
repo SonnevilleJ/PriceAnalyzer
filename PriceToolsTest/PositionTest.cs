@@ -121,8 +121,8 @@ namespace Sonneville.PriceToolsTest
             const string ticker = "DE";
             IPosition target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = buyDate.AddDays(1);
+            DateTime buyDate = new DateTime(2001, 1, 1).Add(Settings.MarketOpen);
+            DateTime sellDate = new DateTime(2001, 1, 2).Add(Settings.MarketClose);
             const decimal price = 100.00m;      // $100.00 per share
             const double shares = 10;           // 10 shares
             const decimal commission = 7.95m;   // with $7.95 commission

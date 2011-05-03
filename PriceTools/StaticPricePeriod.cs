@@ -22,6 +22,8 @@ namespace Sonneville.PriceTools
             if(low > open) throw new InvalidOperationException();
             if(low > close) throw new InvalidOperationException();
 
+            SetDefaultMarketTimes(ref head, ref tail);
+
             EFHead = head;
             EFTail = tail;
             EFOpen = open;
@@ -29,6 +31,22 @@ namespace Sonneville.PriceTools
             EFLow = low;
             EFClose = close;
             EFVolume = volume;
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static void SetDefaultMarketTimes(ref DateTime head, ref DateTime tail)
+        {
+            if (head.Hour == 0 && head.Minute == 0 && head.Second == 0)
+            {
+                head = head.Add(Settings.MarketOpen);
+            }
+            if (tail.Hour == 0 && tail.Minute == 0 && tail.Second == 0)
+            {
+                tail = tail.Add(Settings.MarketClose);
+            }
         }
 
         #endregion

@@ -44,7 +44,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
 
-            DateTime expected = head;
+            DateTime expected = head.Add(Settings.MarketOpen);
             DateTime actual = target.Head;
             Assert.AreEqual(expected, actual);
         }
@@ -144,7 +144,7 @@ namespace Sonneville.PriceToolsTest
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             decimal expected = target.Close;
-            decimal? actual = target[head];
+            decimal? actual = target[target.Head];
             Assert.AreEqual(expected, actual);
         }
 
@@ -165,7 +165,7 @@ namespace Sonneville.PriceToolsTest
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             decimal expected = target.Close;
-            decimal? actual = target[tail];
+            decimal? actual = target[target.Tail];
             Assert.AreEqual(expected, actual);
         }
 
@@ -185,7 +185,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            Assert.IsNull(target[head.Subtract(new TimeSpan(1))]);
+            Assert.IsNull(target[target.Head.Subtract(new TimeSpan(1))]);
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            Assert.IsNull(target[tail.Add(new TimeSpan(1))]);
+            Assert.IsNull(target[target.Tail.Add(new TimeSpan(1))]);
         }
 
         /// <summary>
@@ -318,7 +318,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            DateTime expected = tail;
+            DateTime expected = tail.Add(Settings.MarketClose);
             DateTime actual = target.Tail;
             Assert.AreEqual(expected, actual);
         }

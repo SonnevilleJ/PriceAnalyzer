@@ -425,7 +425,6 @@ namespace Sonneville.PriceToolsTest
             IPortfolio target = new Portfolio(dateTime, deposit);
 
             DateTime buyDate = new DateTime(2011, 4, 25);
-            DateTime sellDate = buyDate.AddDays(1);
             const string ticker = "DE";
             const decimal price = 50.00m;
             const double shares = 2;
@@ -441,8 +440,9 @@ namespace Sonneville.PriceToolsTest
 
             target.AddTransaction(buy);
 
+            DateTime priceDate = new DateTime(2011, 4, 26);
             const decimal expected = 189.44m; // closing price 25 April 2011 = $94.72 * 2 shares = 189.44
-            decimal actual = target.GetInvestedValue(sellDate);
+            decimal actual = target.GetInvestedValue(priceDate);
             Assert.AreEqual(expected, actual);
         }
 
