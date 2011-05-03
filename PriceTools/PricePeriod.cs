@@ -165,6 +165,10 @@ namespace Sonneville.PriceTools
         #endregion
 
 
+        /// <summary>
+        /// Invokes the NewPriceDataAvailable event.
+        /// </summary>
+        /// <param name="e">The NewPriceDataEventArgs to pass.</param>
         protected void InvokeNewPriceDataAvailable(NewPriceDataAvailableEventArgs e)
         {
             if (NewPriceDataAvailable != null)

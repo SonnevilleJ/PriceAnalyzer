@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Contains event data for the <see cref="IPriceSeries.NewPriceDataAvailable"/> event.
+    /// Contains event data for the <see cref="IPricePeriod.NewPriceDataAvailable"/> event.
     /// </summary>
     public class NewPriceDataAvailableEventArgs : EventArgs
     {

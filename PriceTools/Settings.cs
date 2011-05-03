@@ -26,14 +26,29 @@ namespace Sonneville.PriceTools
             MarketClose = new TimeSpan(16, 0, 0);
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating if the framework is allowed to connect to the Internet.
+        /// </summary>
         public static bool CanConnectToInternet { get; set; }
 
+        /// <summary>
+        /// Gets or sets the preferred <see cref="PriceSeriesProvider"/> to use if one is not specified.
+        /// </summary>
         public static PriceSeriesProvider PreferredPriceSeriesProvider { get; set; }
 
+        /// <summary>
+        /// Gets a value indicating if the database connection is available.
+        /// </summary>
         public static bool DatabaseIsActive { get; private set; }
 
+        /// <summary>
+        /// Gets the time of day when the NYSE market opens.
+        /// </summary>
         public static TimeSpan MarketOpen { get; private set; }
 
+        /// <summary>
+        /// Gets the time of day when the NYSE market closes.
+        /// </summary>
         public static TimeSpan MarketClose { get; private set; }
     }
 }
