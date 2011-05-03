@@ -275,23 +275,8 @@ namespace Sonneville.PriceTools
             decimal? totalReturn = GetTotalReturn(settlementDate);
             decimal time = (Duration.Days/365.0m);
             return totalReturn != null
-                       ? totalReturn/time*GetPercentOfWhole(settlementDate, Ticker)
+                       ? totalReturn/time
                        : null;
-        }
-
-        /// <summary>
-        /// Gets the percentage value of the whole Position attributable to <paramref name="ticker"/>.
-        /// </summary>
-        /// <param name="settlementDate">The date which to measure.</param>
-        /// <param name="ticker">The ticker symbol which to measure.</param>
-        /// <returns>The percentage value of the whole Position attributable to <paramref name="ticker"/>.</returns>
-        public decimal GetPercentOfWhole(DateTime settlementDate, string ticker)
-        {
-            if(ticker == Ticker && HasValue(settlementDate))
-            {
-                return 1.00m; // 100%
-            }
-            return 0.00m; // 0%
         }
 
         /// <summary>

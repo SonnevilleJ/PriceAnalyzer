@@ -197,32 +197,10 @@ namespace Sonneville.PriceTools
         /// </remarks>
         public decimal? GetAverageAnnualReturn(DateTime settlementDate)
         {
-            decimal? sum = 0;
-            var totalReturn = GetTotalReturn(settlementDate);
+            decimal time = ((Tail - Head).Days / 365.0m);
+            decimal? totalReturn = GetTotalReturn(settlementDate);
 
-            foreach (var position in Positions)
-            {
-                sum += GetPercentOfWhole(settlementDate, position.Ticker)*totalReturn;
-            }
-
-            return sum;
-        }
-
-        /// <summary>
-        /// Gets the percentage value of the whole Portfolio attributable to <paramref name="ticker"/>.
-        /// </summary>
-        /// <param name="settlementDate">The date which to measure.</param>
-        /// <param name="ticker">The ticker symbol which to measure.</param>
-        /// <returns>The percentage value of the whole Portfolio attributable to <paramref name="ticker"/>.</returns>
-        public decimal GetPercentOfWhole(DateTime settlementDate, string ticker)
-        {
-            var position = GetPosition(ticker);
-            var investedValue = GetValue(settlementDate);
-            if (investedValue > 0 && position.HasValue(settlementDate))
-            {
-                return position.GetInvestedValue(settlementDate) / investedValue;
-            }
-            return 0.00m; // 0%
+            return totalReturn/(time);
         }
 
         /// <summary>
