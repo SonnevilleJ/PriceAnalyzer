@@ -178,13 +178,15 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the total rate of return for this Portfolio, after commissions.
         /// </summary>
-        public decimal GetTotalReturn(DateTime settlementDate)
+        public decimal? GetTotalReturn(DateTime settlementDate)
         {
             decimal proceeds = GetProceeds(settlementDate);
             decimal costs = GetCost(settlementDate);
             decimal commissions = GetCommissions(settlementDate);
             decimal profit = proceeds - costs - commissions;
-            return (profit / costs);
+            return proceeds != 0
+                       ? (profit/costs)
+                       : (decimal?) null;
         }
 
         /// <summary>
@@ -193,9 +195,9 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        public decimal GetAverageAnnualReturn(DateTime settlementDate)
+        public decimal? GetAverageAnnualReturn(DateTime settlementDate)
         {
-            decimal sum = 0;
+            decimal? sum = 0;
             var totalReturn = GetTotalReturn(settlementDate);
 
             foreach (var position in Positions)

@@ -253,13 +253,15 @@ namespace Sonneville.PriceTools
         ///   Gets the total rate of return for this Position, after commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        public decimal GetTotalReturn(DateTime settlementDate)
+        public decimal? GetTotalReturn(DateTime settlementDate)
         {
             decimal proceeds = GetProceeds(settlementDate);
             decimal costs = GetCost(settlementDate);
             decimal commissions = GetCommissions(settlementDate);
             decimal profit = proceeds - costs - commissions;
-            return (profit/costs);
+            return proceeds != 0
+                       ? (profit/costs)
+                       : (decimal?) null;
         }
 
         /// <summary>
@@ -268,11 +270,13 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        public decimal GetAverageAnnualReturn(DateTime settlementDate)
+        public decimal? GetAverageAnnualReturn(DateTime settlementDate)
         {
-            decimal totalReturn = GetTotalReturn(settlementDate);
+            decimal? totalReturn = GetTotalReturn(settlementDate);
             decimal time = (Duration.Days/365.0m);
-            return totalReturn/time * GetPercentOfWhole(settlementDate, Ticker);
+            return totalReturn != null
+                       ? totalReturn/time*GetPercentOfWhole(settlementDate, Ticker)
+                       : null;
         }
 
         /// <summary>

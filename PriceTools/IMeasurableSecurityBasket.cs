@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the total rate of return for this IMeasurableSecurityBasket, after commissions.
         /// </summary>
-        decimal GetTotalReturn(DateTime settlementDate);
+        decimal? GetTotalReturn(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the total rate of return on an annual basis for this IMeasurableSecurityBasket.
@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        decimal GetAverageAnnualReturn(DateTime settlementDate);
+        decimal? GetAverageAnnualReturn(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the gross investment of this IMeasurableSecurityBasket, ignoring any proceeds and commissions.

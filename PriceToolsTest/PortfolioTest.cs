@@ -281,11 +281,7 @@ namespace Sonneville.PriceToolsTest
 
             target.AddTransaction(buy);
 
-            // TODO: Assign correct expected values
-            Assert.Fail();
-            const decimal expected = -0.02m;      // negative 2% return; 98% of original investment
-            decimal actual = target.GetTotalReturn(sellDate);
-            Assert.AreEqual(expected, actual);
+            Assert.IsNull(target.GetTotalReturn(sellDate));
         }
 
         [TestMethod]
@@ -321,10 +317,8 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(buy);
             target.AddTransaction(sell);
 
-            // TODO: Assign correct expected values
-            Assert.Fail();
             const decimal expected = -0.02m;      // negative 2% return; 98% of original investment
-            decimal actual = target.GetTotalReturn(sellDate);
+            decimal? actual = target.GetTotalReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -352,15 +346,7 @@ namespace Sonneville.PriceToolsTest
 
             target.AddTransaction(buy);
 
-            // TODO: Assign correct expected values
-            Assert.Fail();
-            const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
-            decimal actualReturn = target.GetTotalReturn(sellDate);
-            Assert.AreEqual(expectedReturn, actualReturn);
-
-            const decimal expected = 0.5m;          // 50% annual rate return
-            decimal actual = target.GetAverageAnnualReturn(sellDate);
-            Assert.AreEqual(expected, actual);
+            Assert.IsNull(target.GetAverageAnnualReturn(sellDate));
         }
 
         [TestMethod]
@@ -397,14 +383,12 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(buy);
             target.AddTransaction(sell);
 
-            // TODO: Assign correct expected values
-            Assert.Fail();
             const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
-            decimal actualReturn = target.GetTotalReturn(sellDate);
+            decimal? actualReturn = target.GetTotalReturn(sellDate);
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = 0.5m;          // 50% annual rate return
-            decimal actual = target.GetAverageAnnualReturn(sellDate);
+            decimal? actual = target.GetAverageAnnualReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
