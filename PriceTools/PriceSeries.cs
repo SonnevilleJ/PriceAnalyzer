@@ -103,10 +103,10 @@ namespace Sonneville.PriceTools
         #endregion
 
         #region Private Methods
-        
+
         private void DownloadPriceData(PriceSeriesProvider provider, DateTime index)
         {
-            DateTime head = index.Subtract(new TimeSpan(7, 0, 0, 0));
+            DateTime head = index.Subtract(Settings.TimespanToDownload);
             DateTime tail = index;
 
             foreach (var pricePeriod in provider.GetPricePeriods(Ticker, head, tail))
@@ -128,8 +128,8 @@ namespace Sonneville.PriceTools
             }
             var periods = PricePeriods.Where(p => p.Tail <= settlementDate);
             return periods.Count() > 0
-                       ? periods.OrderBy(p=>p.Tail).Last().Close
-                       : (decimal?) null;
+                       ? periods.OrderBy(p => p.Tail).Last().Close
+                       : (decimal?)null;
         }
 
         #endregion

@@ -98,7 +98,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.Config" />
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Resources\DE_PriceData_Yahoo.csv" />
     <None Include="Resources\FidelityTransactions.csv" />
     <None Include="Resources\SPX price 24 aug 2010.xlsx" />

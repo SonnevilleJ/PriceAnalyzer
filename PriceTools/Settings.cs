@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data;
 using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceTools
@@ -20,6 +19,7 @@ namespace Sonneville.PriceTools
         public static void SetDefaultSettings()
         {
             CanConnectToInternet = true;
+            TimespanToDownload = new TimeSpan(7, 0, 0, 0);
 
             PreferredPriceSeriesProvider = new YahooPriceSeriesProvider();
             MarketOpen = new TimeSpan(9, 30, 0);
@@ -40,6 +40,11 @@ namespace Sonneville.PriceTools
         /// Gets a value indicating if the database connection is available.
         /// </summary>
         public static bool DatabaseIsActive { get; private set; }
+
+        /// <summary>
+        /// Gets the default timespan to download for price history.
+        /// </summary>
+        public static TimeSpan TimespanToDownload { get; set; }
 
         /// <summary>
         /// Gets the time of day when the NYSE market opens.

@@ -33,7 +33,7 @@ namespace Sonneville.Utilities
         {
             string path = Path.GetTempPath();
             string filename = Guid.NewGuid() + ".tmp";
-            return File.Open(string.Concat(path, filename), FileMode.CreateNew);
+            return File.Open(Path.Combine(path, filename), FileMode.CreateNew);
         }
 
         private static void VerifyEntitySerialize(EntityObject target, string entitySetName)
@@ -63,34 +63,34 @@ namespace Sonneville.Utilities
 
         public static void VerifyCashAccountEntity(ICashAccount cashAccount)
         {
-            VerifyEntitySerialize((CashAccount) cashAccount, "CashAccounts");
+            VerifyEntitySerialize((CashAccount)cashAccount, "CashAccounts");
         }
 
         public static void VerifyPositionEntity(IPosition position)
         {
-            VerifyEntitySerialize((Position) position, "Positions");
+            VerifyEntitySerialize((Position)position, "Positions");
         }
 
         public static void VerifyPortfolioEntity(IPortfolio portfolio)
         {
-            VerifyEntitySerialize((Portfolio) portfolio, "Portfolios");
+            VerifyEntitySerialize((Portfolio)portfolio, "Portfolios");
         }
 
         public static void VerifyPriceQuoteEntity(IPriceQuote priceQuote)
         {
-            VerifyEntitySerialize((PriceQuote) priceQuote, "PriceQuotes");
+            VerifyEntitySerialize((PriceQuote)priceQuote, "PriceQuotes");
         }
 
         public static void VerifyPricePeriodEntity(IPricePeriod pricePeriod)
         {
-            VerifyEntitySerialize((PricePeriod) pricePeriod, "PricePeriods");
+            VerifyEntitySerialize((PricePeriod)pricePeriod, "PricePeriods");
         }
 
         public static void VerifyPriceSeriesEntity(IPriceSeries priceSeries)
         {
             IList<PricePeriod> list = priceSeries.PricePeriods.ToList();
 
-            VerifyEntitySerialize((PriceSeries) priceSeries, "PricePeriods");
+            VerifyEntitySerialize((PriceSeries)priceSeries, "PricePeriods");
 
             using (var db = new Container())
             {
