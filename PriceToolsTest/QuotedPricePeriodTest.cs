@@ -221,20 +221,6 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void SerializeQuotedPricePeriodTest()
-        {
-            IPriceQuote q1 = TestUtilities.CreateQuote1();
-            IPriceQuote q2 = TestUtilities.CreateQuote2();
-            IPriceQuote q3 = TestUtilities.CreateQuote3();
-
-            QuotedPricePeriod target = new QuotedPricePeriod();
-            target.AddPriceQuote(q1, q2, q3);
-
-            QuotedPricePeriod actual = ((QuotedPricePeriod)TestUtilities.Serialize(target));
-            Assert.AreEqual(target, actual);
-        }
-
-        [TestMethod]
         public void QuotedPricePeriodIndexerTest()
         {
             IPriceQuote q1 = TestUtilities.CreateQuote1();

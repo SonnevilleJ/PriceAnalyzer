@@ -41,26 +41,6 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
-        public void SerializeDividendReinvestmentTransactionTest()
-        {
-            const string ticker = "DE";
-            DateTime date = new DateTime(2001, 1, 1);
-            const decimal price = 2.00m;        // $2.00 per share
-            const double shares = 5;            // received 5 shares
-
-            IShareTransaction expected = new DividendReinvestment
-                                           {
-                                               SettlementDate = date,
-                                               Ticker = ticker,
-                                               Price = price,
-                                               Shares = shares,
-                                           };
-
-            IShareTransaction actual = (IShareTransaction)TestUtilities.Serialize(expected);
-            Assert.AreEqual(expected, actual);
-        }
-
         /// <summary>
         ///A test for Ticker
         ///</summary>

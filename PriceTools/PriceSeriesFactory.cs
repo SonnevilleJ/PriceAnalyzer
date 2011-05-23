@@ -11,12 +11,12 @@
         /// <param name="ticker">The ticker symbol of the IPriceSeries.</param>
         /// <param name="loadFromDatabase"></param>
         /// <returns>The IPriceSeries for the given ticker.</returns>
-        public static IPriceSeries CreatePriceSeries(string ticker, bool loadFromDatabase = false)
+        public static PriceSeries CreatePriceSeries(string ticker, bool loadFromDatabase = false)
         {
             return loadFromDatabase ? LoadPriceSeries(ticker) : GetEmptyPriceSeries(ticker);
         }
 
-        private static IPriceSeries LoadPriceSeries(string ticker)
+        private static PriceSeries LoadPriceSeries(string ticker)
         {
             using (var db = new Container())
             {

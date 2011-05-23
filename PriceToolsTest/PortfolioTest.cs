@@ -1031,19 +1031,5 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(true, target.HasValue(purchaseDate));
             Assert.AreEqual(true, target.HasValue(purchaseDate.AddDays(1)));
         }
-
-        [TestMethod]
-        public void SerializePortfolioTest()
-        {
-            DateTime testDate = new DateTime(2011, 1, 8);
-            DateTime purchaseDate = testDate.AddDays(1);
-            const decimal amount = 10000m;
-            const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            IPortfolio target = new Portfolio(purchaseDate, amount, ticker);
-
-            decimal expected = target.GetValue(purchaseDate);
-            decimal actual = ((IPortfolio)TestUtilities.Serialize(target)).GetValue(purchaseDate);
-            Assert.AreEqual(expected, actual);
-        }
     }
 }

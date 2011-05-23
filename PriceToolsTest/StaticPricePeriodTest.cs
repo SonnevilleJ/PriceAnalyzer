@@ -343,22 +343,5 @@ namespace Sonneville.PriceToolsTest
             long? actual = target.Volume;
             Assert.AreEqual(expected, actual);
         }
-
-        [TestMethod]
-        public void SerializeStaticPricePeriodTest()
-        {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
-            const decimal open = 10.00m;
-            const decimal high = 11.00m;
-            const decimal low = 9.00m;
-            const decimal close = 10.00m;
-            const long volume = 1000;
-
-            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
-
-            StaticPricePeriod actual = ((StaticPricePeriod)TestUtilities.Serialize(target));
-            Assert.AreEqual(target, actual);
-        }
     }
 }

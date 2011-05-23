@@ -16,16 +16,16 @@ namespace Sonneville.Utilities
         ///   Performs a binary serialization and deserialization of an object to a <see cref = "Stream" />.
         /// </summary>
         /// <param name = "obj">The object to serialize.</param>
-        public static object Serialize(object obj)
+        public static T Serialize<T>(T obj) where T : class
         {
-            using (Stream stream = GetTemporaryFile())
+            using (Stream stream = new MemoryStream())
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(stream, obj);
                 stream.Flush();
                 stream.Position = 0; // reset cursor to enable immediate deserialization
 
-                return formatter.Deserialize(stream);
+                return formatter.Deserialize(stream) as T;
             }
         }
 
