@@ -61,19 +61,5 @@ namespace Sonneville.PriceToolsTest
             int actualTransactions = target.Transactions.Count;
             Assert.AreEqual(expectedTransactions, actualTransactions);
         }
-
-        [TestMethod]
-        public void SerializeCashAccountTest()
-        {
-            DateTime date = new DateTime(2011, 1, 16);
-            const decimal amount = 10000m;
-            ICashAccount target = new CashAccount();
-            target.Deposit(date, amount);
-            target.Withdraw(date, amount);
-
-            ICashAccount expected = target;
-            ICashAccount actual = ((ICashAccount) TestUtilities.Serialize(target));
-            Assert.AreEqual(expected, actual);
-        }
     }
 }

@@ -330,22 +330,6 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void SerializePriceSeriesTest()
-        {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
-
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
-
-            PriceSeries actual = ((PriceSeries)TestUtilities.Serialize(target));
-            Assert.AreEqual(target, actual);
-        }
-
-        [TestMethod]
         public void TestIndexerWhenNotConnectedToInternet()
         {
             PricePeriod p1 = TestUtilities.CreatePeriod1();

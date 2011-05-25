@@ -377,25 +377,6 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
 
-        [TestMethod]
-        public void SerializePositionTest()
-        {
-            const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
-
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime purchaseDate = testDate.AddDays(1);
-            const decimal buyPrice = 100.00m;   // $100.00 per share
-            const double shares = 5;            // 5 shares
-            const decimal commission = 5.00m;   // with $5 commission
-
-            target.Buy(purchaseDate, shares, buyPrice, commission);
-
-            decimal expected = target.GetValue(purchaseDate);
-            decimal actual = ((IPosition) TestUtilities.Serialize(target)).GetValue(purchaseDate);
-            Assert.AreEqual(expected, actual);
-        }
-
         /// <summary>
         ///A test for Ticker
         ///</summary>

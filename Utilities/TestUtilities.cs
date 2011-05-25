@@ -16,16 +16,16 @@ namespace Sonneville.Utilities
         ///   Performs a binary serialization and deserialization of an object to a <see cref = "Stream" />.
         /// </summary>
         /// <param name = "obj">The object to serialize.</param>
-        public static object Serialize(object obj)
+        public static T Serialize<T>(T obj) where T : class
         {
-            using (Stream stream = GetTemporaryFile())
+            using (Stream stream = new MemoryStream())
             {
                 BinaryFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(stream, obj);
                 stream.Flush();
                 stream.Position = 0; // reset cursor to enable immediate deserialization
 
-                return formatter.Deserialize(stream);
+                return formatter.Deserialize(stream) as T;
             }
         }
 
@@ -63,34 +63,34 @@ namespace Sonneville.Utilities
 
         public static void VerifyCashAccountEntity(ICashAccount cashAccount)
         {
-            VerifyEntitySerialize((CashAccount)cashAccount, "CashAccounts");
+            VerifyEntitySerialize((CashAccount) cashAccount, "CashAccounts");
         }
 
         public static void VerifyPositionEntity(IPosition position)
         {
-            VerifyEntitySerialize((Position)position, "Positions");
+            VerifyEntitySerialize((Position) position, "Positions");
         }
 
         public static void VerifyPortfolioEntity(IPortfolio portfolio)
         {
-            VerifyEntitySerialize((Portfolio)portfolio, "Portfolios");
+            VerifyEntitySerialize((Portfolio) portfolio, "Portfolios");
         }
 
         public static void VerifyPriceQuoteEntity(IPriceQuote priceQuote)
         {
-            VerifyEntitySerialize((PriceQuote)priceQuote, "PriceQuotes");
+            VerifyEntitySerialize((PriceQuote) priceQuote, "PriceQuotes");
         }
 
         public static void VerifyPricePeriodEntity(IPricePeriod pricePeriod)
         {
-            VerifyEntitySerialize((PricePeriod)pricePeriod, "PricePeriods");
+            VerifyEntitySerialize((PricePeriod) pricePeriod, "PricePeriods");
         }
 
         public static void VerifyPriceSeriesEntity(IPriceSeries priceSeries)
         {
             IList<PricePeriod> list = priceSeries.PricePeriods.ToList();
 
-            VerifyEntitySerialize((PriceSeries)priceSeries, "PricePeriods");
+            VerifyEntitySerialize((PriceSeries) priceSeries, "PricePeriods");
 
             using (var db = new Container())
             {

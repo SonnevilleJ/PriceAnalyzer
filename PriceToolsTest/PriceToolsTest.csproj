@@ -53,6 +53,7 @@
     <Compile Include="PriceQuoteTest.cs" />
     <Compile Include="PriceSeriesProviderTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />
+    <Compile Include="Serialization.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="WithdrawalTest.cs" />
     <Compile Include="DepositTest.cs" />

@@ -74,21 +74,5 @@ namespace Sonneville.PriceToolsTest
             decimal actual = target.Amount;
             Assert.AreEqual(expected, actual);
         }
-
-        [TestMethod]
-        public void SerializeWithdrawalTransactionTest()
-        {
-            DateTime date = new DateTime(2001, 1, 1);
-            const decimal amount = 100.00m;   // $100.00
-
-            ICashTransaction expected = new Withdrawal
-                                          {
-                                              SettlementDate = date,
-                                              Amount = amount
-                                          };
-
-            ICashTransaction actual = (ICashTransaction)TestUtilities.Serialize(expected);
-            Assert.AreEqual(expected, actual);
-        }
     }
 }

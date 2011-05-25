@@ -22,23 +22,6 @@ namespace Sonneville.PriceToolsTest
                 };
         }
 
-        [TestMethod]
-        public void SerializeDividendReceiptTransactionTest()
-        {
-            DateTime date = new DateTime(2001, 1, 17);
-            const decimal price = 2.00m;        // $2.00 per share
-            const double shares = 5;            // received 5 shares
-
-            DividendReceipt expected = new DividendReceipt
-                                           {
-                                               SettlementDate = date,
-                                               Amount = price * (decimal)shares
-                                           };
-
-            ICashTransaction actual = (ICashTransaction)TestUtilities.Serialize(expected);
-            Assert.AreEqual(expected, actual);
-        }
-
         /// <summary>
         ///A test for SettlementDate
         ///</summary>
