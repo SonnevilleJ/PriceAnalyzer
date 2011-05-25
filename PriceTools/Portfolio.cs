@@ -369,6 +369,8 @@ namespace Sonneville.PriceTools
 
         #endregion
 
+        public decimal Value { get { return GetValue(DateTime.Now); } }
+
         #region Private Methods
 
         private IPosition GetPosition(string ticker)
