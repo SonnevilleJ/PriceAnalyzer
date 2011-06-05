@@ -15,11 +15,16 @@ namespace Sonneville.PriceChartTools
     {
         private IPriceSeries _priceSeries;
 
+        /// <summary>
+        /// Gets or sets the thickness of the stroke used to draw the chart.
+        /// </summary>
+        public int StrokeThickness { get; set; }
+
         public CandlestickChart()
         {
             InitializeComponent();
 
-            YMax = 100;
+            StrokeThickness = 1;
             CandleWidth = 6;
             CandleSpacing = 1;
             BufferRight = 1;
@@ -42,8 +47,6 @@ namespace Sonneville.PriceChartTools
                 DrawChart();
             }
         }
-
-        private double YMax { get; set; }
 
         /// <summary>
         /// Gets or sets the space in candle widths that should be placed between candles.
@@ -112,32 +115,14 @@ namespace Sonneville.PriceChartTools
                     lastClose = 0;
                 }
 
-                DrawCandlestick(i, low, open, close, high, lastClose);
+                DrawPeriod(i, open, high, low, close, lastClose);
             }
         }
 
-        private void DrawCandlestick(double candleCenter, double low, double open, double close, double high, double lastClose)
+        private void DrawPeriod(double candlestick, double open, double high, double low, double close, double lastClose)
         {
             var candle = new Polyline();
-            var normalizedOpen = YNormalize(open);
-            var normalizedHigh = YNormalize(high);
-            var normalizedLow = YNormalize(low);
-            var normalizedClose = YNormalize(close);
-            var normalizedCenter = XNormalize(candleCenter);
-            var candleLeft = normalizedCenter - HalfCandleWidth;
-            var candleRight = normalizedCenter + HalfCandleWidth;
-
-            candle.Points.Add(new Point(normalizedCenter, normalizedLow));
-            candle.Points.Add(new Point(normalizedCenter, normalizedOpen));
-            candle.Points.Add(new Point(candleLeft, normalizedOpen));
-            candle.Points.Add(new Point(candleLeft, normalizedClose));
-            candle.Points.Add(new Point(normalizedCenter, normalizedClose));
-            candle.Points.Add(new Point(normalizedCenter, normalizedHigh));
-            candle.Points.Add(new Point(normalizedCenter, normalizedClose));
-            candle.Points.Add(new Point(candleRight, normalizedClose));
-            candle.Points.Add(new Point(candleRight, normalizedOpen));
-            candle.Points.Add(new Point(normalizedCenter, normalizedOpen));
-            candle.Points.Add(new Point(normalizedCenter, normalizedLow));
+            GetPoints(candle, XNormalize(candlestick), YNormalize(open), YNormalize(high), YNormalize(low), YNormalize(close));
 
             candle.Stroke = close >= lastClose
                                 ? Brushes.Black
@@ -145,8 +130,26 @@ namespace Sonneville.PriceChartTools
             candle.Fill = close >= open
                               ? Brushes.White
                               : candle.Stroke;
-            candle.StrokeThickness = 1;
+            candle.StrokeThickness = StrokeThickness;
             chartCanvas.Children.Add(candle);
+        }
+
+        private void GetPoints(Polyline candle, double center, double open, double high, double low, double close)
+        {
+            var left = center - HalfCandleWidth;
+            var right = center + HalfCandleWidth;
+
+            candle.Points.Add(new Point(center, low));
+            candle.Points.Add(new Point(center, open));
+            candle.Points.Add(new Point(left, open));
+            candle.Points.Add(new Point(left, close));
+            candle.Points.Add(new Point(center, close));
+            candle.Points.Add(new Point(center, high));
+            candle.Points.Add(new Point(center, close));
+            candle.Points.Add(new Point(right, close));
+            candle.Points.Add(new Point(right, open));
+            candle.Points.Add(new Point(center, open));
+            candle.Points.Add(new Point(center, low));
         }
 
         private double XNormalize(double candlePosition)
@@ -172,10 +175,7 @@ namespace Sonneville.PriceChartTools
         {
             get
             {
-                DateTime head = FirstDisplayedPeriod;
-                DateTime tail = LastDisplayedPeriod;
-
-                return (double) PriceSeries.PricePeriods.Where(p => p.Head >= head && p.Tail <= tail).Min(p => p.Low.Value);
+                return (double) PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Min(p => p.Low.Value);
             }
         }
 
@@ -183,10 +183,7 @@ namespace Sonneville.PriceChartTools
         {
             get
             {
-                DateTime head = FirstDisplayedPeriod;
-                DateTime tail = LastDisplayedPeriod;
-
-                return (double) PriceSeries.PricePeriods.Where(p => p.Head >= head && p.Tail <= tail).Max(p => p.High.Value);
+                return (double) PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Max(p => p.High.Value);
             }
         }
 
