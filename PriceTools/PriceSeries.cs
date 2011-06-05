@@ -100,6 +100,15 @@ namespace Sonneville.PriceTools
             return PricePeriods.Count > 0 ? base.HasValue(settlementDate) : false;
         }
 
+        /// <summary>
+        /// Downloads price data from the given date until <see cref="DateTime.Now"/>.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        public void DownloadPriceData(DateTime dateTime)
+        {
+            DownloadPriceData(Settings.PreferredPriceSeriesProvider, dateTime, DateTime.Now);
+        }
+
         #endregion
 
         #region Private Methods
@@ -109,6 +118,11 @@ namespace Sonneville.PriceTools
             DateTime head = index.Subtract(Settings.TimespanToDownload);
             DateTime tail = index;
 
+            DownloadPriceData(provider, head, tail);
+        }
+
+        private void DownloadPriceData(PriceSeriesProvider provider, DateTime head, DateTime tail)
+        {
             foreach (var pricePeriod in provider.GetPricePeriods(Ticker, head, tail))
             {
                 PricePeriods.Add(pricePeriod);

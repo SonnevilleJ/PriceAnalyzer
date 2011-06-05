@@ -22,8 +22,6 @@ namespace Sonneville.PriceAnalyzer
         public MainWindow()
         {
             InitializeComponent();
-            
-            var chart = new LineChartControl();
         }
     }
 }

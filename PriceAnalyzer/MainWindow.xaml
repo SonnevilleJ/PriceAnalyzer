@@ -1,10 +1,9 @@
 ﻿<Window x:Class="Sonneville.PriceAnalyzer.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:charts="clr-namespace:Sonneville.PriceChartTools;assembly=PriceChartTools"
+        xmlns:PriceChartTools="clr-namespace:Sonneville.PriceChartTools;assembly=PriceChartTools"
         Title="MainWindow" Height="300" Width="1000">
-    <DockPanel>
-        <!--<charts:LineChartControl Name="lineChartControl1" />-->
-        <charts:ChartLegend/>
-    </DockPanel>
+    <Grid>
+        <PriceChartTools:CandlestickChart/>
+    </Grid>
 </Window>

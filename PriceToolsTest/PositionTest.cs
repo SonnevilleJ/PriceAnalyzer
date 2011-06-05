@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
-using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -281,12 +280,11 @@ namespace Sonneville.PriceToolsTest
 
             DateTime buyDate = new DateTime(2001, 1, 1);
             DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
-            const decimal buyPrice = 100.00m;       // $100.00 per share
-            const decimal sellPrice = 112.00m;      // $112.00 per share
+            const decimal price = 100.00m;          // $100.00 per share
             const double shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            target.Buy(buyDate, shares, buyPrice, commission);
+            target.Buy(buyDate, shares, price, commission);
 
             Assert.IsNull(target.GetAverageAnnualReturn(sellDate));
         }

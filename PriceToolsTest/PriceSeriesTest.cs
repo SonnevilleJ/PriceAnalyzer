@@ -358,5 +358,18 @@ namespace Sonneville.PriceToolsTest
             decimal? actual = target[dateTime];
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void TestDownloadPriceHistory()
+        {
+            Settings.CanConnectToInternet = true;
+            DateTime dateTime = new DateTime(2011, 4, 1);
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("DE");
+            
+            target.DownloadPriceData(dateTime);
+
+            Settings.CanConnectToInternet = false;
+            Assert.IsNotNull(target[dateTime.AddHours(12)]);    // add 12 hours because no price is available at midnight.
+        }
     }
 }

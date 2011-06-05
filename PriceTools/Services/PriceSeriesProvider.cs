@@ -84,12 +84,20 @@ namespace Sonneville.PriceTools.Services
         /// <param name = "ticker">The ticker symbol of the security to price.</param>
         /// <param name = "head">The beginning of the date range to price.</param>
         /// <param name = "tail">The end of the date range to price.</param>
+        /// <exception cref="WebException">Thrown when accessing the Internet fails.</exception>
         /// <returns>A <see cref = "Stream" /> containing the price data in CSV format.</returns>
         private Stream DownloadPricesToCsv(string ticker, DateTime head, DateTime tail)
         {
-            string url = FormUrlQuery(ticker, head, tail);
-            WebClient client = new WebClient();
-            return client.OpenRead(url);
+            try
+            {
+                string url = FormUrlQuery(ticker, head, tail);
+                WebClient client = new WebClient();
+                return client.OpenRead(url);
+            }
+            catch(WebException e)
+            {
+                throw new WebException(Strings.DownloadPricesToCsv_InternetAccessFailed, e, e.Status, e.Response);
+            }
         }
 
         #endregion

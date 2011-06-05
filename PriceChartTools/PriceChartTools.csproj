@@ -59,8 +59,8 @@
     <Compile Include="ChartStyleGridlines.cs" />
     <Compile Include="DataCollection.cs" />
     <Compile Include="DataSeries.cs" />
-    <Compile Include="LineChart.xaml.cs">
-      <DependentUpon>LineChart.xaml</DependentUpon>
+    <Compile Include="CandlestickChart.xaml.cs">
+      <DependentUpon>CandlestickChart.xaml</DependentUpon>
     </Compile>
     <Compile Include="LineChartControl.xaml.cs">
       <DependentUpon>LineChartControl.xaml</DependentUpon>
@@ -84,7 +84,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="LineChart.xaml">
+    <Page Include="CandlestickChart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

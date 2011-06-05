@@ -155,8 +155,9 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the current total value of this Portfolio.
+        ///   Gets the total value of this Portfolio.
         /// </summary>
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetValue(DateTime settlementDate)
         {
             return GetAvailableCash(settlementDate) + Positions.Sum(position => position.GetInvestedValue(settlementDate));
@@ -165,6 +166,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the raw rate of return for this Portfolio, not accounting for commissions.
         /// </summary>
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal? GetRawReturn(DateTime settlementDate)
         {
             decimal proceeds = GetProceeds(settlementDate);
@@ -178,6 +180,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the total rate of return for this Portfolio, after commissions.
         /// </summary>
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal? GetTotalReturn(DateTime settlementDate)
         {
             decimal proceeds = GetProceeds(settlementDate);
@@ -195,6 +198,7 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal? GetAverageAnnualReturn(DateTime settlementDate)
         {
             decimal time = ((Tail - Head).Days / 365.0m);
@@ -270,7 +274,7 @@ namespace Sonneville.PriceTools
             switch (transaction.OrderType)
             {
                 case OrderType.DividendReceipt:
-                    Deposit((DividendReceipt) transaction);
+                    CashAccount.Deposit((DividendReceipt) transaction);
                     break;
                 case OrderType.Deposit:
                     Deposit((Deposit) transaction);
@@ -314,11 +318,6 @@ namespace Sonneville.PriceTools
             }
         }
 
-        private void Deposit(DividendReceipt dividendReceipt)
-        {
-            CashAccount.Deposit(dividendReceipt);
-        }
-
         /// <summary>
         /// Deposits cash to this Portfolio.
         /// </summary>
@@ -332,6 +331,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Deposits cash to this Portfolio.
         /// </summary>
+        /// <param name="deposit">The <see cref="PriceTools.Deposit"/> to deposit.</param>
         public void Deposit(Deposit deposit)
         {
             CashAccount.Deposit(deposit);
@@ -350,6 +350,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Withdraws cash from this Portfolio. Available cash must be greater than or equal to the withdrawn amount.
         /// </summary>
+        /// <param name="withdrawal">The <see cref="PriceTools.Withdrawal"/> to withdraw.</param>
         public void Withdraw(Withdrawal withdrawal)
         {
             CashAccount.Withdraw(withdrawal);
@@ -368,8 +369,6 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
-
-        public decimal Value { get { return GetValue(DateTime.Now); } }
 
         #region Private Methods
 
