@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using Sonneville.PriceTools;
@@ -11,11 +9,11 @@ namespace Sonneville.PriceChartTools
     /// <summary>
     /// Interaction logic for Chart.xaml
     /// </summary>
-    public abstract partial class Chart : UserControl, IChart
+    public abstract partial class Chart : IChart
     {
         private IPriceSeries _priceSeries;
 
-        public Chart()
+        protected Chart()
         {
             InitializeComponent();
 
