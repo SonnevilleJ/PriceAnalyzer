@@ -39,20 +39,6 @@ namespace Sonneville.PriceChartTools
             PriceSeries = priceSeries;
         }
 
-        private void SetChartDefaults(bool connectPeriods)
-        {
-            GainStroke = Brushes.Black;
-            LossStroke = Brushes.Red;
-            GainFill = Brushes.White;
-            StrokeThickness = 1;
-            PeriodWidth = 6;
-            PeriodSpacing = 1;
-            BufferRight = 1;
-            BufferTop = 5;
-            BufferBottom = 10;
-            ConnectPeriods = connectPeriods;
-        }
-
         #endregion
 
         #region Public Properties
@@ -151,7 +137,7 @@ namespace Sonneville.PriceChartTools
         /// </summary>
         public double MinDisplayedPrice
         {
-            get { return (double) PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Min(p => p.Low.Value); }
+            get { return (double) PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Min(p => p.Low ?? 0); }
         }
 
         /// <summary>
@@ -159,25 +145,10 @@ namespace Sonneville.PriceChartTools
         /// </summary>
         public double MaxDisplayedPrice
         {
-            get { return (double) PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Max(p => p.High.Value); }
+            get { return (double) PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Max(p => p.High ?? 100); }
         }
 
         #endregion
-
-        private void ChartGridSizeChanged(object sender, EventArgs e)
-        {
-            chartCanvas.Width = chartGrid.ActualWidth
-                                - chartBorder.Margin.Left
-                                - chartBorder.Margin.Right
-                                - chartBorder.BorderThickness.Left
-                                - chartBorder.BorderThickness.Right;
-            chartCanvas.Height = chartGrid.ActualHeight
-                                 - chartBorder.Margin.Top
-                                 - chartBorder.Margin.Bottom
-                                 - chartBorder.BorderThickness.Top
-                                 - chartBorder.BorderThickness.Bottom;
-            DrawChart();
-        }
 
         #region Draw Methods
 
@@ -187,13 +158,17 @@ namespace Sonneville.PriceChartTools
 
             IOrderedEnumerable<PricePeriod> orderedPeriods =
                 PriceSeries.PricePeriods.Where(period => period.Head >= FirstDisplayedPeriod && period.Tail <= LastDisplayedPeriod).OrderByDescending(period => period.Head);
-            Point? lastPoint = null;
             for (int i = 0; i < orderedPeriods.Count(); i++)
             {
-                double open = Convert.ToDouble(orderedPeriods.ElementAt(i).Open.Value);
-                double high = Convert.ToDouble(orderedPeriods.ElementAt(i).High.Value);
-                double low = Convert.ToDouble(orderedPeriods.ElementAt(i).Low.Value);
-                double close = Convert.ToDouble(orderedPeriods.ElementAt(i).Close);
+                var pricePeriod = orderedPeriods.ElementAt(i);
+                var decOpen = pricePeriod.Open;
+                var decHigh = pricePeriod.High;
+                var decLow = pricePeriod.Low;
+
+                var open = decOpen.HasValue ? Convert.ToDouble(decOpen.Value) : (double?) null;
+                var high = decHigh.HasValue ? Convert.ToDouble(decHigh.Value) : (double?) null;
+                var low = decLow.HasValue ? Convert.ToDouble(decLow.Value) : (double?) null;
+                var close = Convert.ToDouble(pricePeriod.Close);
                 double previousClose;
                 try
                 {
@@ -211,7 +186,7 @@ namespace Sonneville.PriceChartTools
                 {
                     var previousX = XNormalize(i + 1);
                     var previousY = YNormalize(previousClose);
-                    if (previousX.HasValue)
+                    if (previousX.HasValue && previousY.HasValue)
                     {
                         polyline.Points.Insert(0, new Point(previousX.Value, previousY.Value));
                     }
@@ -220,7 +195,7 @@ namespace Sonneville.PriceChartTools
             }
         }
 
-        private Polyline FormPolyline(double period, double open, double high, double low, double close, double previousClose)
+        private Polyline FormPolyline(double period, double? open, double? high, double? low, double close, double previousClose)
         {
             var center = XNormalize(period);
             if (!center.HasValue) { throw new ArgumentNullException("period"); }
@@ -229,31 +204,49 @@ namespace Sonneville.PriceChartTools
 
             var stroke = close >= previousClose ? GainStroke : LossStroke;
             var fill = close >= open ? GainFill : stroke;
-            var polyline = new Polyline
-                               {
-                                   Points = GetPolylinePoints(center.Value, YNormalize(open), YNormalize(high), YNormalize(low), nClose.Value),
-                                   Stroke = stroke,
-                                   Fill = fill,
-                                   StrokeThickness = StrokeThickness
-                               };
+            double left = center.Value - HalfPeriodWidth;
+            double right = center.Value + HalfPeriodWidth;
 
-            return polyline;
+            return new Polyline
+                       {
+                           Points = GetPolylinePoints(left, center.Value, right, YNormalize(open), YNormalize(high), YNormalize(low), nClose.Value),
+                           Stroke = stroke,
+                           Fill = fill,
+                           StrokeThickness = StrokeThickness
+                       };
         }
 
         /// <summary>
         /// Gets the polyline points to chart for a period.
         /// </summary>
+        /// <param name="left">The left edge of the period.</param>
         /// <param name="center">The center of the period.</param>
+        /// <param name="right">The right edge of the period.</param>
         /// <param name="open">The opening price of the period.</param>
         /// <param name="high">The high price of the period.</param>
         /// <param name="low">The low price of the period.</param>
         /// <param name="close">The closing price of the period.</param>
         /// <returns>A <see cref="PointCollection"/> containing the points to be charted for the period.</returns>
-        public abstract PointCollection GetPolylinePoints(double center, double? open, double? high, double? low, double close);
+        public abstract PointCollection GetPolylinePoints(double left, double center, double right, double? open, double? high, double? low, double close);
 
         #endregion
 
-        #region Normalization methods
+        #region Private Methods
+
+        private void ChartGridSizeChanged(object sender, EventArgs e)
+        {
+            chartCanvas.Width = chartGrid.ActualWidth
+                                - chartBorder.Margin.Left
+                                - chartBorder.Margin.Right
+                                - chartBorder.BorderThickness.Left
+                                - chartBorder.BorderThickness.Right;
+            chartCanvas.Height = chartGrid.ActualHeight
+                                 - chartBorder.Margin.Top
+                                 - chartBorder.Margin.Bottom
+                                 - chartBorder.BorderThickness.Top
+                                 - chartBorder.BorderThickness.Bottom;
+            DrawChart();
+        }
 
         private double? XNormalize(double period)
         {
@@ -264,13 +257,29 @@ namespace Sonneville.PriceChartTools
             return result;
         }
 
-        private double? YNormalize(double price)
+        private double? YNormalize(double? price)
         {
+            if (!price.HasValue) return null;
+
             double minimum = MinDisplayedPrice - BufferBottom;
             double maximum = MaxDisplayedPrice + BufferTop;
-            double position = (price - minimum)/(maximum - minimum);
+            double position = (price.Value - minimum)/(maximum - minimum);
             double flippedPosition = chartCanvas.Height - (position*chartCanvas.Height);
             return flippedPosition;
+        }
+
+        private void SetChartDefaults(bool connectPeriods)
+        {
+            GainStroke = Brushes.Black;
+            LossStroke = Brushes.Red;
+            GainFill = Brushes.White;
+            StrokeThickness = 1;
+            PeriodWidth = 6;
+            PeriodSpacing = 1;
+            BufferRight = 1;
+            BufferTop = 5;
+            BufferBottom = 10;
+            ConnectPeriods = connectPeriods;
         }
 
         #endregion
