@@ -51,7 +51,7 @@
       <DependentUpon>Chart.xaml</DependentUpon>
     </Compile>
     <Compile Include="IChart.cs" />
-    <Compile Include="LineChart.xaml.cs" />
+    <Compile Include="LineChart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
