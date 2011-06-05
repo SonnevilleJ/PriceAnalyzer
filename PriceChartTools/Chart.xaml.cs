@@ -9,13 +9,13 @@ using Sonneville.PriceTools;
 namespace Sonneville.PriceChartTools
 {
     /// <summary>
-    /// Interaction logic for CandlestickChart.xaml
+    /// Interaction logic for Chart.xaml
     /// </summary>
-    public partial class CandlestickChart : UserControl, IChart
+    public abstract partial class Chart : UserControl, IChart
     {
         private IPriceSeries _priceSeries;
 
-        public CandlestickChart()
+        public Chart()
         {
             InitializeComponent();
 
@@ -188,27 +188,7 @@ namespace Sonneville.PriceChartTools
         /// <param name="low">The low price of the period.</param>
         /// <param name="close">The closing price of the period.</param>
         /// <returns>A <see cref="PointCollection"/> containing the points to be charted for the period.</returns>
-        public PointCollection GetPeriodPoints(double center, double open, double high, double low, double close)
-        {
-            double left = center - HalfCandleWidth;
-            double right = center + HalfCandleWidth;
-
-            var points = new PointCollection
-                             {
-                                 new Point(center, low),
-                                 new Point(center, open),
-                                 new Point(left, open),
-                                 new Point(left, close),
-                                 new Point(center, close),
-                                 new Point(center, high),
-                                 new Point(center, close),
-                                 new Point(right, close),
-                                 new Point(right, open),
-                                 new Point(center, open),
-                                 new Point(center, low)
-                             };
-            return points;
-        }
+        public abstract PointCollection GetPeriodPoints(double center, double open, double high, double low, double close);
 
         private double XNormalize(double candlePosition)
         {
