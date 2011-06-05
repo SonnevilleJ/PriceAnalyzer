@@ -62,6 +62,7 @@
     <Compile Include="CandlestickChart.xaml.cs">
       <DependentUpon>CandlestickChart.xaml</DependentUpon>
     </Compile>
+    <Compile Include="IChart.cs" />
     <Compile Include="LineChartControl.xaml.cs">
       <DependentUpon>LineChartControl.xaml</DependentUpon>
     </Compile>

@@ -11,14 +11,9 @@ namespace Sonneville.PriceChartTools
     /// <summary>
     /// Interaction logic for CandlestickChart.xaml
     /// </summary>
-    public partial class CandlestickChart : UserControl
+    public partial class CandlestickChart : UserControl, IChart
     {
         private IPriceSeries _priceSeries;
-
-        /// <summary>
-        /// Gets or sets the thickness of the stroke used to draw the chart.
-        /// </summary>
-        public int StrokeThickness { get; set; }
 
         public CandlestickChart()
         {
@@ -31,9 +26,18 @@ namespace Sonneville.PriceChartTools
             BufferTop = 5;
             BufferBottom = 10;
 
-            PriceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
-            PriceSeries.DownloadPriceData(new DateTime(2011, 4, 1));
+            PriceSeries priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
+            priceSeries.DownloadPriceData(new DateTime(2011, 4, 1));
+            FirstDisplayedPeriod = priceSeries.Head;
+            LastDisplayedPeriod = priceSeries.Tail;
+
+            PriceSeries = priceSeries;
         }
+
+        /// <summary>
+        /// Gets or sets the thickness of the stroke used to draw the chart.
+        /// </summary>
+        public int StrokeThickness { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="IPriceSeries"/> containing the price data to be charted.
@@ -51,31 +55,66 @@ namespace Sonneville.PriceChartTools
         /// <summary>
         /// Gets or sets the space in candle widths that should be placed between candles.
         /// </summary>
-        private double CandleSpacing { get; set; }
+        public double CandleSpacing { get; set; }
 
         /// <summary>
-        /// Gets or sets the space in candle widths between the last candle and the edge of the chart.
+        /// Gets or sets the space in candle widths between the last candle and the right edge of the chart.
         /// </summary>
-        private double BufferRight { get; set; }
+        public double BufferRight { get; set; }
 
-        private double BufferLeft { get; set; }
+        /// <summary>
+        /// Gets or sets the space in candle widths between the first candle and the left edge of the chart.
+        /// </summary>
+        public double BufferLeft { get; set; }
 
-        private double BufferTop { get; set; }
+        /// <summary>
+        /// Gets or sets the space in price units between the <see cref="MaxDisplayedPrice"/> and the top edge of the chart.
+        /// </summary>
+        public double BufferTop { get; set; }
 
-        private double BufferBottom { get; set; }
+        /// <summary>
+        /// Gets or sets the space in price units between the <see cref="MinDisplayedPrice"/> and the bottom edge of the chart.
+        /// </summary>
+        public double BufferBottom { get; set; }
 
         /// <summary>
         /// Gets or sets the horizontal space taken up by half a candle.
         /// </summary>
-        private int HalfCandleWidth { get; set; }
+        public int HalfCandleWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the horizontal space taken up by a full candle.
         /// </summary>
-        private int CandleWidth
+        public int CandleWidth
         {
             get { return HalfCandleWidth*2; }
             set { HalfCandleWidth = value/2; }
+        }
+
+        /// <summary>
+        /// Gets or sets the first period displayed on the chart.
+        /// </summary>
+        public DateTime FirstDisplayedPeriod { get; set; }
+
+        /// <summary>
+        /// Gets or sets the last period displayed on the chart.
+        /// </summary>
+        public DateTime LastDisplayedPeriod { get; set; }
+
+        /// <summary>
+        /// Gets the lower boundary of the price axis (vertical).
+        /// </summary>
+        public double MinDisplayedPrice
+        {
+            get { return (double) PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Min(p => p.Low.Value); }
+        }
+
+        /// <summary>
+        /// Gets the upper boundary of the price axis (vertical).
+        /// </summary>
+        public double MaxDisplayedPrice
+        {
+            get { return (double) PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Max(p => p.High.Value); }
         }
 
         private void ChartGridSizeChanged(object sender, EventArgs e)
@@ -97,7 +136,8 @@ namespace Sonneville.PriceChartTools
         {
             chartCanvas.Children.Clear();
 
-            var orderedPeriods = PriceSeries.PricePeriods.OrderByDescending(period =>period.Head);
+            IOrderedEnumerable<PricePeriod> orderedPeriods =
+                PriceSeries.PricePeriods.Where(period => period.Head >= FirstDisplayedPeriod && period.Tail <= LastDisplayedPeriod).OrderByDescending(period => period.Head);
             for (int i = 0; i < orderedPeriods.Count(); i++)
             {
                 double open = Convert.ToDouble(orderedPeriods.ElementAt(i).Open.Value);
@@ -107,7 +147,7 @@ namespace Sonneville.PriceChartTools
                 double lastClose;
                 try
                 {
-                    var previous = orderedPeriods.ElementAt(i + 1);
+                    PricePeriod previous = orderedPeriods.ElementAt(i + 1);
                     lastClose = Convert.ToDouble(previous.Close);
                 }
                 catch (ArgumentOutOfRangeException)
@@ -121,8 +161,13 @@ namespace Sonneville.PriceChartTools
 
         private void DrawPeriod(double candlestick, double open, double high, double low, double close, double lastClose)
         {
+            var points = GetPeriodPoints(XNormalize(candlestick), YNormalize(open), YNormalize(high), YNormalize(low), YNormalize(close));
+
             var candle = new Polyline();
-            GetPoints(candle, XNormalize(candlestick), YNormalize(open), YNormalize(high), YNormalize(low), YNormalize(close));
+            foreach (var point in points)
+            {
+                candle.Points.Add(point);
+            }
 
             candle.Stroke = close >= lastClose
                                 ? Brushes.Black
@@ -134,65 +179,52 @@ namespace Sonneville.PriceChartTools
             chartCanvas.Children.Add(candle);
         }
 
-        private void GetPoints(Polyline candle, double center, double open, double high, double low, double close)
+        /// <summary>
+        /// Gets the points to chart for a period.
+        /// </summary>
+        /// <param name="center">The center of the period.</param>
+        /// <param name="open">The opening price of the period.</param>
+        /// <param name="high">The high price of the period.</param>
+        /// <param name="low">The low price of the period.</param>
+        /// <param name="close">The closing price of the period.</param>
+        /// <returns>A <see cref="PointCollection"/> containing the points to be charted for the period.</returns>
+        public PointCollection GetPeriodPoints(double center, double open, double high, double low, double close)
         {
-            var left = center - HalfCandleWidth;
-            var right = center + HalfCandleWidth;
+            double left = center - HalfCandleWidth;
+            double right = center + HalfCandleWidth;
 
-            candle.Points.Add(new Point(center, low));
-            candle.Points.Add(new Point(center, open));
-            candle.Points.Add(new Point(left, open));
-            candle.Points.Add(new Point(left, close));
-            candle.Points.Add(new Point(center, close));
-            candle.Points.Add(new Point(center, high));
-            candle.Points.Add(new Point(center, close));
-            candle.Points.Add(new Point(right, close));
-            candle.Points.Add(new Point(right, open));
-            candle.Points.Add(new Point(center, open));
-            candle.Points.Add(new Point(center, low));
+            var points = new PointCollection
+                             {
+                                 new Point(center, low),
+                                 new Point(center, open),
+                                 new Point(left, open),
+                                 new Point(left, close),
+                                 new Point(center, close),
+                                 new Point(center, high),
+                                 new Point(center, close),
+                                 new Point(right, close),
+                                 new Point(right, open),
+                                 new Point(center, open),
+                                 new Point(center, low)
+                             };
+            return points;
         }
 
         private double XNormalize(double candlePosition)
         {
-            var bufferRight = (BufferRight * CandleWidth) + HalfCandleWidth;
-            var spacing = CandleSpacing * CandleWidth;
-            var offset = candlePosition*(CandleWidth + spacing) + HalfCandleWidth;
-            var result = chartCanvas.Width - offset - bufferRight;
+            double bufferRight = (BufferRight*CandleWidth) + HalfCandleWidth;
+            double spacing = CandleSpacing*CandleWidth;
+            double offset = candlePosition*(CandleWidth + spacing) + HalfCandleWidth;
+            double result = chartCanvas.Width - offset - bufferRight;
             return result;
-        }
-
-        private DateTime FirstDisplayedPeriod
-        {
-            get { return new DateTime(2011, 4, 1); }
-        }
-
-        private DateTime LastDisplayedPeriod
-        {
-            get { return DateTime.Now; }
-        }
-
-        private double MinDisplayedPrice
-        {
-            get
-            {
-                return (double) PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Min(p => p.Low.Value);
-            }
-        }
-
-        private double MaxDisplayedPrice
-        {
-            get
-            {
-                return (double) PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Max(p => p.High.Value);
-            }
         }
 
         private double YNormalize(double price)
         {
-            var minimum = MinDisplayedPrice - BufferBottom;
-            var maximum = MaxDisplayedPrice + BufferTop;
-            var position = (price - minimum)/(maximum - minimum);
-            var flippedPosition = chartCanvas.Height - (position * chartCanvas.Height);
+            double minimum = MinDisplayedPrice - BufferBottom;
+            double maximum = MaxDisplayedPrice + BufferTop;
+            double position = (price - minimum)/(maximum - minimum);
+            double flippedPosition = chartCanvas.Height - (position*chartCanvas.Height);
             return flippedPosition;
         }
     }
