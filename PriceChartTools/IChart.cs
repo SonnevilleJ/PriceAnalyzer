@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Media;
 using Sonneville.PriceTools;
 
@@ -72,7 +74,29 @@ namespace Sonneville.PriceChartTools
         double MaxDisplayedPrice { get; }
 
         /// <summary>
-        /// Gets the points to chart for a period.
+        /// Gets or sets a value indicating if the periods should be connected.
+        /// </summary>
+        bool ConnectPeriods { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> used to outline a gain day. Default: <see cref="Brushes.Black"/>.
+        /// </summary>
+        Brush GainStroke { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> used to outline a loss day. Default: <see cref="Brushes.Red"/>.
+        /// </summary>
+        /// <remarks>This brush will also be used to fill a loss day.</remarks>
+        Brush LossStroke { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> used to fill a gain day. Default: <see cref="Brushes.White"/>.
+        /// </summary>
+        /// <remarks>Loss days will be filled with the <see cref="LossStroke"/> brush.</remarks>
+        Brush GainFill { get; set; }
+
+        /// <summary>
+        /// Gets the polyline points to chart for a period.
         /// </summary>
         /// <param name="center">The center of the period.</param>
         /// <param name="open">The opening price of the period.</param>
@@ -80,6 +104,6 @@ namespace Sonneville.PriceChartTools
         /// <param name="low">The low price of the period.</param>
         /// <param name="close">The closing price of the period.</param>
         /// <returns>A <see cref="PointCollection"/> containing the points to be charted for the period.</returns>
-        PointCollection GetPeriodPoints(double center, double open, double high, double low, double close);
+        PointCollection GetPolylinePoints(double center, double? open, double? high, double? low, double close);
     }
 }

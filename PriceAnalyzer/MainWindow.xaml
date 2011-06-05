@@ -4,6 +4,6 @@
         xmlns:PriceChartTools="clr-namespace:Sonneville.PriceChartTools;assembly=PriceChartTools"
         Title="MainWindow" Height="300" Width="1000">
     <Grid>
-        <PriceChartTools:CandlestickChart/>
+        <PriceChartTools:LineChart/>
     </Grid>
 </Window>
