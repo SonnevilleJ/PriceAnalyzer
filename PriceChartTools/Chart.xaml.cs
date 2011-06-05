@@ -8,7 +8,7 @@ using Sonneville.PriceTools;
 namespace Sonneville.PriceChartTools
 {
     /// <summary>
-    /// Interaction logic for Chart.xaml
+    /// A graphical chart used to display price history.
     /// </summary>
     public abstract partial class Chart : IChart
     {

@@ -25,17 +25,17 @@ namespace Sonneville.PriceChartTools
 
             return new PointCollection
                        {
-                           new Point(center, low.Value),
-                           new Point(center, open.Value),
-                           new Point(left, open.Value),
-                           new Point(left, close),
                            new Point(center, close),
                            new Point(center, high.Value),
                            new Point(center, close),
                            new Point(right, close),
                            new Point(right, open.Value),
                            new Point(center, open.Value),
-                           new Point(center, low.Value)
+                           new Point(center, low.Value),
+                           new Point(center, open.Value),
+                           new Point(left, open.Value),
+                           new Point(left, close),
+                           new Point(center, close)
                        };
         }
     }
