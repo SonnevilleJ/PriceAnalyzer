@@ -22,7 +22,9 @@ namespace Sonneville.PriceChartTools
             YMax = 100;
             CandleWidth = 6;
             CandleSpacing = 1;
-            BufferZone = 1;
+            BufferRight = 1;
+            BufferTop = 5;
+            BufferBottom = 10;
 
             PriceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
             PriceSeries.DownloadPriceData(new DateTime(2011, 4, 1));
@@ -51,7 +53,13 @@ namespace Sonneville.PriceChartTools
         /// <summary>
         /// Gets or sets the space in candle widths between the last candle and the edge of the chart.
         /// </summary>
-        private double BufferZone { get; set; }
+        private double BufferRight { get; set; }
+
+        private double BufferLeft { get; set; }
+
+        private double BufferTop { get; set; }
+
+        private double BufferBottom { get; set; }
 
         /// <summary>
         /// Gets or sets the horizontal space taken up by half a candle.
@@ -86,22 +94,25 @@ namespace Sonneville.PriceChartTools
         {
             chartCanvas.Children.Clear();
 
-            double open;
-            double close;
-            double high;
-            double low;
-            double lastClose = 0;
-
-            var orderedPeriods = PriceSeries.PricePeriods.OrderBy(period =>period.Head);
+            var orderedPeriods = PriceSeries.PricePeriods.OrderByDescending(period =>period.Head);
             for (int i = 0; i < orderedPeriods.Count(); i++)
             {
-                open = Convert.ToDouble(orderedPeriods.ElementAt(i).Open.Value);
-                high = Convert.ToDouble(orderedPeriods.ElementAt(i).High.Value);
-                low = Convert.ToDouble(orderedPeriods.ElementAt(i).Low.Value);
-                close = Convert.ToDouble(orderedPeriods.ElementAt(i).Close);
+                double open = Convert.ToDouble(orderedPeriods.ElementAt(i).Open.Value);
+                double high = Convert.ToDouble(orderedPeriods.ElementAt(i).High.Value);
+                double low = Convert.ToDouble(orderedPeriods.ElementAt(i).Low.Value);
+                double close = Convert.ToDouble(orderedPeriods.ElementAt(i).Close);
+                double lastClose;
+                try
+                {
+                    var previous = orderedPeriods.ElementAt(i + 1);
+                    lastClose = Convert.ToDouble(previous.Close);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    lastClose = 0;
+                }
 
                 DrawCandlestick(i, low, open, close, high, lastClose);
-                lastClose = close;
             }
         }
 
@@ -140,17 +151,52 @@ namespace Sonneville.PriceChartTools
 
         private double XNormalize(double candlePosition)
         {
-            var buffer = (BufferZone * CandleWidth) + HalfCandleWidth;
+            var bufferRight = (BufferRight * CandleWidth) + HalfCandleWidth;
             var spacing = CandleSpacing * CandleWidth;
             var offset = candlePosition*(CandleWidth + spacing) + HalfCandleWidth;
-            var result = chartCanvas.Width - offset - buffer;
+            var result = chartCanvas.Width - offset - bufferRight;
             return result;
         }
 
-        private double YNormalize(double y)
+        private DateTime FirstDisplayedPeriod
         {
-            var yNormalize = chartCanvas.Height - y*chartCanvas.Height/YMax;
-            return yNormalize;
+            get { return new DateTime(2011, 4, 1); }
+        }
+
+        private DateTime LastDisplayedPeriod
+        {
+            get { return DateTime.Now; }
+        }
+
+        private double MinDisplayedPrice
+        {
+            get
+            {
+                DateTime head = FirstDisplayedPeriod;
+                DateTime tail = LastDisplayedPeriod;
+
+                return (double) PriceSeries.PricePeriods.Where(p => p.Head >= head && p.Tail <= tail).Min(p => p.Low.Value);
+            }
+        }
+
+        private double MaxDisplayedPrice
+        {
+            get
+            {
+                DateTime head = FirstDisplayedPeriod;
+                DateTime tail = LastDisplayedPeriod;
+
+                return (double) PriceSeries.PricePeriods.Where(p => p.Head >= head && p.Tail <= tail).Max(p => p.High.Value);
+            }
+        }
+
+        private double YNormalize(double price)
+        {
+            var minimum = MinDisplayedPrice - BufferBottom;
+            var maximum = MaxDisplayedPrice + BufferTop;
+            var position = (price - minimum)/(maximum - minimum);
+            var flippedPosition = chartCanvas.Height - (position * chartCanvas.Height);
+            return flippedPosition;
         }
     }
 }
