@@ -19,17 +19,17 @@ namespace Sonneville.PriceChartTools
         IPriceSeries PriceSeries { get; set; }
 
         /// <summary>
-        /// Gets or sets the space in candle widths that should be placed between candles.
+        /// Gets or sets the space in period widths that should be placed between periods.
         /// </summary>
-        double CandleSpacing { get; set; }
+        double PeriodSpacing { get; set; }
 
         /// <summary>
-        /// Gets or sets the space in candle widths between the last candle and the right edge of the chart.
+        /// Gets or sets the space in period widths between the last period and the right edge of the chart.
         /// </summary>
         double BufferRight { get; set; }
 
         /// <summary>
-        /// Gets or sets the space in candle widths between the first candle and the left edge of the chart.
+        /// Gets or sets the space in period widths between the first period and the left edge of the chart.
         /// </summary>
         double BufferLeft { get; set; }
 
@@ -44,14 +44,14 @@ namespace Sonneville.PriceChartTools
         double BufferBottom { get; set; }
 
         /// <summary>
-        /// Gets or sets the horizontal space taken up by half a candle.
+        /// Gets or sets the horizontal space taken up by half a period.
         /// </summary>
-        int HalfCandleWidth { get; set; }
+        int HalfPeriodWidth { get; set; }
 
         /// <summary>
-        /// Gets or sets the horizontal space taken up by a full candle.
+        /// Gets or sets the horizontal space taken up by a full period.
         /// </summary>
-        int CandleWidth { get; set; }
+        int PeriodWidth { get; set; }
 
         /// <summary>
         /// Gets or sets the first period displayed on the chart.

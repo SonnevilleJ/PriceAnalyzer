@@ -22,8 +22,8 @@ namespace Sonneville.PriceChartTools
             if (high == null) { throw new ArgumentNullException("high"); }
             if (low == null) { throw new ArgumentNullException("low"); }
 
-            double left = center - HalfCandleWidth;
-            double right = center + HalfCandleWidth;
+            double left = center - HalfPeriodWidth;
+            double right = center + HalfPeriodWidth;
 
             var points = new PointCollection
                              {

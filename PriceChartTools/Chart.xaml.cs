@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -30,12 +29,7 @@ namespace Sonneville.PriceChartTools
         {
             InitializeComponent();
 
-            StrokeThickness = 1;
-            CandleWidth = 6;
-            CandleSpacing = 1;
-            BufferRight = 1;
-            BufferTop = 5;
-            BufferBottom = 10;
+            SetChartDefaults(connectPeriods);
 
             PriceSeries priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
             priceSeries.DownloadPriceData(new DateTime(2011, 4, 1));
@@ -43,11 +37,20 @@ namespace Sonneville.PriceChartTools
             LastDisplayedPeriod = priceSeries.Tail;
 
             PriceSeries = priceSeries;
-            ConnectPeriods = connectPeriods;
+        }
 
+        private void SetChartDefaults(bool connectPeriods)
+        {
             GainStroke = Brushes.Black;
             LossStroke = Brushes.Red;
             GainFill = Brushes.White;
+            StrokeThickness = 1;
+            PeriodWidth = 6;
+            PeriodSpacing = 1;
+            BufferRight = 1;
+            BufferTop = 5;
+            BufferBottom = 10;
+            ConnectPeriods = connectPeriods;
         }
 
         #endregion
@@ -90,17 +93,17 @@ namespace Sonneville.PriceChartTools
         }
 
         /// <summary>
-        /// Gets or sets the space in candle widths that should be placed between candles.
+        /// Gets or sets the space in period widths that should be placed between periods.
         /// </summary>
-        public double CandleSpacing { get; set; }
+        public double PeriodSpacing { get; set; }
 
         /// <summary>
-        /// Gets or sets the space in candle widths between the last candle and the right edge of the chart.
+        /// Gets or sets the space in period widths between the last period and the right edge of the chart.
         /// </summary>
         public double BufferRight { get; set; }
 
         /// <summary>
-        /// Gets or sets the space in candle widths between the first candle and the left edge of the chart.
+        /// Gets or sets the space in period widths between the first period and the left edge of the chart.
         /// </summary>
         public double BufferLeft { get; set; }
 
@@ -115,17 +118,17 @@ namespace Sonneville.PriceChartTools
         public double BufferBottom { get; set; }
 
         /// <summary>
-        /// Gets or sets the horizontal space taken up by half a candle.
+        /// Gets or sets the horizontal space taken up by half a period.
         /// </summary>
-        public int HalfCandleWidth { get; set; }
+        public int HalfPeriodWidth { get; set; }
 
         /// <summary>
-        /// Gets or sets the horizontal space taken up by a full candle.
+        /// Gets or sets the horizontal space taken up by a full period.
         /// </summary>
-        public int CandleWidth
+        public int PeriodWidth
         {
-            get { return HalfCandleWidth*2; }
-            set { HalfCandleWidth = value/2; }
+            get { return HalfPeriodWidth*2; }
+            set { HalfPeriodWidth = value/2; }
         }
 
         /// <summary>
@@ -184,7 +187,6 @@ namespace Sonneville.PriceChartTools
 
             IOrderedEnumerable<PricePeriod> orderedPeriods =
                 PriceSeries.PricePeriods.Where(period => period.Head >= FirstDisplayedPeriod && period.Tail <= LastDisplayedPeriod).OrderByDescending(period => period.Head);
-            Polyline polyline;
             Point? lastPoint = null;
             for (int i = 0; i < orderedPeriods.Count(); i++)
             {
@@ -192,40 +194,41 @@ namespace Sonneville.PriceChartTools
                 double high = Convert.ToDouble(orderedPeriods.ElementAt(i).High.Value);
                 double low = Convert.ToDouble(orderedPeriods.ElementAt(i).Low.Value);
                 double close = Convert.ToDouble(orderedPeriods.ElementAt(i).Close);
-                double lastClose;
+                double previousClose;
                 try
                 {
                     PricePeriod previous = orderedPeriods.ElementAt(i + 1);
-                    lastClose = Convert.ToDouble(previous.Close);
+                    previousClose = Convert.ToDouble(previous.Close);
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-                    lastClose = 0;
+                    previousClose = 0;
                 }
 
-                polyline = FormPolyline(i, open, high, low, close, lastClose);
-                if (ConnectPeriods && lastPoint.HasValue)
+                Polyline polyline = FormPolyline(i, open, high, low, close, previousClose);
+
+                if (ConnectPeriods && previousClose != 0)
                 {
-                    polyline.Points.Insert(0, lastPoint.Value);
+                    var previousX = XNormalize(i + 1);
+                    var previousY = YNormalize(previousClose);
+                    if (previousX.HasValue)
+                    {
+                        polyline.Points.Insert(0, new Point(previousX.Value, previousY.Value));
+                    }
                 }
-                lastPoint = polyline.Points[polyline.Points.Count - 1];
                 chartCanvas.Children.Add(polyline);
             }
         }
 
-        private Polyline FormPolyline(double period, double open, double high, double low, double close, double lastClose)
+        private Polyline FormPolyline(double period, double open, double high, double low, double close, double previousClose)
         {
             var center = XNormalize(period);
             if (!center.HasValue) { throw new ArgumentNullException("period"); }
             var nClose = YNormalize(close);
             if(!nClose.HasValue) { throw new ArgumentNullException("close"); }
 
-            var stroke = close >= lastClose
-                                      ? GainStroke
-                                      : LossStroke;
-            var fill = close >= open
-                                      ? GainFill
-                                      : stroke;
+            var stroke = close >= previousClose ? GainStroke : LossStroke;
+            var fill = close >= open ? GainFill : stroke;
             var polyline = new Polyline
                                {
                                    Points = GetPolylinePoints(center.Value, YNormalize(open), YNormalize(high), YNormalize(low), nClose.Value),
@@ -252,11 +255,11 @@ namespace Sonneville.PriceChartTools
 
         #region Normalization methods
 
-        private double? XNormalize(double candlePosition)
+        private double? XNormalize(double period)
         {
-            double bufferRight = (BufferRight*CandleWidth) + HalfCandleWidth;
-            double spacing = CandleSpacing*CandleWidth;
-            double offset = candlePosition*(CandleWidth + spacing) + HalfCandleWidth;
+            double bufferRight = (BufferRight*PeriodWidth) + HalfPeriodWidth;
+            double spacing = PeriodSpacing*PeriodWidth;
+            double offset = period*(PeriodWidth + spacing) + HalfPeriodWidth;
             double result = chartCanvas.Width - offset - bufferRight;
             return result;
         }
