@@ -94,6 +94,26 @@ namespace Sonneville.PriceChartTools
         Brush GainFill { get; set; }
 
         /// <summary>
+        /// Gets or sets the <see cref="Brush"/> used for major gridlines.
+        /// </summary>
+        Brush MajorGridlineBrush { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> used for minor gridlines.
+        /// </summary>
+        Brush MinorGridlineBrush { get; set; }
+
+        /// <summary>
+        /// Gets or sets the distance between major horizontal gridlines.
+        /// </summary>
+        int MajorHorizontalGridlineDistance { get; }
+
+        /// <summary>
+        /// Gets or sets the distance between minor horizontal gridlines.
+        /// </summary>
+        int MinorHorizontalGridlineDistance { get; }
+
+        /// <summary>
         /// Gets the polyline points to chart for a period.
         /// </summary>
         /// <param name="left">The left edge of the period.</param>

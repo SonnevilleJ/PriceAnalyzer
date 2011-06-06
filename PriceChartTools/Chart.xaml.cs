@@ -148,6 +148,32 @@ namespace Sonneville.PriceChartTools
             get { return (double) PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Max(p => p.High ?? 100); }
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> used for major gridlines.
+        /// </summary>
+        public Brush MajorGridlineBrush { get; set; }
+
+        /// <summary>
+        /// Gets or sets the <see cref="Brush"/> used for minor gridlines.
+        /// </summary>
+        public Brush MinorGridlineBrush { get; set; }
+
+        /// <summary>
+        /// Gets or sets the distance between major horizontal gridlines.
+        /// </summary>
+        public int MajorHorizontalGridlineDistance
+        {
+            get { return 15; }
+        }
+
+        /// <summary>
+        /// Gets or sets the distance between minor horizontal gridlines.
+        /// </summary>
+        public int MinorHorizontalGridlineDistance
+        {
+            get { return 5; }
+        }
+
         #endregion
 
         #region Draw Methods
@@ -155,6 +181,7 @@ namespace Sonneville.PriceChartTools
         private void DrawChart()
         {
             chartCanvas.Children.Clear();
+            DrawGridlines();
 
             IOrderedEnumerable<PricePeriod> orderedPeriods =
                 PriceSeries.PricePeriods.Where(period => period.Head >= FirstDisplayedPeriod && period.Tail <= LastDisplayedPeriod).OrderByDescending(period => period.Head);
@@ -195,6 +222,30 @@ namespace Sonneville.PriceChartTools
             }
         }
 
+        /// <summary>
+        /// Draws all gridlines based on the visible prices.
+        /// </summary>
+        private void DrawGridlines()
+        {
+            var lowerHorizontal = NormalizeGridline(PriceSeries.Low * 0.90m);
+            var upperHorizontal = NormalizeGridline(PriceSeries.High * 1.10m);
+
+            for (var i = lowerHorizontal; i <= upperHorizontal; i += MinorHorizontalGridlineDistance)
+            {
+                DrawHorizontalLine(i, MinorGridlineBrush);
+            }
+
+            for (var i = lowerHorizontal; i <= upperHorizontal; i += MajorHorizontalGridlineDistance)
+            {
+                DrawHorizontalLine(i, MajorGridlineBrush);
+            }
+        }
+
+        private int NormalizeGridline(decimal? value)
+        {
+            return (Convert.ToInt32(value) / MinorHorizontalGridlineDistance) * MinorHorizontalGridlineDistance;
+        }
+
         private Polyline FormPolyline(double period, double? open, double? high, double? low, double close, double previousClose)
         {
             var center = XNormalize(period);
@@ -228,6 +279,24 @@ namespace Sonneville.PriceChartTools
         /// <param name="close">The closing price of the period.</param>
         /// <returns>A <see cref="PointCollection"/> containing the points to be charted for the period.</returns>
         public abstract PointCollection GetPolylinePoints(double left, double center, double right, double? open, double? high, double? low, double close);
+
+        private void DrawHorizontalLine(double y, Brush lineColor)
+        {
+            var yNormalized = YNormalize(y);
+            if (yNormalized.HasValue && !Double.IsNaN(yNormalized.Value))
+            {
+                var line = new Line
+                               {
+                                   X1 = 0,
+                                   X2 = chartCanvas.Width,
+                                   Y1 = yNormalized.Value,
+                                   Y2 = yNormalized.Value,
+                                   Stroke = lineColor
+                               };
+
+                chartCanvas.Children.Add(line);
+            }
+        }
 
         #endregion
 
@@ -263,7 +332,9 @@ namespace Sonneville.PriceChartTools
 
             double minimum = MinDisplayedPrice - BufferBottom;
             double maximum = MaxDisplayedPrice + BufferTop;
-            double position = (price.Value - minimum)/(maximum - minimum);
+            var range = maximum - minimum;
+            var priceOverMinimum = price.Value - minimum;
+            double position = priceOverMinimum/range;
             double flippedPosition = chartCanvas.Height - (position*chartCanvas.Height);
             return flippedPosition;
         }
@@ -273,12 +344,14 @@ namespace Sonneville.PriceChartTools
             GainStroke = Brushes.Black;
             LossStroke = Brushes.Red;
             GainFill = Brushes.White;
+            MajorGridlineBrush = Brushes.DarkGray;
+            MinorGridlineBrush = Brushes.LightGray;
             StrokeThickness = 1;
             PeriodWidth = 6;
             PeriodSpacing = 1;
             BufferRight = 1;
-            BufferTop = 5;
-            BufferBottom = 10;
+            BufferTop = 3;
+            BufferBottom = 3;
             ConnectPeriods = connectPeriods;
         }
 
