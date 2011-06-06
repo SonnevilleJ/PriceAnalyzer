@@ -1,16 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using Sonneville.PriceChartTools;
+using Sonneville.PriceTools;
 
 namespace Sonneville.PriceAnalyzer
 {
@@ -22,6 +12,13 @@ namespace Sonneville.PriceAnalyzer
         public MainWindow()
         {
             InitializeComponent();
+
+            PriceSeries priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
+            priceSeries.DownloadPriceData(new DateTime(2011, 1, 1));
+
+            chart1.PriceSeries = priceSeries;
+            chart1.LastDisplayedPeriod = priceSeries.Tail;
+            chart1.FirstDisplayedPeriod = priceSeries.Head;
         }
     }
 }

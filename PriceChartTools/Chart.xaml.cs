@@ -30,13 +30,6 @@ namespace Sonneville.PriceChartTools
             InitializeComponent();
 
             SetChartDefaults(connectPeriods);
-
-            PriceSeries priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
-            priceSeries.DownloadPriceData(new DateTime(2011, 4, 1));
-            FirstDisplayedPeriod = priceSeries.Head;
-            LastDisplayedPeriod = priceSeries.Tail;
-
-            PriceSeries = priceSeries;
         }
 
         #endregion
@@ -74,6 +67,8 @@ namespace Sonneville.PriceChartTools
             set
             {
                 _priceSeries = value;
+
+                EnsurePricesVisible();
                 DrawChart();
             }
         }
@@ -161,18 +156,12 @@ namespace Sonneville.PriceChartTools
         /// <summary>
         /// Gets or sets the distance between major horizontal gridlines.
         /// </summary>
-        public int MajorHorizontalGridlineDistance
-        {
-            get { return 15; }
-        }
+        public int MajorHorizontalGridlineDistance { get; private set; }
 
         /// <summary>
         /// Gets or sets the distance between minor horizontal gridlines.
         /// </summary>
-        public int MinorHorizontalGridlineDistance
-        {
-            get { return 5; }
-        }
+        public int MinorHorizontalGridlineDistance { get; private set; }
 
         #endregion
 
@@ -180,6 +169,8 @@ namespace Sonneville.PriceChartTools
 
         private void DrawChart()
         {
+            if (PriceSeries == null) return;
+
             chartCanvas.Children.Clear();
             DrawGridlines();
 
@@ -317,6 +308,15 @@ namespace Sonneville.PriceChartTools
             DrawChart();
         }
 
+        private void EnsurePricesVisible()
+        {
+            //if (!(PriceSeries.HasValue(LastDisplayedPeriod) || PriceSeries.HasValue(FirstDisplayedPeriod)))
+            //{
+            //    FirstDisplayedPeriod = PriceSeries.Head;
+            //    LastDisplayedPeriod = PriceSeries.Tail;
+            //}
+        }
+
         private double? XNormalize(double period)
         {
             double bufferRight = (BufferRight*PeriodWidth) + HalfPeriodWidth;
@@ -346,6 +346,8 @@ namespace Sonneville.PriceChartTools
             GainFill = Brushes.White;
             MajorGridlineBrush = Brushes.DarkGray;
             MinorGridlineBrush = Brushes.LightGray;
+            MajorHorizontalGridlineDistance = 10;
+            MinorHorizontalGridlineDistance = 1;
             StrokeThickness = 1;
             PeriodWidth = 6;
             PeriodSpacing = 1;
@@ -353,6 +355,9 @@ namespace Sonneville.PriceChartTools
             BufferTop = 3;
             BufferBottom = 3;
             ConnectPeriods = connectPeriods;
+
+            LastDisplayedPeriod = DateTime.Now;
+            FirstDisplayedPeriod = LastDisplayedPeriod.Subtract(new TimeSpan(30, 0, 0, 0));
         }
 
         #endregion
