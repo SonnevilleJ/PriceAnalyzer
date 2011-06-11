@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace Sonneville.PriceChartTools
 {
-    public class CandlestickChart : Chart
+    public class CandlestickChart : AutosizableChart
     {
         /// <summary>
         /// Gets the polyline points to chart for a period.

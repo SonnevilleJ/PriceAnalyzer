@@ -68,7 +68,6 @@ namespace Sonneville.PriceChartTools
             {
                 _priceSeries = value;
 
-                EnsurePricesVisible();
                 DrawChart();
             }
         }
@@ -167,7 +166,7 @@ namespace Sonneville.PriceChartTools
 
         #region Draw Methods
 
-        private void DrawChart()
+        public void DrawChart()
         {
             if (PriceSeries == null) return;
 
@@ -306,15 +305,6 @@ namespace Sonneville.PriceChartTools
                                  - chartBorder.BorderThickness.Top
                                  - chartBorder.BorderThickness.Bottom;
             DrawChart();
-        }
-
-        private void EnsurePricesVisible()
-        {
-            //if (!(PriceSeries.HasValue(LastDisplayedPeriod) || PriceSeries.HasValue(FirstDisplayedPeriod)))
-            //{
-            //    FirstDisplayedPeriod = PriceSeries.Head;
-            //    LastDisplayedPeriod = PriceSeries.Tail;
-            //}
         }
 
         private double? XNormalize(double period)

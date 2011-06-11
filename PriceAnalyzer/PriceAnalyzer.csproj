@@ -107,7 +107,6 @@
     <Compile Include="PortfoliosWindow.xaml.cs">
       <DependentUpon>PortfoliosWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PriceAnalyzerViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
