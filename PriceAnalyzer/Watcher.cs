@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Reflection;
 using Sonneville.PriceTools;
 
 namespace Sonneville.PriceAnalyzer
@@ -8,7 +7,6 @@ namespace Sonneville.PriceAnalyzer
     {
         public PriceSeries PriceSeries { get; set; }
         public decimal Threshold { get; set; }
-        public abstract PropertyInfo Property { get; }
         public event WatcherTriggerDelegate TriggerEvent;
 
         private void InvokeTriggerEvent(WatcherEventArgs e)
