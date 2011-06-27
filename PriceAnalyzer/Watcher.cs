@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Sonneville.PriceTools;
 
 namespace Sonneville.PriceAnalyzer
@@ -19,11 +20,15 @@ namespace Sonneville.PriceAnalyzer
 
         public void Execute()
         {
-            foreach (var args in
-                PriceSeries.PricePeriods.Where(Evaluate).Select(period => new WatcherEventArgs {DateTime = period.Head}))
+            foreach (var args in GetTriggerPeriodsArgs())
             {
                 InvokeTriggerEvent(args);
             }
+        }
+
+        protected virtual IEnumerable<WatcherEventArgs> GetTriggerPeriodsArgs()
+        {
+            return PriceSeries.PricePeriods.Where(Evaluate).Select(period => new WatcherEventArgs {DateTime = period.Head});
         }
     }
 }
