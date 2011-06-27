@@ -67,6 +67,7 @@
     <Compile Include="IMeasurableSecurityBasket.cs" />
     <Compile Include="Indicator.cs" />
     <Compile Include="IPortfolio.cs" />
+    <Compile Include="IPriceDataRetriever.cs" />
     <Compile Include="IPricePeriod.cs" />
     <Compile Include="IPriceQuote.cs" />
     <Compile Include="IPriceSeries.cs" />

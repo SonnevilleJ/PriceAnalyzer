@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools
         ///   Adds one or more <see cref = "IPriceQuote" />s to the IPriceSeries.
         /// </summary>
         /// <param name = "priceQuote">The <see cref = "IPriceQuote" />s to add.</param>
-        public void AddPriceQuote(params IPriceQuote[] priceQuote)
+        public void AddPriceQuotes(params IPriceQuote[] priceQuote)
         {
             DateTime[] dates = new DateTime[priceQuote.Count()];
             for (int i = 0; i < priceQuote.Length; i++)

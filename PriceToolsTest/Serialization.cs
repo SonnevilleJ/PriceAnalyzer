@@ -194,7 +194,7 @@ namespace Sonneville.PriceToolsTest
             IPriceQuote q3 = TestUtilities.CreateQuote3();
 
             QuotedPricePeriod target = new QuotedPricePeriod();
-            target.AddPriceQuote(q1, q2, q3);
+            target.AddPriceQuotes(q1, q2, q3);
 
             QuotedPricePeriod actual = TestUtilities.Serialize(target);
             Assert.AreEqual(target, actual);

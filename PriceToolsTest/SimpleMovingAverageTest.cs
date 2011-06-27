@@ -85,15 +85,15 @@ namespace Sonneville.PriceToolsTest
             QuotedPricePeriod p9 = new QuotedPricePeriod();
 
             DateTime date = new DateTime(2000, 1, 1);
-            p1.AddPriceQuote(new PriceQuote {SettlementDate = date, Price = 1});
-            p2.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(1), Price = 2});
-            p3.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(2), Price = 3});
-            p4.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(3), Price = 4});
-            p5.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(4), Price = 5});
-            p6.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(5), Price = 4});
-            p7.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(6), Price = 3});
-            p8.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(7), Price = 2});
-            p9.AddPriceQuote(new PriceQuote {SettlementDate = date.AddDays(8), Price = 1});
+            p1.AddPriceQuotes(new PriceQuote {SettlementDate = date, Price = 1});
+            p2.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(1), Price = 2});
+            p3.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(2), Price = 3});
+            p4.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(3), Price = 4});
+            p5.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(4), Price = 5});
+            p6.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(5), Price = 4});
+            p7.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(6), Price = 3});
+            p8.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(7), Price = 2});
+            p9.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(8), Price = 1});
 
             IPriceSeries series = PriceSeriesFactory.CreatePriceSeries("test");
             series.PricePeriods.Add(p1);
@@ -138,7 +138,7 @@ namespace Sonneville.PriceToolsTest
             for (int i = 0; i < count; i++)
             {
                 QuotedPricePeriod period = new QuotedPricePeriod();
-                period.AddPriceQuote(new PriceQuote {SettlementDate = startDate.AddDays(i), Price = price});
+                period.AddPriceQuotes(new PriceQuote {SettlementDate = startDate.AddDays(i), Price = price});
                 series.PricePeriods.Add(period);
             }
             return series;

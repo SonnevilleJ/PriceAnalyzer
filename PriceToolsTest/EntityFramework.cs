@@ -212,7 +212,7 @@ namespace Sonneville.PriceToolsTest
 
 
             QuotedPricePeriod target = new QuotedPricePeriod();
-            target.AddPriceQuote(q1, q2, q3);
+            target.AddPriceQuotes(q1, q2, q3);
 
             TestUtilities.VerifyPricePeriodEntity(target);
         }

@@ -103,27 +103,50 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Downloads price data from the given date until <see cref="DateTime.Now"/>.
         /// </summary>
-        /// <param name="dateTime"></param>
-        public void DownloadPriceData(DateTime dateTime)
+        /// <param name="head">The first date to retrieve price data for.</param>
+        public void DownloadPriceData(DateTime head)
         {
-            DownloadPriceData(Settings.PreferredPriceSeriesProvider, dateTime, DateTime.Now);
+            DownloadPriceData(Settings.PreferredPriceSeriesProvider, head);
+        }
+
+        /// <summary>
+        /// Downloads price data for the period between the given dates.
+        /// </summary>
+        /// <param name="head">The first date to retrieve price data for.</param>
+        /// <param name="tail">The last date to retrieve price data for.</param>
+        public void DownloadPriceData(DateTime head, DateTime tail)
+        {
+            DownloadPriceData(Settings.PreferredPriceSeriesProvider, head, tail);
+        }
+
+        /// <summary>
+        /// Downloads price data from the given date until <see cref="DateTime.Now"/>.
+        /// </summary>
+        /// <param name="provider">The <see cref="PriceSeriesProvider"/> to use for retrieving price data.</param>
+        /// <param name="head">The first date to retrieve price data for.</param>
+        public void DownloadPriceData(PriceSeriesProvider provider, DateTime head)
+        {
+            DownloadPriceData(provider, head, DateTime.Now);
+        }
+
+        /// <summary>
+        /// Downloads price data for the period between the given dates.
+        /// </summary>
+        /// <param name="provider">The <see cref="PriceSeriesProvider"/> to use for retrieving price data.</param>
+        /// <param name="head">The first date to retrieve price data for.</param>
+        /// <param name="tail">The last date to retrieve price data for.</param>
+        public void DownloadPriceData(PriceSeriesProvider provider, DateTime head, DateTime tail)
+        {
+            DownloadPriceDataIncludingBuffer(provider, head, tail);
         }
 
         #endregion
 
         #region Private Methods
 
-        private void DownloadPriceData(PriceSeriesProvider provider, DateTime index)
+        private void DownloadPriceDataIncludingBuffer(PriceSeriesProvider provider, DateTime head, DateTime tail)
         {
-            DateTime head = index.Subtract(Settings.TimespanToDownload);
-            DateTime tail = index;
-
-            DownloadPriceData(provider, head, tail);
-        }
-
-        private void DownloadPriceData(PriceSeriesProvider provider, DateTime head, DateTime tail)
-        {
-            foreach (var pricePeriod in provider.GetPricePeriods(Ticker, head, tail))
+            foreach (var pricePeriod in provider.GetPricePeriods(Ticker, head.Subtract(Settings.TimespanToDownload), tail).OrderByDescending(period => period.Head))
             {
                 PricePeriods.Add(pricePeriod);
             }
