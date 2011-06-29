@@ -22,7 +22,7 @@ namespace Sonneville.PriceChartTools
         /// <param name="low">The low price of the period.</param>
         /// <param name="close">The closing price of the period.</param>
         /// <returns>A <see cref="PointCollection"/> containing the points to be charted for the period.</returns>
-        public override PointCollection GetPolylinePoints(double left, double center, double right, double? open, double? high, double? low, double close)
+        protected override PointCollection GetPolylinePoints(double left, double center, double right, double? open, double? high, double? low, double close)
         {
             return new PointCollection {new Point(center, close)};
         }

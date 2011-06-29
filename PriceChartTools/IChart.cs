@@ -54,12 +54,12 @@ namespace Sonneville.PriceChartTools
         /// <summary>
         /// Gets or sets the first period displayed on the chart.
         /// </summary>
-        DateTime FirstDisplayedPeriod { get; set; }
+        DateTime FirstDisplayedPeriod { get; }
 
         /// <summary>
         /// Gets or sets the last period displayed on the chart.
         /// </summary>
-        DateTime LastDisplayedPeriod { get; set; }
+        DateTime LastDisplayedPeriod { get; }
 
         /// <summary>
         /// Gets the lower boundary of the price axis (vertical).
@@ -112,18 +112,5 @@ namespace Sonneville.PriceChartTools
         /// Gets or sets the distance between minor horizontal gridlines.
         /// </summary>
         int MinorHorizontalGridlineDistance { get; }
-
-        /// <summary>
-        /// Gets the polyline points to chart for a period.
-        /// </summary>
-        /// <param name="left">The left edge of the period.</param>
-        /// <param name="center">The center of the period.</param>
-        /// <param name="right">The right edge of the period.</param>
-        /// <param name="open">The opening price of the period.</param>
-        /// <param name="high">The high price of the period.</param>
-        /// <param name="low">The low price of the period.</param>
-        /// <param name="close">The closing price of the period.</param>
-        /// <returns>A <see cref="PointCollection"/> containing the points to be charted for the period.</returns>
-        PointCollection GetPolylinePoints(double left, double center, double right, double? open, double? high, double? low, double close);
     }
 }

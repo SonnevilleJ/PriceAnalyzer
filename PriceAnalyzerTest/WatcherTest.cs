@@ -16,7 +16,7 @@ namespace PriceAnalyzerTest
         private static PriceSeries _priceSeries;
 
         [ClassInitialize]
-        public void ClassInitialize()
+        public static void ClassInitialize(TestContext context)
         {
             _priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
             _priceSeries.DownloadPriceData(new DateTime(2011, 1, 1), new DateTime(2011, 6, 24));

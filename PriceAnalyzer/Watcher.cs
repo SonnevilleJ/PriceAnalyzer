@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using Sonneville.PriceTools;
 
 namespace Sonneville.PriceAnalyzer
@@ -16,8 +15,6 @@ namespace Sonneville.PriceAnalyzer
             if (handler != null) handler(this, e);
         }
 
-        protected abstract bool Evaluate(PricePeriod pricePeriod);
-
         public void Execute()
         {
             foreach (var args in GetTriggerPeriodsArgs())
@@ -26,9 +23,6 @@ namespace Sonneville.PriceAnalyzer
             }
         }
 
-        protected virtual IEnumerable<WatcherEventArgs> GetTriggerPeriodsArgs()
-        {
-            return PriceSeries.PricePeriods.Where(Evaluate).Select(period => new WatcherEventArgs {DateTime = period.Head});
-        }
+        protected abstract IEnumerable<WatcherEventArgs> GetTriggerPeriodsArgs();
     }
 }

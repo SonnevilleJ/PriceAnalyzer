@@ -2,9 +2,9 @@
 
 namespace Sonneville.PriceAnalyzer
 {
-    public class PriceOverThresholdWatcher : Watcher
+    public class PriceOverThresholdWatcher : SinglePeriodWatcher
     {
-        protected override bool Evaluate(PricePeriod pricePeriod)
+        protected override bool EvaluatePricePeriod(PricePeriod pricePeriod)
         {
             return pricePeriod.High >= Threshold;
         }
