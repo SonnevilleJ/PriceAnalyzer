@@ -1,0 +1,11 @@
+Value,Feature,Story,Points
+,Charts,Make chart autosize to height and width,
+,Charts,Allow adding priceseries within XAML,
+,Charts,Allow for chart styles using WPF,
+,PriceTools,Expose weekly/monthly periods from daily data,
+,Analyzer,Identify reaction highs and lows,
+,PriceTools,Support XML Serialization,
+,PriceTools,Get Indicators working,
+,Charts,Add vertical axis,
+,Charts,Add horizontal axis,
+,Analyzer,Event framework for price series moves,
