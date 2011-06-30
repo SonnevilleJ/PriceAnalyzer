@@ -93,6 +93,7 @@
     <Compile Include="PriceOverThresholdWatcher.cs" />
     <Compile Include="PriceUnderThresholdWatcher.cs" />
     <Compile Include="SinglePeriodWatcher.cs" />
+    <Compile Include="PriceThresholdWatcher.cs" />
     <Compile Include="WatcherTriggerDelegate.cs" />
     <Compile Include="Watcher.cs" />
     <Compile Include="WatcherEventArgs.cs" />

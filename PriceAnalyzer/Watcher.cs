@@ -6,7 +6,6 @@ namespace Sonneville.PriceAnalyzer
     public abstract class Watcher
     {
         public PriceSeries PriceSeries { get; set; }
-        public decimal Threshold { get; set; }
         public event WatcherTriggerDelegate TriggerEvent;
 
         private void InvokeTriggerEvent(WatcherEventArgs e)
