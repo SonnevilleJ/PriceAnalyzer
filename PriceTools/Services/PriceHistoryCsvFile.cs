@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using LumenWorks.Framework.IO.Csv;
 
 namespace Sonneville.PriceTools.Services
@@ -14,7 +15,7 @@ namespace Sonneville.PriceTools.Services
         #region Private Members
 
         private readonly IDictionary<PriceColumn, int> _map = new Dictionary<PriceColumn, int>();
-        private readonly IList<PricePeriod> _pricePeriods = new List<PricePeriod>();
+        private readonly PriceSeries _priceSeries = new PriceSeries();
 
         #endregion
 
@@ -29,6 +30,15 @@ namespace Sonneville.PriceTools.Services
             Parse(stream);
         }
 
+        /// <summary>
+        /// Constructs a PriceHistoryCsvFile.
+        /// </summary>
+        /// <param name="csvText">The raw CSV data to parse.</param>
+        protected internal PriceHistoryCsvFile(string csvText)
+        {
+            Parse(csvText);
+        }
+
         #endregion
 
         #region Public Properties
@@ -38,10 +48,15 @@ namespace Sonneville.PriceTools.Services
         /// </summary>
         public IList<PricePeriod> PricePeriods
         {
-            get
-            {
-                return _pricePeriods;
-            }
+            get { return _priceSeries.PricePeriods.ToList(); }
+        }
+
+        /// <summary>
+        /// Gets a <see cref="PriceSeries"/> containing the price data in the file.
+        /// </summary>
+        public PriceSeries PriceSeries
+        {
+            get { return _priceSeries; }
         }
 
         #endregion
@@ -65,20 +80,34 @@ namespace Sonneville.PriceTools.Services
         {
             using (CsvReader reader = new CsvReader(new StreamReader(stream), true))
             {
-                MapHeaders(reader);
+                ParseData(reader);
+            }
+        }
 
-                while (reader.ReadNextRecord())
-                {
-                    DateTime head = ParseDateColumn(reader[_map[PriceColumn.Date]]);
-                    DateTime tail = head.AddDays(1);
-                    decimal? open = ParsePriceColumn(reader[_map[PriceColumn.Open]]);
-                    decimal? high = ParsePriceColumn(reader[_map[PriceColumn.High]]);
-                    decimal? low = ParsePriceColumn(reader[_map[PriceColumn.Low]]);
-                    decimal? close = ParsePriceColumn(reader[_map[PriceColumn.Close]]);
-                    long? volume = ParseVolumeColumn(reader[_map[PriceColumn.Volume]]);
+        private void Parse(string csvText)
+        {
+            using (CsvReader reader = new CsvReader(new StringReader(csvText), true))
+            {
+                ParseData(reader);
+            }
+        }
 
-                    _pricePeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close.Value, volume));
-                }
+        private void ParseData(CsvReader reader)
+        {
+            MapHeaders(reader);
+
+            while (reader.ReadNextRecord())
+            {
+                DateTime head = ParseDateColumn(reader[_map[PriceColumn.Date]]);
+                DateTime tail = head.AddDays(1);
+                decimal? open = ParsePriceColumn(reader[_map[PriceColumn.Open]]);
+                decimal? high = ParsePriceColumn(reader[_map[PriceColumn.High]]);
+                decimal? low = ParsePriceColumn(reader[_map[PriceColumn.Low]]);
+                decimal? close = ParsePriceColumn(reader[_map[PriceColumn.Close]]);
+                long? volume = ParseVolumeColumn(reader[_map[PriceColumn.Volume]]);
+
+                if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_);
+                _priceSeries.PricePeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close.Value, volume));
             }
         }
 
@@ -103,7 +132,7 @@ namespace Sonneville.PriceTools.Services
             string result = text.Trim();
             if (string.IsNullOrWhiteSpace(result))
             {
-                throw new ArgumentNullException("text", "Parsed date was returned as null or whitespace.");
+                throw new ArgumentNullException("text", Strings.ParseError_Parsed_date_was_returned_as_null_or_whitespace);
             }
             return DateTime.Parse(result, CultureInfo.InvariantCulture);
         }

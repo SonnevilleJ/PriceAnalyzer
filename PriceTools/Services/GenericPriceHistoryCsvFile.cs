@@ -15,6 +15,14 @@ namespace Sonneville.PriceTools.Services
         {
         }
 
+        /// <summary>
+        /// Constructs a GenericPriceHistoryCsvFile.
+        /// </summary>
+        /// <param name="csvText">The raw CSV data to parse.</param>
+        public GenericPriceHistoryCsvFile(string csvText) : base(csvText)
+        {
+        }
+
         #region Overrides of PriceHistoryCsvFile
 
         /// <summary>

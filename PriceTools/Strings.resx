@@ -101,4 +101,10 @@
 	<data name="DownloadPricesToCsv_InternetAccessFailed">
 		<value xml:space="preserve">Failed to access the Internet to download price data.</value>
 	</data>
+	<data name="ParseError_Parsed_date_was_returned_as_null_or_whitespace">
+		<value xml:space="preserve">Parsed date was returned as null or whitespace.</value>
+	</data>
+	<data name="ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_">
+		<value xml:space="preserve">CSV data is corrupt; closing price cannot be null for any period.</value>
+	</data>
 </root>

@@ -89,6 +89,7 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HigherThanYesterdayWatcher.cs" />
     <Compile Include="PriceOverThresholdWatcher.cs" />
     <Compile Include="PriceUnderThresholdWatcher.cs" />
     <Compile Include="SinglePeriodWatcher.cs" />

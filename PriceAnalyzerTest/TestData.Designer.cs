@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sonneville.PriceTools {
+namespace PriceAnalyzerTest {
     using System;
     
     
@@ -22,14 +22,14 @@ namespace Sonneville.PriceTools {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class Strings {
+    internal class TestData {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal Strings() {
+        internal TestData() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace Sonneville.PriceTools {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sonneville.PriceTools.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("PriceAnalyzerTest.TestData", typeof(TestData).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,29 +61,23 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to access the Internet to download price data..
+        ///   Looks up a localized string similar to Date,Open,High,Low,Close,Volume
+        ///29-Jun-11,82.59,82.99,81.78,82.43,6328726
+        ///28-Jun-11,80.84,82,80.5,81.95,3153729
+        ///27-Jun-11,80.15,81.06,79.96,80.69,3177440
+        ///24-Jun-11,81.66,81.7,79.78,79.98,4672971
+        ///23-Jun-11,79.85,81.84,78.8,81.73,5785469
+        ///22-Jun-11,82.19,83,81.5,81.57,4885633
+        ///21-Jun-11,80.69,82.44,80.3,82.13,4299825
+        ///20-Jun-11,78.28,80.09,77.81,80.06,4329004
+        ///17-Jun-11,80.48,80.53,78.3,78.53,5972507
+        ///16-Jun-11,80.1,80.84,78.23,79.27,5510531
+        ///15-Jun-11,81.36,82.18,80.09,80.21,4538246
+        ///14-Jun-11,81.55,82. [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string DownloadPricesToCsv_InternetAccessFailed {
+        internal static string DE_1_1_2011_to_6_30_2011 {
             get {
-                return ResourceManager.GetString("DownloadPricesToCsv_InternetAccessFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to CSV data is corrupt; closing price cannot be null for any period..
-        /// </summary>
-        internal static string ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_ {
-            get {
-                return ResourceManager.GetString("ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Parsed date was returned as null or whitespace..
-        /// </summary>
-        internal static string ParseError_Parsed_date_was_returned_as_null_or_whitespace {
-            get {
-                return ResourceManager.GetString("ParseError_Parsed_date_was_returned_as_null_or_whitespace", resourceCulture);
+                return ResourceManager.GetString("DE_1_1_2011_to_6_30_2011", resourceCulture);
             }
         }
     }

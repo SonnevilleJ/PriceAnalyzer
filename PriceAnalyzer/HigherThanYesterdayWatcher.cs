@@ -1,0 +1,27 @@
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Sonneville.PriceAnalyzer
+{
+    public class HigherThanYesterdayWatcher : Watcher
+    {
+        protected override IEnumerable<WatcherEventArgs> GetTriggerPeriodsArgs()
+        {
+            var periods = PriceSeries.PricePeriods.OrderBy(p => p.Head).ToArray();
+            var previousClose = periods.ElementAt(0).Close;
+
+            var args = new List<WatcherEventArgs>();
+            for (int i = 1; i < periods.Length; i++)
+            {
+                var currentClose = periods[i].Close;
+                if(currentClose >= previousClose)
+                {
+                    var eventArgs = new WatcherEventArgs {DateTime = periods[i].Head};
+                    args.Add(eventArgs);
+                }
+                previousClose = currentClose;
+            }
+            return args;
+        }
+    }
+}
