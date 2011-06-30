@@ -25,10 +25,10 @@
           <Configuration>
             <CodeCoverage keyFile="C:\Dev\Sonneville.snk" xmlns="">
               <Regular>
-                <CodeCoverageItem binaryFile="PriceTools\bin\Debug\Sonneville.PriceTools.dll" pdbFile="PriceTools\bin\Debug\Sonneville.PriceTools.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="PriceChartTools\bin\Debug\PriceChartTools.dll" pdbFile="PriceChartTools\bin\Debug\PriceChartTools.pdb" instrumentInPlace="true" />
-                <CodeCoverageItem binaryFile="PriceAnalyzer\bin\Debug\PriceAnalyzer.exe" pdbFile="PriceAnalyzer\bin\Debug\PriceAnalyzer.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="Utilities\bin\Debug\Utilities.dll" pdbFile="Utilities\bin\Debug\Utilities.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="PriceTools\bin\Debug\PriceTools.dll" pdbFile="PriceTools\bin\Debug\PriceTools.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="PriceAnalyzer\bin\Debug\PriceAnalyzer.dll" pdbFile="PriceAnalyzer\bin\Debug\PriceAnalyzer.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>
