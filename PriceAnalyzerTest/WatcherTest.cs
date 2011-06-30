@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using Sonneville.PriceAnalyzer;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
+using Sonneville.PriceAnalyzer;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Services;
 
