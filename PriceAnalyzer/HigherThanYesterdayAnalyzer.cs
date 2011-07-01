@@ -7,7 +7,7 @@ namespace Sonneville.PriceAnalyzer
     {
         protected override IEnumerable<AnalyzerEventArgs> GetTriggerPeriodsArgs()
         {
-            var periods = PricePeriods.OrderBy(p => p.Head).ToArray();
+            var periods = PriceSeries.PricePeriods.OrderBy(p => p.Head).ToArray();
             var previousClose = periods.ElementAt(0).Close;
 
             var args = new List<AnalyzerEventArgs>();

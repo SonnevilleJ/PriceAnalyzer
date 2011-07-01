@@ -16,19 +16,17 @@ namespace PriceAnalyzerTest
     public class AnalyzerTest
     {
         private static PriceSeries _priceSeries;
-        private static PricePeriod[] _pricePeriods;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
             _priceSeries = new GenericPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011).PriceSeries;
-            _pricePeriods = _priceSeries.PricePeriods.ToArray();
         }
 
         [TestMethod]
         public void PriceOverThresholdWatcherTest()
         {
-            Analyzer target = new PriceOverThresholdAnalyzer {PricePeriods = _pricePeriods, Threshold = 99.0m};
+            Analyzer target = new PriceOverThresholdAnalyzer {PriceSeries = _priceSeries, Threshold = 99.0m};
             var days = new List<DateTime> {new DateTime(2011, 4, 1), new DateTime(2011, 4, 4), new DateTime(2011, 4, 5)};
             RunWatcherTest(target, days);
         }
@@ -36,7 +34,7 @@ namespace PriceAnalyzerTest
         [TestMethod]
         public void PriceUnderThresholdWatcherTest()
         {
-            Analyzer target = new PriceUnderThresholdAnalyzer {PricePeriods = _pricePeriods, Threshold = 79.0m};
+            Analyzer target = new PriceUnderThresholdAnalyzer {PriceSeries = _priceSeries, Threshold = 79.0m};
             var days = new List<DateTime> {new DateTime(2011, 6, 16), new DateTime(2011, 6, 17), new DateTime(2011, 6, 20), new DateTime(2011, 6, 23)};
             RunWatcherTest(target, days);
         }
@@ -44,7 +42,7 @@ namespace PriceAnalyzerTest
         [TestMethod]
         public void HigherThanYesterdayWatcherTest()
         {
-            Analyzer target = new HigherThanYesterdayAnalyzer {PricePeriods = _pricePeriods};
+            Analyzer target = new HigherThanYesterdayAnalyzer {PriceSeries = _priceSeries};
             #region Days
 
             var days = new List<DateTime>
