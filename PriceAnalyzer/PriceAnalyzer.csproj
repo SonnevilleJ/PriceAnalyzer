@@ -89,14 +89,14 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HigherThanYesterdayWatcher.cs" />
-    <Compile Include="PriceOverThresholdWatcher.cs" />
-    <Compile Include="PriceUnderThresholdWatcher.cs" />
-    <Compile Include="SinglePeriodWatcher.cs" />
-    <Compile Include="PriceThresholdWatcher.cs" />
-    <Compile Include="WatcherTriggerDelegate.cs" />
-    <Compile Include="Watcher.cs" />
-    <Compile Include="WatcherEventArgs.cs" />
+    <Compile Include="HigherThanYesterdayAnalyzer.cs" />
+    <Compile Include="PriceOverThresholdAnalyzer.cs" />
+    <Compile Include="PriceUnderThresholdAnalyzer.cs" />
+    <Compile Include="SinglePeriodAnalyzer.cs" />
+    <Compile Include="PriceThresholdAnalyzer.cs" />
+    <Compile Include="AnalyzerTriggerDelegate.cs" />
+    <Compile Include="Analyzer.cs" />
+    <Compile Include="AnalyzerEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

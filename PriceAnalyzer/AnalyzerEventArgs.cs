@@ -2,7 +2,7 @@
 
 namespace Sonneville.PriceAnalyzer
 {
-    public class WatcherEventArgs : EventArgs
+    public class AnalyzerEventArgs : EventArgs
     {
         public DateTime DateTime { get; set; }
     }

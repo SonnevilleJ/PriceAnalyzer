@@ -3,14 +3,14 @@ using Sonneville.PriceTools;
 
 namespace Sonneville.PriceAnalyzer
 {
-    public abstract class Watcher
+    public abstract class Analyzer
     {
         public PriceSeries PriceSeries { get; set; }
-        public event WatcherTriggerDelegate TriggerEvent;
+        public event AnalyzerTriggerDelegate TriggerEvent;
 
-        private void InvokeTriggerEvent(WatcherEventArgs e)
+        private void InvokeTriggerEvent(AnalyzerEventArgs e)
         {
-            WatcherTriggerDelegate handler = TriggerEvent;
+            AnalyzerTriggerDelegate handler = TriggerEvent;
             if (handler != null) handler(this, e);
         }
 
@@ -22,6 +22,6 @@ namespace Sonneville.PriceAnalyzer
             }
         }
 
-        protected abstract IEnumerable<WatcherEventArgs> GetTriggerPeriodsArgs();
+        protected abstract IEnumerable<AnalyzerEventArgs> GetTriggerPeriodsArgs();
     }
 }

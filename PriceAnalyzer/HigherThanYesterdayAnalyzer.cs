@@ -3,20 +3,20 @@ using System.Linq;
 
 namespace Sonneville.PriceAnalyzer
 {
-    public class HigherThanYesterdayWatcher : Watcher
+    public class HigherThanYesterdayAnalyzer : Analyzer
     {
-        protected override IEnumerable<WatcherEventArgs> GetTriggerPeriodsArgs()
+        protected override IEnumerable<AnalyzerEventArgs> GetTriggerPeriodsArgs()
         {
             var periods = PriceSeries.PricePeriods.OrderBy(p => p.Head).ToArray();
             var previousClose = periods.ElementAt(0).Close;
 
-            var args = new List<WatcherEventArgs>();
+            var args = new List<AnalyzerEventArgs>();
             for (int i = 1; i < periods.Length; i++)
             {
                 var currentClose = periods[i].Close;
                 if(currentClose >= previousClose)
                 {
-                    var eventArgs = new WatcherEventArgs {DateTime = periods[i].Head};
+                    var eventArgs = new AnalyzerEventArgs {DateTime = periods[i].Head};
                     args.Add(eventArgs);
                 }
                 previousClose = currentClose;
