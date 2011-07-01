@@ -1,11 +1,26 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Sonneville.PriceTools;
 
 namespace Sonneville.PriceAnalyzer
 {
     public abstract class Analyzer
     {
-        public PriceSeries PriceSeries { get; set; }
+        private PricePeriod[] _pricePeriods;
+
+        public PriceSeries PriceSeries
+        {
+            set
+            {
+                _pricePeriods = value.PricePeriods.ToArray();
+            }
+        }
+
+        public PricePeriod[] PricePeriods
+        {
+            get { return _pricePeriods; }
+            set { _pricePeriods = value; }
+        }
         public event AnalyzerTriggerDelegate TriggerEvent;
 
         private void InvokeTriggerEvent(AnalyzerEventArgs e)
