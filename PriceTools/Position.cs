@@ -126,7 +126,7 @@ namespace Sonneville.PriceTools
         ///   Gets the total value of the Position, including commissions.
         /// </summary>
         /// <param name = "index">The <see cref = "DateTime" /> to use.</param>
-        public decimal? this[DateTime index]
+        public decimal this[DateTime index]
         {
             get { return GetValue(index); }
         }
@@ -169,7 +169,7 @@ namespace Sonneville.PriceTools
         /// <returns>The value of the shares held in the Portfolio as of the given date.</returns>
         public decimal GetInvestedValue(DateTime settlementDate)
         {
-            return (decimal)GetHeldShares(settlementDate) * (PriceSeries[settlementDate] ?? 0);
+            return (decimal)GetHeldShares(settlementDate) * (PriceSeries[settlementDate]);
         }
 
         /// <summary>

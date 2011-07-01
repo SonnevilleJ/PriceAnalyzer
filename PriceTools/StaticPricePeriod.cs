@@ -98,15 +98,13 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
-        public override decimal? this[DateTime index]
+        public override decimal this[DateTime index]
         {
             get
             {
-                if (HasValue(index))
-                {
-                    return Close;
-                }
-                return null;
+                if (index < Head) throw new InvalidOperationException("Index was before the Head of the PricePeriod.");
+
+                return Close;
             }
         }
 

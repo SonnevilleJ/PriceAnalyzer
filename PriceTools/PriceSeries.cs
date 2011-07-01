@@ -62,7 +62,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
-        public override decimal? this[DateTime index]
+        public override decimal this[DateTime index]
         {
             get
             {
@@ -70,6 +70,8 @@ namespace Sonneville.PriceTools
                 {
                     DownloadPriceData(Settings.PreferredPriceSeriesProvider, index);
                 }
+                if (index < Head) throw new InvalidOperationException("Index was before the Head of the PricePeriod.");
+
                 return GetLatestPrice(index);
             }
         }
@@ -157,16 +159,14 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="settlementDate">The DateTime to price.</param>
         /// <returns></returns>
-        private decimal? GetLatestPrice(DateTime settlementDate)
+        private decimal GetLatestPrice(DateTime settlementDate)
         {
             if (PricePeriods.Any(p => p.HasValue(settlementDate)))
             {
                 return PricePeriods.Where(p => p.HasValue(settlementDate)).First()[settlementDate];
             }
             var periods = PricePeriods.Where(p => p.Tail <= settlementDate);
-            return periods.Count() > 0
-                       ? periods.OrderBy(p => p.Tail).Last().Close
-                       : (decimal?)null;
+            return periods.OrderBy(p => p.Tail).Last().Close;
         }
 
         #endregion

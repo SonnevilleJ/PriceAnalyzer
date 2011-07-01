@@ -91,7 +91,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "index">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
-        public override decimal? this[DateTime index]
+        public override decimal this[DateTime index]
         {
             get { return PriceQuotes.Where(q => q.SettlementDate <= index).Last().Price; }
         }

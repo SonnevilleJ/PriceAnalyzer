@@ -61,14 +61,6 @@ namespace Sonneville.PriceTools
             get { return PriceSeries.Tail; }
         }
 
-        /// <summary>
-        /// Gets the most recent value of this Indicator.
-        /// </summary>
-        public decimal Last
-        {
-            get { return this[Tail].Value; }
-        }
-
         #endregion
 
         /// <summary>
@@ -76,7 +68,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
         /// <returns>The value of this Indicator for the given period.</returns>
-        protected abstract decimal? Calculate(DateTime index);
+        protected abstract decimal Calculate(DateTime index);
 
         /// <summary>
         /// Pre-caches all values for this Indicator.
@@ -110,12 +102,13 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
         /// <returns>THe value of the ITimeSeries as of the given DateTime.</returns>
-        public virtual decimal? this[DateTime index]
+        public virtual decimal this[DateTime index]
         {
             get
             {
                 decimal? value;
-                return Dictionary.TryGetValue(index, out value) ? value : Calculate(index);
+                Dictionary.TryGetValue(index, out value);
+                return value ?? Calculate(index);
             }
             protected set { Dictionary[index] = value; }
         }

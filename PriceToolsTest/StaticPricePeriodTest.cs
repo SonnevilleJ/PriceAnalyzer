@@ -173,6 +173,7 @@ namespace Sonneville.PriceToolsTest
         ///A test for Item
         ///</summary>
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
         public void IndexerValueBeforeHeadTest()
         {
             DateTime head = new DateTime(2011, 3, 13);
@@ -204,7 +205,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            Assert.IsNull(target[target.Tail.Add(new TimeSpan(1))]);
+            var result = target[target.Tail.Add(new TimeSpan(1))];
         }
 
         /// <summary>
