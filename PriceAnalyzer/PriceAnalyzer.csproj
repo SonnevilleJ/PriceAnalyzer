@@ -89,13 +89,15 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Analyzer.cs" />
     <Compile Include="HigherThanYesterdayAnalyzer.cs" />
+    <Compile Include="OHLC.cs" />
     <Compile Include="PriceOverThresholdAnalyzer.cs" />
     <Compile Include="PriceUnderThresholdAnalyzer.cs" />
     <Compile Include="SinglePeriodAnalyzer.cs" />
     <Compile Include="PriceThresholdAnalyzer.cs" />
     <Compile Include="AnalyzerTriggerDelegate.cs" />
-    <Compile Include="Analyzer.cs" />
+    <Compile Include="PriceSeriesAnalyzer.cs" />
     <Compile Include="AnalyzerEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>

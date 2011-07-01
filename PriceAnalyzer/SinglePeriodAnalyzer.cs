@@ -4,7 +4,7 @@ using Sonneville.PriceTools;
 
 namespace Sonneville.PriceAnalyzer
 {
-    public abstract class SinglePeriodAnalyzer : Analyzer
+    public abstract class SinglePeriodAnalyzer : PriceSeriesAnalyzer
     {
         protected override IEnumerable<AnalyzerEventArgs> GetTriggerPeriodsArgs()
         {

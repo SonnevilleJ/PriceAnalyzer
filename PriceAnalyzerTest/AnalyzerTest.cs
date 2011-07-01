@@ -26,7 +26,7 @@ namespace PriceAnalyzerTest
         [TestMethod]
         public void PriceOverThresholdWatcherTest()
         {
-            Analyzer target = new PriceOverThresholdAnalyzer {PriceSeries = _priceSeries, Threshold = 99.0m};
+            Analyzer target = new PriceOverThresholdAnalyzer {TimeSeries = _priceSeries, Threshold = 99.0m};
             var days = new List<DateTime> {new DateTime(2011, 4, 1), new DateTime(2011, 4, 4), new DateTime(2011, 4, 5)};
             RunWatcherTest(target, days);
         }
@@ -34,7 +34,7 @@ namespace PriceAnalyzerTest
         [TestMethod]
         public void PriceUnderThresholdWatcherTest()
         {
-            Analyzer target = new PriceUnderThresholdAnalyzer {PriceSeries = _priceSeries, Threshold = 79.0m};
+            Analyzer target = new PriceUnderThresholdAnalyzer {TimeSeries = _priceSeries, Threshold = 79.0m};
             var days = new List<DateTime> {new DateTime(2011, 6, 16), new DateTime(2011, 6, 17), new DateTime(2011, 6, 20), new DateTime(2011, 6, 23)};
             RunWatcherTest(target, days);
         }
@@ -42,7 +42,7 @@ namespace PriceAnalyzerTest
         [TestMethod]
         public void HigherThanYesterdayWatcherTest()
         {
-            Analyzer target = new HigherThanYesterdayAnalyzer {PriceSeries = _priceSeries};
+            Analyzer target = new HigherThanYesterdayAnalyzer {TimeSeries = _priceSeries};
             #region Days
 
             var days = new List<DateTime>

@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Sonneville.PriceTools;
 
 namespace Sonneville.PriceAnalyzer
 {
     public abstract class Analyzer
     {
-        public PriceSeries PriceSeries { get; set; }
+        public ITimeSeries TimeSeries { get; set; }
+
         public event AnalyzerTriggerDelegate TriggerEvent;
 
         private void InvokeTriggerEvent(AnalyzerEventArgs e)
