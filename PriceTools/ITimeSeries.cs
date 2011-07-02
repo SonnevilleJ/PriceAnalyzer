@@ -29,6 +29,6 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
-        bool HasValue(DateTime settlementDate);
+        bool HasValueInRange(DateTime settlementDate);
     }
 }

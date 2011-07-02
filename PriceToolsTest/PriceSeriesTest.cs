@@ -49,7 +49,7 @@ namespace Sonneville.PriceToolsTest
         public void HasValue1Test()
         {
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            Assert.IsFalse(target.HasValue(DateTime.Now));
+            Assert.IsFalse(target.HasValueInRange(DateTime.Now));
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace Sonneville.PriceToolsTest
             target.PricePeriods.Add(p2);
             target.PricePeriods.Add(p3);
 
-            Assert.IsTrue(target.HasValue(p1.Head));
+            Assert.IsTrue(target.HasValueInRange(p1.Head));
         }
 
         [TestMethod]
@@ -79,7 +79,7 @@ namespace Sonneville.PriceToolsTest
             target.PricePeriods.Add(p2);
             target.PricePeriods.Add(p3);
 
-            Assert.IsTrue(target.HasValue(p3.Tail));
+            Assert.IsTrue(target.HasValueInRange(p3.Tail));
         }
 
         /// <summary>

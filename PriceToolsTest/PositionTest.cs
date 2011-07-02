@@ -331,9 +331,9 @@ namespace Sonneville.PriceToolsTest
 
             target.Buy(purchaseDate, shares, buyPrice, commission);
 
-            Assert.AreEqual(false, target.HasValue(testDate));
-            Assert.AreEqual(true, target.HasValue(purchaseDate));
-            Assert.AreEqual(true, target.HasValue(purchaseDate.AddDays(1)));
+            Assert.AreEqual(false, target.HasValueInRange(testDate));
+            Assert.AreEqual(true, target.HasValueInRange(purchaseDate));
+            Assert.AreEqual(true, target.HasValueInRange(purchaseDate.AddDays(1)));
         }
 
         [TestMethod]

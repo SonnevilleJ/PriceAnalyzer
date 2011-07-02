@@ -152,7 +152,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The date to check.</param>
         /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
-        public bool HasValue(DateTime settlementDate)
+        public bool HasValueInRange(DateTime settlementDate)
         {
             DateTime end = Tail;
             if (GetValue(settlementDate) != 0)
@@ -169,7 +169,10 @@ namespace Sonneville.PriceTools
         /// <returns>The value of the shares held in the Portfolio as of the given date.</returns>
         public decimal GetInvestedValue(DateTime settlementDate)
         {
-            return (decimal)GetHeldShares(settlementDate) * (PriceSeries[settlementDate]);
+            var heldShares = (decimal) GetHeldShares(settlementDate);
+            return heldShares > 0
+                       ? heldShares*(PriceSeries[settlementDate])
+                       : 0;
         }
 
         /// <summary>

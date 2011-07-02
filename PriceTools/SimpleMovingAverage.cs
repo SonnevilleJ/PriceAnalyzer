@@ -39,7 +39,7 @@ namespace Sonneville.PriceTools
         /// <returns>The value of this MovingAverage for the given period.</returns>
         protected override decimal Calculate(DateTime index)
         {
-            if (!HasValue(index))
+            if (!HasValueInRange(index))
             {
                 throw new ArgumentOutOfRangeException("index", index,
                                                       "Argument index must be a date within the span of this Indicator.");
@@ -61,7 +61,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the MovingAverage has a valid value for the given date.</returns>
-        public override bool HasValue(DateTime settlementDate)
+        public override bool HasValueInRange(DateTime settlementDate)
         {
             return (settlementDate >= Head && settlementDate <= Tail);
         }

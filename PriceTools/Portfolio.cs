@@ -131,7 +131,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
-        public bool HasValue(DateTime settlementDate)
+        public bool HasValueInRange(DateTime settlementDate)
         {
             DateTime end = Tail;
             if (GetValue(settlementDate) != 0)
@@ -160,7 +160,9 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetValue(DateTime settlementDate)
         {
-            return GetAvailableCash(settlementDate) + Positions.Sum(position => position.GetInvestedValue(settlementDate));
+            var cash = GetAvailableCash(settlementDate);
+            var invested = Positions.Sum(position => position.GetInvestedValue(settlementDate));
+            return cash + invested;
         }
 
         /// <summary>

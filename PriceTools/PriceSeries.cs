@@ -66,11 +66,10 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                if (!HasValue(index) && Settings.CanConnectToInternet)
+                if (!HasValueInRange(index) && Settings.CanConnectToInternet)
                 {
                     DownloadPriceData(Settings.PreferredPriceSeriesProvider, index);
                 }
-                if (index < Head) throw new InvalidOperationException("Index was before the Head of the PricePeriod.");
 
                 return GetLatestPrice(index);
             }
@@ -97,9 +96,9 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the PriceSeries has a valid value for the given date.</returns>
-        public override bool HasValue(DateTime settlementDate)
+        public override bool HasValueInRange(DateTime settlementDate)
         {
-            return PricePeriods.Count > 0 ? base.HasValue(settlementDate) : false;
+            return PricePeriods.Count > 0 ? base.HasValueInRange(settlementDate) : false;
         }
 
         /// <summary>
@@ -161,12 +160,10 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         private decimal GetLatestPrice(DateTime settlementDate)
         {
-            if (PricePeriods.Any(p => p.HasValue(settlementDate)))
-            {
-                return PricePeriods.Where(p => p.HasValue(settlementDate)).First()[settlementDate];
-            }
-            var periods = PricePeriods.Where(p => p.Tail <= settlementDate);
-            return periods.OrderBy(p => p.Tail).Last().Close;
+            var matchingPeriods = PricePeriods.Where(p => p.HasValueInRange(settlementDate));
+            if (matchingPeriods.Count() > 0) return matchingPeriods.OrderBy(p => p.Tail).Last()[settlementDate];
+            if (PricePeriods.Count > 0) return PricePeriods.Where(p => p.Tail <= settlementDate).OrderBy(p => p.Tail).Last().Close;
+            throw new InvalidOperationException(String.Format("No price data available for settlement date: {0}", settlementDate));
         }
 
         #endregion

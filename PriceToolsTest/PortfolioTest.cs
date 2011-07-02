@@ -1,5 +1,4 @@
 ﻿using Sonneville.PriceTools;
-using Sonneville.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -816,6 +815,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void PositionTest_OnePosition_TwoCashTransactions()
         {
+            Settings.CanConnectToInternet = true;
             DateTime dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
             IPortfolio target = new Portfolio(dateTime, deposit);
@@ -842,10 +842,7 @@ namespace Sonneville.PriceToolsTest
             // withdrawal = 5,000
             // total value should be = 10,000 - 100.00 - 5,000 + 168.68 = 5068.68
             
-            // uncomment the below line when connecting to the internet to retrieve price data
-            //const decimal expectedValue = 5068.68m;
-
-            const decimal expectedValue = 4900.00m;
+            const decimal expectedValue = 5068.68m;
             decimal actualValue = target.GetValue(buyDate);
             Assert.AreEqual(expectedValue, actualValue);
         }
@@ -1027,9 +1024,9 @@ namespace Sonneville.PriceToolsTest
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
             IPortfolio target = new Portfolio(purchaseDate, amount, ticker);
 
-            Assert.AreEqual(false, target.HasValue(testDate));
-            Assert.AreEqual(true, target.HasValue(purchaseDate));
-            Assert.AreEqual(true, target.HasValue(purchaseDate.AddDays(1)));
+            Assert.AreEqual(false, target.HasValueInRange(testDate));
+            Assert.AreEqual(true, target.HasValueInRange(purchaseDate));
+            Assert.AreEqual(true, target.HasValueInRange(purchaseDate.AddDays(1)));
         }
     }
 }

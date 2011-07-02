@@ -77,7 +77,7 @@ namespace Sonneville.PriceTools
         {
             for (DateTime date = Head; date <= Tail; date = IncrementDate(date))
             {
-                if (HasValue(date))
+                if (HasValueInRange(date))
                 {
                     this[date] = Calculate(date);
                 }
@@ -155,7 +155,7 @@ namespace Sonneville.PriceTools
         /// <remarks>Assumes the Indicator has a valid value for every date of the underlying IPriceSeries.</remarks>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the Indicator has a valid value for the given date.</returns>
-        public virtual bool HasValue(DateTime settlementDate)
+        public virtual bool HasValueInRange(DateTime settlementDate)
         {
             return (settlementDate >= Head && settlementDate <= Tail);
         }
