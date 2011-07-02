@@ -80,7 +80,11 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override DateTime Head
         {
-            get { return PricePeriods.Min(p => p.Head); }
+            get
+            {
+                if(PricePeriods.Count == 0) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
+                return PricePeriods.Min(p => p.Head);
+            }
         }
 
         /// <summary>
@@ -88,7 +92,11 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override DateTime Tail
         {
-            get { return PricePeriods.Max(p => p.Tail); }
+            get
+            {
+                if (PricePeriods.Count == 0) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
+                return PricePeriods.Max(p => p.Tail);
+            }
         }
 
         /// <summary>
