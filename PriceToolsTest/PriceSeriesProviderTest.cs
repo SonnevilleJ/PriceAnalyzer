@@ -24,12 +24,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void YahooResxTest()
         {
-            var testData = TestData.DE_PriceData_Yahoo;
-            using (var stream = new MemoryStream(testData))
-            {
-                PriceHistoryCsvFile target = new GenericPriceHistoryCsvFile(stream);
-                TestPriceHistoryData(target);
-            }
+            PriceHistoryCsvFile target = new GenericPriceHistoryCsvFile(TestData.DE_PriceData_Yahoo);
+            TestPriceHistoryData(target);
         }
 
         [TestMethod]

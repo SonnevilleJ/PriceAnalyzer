@@ -41,8 +41,7 @@ namespace Sonneville.PriceTools
         {
             if (!HasValueInRange(index))
             {
-                throw new ArgumentOutOfRangeException("index", index,
-                                                      "Argument index must be a date within the span of this Indicator.");
+                throw new ArgumentOutOfRangeException("index", index, Strings.IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator);
             }
 
             decimal sum = 0;
