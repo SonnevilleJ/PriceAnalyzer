@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools.Services
             while (reader.ReadNextRecord())
             {
                 DateTime head = ParseDateColumn(reader[_map[PriceColumn.Date]]);
-                DateTime tail = head.AddDays(1);
+                DateTime tail = head;
                 decimal? open = ParsePriceColumn(reader[_map[PriceColumn.Open]]);
                 decimal? high = ParsePriceColumn(reader[_map[PriceColumn.High]]);
                 decimal? low = ParsePriceColumn(reader[_map[PriceColumn.Low]]);

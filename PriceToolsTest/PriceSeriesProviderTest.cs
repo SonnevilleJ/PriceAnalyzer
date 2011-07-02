@@ -71,6 +71,7 @@ namespace Sonneville.PriceToolsTest
             IPriceSeries series = PriceSeriesFactory.CreatePriceSeries(Ticker);
             foreach (var period in target.PricePeriods)
             {
+                Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
                 series.PricePeriods.Add(period);
             }
 
@@ -80,7 +81,7 @@ namespace Sonneville.PriceToolsTest
         private static void TestDateRange(IPriceSeries series)
         {
             Assert.AreEqual(Head, series.Head);
-            Assert.AreEqual(Tail.AddDays(1), series.Tail);
+            Assert.AreEqual(Tail, series.Tail);
         }
     }
 }
