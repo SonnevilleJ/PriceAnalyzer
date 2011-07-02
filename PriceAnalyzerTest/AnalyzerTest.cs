@@ -24,6 +24,18 @@ namespace PriceAnalyzerTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void PriceSeriesAnalyzerThrowsExceptionWhenTimeSeriesIsNotPriceSeries()
+        {
+            DateTime head = new DateTime(2011, 7, 1);
+            DateTime tail = head;
+            const decimal close = 5.0m;
+            ITimeSeries period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+
+            new HigherThanYesterdayAnalyzer {TimeSeries = period};
+        }
+
+        [TestMethod]
         public void PriceOverThresholdWatcherTest()
         {
             Analyzer target = new PriceOverThresholdAnalyzer {TimeSeries = _priceSeries, Threshold = 99.0m};
@@ -44,7 +56,6 @@ namespace PriceAnalyzerTest
         {
             Analyzer target = new HigherThanYesterdayAnalyzer {TimeSeries = _priceSeries};
             #region Days
-
             var days = new List<DateTime>
                            {
                                new DateTime(2011, 1, 5),

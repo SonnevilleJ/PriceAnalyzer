@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using Sonneville.PriceTools;
 
 namespace Sonneville.PriceAnalyzer
@@ -11,6 +10,14 @@ namespace Sonneville.PriceAnalyzer
             PriceSeriesProperty = OHLC.Close;
         }
 
+        protected override void ValidateTimeSeries()
+        {
+            if (!(TimeSeries is PriceSeries))
+            {
+                throw new InvalidOperationException("TimeSeries must be assigned a PriceSeries object.");
+            }
+        }
+
         protected PriceSeries PriceSeries
         {
             get { return (PriceSeries) TimeSeries; }
@@ -18,11 +25,11 @@ namespace Sonneville.PriceAnalyzer
 
         protected OHLC PriceSeriesProperty { get; set; }
 
-        protected decimal GetValue(PricePeriod pricePeriod)
+        protected decimal GetValue(DateTime index)
         {
             var propertyName = Enum.GetName(typeof (OHLC), PriceSeriesProperty);
-            var propertyInfo = typeof(PricePeriod).GetProperty(propertyName);
-            return (decimal) propertyInfo.GetValue(pricePeriod, null);
+            var propertyInfo = typeof (PricePeriod).GetProperty(propertyName);
+            return (decimal) propertyInfo.GetValue(PriceSeries[index], null);
         }
     }
 }

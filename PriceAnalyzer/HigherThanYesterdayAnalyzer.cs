@@ -13,16 +13,15 @@ namespace Sonneville.PriceAnalyzer
         protected override IEnumerable<AnalyzerEventArgs> GetTriggerPeriodsArgs()
         {
             var periods = PriceSeries.PricePeriods.OrderBy(p => p.Head).ToArray();
-            var previousClose = GetValue(periods[0]);
+            var previousClose = TimeSeries[periods[0].Head];
 
             var args = new List<AnalyzerEventArgs>();
             for (int i = 1; i < periods.Length; i++)
             {
-                var currentClose = GetValue(periods[i]);
+                var currentClose = TimeSeries[periods[i].Head];
                 if(currentClose >= previousClose)
                 {
-                    var eventArgs = new AnalyzerEventArgs {DateTime = periods[i].Head};
-                    args.Add(eventArgs);
+                    args.Add(CreateEventArgs(periods[i].Head));
                 }
                 previousClose = currentClose;
             }

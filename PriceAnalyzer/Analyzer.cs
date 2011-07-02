@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Sonneville.PriceTools;
 
@@ -5,7 +6,20 @@ namespace Sonneville.PriceAnalyzer
 {
     public abstract class Analyzer
     {
-        public ITimeSeries TimeSeries { get; set; }
+        private ITimeSeries _timeSeries;
+        public ITimeSeries TimeSeries
+        {
+            get { return _timeSeries; }
+            set
+            {
+                _timeSeries = value;
+                ValidateTimeSeries();
+            }
+        }
+
+        protected virtual void ValidateTimeSeries()
+        {
+        }
 
         public event AnalyzerTriggerDelegate TriggerEvent;
 
@@ -24,5 +38,10 @@ namespace Sonneville.PriceAnalyzer
         }
 
         protected abstract IEnumerable<AnalyzerEventArgs> GetTriggerPeriodsArgs();
+
+        protected static AnalyzerEventArgs CreateEventArgs(DateTime dateTime)
+        {
+            return new AnalyzerEventArgs {DateTime = dateTime};
+        }
     }
 }
