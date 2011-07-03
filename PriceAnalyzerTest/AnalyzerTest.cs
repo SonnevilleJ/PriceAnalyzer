@@ -9,8 +9,8 @@ using Sonneville.PriceTools.Services;
 namespace PriceAnalyzerTest
 {
     /// <summary>
-    ///This is a test class for PriceOverThresholdWatcherTest and is intended
-    ///to contain all PriceOverThresholdWatcherTest Unit Tests
+    ///This is a test class for PriceOverThresholdAnalyzerTest and is intended
+    ///to contain all PriceOverThresholdAnalyzerTest Unit Tests
     ///</summary>
     [TestClass]
     public class AnalyzerTest
@@ -36,23 +36,23 @@ namespace PriceAnalyzerTest
         }
 
         [TestMethod]
-        public void PriceOverThresholdWatcherTest()
+        public void PriceOverThresholdAnalyzerTest()
         {
             Analyzer target = new PriceOverThresholdAnalyzer {TimeSeries = _priceSeries, Threshold = 99.0m};
             var days = new List<DateTime> {new DateTime(2011, 4, 1), new DateTime(2011, 4, 4), new DateTime(2011, 4, 5)};
-            RunWatcherTest(target, days);
+            RunAnalyzerTest(target, days);
         }
 
         [TestMethod]
-        public void PriceUnderThresholdWatcherTest()
+        public void PriceUnderThresholdAnalyzerTest()
         {
             Analyzer target = new PriceUnderThresholdAnalyzer {TimeSeries = _priceSeries, Threshold = 79.0m};
             var days = new List<DateTime> {new DateTime(2011, 6, 16), new DateTime(2011, 6, 17), new DateTime(2011, 6, 20), new DateTime(2011, 6, 23)};
-            RunWatcherTest(target, days);
+            RunAnalyzerTest(target, days);
         }
 
         [TestMethod]
-        public void HigherThanYesterdayWatcherTest()
+        public void HigherThanYesterdayAnalyzerTest()
         {
             Analyzer target = new HigherThanYesterdayAnalyzer {TimeSeries = _priceSeries};
             #region Days
@@ -121,12 +121,87 @@ namespace PriceAnalyzerTest
                                new DateTime(2011, 6, 29)
                            };
             #endregion
-            RunWatcherTest(target, days);
+            RunAnalyzerTest(target, days);
+        }
+
+        [TestMethod]
+        public void LowerThanYesterdayAnalyzerTest()
+        {
+            Analyzer target = new LowerThanYesterdayAnalyzer { TimeSeries = _priceSeries };
+            #region Days
+
+            var days = new List<DateTime>
+                           {
+                               new DateTime(2011, 1, 4),
+                               new DateTime(2011, 1, 19),
+                               new DateTime(2011, 1, 20),
+                               new DateTime(2011, 1, 21),
+                               new DateTime(2011, 1, 25),
+                               new DateTime(2011, 1, 27),
+                               new DateTime(2011, 1, 28),
+                               new DateTime(2011, 2, 3),
+                               new DateTime(2011, 2, 4),
+                               new DateTime(2011, 2, 8),
+                               new DateTime(2011, 2, 14),
+                               new DateTime(2011, 2, 15),
+                               new DateTime(2011, 2, 17),
+                               new DateTime(2011, 2, 18),
+                               new DateTime(2011, 2, 22),
+                               new DateTime(2011, 2, 23),
+                               new DateTime(2011, 2, 28),
+                               new DateTime(2011, 3, 1),
+                               new DateTime(2011, 3, 4),
+                               new DateTime(2011, 3, 7),
+                               new DateTime(2011, 3, 9),
+                               new DateTime(2011, 3, 10),
+                               new DateTime(2011, 3, 14),
+                               new DateTime(2011, 3, 16),
+                               new DateTime(2011, 3, 22),
+                               new DateTime(2011, 3, 28),
+                               new DateTime(2011, 4, 5),
+                               new DateTime(2011, 4, 6),
+                               new DateTime(2011, 4, 7),
+                               new DateTime(2011, 4, 8),
+                               new DateTime(2011, 4, 11),
+                               new DateTime(2011, 4, 12),
+                               new DateTime(2011, 4, 15),
+                               new DateTime(2011, 4, 18),
+                               new DateTime(2011, 4, 25),
+                               new DateTime(2011, 4, 27),
+                               new DateTime(2011, 4, 28),
+                               new DateTime(2011, 5, 2),
+                               new DateTime(2011, 5, 3),
+                               new DateTime(2011, 5, 4),
+                               new DateTime(2011, 5, 5),
+                               new DateTime(2011, 5, 6),
+                               new DateTime(2011, 5, 11),
+                               new DateTime(2011, 5, 12),
+                               new DateTime(2011, 5, 13),
+                               new DateTime(2011, 5, 17),
+                               new DateTime(2011, 5, 18),
+                               new DateTime(2011, 5, 19),
+                               new DateTime(2011, 5, 20),
+                               new DateTime(2011, 5, 23),
+                               new DateTime(2011, 6, 1),
+                               new DateTime(2011, 6, 3),
+                               new DateTime(2011, 6, 6),
+                               new DateTime(2011, 6, 7),
+                               new DateTime(2011, 6, 8),
+                               new DateTime(2011, 6, 10),
+                               new DateTime(2011, 6, 13),
+                               new DateTime(2011, 6, 15),
+                               new DateTime(2011, 6, 16),
+                               new DateTime(2011, 6, 17),
+                               new DateTime(2011, 6, 22),
+                               new DateTime(2011, 6, 24)
+                           };
+            #endregion
+            RunAnalyzerTest(target, days);
         }
 
         #region Helper Methods
 
-        private static void RunWatcherTest(Analyzer target, IEnumerable<DateTime> days)
+        private static void RunAnalyzerTest(Analyzer target, IEnumerable<DateTime> days)
         {
             var results = new List<DateTime>();
             AnalyzerTriggerDelegate analyzerTriggerDelegate = ((sender, e) => results.Add(e.DateTime));

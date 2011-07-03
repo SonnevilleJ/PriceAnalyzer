@@ -91,6 +91,7 @@
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
     <Compile Include="HigherThanYesterdayAnalyzer.cs" />
+    <Compile Include="LowerThanYesterdayAnalyzer.cs" />
     <Compile Include="OHLC.cs" />
     <Compile Include="PriceOverThresholdAnalyzer.cs" />
     <Compile Include="PriceUnderThresholdAnalyzer.cs" />
