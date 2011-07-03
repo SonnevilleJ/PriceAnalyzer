@@ -2,7 +2,7 @@
 using System.Windows;
 using Sonneville.PriceTools;
 
-namespace Sonneville.PriceAnalyzer
+namespace Program
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
