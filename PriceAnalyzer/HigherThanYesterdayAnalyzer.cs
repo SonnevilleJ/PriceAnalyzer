@@ -5,11 +5,6 @@ namespace Sonneville.PriceAnalyzer
 {
     public class HigherThanYesterdayAnalyzer : PriceSeriesAnalyzer
     {
-        public HigherThanYesterdayAnalyzer()
-        {
-            PriceSeriesProperty = OHLC.Close;
-        }
-
         protected override IEnumerable<AnalyzerEventArgs> GetTriggerPeriodsArgs()
         {
             var periods = PriceSeries.PricePeriods.OrderBy(p => p.Head).ToArray();
