@@ -30,11 +30,11 @@ namespace Sonneville.PriceTools.Services
         /// <returns>An <see cref="IPriceSeries"/> containing <paramref name="ticker"/>'s price history.</returns>
         public IPriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail)
         {
-            IPriceSeries series = PriceSeriesFactory.CreatePriceSeries(ticker);
+            PriceSeries series = PriceSeriesFactory.CreatePriceSeries(ticker);
             var pricePeriods = GetPriceHistoryCsvFile(ticker, head, tail).PricePeriods;
-            foreach (PricePeriod t in pricePeriods)
+            foreach (PricePeriod pricePeriod in pricePeriods)
             {
-                series.PricePeriods.Add(t);
+                series.DataPeriods.Add(pricePeriod);
             }
 
             return series;
@@ -62,7 +62,7 @@ namespace Sonneville.PriceTools.Services
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
         /// <returns></returns>
-        public IEnumerable<PricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail)
+        public IEnumerable<IPricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail)
         {
             return GetPriceHistoryCsvFile(ticker, head, tail).PricePeriods;
         }

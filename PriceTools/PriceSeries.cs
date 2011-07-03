@@ -157,7 +157,7 @@ namespace Sonneville.PriceTools
         {
             foreach (var pricePeriod in provider.GetPricePeriods(Ticker, head.Subtract(Settings.TimespanToDownload), tail).OrderByDescending(period => period.Head))
             {
-                PricePeriods.Add(pricePeriod);
+                DataPeriods.Add((PricePeriod) pricePeriod);
             }
         }
 
@@ -188,13 +188,10 @@ namespace Sonneville.PriceTools
             if (ReferenceEquals(null, left)) return false;
             if (ReferenceEquals(null, right)) return false;
 
-            bool pricePeriodsMatch = true;
+            bool pricePeriodsMatch = false;
             if (left.PricePeriods.Count == right.PricePeriods.Count)
             {
-                IList<PricePeriod> leftList = left.PricePeriods.ToList();
-                IList<PricePeriod> rightList = right.PricePeriods.ToList();
-
-                pricePeriodsMatch = !leftList.Where((t, i) => t != rightList[i]).Any();
+                pricePeriodsMatch = left.PricePeriods.All(right.PricePeriods.Contains);
             }
 
             return pricePeriodsMatch &&
@@ -246,5 +243,21 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
+
+        /// <summary>
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
+        /// </summary>
+        public IList<IPricePeriod> PricePeriods
+        {
+            get
+            {
+                return DataPeriods.Cast<IPricePeriod>().ToList();
+            }
+        }
+
+        /// <summary>
+        /// Gets or sets the resolution of PricePeriods to retrieve.
+        /// </summary>
+        public PriceSeriesResolution Resolution { get; set; }
     }
 }

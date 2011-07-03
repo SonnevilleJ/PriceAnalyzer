@@ -655,7 +655,7 @@
           <End Type="Entities.PriceQuote" Role="PriceQuote" Multiplicity="*" />
         </Association>
         <EntityType Name="PriceSeries" BaseType="Entities.PricePeriod" >
-          <NavigationProperty Name="PricePeriods" Relationship="Entities.PriceSeriesPricePeriod" FromRole="PriceSeries" ToRole="PricePeriod" />
+          <NavigationProperty Name="DataPeriods" Relationship="Entities.PriceSeriesPricePeriod" FromRole="PriceSeries" ToRole="PricePeriod" />
           <Property Type="String" Name="Ticker" Nullable="false" />
         </EntityType>
         <Association Name="PriceSeriesPricePeriod">

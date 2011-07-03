@@ -178,10 +178,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             TestUtilities.VerifyPriceSeriesEntity(target);
         }

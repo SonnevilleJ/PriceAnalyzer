@@ -1182,7 +1182,7 @@ namespace Sonneville.PriceTools
         [SoapIgnoreAttribute()]
         [DataMemberAttribute()]
         [EdmRelationshipNavigationPropertyAttribute("Entities", "PriceSeriesPricePeriod", "PricePeriod")]
-        public EntityCollection<PricePeriod> PricePeriods
+        public EntityCollection<PricePeriod> DataPeriods
         {
             get
             {

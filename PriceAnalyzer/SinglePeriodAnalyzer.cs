@@ -11,6 +11,6 @@ namespace Sonneville.PriceAnalyzer
             return PriceSeries.PricePeriods.Where(EvaluatePricePeriod).Select(period => new AnalyzerEventArgs {DateTime = period.Head});
         }
 
-        protected abstract bool EvaluatePricePeriod(PricePeriod pricePeriod);
+        protected abstract bool EvaluatePricePeriod(IPricePeriod pricePeriod);
     }
 }

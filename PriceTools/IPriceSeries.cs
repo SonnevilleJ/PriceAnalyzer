@@ -1,4 +1,4 @@
-﻿using System.Data.Objects.DataClasses;
+﻿using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
 {
@@ -15,6 +15,11 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
         /// </summary>
-        EntityCollection<PricePeriod> PricePeriods { get; }
+        IList<IPricePeriod> PricePeriods { get; }
+
+        /// <summary>
+        /// Gets or sets the resolution of PricePeriods to retrieve.
+        /// </summary>
+        PriceSeriesResolution Resolution { get; set; }
     }
 }

@@ -47,7 +47,7 @@ namespace Sonneville.PriceChartTools
             //}
             chartCanvas.Children.Clear();
 
-            IOrderedEnumerable<PricePeriod> orderedPeriods =
+            IOrderedEnumerable<IPricePeriod> orderedPeriods =
                 PriceSeries.PricePeriods.Where(period => period.Head >= FirstDisplayedPeriod && period.Tail <= LastDisplayedPeriod).OrderByDescending(period => period.Head);
             for (int i = 0; i < orderedPeriods.Count(); i++)
             {
@@ -63,7 +63,7 @@ namespace Sonneville.PriceChartTools
                 double previousClose;
                 try
                 {
-                    PricePeriod previous = orderedPeriods.ElementAt(i + 1);
+                    IPricePeriod previous = orderedPeriods.ElementAt(i + 1);
                     previousClose = Convert.ToDouble(previous.Close);
                 }
                 catch (ArgumentOutOfRangeException)

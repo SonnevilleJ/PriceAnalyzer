@@ -95,16 +95,16 @@ namespace Sonneville.PriceToolsTest
             p8.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(7), Price = 2});
             p9.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(8), Price = 1});
 
-            IPriceSeries series = PriceSeriesFactory.CreatePriceSeries("test");
-            series.PricePeriods.Add(p1);
-            series.PricePeriods.Add(p2);
-            series.PricePeriods.Add(p3);
-            series.PricePeriods.Add(p4);
-            series.PricePeriods.Add(p5);
-            series.PricePeriods.Add(p6);
-            series.PricePeriods.Add(p7);
-            series.PricePeriods.Add(p8);
-            series.PricePeriods.Add(p9);
+            PriceSeries series = PriceSeriesFactory.CreatePriceSeries("test");
+            series.DataPeriods.Add(p1);
+            series.DataPeriods.Add(p2);
+            series.DataPeriods.Add(p3);
+            series.DataPeriods.Add(p4);
+            series.DataPeriods.Add(p5);
+            series.DataPeriods.Add(p6);
+            series.DataPeriods.Add(p7);
+            series.DataPeriods.Add(p8);
+            series.DataPeriods.Add(p9);
 
             // create 4 day moving average
             const int range = 4;
@@ -134,12 +134,12 @@ namespace Sonneville.PriceToolsTest
 
         private static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
         {
-            IPriceSeries series = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceSeries series = PriceSeriesFactory.CreatePriceSeries("test");
             for (int i = 0; i < count; i++)
             {
                 QuotedPricePeriod period = new QuotedPricePeriod();
                 period.AddPriceQuotes(new PriceQuote {SettlementDate = startDate.AddDays(i), Price = price});
-                series.PricePeriods.Add(period);
+                series.DataPeriods.Add(period);
             }
             return series;
         }

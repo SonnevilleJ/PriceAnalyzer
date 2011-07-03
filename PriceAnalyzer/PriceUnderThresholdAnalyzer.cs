@@ -4,7 +4,7 @@ namespace Sonneville.PriceAnalyzer
 {
     public class PriceUnderThresholdAnalyzer : PriceThresholdAnalyzer
     {
-        protected override bool EvaluatePricePeriod(PricePeriod pricePeriod)
+        protected override bool EvaluatePricePeriod(IPricePeriod pricePeriod)
         {
             return pricePeriod.Low <= Threshold;
         }

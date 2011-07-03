@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.Services
         /// <summary>
         /// Gets a list of all <see cref="IPricePeriod"/>s in the file.
         /// </summary>
-        public IList<PricePeriod> PricePeriods
+        public IList<IPricePeriod> PricePeriods
         {
             get { return _priceSeries.PricePeriods.ToList(); }
         }
@@ -107,7 +107,7 @@ namespace Sonneville.PriceTools.Services
                 long? volume = ParseVolumeColumn(reader[_map[PriceColumn.Volume]]);
 
                 if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_);
-                _priceSeries.PricePeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close.Value, volume));
+                _priceSeries.DataPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close.Value, volume));
             }
         }
 

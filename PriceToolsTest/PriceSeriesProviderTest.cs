@@ -64,11 +64,11 @@ namespace Sonneville.PriceToolsTest
         {
             Assert.AreEqual(PeriodCount, target.PricePeriods.Count);
 
-            IPriceSeries series = PriceSeriesFactory.CreatePriceSeries(Ticker);
+            PriceSeries series = PriceSeriesFactory.CreatePriceSeries(Ticker);
             foreach (var period in target.PricePeriods)
             {
                 Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
-                series.PricePeriods.Add(period);
+                series.DataPeriods.Add((PricePeriod) period);
             }
 
             TestDateRange(series);

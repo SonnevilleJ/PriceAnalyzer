@@ -29,13 +29,6 @@ namespace Sonneville.Utilities
             }
         }
 
-        private static FileStream GetTemporaryFile()
-        {
-            string path = Path.GetTempPath();
-            string filename = Guid.NewGuid() + ".tmp";
-            return File.Open(Path.Combine(path, filename), FileMode.CreateNew);
-        }
-
         private static void VerifyEntitySerialize(EntityObject target, string entitySetName)
         {
             using (var container = new Container())
@@ -88,7 +81,7 @@ namespace Sonneville.Utilities
 
         public static void VerifyPriceSeriesEntity(IPriceSeries priceSeries)
         {
-            IList<PricePeriod> list = priceSeries.PricePeriods.ToList();
+            IList<IPricePeriod> list = priceSeries.PricePeriods.ToList();
 
             VerifyEntitySerialize((PriceSeries) priceSeries, "PricePeriods");
 

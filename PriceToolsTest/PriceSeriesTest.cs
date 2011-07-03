@@ -35,10 +35,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             decimal expected = p3.Close;
             decimal actual = target.Close;
@@ -59,10 +59,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             Assert.IsTrue(target.HasValueInRange(p1.Head));
         }
@@ -74,10 +74,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             Assert.IsTrue(target.HasValueInRange(p3.Tail));
         }
@@ -92,10 +92,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             DateTime expected = p1.Head;
             DateTime actual = target.Head;
@@ -119,10 +119,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             decimal? expected = p2.High;
             decimal? actual = target.High;
@@ -139,10 +139,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             decimal? expected = target.Open;
             decimal? actual = target[p1.Head];
@@ -159,10 +159,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             decimal? expected = p3.Close;
             decimal? actual = target[target.Tail];
@@ -180,10 +180,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             var result = target[p1.Head.Subtract(new TimeSpan(1))];
         }
@@ -198,10 +198,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             var expected = p3.Close;
             var actual = target[p3.Tail.Add(new TimeSpan(1))];
@@ -218,10 +218,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             decimal? expected = p3.Low;
             decimal? actual = target.Low;
@@ -238,10 +238,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             decimal? expected = p1.Open;
             decimal? actual = target.Open;
@@ -258,10 +258,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             Assert.AreEqual(3, target.PricePeriods.Count);
             Assert.IsTrue(target.PricePeriods.Contains(p1));
@@ -279,10 +279,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             DateTime expected = p3.Tail;
             DateTime actual = target.Tail;
@@ -320,10 +320,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             long? expected = p1.Volume + p3.Volume; // p2 has no volume
             long? actual = target.Volume;
@@ -337,10 +337,10 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.PricePeriods.Add(p1);
-            target.PricePeriods.Add(p2);
-            target.PricePeriods.Add(p3);
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
 
             var expected = p2.Close;
             var actual = target[p3.Head.Subtract(new TimeSpan(1))];
