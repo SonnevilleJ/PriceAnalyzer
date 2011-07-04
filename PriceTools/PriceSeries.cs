@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools
 
         #endregion
 
-        #region Overrides of PricePeriod
+        #region Overrides of PriceSeries
 
         /// <summary>
         /// Gets the closing price for the IPricePeriod.
@@ -189,9 +189,9 @@ namespace Sonneville.PriceTools
             if (ReferenceEquals(null, right)) return false;
 
             bool pricePeriodsMatch = false;
-            if (left.PricePeriods.Count == right.PricePeriods.Count)
+            if (left.DataPeriods.Count == right.DataPeriods.Count)
             {
-                pricePeriodsMatch = left.PricePeriods.All(right.PricePeriods.Contains);
+                pricePeriodsMatch = left.DataPeriods.All(right.DataPeriods.Contains);
             }
 
             return pricePeriodsMatch &&
@@ -244,15 +244,14 @@ namespace Sonneville.PriceTools
 
         #endregion
 
+        public IList<IPricePeriod> PricePeriods { get { return GetPricePeriods(); } }
+
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
         /// </summary>
-        public IList<IPricePeriod> PricePeriods
+        public IList<IPricePeriod> GetPricePeriods()
         {
-            get
-            {
-                return DataPeriods.Cast<IPricePeriod>().ToList();
-            }
+            return DataPeriods.Cast<IPricePeriod>().ToList();
         }
 
         /// <summary>

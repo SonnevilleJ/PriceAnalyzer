@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools.Services
         /// </summary>
         public IList<IPricePeriod> PricePeriods
         {
-            get { return _priceSeries.PricePeriods.ToList(); }
+            get { return _priceSeries.PricePeriods; }
         }
 
         /// <summary>

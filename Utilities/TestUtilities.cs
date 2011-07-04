@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.Objects.DataClasses;
 using System.IO;
@@ -81,20 +80,21 @@ namespace Sonneville.Utilities
 
         public static void VerifyPriceSeriesEntity(IPriceSeries priceSeries)
         {
-            IList<IPricePeriod> list = priceSeries.PricePeriods.ToList();
-
-            VerifyEntitySerialize((PriceSeries) priceSeries, "PricePeriods");
-
-            using (var db = new Container())
+            EntityCollection<PricePeriod> list = ((PriceSeries)priceSeries).DataPeriods;
+            try
             {
-                foreach (PricePeriod pricePeriod in db.PricePeriods)
+                VerifyEntitySerialize((PriceSeries)priceSeries, "PricePeriods");
+            }
+            finally
+            {
+                using (var db = new Container())
                 {
-                    if (list.Contains(pricePeriod))
+                    foreach (PricePeriod pricePeriod in db.PricePeriods.Where(pricePeriod => list.Contains(pricePeriod)))
                     {
                         db.PricePeriods.DeleteObject(pricePeriod);
                     }
+                    db.SaveChanges();
                 }
-                db.SaveChanges();
             }
         }
 
