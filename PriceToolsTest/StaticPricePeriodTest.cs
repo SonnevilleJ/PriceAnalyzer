@@ -1,7 +1,6 @@
 ﻿using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -24,9 +23,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
 
-            const decimal expected = close;
-            decimal actual = target.Close;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(close, target.Close);
         }
 
         /// <summary>
@@ -44,9 +41,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
 
-            DateTime expected = head.Add(Settings.MarketOpen);
-            DateTime actual = target.Head;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(head, target.Head);
         }
 
         /// <summary>
@@ -63,11 +58,7 @@ namespace Sonneville.PriceToolsTest
             const decimal low = 90.00m;
             const decimal close = 100.00m;
 
-            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
-
-            DateTime expected = head;
-            DateTime actual = target.Head;
-            Assert.AreEqual(expected, actual);
+            PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
         }
 
         /// <summary>
@@ -86,9 +77,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            const decimal expected = high;
-            decimal? actual = target.High;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(high, target.High);
         }
 
         /// <summary>
@@ -143,9 +132,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            decimal expected = target.Close;
-            decimal? actual = target[target.Head];
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(target.Close, (decimal?) target[target.Head]);
         }
 
         /// <summary>
@@ -164,9 +151,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            decimal expected = target.Close;
-            decimal? actual = target[target.Tail];
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(target.Close, (decimal?) target[target.Tail]);
         }
 
         /// <summary>
@@ -220,9 +205,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
 
-            decimal expected = target.Close;
-            decimal actual = target.Last;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(target.Close, target.Last);
         }
 
         /// <summary>
@@ -241,9 +224,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            const decimal expected = low;
-            decimal? actual = target.Low;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(low, target.Low);
         }
 
         /// <summary>
@@ -298,9 +279,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            const decimal expected = open;
-            decimal? actual = target.Open;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(open, target.Open);
         }
 
         /// <summary>
@@ -319,9 +298,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            DateTime expected = tail.Add(Settings.MarketClose);
-            DateTime actual = target.Tail;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(tail, target.Tail);
         }
 
         /// <summary>
@@ -340,9 +317,7 @@ namespace Sonneville.PriceToolsTest
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            const long expected = volume;
-            long? actual = target.Volume;
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual(volume, target.Volume);
         }
     }
 }

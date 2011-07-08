@@ -22,8 +22,6 @@ namespace Sonneville.PriceTools
             TimespanToDownload = new TimeSpan(7, 0, 0, 0);
 
             PreferredPriceSeriesProvider = new YahooPriceSeriesProvider();
-            MarketOpen = new TimeSpan(9, 30, 0);
-            MarketClose = new TimeSpan(16, 0, 0);
         }
 
         /// <summary>
@@ -45,15 +43,5 @@ namespace Sonneville.PriceTools
         /// Gets the default timespan to download for price history.
         /// </summary>
         public static TimeSpan TimespanToDownload { get; set; }
-
-        /// <summary>
-        /// Gets the time of day when the NYSE market opens.
-        /// </summary>
-        public static TimeSpan MarketOpen { get; private set; }
-
-        /// <summary>
-        /// Gets the time of day when the NYSE market closes.
-        /// </summary>
-        public static TimeSpan MarketClose { get; private set; }
     }
 }

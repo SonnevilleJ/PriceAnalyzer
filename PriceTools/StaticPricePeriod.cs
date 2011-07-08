@@ -13,6 +13,11 @@ namespace Sonneville.PriceTools
         {
         }
 
+        internal StaticPricePeriod(DateTime head, PriceSeriesResolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
+            : this(head, ConstructTail(head, resolution), open, high, low, close, volume)
+        {
+        }
+
         internal StaticPricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
         {
             // validate first
@@ -21,8 +26,6 @@ namespace Sonneville.PriceTools
             if(high < close) throw new InvalidOperationException();
             if(low > open) throw new InvalidOperationException();
             if(low > close) throw new InvalidOperationException();
-
-            SetDefaultMarketTimes(ref head, ref tail);
 
             EFHead = head;
             EFTail = tail;
@@ -37,16 +40,39 @@ namespace Sonneville.PriceTools
 
         #region Private Methods
 
-        private static void SetDefaultMarketTimes(ref DateTime head, ref DateTime tail)
+        private static DateTime ConstructTail(DateTime head, PriceSeriesResolution resolution)
         {
-            if (head.Hour == 0 && head.Minute == 0 && head.Second == 0)
+            DateTime result = head;
+            switch (resolution)
             {
-                head = head.Add(Settings.MarketOpen);
+                case PriceSeriesResolution.Days:
+                    result = head.AddDays(1);
+                    break;
+                case PriceSeriesResolution.Weeks:
+                    switch (result.DayOfWeek)
+                    {
+                        case DayOfWeek.Monday:
+                            result = result.AddDays(5);
+                            break;
+                        case DayOfWeek.Tuesday:
+                            result = result.AddDays(4);
+                            break;
+                        case DayOfWeek.Wednesday:
+                            result = result.AddDays(3);
+                            break;
+                        case DayOfWeek.Thursday:
+                            result = result.AddDays(2);
+                            break;
+                        case DayOfWeek.Friday:
+                            result = result.AddDays(1);
+                            break;
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException("resolution", resolution,
+                                                          String.Format("Unable to identify the period tail for resolution {0}.", resolution));
             }
-            if (tail.Hour == 0 && tail.Minute == 0 && tail.Second == 0)
-            {
-                tail = tail.Add(Settings.MarketClose);
-            }
+            return result.Subtract(new TimeSpan(0, 0, 0, 0, 1));
         }
 
         #endregion
