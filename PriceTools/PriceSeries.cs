@@ -10,12 +10,18 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         internal PriceSeries()
+            : this(Settings.PreferredPriceSeriesProvider.HighestAvailableResolution)
         {
+        }
+
+        internal PriceSeries(PriceSeriesResolution priceSeriesResolution)
+        {
+            Resolution = priceSeriesResolution;
         }
 
         #endregion
 
-        #region Overrides of PriceSeries
+        #region Overrides of IPriceSeries
 
         /// <summary>
         /// Gets the closing price for the IPricePeriod.
@@ -149,6 +155,36 @@ namespace Sonneville.PriceTools
             DownloadPriceDataIncludingBuffer(provider, head, tail);
         }
 
+        public IList<IPricePeriod> PricePeriods { get { return GetPricePeriods(); } }
+
+        /// <summary>
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
+        /// </summary>
+        public IList<IPricePeriod> GetPricePeriods()
+        {
+            return GetPricePeriods(Resolution);
+        }
+
+        /// <summary>
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceSeriesResolution"/>.
+        /// </summary>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
+        public IList<IPricePeriod> GetPricePeriods(PriceSeriesResolution resolution)
+        {
+            if (resolution < Resolution)
+            {
+                throw new InvalidOperationException(String.Format("Unable to get price periods using resolution {0}. Minimum supported resolution is {1}.",
+                                                                  resolution, Resolution));
+            }
+            return DataPeriods.Cast<IPricePeriod>().OrderBy(period => period.Head).ToList();
+        }
+
+        /// <summary>
+        /// Gets or sets the resolution of PricePeriods to retrieve.
+        /// </summary>
+        public PriceSeriesResolution Resolution { get; private set; }
+
         #endregion
 
         #region Private Methods
@@ -243,20 +279,5 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
-
-        public IList<IPricePeriod> PricePeriods { get { return GetPricePeriods(); } }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
-        /// </summary>
-        public IList<IPricePeriod> GetPricePeriods()
-        {
-            return DataPeriods.Cast<IPricePeriod>().ToList();
-        }
-
-        /// <summary>
-        /// Gets or sets the resolution of PricePeriods to retrieve.
-        /// </summary>
-        public PriceSeriesResolution Resolution { get; set; }
     }
 }

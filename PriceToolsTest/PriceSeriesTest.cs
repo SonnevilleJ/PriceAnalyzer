@@ -1,6 +1,7 @@
 ﻿using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Sonneville.PriceTools.Services;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
@@ -267,6 +268,20 @@ namespace Sonneville.PriceToolsTest
             Assert.IsTrue(target.PricePeriods.Contains(p1));
             Assert.IsTrue(target.PricePeriods.Contains(p2));
             Assert.IsTrue(target.PricePeriods.Contains(p3));
+        }
+
+        [TestMethod]
+        public void GetWeeklyPeriodsFromDailyPeriodsTest()
+        {
+            var priceSeries = new GenericPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011).PriceSeries;
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void GetDailyPeriodsFromWeeklyPeriodsTest()
+        {
+            IPriceSeries priceSeries = new GenericPriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google).PriceSeries;
+            priceSeries.GetPricePeriods(PriceSeriesResolution.Days);
         }
 
         /// <summary>

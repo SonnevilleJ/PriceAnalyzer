@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.Services
         #region Private Members
 
         private readonly IDictionary<PriceColumn, int> _map = new Dictionary<PriceColumn, int>();
-        private readonly PriceSeries _priceSeries = new PriceSeries();
+        private PriceSeries _priceSeries;
         private readonly IList<StaticPricePeriod> _stagedPeriods = new List<StaticPricePeriod>();
 
         #endregion
@@ -110,9 +110,9 @@ namespace Sonneville.PriceTools.Services
                 StagePeriod(head, tail, open, high, low, close, volume);
             }
 
-            if (Resolution != null)
+            if (Resolution.HasValue)
             {
-                _priceSeries.DataPeriods.Clear();
+                _priceSeries = new PriceSeries(Resolution.Value);
                 var staticPricePeriods = from stagedPeriod in _stagedPeriods
                                          let tail = GetTail(stagedPeriod.Head)
                                          select PricePeriodFactory.CreateStaticPricePeriod(stagedPeriod.Head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
