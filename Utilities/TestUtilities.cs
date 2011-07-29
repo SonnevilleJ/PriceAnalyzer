@@ -193,7 +193,7 @@ namespace Sonneville.Utilities
 
         public const string TickerToVerify = "DE";
         public static readonly DateTime HeadToVerify = new DateTime(2011, 1, 3);
-        public static readonly DateTime TailToVerify = new DateTime(2011, 3, 15);
+        public static readonly DateTime TailToVerify = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
 
         public static void VerifyDailyPriceHistoryData(PriceHistoryCsvFile target)
         {
@@ -223,8 +223,8 @@ namespace Sonneville.Utilities
 
             for (int i = 1; i < periods.Count - 1; i++) // skip check on first and last periods
             {
-                Assert.IsTrue(periods[i].Tail - periods[i].Head > new TimeSpan(1));
-                Assert.IsTrue(periods[i].Tail - periods[i].Head < new TimeSpan(7));
+                Assert.IsTrue(periods[i].Tail - periods[i].Head >= new TimeSpan(23, 59, 59));
+                Assert.IsTrue(periods[i].Tail - periods[i].Head < new TimeSpan(7, 0, 0, 0));
             }
         }
 
