@@ -103,12 +103,9 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Resources\DE 1-1-2011 to 6-30-2011.csv" />
-    <None Include="Resources\DE_Apr-June2011_Weekly.csv" />
-    <None Include="Resources\DE_PriceData_Yahoo.csv" />
-    <None Include="Resources\FidelityTransactions.csv" />
-    <None Include="Resources\SPX price 24 aug 2010.xlsx" />
-    <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -128,7 +128,7 @@ namespace Sonneville.PriceTools.Services
             if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_);
             _stagedPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close.Value, volume));
 
-            if (Resolution == null && _stagedPeriods.Count >= 3) DetermineResolution();
+            if (Resolution == null) DetermineResolution();
         }
 
         private void DetermineResolution()
@@ -155,7 +155,10 @@ namespace Sonneville.PriceTools.Services
 
         private void SetResolution(TimeSpan duration)
         {
-            if (duration<=new TimeSpan(0, 0, 1))                // test for second periods
+            // ensure positive time, not negative time
+            duration = new TimeSpan(Math.Abs(duration.Ticks));
+
+            if (duration <= new TimeSpan(0, 0, 1))              // test for second periods
             {
                 Resolution = PriceSeriesResolution.Seconds;
             }
