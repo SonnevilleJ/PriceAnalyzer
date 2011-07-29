@@ -423,7 +423,11 @@ namespace Sonneville.PriceToolsTest
 
             target.AddTransaction(buy);
 
-            DateTime priceDate = new DateTime(2011, 4, 26);
+            // If the price date falls within a period, GetInvestedValue will use price data from that period.
+            // Because of this, I changed the price date to 11:59 pm rather than the next day (default of midnight).
+            // Todo: adding a "market open/close times" feature would be a better fix; more convenient for the client.
+            DateTime priceDate = new DateTime(2011, 4, 25, 23, 59, 59);
+            
             const decimal expected = 189.44m; // closing price 25 April 2011 = $94.72 * 2 shares = 189.44
             decimal actual = target.GetInvestedValue(priceDate);
             Assert.AreEqual(expected, actual);
