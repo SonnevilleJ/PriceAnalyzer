@@ -52,10 +52,16 @@
     <Compile Include="EntityFramework.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteTest.cs" />
+    <Compile Include="PriceHistoryCsvFileTest.cs" />
     <Compile Include="PriceSeriesProviderTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />
     <Compile Include="Serialization.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
+    <Compile Include="TestData.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TestData.resx</DependentUpon>
+    </Compile>
     <Compile Include="WithdrawalTest.cs" />
     <Compile Include="DepositTest.cs" />
     <Compile Include="DividendReinvestmentTest.cs" />
@@ -69,11 +75,6 @@
     <Compile Include="QuotedPricePeriodTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SellTest.cs" />
-    <Compile Include="TestData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestData.resx</DependentUpon>
-    </Compile>
     <Compile Include="BuyTest.cs" />
     <Compile Include="YahooDataManagerTest.cs" />
   </ItemGroup>
@@ -102,6 +103,8 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Resources\DE 1-1-2011 to 6-30-2011.csv" />
+    <None Include="Resources\DE_Apr-June2011_Weekly.csv" />
     <None Include="Resources\DE_PriceData_Yahoo.csv" />
     <None Include="Resources\FidelityTransactions.csv" />
     <None Include="Resources\SPX price 24 aug 2010.xlsx" />

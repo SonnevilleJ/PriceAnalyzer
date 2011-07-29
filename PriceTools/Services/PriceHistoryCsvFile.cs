@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.Linq;
 using LumenWorks.Framework.IO.Csv;
 
 namespace Sonneville.PriceTools.Services
@@ -16,6 +15,7 @@ namespace Sonneville.PriceTools.Services
 
         private readonly IDictionary<PriceColumn, int> _map = new Dictionary<PriceColumn, int>();
         private readonly PriceSeries _priceSeries = new PriceSeries();
+        private readonly IList<PricePeriod> _periods = new List<PricePeriod>();
 
         #endregion
 
@@ -106,10 +106,80 @@ namespace Sonneville.PriceTools.Services
                 decimal? close = ParsePriceColumn(reader[_map[PriceColumn.Close]]);
                 long? volume = ParseVolumeColumn(reader[_map[PriceColumn.Volume]]);
 
-                if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_);
-                _priceSeries.DataPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close.Value, volume));
+                StagePeriod(head, tail, open, high, low, close, volume);
             }
         }
+
+        private void StagePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal? close, long? volume)
+        {
+            if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_);
+            _periods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close.Value, volume));
+
+            if (Resolution == null && _periods.Count >= 3) DetermineResolution();
+        }
+
+        private void DetermineResolution()
+        {
+            DetermineResolution(DateTimeFormatInfo.CurrentInfo);
+        }
+
+        private void DetermineResolution(DateTimeFormatInfo dtfi)
+        {
+
+            DateTime time1 = _periods[0].Head;
+            DateTime time2 = _periods[1].Head;
+            TimeSpan? duration = null;
+
+            bool certainOfDuration = false;
+            if (_periods.Count >= 3)
+            {
+                for (int i = 2; i < _periods.Count; i++)
+                {
+                    duration = time1 - time2;
+                    DateTime time3 = _periods[i].Head;
+                    if (Math.Abs((time2 - time3).Ticks) == Math.Abs(duration.Value.Ticks))
+                    {
+                        certainOfDuration = true;
+                        break;
+                    }
+                    time1 = time2;
+                    time2 = time3;
+                }
+            }
+
+            if (certainOfDuration)
+            {
+                // test for minute periods
+                if (duration <= new TimeSpan(0, 1, 0))
+                {
+                    Resolution = PriceSeriesResolution.Minutes;
+                    return;
+                }
+
+                // test for hourly periods
+                if (duration <= new TimeSpan(1, 0, 0))
+                {
+                    Resolution = PriceSeriesResolution.Hours;
+                    return;
+                }
+
+                // test for daily periods
+                if (duration <= new TimeSpan(1, 0, 0, 0, 0))
+                {
+                    Resolution = PriceSeriesResolution.Days;
+                    return;
+                }
+
+                // test for weekly periods
+                if (duration <= new TimeSpan(7, 0, 0, 0))
+                {
+                    Resolution = PriceSeriesResolution.Weeks;
+                    return;
+                }
+            }
+        }
+
+        private PriceSeriesResolution? Resolution { get; set; }
 
         #endregion
 

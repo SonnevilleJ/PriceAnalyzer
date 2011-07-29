@@ -73,9 +73,51 @@ namespace Sonneville.PriceToolsTest {
         ///2011-03-03,90.87,93.16,90.43,92.63,4846300,92.63
         ///2011-03-02,88.76,90.67,88.70, [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string DE_PriceData_Yahoo {
+        internal static string DE_1_1_2011_to_3_15_2011_Daily_Yahoo {
             get {
-                return ResourceManager.GetString("DE_PriceData_Yahoo", resourceCulture);
+                return ResourceManager.GetString("DE_1_1_2011_to_3_15_2011_Daily_Yahoo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date,Open,High,Low,Close,Volume
+        ///3-Jan-11,83.93,84.75,83.46,83.59,3006992
+        ///4-Jan-11,84,84.08,81.8,83.02,3117469
+        ///5-Jan-11,82.42,84.64,82.28,84.24,3020762
+        ///6-Jan-11,84.41,84.68,83.46,84.25,3528211
+        ///7-Jan-11,84.42,85.3,83.3,84.34,4061529
+        ///10-Jan-11,84.69,85.3,83.65,84.58,2958568
+        ///11-Jan-11,85.19,86.65,85.19,85.66,3357624
+        ///12-Jan-11,86.56,87.74,86.54,87.45,3283946
+        ///13-Jan-11,89.24,89.97,88.75,89.47,6106721
+        ///14-Jan-11,89.52,89.52,89.52,89.52,0
+        ///18-Jan-11,89.69,91.63,89.69,90.6,4488671
+        ///19-Jan-11,90.5,91.28,88.7 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DE_1_1_2011_to_6_30_2011 {
+            get {
+                return ResourceManager.GetString("DE_1_1_2011_to_6_30_2011", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date,Open,High,Low,Close,Volume
+        ///1-Jul-11,80.15,84.54,79.96,84.54,20157505
+        ///24-Jun-11,78.28,83.00,77.80,79.98,23972902
+        ///17-Jun-11,81.67,82.66,78.23,78.53,25327660
+        ///10-Jun-11,82.12,82.79,79.61,81.80,27920378
+        ///3-Jun-11,87.06,87.15,81.52,82.20,21932073
+        ///27-May-11,83.02,85.74,82.25,85.74,20512786
+        ///20-May-11,87.33,89.45,84.27,84.75,36884412
+        ///13-May-11,91.59,94.61,87.57,87.72,24815261
+        ///6-May-11,98.22,98.30,91.00,91.53,22927128
+        ///29-Apr-11,95.20,97.78,94.20,97.50,16747373
+        ///21-Apr-11,92.53,95.25,90.65,95.25,12189413
+        ///15-Apr-11, [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DE_Apr_June2011_Weekly_Google {
+            get {
+                return ResourceManager.GetString("DE_Apr_June2011_Weekly_Google", resourceCulture);
             }
         }
         
