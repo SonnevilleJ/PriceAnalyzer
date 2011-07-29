@@ -98,6 +98,14 @@ namespace Sonneville.PriceTools.Services
             return new GenericPriceHistoryCsvFile(stream);
         }
 
+        /// <summary>
+        /// Gets the smallest <see cref="PriceSeriesResolution"/> available from this PriceSeriesProvider.
+        /// </summary>
+        public override PriceSeriesResolution HighestAvailableResolution
+        {
+            get { return PriceSeriesResolution.Days; }
+        }
+
         #endregion
 
         private static string TranslateMonth(int month)

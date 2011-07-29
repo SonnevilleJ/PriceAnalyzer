@@ -47,6 +47,11 @@ namespace Sonneville.PriceTools.Services
             return new GenericPriceHistoryCsvFile(stream);
         }
 
+        public override PriceSeriesResolution HighestAvailableResolution
+        {
+            get { return PriceSeriesResolution.Days; }
+        }
+
         #region URL Management
 
         /// <summary>

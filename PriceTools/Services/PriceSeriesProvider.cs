@@ -152,6 +152,11 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
         protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream);
 
+        /// <summary>
+        /// Gets the smallest <see cref="PriceSeriesResolution"/> available from this PriceSeriesProvider.
+        /// </summary>
+        public abstract PriceSeriesResolution HighestAvailableResolution { get; }
+
         #endregion
     }
 }

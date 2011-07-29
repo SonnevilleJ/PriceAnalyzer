@@ -7,6 +7,8 @@ namespace Sonneville.PriceTools.Services
     /// </summary>
     public sealed class GenericPriceHistoryCsvFile : PriceHistoryCsvFile
     {
+        #region Constructors
+
         /// <summary>
         /// Constructs a GenericPriceHistoryCsvFile.
         /// </summary>
@@ -22,6 +24,8 @@ namespace Sonneville.PriceTools.Services
         public GenericPriceHistoryCsvFile(string csvText) : base(csvText)
         {
         }
+
+        #endregion
 
         #region Overrides of PriceHistoryCsvFile
 

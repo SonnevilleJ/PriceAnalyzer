@@ -1,4 +1,6 @@
-﻿namespace Sonneville.PriceTools
+﻿using System.Linq;
+
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Constructs an IPriceSeries object.
@@ -20,13 +22,10 @@
         {
             using (var db = new Container())
             {
-                foreach (var period in db.PricePeriods)
+                foreach (PriceSeries series in
+                        db.PricePeriods.Select(period => period as PriceSeries).Where(series => series != null && series.Ticker == ticker))
                 {
-                    PriceSeries series = period as PriceSeries;
-                    if (series != null && series.Ticker == ticker)
-                    {
-                        return series;
-                    }
+                    return series;
                 }
             }
             return GetEmptyPriceSeries(ticker);
