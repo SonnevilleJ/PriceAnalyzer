@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
@@ -22,25 +21,6 @@ namespace Sonneville.PriceTools.Services
         #region Public Methods
 
         /// <summary>
-        /// Retrieves the price history for a given ticker symbol.
-        /// </summary>
-        /// <param name="ticker">The ticker symbol to price.</param>
-        /// <param name="head">The first date to price.</param>
-        /// <param name="tail">The last date to price.</param>
-        /// <returns>An <see cref="IPriceSeries"/> containing <paramref name="ticker"/>'s price history.</returns>
-        public IPriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail)
-        {
-            PriceSeries series = PriceSeriesFactory.CreatePriceSeries(ticker);
-            var pricePeriods = GetPriceHistoryCsvFile(ticker, head, tail).PricePeriods;
-            foreach (PricePeriod pricePeriod in pricePeriods)
-            {
-                series.DataPeriods.Add(pricePeriod);
-            }
-
-            return series;
-        }
-
-        /// <summary>
         /// Gets a <see cref="PriceHistoryCsvFile"/> containing price history.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
@@ -53,18 +33,6 @@ namespace Sonneville.PriceTools.Services
             {
                 return CreatePriceHistoryCsvFile(stream);
             }
-        }
-
-        /// <summary>
-        /// Gets the <see cref="IPricePeriod"/>s containing price history for the requested DateTime.
-        /// </summary>
-        /// <param name="ticker">The ticker symbol to price.</param>
-        /// <param name="head">The first date to price.</param>
-        /// <param name="tail">The last date to price.</param>
-        /// <returns></returns>
-        public IEnumerable<IPricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail)
-        {
-            return GetPriceHistoryCsvFile(ticker, head, tail).PricePeriods;
         }
 
         /// <summary>

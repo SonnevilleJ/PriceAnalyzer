@@ -47,7 +47,7 @@ namespace Sonneville.PriceToolsTest
 
         private static IPriceSeries GetPriceSeries(PriceSeriesProvider provider)
         {
-            return provider.GetPriceSeries(TestUtilities.TickerToVerify, TestUtilities.HeadToVerify, TestUtilities.TailToVerify);
+            return GetPriceHistoryCsvFile(provider).PriceSeries;
         }
     }
 }

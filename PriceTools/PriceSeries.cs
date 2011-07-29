@@ -155,7 +155,7 @@ namespace Sonneville.PriceTools
 
         private void DownloadPriceDataIncludingBuffer(PriceSeriesProvider provider, DateTime head, DateTime tail)
         {
-            foreach (var pricePeriod in provider.GetPricePeriods(Ticker, head.Subtract(Settings.TimespanToDownload), tail).OrderByDescending(period => period.Head))
+            foreach (var pricePeriod in provider.GetPriceHistoryCsvFile(Ticker, head.Subtract(Settings.TimespanToDownload), tail).PricePeriods.OrderByDescending(period => period.Head))
             {
                 DataPeriods.Add((PricePeriod) pricePeriod);
             }
