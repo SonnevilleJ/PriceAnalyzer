@@ -101,7 +101,7 @@ namespace Sonneville.PriceTools.Services
         /// <summary>
         /// Gets the smallest <see cref="PriceSeriesResolution"/> available from this PriceSeriesProvider.
         /// </summary>
-        public override PriceSeriesResolution HighestAvailableResolution
+        public override PriceSeriesResolution BestResolution
         {
             get { return PriceSeriesResolution.Days; }
         }

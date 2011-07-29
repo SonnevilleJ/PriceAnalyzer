@@ -47,7 +47,10 @@ namespace Sonneville.PriceTools.Services
             return new GenericPriceHistoryCsvFile(stream);
         }
 
-        public override PriceSeriesResolution HighestAvailableResolution
+        /// <summary>
+        /// Gets the smallest <see cref="PriceSeriesResolution"/> available from this PriceSeriesProvider.
+        /// </summary>
+        public override PriceSeriesResolution BestResolution
         {
             get { return PriceSeriesResolution.Days; }
         }

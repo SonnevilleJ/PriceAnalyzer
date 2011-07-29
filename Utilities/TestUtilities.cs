@@ -188,46 +188,5 @@ namespace Sonneville.Utilities
         }
 
         #endregion
-
-        #region Price History tools
-
-        public const string TickerToVerify = "DE";
-        public static readonly DateTime HeadToVerify = new DateTime(2011, 1, 3);
-        public static readonly DateTime TailToVerify = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
-
-        public static void VerifyDailyPriceHistoryData(PriceHistoryCsvFile target)
-        {
-            //Assert.AreEqual(PriceSeriesResolution.Days, target.PriceSeries.Resolution);
-            var periods = target.PricePeriods;
-            Assert.AreEqual(50, periods.Count);
-
-            foreach (var period in periods)
-            {
-                Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
-            }
-
-            VerifyDateRange(target.PriceSeries);
-        }
-
-        public static void VerifyDateRange(ITimeSeries series)
-        {
-            Assert.AreEqual(HeadToVerify, series.Head);
-            Assert.AreEqual(TailToVerify, series.Tail);
-        }
-
-        public static void VerifyWeeklyPriceHistoryData(PriceHistoryCsvFile target)
-        {
-            //Assert.AreEqual(PriceSeriesResolution.Weeks, target.PriceSeries.Resolution);
-            var periods = target.PricePeriods;
-            Assert.AreEqual(14, periods.Count);
-
-            for (int i = 1; i < periods.Count - 1; i++) // skip check on first and last periods
-            {
-                Assert.IsTrue(periods[i].Tail - periods[i].Head >= new TimeSpan(23, 59, 59));
-                Assert.IsTrue(periods[i].Tail - periods[i].Head < new TimeSpan(7, 0, 0, 0));
-            }
-        }
-
-        #endregion
     }
 }

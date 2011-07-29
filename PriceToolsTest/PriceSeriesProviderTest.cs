@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Services;
-using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -9,45 +9,75 @@ namespace Sonneville.PriceToolsTest
     public class PriceSeriesProviderTest
     {
         [TestMethod]
-        public void YahooDownloadTest()
+        public void YahooDownloadDailyTest()
         {
             var provider = new YahooPriceSeriesProvider();
-            PriceHistoryCsvFile target = GetPriceHistoryCsvFile(provider);
-            TestUtilities.VerifyDailyPriceHistoryData(target);
+            var head = new DateTime(2011, 1, 3);
+            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+
+            PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Days);
+            
+            // verify resolution
+            Assert.AreEqual(PriceSeriesResolution.Days, target.PriceSeries.Resolution);
+            foreach (var period in target.PriceSeries.DataPeriods)
+            {
+                Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
+            }
+
+            // verify periods
+            Assert.AreEqual(50, target.PriceSeries.PricePeriods.Count);
+
+            // verify dates
+            Assert.AreEqual(head, target.PriceSeries.Head);
+            Assert.AreEqual(tail, target.PriceSeries.Tail);
         }
 
         [TestMethod]
-        public void YahooDownloadPriceSeriesTest()
-        {
-            var provider = new YahooPriceSeriesProvider();
-            IPriceSeries target = GetPriceSeries(provider);
-            TestUtilities.VerifyDateRange(target);
-        }
-
-        [TestMethod]
-        public void GoogleDownloadTest()
+        public void GoogleDownloadDailyTest()
         {
             var provider = new GooglePriceSeriesProvider();
-            PriceHistoryCsvFile target = GetPriceHistoryCsvFile(provider);
-            TestUtilities.VerifyDailyPriceHistoryData(target);
+            var head = new DateTime(2011, 1, 3);
+            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Days);
+
+            // verify resolution
+            Assert.AreEqual(PriceSeriesResolution.Days, target.PriceSeries.Resolution);
+            foreach (var period in target.PriceSeries.DataPeriods)
+            {
+                Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
+            }
+
+            // verify periods
+            Assert.AreEqual(50, target.PriceSeries.PricePeriods.Count);
+
+            // verify dates
+            Assert.AreEqual(head, target.PriceSeries.Head);
+            Assert.AreEqual(tail, target.PriceSeries.Tail);
         }
 
         [TestMethod]
-        public void GoogleDownloadPriceSeriesTest()
+        public void GoogleDownloadWeeklyTest()
         {
             var provider = new GooglePriceSeriesProvider();
-            var priceSeries = GetPriceSeries(provider);
-            TestUtilities.VerifyDateRange(priceSeries);
-        }
+            var head = new DateTime(2011, 1, 3);
+            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Weeks);
 
-        private static PriceHistoryCsvFile GetPriceHistoryCsvFile(PriceSeriesProvider provider)
-        {
-            return provider.GetPriceHistoryCsvFile(TestUtilities.TickerToVerify, TestUtilities.HeadToVerify, TestUtilities.TailToVerify);
-        }
+            // verify periods
+            Assert.AreEqual(11, target.PricePeriods.Count);
 
-        private static IPriceSeries GetPriceSeries(PriceSeriesProvider provider)
-        {
-            return GetPriceHistoryCsvFile(provider).PriceSeries;
+            // verify resolution
+            Assert.AreEqual(PriceSeriesResolution.Weeks, target.PriceSeries.Resolution);
+            var periods = target.PricePeriods;
+            for (int i = 1; i < periods.Count - 1; i++) // skip check on first and last periods
+            {
+                Assert.IsTrue(periods[i].Tail - periods[i].Head >= new TimeSpan(23, 59, 59));
+                Assert.IsTrue(periods[i].Tail - periods[i].Head < new TimeSpan(7, 0, 0, 0));
+            }
+
+            // verify dates
+            Assert.AreEqual(head, target.PriceSeries.Head);
+            Assert.AreEqual(tail, target.PriceSeries.Tail);
         }
     }
 }

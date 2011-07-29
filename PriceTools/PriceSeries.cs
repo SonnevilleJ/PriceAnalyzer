@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         internal PriceSeries()
-            : this(Settings.PreferredPriceSeriesProvider.HighestAvailableResolution)
+            : this(Settings.PreferredPriceSeriesProvider.BestResolution)
         {
         }
 

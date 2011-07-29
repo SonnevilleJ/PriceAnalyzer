@@ -29,7 +29,20 @@ namespace Sonneville.PriceTools.Services
         /// <returns></returns>
         public PriceHistoryCsvFile GetPriceHistoryCsvFile(string ticker, DateTime head, DateTime tail)
         {
-            using (Stream stream = DownloadPricesToCsv(ticker, head, tail))
+            return GetPriceHistoryCsvFile(ticker, head, tail, BestResolution);
+        }
+
+        /// <summary>
+        /// Gets a <see cref="PriceHistoryCsvFile"/> containing price history.
+        /// </summary>
+        /// <param name="ticker">The ticker symbol to price.</param>
+        /// <param name="head">The first date to price.</param>
+        /// <param name="tail">The last date to price.</param>
+        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> of <see cref="IPricePeriod"/>s to download.</param>
+        /// <returns></returns>
+        public PriceHistoryCsvFile GetPriceHistoryCsvFile(string ticker, DateTime head, DateTime tail, PriceSeriesResolution resolution)
+        {
+            using (Stream stream = DownloadPricesToCsv(ticker, head, tail, resolution))
             {
                 return CreatePriceHistoryCsvFile(stream);
             }
@@ -52,14 +65,15 @@ namespace Sonneville.PriceTools.Services
         /// <param name = "ticker">The ticker symbol of the security to price.</param>
         /// <param name = "head">The beginning of the date range to price.</param>
         /// <param name = "tail">The end of the date range to price.</param>
+        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> of <see cref="IPricePeriod"/>s to download.</param>
         /// <exception cref="WebException">Thrown when accessing the Internet fails.</exception>
         /// <returns>A <see cref = "Stream" /> containing the price data in CSV format.</returns>
-        private Stream DownloadPricesToCsv(string ticker, DateTime head, DateTime tail)
+        private Stream DownloadPricesToCsv(string ticker, DateTime head, DateTime tail, PriceSeriesResolution resolution)
         {
             try
             {
-                string url = FormUrlQuery(ticker, head, tail);
-                WebClient client = new WebClient();
+                string url = FormUrlQuery(ticker, head, tail, resolution);
+                WebClient client = new WebClient {Proxy = {Credentials = CredentialCache.DefaultNetworkCredentials}};
                 return client.OpenRead(url);
             }
             catch(WebException e)
@@ -126,12 +140,10 @@ namespace Sonneville.PriceTools.Services
         /// <param name="ticker">The ticker symbol to request.</param>
         /// <param name="head">The first date to request.</param>
         /// <param name="tail">The last date to request.</param>
+        /// <param name="resolution"></param>
         /// <returns>A fully formed URL.</returns>
-        protected virtual string FormUrlQuery(string ticker, DateTime head, DateTime tail)
+        protected virtual string FormUrlQuery(string ticker, DateTime head, DateTime tail, PriceSeriesResolution resolution)
         {
-            // todo: refactor and make this a parameter, allowing clients to retrieve custom resolutions
-            const PriceSeriesResolution resolution = PriceSeriesResolution.Days;
-
             StringBuilder builder = new StringBuilder();
             builder.Append(GetUrlBase());
             builder.Append(GetUrlTicker(ticker));
@@ -155,7 +167,7 @@ namespace Sonneville.PriceTools.Services
         /// <summary>
         /// Gets the smallest <see cref="PriceSeriesResolution"/> available from this PriceSeriesProvider.
         /// </summary>
-        public abstract PriceSeriesResolution HighestAvailableResolution { get; }
+        public abstract PriceSeriesResolution BestResolution { get; }
 
         #endregion
     }
