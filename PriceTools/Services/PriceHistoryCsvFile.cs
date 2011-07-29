@@ -125,57 +125,59 @@ namespace Sonneville.PriceTools.Services
 
         private void DetermineResolution(DateTimeFormatInfo dtfi)
         {
-
-            DateTime time1 = _periods[0].Head;
-            DateTime time2 = _periods[1].Head;
-            TimeSpan? duration = null;
-
-            bool certainOfDuration = false;
             if (_periods.Count >= 3)
             {
+                DateTime time1 = _periods[0].Head;
+                DateTime time2 = _periods[1].Head;
+
                 for (int i = 2; i < _periods.Count; i++)
                 {
-                    duration = time1 - time2;
+                    TimeSpan duration = time1 - time2;
                     DateTime time3 = _periods[i].Head;
-                    if (Math.Abs((time2 - time3).Ticks) == Math.Abs(duration.Value.Ticks))
+                    if (Math.Abs((time2 - time3).Ticks) == Math.Abs(duration.Ticks))
                     {
-                        certainOfDuration = true;
+                        SetResolution(duration);
                         break;
                     }
                     time1 = time2;
                     time2 = time3;
                 }
             }
+        }
 
-            if (certainOfDuration)
+        private void SetResolution(TimeSpan duration)
+        {
+            if (duration <= new TimeSpan(0, 1, 0))              // test for minute periods
             {
-                // test for minute periods
-                if (duration <= new TimeSpan(0, 1, 0))
-                {
-                    Resolution = PriceSeriesResolution.Minutes;
-                    return;
-                }
+                Resolution = PriceSeriesResolution.Minutes;
+            }
+            else if (duration <= new TimeSpan(1, 0, 0))         // test for hourly periods
+            {
+                Resolution = PriceSeriesResolution.Hours;
+            }
+            else if (duration <= new TimeSpan(1, 0, 0, 0, 0))   // test for daily periods
+            {
+                Resolution = PriceSeriesResolution.Days;
+            }
+            else if (duration <= new TimeSpan(7, 0, 0, 0))      // test for weekly periods
+            {
+                Resolution = PriceSeriesResolution.Weeks;
+            }
 
-                // test for hourly periods
-                if (duration <= new TimeSpan(1, 0, 0))
+            if (Resolution != null)
+            {
+                foreach (var period in _periods)
                 {
-                    Resolution = PriceSeriesResolution.Hours;
-                    return;
+                    SetTail(period);
                 }
+            }
+        }
 
-                // test for daily periods
-                if (duration <= new TimeSpan(1, 0, 0, 0, 0))
-                {
-                    Resolution = PriceSeriesResolution.Days;
-                    return;
-                }
-
-                // test for weekly periods
-                if (duration <= new TimeSpan(7, 0, 0, 0))
-                {
-                    Resolution = PriceSeriesResolution.Weeks;
-                    return;
-                }
+        private void SetTail(IPricePeriod pricePeriod)
+        {
+            switch (Resolution)
+            {
+                    
             }
         }
 
