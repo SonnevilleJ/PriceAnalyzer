@@ -8,6 +8,26 @@ namespace Sonneville.PriceTools.Services
     /// </summary>
     public sealed class GooglePriceHistoryCsvFile : PriceHistoryCsvFile
     {
+        #region Constructors
+
+        /// <summary>
+        /// Constructs a GooglePriceHistoryCsvFile.
+        /// </summary>
+        /// <param name="stream">The CSV data stream to parse.</param>
+        public GooglePriceHistoryCsvFile(Stream stream)
+            : base(stream)
+        {
+        }
+
+        /// <summary>
+        /// Constructs a GooglePriceHistoryCsvFile.
+        /// </summary>
+        /// <param name="csvText">The raw CSV data to parse.</param>
+        public GooglePriceHistoryCsvFile(string csvText)
+            : base(csvText)
+        {
+        }
+
         /// <summary>
         /// Constructs a GooglePriceHistoryCsvFile.
         /// </summary>
@@ -29,5 +49,7 @@ namespace Sonneville.PriceTools.Services
             : base(csvText, head, tail)
         {
         }
+
+        #endregion
     }
 }
