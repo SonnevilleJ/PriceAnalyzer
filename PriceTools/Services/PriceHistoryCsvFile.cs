@@ -16,16 +16,27 @@ namespace Sonneville.PriceTools.Services
 
         private readonly IDictionary<PriceColumn, int> _map = new Dictionary<PriceColumn, int>();
         private PriceSeries _priceSeries;
+        private readonly DateTime _fileHead;
+        private readonly DateTime _fileTail;
 
         #endregion
 
         #region Constructors
 
+        private PriceHistoryCsvFile(DateTime head, DateTime tail)
+        {
+            _fileHead = head;
+            _fileTail = tail;
+        }
+
         /// <summary>
         /// Constructs a PriceHistoryCsvFile.
         /// </summary>
         /// <param name="stream">The CSV data stream to parse.</param>
-        protected internal PriceHistoryCsvFile(Stream stream)
+        /// <param name="head">The head of the price data contained in the CSV data.</param>
+        /// <param name="tail">The tail of the price data contained in the CSV data.</param>
+        protected internal PriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail)
+            : this(head, tail)
         {
             Parse(stream);
         }
@@ -34,7 +45,10 @@ namespace Sonneville.PriceTools.Services
         /// Constructs a PriceHistoryCsvFile.
         /// </summary>
         /// <param name="csvText">The raw CSV data to parse.</param>
-        protected internal PriceHistoryCsvFile(string csvText)
+        /// <param name="head">The head of the price data contained in the CSV data.</param>
+        /// <param name="tail">The tail of the price data contained in the CSV data.</param>
+        protected internal PriceHistoryCsvFile(string csvText, DateTime head, DateTime tail)
+            : this(head, tail)
         {
             Parse(csvText);
         }
@@ -95,12 +109,11 @@ namespace Sonneville.PriceTools.Services
         private void ParseData(CsvReader reader)
         {
             MapHeaders(reader);
-            IList<StaticPricePeriod> stagedPeriods = new List<StaticPricePeriod>();
+            IList<BasicPeriod> stagedPeriods = new List<BasicPeriod>();
 
             while (reader.ReadNextRecord())
             {
-                DateTime head = ParseDateColumn(reader[_map[PriceColumn.Date]]);
-                DateTime tail = head;
+                DateTime date = ParseDateColumn(reader[_map[PriceColumn.Date]]);
                 decimal? open = ParsePriceColumn(reader[_map[PriceColumn.Open]]);
                 decimal? high = ParsePriceColumn(reader[_map[PriceColumn.High]]);
                 decimal? low = ParsePriceColumn(reader[_map[PriceColumn.Low]]);
@@ -108,35 +121,61 @@ namespace Sonneville.PriceTools.Services
                 long? volume = ParseVolumeColumn(reader[_map[PriceColumn.Volume]]);
 
                 if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_);
-                stagedPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close.Value, volume));
+                stagedPeriods.Add(new BasicPeriod {Date = date, Open = open, High = high, Low = low, Close = close.Value, Volume = volume});
             }
 
+            stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
             var resolution = DetermineResolution(stagedPeriods);
             _priceSeries = new PriceSeries(resolution);
-            var staticPricePeriods = from stagedPeriod in stagedPeriods
-                                     let tail = GetTail(stagedPeriod.Head, resolution)
-                                     select
-                                         PricePeriodFactory.CreateStaticPricePeriod(stagedPeriod.Head, tail, stagedPeriod.Open, stagedPeriod.High,
-                                                                                    stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
-            foreach (var period in staticPricePeriods)
+            for (int i = 0; i < stagedPeriods.Count; i++)
             {
-                _priceSeries.DataPeriods.Add(period);
+                var stagedPeriod = stagedPeriods[i];
+                var head = i == 0 ? _fileHead : GetHead(stagedPeriod.Date, resolution);
+                var tail = i == stagedPeriods.Count - 1 ? _fileTail : GetTail(stagedPeriod.Date, resolution);
+                _priceSeries.DataPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High,
+                                                                                        stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume));
+            }
+        }
+
+        protected virtual DateTime GetHead(DateTime date, PriceSeriesResolution resolution)
+        {
+            switch (resolution)
+            {
+                case PriceSeriesResolution.Days:
+                    return GetBeginningOfDay(date);
+                case PriceSeriesResolution.Weeks:
+                    return GetBeginningOfWeek(date);
+                default:
+                    throw new ArgumentOutOfRangeException(null, String.Format(Strings.PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution, resolution));
+            }
+        }
+
+        protected virtual DateTime GetTail(DateTime date, PriceSeriesResolution resolution)
+        {
+            switch (resolution)
+            {
+                case PriceSeriesResolution.Days:
+                    return GetEndOfDay(date);
+                case PriceSeriesResolution.Weeks:
+                    return GetEndOfWeek(date);
+                default:
+                    throw new ArgumentOutOfRangeException(null, String.Format(Strings.PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution, resolution));
             }
         }
 
         #region Static parsing methods
 
-        private static PriceSeriesResolution DetermineResolution(IList<StaticPricePeriod> periods)
+        private static PriceSeriesResolution DetermineResolution(IList<BasicPeriod> periods)
         {
             if (periods.Count >= 3)
             {
-                DateTime time1 = periods[0].Head;
-                DateTime time2 = periods[1].Head;
+                DateTime time1 = periods[0].Date;
+                DateTime time2 = periods[1].Date;
 
                 for (int i = 2; i < periods.Count; i++)
                 {
                     TimeSpan duration = time1 - time2;
-                    DateTime time3 = periods[i].Head;
+                    DateTime time3 = periods[i].Date;
                     if (Math.Abs((time2 - time3).Ticks) == Math.Abs(duration.Ticks))
                     {
                         return SetResolution(duration);
@@ -180,25 +219,38 @@ namespace Sonneville.PriceTools.Services
             throw new ArgumentOutOfRangeException("duration", duration, Strings.PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSeriesResolution_);
         }
 
-        private static DateTime GetTail(DateTime periodHead, PriceSeriesResolution resolution)
+        protected static DateTime GetBeginningOfDay(DateTime date)
         {
-            switch (resolution)
-            {
-                case PriceSeriesResolution.Days:
-                    return GetEndOfDay(periodHead);
-                case PriceSeriesResolution.Weeks:
-                    return GetEndOfWeek(periodHead);
-                default:
-                    throw new ArgumentOutOfRangeException(null, String.Format("Unable to get tail using Price Series Resolution: {0}", resolution));
-            }
+            return date.Date;
         }
 
-        private static DateTime GetEndOfDay(DateTime date)
+        protected static DateTime GetBeginningOfWeek(DateTime date)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Saturday:
+                case DayOfWeek.Sunday:
+                    while (date.DayOfWeek != DayOfWeek.Sunday)
+                    {
+                        date = date.AddDays(-1);
+                    }
+                    break;
+                default:
+                    while (date.DayOfWeek != DayOfWeek.Monday)
+                    {
+                        date = date.AddDays(-1);
+                    }
+                    break;
+            }
+            return GetBeginningOfDay(date);
+        }
+
+        protected static DateTime GetEndOfDay(DateTime date)
         {
             return date.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
         }
 
-        private static DateTime GetEndOfWeek(DateTime date)
+        protected static DateTime GetEndOfWeek(DateTime date)
         {
             switch (date.DayOfWeek)
             {
@@ -293,5 +345,15 @@ namespace Sonneville.PriceTools.Services
         }
 
         #endregion
+
+        protected struct BasicPeriod
+        {
+            public DateTime Date;
+            public decimal? Open;
+            public decimal? High;
+            public decimal? Low;
+            public decimal Close;
+            public long? Volume;
+        }
     }
 }

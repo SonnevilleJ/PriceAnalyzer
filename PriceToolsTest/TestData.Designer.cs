@@ -71,7 +71,7 @@ namespace Sonneville.PriceToolsTest {
         ///2011-03-07,92.91,93.15,89.94,90.37,4207200,90.37
         ///2011-03-04,92.73,93.06,91.11,92.35,3610400,92.35
         ///2011-03-03,90.87,93.16,90.43,92.63,4846300,92.63
-        ///2011-03-02,88.76,90.67,88.70, [rest of string was truncated]&quot;;.
+        ///2011-03-02,88.76,90.67,88.70, [rest of string was truncated]&quot;.
         /// </summary>
         internal static string DE_1_1_2011_to_3_15_2011_Daily_Yahoo {
             get {
@@ -92,7 +92,7 @@ namespace Sonneville.PriceToolsTest {
         ///13-Jan-11,89.24,89.97,88.75,89.47,6106721
         ///14-Jan-11,89.52,89.52,89.52,89.52,0
         ///18-Jan-11,89.69,91.63,89.69,90.6,4488671
-        ///19-Jan-11,90.5,91.28,88.7 [rest of string was truncated]&quot;;.
+        ///19-Jan-11,90.5,91.28,88.7 [rest of string was truncated]&quot;.
         /// </summary>
         internal static string DE_1_1_2011_to_6_30_2011 {
             get {
@@ -113,7 +113,7 @@ namespace Sonneville.PriceToolsTest {
         ///6-May-11,98.22,98.30,91.00,91.53,22927128
         ///29-Apr-11,95.20,97.78,94.20,97.50,16747373
         ///21-Apr-11,92.53,95.25,90.65,95.25,12189413
-        ///15-Apr-11, [rest of string was truncated]&quot;;.
+        ///15-Apr-11, [rest of string was truncated]&quot;.
         /// </summary>
         internal static string DE_Apr_June2011_Weekly_Google {
             get {

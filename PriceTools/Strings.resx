@@ -116,4 +116,10 @@
 	<data name="PriceHistoryCsvFile_DetermineResolution_Unable_to_determine_PriceSeriesResolution_of_data_periods_in_CSV_data_">
 		<value xml:space="preserve">Unable to determine PriceSeriesResolution of data periods in CSV data.</value>
 	</data>
+	<data name="PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution">
+		<value xml:space="preserve">Unable to get tail using Price Series Resolution: {0}</value>
+	</data>
+	<data name="PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution">
+		<value xml:space="preserve">Unable to get head using Price Series Resolution: {0}</value>
+	</data>
 </root>

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Sonneville.PriceTools.Services
 {
@@ -11,7 +12,10 @@ namespace Sonneville.PriceTools.Services
         /// Constructs a GooglePriceHistoryCsvFile.
         /// </summary>
         /// <param name="stream">The CSV data stream to parse.</param>
-        public GooglePriceHistoryCsvFile(Stream stream) : base(stream)
+        /// <param name="head">The head of the price data contained in the CSV data.</param>
+        /// <param name="tail">The tail of the price data contained in the CSV data.</param>
+        public GooglePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail)
+            : base(stream, head, tail)
         {
         }
 
@@ -19,7 +23,10 @@ namespace Sonneville.PriceTools.Services
         /// Constructs a GooglePriceHistoryCsvFile.
         /// </summary>
         /// <param name="csvText">The raw CSV data to parse.</param>
-        public GooglePriceHistoryCsvFile(string csvText) : base(csvText)
+        /// <param name="head">The head of the price data contained in the CSV data.</param>
+        /// <param name="tail">The tail of the price data contained in the CSV data.</param>
+        public GooglePriceHistoryCsvFile(string csvText, DateTime head, DateTime tail)
+            : base(csvText, head, tail)
         {
         }
     }

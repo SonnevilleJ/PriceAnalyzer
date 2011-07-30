@@ -107,6 +107,24 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to get head using Price Series Resolution: {0}.
+        /// </summary>
+        internal static string PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution {
+            get {
+                return ResourceManager.GetString("PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to get tail using Price Series Resolution: {0}.
+        /// </summary>
+        internal static string PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution {
+            get {
+                return ResourceManager.GetString("PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Given duration represents an unknown PriceSeriesResolution..
         /// </summary>
         internal static string PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSeriesResolution_ {

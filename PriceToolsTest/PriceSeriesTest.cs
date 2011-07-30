@@ -273,14 +273,18 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetWeeklyPeriodsFromDailyPeriodsTest()
         {
-            var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011).PriceSeries;
+            var head = new DateTime(2011, 1, 1);
+            var tail = new DateTime(2011, 6, 30, 23, 59, 59);
+            var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, head, tail).PriceSeries;
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void GetDailyPeriodsFromWeeklyPeriodsTest()
         {
-            IPriceSeries priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google).PriceSeries;
+            var head = new DateTime(2011, 4, 1);
+            var tail = new DateTime(2011, 7, 1, 23, 59, 59);
+            IPriceSeries priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google, head, tail).PriceSeries;
             priceSeries.GetPricePeriods(PriceSeriesResolution.Days);
         }
 

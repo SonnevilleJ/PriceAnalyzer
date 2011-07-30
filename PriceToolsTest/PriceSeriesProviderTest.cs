@@ -13,7 +13,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new YahooPriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
 
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Days);
 
@@ -29,7 +29,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new YahooPriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
 
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Days);
 
@@ -41,7 +41,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new YahooPriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
 
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Days);
 
@@ -55,7 +55,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new YahooPriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Weeks);
 
             Assert.AreEqual(11, target.PricePeriods.Count);
@@ -66,7 +66,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new YahooPriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Weeks);
 
             Assert.AreEqual(PriceSeriesResolution.Weeks, target.PriceSeries.Resolution);
@@ -83,7 +83,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new YahooPriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Weeks);
 
             Assert.AreEqual(head, target.PriceSeries.Head);
@@ -95,7 +95,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new GooglePriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Days);
 
             Assert.AreEqual(PriceSeriesResolution.Days, target.PriceSeries.Resolution);
@@ -110,7 +110,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new GooglePriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Days);
 
             Assert.AreEqual(50, target.PriceSeries.PricePeriods.Count);
@@ -121,7 +121,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new GooglePriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Days);
 
             Assert.AreEqual(head, target.PriceSeries.Head);
@@ -133,7 +133,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new GooglePriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Weeks);
 
             Assert.AreEqual(11, target.PricePeriods.Count);
@@ -144,7 +144,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new GooglePriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Weeks);
 
             Assert.AreEqual(PriceSeriesResolution.Weeks, target.PriceSeries.Resolution);
@@ -161,7 +161,7 @@ namespace Sonneville.PriceToolsTest
         {
             var provider = new GooglePriceSeriesProvider();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Weeks);
 
             Assert.AreEqual(head, target.PriceSeries.Head);

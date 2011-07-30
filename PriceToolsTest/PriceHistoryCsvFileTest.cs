@@ -16,8 +16,8 @@ namespace Sonneville.PriceToolsTest
         public void YahooDailyTestDates()
         {
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15).AddHours(23).AddMinutes(59).AddSeconds(59);
-            PriceHistoryCsvFile target = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
+            PriceHistoryCsvFile target = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo, head, tail);
 
             Assert.AreEqual(head, target.PriceSeries.Head);
             Assert.AreEqual(tail, target.PriceSeries.Tail);
@@ -26,7 +26,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void YahooDailyTestPeriods()
         {
-            PriceHistoryCsvFile target = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo);
+            var head = new DateTime(2011, 1, 3);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
+            PriceHistoryCsvFile target = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo, head, tail);
             
             Assert.AreEqual(50, target.PriceSeries.PricePeriods.Count);
         }
@@ -34,7 +36,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void YahooDailyTestResolution()
         {
-            PriceHistoryCsvFile target = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo);
+            var head = new DateTime(2011, 1, 3);
+            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
+            PriceHistoryCsvFile target = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo, head, tail);
             
             Assert.AreEqual(PriceSeriesResolution.Days, target.PriceSeries.Resolution);
             foreach (var period in target.PriceSeries.DataPeriods)
@@ -46,7 +50,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GoogleWeeklyTestPeriods()
         {
-            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google);
+            var head = new DateTime(2011, 4, 1);
+            var tail = new DateTime(2011, 7, 1, 23, 59, 59);
+            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google, head, tail);
 
             Assert.AreEqual(14, target.PricePeriods.Count);
         }
@@ -54,7 +60,9 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GoogleWeeklyTestResolution()
         {
-            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google);
+            var head = new DateTime(2011, 4, 1);
+            var tail = new DateTime(2011, 7, 1, 23, 59, 59);
+            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google, head, tail);
 
             Assert.AreEqual(PriceSeriesResolution.Weeks, target.PriceSeries.Resolution);
             var periods = target.PricePeriods;
@@ -70,8 +78,8 @@ namespace Sonneville.PriceToolsTest
         public void GoogleWeeklyTestDates()
         {
             var head = new DateTime(2011, 4, 1);
-            var tail = new DateTime(2011, 7, 1).AddHours(23).AddMinutes(59).AddSeconds(59);
-            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google);
+            var tail = new DateTime(2011, 7, 1, 23, 59, 59);
+            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google, head, tail);
 
             Assert.AreEqual(head, target.PriceSeries.Head);
             Assert.AreEqual(tail, target.PriceSeries.Tail);

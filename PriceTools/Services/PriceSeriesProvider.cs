@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools.Services
         {
             using (Stream stream = DownloadPricesToCsv(ticker, head, tail, resolution))
             {
-                return CreatePriceHistoryCsvFile(stream);
+                return CreatePriceHistoryCsvFile(stream, head, tail);
             }
         }
 
@@ -161,8 +161,10 @@ namespace Sonneville.PriceTools.Services
         /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceSeriesProvider.
         /// </summary>
         /// <param name="stream">The CSV data stream containing the price history.</param>
+        /// <param name="head">The head of the price data to retrieve.</param>
+        /// <param name="tail">The tail of the price data to retrieve.</param>
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
-        protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream);
+        protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail);
 
         /// <summary>
         /// Gets the smallest <see cref="PriceSeriesResolution"/> available from this PriceSeriesProvider.

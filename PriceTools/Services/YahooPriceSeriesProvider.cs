@@ -41,10 +41,12 @@ namespace Sonneville.PriceTools.Services
         /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceSeriesProvider.
         /// </summary>
         /// <param name="stream">The CSV data stream containing the price history.</param>
+        /// <param name="head">The head of the price data to retrieve.</param>
+        /// <param name="tail">The tail of the price data to retrieve.</param>
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
-        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream)
+        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail)
         {
-            return new YahooPriceHistoryCsvFile(stream);
+            return new YahooPriceHistoryCsvFile(stream, head, tail);
         }
 
         /// <summary>

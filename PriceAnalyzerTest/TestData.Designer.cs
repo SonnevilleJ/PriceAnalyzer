@@ -73,7 +73,7 @@ namespace PriceAnalyzerTest {
         ///17-Jun-11,80.48,80.53,78.3,78.53,5972507
         ///16-Jun-11,80.1,80.84,78.23,79.27,5510531
         ///15-Jun-11,81.36,82.18,80.09,80.21,4538246
-        ///14-Jun-11,81.55,82. [rest of string was truncated]&quot;;.
+        ///14-Jun-11,81.55,82. [rest of string was truncated]&quot;.
         /// </summary>
         internal static string DE_1_1_2011_to_6_30_2011 {
             get {
