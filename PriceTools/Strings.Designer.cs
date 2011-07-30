@@ -95,5 +95,25 @@ namespace Sonneville.PriceTools {
                 return ResourceManager.GetString("ParseError_Parsed_date_was_returned_as_null_or_whitespace", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to determine PriceSeriesResolution of data periods in CSV data..
+        /// </summary>
+        internal static string PriceHistoryCsvFile_DetermineResolution_Unable_to_determine_PriceSeriesResolution_of_data_periods_in_CSV_data_ {
+            get {
+                return ResourceManager.GetString("PriceHistoryCsvFile_DetermineResolution_Unable_to_determine_PriceSeriesResolution" +
+                        "_of_data_periods_in_CSV_data_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Given duration represents an unknown PriceSeriesResolution..
+        /// </summary>
+        internal static string PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSeriesResolution_ {
+            get {
+                return ResourceManager.GetString("PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSerie" +
+                        "sResolution_", resourceCulture);
+            }
+        }
     }
 }

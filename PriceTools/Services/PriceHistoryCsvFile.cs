@@ -16,7 +16,6 @@ namespace Sonneville.PriceTools.Services
 
         private readonly IDictionary<PriceColumn, int> _map = new Dictionary<PriceColumn, int>();
         private PriceSeries _priceSeries;
-        private readonly IList<StaticPricePeriod> _stagedPeriods = new List<StaticPricePeriod>();
 
         #endregion
 
@@ -96,6 +95,7 @@ namespace Sonneville.PriceTools.Services
         private void ParseData(CsvReader reader)
         {
             MapHeaders(reader);
+            IList<StaticPricePeriod> stagedPeriods = new List<StaticPricePeriod>();
 
             while (reader.ReadNextRecord())
             {
@@ -107,93 +107,87 @@ namespace Sonneville.PriceTools.Services
                 decimal? close = ParsePriceColumn(reader[_map[PriceColumn.Close]]);
                 long? volume = ParseVolumeColumn(reader[_map[PriceColumn.Volume]]);
 
-                StagePeriod(head, tail, open, high, low, close, volume);
+                if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_);
+                stagedPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close.Value, volume));
             }
 
-            if (Resolution.HasValue)
+            var resolution = DetermineResolution(stagedPeriods);
+            _priceSeries = new PriceSeries(resolution);
+            var staticPricePeriods = from stagedPeriod in stagedPeriods
+                                     let tail = GetTail(stagedPeriod.Head, resolution)
+                                     select
+                                         PricePeriodFactory.CreateStaticPricePeriod(stagedPeriod.Head, tail, stagedPeriod.Open, stagedPeriod.High,
+                                                                                    stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
+            foreach (var period in staticPricePeriods)
             {
-                _priceSeries = new PriceSeries(Resolution.Value);
-                var staticPricePeriods = from stagedPeriod in _stagedPeriods
-                                         let tail = GetTail(stagedPeriod.Head)
-                                         select PricePeriodFactory.CreateStaticPricePeriod(stagedPeriod.Head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
-                foreach (var period in staticPricePeriods)
-                {
-                    _priceSeries.DataPeriods.Add(period);
-                }
+                _priceSeries.DataPeriods.Add(period);
             }
         }
 
-        private void StagePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal? close, long? volume)
+        private static PriceSeriesResolution DetermineResolution(IList<StaticPricePeriod> periods)
         {
-            if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_);
-            _stagedPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close.Value, volume));
-
-            if (Resolution == null) DetermineResolution();
-        }
-
-        private void DetermineResolution()
-        {
-            if (_stagedPeriods.Count >= 3)
+            if (periods.Count >= 3)
             {
-                DateTime time1 = _stagedPeriods[0].Head;
-                DateTime time2 = _stagedPeriods[1].Head;
+                DateTime time1 = periods[0].Head;
+                DateTime time2 = periods[1].Head;
 
-                for (int i = 2; i < _stagedPeriods.Count; i++)
+                for (int i = 2; i < periods.Count; i++)
                 {
                     TimeSpan duration = time1 - time2;
-                    DateTime time3 = _stagedPeriods[i].Head;
+                    DateTime time3 = periods[i].Head;
                     if (Math.Abs((time2 - time3).Ticks) == Math.Abs(duration.Ticks))
                     {
-                        SetResolution(duration);
-                        break;
+                        return SetResolution(duration);
                     }
                     time1 = time2;
                     time2 = time3;
                 }
             }
+            throw new InvalidOperationException(Strings.PriceHistoryCsvFile_DetermineResolution_Unable_to_determine_PriceSeriesResolution_of_data_periods_in_CSV_data_);
         }
 
-        private void SetResolution(TimeSpan duration)
+        private static PriceSeriesResolution SetResolution(TimeSpan duration)
         {
             // ensure positive time, not negative time
             duration = new TimeSpan(Math.Abs(duration.Ticks));
 
-            if (duration <= new TimeSpan(0, 0, 1))              // test for second periods
+            if (duration <= new TimeSpan(0, 0, 1))          // test for second periods
             {
-                Resolution = PriceSeriesResolution.Seconds;
+                return PriceSeriesResolution.Seconds;
             }
-            else if (duration <= new TimeSpan(0, 1, 0))         // test for minute periods
+            if (duration <= new TimeSpan(0, 1, 0))          // test for minute periods
             {
-                Resolution = PriceSeriesResolution.Minutes;
+                return PriceSeriesResolution.Minutes;
             }
-            else if (duration <= new TimeSpan(1, 0, 0))         // test for hourly periods
+            if (duration <= new TimeSpan(1, 0, 0))          // test for hourly periods
             {
-                Resolution = PriceSeriesResolution.Hours;
+                return PriceSeriesResolution.Hours;
             }
-            else if (duration <= new TimeSpan(1, 0, 0, 0))      // test for daily periods
+            if (duration <= new TimeSpan(1, 0, 0, 0))       // test for daily periods
             {
-                Resolution = PriceSeriesResolution.Days;
+                return PriceSeriesResolution.Days;
             }
-            else if (duration <= new TimeSpan(7, 0, 0, 0))      // test for weekly periods
+            if (duration <= new TimeSpan(7, 0, 0, 0))       // test for weekly periods
             {
-                Resolution = PriceSeriesResolution.Weeks;
+                return PriceSeriesResolution.Weeks;
             }
-            else if (duration <= new TimeSpan(31, 0, 0, 0))     // test for monthly periods
+            if (duration <= new TimeSpan(31, 0, 0, 0))      // test for monthly periods
             {
-                Resolution = PriceSeriesResolution.Months;
+                return PriceSeriesResolution.Months;
             }
+            throw new ArgumentOutOfRangeException("duration", duration, Strings.PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSeriesResolution_);
         }
 
-        private DateTime GetTail(DateTime periodHead)
+        private static DateTime GetTail(DateTime periodHead, PriceSeriesResolution resolution)
         {
-            switch (Resolution)
+            switch (resolution)
             {
                 case PriceSeriesResolution.Days:
                     return GetEndOfDay(periodHead);
                 case PriceSeriesResolution.Weeks:
                     return GetEndOfWeek(periodHead);
                 default:
-                    throw new ArgumentOutOfRangeException(null, String.Format("Unable to get tail using Price Series Resolution: {0}", Resolution));
+                    throw new ArgumentOutOfRangeException(null, String.Format("Unable to get tail using Price Series Resolution: {0}", resolution));
             }
         }
 
@@ -222,8 +216,6 @@ namespace Sonneville.PriceTools.Services
             }
             return GetEndOfDay(date);
         }
-
-        private PriceSeriesResolution? Resolution { get; set; }
 
         #endregion
 
