@@ -79,13 +79,14 @@
     <Compile Include="PriceSeries.cs" />
     <Compile Include="PriceSeriesFactory.cs" />
     <Compile Include="Services\FidelityTransactionHistoryCsvFile.cs" />
+    <Compile Include="Services\GooglePriceHistoryCsvFile.cs" />
     <Compile Include="Services\GooglePriceSeriesProvider.cs" />
     <Compile Include="Services\PriceColumn.cs" />
     <Compile Include="Services\PriceHistoryCsvFile.cs" />
     <Compile Include="Services\PriceSeriesProvider.cs" />
     <Compile Include="Services\TransactionColumn.cs" />
     <Compile Include="Services\TransactionHistoryCsvFile.cs" />
-    <Compile Include="Services\GenericPriceHistoryCsvFile.cs" />
+    <Compile Include="Services\YahooPriceHistoryCsvFile.cs" />
     <Compile Include="Services\YahooPriceSeriesProvider.cs" />
     <Compile Include="Settings.cs" />
     <Compile Include="StaticPricePeriod.cs" />

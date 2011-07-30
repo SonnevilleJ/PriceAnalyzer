@@ -124,6 +124,8 @@ namespace Sonneville.PriceTools.Services
             }
         }
 
+        #region Static parsing methods
+
         private static PriceSeriesResolution DetermineResolution(IList<StaticPricePeriod> periods)
         {
             if (periods.Count >= 3)
@@ -219,6 +221,8 @@ namespace Sonneville.PriceTools.Services
 
         #endregion
 
+        #endregion
+
         #region Abstract/Virtual Methods
 
         /// <summary>
@@ -226,7 +230,26 @@ namespace Sonneville.PriceTools.Services
         /// </summary>
         /// <param name="header">A column header from the CSV file.</param>
         /// <returns>The <see cref="PriceColumn"/> of <paramref name="header"/>.</returns>
-        protected abstract PriceColumn ParseColumnHeader(string header);
+        protected virtual PriceColumn ParseColumnHeader(string header)
+        {
+            switch (header.ToLowerInvariant())
+            {
+                case "date":
+                    return PriceColumn.Date;
+                case "open":
+                    return PriceColumn.Open;
+                case "high":
+                    return PriceColumn.High;
+                case "low":
+                    return PriceColumn.Low;
+                case "close":
+                    return PriceColumn.Close;
+                case "volume":
+                    return PriceColumn.Volume;
+                default:
+                    return PriceColumn.None;
+            }
+        }
 
         /// <summary>
         /// Parses data from the Date column of the CSV data.

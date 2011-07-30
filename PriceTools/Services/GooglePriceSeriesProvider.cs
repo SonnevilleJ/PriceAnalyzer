@@ -95,7 +95,7 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
         protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream)
         {
-            return new GenericPriceHistoryCsvFile(stream);
+            return new GooglePriceHistoryCsvFile(stream);
         }
 
         /// <summary>

@@ -20,7 +20,7 @@ namespace PriceAnalyzerTest
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            _priceSeries = new GenericPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011).PriceSeries;
+            _priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011).PriceSeries;
         }
 
         [TestMethod]
