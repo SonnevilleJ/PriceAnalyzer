@@ -14,9 +14,9 @@ namespace Sonneville.PriceTools
         {
         }
 
-        internal PriceSeries(PriceSeriesResolution priceSeriesResolution)
+        internal PriceSeries(PriceSeriesResolution resolution)
         {
-            Resolution = priceSeriesResolution;
+            Resolution = resolution;
         }
 
         #endregion
@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal Close
         {
-            get { return PricePeriods.Last().Close; }
+            get { return DataPeriods.Last().Close; }
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal? High
         {
-            get { return PricePeriods.Max(p => p.High); }
+            get { return DataPeriods.Max(p => p.High); }
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal? Low
         {
-            get { return PricePeriods.Min(p => p.Low); }
+            get { return DataPeriods.Min(p => p.Low); }
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal? Open
         {
-            get { return PricePeriods.First().Open; }
+            get { return DataPeriods.First().Open; }
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override long? Volume
         {
-            get { return PricePeriods.Sum(p => p.Volume); }
+            get { return DataPeriods.Sum(p => p.Volume); }
         }
 
         /// <summary>
@@ -88,8 +88,8 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                if(PricePeriods.Count == 0) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
-                return PricePeriods.Min(p => p.Head);
+                if(DataPeriods.Count == 0) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
+                return DataPeriods.Min(p => p.Head);
             }
         }
 
@@ -100,8 +100,8 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                if (PricePeriods.Count == 0) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
-                return PricePeriods.Max(p => p.Tail);
+                if (DataPeriods.Count == 0) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
+                return DataPeriods.Max(p => p.Tail);
             }
         }
 
@@ -112,7 +112,7 @@ namespace Sonneville.PriceTools
         /// <returns>A value indicating if the PriceSeries has a valid value for the given date.</returns>
         public override bool HasValueInRange(DateTime settlementDate)
         {
-            return PricePeriods.Count > 0 ? base.HasValueInRange(settlementDate) : false;
+            return DataPeriods.Count > 0 ? base.HasValueInRange(settlementDate) : false;
         }
 
         /// <summary>
@@ -155,11 +155,15 @@ namespace Sonneville.PriceTools
             DownloadPriceDataIncludingBuffer(provider, head, tail);
         }
 
+        /// <summary>
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
+        /// </summary>
         public IList<IPricePeriod> PricePeriods { get { return GetPricePeriods(); } }
 
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
         /// </summary>
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public IList<IPricePeriod> GetPricePeriods()
         {
             return GetPricePeriods(Resolution);
@@ -168,16 +172,31 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceSeriesResolution"/>.
         /// </summary>
-        /// <param name="resolution"></param>
-        /// <returns></returns>
+        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> used to view the PricePeriods.</param>
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public IList<IPricePeriod> GetPricePeriods(PriceSeriesResolution resolution)
+        {
+            return GetPricePeriods(resolution, Head, Tail);
+        }
+
+        /// <summary>
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceSeriesResolution"/>.
+        /// </summary>
+        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> used to view the PricePeriods.</param>
+        /// <param name="head">The head of the periods to retrieve.</param>
+        /// <param name="tail">The tail of the periods to retrieve.</param>
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
+        public IList<IPricePeriod> GetPricePeriods(PriceSeriesResolution resolution, DateTime head, DateTime tail)
         {
             if (resolution < Resolution)
             {
                 throw new InvalidOperationException(String.Format("Unable to get price periods using resolution {0}. Minimum supported resolution is {1}.",
                                                                   resolution, Resolution));
             }
-            return DataPeriods.Cast<IPricePeriod>().OrderBy(period => period.Head).ToList();
+            return DataPeriods.Where(period => period.Head >= head && period.Tail <= tail).Cast<IPricePeriod>().OrderBy(period => period.Head).ToList();
+            // identify breaks and store in key-value pairs.
+            // loop through pairs, select periods.
+            // build new periods using first open, max(high), min(low), last close, sum(volume)
         }
 
         /// <summary>

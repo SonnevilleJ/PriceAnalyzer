@@ -1,4 +1,6 @@
-﻿using Sonneville.PriceTools;
+﻿using System.Globalization;
+using System.Linq;
+using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Sonneville.PriceTools.Services;
@@ -271,7 +273,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void GetWeeklyPeriodsFromDailyPeriodsTest()
+        public void GetWeeklyPeriodsFromDailyPeriodsTestPeriodCount()
         {
             var head = new DateTime(2011, 1, 1);
             var tail = new DateTime(2011, 6, 30, 23, 59, 59);
@@ -280,6 +282,57 @@ namespace Sonneville.PriceToolsTest
             var pricePeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Weeks);
 
             Assert.AreEqual(26, pricePeriods.Count);
+        }
+
+        [TestMethod]
+        public void GetWeeklyPeriodsFromDailyPeriodsTestPeriodData()
+        {
+            var seriesHead = new DateTime(2011, 1, 1);
+            var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
+            var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, seriesHead, seriesTail).PriceSeries;
+
+            var dailyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Days);
+            var weeklyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Weeks);
+
+            var weekHead = seriesHead;
+            var weekTail = GetNextFridayClose(seriesHead);
+            if (DateTimeFormatInfo.CurrentInfo == null) Assert.Inconclusive();
+            
+            var calendar = DateTimeFormatInfo.CurrentInfo.Calendar;
+            do
+            {
+                var periodsInWeek = dailyPeriods.Where(period => period.Head >= weekHead && period.Tail <= weekTail);
+                var weeklyPeriod = weeklyPeriods.Where(period => period.Head >= weekHead && period.Tail <= weekTail).First();
+
+                Assert.AreEqual(periodsInWeek.Min(p => p.Head), weeklyPeriod.Head);
+                Assert.AreEqual(periodsInWeek.Max(p => p.Tail), weeklyPeriod.Tail);
+                Assert.AreEqual(periodsInWeek.First().Open, weeklyPeriod.Open);
+                Assert.AreEqual(periodsInWeek.Max(p => p.High), weeklyPeriod.High);
+                Assert.AreEqual(periodsInWeek.Min(p => p.Low), weeklyPeriod.Low);
+                Assert.AreEqual(periodsInWeek.Last().Close, weeklyPeriod.Close);
+
+                weekHead = GetNextMondayOpen(weekTail);
+                weekTail = GetNextFridayClose(weekHead);
+            } while (calendar.GetWeekOfYear(weekTail, CalendarWeekRule.FirstDay, DayOfWeek.Sunday) <=
+                     calendar.GetWeekOfYear(seriesTail, CalendarWeekRule.FirstDay, DayOfWeek.Sunday));
+        }
+
+        private static DateTime GetNextMondayOpen(DateTime dateTime)
+        {
+            do
+            {
+                dateTime = dateTime.AddDays(1);
+            } while (dateTime.DayOfWeek != DayOfWeek.Monday);
+            return dateTime.Date;
+        }
+
+        private static DateTime GetNextFridayClose(DateTime dateTime)
+        {
+            do
+            {
+                dateTime = dateTime.AddDays(1);
+            } while (dateTime.DayOfWeek != DayOfWeek.Friday);
+            return dateTime.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
         }
 
         [TestMethod]
