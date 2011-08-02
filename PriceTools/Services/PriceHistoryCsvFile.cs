@@ -14,7 +14,6 @@ namespace Sonneville.PriceTools.Services
     {
         #region Private Members
 
-        private readonly IDictionary<PriceColumn, int> _map = new Dictionary<PriceColumn, int>();
         private readonly DateTime? _fileHead;
         private readonly DateTime? _fileTail;
 
@@ -91,19 +90,6 @@ namespace Sonneville.PriceTools.Services
 
         #region Private Methods
 
-        private void MapHeaders(CsvReader reader)
-        {
-            string[] headers = reader.GetFieldHeaders();
-            for (int i = 0; i < headers.Length; i++)
-            {
-                PriceColumn column = ParseColumnHeader(headers[i]);
-                if (column != PriceColumn.None)
-                {
-                    _map.Add(column, i);
-                }
-            }
-        }
-
         private void Parse(Stream stream)
         {
             using (CsvReader reader = new CsvReader(new StreamReader(stream), true))
@@ -122,46 +108,63 @@ namespace Sonneville.PriceTools.Services
 
         private void ParseData(CsvReader reader)
         {
-            MapHeaders(reader);
-            IList<BasicPeriod> stagedPeriods = StagePeriods(reader);
-            FormPricePeriods(stagedPeriods);
+            var map = MapHeaders(reader);
+            var stagedPeriods = StagePeriods(reader, map);
+            PriceSeries = BuildPriceSeries(stagedPeriods, _fileHead, _fileTail);
         }
 
-        private IList<BasicPeriod> StagePeriods(CsvReader reader)
+        private IDictionary<PriceColumn, int> MapHeaders(CsvReader reader)
+        {
+            string[] headers = reader.GetFieldHeaders();
+            var dictionary = new Dictionary<PriceColumn, int>();
+            for (int i = 0; i < headers.Length; i++)
+            {
+                PriceColumn column = ParseColumnHeader(headers[i]);
+                if (column != PriceColumn.None)
+                {
+                    dictionary.Add(column, i);
+                }
+            }
+            return dictionary;
+        }
+
+        private IList<BasicPeriod> StagePeriods(CsvReader reader, IDictionary<PriceColumn, int> map)
         {
             IList<BasicPeriod> stagedPeriods = new List<BasicPeriod>();
 
             while (reader.ReadNextRecord())
             {
-                DateTime date = ParseDateColumn(reader[_map[PriceColumn.Date]]);
-                decimal? open = ParsePriceColumn(reader[_map[PriceColumn.Open]]);
-                decimal? high = ParsePriceColumn(reader[_map[PriceColumn.High]]);
-                decimal? low = ParsePriceColumn(reader[_map[PriceColumn.Low]]);
-                decimal? close = ParsePriceColumn(reader[_map[PriceColumn.Close]]);
-                long? volume = ParseVolumeColumn(reader[_map[PriceColumn.Volume]]);
+                DateTime date = ParseDateColumn(reader[map[PriceColumn.Date]]);
+                decimal? open = ParsePriceColumn(reader[map[PriceColumn.Open]]);
+                decimal? high = ParsePriceColumn(reader[map[PriceColumn.High]]);
+                decimal? low = ParsePriceColumn(reader[map[PriceColumn.Low]]);
+                decimal? close = ParsePriceColumn(reader[map[PriceColumn.Close]]);
+                long? volume = ParseVolumeColumn(reader[map[PriceColumn.Volume]]);
 
-                if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_);
+                if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period);
                 stagedPeriods.Add(new BasicPeriod {Date = date, Open = open, High = high, Low = low, Close = close.Value, Volume = volume});
             }
             return stagedPeriods;
         }
 
-        private void FormPricePeriods(IList<BasicPeriod> stagedPeriods)
+        #region Static parsing methods
+
+        private static PriceSeries BuildPriceSeries(IList<BasicPeriod> stagedPeriods, DateTime? seriesHead, DateTime? seriesTail)
         {
             stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
             var resolution = DetermineResolution(stagedPeriods);
-            PriceSeries = new PriceSeries(resolution);
+            var priceSeries = new PriceSeries(resolution);
+
             for (int i = 0; i < stagedPeriods.Count; i++)
             {
                 var stagedPeriod = stagedPeriods[i];
-                var head = i == 0 && _fileHead.HasValue ? _fileHead.Value : GetHead(stagedPeriod.Date, resolution);
-                var tail = i == stagedPeriods.Count - 1 && _fileTail.HasValue ? _fileTail.Value : GetTail(stagedPeriod.Date, resolution);
-                PriceSeries.DataPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High,
+                var head = i == 0 && seriesHead.HasValue ? seriesHead.Value : GetHead(stagedPeriod.Date, resolution);
+                var tail = i == stagedPeriods.Count - 1 && seriesTail.HasValue ? seriesTail.Value : GetTail(stagedPeriod.Date, resolution);
+                priceSeries.DataPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High,
                                                                                        stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume));
             }
+            return priceSeries;
         }
-
-        #region Static parsing methods
 
         private static DateTime GetHead(DateTime date, PriceSeriesResolution resolution)
         {

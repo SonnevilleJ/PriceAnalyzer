@@ -81,9 +81,9 @@ namespace Sonneville.PriceTools {
         /// <summary>
         ///   Looks up a localized string similar to CSV data is corrupt; closing price cannot be null for any period..
         /// </summary>
-        internal static string ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_ {
+        internal static string ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period {
             get {
-                return ResourceManager.GetString("ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_", resourceCulture);
+                return ResourceManager.GetString("ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period", resourceCulture);
             }
         }
         
