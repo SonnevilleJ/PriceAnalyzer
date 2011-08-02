@@ -18,7 +18,7 @@ namespace Sonneville.PriceToolsTest
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Days);
 
             Assert.AreEqual(PriceSeriesResolution.Days, target.PriceSeries.Resolution);
-            foreach (var period in target.PriceSeries.DataPeriods)
+            foreach (var period in ((PriceSeries)target.PriceSeries).DataPeriods)
             {
                 Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
             }
@@ -99,7 +99,7 @@ namespace Sonneville.PriceToolsTest
             PriceHistoryCsvFile target = provider.GetPriceHistoryCsvFile("DE", head, tail, PriceSeriesResolution.Days);
 
             Assert.AreEqual(PriceSeriesResolution.Days, target.PriceSeries.Resolution);
-            foreach (var period in target.PriceSeries.DataPeriods)
+            foreach (var period in ((PriceSeries)target.PriceSeries).DataPeriods)
             {
                 Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
             }

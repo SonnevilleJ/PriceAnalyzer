@@ -82,9 +82,9 @@ namespace Sonneville.PriceTools.Services
         }
 
         /// <summary>
-        /// Gets a <see cref="PriceSeries"/> containing the price data in the file.
+        /// Gets an <see cref="IPriceSeries"/> containing the price data in the file.
         /// </summary>
-        public PriceSeries PriceSeries { get; private set; }
+        public IPriceSeries PriceSeries { get; private set; }
 
         #endregion
 
@@ -92,15 +92,17 @@ namespace Sonneville.PriceTools.Services
 
         private void Parse(Stream stream)
         {
-            using (CsvReader reader = new CsvReader(new StreamReader(stream), true))
-            {
-                ParseData(reader);
-            }
+            Parse(new StreamReader(stream));
         }
 
         private void Parse(string csvText)
         {
-            using (CsvReader reader = new CsvReader(new StringReader(csvText), true))
+            Parse(new StringReader(csvText));
+        }
+
+        private void Parse(TextReader stringReader)
+        {
+            using (CsvReader reader = new CsvReader(stringReader, true))
             {
                 ParseData(reader);
             }

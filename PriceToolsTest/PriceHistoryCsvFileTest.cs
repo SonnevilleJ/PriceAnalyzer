@@ -37,7 +37,7 @@ namespace Sonneville.PriceToolsTest
             PriceHistoryCsvFile target = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo);
             
             Assert.AreEqual(PriceSeriesResolution.Days, target.PriceSeries.Resolution);
-            foreach (var period in target.PriceSeries.DataPeriods)
+            foreach (var period in ((PriceSeries)target.PriceSeries).DataPeriods)
             {
                 Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
             }
