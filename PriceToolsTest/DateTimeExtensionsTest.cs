@@ -96,57 +96,57 @@ namespace Sonneville.PriceToolsTest
         }
 
         /// <summary>
-        /// A test for GetNextFridayClose
+        /// A test for GetNextWeekClose
         /// </summary>
         [TestMethod]
-        public void GetNextFridayCloseTestFromWednesday()
+        public void GetNextWeekCloseTestFromWednesday()
         {
             var dateTime = new DateTime(2011, 8, 2);
             var expected = new DateTime(2011, 8, 5, 23, 59, 59);
             
-            var actual = DateTimeExtensions.GetNextFridayClose(dateTime);
+            var actual = DateTimeExtensions.GetNextWeekClose(dateTime);
 
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        /// A test for GetNextFridayClose
+        /// A test for GetNextWeekClose
         /// </summary>
         [TestMethod]
-        public void GetNextFridayCloseTestFromFriday()
+        public void GetNextWeekCloseTestFromFriday()
         {
             var dateTime = new DateTime(2011, 8, 5);
             var expected = new DateTime(2011, 8, 5, 23, 59, 59);
             
-            var actual = DateTimeExtensions.GetNextFridayClose(dateTime);
+            var actual = DateTimeExtensions.GetNextWeekClose(dateTime);
 
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        /// A test for GetNextMondayOpen
+        /// A test for GetNextWeekOpen
         /// </summary>
         [TestMethod]
-        public void GetNextMondayOpenTestFromWednesday()
+        public void GetNextWeekOpenTestFromWednesday()
         {
             var dateTime = new DateTime(2011, 8, 2);
             var expected = new DateTime(2011, 8, 8);
             
-            var actual = DateTimeExtensions.GetNextMondayOpen(dateTime);
+            var actual = DateTimeExtensions.GetNextWeekOpen(dateTime);
             
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        /// A test for GetNextMondayOpen
+        /// A test for GetNextWeekOpen
         /// </summary>
         [TestMethod]
-        public void GetNextMondayOpenTestFromMonday()
+        public void GetNextWeekOpenTestFromMonday()
         {
             var dateTime = new DateTime(2011, 8, 8);
             var expected = new DateTime(2011, 8, 15);
             
-            var actual = DateTimeExtensions.GetNextMondayOpen(dateTime);
+            var actual = DateTimeExtensions.GetNextWeekOpen(dateTime);
             
             Assert.AreEqual(expected, actual);
         }

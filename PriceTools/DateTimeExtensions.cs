@@ -17,20 +17,6 @@ namespace Sonneville.PriceTools
             return GetNextWeekday(dateTime).Date;
         }
 
-        private static DateTime GetNextWeekday(DateTime dateTime)
-        {
-            return EnsureWeekday(dateTime.AddDays(1));
-        }
-
-        private static DateTime EnsureWeekday(DateTime dateTime)
-        {
-            while (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday)
-            {
-                dateTime = dateTime.AddDays(1);
-            }
-            return dateTime;
-        }
-
         /// <summary>
         /// Gets the next closing DateTime. This method does not consider holidays.
         /// </summary>
@@ -48,7 +34,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetNextMondayOpen(this DateTime dateTime)
+        public static DateTime GetNextWeekOpen(this DateTime dateTime)
         {
             do
             {
@@ -62,7 +48,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetNextFridayClose(this DateTime dateTime)
+        public static DateTime GetNextWeekClose(this DateTime dateTime)
         {
             while (dateTime.DayOfWeek != DayOfWeek.Friday)
             {
@@ -70,5 +56,23 @@ namespace Sonneville.PriceTools
             }
             return dateTime.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
         }
+
+        #region Private Methods
+
+        private static DateTime GetNextWeekday(DateTime dateTime)
+        {
+            return EnsureWeekday(dateTime.AddDays(1));
+        }
+
+        private static DateTime EnsureWeekday(DateTime dateTime)
+        {
+            while (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday)
+            {
+                dateTime = dateTime.AddDays(1);
+            }
+            return dateTime;
+        }
+
+        #endregion
     }
 }
