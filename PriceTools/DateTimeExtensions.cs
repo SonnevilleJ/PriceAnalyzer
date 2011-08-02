@@ -14,11 +14,21 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DateTime GetNextOpen(this DateTime dateTime)
         {
-            do
+            return GetNextWeekday(dateTime).Date;
+        }
+
+        private static DateTime GetNextWeekday(DateTime dateTime)
+        {
+            return EnsureWeekday(dateTime.AddDays(1));
+        }
+
+        private static DateTime EnsureWeekday(DateTime dateTime)
+        {
+            while (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday)
             {
                 dateTime = dateTime.AddDays(1);
-            } while (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday);
-            return dateTime.Date;
+            }
+            return dateTime;
         }
 
         /// <summary>
@@ -28,7 +38,9 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DateTime GetNextClose(this DateTime dateTime)
         {
-            return dateTime.AddSeconds(1).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+            var date = dateTime.AddSeconds(1).Date;
+            date = EnsureWeekday(date);
+            return date.AddHours(23).AddMinutes(59).AddSeconds(59);
         }
 
         /// <summary>

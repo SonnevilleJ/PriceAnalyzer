@@ -40,6 +40,20 @@ namespace Sonneville.PriceToolsTest
         }
 
         /// <summary>
+        /// A test for GetNextOpen
+        /// </summary>
+        [TestMethod]
+        public void GetNextOpenTestFromSaturday()
+        {
+            var dateTime = new DateTime(2011, 8, 6);
+            var expected = new DateTime(2011, 8, 8);
+
+            var actual = DateTimeExtensions.GetNextOpen(dateTime);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
         /// A test for GetNextClose
         /// </summary>
         [TestMethod]
@@ -61,6 +75,20 @@ namespace Sonneville.PriceToolsTest
         {
             var dateTime = new DateTime(2011, 8, 2, 23, 59, 59);
             var expected = new DateTime(2011, 8, 3, 23, 59, 59);
+            
+            var actual = DateTimeExtensions.GetNextClose(dateTime);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        /// A test for GetNextClose
+        /// </summary>
+        [TestMethod]
+        public void GetNextCloseTestFromSaturday()
+        {
+            var dateTime = new DateTime(2011, 8, 6);
+            var expected = new DateTime(2011, 8, 8, 23, 59, 59);
             
             var actual = DateTimeExtensions.GetNextClose(dateTime);
 
