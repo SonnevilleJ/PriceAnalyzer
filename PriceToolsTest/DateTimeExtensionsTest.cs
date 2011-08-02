@@ -12,6 +12,62 @@ namespace Sonneville.PriceToolsTest
     public class DateTimeExtensionsTest
     {
         /// <summary>
+        /// A test for GetNextOpen
+        /// </summary>
+        [TestMethod]
+        public void GetNextOpenTestFromMidnight()
+        {
+            var dateTime = new DateTime(2011, 8, 2);
+            var expected = new DateTime(2011, 8, 3);
+            
+            var actual = DateTimeExtensions.GetNextOpen(dateTime);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        /// A test for GetNextOpen
+        /// </summary>
+        [TestMethod]
+        public void GetNextOpenTestFromEndOfDay()
+        {
+            var dateTime = new DateTime(2011, 8, 2, 23, 59, 59);
+            var expected = new DateTime(2011, 8, 3);
+            
+            var actual = DateTimeExtensions.GetNextOpen(dateTime);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        /// A test for GetNextClose
+        /// </summary>
+        [TestMethod]
+        public void GetNextCloseTestFromNoon()
+        {
+            var dateTime = new DateTime(2011, 8, 2, 12, 0, 0);
+            var expected = new DateTime(2011, 8, 2, 23, 59, 59);
+            
+            var actual = DateTimeExtensions.GetNextClose(dateTime);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        /// A test for GetNextClose
+        /// </summary>
+        [TestMethod]
+        public void GetNextCloseTestFromEndOfDay()
+        {
+            var dateTime = new DateTime(2011, 8, 2, 23, 59, 59);
+            var expected = new DateTime(2011, 8, 3, 23, 59, 59);
+            
+            var actual = DateTimeExtensions.GetNextClose(dateTime);
+
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
         /// A test for GetNextFridayClose
         /// </summary>
         [TestMethod]

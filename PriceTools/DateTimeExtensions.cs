@@ -8,6 +8,30 @@ namespace Sonneville.PriceTools
     public static class DateTimeExtensions
     {
         /// <summary>
+        /// Gets the next opening DateTime. This method does not consider holidays.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetNextOpen(this DateTime dateTime)
+        {
+            do
+            {
+                dateTime = dateTime.AddDays(1);
+            } while (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday);
+            return dateTime.Date;
+        }
+
+        /// <summary>
+        /// Gets the next closing DateTime. This method does not consider holidays.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetNextClose(this DateTime dateTime)
+        {
+            return dateTime.AddSeconds(1).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+        }
+
+        /// <summary>
         /// Gets the opening DateTime of the following Monday. This method does not consider holidays.
         /// </summary>
         /// <param name="dateTime"></param>
