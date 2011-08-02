@@ -295,7 +295,7 @@ namespace Sonneville.PriceToolsTest
             var weeklyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Weeks);
 
             var weekHead = seriesHead;
-            var weekTail = GetNextFridayClose(seriesHead);
+            var weekTail = seriesHead.GetNextFridayClose();
             if (DateTimeFormatInfo.CurrentInfo == null) Assert.Inconclusive();
             
             var calendar = DateTimeFormatInfo.CurrentInfo.Calendar;
@@ -311,28 +311,10 @@ namespace Sonneville.PriceToolsTest
                 Assert.AreEqual(periodsInWeek.Min(p => p.Low), weeklyPeriod.Low);
                 Assert.AreEqual(periodsInWeek.Last().Close, weeklyPeriod.Close);
 
-                weekHead = GetNextMondayOpen(weekTail);
-                weekTail = GetNextFridayClose(weekHead);
+                weekHead = weekTail.GetNextMondayOpen();
+                weekTail = weekHead.GetNextFridayClose();
             } while (calendar.GetWeekOfYear(weekTail, CalendarWeekRule.FirstDay, DayOfWeek.Sunday) <=
                      calendar.GetWeekOfYear(seriesTail, CalendarWeekRule.FirstDay, DayOfWeek.Sunday));
-        }
-
-        private static DateTime GetNextMondayOpen(DateTime dateTime)
-        {
-            do
-            {
-                dateTime = dateTime.AddDays(1);
-            } while (dateTime.DayOfWeek != DayOfWeek.Monday);
-            return dateTime.Date;
-        }
-
-        private static DateTime GetNextFridayClose(DateTime dateTime)
-        {
-            do
-            {
-                dateTime = dateTime.AddDays(1);
-            } while (dateTime.DayOfWeek != DayOfWeek.Friday);
-            return dateTime.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
         }
 
         [TestMethod]

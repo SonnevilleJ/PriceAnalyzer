@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuyToCoverTest.cs" />
+    <Compile Include="DateTimeExtensionsTest.cs" />
     <Compile Include="EntityFramework.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteTest.cs" />

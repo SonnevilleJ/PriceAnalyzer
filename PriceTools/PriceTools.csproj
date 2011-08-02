@@ -54,6 +54,7 @@
     <Compile Include="BuyToCover.cs" />
     <Compile Include="CashAccount.cs" />
     <Compile Include="CashTransaction.cs" />
+    <Compile Include="DateTimeExtensions.cs" />
     <Compile Include="Deposit.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="DividendReinvestment.cs" />
