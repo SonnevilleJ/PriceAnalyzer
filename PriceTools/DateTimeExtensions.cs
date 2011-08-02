@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DateTime GetNextOpen(this DateTime dateTime)
         {
-            return GetNextWeekday(dateTime).Date;
+            return GetNextWeekday(dateTime).GetBeginningOfDay();
         }
 
         /// <summary>
@@ -24,9 +24,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DateTime GetNextClose(this DateTime dateTime)
         {
-            var date = dateTime.AddSeconds(1).Date;
-            date = EnsureWeekday(date);
-            return date.AddHours(23).AddMinutes(59).AddSeconds(59);
+            return EnsureWeekday(dateTime.AddSeconds(1)).GetEndOfDay();
         }
 
         /// <summary>
@@ -40,7 +38,7 @@ namespace Sonneville.PriceTools
             {
                 dateTime = dateTime.AddDays(1);
             } while (dateTime.DayOfWeek != DayOfWeek.Monday);
-            return dateTime.Date;
+            return dateTime.GetBeginningOfDay();
         }
 
         /// <summary>
@@ -54,7 +52,7 @@ namespace Sonneville.PriceTools
             {
                 dateTime = dateTime.AddDays(1);
             }
-            return dateTime.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+            return dateTime.GetEndOfDay();
         }
 
         #region Private Methods
@@ -74,5 +72,57 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
+
+        public static DateTime GetBeginningOfDay(this DateTime date)
+        {
+            return date.Date;
+        }
+
+        public static DateTime GetBeginningOfWeek(this DateTime date)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Saturday:
+                case DayOfWeek.Sunday:
+                    while (date.DayOfWeek != DayOfWeek.Sunday)
+                    {
+                        date = date.AddDays(-1);
+                    }
+                    break;
+                default:
+                    while (date.DayOfWeek != DayOfWeek.Monday)
+                    {
+                        date = date.AddDays(-1);
+                    }
+                    break;
+            }
+            return GetBeginningOfDay(date);
+        }
+
+        public static DateTime GetEndOfDay(this DateTime date)
+        {
+            return date.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+        }
+
+        public static DateTime GetEndOfWeek(this DateTime date)
+        {
+            switch (date.DayOfWeek)
+            {
+                case DayOfWeek.Saturday:
+                case DayOfWeek.Sunday:
+                    while (date.DayOfWeek != DayOfWeek.Saturday)
+                    {
+                        date = date.AddDays(1);
+                    }
+                    break;
+                default:
+                    while (date.DayOfWeek != DayOfWeek.Friday)
+                    {
+                        date = date.AddDays(1);
+                    }
+                    break;
+            }
+            return GetEndOfDay(date);
+        }
     }
 }

@@ -173,9 +173,9 @@ namespace Sonneville.PriceTools.Services
             switch (resolution)
             {
                 case PriceSeriesResolution.Days:
-                    return GetBeginningOfDay(date);
+                    return date.GetBeginningOfDay();
                 case PriceSeriesResolution.Weeks:
-                    return GetBeginningOfWeek(date);
+                    return date.GetBeginningOfWeek();
                 default:
                     throw new ArgumentOutOfRangeException(null, String.Format(Strings.PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution, resolution));
             }
@@ -186,9 +186,9 @@ namespace Sonneville.PriceTools.Services
             switch (resolution)
             {
                 case PriceSeriesResolution.Days:
-                    return GetEndOfDay(date);
+                    return date.GetEndOfDay();
                 case PriceSeriesResolution.Weeks:
-                    return GetEndOfWeek(date);
+                    return date.GetEndOfWeek();
                 default:
                     throw new ArgumentOutOfRangeException(null, String.Format(Strings.PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution, resolution));
             }
@@ -246,58 +246,6 @@ namespace Sonneville.PriceTools.Services
                 return PriceSeriesResolution.Months;
             }
             throw new ArgumentOutOfRangeException("duration", duration, Strings.PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSeriesResolution_);
-        }
-
-        private static DateTime GetBeginningOfDay(DateTime date)
-        {
-            return date.Date;
-        }
-
-        private static DateTime GetBeginningOfWeek(DateTime date)
-        {
-            switch (date.DayOfWeek)
-            {
-                case DayOfWeek.Saturday:
-                case DayOfWeek.Sunday:
-                    while (date.DayOfWeek != DayOfWeek.Sunday)
-                    {
-                        date = date.AddDays(-1);
-                    }
-                    break;
-                default:
-                    while (date.DayOfWeek != DayOfWeek.Monday)
-                    {
-                        date = date.AddDays(-1);
-                    }
-                    break;
-            }
-            return GetBeginningOfDay(date);
-        }
-
-        private static DateTime GetEndOfDay(DateTime date)
-        {
-            return date.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-        }
-
-        private static DateTime GetEndOfWeek(DateTime date)
-        {
-            switch (date.DayOfWeek)
-            {
-                case DayOfWeek.Saturday:
-                case DayOfWeek.Sunday:
-                    while (date.DayOfWeek != DayOfWeek.Saturday)
-                    {
-                        date = date.AddDays(1);
-                    }
-                    break;
-                default:
-                    while (date.DayOfWeek != DayOfWeek.Friday)
-                    {
-                        date = date.AddDays(1);
-                    }
-                    break;
-            }
-            return GetEndOfDay(date);
         }
 
         #endregion
