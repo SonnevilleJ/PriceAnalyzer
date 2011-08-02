@@ -123,6 +123,12 @@ namespace Sonneville.PriceTools.Services
         private void ParseData(CsvReader reader)
         {
             MapHeaders(reader);
+            IList<BasicPeriod> stagedPeriods = StagePeriods(reader);
+            FormPricePeriods(stagedPeriods);
+        }
+
+        private IList<BasicPeriod> StagePeriods(CsvReader reader)
+        {
             IList<BasicPeriod> stagedPeriods = new List<BasicPeriod>();
 
             while (reader.ReadNextRecord())
@@ -137,7 +143,11 @@ namespace Sonneville.PriceTools.Services
                 if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period_);
                 stagedPeriods.Add(new BasicPeriod {Date = date, Open = open, High = high, Low = low, Close = close.Value, Volume = volume});
             }
+            return stagedPeriods;
+        }
 
+        private void FormPricePeriods(IList<BasicPeriod> stagedPeriods)
+        {
             stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
             var resolution = DetermineResolution(stagedPeriods);
             PriceSeries = new PriceSeries(resolution);
@@ -147,7 +157,7 @@ namespace Sonneville.PriceTools.Services
                 var head = i == 0 && _fileHead.HasValue ? _fileHead.Value : GetHead(stagedPeriod.Date, resolution);
                 var tail = i == stagedPeriods.Count - 1 && _fileTail.HasValue ? _fileTail.Value : GetTail(stagedPeriod.Date, resolution);
                 PriceSeries.DataPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High,
-                                                                                        stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume));
+                                                                                       stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume));
             }
         }
 
