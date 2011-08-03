@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetNextWeekOpen(this DateTime dateTime)
+        public static DateTime GetFollowingWeekOpen(this DateTime dateTime)
         {
             do
             {
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetNextWeekClose(this DateTime dateTime)
+        public static DateTime GetFollowingWeekClose(this DateTime dateTime)
         {
             while (dateTime.DayOfWeek != DayOfWeek.Friday)
             {

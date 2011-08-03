@@ -96,57 +96,57 @@ namespace Sonneville.PriceToolsTest
         }
 
         /// <summary>
-        /// A test for GetNextWeekClose
+        /// A test for GetFollowingWeekClose
         /// </summary>
         [TestMethod]
-        public void GetNextWeekCloseTestFromWednesday()
+        public void GetFollowingWeekCloseTestFromWednesday()
         {
             var dateTime = new DateTime(2011, 8, 2);
             var expected = new DateTime(2011, 8, 5, 23, 59, 59);
             
-            var actual = DateTimeExtensions.GetNextWeekClose(dateTime);
+            var actual = DateTimeExtensions.GetFollowingWeekClose(dateTime);
 
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        /// A test for GetNextWeekClose
+        /// A test for GetFollowingWeekClose
         /// </summary>
         [TestMethod]
-        public void GetNextWeekCloseTestFromFriday()
+        public void GetFollowingWeekCloseTestFromFriday()
         {
             var dateTime = new DateTime(2011, 8, 5);
             var expected = new DateTime(2011, 8, 5, 23, 59, 59);
             
-            var actual = DateTimeExtensions.GetNextWeekClose(dateTime);
+            var actual = DateTimeExtensions.GetFollowingWeekClose(dateTime);
 
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        /// A test for GetNextWeekOpen
+        /// A test for GetFollowingWeekOpen
         /// </summary>
         [TestMethod]
-        public void GetNextWeekOpenTestFromWednesday()
+        public void GetFollowingWeekOpenTestFromWednesday()
         {
             var dateTime = new DateTime(2011, 8, 2);
             var expected = new DateTime(2011, 8, 8);
             
-            var actual = DateTimeExtensions.GetNextWeekOpen(dateTime);
+            var actual = DateTimeExtensions.GetFollowingWeekOpen(dateTime);
             
             Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
-        /// A test for GetNextWeekOpen
+        /// A test for GetFollowingWeekOpen
         /// </summary>
         [TestMethod]
-        public void GetNextWeekOpenTestFromMonday()
+        public void GetFollowingWeekOpenTestFromMonday()
         {
             var dateTime = new DateTime(2011, 8, 8);
             var expected = new DateTime(2011, 8, 15);
             
-            var actual = DateTimeExtensions.GetNextWeekOpen(dateTime);
+            var actual = DateTimeExtensions.GetFollowingWeekOpen(dateTime);
             
             Assert.AreEqual(expected, actual);
         }
