@@ -44,6 +44,19 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
+        public void PriceHistoryCsvFileWillCorrectWeekendHeadTest()
+        {
+            var seriesHead = new DateTime(2011, 1, 1);
+            var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
+            var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, seriesHead, seriesTail).PriceSeries;
+
+            var expectedHead = DateTimeExtensions.EnsureWeekday(seriesHead);
+            Assert.AreEqual(expectedHead, priceSeries.Head);
+
+            // todo: add a similar test to ensure tail is corrected if it is on a weekend
+        }
+
+        [TestMethod]
         public void GoogleWeeklyTestPeriods()
         {
             PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google);

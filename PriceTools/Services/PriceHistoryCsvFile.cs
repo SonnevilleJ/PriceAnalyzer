@@ -160,7 +160,7 @@ namespace Sonneville.PriceTools.Services
             for (int i = 0; i < stagedPeriods.Count; i++)
             {
                 var stagedPeriod = stagedPeriods[i];
-                var head = i == 0 && seriesHead.HasValue ? seriesHead.Value : GetHead(stagedPeriod.Date, resolution);
+                var head = i == 0 && seriesHead.HasValue ? DateTimeExtensions.EnsureWeekday(seriesHead.Value) : GetHead(stagedPeriod.Date, resolution);
                 var tail = i == stagedPeriods.Count - 1 && seriesTail.HasValue ? seriesTail.Value : GetTail(stagedPeriod.Date, resolution);
                 priceSeries.DataPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High,
                                                                                        stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume));
