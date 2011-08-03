@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetNextOpen(this DateTime dateTime)
+        public static DateTime GetFollowingOpen(this DateTime dateTime)
         {
             return GetNextWeekday(dateTime).GetBeginningOfDay();
         }
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetNextClose(this DateTime dateTime)
+        public static DateTime GetFollowingClose(this DateTime dateTime)
         {
             return EnsureWeekday(dateTime.AddSeconds(1)).GetEndOfDay();
         }
@@ -55,20 +55,20 @@ namespace Sonneville.PriceTools
             return dateTime.GetEndOfDay();
         }
 
-        #region Private Methods
-
-        private static DateTime GetNextWeekday(DateTime dateTime)
-        {
-            return EnsureWeekday(dateTime.AddDays(1));
-        }
-
-        private static DateTime EnsureWeekday(DateTime dateTime)
+        public static DateTime EnsureWeekday(DateTime dateTime)
         {
             while (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday)
             {
                 dateTime = dateTime.AddDays(1);
             }
             return dateTime;
+        }
+
+        #region Private Methods
+
+        private static DateTime GetNextWeekday(DateTime dateTime)
+        {
+            return EnsureWeekday(dateTime.AddDays(1));
         }
 
         #endregion

@@ -294,7 +294,7 @@ namespace Sonneville.PriceToolsTest
             var dailyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Days);
             var weeklyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Weeks);
 
-            var weekHead = seriesHead;
+            var weekHead = DateTimeExtensions.EnsureWeekday(seriesHead);
             var weekTail = seriesHead.GetFollowingWeekClose();
             if (DateTimeFormatInfo.CurrentInfo == null) Assert.Inconclusive();
             
