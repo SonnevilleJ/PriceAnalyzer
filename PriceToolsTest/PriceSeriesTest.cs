@@ -304,8 +304,10 @@ namespace Sonneville.PriceToolsTest
                 var periodsInWeek = dailyPeriods.Where(period => period.Head >= weekHead && period.Tail <= weekTail);
                 var weeklyPeriod = weeklyPeriods.Where(period => period.Head >= weekHead && period.Tail <= weekTail).First();
 
-                Assert.AreEqual(periodsInWeek.Min(p => p.Head), weeklyPeriod.Head);
-                Assert.AreEqual(periodsInWeek.Max(p => p.Tail), weeklyPeriod.Tail);
+                var head = periodsInWeek.Min(p => p.Head);
+                Assert.IsTrue(DatesShareWeek(head, weeklyPeriod.Head));
+                var tail = periodsInWeek.Max(p => p.Tail);
+                Assert.IsTrue(DatesShareWeek(tail, weeklyPeriod.Tail));
                 Assert.AreEqual(periodsInWeek.First().Open, weeklyPeriod.Open);
                 Assert.AreEqual(periodsInWeek.Max(p => p.High), weeklyPeriod.High);
                 Assert.AreEqual(periodsInWeek.Min(p => p.Low), weeklyPeriod.Low);
@@ -315,6 +317,16 @@ namespace Sonneville.PriceToolsTest
                 weekTail = weekHead.GetFollowingWeekClose();
             } while (calendar.GetWeekOfYear(weekTail, CalendarWeekRule.FirstDay, DayOfWeek.Sunday) <=
                      calendar.GetWeekOfYear(seriesTail, CalendarWeekRule.FirstDay, DayOfWeek.Sunday));
+        }
+
+        private static bool DatesShareWeek(DateTime date1, DateTime date2)
+        {
+            // this method is only used to test if two dates are in the same week of price data.
+            // Implementing support for market holidays should remove the need for this method.
+
+            var periodStart = date1.GetBeginningOfWeek();
+            var periodEnd = date1.GetEndOfWeek();
+            return date2 >= periodStart && date2 <= periodEnd;
         }
 
         [TestMethod]
