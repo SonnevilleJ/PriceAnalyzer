@@ -1,5 +1,6 @@
 ﻿using System;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 

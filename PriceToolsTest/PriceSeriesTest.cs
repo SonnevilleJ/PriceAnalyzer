@@ -3,6 +3,7 @@ using System.Linq;
 using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.Services;
 using Sonneville.Utilities;
 

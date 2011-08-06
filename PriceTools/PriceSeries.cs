@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceTools
@@ -226,13 +227,10 @@ namespace Sonneville.PriceTools
             var list = new List<KeyValuePair<DateTime, DateTime>>();
             while (head < tail)
             {
-                if (getPeriodClose != null)
-                {
-                    var periodClose = getPeriodClose(head);
-                    var lastDay = periodClose > tail ? tail : periodClose;
-                    list.Add(new KeyValuePair<DateTime, DateTime>(head, lastDay));
-                    head = getNextOpen(lastDay);
-                }
+                var periodClose = getPeriodClose(head);
+                var lastDay = periodClose > tail ? tail : periodClose;
+                list.Add(new KeyValuePair<DateTime, DateTime>(head, lastDay));
+                head = getNextOpen(lastDay);
             }
             return list;
         }
@@ -253,6 +251,8 @@ namespace Sonneville.PriceTools
                     getPeriodClose = DateTimeExtensions.GetFollowingMonthlyClose;
                     getNextOpen = DateTimeExtensions.GetFollowingMonthlyOpen;
                     break;
+                default:
+                    throw new NotSupportedException(String.Format("Resolution {0} not supported.", resolution));
             }
         }
 
