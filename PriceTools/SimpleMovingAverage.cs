@@ -14,17 +14,6 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "series">The <see cref="IPriceSeries"/> containing the data to be averaged.</param>
         /// <param name = "range">The number of periods to average together.</param>
-        /// <param name="resolution">The resolution to use when breaking <paramref name="series"/> into periods.</param>
-        public SimpleMovingAverage(IPriceSeries series, int range, PriceSeriesResolution resolution)
-            : base(series, range, resolution)
-        {
-        }
-
-        /// <summary>
-        ///   Constructs a new Simple Moving Average.
-        /// </summary>
-        /// <param name = "series">The <see cref="IPriceSeries"/> containing the data to be averaged.</param>
-        /// <param name = "range">The number of periods to average together.</param>
         public SimpleMovingAverage(IPriceSeries series, int range)
             : base(series, range)
         {
@@ -45,7 +34,7 @@ namespace Sonneville.PriceTools
             }
 
             decimal sum = 0;
-            for (DateTime i = index.Subtract(new TimeSpan(Range - 1, 0, 0, 0)); i <= index; i = IncrementDate(i))
+            for (var i = index.Subtract(new TimeSpan(Range - 1, 0, 0, 0)); i <= index; i = IncrementDate(i))
             {
                 sum += PriceSeries[i];
             }

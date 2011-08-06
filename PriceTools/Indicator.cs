@@ -4,13 +4,12 @@ using System.Collections.Generic;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// A generic indicator used to transform ITimeSeries data to identify a trend, correlation, reversal, or other meaningful information about the underlying ITimeSeries data.
+    /// A generic indicator used to transform <see cref="ITimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying ITimeSeries data.
     /// </summary>
-    public abstract class Indicator : ITimeSeries
+    public abstract class Indicator : IIndicator
     {
         #region Private Members
 
-        private bool _allCalculated;
         private readonly object _padlock = new object();
 
         #endregion
@@ -18,25 +17,24 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         /// <summary>
-        /// Constructs an Indicator for a given <see cref="ITimeSeries"/>.
+        /// Constructs an Indicator for a given <see cref="IPriceSeries"/>.
         /// </summary>
-        /// <param name="priceSeries">The <see cref="ITimeSeries"/> to measure.</param>
-        /// <param name="range">The range used by this indicator.</param>
-        /// <param name="resolution">The resolution to use for the indicator.</param>
-        protected Indicator(IPriceSeries priceSeries, int range, PriceSeriesResolution resolution = PriceSeriesResolution.Days)
+        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to measure.</param>
+        /// <param name="range">The range of this Indicator which specifies how many periods are required for the first indicator value.</param>
+        protected Indicator(IPriceSeries priceSeries, int range)
         {
             if (priceSeries == null)
             {
                 throw new ArgumentNullException("priceSeries");
             }
-            if(priceSeries.TimeSpan < new TimeSpan(range * (long)resolution))
+            PriceSeries = priceSeries;
+            Resolution = priceSeries.Resolution;
+            if(priceSeries.TimeSpan < new TimeSpan(range * (long)Resolution))
             {
                 throw new InvalidOperationException("The TimeSpan of priceSeries is too narrow for the given PriceSeriesResolution.");
             }
-            PriceSeries = priceSeries;
             Dictionary = new Dictionary<DateTime, decimal?>(priceSeries.PricePeriods.Count - range);
             Range = range;
-            Resolution = resolution;
         }
 
         #endregion
@@ -75,14 +73,13 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual void CalculateAll()
         {
-            for (DateTime date = Head; date <= Tail; date = IncrementDate(date))
+            for (var date = Head; date <= Tail; date = IncrementDate(date))
             {
                 if (HasValueInRange(date))
                 {
                     this[date] = Calculate(date);
                 }
             }
-            _allCalculated = true;
         }
 
         /// <summary>
@@ -120,7 +117,7 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                if(!_allCalculated) CalculateAll();
+                CalculateAll();
                 return Dictionary.Count;
             }
         }
@@ -134,7 +131,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
         /// </summary>
-        protected ITimeSeries PriceSeries { get; private set; }
+        public ITimeSeries PriceSeries { get; private set; }
 
         /// <summary>
         /// An object to lock when performing thread unsafe tasks.

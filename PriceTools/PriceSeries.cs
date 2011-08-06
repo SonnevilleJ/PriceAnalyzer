@@ -186,6 +186,7 @@ namespace Sonneville.PriceTools
         /// <param name="resolution">The <see cref="PriceSeriesResolution"/> used to view the PricePeriods.</param>
         /// <param name="head">The head of the periods to retrieve.</param>
         /// <param name="tail">The tail of the periods to retrieve.</param>
+        /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this IPriceSeries.</exception>
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public IList<IPricePeriod> GetPricePeriods(PriceSeriesResolution resolution, DateTime head, DateTime tail)
         {
@@ -274,10 +275,11 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the most recent price quote before or at <paramref name="settlementDate"/>.
+        /// Gets the most recent price at or before <paramref name="settlementDate"/>.
         /// </summary>
         /// <param name="settlementDate">The DateTime to price.</param>
-        /// <returns></returns>
+        /// <exception cref="InvalidOperationException">Throws if no price is available at or before <paramref name="settlementDate"/>.</exception>
+        /// <returns>The most recent price at or before <paramref name="settlementDate"/>.</returns>
         private decimal GetLatestPrice(DateTime settlementDate)
         {
             var matchingPeriods = PricePeriods.Where(p => p.HasValueInRange(settlementDate));
