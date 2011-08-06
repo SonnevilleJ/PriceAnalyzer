@@ -102,27 +102,7 @@ namespace Sonneville.PriceTools
             if (ReferenceEquals(null, left)) return false;
             if (ReferenceEquals(null, right)) return false;
 
-            bool cashMatches = true;
-            if (left.Transactions.Count == right.Transactions.Count)
-            {
-                // workaround for glitch in Entity Framework:
-                // EF 4.0 calls GetHashCode() rather than Equals() on collection elements
-                // which means we have to manually check each item in both collections.
-                foreach (var transaction in left.Transactions)
-                {
-                    if (right.Transactions.Where(
-                            t=>t.OrderType == transaction.OrderType &&
-                            t.Amount == transaction.Amount &&
-                            t.SettlementDate == transaction.SettlementDate
-                            ).Count() == 0)
-                    {
-                        cashMatches = false;
-                        break;
-                    }
-                }
-            }
-
-            return cashMatches;
+            return left.Transactions.Count == right.Transactions.Count && left.Transactions.All(transaction => right.Transactions.Where(t => t.OrderType == transaction.OrderType && t.Amount == transaction.Amount && t.SettlementDate == transaction.SettlementDate).Count() != 0);
         }
 
         /// <summary>
@@ -157,7 +137,7 @@ namespace Sonneville.PriceTools
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(ICashAccount other)
         {
-            return (CashAccount) other == this;
+            return other as CashAccount == this;
         }
 
         /// <summary>
@@ -169,8 +149,7 @@ namespace Sonneville.PriceTools
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            if (obj is CashAccount) return Equals((CashAccount) obj);
-            return false;
+            return Equals(obj as CashAccount);
         }
 
         /// <summary>

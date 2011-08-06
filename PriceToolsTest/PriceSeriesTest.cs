@@ -324,7 +324,7 @@ namespace Sonneville.PriceToolsTest
             // this method is only used to test if two dates are in the same week of price data.
             // Implementing support for market holidays should remove the need for this method.
 
-            var periodStart = date1.GetBeginningOfTradingWeek();
+            var periodStart = date1.GetMostRecentWeeklyOpen();
             var periodEnd = date1.GetFollowingWeeklyClose();
             return date2 >= periodStart && date2 <= periodEnd;
         }

@@ -175,7 +175,7 @@ namespace Sonneville.PriceTools.Services
                 case PriceSeriesResolution.Days:
                     return date.GetMostRecentOpen();
                 case PriceSeriesResolution.Weeks:
-                    return date.GetBeginningOfTradingWeek();
+                    return date.GetMostRecentWeeklyOpen();
                 default:
                     throw new ArgumentOutOfRangeException(null, String.Format(Strings.PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution, resolution));
             }

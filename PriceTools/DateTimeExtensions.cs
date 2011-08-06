@@ -88,44 +88,30 @@ namespace Sonneville.PriceTools
             return date.Date;
         }
 
-        public static DateTime GetBeginningOfTradingWeek(this DateTime date)
+        /// <summary>
+        /// Gets the most recent open of a trading week.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static DateTime GetMostRecentWeeklyOpen(this DateTime date)
         {
-            switch (date.DayOfWeek)
+            while (date.DayOfWeek != DayOfWeek.Monday)
             {
-                case DayOfWeek.Saturday:
-                case DayOfWeek.Sunday:
-                    while (date.DayOfWeek != DayOfWeek.Sunday)
-                    {
-                        date = date.AddDays(-1);
-                    }
-                    break;
-                default:
-                    while (date.DayOfWeek != DayOfWeek.Monday)
-                    {
-                        date = date.AddDays(-1);
-                    }
-                    break;
+                date = date.AddDays(-1);
             }
             return GetMostRecentOpen(date);
         }
 
+        /// <summary>
+        /// Gets the following close of a trading week.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public static DateTime GetFollowingWeeklyClose(this DateTime date)
         {
-            switch (date.DayOfWeek)
+            while (date.DayOfWeek != DayOfWeek.Friday)
             {
-                case DayOfWeek.Saturday:
-                case DayOfWeek.Sunday:
-                    while (date.DayOfWeek != DayOfWeek.Saturday)
-                    {
-                        date = date.AddDays(1);
-                    }
-                    break;
-                default:
-                    while (date.DayOfWeek != DayOfWeek.Friday)
-                    {
-                        date = date.AddDays(1);
-                    }
-                    break;
+                date = date.AddDays(1);
             }
             return GetFollowingClose(date);
         }
