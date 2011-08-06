@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DateTime GetFollowingOpen(this DateTime dateTime)
         {
-            return GetNextTradingDay(dateTime).GetBeginningOfTradingDay();
+            return GetNextTradingDay(dateTime).GetMostRecentOpen();
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DateTime GetFollowingClose(this DateTime dateTime)
         {
-            return EnsureWeekday(dateTime.AddSeconds(1)).GetEndOfTradingDay();
+            return GetCurrentOrFollowingTradingDay(dateTime.AddSeconds(1)).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools
             {
                 dateTime = dateTime.AddDays(1);
             } while (dateTime.DayOfWeek != DayOfWeek.Monday);
-            return dateTime.GetBeginningOfTradingDay();
+            return dateTime.GetMostRecentOpen();
         }
 
         /// <summary>
@@ -52,10 +52,15 @@ namespace Sonneville.PriceTools
             {
                 dateTime = dateTime.AddDays(1);
             }
-            return dateTime.GetEndOfTradingDay();
+            return dateTime.GetFollowingClose();
         }
 
-        public static DateTime EnsureWeekday(DateTime dateTime)
+        /// <summary>
+        /// Returns the nearest trading day. If the given day is not a trading day, the date is advanced to the next trading day.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetCurrentOrFollowingTradingDay(this DateTime dateTime)
         {
             while (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday)
             {
@@ -68,19 +73,19 @@ namespace Sonneville.PriceTools
 
         private static DateTime GetNextTradingDay(DateTime dateTime)
         {
-            return EnsureWeekday(dateTime.AddDays(1));
+            return GetCurrentOrFollowingTradingDay(dateTime.AddDays(1));
         }
 
         #endregion
 
-        public static DateTime GetBeginningOfTradingDay(this DateTime date)
+        /// <summary>
+        /// Gets the beginning of the given trading day.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static DateTime GetMostRecentOpen(this DateTime date)
         {
             return date.Date;
-        }
-
-        public static DateTime GetEndOfTradingDay(this DateTime date)
-        {
-            return date.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
         }
 
         public static DateTime GetBeginningOfTradingWeek(this DateTime date)
@@ -101,10 +106,10 @@ namespace Sonneville.PriceTools
                     }
                     break;
             }
-            return GetBeginningOfTradingDay(date);
+            return GetMostRecentOpen(date);
         }
 
-        public static DateTime GetEndOfTradingWeek(this DateTime date)
+        public static DateTime GetFollowingWeeklyClose(this DateTime date)
         {
             switch (date.DayOfWeek)
             {
@@ -122,7 +127,7 @@ namespace Sonneville.PriceTools
                     }
                     break;
             }
-            return GetEndOfTradingDay(date);
+            return GetFollowingClose(date);
         }
     }
 }

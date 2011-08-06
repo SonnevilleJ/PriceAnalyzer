@@ -50,7 +50,7 @@ namespace Sonneville.PriceToolsTest
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
             var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, seriesHead, seriesTail).PriceSeries;
 
-            var expectedHead = DateTimeExtensions.EnsureWeekday(seriesHead);
+            var expectedHead = DateTimeExtensions.GetCurrentOrFollowingTradingDay(seriesHead);
             Assert.AreEqual(expectedHead, priceSeries.Head);
 
             // todo: add a similar test to ensure tail is corrected if it is on a weekend

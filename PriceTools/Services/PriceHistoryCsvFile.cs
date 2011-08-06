@@ -160,7 +160,7 @@ namespace Sonneville.PriceTools.Services
             for (int i = 0; i < stagedPeriods.Count; i++)
             {
                 var stagedPeriod = stagedPeriods[i];
-                var head = i == 0 && seriesHead.HasValue ? DateTimeExtensions.EnsureWeekday(seriesHead.Value) : GetHead(stagedPeriod.Date, resolution);
+                var head = i == 0 && seriesHead.HasValue ? DateTimeExtensions.GetCurrentOrFollowingTradingDay(seriesHead.Value) : GetHead(stagedPeriod.Date, resolution);
                 var tail = i == stagedPeriods.Count - 1 && seriesTail.HasValue ? seriesTail.Value : GetTail(stagedPeriod.Date, resolution);
                 priceSeries.DataPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High,
                                                                                        stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume));
@@ -173,7 +173,7 @@ namespace Sonneville.PriceTools.Services
             switch (resolution)
             {
                 case PriceSeriesResolution.Days:
-                    return date.GetBeginningOfTradingDay();
+                    return date.GetMostRecentOpen();
                 case PriceSeriesResolution.Weeks:
                     return date.GetBeginningOfTradingWeek();
                 default:
@@ -186,9 +186,9 @@ namespace Sonneville.PriceTools.Services
             switch (resolution)
             {
                 case PriceSeriesResolution.Days:
-                    return date.GetEndOfTradingDay();
+                    return date.GetFollowingClose();
                 case PriceSeriesResolution.Weeks:
-                    return date.GetEndOfWeek();
+                    return date.GetFollowingWeeklyClose();
                 default:
                     throw new ArgumentOutOfRangeException(null, String.Format(Strings.PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution, resolution));
             }

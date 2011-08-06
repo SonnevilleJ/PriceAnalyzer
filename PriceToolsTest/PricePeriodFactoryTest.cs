@@ -32,7 +32,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for CreateStaticPricePeriod
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void CreateStaticPricePeriodTest1()
         {
             DateTime head = new DateTime(2011, 7, 4);
@@ -57,7 +57,7 @@ namespace Sonneville.PriceToolsTest
         /// <summary>
         ///A test for CreateStaticPricePeriod
         ///</summary>
-        [TestMethod()]
+        [TestMethod]
         public void CreateStaticPricePeriodTest2()
         {
             DateTime head = new DateTime(2011, 7, 4);

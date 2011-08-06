@@ -230,7 +230,7 @@ namespace Sonneville.PriceTools
                 case PriceSeriesResolution.Weeks:
                     while (head < tail)
                     {
-                        var endOfWeek = head.GetEndOfWeek();
+                        var endOfWeek = head.GetFollowingWeeklyClose();
                         var friday = endOfWeek > tail ? tail : endOfWeek;
                         list.Add(new KeyValuePair<DateTime, DateTime>(head, friday));
                         head = friday.GetFollowingWeekOpen();

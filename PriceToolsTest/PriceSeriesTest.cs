@@ -294,7 +294,7 @@ namespace Sonneville.PriceToolsTest
             var dailyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Days);
             var weeklyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Weeks);
 
-            var weekHead = DateTimeExtensions.EnsureWeekday(seriesHead);
+            var weekHead = DateTimeExtensions.GetCurrentOrFollowingTradingDay(seriesHead);
             var weekTail = seriesHead.GetFollowingWeekClose();
             if (DateTimeFormatInfo.CurrentInfo == null) Assert.Inconclusive();
             
@@ -324,8 +324,8 @@ namespace Sonneville.PriceToolsTest
             // this method is only used to test if two dates are in the same week of price data.
             // Implementing support for market holidays should remove the need for this method.
 
-            var periodStart = date1.GetBeginningOfWeek();
-            var periodEnd = date1.GetEndOfWeek();
+            var periodStart = date1.GetBeginningOfTradingWeek();
+            var periodEnd = date1.GetFollowingWeeklyClose();
             return date2 >= periodStart && date2 <= periodEnd;
         }
 
