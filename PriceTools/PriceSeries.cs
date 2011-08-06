@@ -197,23 +197,17 @@ namespace Sonneville.PriceTools
             if (resolution == Resolution) return dataPeriods;
 
             var pairs = GetPairs(resolution, head, tail);
-            var result = new List<IPricePeriod>();
-            foreach (var pair in pairs)
-            {
-                var periodHead = pair.Key;
-                var periodTail = pair.Value;
-                var periodsInRange = dataPeriods.Where(period => period.Head >= periodHead && period.Tail <= periodTail).ToList();
 
-                var open = periodsInRange.First().Open;
-                var high = periodsInRange.Max(p => p.High);
-                var low = periodsInRange.Min(p => p.Low);
-                var close = periodsInRange.Last().Close;
-                var volume = periodsInRange.Sum(p => p.Volume);
-
-                result.Add(PricePeriodFactory.CreateStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume));
-            }
-            
-            return result;
+            return (from pair in pairs
+                    let periodHead = pair.Key
+                    let periodTail = pair.Value
+                    let periodsInRange = dataPeriods.Where(period => period.Head >= periodHead && period.Tail <= periodTail).ToList()
+                    let open = periodsInRange.First().Open
+                    let high = periodsInRange.Max(p => p.High)
+                    let low = periodsInRange.Min(p => p.Low)
+                    let close = periodsInRange.Last().Close
+                    let volume = periodsInRange.Sum(p => p.Volume)
+                    select PricePeriodFactory.CreateStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).Cast<IPricePeriod>().ToList();
         }
 
         private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetPairs(PriceSeriesResolution resolution, DateTime head, DateTime tail)

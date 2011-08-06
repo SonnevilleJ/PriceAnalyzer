@@ -173,9 +173,9 @@ namespace Sonneville.PriceTools.Services
             switch (resolution)
             {
                 case PriceSeriesResolution.Days:
-                    return date.GetBeginningOfDay();
+                    return date.GetBeginningOfTradingDay();
                 case PriceSeriesResolution.Weeks:
-                    return date.GetBeginningOfWeek();
+                    return date.GetBeginningOfTradingWeek();
                 default:
                     throw new ArgumentOutOfRangeException(null, String.Format(Strings.PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution, resolution));
             }
@@ -186,7 +186,7 @@ namespace Sonneville.PriceTools.Services
             switch (resolution)
             {
                 case PriceSeriesResolution.Days:
-                    return date.GetEndOfDay();
+                    return date.GetEndOfTradingDay();
                 case PriceSeriesResolution.Weeks:
                     return date.GetEndOfWeek();
                 default:

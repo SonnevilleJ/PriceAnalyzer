@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DateTime GetFollowingOpen(this DateTime dateTime)
         {
-            return GetNextWeekday(dateTime).GetBeginningOfDay();
+            return GetNextTradingDay(dateTime).GetBeginningOfTradingDay();
         }
 
         /// <summary>
@@ -24,7 +24,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DateTime GetFollowingClose(this DateTime dateTime)
         {
-            return EnsureWeekday(dateTime.AddSeconds(1)).GetEndOfDay();
+            return EnsureWeekday(dateTime.AddSeconds(1)).GetEndOfTradingDay();
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools
             {
                 dateTime = dateTime.AddDays(1);
             } while (dateTime.DayOfWeek != DayOfWeek.Monday);
-            return dateTime.GetBeginningOfDay();
+            return dateTime.GetBeginningOfTradingDay();
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Sonneville.PriceTools
             {
                 dateTime = dateTime.AddDays(1);
             }
-            return dateTime.GetEndOfDay();
+            return dateTime.GetEndOfTradingDay();
         }
 
         public static DateTime EnsureWeekday(DateTime dateTime)
@@ -66,19 +66,24 @@ namespace Sonneville.PriceTools
 
         #region Private Methods
 
-        private static DateTime GetNextWeekday(DateTime dateTime)
+        private static DateTime GetNextTradingDay(DateTime dateTime)
         {
             return EnsureWeekday(dateTime.AddDays(1));
         }
 
         #endregion
 
-        public static DateTime GetBeginningOfDay(this DateTime date)
+        public static DateTime GetBeginningOfTradingDay(this DateTime date)
         {
             return date.Date;
         }
 
-        public static DateTime GetBeginningOfWeek(this DateTime date)
+        public static DateTime GetEndOfTradingDay(this DateTime date)
+        {
+            return date.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+        }
+
+        public static DateTime GetBeginningOfTradingWeek(this DateTime date)
         {
             switch (date.DayOfWeek)
             {
@@ -96,15 +101,10 @@ namespace Sonneville.PriceTools
                     }
                     break;
             }
-            return GetBeginningOfDay(date);
+            return GetBeginningOfTradingDay(date);
         }
 
-        public static DateTime GetEndOfDay(this DateTime date)
-        {
-            return date.Date.AddHours(23).AddMinutes(59).AddSeconds(59);
-        }
-
-        public static DateTime GetEndOfWeek(this DateTime date)
+        public static DateTime GetEndOfTradingWeek(this DateTime date)
         {
             switch (date.DayOfWeek)
             {
@@ -122,7 +122,7 @@ namespace Sonneville.PriceTools
                     }
                     break;
             }
-            return GetEndOfDay(date);
+            return GetEndOfTradingDay(date);
         }
     }
 }
