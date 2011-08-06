@@ -49,6 +49,26 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected, actual);
         }
 
+        /// <summary>
+        ///A test for Close
+        ///</summary>
+        [TestMethod]
+        public void OrderedCloseTest()
+        {
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
+
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p3);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p1);
+
+            decimal expected = p3.Close;
+            decimal actual = target.Close;
+            Assert.AreEqual(expected, actual);
+        }
+
         [TestMethod]
         public void HasValue1Test()
         {
@@ -246,6 +266,26 @@ namespace Sonneville.PriceToolsTest
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
+
+            decimal? expected = p1.Open;
+            decimal? actual = target.Open;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Open
+        ///</summary>
+        [TestMethod]
+        public void OrderedOpenTest()
+        {
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
+
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p3);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p1);
 
             decimal? expected = p1.Open;
             decimal? actual = target.Open;

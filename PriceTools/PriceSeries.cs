@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal Close
         {
-            get { return DataPeriods.Last().Close; }
+            get { return DataPeriods.OrderBy(p => p.Tail).Last().Close; }
         }
 
         /// <summary>
@@ -53,7 +53,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal? Open
         {
-            get { return DataPeriods.First().Open; }
+            get { return DataPeriods.OrderBy(p => p.Head).First().Open; }
         }
 
         /// <summary>
