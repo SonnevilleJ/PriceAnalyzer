@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetFollowingWeekOpen(this DateTime dateTime)
+        public static DateTime GetFollowingWeeklyOpen(this DateTime dateTime)
         {
             do
             {
@@ -114,6 +114,27 @@ namespace Sonneville.PriceTools
                 date = date.AddDays(1);
             }
             return GetFollowingClose(date);
+        }
+
+        public static DateTime GetFollowingMonthlyOpen(this DateTime date)
+        {
+            var next = date.AddMonths(1);
+            var firstDayOfMonth = new DateTime(next.Year, next.Month, 1);
+            return firstDayOfMonth.GetCurrentOrFollowingTradingDay();
+        }
+
+        public static DateTime GetFollowingMonthlyClose(this DateTime date)
+        {
+            var next = date.AddMonths(1);
+            var firstDayOfMonth = new DateTime(next.Year, next.Month, 1);
+            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
+            return lastDayOfMonth.GetCurrentOrFollowingTradingDay().GetFollowingClose();
+        }
+
+        public static DateTime GetMostRecentMonthlyOpen(this DateTime date)
+        {
+            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
+            return firstDayOfMonth.GetCurrentOrFollowingTradingDay();
         }
     }
 }

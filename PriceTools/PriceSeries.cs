@@ -210,34 +210,50 @@ namespace Sonneville.PriceTools
                     select PricePeriodFactory.CreateStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).Cast<IPricePeriod>().ToList();
         }
 
+        private delegate DateTime GetDateTime(DateTime date);
+
         private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetPairs(PriceSeriesResolution resolution, DateTime head, DateTime tail)
         {
-            var list = new List<KeyValuePair<DateTime, DateTime>>();
             if (head.DayOfWeek == DayOfWeek.Saturday || head.DayOfWeek == DayOfWeek.Sunday)
             {
                 head = head.GetFollowingOpen();
             }
+            
+            GetDateTime getPeriodClose = null;
+            GetDateTime getNextOpen = null;
+            GetDelegates(resolution, ref getPeriodClose, ref getNextOpen);
+
+            var list = new List<KeyValuePair<DateTime, DateTime>>();
+            while (head < tail)
+            {
+                if (getPeriodClose != null)
+                {
+                    var periodClose = getPeriodClose(head);
+                    var lastDay = periodClose > tail ? tail : periodClose;
+                    list.Add(new KeyValuePair<DateTime, DateTime>(head, lastDay));
+                    head = getNextOpen(lastDay);
+                }
+            }
+            return list;
+        }
+
+        private static void GetDelegates(PriceSeriesResolution resolution, ref GetDateTime getPeriodClose, ref GetDateTime getNextOpen)
+        {
             switch (resolution)
             {
                 case PriceSeriesResolution.Days:
-                    while (head < tail)
-                    {
-                        var endOfDay = head.GetFollowingClose();
-                        list.Add(new KeyValuePair<DateTime, DateTime>(head, endOfDay));
-                        head = endOfDay.GetFollowingOpen();
-                    }
+                    getPeriodClose = DateTimeExtensions.GetFollowingClose;
+                    getNextOpen = DateTimeExtensions.GetFollowingOpen;
                     break;
                 case PriceSeriesResolution.Weeks:
-                    while (head < tail)
-                    {
-                        var endOfWeek = head.GetFollowingWeeklyClose();
-                        var friday = endOfWeek > tail ? tail : endOfWeek;
-                        list.Add(new KeyValuePair<DateTime, DateTime>(head, friday));
-                        head = friday.GetFollowingWeekOpen();
-                    }
+                    getPeriodClose = DateTimeExtensions.GetFollowingWeeklyClose;
+                    getNextOpen = DateTimeExtensions.GetFollowingWeeklyOpen;
+                    break;
+                case PriceSeriesResolution.Months:
+                    getPeriodClose = DateTimeExtensions.GetFollowingMonthlyClose;
+                    getNextOpen = DateTimeExtensions.GetFollowingMonthlyOpen;
                     break;
             }
-            return list;
         }
 
         /// <summary>

@@ -294,11 +294,15 @@ namespace Sonneville.PriceToolsTest
             var dailyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Days);
             var weeklyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Weeks);
 
-            var weekHead = DateTimeExtensions.GetCurrentOrFollowingTradingDay(seriesHead);
+            var weekHead = seriesHead.GetCurrentOrFollowingTradingDay();
             var weekTail = seriesHead.GetFollowingWeekClose();
-            if (DateTimeFormatInfo.CurrentInfo == null) Assert.Inconclusive();
-            
-            var calendar = DateTimeFormatInfo.CurrentInfo.Calendar;
+
+            var dtfi = DateTimeFormatInfo.CurrentInfo;
+            if (dtfi == null) Assert.Inconclusive();
+            var calendar = dtfi.Calendar;
+            var calendarWeekRule = dtfi.CalendarWeekRule;
+            var firstDayOfWeek = dtfi.FirstDayOfWeek;
+
             do
             {
                 var periodsInWeek = dailyPeriods.Where(period => period.Head >= weekHead && period.Tail <= weekTail);
@@ -313,10 +317,46 @@ namespace Sonneville.PriceToolsTest
                 Assert.AreEqual(periodsInWeek.Min(p => p.Low), weeklyPeriod.Low);
                 Assert.AreEqual(periodsInWeek.Last().Close, weeklyPeriod.Close);
 
-                weekHead = weekTail.GetFollowingWeekOpen();
+                weekHead = weekTail.GetFollowingWeeklyOpen();
                 weekTail = weekHead.GetFollowingWeekClose();
-            } while (calendar.GetWeekOfYear(weekTail, CalendarWeekRule.FirstDay, DayOfWeek.Sunday) <=
-                     calendar.GetWeekOfYear(seriesTail, CalendarWeekRule.FirstDay, DayOfWeek.Sunday));
+            } while (calendar.GetWeekOfYear(weekTail, calendarWeekRule, firstDayOfWeek) <=
+                     calendar.GetWeekOfYear(seriesTail, calendarWeekRule, firstDayOfWeek));
+        }
+
+        [TestMethod]
+        public void GetMonthlyPeriodsFromDailyPeriodsTestPeriodData()
+        {
+            var seriesHead = new DateTime(2011, 1, 1);
+            var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
+            var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, seriesHead, seriesTail).PriceSeries;
+
+            var dailyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Days);
+            var monthlyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Months);
+
+            var monthHead = seriesHead.GetCurrentOrFollowingTradingDay();
+            var monthTail = seriesHead.GetFollowingMonthlyClose();
+
+            var dtfi = DateTimeFormatInfo.CurrentInfo;
+            if (dtfi == null) Assert.Inconclusive();
+            var calendar = dtfi.Calendar;
+
+            do
+            {
+                var periodsInMonth = dailyPeriods.Where(period => period.Head >= monthHead && period.Tail <= monthTail);
+                var monthlyPeriod = monthlyPeriods.Where(period => period.Head >= monthHead && period.Tail <= monthTail).First();
+
+                var head = periodsInMonth.Min(p => p.Head);
+                Assert.IsTrue(DatesShareMonth(head, monthlyPeriod.Head));
+                var tail = periodsInMonth.Max(p => p.Tail);
+                Assert.IsTrue(DatesShareMonth(tail, monthlyPeriod.Tail));
+                Assert.AreEqual(periodsInMonth.First().Open, monthlyPeriod.Open);
+                Assert.AreEqual(periodsInMonth.Max(p => p.High), monthlyPeriod.High);
+                Assert.AreEqual(periodsInMonth.Min(p => p.Low), monthlyPeriod.Low);
+                Assert.AreEqual(periodsInMonth.Last().Close, monthlyPeriod.Close);
+
+                monthHead = monthTail.GetFollowingMonthlyOpen();
+                monthTail = monthHead.GetFollowingMonthlyClose();
+            } while (calendar.GetMonth(monthTail) <= calendar.GetMonth(seriesTail));
         }
 
         private static bool DatesShareWeek(DateTime date1, DateTime date2)
@@ -326,6 +366,13 @@ namespace Sonneville.PriceToolsTest
 
             var periodStart = date1.GetMostRecentWeeklyOpen();
             var periodEnd = date1.GetFollowingWeeklyClose();
+            return date2 >= periodStart && date2 <= periodEnd;
+        }
+
+        private static bool DatesShareMonth(DateTime date1, DateTime date2)
+        {
+            var periodStart = date1.GetMostRecentMonthlyOpen();
+            var periodEnd = date1.GetFollowingMonthlyClose();
             return date2 >= periodStart && date2 <= periodEnd;
         }
 
