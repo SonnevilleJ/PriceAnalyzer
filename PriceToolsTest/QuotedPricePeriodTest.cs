@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.Utilities;
@@ -272,6 +273,32 @@ namespace Sonneville.PriceToolsTest
             target.AddPriceQuotes(q3);
 
             Assert.AreEqual(3, count);
+        }
+
+        [TestMethod]
+        public void QuotedPricePeriodEnumeratorTest()
+        {
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
+
+            QuotedPricePeriod target = new QuotedPricePeriod();
+            target.AddPriceQuotes(q1, q2, q3);
+
+            var array = new List<decimal> {q1.Price, q2.Price, q3.Price};
+
+            var count = 0;
+            var enumerator = target.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                count++;
+            }
+            Assert.AreEqual(3, count);
+
+            foreach (decimal close in target)
+            {
+                Assert.IsTrue(array.Contains(close));
+            }
         }
     }
 }

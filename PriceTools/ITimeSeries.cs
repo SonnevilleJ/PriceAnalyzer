@@ -1,11 +1,12 @@
 using System;
+using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a time series of data.
     /// </summary>
-    public interface ITimeSeries
+    public interface ITimeSeries : IEnumerable<decimal>
     {
         /// <summary>
         /// Gets a value stored at a given DateTime index of the ITimeSeries.

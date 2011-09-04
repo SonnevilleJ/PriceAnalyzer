@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   A PricePeriod made from PriceQuotes.
     /// </summary>
-    public partial class QuotedPricePeriod : IPricePeriod, ITimeSeries
+    public partial class QuotedPricePeriod
     {
         #region Overrides of IPricePeriod
 
@@ -94,6 +94,18 @@ namespace Sonneville.PriceTools
         public override decimal this[DateTime index]
         {
             get { return PriceQuotes.Where(q => q.SettlementDate <= index).Last().Price; }
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>
+        /// An <see cref="T:System.Collections.IEnumerator"/> object that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override System.Collections.IEnumerator GetEnumerator()
+        {
+            return new QuotedPricePeriodEnumerator(this);
         }
 
         #endregion

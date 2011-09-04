@@ -80,6 +80,7 @@
     <Compile Include="PricePeriodFactory.cs" />
     <Compile Include="PriceSeries.cs" />
     <Compile Include="PriceSeriesFactory.cs" />
+    <Compile Include="QuotedPricePeriodEnumerator.cs" />
     <Compile Include="Services\FidelityTransactionHistoryCsvFile.cs" />
     <Compile Include="Services\GooglePriceHistoryCsvFile.cs" />
     <Compile Include="Services\GooglePriceSeriesProvider.cs" />

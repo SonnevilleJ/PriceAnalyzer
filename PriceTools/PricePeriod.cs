@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
 {
@@ -79,6 +81,11 @@ namespace Sonneville.PriceTools
             return Head <= settlementDate && Tail >= settlementDate;
         }
 
+        public virtual IEnumerator GetEnumerator()
+        {
+            throw new NotSupportedException();
+        }
+
         #endregion
 
         #region Equality Checks
@@ -125,6 +132,18 @@ namespace Sonneville.PriceTools
         public bool Equals(IPricePeriod other)
         {
             return Equals((object)other);
+        }
+
+        /// <summary>
+        /// Returns an enumerator that iterates through the collection.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.Collections.Generic.IEnumerator`1"/> that can be used to iterate through the collection.
+        /// </returns>
+        /// <filterpriority>1</filterpriority>
+        IEnumerator<decimal> IEnumerable<decimal>.GetEnumerator()
+        {
+            throw new NotSupportedException();
         }
 
         /// <summary>
