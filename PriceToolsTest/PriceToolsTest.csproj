@@ -56,6 +56,7 @@
     <Compile Include="PriceHistoryCsvFileTest.cs" />
     <Compile Include="PriceSeriesProviderTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />
+    <Compile Include="ResourceStream.cs" />
     <Compile Include="Serialization.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="TestData.Designer.cs">
@@ -104,10 +105,9 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Resources\TransactionPriceRounding.csv" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

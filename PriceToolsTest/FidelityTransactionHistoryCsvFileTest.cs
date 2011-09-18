@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Services;
@@ -28,14 +29,27 @@ namespace Sonneville.PriceToolsTest
         {
             using (Stream csvStream = new MemoryStream(TestData.FidelityTransactions))
             {
-                FidelityTransactionHistoryCsvFile target = new FidelityTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 IPortfolio portfolio = new Portfolio(target, "FTEXX");
 
-                const decimal expectedValue = 2848.43m;
-                decimal actualValue = portfolio.GetValue(new DateTime(2010, 11, 16));
-                Assert.AreEqual(expectedValue, actualValue);
+                const decimal expected = 2848.43m;
+                var actual = portfolio.GetValue(new DateTime(2010, 11, 16));
+                Assert.AreEqual(expected, actual);
             }
+        }
 
+        [TestMethod]
+        public void TransactionPriceRoundingTest()
+        {
+            using (Stream csvStream = new ResourceStream(TestData.TransactionPriceRounding))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var transactions = target.Transactions;
+
+                const decimal expected = 500.00m;
+                var actual = ((IShareTransaction) transactions.First()).TotalValue;
+                Assert.AreEqual(expected, actual);
+            }
         }
     }
 }
