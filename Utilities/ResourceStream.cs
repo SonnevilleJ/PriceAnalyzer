@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.Utilities
 {
-    internal class ResourceStream : Stream
+    public class ResourceStream : Stream
     {
         private readonly MemoryStream _stream;
 

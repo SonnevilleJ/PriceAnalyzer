@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Services;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
