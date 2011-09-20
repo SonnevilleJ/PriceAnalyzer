@@ -195,9 +195,15 @@ namespace Sonneville.PriceToolsTest
                 using (var db = new Container())
                 {
                     var periods = new List<PricePeriod> {p1, p2, p3};
-                    foreach (var period in db.PricePeriods.Where(period => periods.Contains(period)))
+                    var pricePeriods = db.PricePeriods;
+                    // Do not convert loop body into LINQ expression.
+                    // The resulting LINQ throws an exception.
+                    foreach (var period in pricePeriods)
                     {
-                        db.PricePeriods.DeleteObject(period);
+                        if (periods.Contains(period))
+                        {
+                            pricePeriods.DeleteObject(period);
+                        }
                     }
                     db.SaveChanges();
                 }
