@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual decimal TotalValue
         {
-            get { return (Price * (decimal)Shares) + Commission; }
+            get { return Math.Round(Price * (decimal)Shares, 2) + Commission; }
         }
 
         #endregion
