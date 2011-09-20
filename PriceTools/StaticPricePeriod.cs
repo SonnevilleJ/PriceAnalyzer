@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools
 
         private static DateTime ConstructTail(DateTime head, PriceSeriesResolution resolution)
         {
-            DateTime result = head;
+            var result = head;
             switch (resolution)
             {
                 case PriceSeriesResolution.Days:
@@ -198,7 +198,7 @@ namespace Sonneville.PriceTools
         {
             return this == obj as StaticPricePeriod;
         }
-
+        
         /// <summary>
         /// Serves as a hash function for a particular type. 
         /// </summary>
@@ -208,7 +208,18 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return base.GetHashCode();
+            unchecked
+            {
+                var result = base.GetHashCode();
+                result = (result*397) ^ (Open.HasValue ? Open.Value.GetHashCode() : 0);
+                result = (result*397) ^ (High.HasValue ? High.Value.GetHashCode() : 0);
+                result = (result*397) ^ (Low.HasValue ? Low.Value.GetHashCode() : 0);
+                result = (result*397) ^ (Volume.HasValue ? Volume.Value.GetHashCode() : 0);
+                result = (result*397) ^ Close.GetHashCode();
+                result = (result*397) ^ Head.GetHashCode();
+                result = (result*397) ^ Tail.GetHashCode();
+                return result;
+            }
         }
 
         #endregion

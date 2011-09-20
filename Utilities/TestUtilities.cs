@@ -82,22 +82,7 @@ namespace Sonneville.Utilities
 
         public static void VerifyPriceSeriesEntity(IPriceSeries priceSeries)
         {
-            var series = (PriceSeries)priceSeries;
-            try
-            {
-                VerifyEntitySerialize(series, "PricePeriods");
-            }
-            finally
-            {
-                using (var db = new Container())
-                {
-                    foreach (var pricePeriod in db.PricePeriods.Where(pricePeriod => series.DataPeriods.Contains(pricePeriod)))
-                    {
-                        db.PricePeriods.DeleteObject(pricePeriod);
-                    }
-                    db.SaveChanges();
-                }
-            }
+            VerifyEntitySerialize((PriceSeries) priceSeries, "PricePeriods");
         }
 
         #endregion

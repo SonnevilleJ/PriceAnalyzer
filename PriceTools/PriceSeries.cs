@@ -302,7 +302,7 @@ namespace Sonneville.PriceTools
             if (ReferenceEquals(null, left)) return false;
             if (ReferenceEquals(null, right)) return false;
 
-            bool pricePeriodsMatch = false;
+            var pricePeriodsMatch = false;
             if (left.DataPeriods.Count == right.DataPeriods.Count)
             {
                 pricePeriodsMatch = left.DataPeriods.All(right.DataPeriods.Contains);

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.Utilities;
@@ -183,7 +185,20 @@ namespace Sonneville.PriceToolsTest
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
 
+            var periods = new List<PricePeriod> {p1, p2, p3};
             TestUtilities.VerifyPriceSeriesEntity(target);
+            using (var db = new Container())
+            {
+                var pricePeriods = db.PricePeriods;
+                foreach (var period in pricePeriods)
+                {
+                    if(periods.Contains(period))
+                    {
+                        pricePeriods.DeleteObject(period);
+                    }
+                }
+                db.SaveChanges();
+            }
         }
 
         [TestMethod]
