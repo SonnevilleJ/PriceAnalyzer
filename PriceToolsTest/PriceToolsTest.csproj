@@ -104,6 +104,9 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Resources\FidelityTransactions.csv" />
+    <None Include="Resources\SPX price 24 aug 2010.xlsx" />
+    <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
     <None Include="Resources\TransactionPriceRounding.csv" />
   </ItemGroup>
   <ItemGroup />

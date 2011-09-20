@@ -28,7 +28,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ParsePortfolioTest()
         {
-            using (Stream csvStream = new MemoryStream(TestData.FidelityTransactions))
+            using (Stream csvStream = new ResourceStream(TestData.FidelityTransactions))
             {
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 IPortfolio portfolio = new Portfolio(target, "FTEXX");

@@ -121,17 +121,30 @@ namespace Sonneville.PriceToolsTest {
             }
         }
         
-        internal static byte[] FidelityTransactions {
+        /// <summary>
+        ///   Looks up a localized string similar to Trade Date,Action,Symbol,Security Description,Security Type,Quantity,Price ($),Commission ($),Fees ($),Accrued Interest ($),Amount ($),Settlement Date
+        /// 11/16/2010, Electronic Funds Transfer Received, ,  ,Cash,,,,,,400, 
+        /// 11/16/2010, YOU SOLD, NTAP, NETAPP INC COM,Cash,-13,52.97,7.95,,,680.64, 11/19/2010
+        /// 11/16/2010, YOU SOLD, NTCT, NETSCOUT SYSTEMS INC,Cash,-33,22.41,7.95,,,731.56, 11/19/2010
+        /// 11/16/2010, YOU SOLD, PG, PROCTER &amp; GAMBLE CO,Cash,-6,63.97,7.95,,,375.86, 11/19/2010
+        /// 10/20/2010, YOU SOLD, A [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string FidelityTransactions {
             get {
-                object obj = ResourceManager.GetObject("FidelityTransactions", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("FidelityTransactions", resourceCulture);
             }
         }
         
-        internal static byte[] SPX_8_Dec_2010_to_10_Dec_2010 {
+        /// <summary>
+        ///   Looks up a localized string similar to Date,Open,High,Low,Close,Volume,Adj Close
+        ///2010-12-10,71.31,71.55,70.32,71.52,360200,71.52
+        ///2010-12-09,71.47,71.51,70.65,71.00,251600,71.00
+        ///2010-12-08,71.17,71.57,70.48,70.90,273400,70.90
+        ///.
+        /// </summary>
+        internal static string SPX_8_Dec_2010_to_10_Dec_2010 {
             get {
-                object obj = ResourceManager.GetObject("SPX_8_Dec_2010_to_10_Dec_2010", resourceCulture);
-                return ((byte[])(obj));
+                return ResourceManager.GetString("SPX_8_Dec_2010_to_10_Dec_2010", resourceCulture);
             }
         }
         
