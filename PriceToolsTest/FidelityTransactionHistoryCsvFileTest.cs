@@ -52,5 +52,38 @@ namespace Sonneville.PriceToolsTest
                 Assert.AreEqual(expected, actual);
             }
         }
+
+        [TestMethod]
+        public void TickerTest()
+        {
+            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(TestData.FidelityTransactions));
+            var ticker = String.Empty;
+
+            IPortfolio target = new Portfolio(csvFile, ticker);
+
+            Assert.AreEqual(ticker, target.CashTicker);
+        }
+
+        [TestMethod]
+        public void PositionsTest()
+        {
+            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(TestData.FidelityTransactions));
+            var ticker = String.Empty;
+
+            IPortfolio target = new Portfolio(csvFile, ticker);
+
+            Assert.AreEqual(5, target.Positions.Count);
+        }
+
+        [TestMethod]
+        public void AvailableCashTest()
+        {
+            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(TestData.FidelityTransactions));
+            var ticker = String.Empty;
+
+            IPortfolio target = new Portfolio(csvFile, ticker);
+
+            Assert.AreEqual(2848.43m, target.GetAvailableCash(new DateTime(2010, 11, 17)));
+        }
     }
 }

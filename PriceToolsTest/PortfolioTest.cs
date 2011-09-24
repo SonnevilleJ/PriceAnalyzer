@@ -1,6 +1,8 @@
 ﻿using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
+using Sonneville.PriceTools.Services;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -50,6 +52,17 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(ticker, target.CashTicker);
             Assert.AreEqual(amount, target.GetAvailableCash(openDate));
             Assert.AreEqual(0, target.Positions.Count);
+        }
+
+        [TestMethod]
+        public void ConstructorTest4()
+        {
+            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(TestData.FidelityTransactions));
+            var ticker = String.Empty;
+
+            IPortfolio target = new Portfolio(csvFile);
+
+            Assert.AreEqual(ticker, target.CashTicker);
         }
 
         [TestMethod]

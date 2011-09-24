@@ -11,14 +11,20 @@ namespace Sonneville.PriceTools
     /// </summary>
     public partial class Portfolio : IPortfolio
     {
+        #region Private Members
+
+        private static readonly string DefaultCashTicker = String.Empty;
+
+        #endregion
+
         #region Constructors
 
         /// <summary>
         /// Constructs a Portfolio.
         /// </summary>
         public Portfolio()
-            : this(String.Empty)
-        {            
+            : this(DefaultCashTicker)
+        {
         }
 
         /// <summary>
@@ -37,8 +43,8 @@ namespace Sonneville.PriceTools
         /// <param name="dateTime">The <see cref="DateTime"/> cash is deposit in the Portfolio.</param>
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
         public Portfolio(DateTime dateTime, decimal openingDeposit)
-            : this(dateTime, openingDeposit, String.Empty)
-        {            
+            : this(dateTime, openingDeposit, DefaultCashTicker)
+        {
         }
 
         /// <summary>
@@ -51,6 +57,15 @@ namespace Sonneville.PriceTools
             : this(ticker)
         {
             Deposit(dateTime, openingDeposit);
+        }
+
+        /// <summary>
+        /// Constructs a Portfolio from a <see cref="TransactionHistoryCsvFile"/>.
+        /// </summary>
+        /// <param name="csvFile">The <see cref="TransactionHistoryCsvFile"/> containing transaction data.</param>
+        public Portfolio(TransactionHistoryCsvFile csvFile)
+            : this(csvFile, DefaultCashTicker)
+        {
         }
 
         /// <summary>
@@ -86,10 +101,10 @@ namespace Sonneville.PriceTools
             get
             {
                 DateTime earliest = DateTime.Now;
-                if(CashAccount.Transactions.Count > 0)
+                if (CashAccount.Transactions.Count > 0)
                 {
                     ICashTransaction first = CashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).First();
-                    
+
                     earliest = first.SettlementDate;
                 }
                 // An opening deposit is required before transactions will be processed.
@@ -120,7 +135,7 @@ namespace Sonneville.PriceTools
                 }
                 if (CashAccount.Transactions.Count > 0)
                 {
-                    latest = ((ITransaction) CashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).Last()).SettlementDate;
+                    latest = ((ITransaction)CashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).Last()).SettlementDate;
                 }
 
                 return latest;
@@ -177,7 +192,7 @@ namespace Sonneville.PriceTools
             decimal profit = proceeds - costs;
             return proceeds != 0
                 ? (profit / costs)
-                : (decimal?) null;
+                : (decimal?)null;
         }
 
         /// <summary>
@@ -191,8 +206,8 @@ namespace Sonneville.PriceTools
             decimal commissions = GetCommissions(settlementDate);
             decimal profit = proceeds - costs - commissions;
             return proceeds != 0
-                       ? (profit/costs)
-                       : (decimal?) null;
+                       ? (profit / costs)
+                       : (decimal?)null;
         }
 
         /// <summary>
@@ -207,7 +222,7 @@ namespace Sonneville.PriceTools
             decimal time = ((Tail - Head).Days / 365.0m);
             decimal? totalReturn = GetTotalReturn(settlementDate);
 
-            return totalReturn/(time);
+            return totalReturn / (time);
         }
 
         /// <summary>
@@ -277,16 +292,16 @@ namespace Sonneville.PriceTools
             switch (transaction.OrderType)
             {
                 case OrderType.DividendReceipt:
-                    CashAccount.Deposit((DividendReceipt) transaction);
+                    CashAccount.Deposit((DividendReceipt)transaction);
                     break;
                 case OrderType.Deposit:
-                    Deposit((Deposit) transaction);
+                    Deposit((Deposit)transaction);
                     break;
                 case OrderType.Withdrawal:
-                    Withdraw((Withdrawal) transaction);
+                    Withdraw((Withdrawal)transaction);
                     break;
                 case OrderType.DividendReinvestment:
-                    DividendReinvestment dr = ((DividendReinvestment) transaction);
+                    DividendReinvestment dr = ((DividendReinvestment)transaction);
                     if (dr.Ticker == CashTicker)
                     {
                         // DividendReceipt already deposited into cash account,
@@ -299,22 +314,22 @@ namespace Sonneville.PriceTools
                     }
                     break;
                 case OrderType.Buy:
-                    Buy buy = ((Buy) transaction);
+                    Buy buy = ((Buy)transaction);
                     Withdraw(buy.SettlementDate, buy.TotalValue);
                     GetPosition(buy.Ticker).AddTransaction(buy);
                     break;
                 case OrderType.SellShort:
-                    SellShort sellShort = ((SellShort) transaction);
+                    SellShort sellShort = ((SellShort)transaction);
                     Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
                     GetPosition(sellShort.Ticker).AddTransaction(sellShort);
                     break;
                 case OrderType.Sell:
-                    Sell sell = ((Sell) transaction);
+                    Sell sell = ((Sell)transaction);
                     GetPosition(sell.Ticker).AddTransaction(sell);
                     Deposit(sell.SettlementDate, sell.TotalValue);
                     break;
                 case OrderType.BuyToCover:
-                    BuyToCover buyToCover = ((BuyToCover) transaction);
+                    BuyToCover buyToCover = ((BuyToCover)transaction);
                     GetPosition(buyToCover.Ticker).AddTransaction(buyToCover);
                     Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
                     break;
@@ -378,14 +393,14 @@ namespace Sonneville.PriceTools
         private IPosition GetPosition(string ticker)
         {
             Position position = Positions.Where(p => p.Ticker == ticker).FirstOrDefault();
-            if(position == null)
+            if (position == null)
             {
                 position = new Position(ticker);
                 Positions.Add(position);
             }
             return position;
         }
-        
+
         #endregion
 
         #region Implementation of IEnumerable
