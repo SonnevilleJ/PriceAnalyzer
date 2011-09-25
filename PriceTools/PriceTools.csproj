@@ -63,8 +63,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Entities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Holding.cs" />
     <Compile Include="ICashAccount.cs" />
     <Compile Include="ICashTransaction.cs" />
+    <Compile Include="IHolding.cs" />
     <Compile Include="IIndicator.cs" />
     <Compile Include="IMeasurableSecurityBasket.cs" />
     <Compile Include="Indicator.cs" />

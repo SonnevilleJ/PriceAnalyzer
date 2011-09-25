@@ -295,6 +295,49 @@ namespace Sonneville.PriceTools
             EFTransactions.Add((ShareTransaction)shareTransaction);
         }
 
+        /// <summary>
+        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Position.
+        /// </summary>
+        /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
+        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Position.</returns>
+        public IList<IHolding> CalculateHoldings(DateTime settlementDate)
+        {
+            var holdings = new List<IHolding>();
+
+            var usedBuys = new List<ITransaction>();
+            foreach (var sell in SubtractiveTransactions.Where(t => t.SettlementDate <= settlementDate).OrderBy(t => t.SettlementDate))
+            {
+                // collect shares from most recent buy
+                double sharesToMatch = sell.Shares;
+                while (sharesToMatch > 0)
+                {
+                    var buys = AdditiveTransactions.Where(t => t.SettlementDate < settlementDate && !usedBuys.Contains(t)).OrderBy(t => t.SettlementDate);
+
+                    // find a matching purchase and record a new holding
+                    // must keep track of remaining shares in corresponding purchase
+                    var buy = buys.Last();
+
+                    var availableShares = buy.Shares;
+                    var neededShares = sell.Shares;
+                    var shares = availableShares >= neededShares ? neededShares : availableShares;
+                    var holding = new Holding
+                                      {
+                                          Ticker = Ticker,
+                                          Head = buy.SettlementDate,
+                                          Tail = sell.SettlementDate,
+                                          Shares = shares,
+                                          OpenPrice = buy.Price*(decimal) shares,
+                                          ClosePrice = -1*sell.Price*(decimal) shares
+                                      };
+                    holdings.Add(holding);
+
+                    usedBuys.Add(buy);
+                    sharesToMatch -= shares;
+                }
+            }
+            return holdings;
+        }
+
         #endregion
 
         #region Helper Properties

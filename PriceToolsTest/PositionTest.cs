@@ -539,5 +539,92 @@ namespace Sonneville.PriceToolsTest
             decimal actualCommissions = target.CalculateCommissions(sellDate);
             Assert.AreEqual(expectedCommissions, actualCommissions);
         }
+
+        [TestMethod]
+        public void GetHoldingsTestWithOneBuy()
+        {
+            const string ticker = "DE";
+            const decimal commission = 5.00m;   // with $5 commission
+            var target = PositionFactory.CreatePosition(ticker);
+
+            DateTime testDate = new DateTime(2001, 1, 1);
+            DateTime buyDate = testDate.AddDays(1);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double sharesBought = 10;     // 10 shares
+
+            target.Buy(buyDate, sharesBought, buyPrice, commission);
+
+            DateTime sellDate = testDate.AddDays(2);
+            const decimal sellPrice = 75.00m;   // $75.00 per share
+            const double sharesSold = 5;        // 5 shares
+
+            target.Sell(sellDate, sharesSold, sellPrice, commission);
+
+            IList<IHolding> holdings = target.CalculateHoldings(sellDate);
+
+            Assert.AreEqual(1, holdings.Count);
+
+            var expected = new Holding
+                               {
+                                   Ticker = ticker,
+                                   Head = buyDate,
+                                   Tail = sellDate,
+                                   Shares = sharesSold,
+                                   OpenPrice = buyPrice*(decimal) sharesSold,
+                                   ClosePrice = sellPrice*(decimal) sharesSold
+                               };
+            var actual = holdings[0];
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetHoldingsTestWithTwoBuys()
+        {
+            const string ticker = "DE";
+            const decimal commission = 5.00m;   // with $5 commission
+            var target = PositionFactory.CreatePosition(ticker);
+
+            DateTime testDate = new DateTime(2001, 1, 1);
+            DateTime firstBuyDate = testDate.AddDays(1);
+            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double sharesBought = 3;      // 3 shares
+
+            target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
+            target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
+
+            DateTime sellDate = secondBuyDate.AddDays(2);
+            const decimal sellPrice = 75.00m;   // $75.00 per share
+            const double sharesSold = 6;        // 6 shares
+
+            target.Sell(sellDate, sharesSold, sellPrice, commission);
+
+            IList<IHolding> holdings = target.CalculateHoldings(sellDate);
+
+            Assert.AreEqual(2, holdings.Count);
+
+            var expected1 = new Holding
+            {
+                Ticker = ticker,
+                Head = secondBuyDate,
+                Tail = sellDate,
+                Shares = sharesBought,
+                OpenPrice = buyPrice * (decimal)sharesBought,
+                ClosePrice = sellPrice * (decimal)sharesBought
+            };
+            var expected2 = new Holding
+            {
+                Ticker = ticker,
+                Head = firstBuyDate,
+                Tail = sellDate,
+                Shares = sharesBought,
+                OpenPrice = buyPrice * (decimal)sharesBought,
+                ClosePrice = sellPrice * (decimal)sharesBought
+            };
+            var holding1 = holdings[0];
+            var holding2 = holdings[1];
+            Assert.AreEqual(expected1, holding1);
+            Assert.AreEqual(expected2, holding2);
+        }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
 {
@@ -60,5 +61,12 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "shareTransaction"></param>
         void AddTransaction(IShareTransaction shareTransaction);
+
+        /// <summary>
+        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the IPosition.
+        /// </summary>
+        /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
+        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the IPosition.</returns>
+        IList<IHolding> CalculateHoldings(DateTime settlementDate);
     }
 }
