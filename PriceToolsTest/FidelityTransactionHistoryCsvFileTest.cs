@@ -15,6 +15,8 @@ namespace Sonneville.PriceToolsTest
     [TestClass]
     public class FidelityTransactionHistoryCsvFileTest
     {
+        private const string Ticker = "FTEXX";
+
         [TestInitialize]
         public void TestInitialize()
         {
@@ -28,14 +30,37 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ParsePortfolioTest()
         {
+            Settings.CanConnectToInternet = true;
+
             using (Stream csvStream = new ResourceStream(TestData.FidelityTransactions))
             {
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
-                IPortfolio portfolio = new Portfolio(target, "FTEXX");
+                IPortfolio portfolio = new Portfolio(target, Ticker);
+                var settlementDate = new DateTime(2010, 11, 16);
 
-                const decimal expected = 2848.43m;
-                var actual = portfolio.GetValue(new DateTime(2010, 11, 16));
-                Assert.AreEqual(expected, actual);
+                var ALTR = portfolio.Positions.Where(p => p.Ticker == "ALTR").First();
+                decimal investedValue = ALTR.GetInvestedValue(settlementDate);
+                Assert.AreEqual(0.00m, investedValue);
+
+                var NTAP = portfolio.Positions.Where(p => p.Ticker == "NTAP").First();
+                investedValue = NTAP.GetInvestedValue(settlementDate);
+                Assert.AreEqual(0.00m, investedValue);
+
+                var NTCT = portfolio.Positions.Where(p => p.Ticker == "NTCT").First();
+                investedValue = NTCT.GetInvestedValue(settlementDate);
+                Assert.AreEqual(0.00m, investedValue);
+
+                var PG = portfolio.Positions.Where(p => p.Ticker == "PG").First();
+                investedValue = PG.GetInvestedValue(settlementDate);
+                Assert.AreEqual(0.00m, investedValue);
+
+                const decimal expectedAvailableCash = 2848.43m;
+                var availableCash = portfolio.GetAvailableCash(settlementDate);
+                Assert.AreEqual(expectedAvailableCash, availableCash);
+
+                const decimal expectedValue = 2848.43m;
+                var actualValue = portfolio.GetValue(new DateTime(2010, 11, 16));
+                Assert.AreEqual(expectedValue, actualValue);
             }
         }
 
@@ -65,11 +90,10 @@ namespace Sonneville.PriceToolsTest
         public void AvailableCashTest()
         {
             var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(TestData.FidelityTransactions));
-            var ticker = String.Empty;
 
-            IPortfolio target = new Portfolio(csvFile, ticker);
+            IPortfolio target = new Portfolio(csvFile, Ticker);
 
-            Assert.AreEqual(2848.43m, target.GetAvailableCash(new DateTime(2010, 11, 17)));
+            Assert.AreEqual(2848.43m, target.GetAvailableCash(new DateTime(2010, 11, 16)));
         }
     }
 }
