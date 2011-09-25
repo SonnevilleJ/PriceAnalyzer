@@ -86,9 +86,13 @@ namespace Sonneville.PriceToolsTest
                 investedValue = FTRNX.GetInvestedValue(settlementDate);
                 Assert.AreEqual(597.02433m, investedValue);
 
-                const decimal expected = 1040.24m;
-                var actual = portfolio.GetAvailableCash(settlementDate);
-                Assert.AreEqual(expected, actual);
+                const decimal expectedAvailableCash = 1050.00m;
+                var availableCash = portfolio.GetAvailableCash(settlementDate);
+                Assert.AreEqual(expectedAvailableCash, availableCash);
+
+                const decimal expectedValue = 14293.81547m;
+                var actualValue = portfolio.GetValue(settlementDate);
+                Assert.AreEqual(expectedValue, actualValue);
             }
         }
 
@@ -143,7 +147,7 @@ namespace Sonneville.PriceToolsTest
 
                 IPortfolio portfolio = new Portfolio(target, Ticker);
 
-                Assert.AreEqual(1116.18m, portfolio.GetAvailableCash(new DateTime(2009, 7, 23)));
+                Assert.AreEqual(1050.00m, portfolio.GetAvailableCash(new DateTime(2009, 7, 23)));
             }
         }
     }
