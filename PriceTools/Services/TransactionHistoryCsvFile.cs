@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using LumenWorks.Framework.IO.Csv;
 
 namespace Sonneville.PriceTools.Services
@@ -48,10 +49,7 @@ namespace Sonneville.PriceTools.Services
         /// </summary>
         public IEnumerable<ITransaction> Transactions
         {
-            get
-            {
-                return _transactions;
-            }
+            get { return _transactions.OrderBy(t => t.SettlementDate).ThenBy(t => t.OrderType); }
         }
 
         #endregion

@@ -40,20 +40,6 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void TransactionPriceRoundingTest()
-        {
-            using (Stream csvStream = new ResourceStream(TestData.TransactionPriceRounding))
-            {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
-                var transactions = target.Transactions;
-
-                const decimal expected = 500.00m;
-                var actual = ((IShareTransaction) transactions.First()).TotalValue;
-                Assert.AreEqual(expected, actual);
-            }
-        }
-
-        [TestMethod]
         public void TickerTest()
         {
             var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(TestData.FidelityTransactions));

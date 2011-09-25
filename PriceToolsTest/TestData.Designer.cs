@@ -61,6 +61,29 @@ namespace Sonneville.PriceToolsTest {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trade Date,Action Description,Symbol,Security Description,Security Type,Quantity,Price ($),Commission ($),Fees ($),Accrued Interest ($),Amount ($),Settlement Date
+        ///4/17/2008, TRANSFERRED FROM     TO BROKERAGE OPTION, ,  ,Cash,,,,,,4683.93, 
+        ///4/29/2008, YOU BOUGHT           PROSPECTUS UNDER    SEPARATE COVER, FEMKX, FIDELITY EMERGING MARKETS,Cash,34.669,31.39,,,,-1088.25, 04/30/2008
+        ///4/29/2008, YOU BOUGHT           PROSPECTUS UNDER    SEPARATE COVER, FICDX, FIDELITY CANADA,Cash,11.364,59.95,,,,-681.25, 04/30 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string BrokerageLink_trades {
+            get {
+                return ResourceManager.GetString("BrokerageLink_trades", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trade Date,Action Description,Action,Symbol,Security Description,Security Type,Quantity,Price ($),Commission ($),Fees ($),Accrued Interest ($),Amount ($),Settlement Date
+        ///4/29/2008, YOU BOUGHT           PROSPECTUS UNDER    SEPARATE COVER,BUY, FSAGX, FIDELITY SELECT GOLD,Cash,13.291,37.62,,,,-500, 04/30/2008
+        ///.
+        /// </summary>
+        internal static string BrokerageLink_TransactionPriceRounding {
+            get {
+                return ResourceManager.GetString("BrokerageLink_TransactionPriceRounding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Date,Open,High,Low,Close,Volume,Adj Close
         ///2011-03-15,84.90,88.03,84.27,87.68,4658900,87.68
         ///2011-03-14,87.72,88.13,86.44,87.63,3922600,87.63
@@ -123,11 +146,11 @@ namespace Sonneville.PriceToolsTest {
         
         /// <summary>
         ///   Looks up a localized string similar to Trade Date,Action,Symbol,Security Description,Security Type,Quantity,Price ($),Commission ($),Fees ($),Accrued Interest ($),Amount ($),Settlement Date
-        /// 11/16/2010, Electronic Funds Transfer Received, ,  ,Cash,,,,,,400, 
-        /// 11/16/2010, YOU SOLD, NTAP, NETAPP INC COM,Cash,-13,52.97,7.95,,,680.64, 11/19/2010
-        /// 11/16/2010, YOU SOLD, NTCT, NETSCOUT SYSTEMS INC,Cash,-33,22.41,7.95,,,731.56, 11/19/2010
-        /// 11/16/2010, YOU SOLD, PG, PROCTER &amp; GAMBLE CO,Cash,-6,63.97,7.95,,,375.86, 11/19/2010
-        /// 10/20/2010, YOU SOLD, A [rest of string was truncated]&quot;;.
+        ///5/17/2010, Electronic Funds Transfer Received, ,  ,Cash,,,,,,400,
+        ///6/16/2010, Electronic Funds Transfer Received, ,  ,Cash,,,,,,400,
+        ///7/16/2010, Electronic Funds Transfer Received, ,  ,Cash,,,,,,400, 
+        ///7/30/2010, DIVIDEND RECEIVED, FTEXX, FIDELITY MUNICIPAL MONEY MARKET,Cash,,,,,,0.01, 
+        ///7/30/2010, REINVESTMENT, FTEXX, FIDELITY MUNICIPAL MONEY MARKET,Cash,0. [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string FidelityTransactions {
             get {
@@ -152,17 +175,6 @@ namespace Sonneville.PriceToolsTest {
             get {
                 object obj = ResourceManager.GetObject("SPX_price_24_aug_2010", resourceCulture);
                 return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Trade Date,Action Description,Action,Symbol,Security Description,Security Type,Quantity,Price ($),Commission ($),Fees ($),Accrued Interest ($),Amount ($),Settlement Date
-        ///4/29/2008, YOU BOUGHT           PROSPECTUS UNDER    SEPARATE COVER,BUY, FSAGX, FIDELITY SELECT GOLD,Cash,13.291,37.62,,,,-500, 04/30/2008
-        ///.
-        /// </summary>
-        internal static string TransactionPriceRounding {
-            get {
-                return ResourceManager.GetString("TransactionPriceRounding", resourceCulture);
             }
         }
     }
