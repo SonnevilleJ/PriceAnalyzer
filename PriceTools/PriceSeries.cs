@@ -6,6 +6,9 @@ using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceTools
 {
+    /// <summary>
+    /// Represents a time series of price data.
+    /// </summary>
     public partial class PriceSeries : IPriceSeries
     {
         #region Constructors
