@@ -16,6 +16,13 @@ namespace Sonneville.PriceTools
         EntityCollection<Position> Positions { get; }
 
         /// <summary>
+        ///   Retrieves the <see cref="IPosition"/> with Ticker <paramref name="ticker"/>.
+        /// </summary>
+        /// <param name="ticker">The Ticker symbol of the position to retrieve.</param>
+        /// <returns>The <see cref="IPosition"/> with the requested Ticker. Returns null if no <see cref="IPosition"/> is found with the requested Ticker.</returns>
+        IPosition GetPosition(string ticker);
+
+        /// <summary>
         ///   Gets the amount of uninvested cash in this IPortfolio.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>

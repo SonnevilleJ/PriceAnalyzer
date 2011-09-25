@@ -310,27 +310,27 @@ namespace Sonneville.PriceTools
                     else
                     {
                         Withdraw(dr.SettlementDate, dr.TotalValue);
-                        GetPosition(dr.Ticker).AddTransaction(dr);
+                        AddToPosition(dr);
                     }
                     break;
                 case OrderType.Buy:
                     Buy buy = ((Buy)transaction);
                     Withdraw(buy.SettlementDate, buy.TotalValue);
-                    GetPosition(buy.Ticker).AddTransaction(buy);
+                    AddToPosition(buy);
                     break;
                 case OrderType.SellShort:
                     SellShort sellShort = ((SellShort)transaction);
                     Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
-                    GetPosition(sellShort.Ticker).AddTransaction(sellShort);
+                    AddToPosition(sellShort);
                     break;
                 case OrderType.Sell:
                     Sell sell = ((Sell)transaction);
-                    GetPosition(sell.Ticker).AddTransaction(sell);
+                    AddToPosition(sell);
                     Deposit(sell.SettlementDate, sell.TotalValue);
                     break;
                 case OrderType.BuyToCover:
                     BuyToCover buyToCover = ((BuyToCover)transaction);
-                    GetPosition(buyToCover.Ticker).AddTransaction(buyToCover);
+                    AddToPosition(buyToCover);
                     Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
                     break;
             }
@@ -386,23 +386,33 @@ namespace Sonneville.PriceTools
             }
         }
 
-        #endregion
-
-        #region Private Methods
-
-        private IPosition GetPosition(string ticker)
+        /// <summary>
+        ///   Retrieves the <see cref="IPosition"/> with Ticker <paramref name="ticker"/>.
+        /// </summary>
+        /// <param name="ticker">The Ticker symbol of the position to retrieve.</param>
+        /// <returns>The <see cref="IPosition"/> with the requested Ticker. Returns null if no <see cref="IPosition"/> is found with the requested Ticker.</returns>
+        public IPosition GetPosition(string ticker)
         {
-            Position position = Positions.Where(p => p.Ticker == ticker).FirstOrDefault();
-            if (position == null)
-            {
-                position = new Position(ticker);
-                Positions.Add(position);
-            }
-            return position;
+            return Positions.Where(p => p.Ticker == ticker).FirstOrDefault();
         }
 
         #endregion
 
+        #region Private Methods
+        
+        private void AddToPosition(IShareTransaction transaction)
+        {
+            var ticker = transaction.Ticker;
+            var position = GetPosition(ticker);
+            if (position == null)
+            {
+                position = new Position(ticker);
+                Positions.Add((Position) position);
+            }
+            position.AddTransaction(transaction);
+        }
+
+        #endregion
         #region Implementation of IEnumerable
 
         /// <summary>
