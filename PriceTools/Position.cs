@@ -289,10 +289,6 @@ namespace Sonneville.PriceTools
         /// <param name="shareTransaction"></param>
         public void AddTransaction(IShareTransaction shareTransaction)
         {
-            // Simulate delay; helps for sorting
-            // A delay is not necessary for any reason.
-            shareTransaction.SettlementDate.AddTicks(1);
-
             // verify shareTransaction is apporpriate for this Position.
             Validate(shareTransaction);
 
@@ -310,7 +306,7 @@ namespace Sonneville.PriceTools
 
         private static IEnumerable<OrderType> Additive
         {
-            get { return new[] { OrderType.Buy, OrderType.SellShort }; }
+            get { return new[] { OrderType.Buy, OrderType.SellShort, OrderType.DividendReinvestment }; }
         }
 
         private static IEnumerable<OrderType> Subtractive

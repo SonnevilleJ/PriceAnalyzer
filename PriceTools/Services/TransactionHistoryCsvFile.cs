@@ -109,7 +109,15 @@ namespace Sonneville.PriceTools.Services
                                         : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
                             break;
                         case OrderType.DividendReceipt:
+                            price = _useTotalBasis
+                                        ? ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]])
+                                        : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                            break;
                         case OrderType.DividendReinvestment:
+                            price = _useTotalBasis
+                                        ? ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) / (decimal)shares
+                                        : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                            break;
                         case OrderType.Deposit:
                         case OrderType.Withdrawal:
                             price = _useTotalBasis

@@ -64,12 +64,13 @@ namespace Sonneville.PriceTools.Services
         /// <returns>The parsed <see cref="OrderType"/>.</returns>
         protected override OrderType ParseOrderTypeColumn(string text)
         {
-            if(String.IsNullOrWhiteSpace(text))
+            var trim = text.Trim();
+            if(String.IsNullOrWhiteSpace(trim))
             {
                 throw new ArgumentNullException("text");
             }
 
-            var upperInvariant = text.ToUpperInvariant().Trim();
+            var upperInvariant = trim.ToUpperInvariant();
             if (upperInvariant.StartsWith("TRANSFERRED FROM") && upperInvariant.EndsWith("TO BROKERAGE OPTION"))
             {
                 return OrderType.Deposit;
@@ -92,7 +93,7 @@ namespace Sonneville.PriceTools.Services
             {
                 return OrderType.DividendReinvestment;
             }
-            throw new ArgumentOutOfRangeException("text", text, String.Format(CultureInfo.CurrentCulture, "Unknown order type: {0}.", text));
+            throw new ArgumentOutOfRangeException("text", trim, String.Format(CultureInfo.CurrentCulture, "Unknown order type: {0}.", trim));
         }
 
         #endregion

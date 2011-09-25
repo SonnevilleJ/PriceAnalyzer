@@ -51,6 +51,7 @@
     <Compile Include="BuyToCoverTest.cs" />
     <Compile Include="DateTimeExtensionsTest.cs" />
     <Compile Include="EntityFramework.cs" />
+    <Compile Include="FidelityBrokeragelinkTransactionHistoryCsvFileTest.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteTest.cs" />
     <Compile Include="PriceHistoryCsvFileTest.cs" />
@@ -94,22 +95,17 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="TestData.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <SubType>Designer</SubType>
-      <LastGenOutput>TestData.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Resources\FidelityTransactions.csv" />
-    <None Include="Resources\SPX price 24 aug 2010.xlsx" />
-    <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
-    <None Include="Resources\TransactionPriceRounding.csv" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="TestData.resx">
+      <SubType>Designer</SubType>
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>TestData.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
