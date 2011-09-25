@@ -8,41 +8,41 @@
         /// <summary>
         ///   A cash deposit.
         /// </summary>
-        Deposit,
-
-        /// <summary>
-        ///   A cash withdrawal.
-        /// </summary>
-        Withdrawal,
+        Deposit                 = 1,
 
         /// <summary>
         ///   A cash dividend was received.
         /// </summary>
-        DividendReceipt,
+        DividendReceipt         = 2,
 
         /// <summary>
         /// A cash dividend was reinvested.
         /// </summary>
-        DividendReinvestment,
-
-        /// <summary>
-        ///   A buy transaction or a new investment.
-        /// </summary>
-        Buy,
+        DividendReinvestment    = 3,
 
         /// <summary>
         ///   A sell transaction.
         /// </summary>
-        Sell,
+        Sell                    = 4,
 
         /// <summary>
         ///   A buy transaction used to cover a <see cref="OrderType.SellShort"/> order.
         /// </summary>
-        BuyToCover,
+        BuyToCover              = 5,
+
+        /// <summary>
+        ///   A buy transaction or a new investment.
+        /// </summary>
+        Buy                     = 6,
 
         /// <summary>
         ///   An order to sell short.
         /// </summary>
-        SellShort
+        SellShort               = 7,
+
+        /// <summary>
+        ///   A cash withdrawal.
+        /// </summary>
+        Withdrawal              = 8
     }
 }
