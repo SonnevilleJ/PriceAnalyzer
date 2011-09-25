@@ -231,7 +231,7 @@ namespace Sonneville.PriceTools
     #region Entities
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a transaction to buy shares.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Buy")]
     [Serializable()]
@@ -266,7 +266,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a transaction to buy shares to cover a previous short sell.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="BuyToCover")]
     [Serializable()]
@@ -301,7 +301,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a single account used to hold cash.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="CashAccount")]
     [Serializable()]
@@ -419,7 +419,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a transaction for an <see cref="ICashAccount"/>.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="CashTransaction")]
     [Serializable()]
@@ -525,7 +525,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a cash deposit to an <see cref="IPortfolio"/>.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Deposit")]
     [Serializable()]
@@ -554,7 +554,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a transaction for receipt of dividends.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="DividendReceipt")]
     [Serializable()]
@@ -583,7 +583,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a transaction to reinvest dividends.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="DividendReinvestment")]
     [Serializable()]
@@ -618,7 +618,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a portfolio of investments.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Portfolio")]
     [Serializable()]
@@ -762,7 +762,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Position")]
     [Serializable()]
@@ -906,7 +906,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a defined period of price data.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="PricePeriod")]
     [Serializable()]
@@ -1122,7 +1122,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a time series of price data.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="PriceSeries")]
     [Serializable()]
@@ -1201,7 +1201,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// A PricePeriod made from PriceQuotes.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="QuotedPricePeriod")]
     [Serializable()]
@@ -1251,7 +1251,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a transaction to sell shares.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Sell")]
     [Serializable()]
@@ -1286,7 +1286,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a transaction to short-sell shares.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="SellShort")]
     [Serializable()]
@@ -1321,7 +1321,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a transaction (or order) for a financial security.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="ShareTransaction")]
     [Serializable()]
@@ -1501,7 +1501,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a defined period of price data.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="StaticPricePeriod")]
     [Serializable()]
@@ -1697,7 +1697,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a financial transaction.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Transaction")]
     [Serializable()]
@@ -1764,7 +1764,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// No Metadata Documentation available.
+    /// Represents a cash withdrawal from an <see cref="IPortfolio"/>.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Withdrawal")]
     [Serializable()]
