@@ -129,7 +129,7 @@ namespace Sonneville.PriceTools
         /// <param name = "index">The <see cref = "DateTime" /> to use.</param>
         public decimal this[DateTime index]
         {
-            get { return GetValue(index); }
+            get { return CalculateValue(index); }
         }
 
         /// <summary>
@@ -156,7 +156,7 @@ namespace Sonneville.PriceTools
         public bool HasValueInRange(DateTime settlementDate)
         {
             DateTime end = Tail;
-            if (GetValue(settlementDate) != 0)
+            if (CalculateValue(settlementDate) != 0)
             {
                 end = settlementDate;
             }
@@ -168,7 +168,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the Portfolio as of the given date.</returns>
-        public decimal GetInvestedValue(DateTime settlementDate)
+        public decimal CalculateInvestedValue(DateTime settlementDate)
         {
             var heldShares = (decimal) GetHeldShares(settlementDate);
             return heldShares > 0
@@ -189,10 +189,10 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the IPortfolio as of the given date.</returns>
-        public decimal GetValue(DateTime settlementDate)
+        public decimal CalculateValue(DateTime settlementDate)
         {
-            decimal proceeds = GetProceeds(settlementDate); // positive proceeds = gain, negative proceeds = loss
-            decimal totalCosts = GetCost(settlementDate);
+            decimal proceeds = CalculateProceeds(settlementDate); // positive proceeds = gain, negative proceeds = loss
+            decimal totalCosts = CalculateCost(settlementDate);
                 // positive totalCosts = revenue, negative totalCosts = expense
 
             double heldShares = GetHeldShares(settlementDate);
@@ -211,7 +211,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount spent on share purchases as a negative number.</returns>
-        public decimal GetCost(DateTime settlementDate)
+        public decimal CalculateCost(DateTime settlementDate)
         {
             return AdditiveTransactions
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
@@ -223,7 +223,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
-        public decimal GetProceeds(DateTime settlementDate)
+        public decimal CalculateProceeds(DateTime settlementDate)
         {
             return -1*SubtractiveTransactions
                           .Where(transaction => transaction.SettlementDate <= settlementDate)
@@ -235,7 +235,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s as a negative number.</returns>
-        public decimal GetCommissions(DateTime settlementDate)
+        public decimal CalculateCommissions(DateTime settlementDate)
         {
             return
                 EFTransactions.Where(transaction => transaction.SettlementDate <= settlementDate).Sum(
@@ -246,10 +246,10 @@ namespace Sonneville.PriceTools
         ///   Gets the raw rate of return for this Position, not accounting for commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        public decimal? GetRawReturn(DateTime settlementDate)
+        public decimal? CalculateRawReturn(DateTime settlementDate)
         {
             return GetClosedShares(settlementDate) > 0
-                       ? (decimal?) ((GetValue(settlementDate)/GetCost(settlementDate)) - 1)
+                       ? (decimal?) ((CalculateValue(settlementDate)/CalculateCost(settlementDate)) - 1)
                        : null;
         }
 
@@ -257,11 +257,11 @@ namespace Sonneville.PriceTools
         ///   Gets the total rate of return for this Position, after commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        public decimal? GetTotalReturn(DateTime settlementDate)
+        public decimal? CalculateTotalReturn(DateTime settlementDate)
         {
-            decimal proceeds = GetProceeds(settlementDate);
-            decimal costs = GetCost(settlementDate);
-            decimal commissions = GetCommissions(settlementDate);
+            decimal proceeds = CalculateProceeds(settlementDate);
+            decimal costs = CalculateCost(settlementDate);
+            decimal commissions = CalculateCommissions(settlementDate);
             decimal profit = proceeds - costs - commissions;
             return proceeds != 0
                        ? (profit/costs)
@@ -274,9 +274,9 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        public decimal? GetAverageAnnualReturn(DateTime settlementDate)
+        public decimal? CalculateAverageAnnualReturn(DateTime settlementDate)
         {
-            decimal? totalReturn = GetTotalReturn(settlementDate);
+            decimal? totalReturn = CalculateTotalReturn(settlementDate);
             decimal time = (Duration.Days/365.0m);
             return totalReturn != null
                        ? totalReturn/time

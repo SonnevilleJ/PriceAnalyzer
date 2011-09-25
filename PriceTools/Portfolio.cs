@@ -90,7 +90,7 @@ namespace Sonneville.PriceTools
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
         public decimal this[DateTime index]
         {
-            get { return GetValue(index); }
+            get { return CalculateValue(index); }
         }
 
         /// <summary>
@@ -150,7 +150,7 @@ namespace Sonneville.PriceTools
         public bool HasValueInRange(DateTime settlementDate)
         {
             DateTime end = Tail;
-            if (GetValue(settlementDate) != 0)
+            if (CalculateValue(settlementDate) != 0)
             {
                 end = settlementDate;
             }
@@ -174,10 +174,10 @@ namespace Sonneville.PriceTools
         ///   Gets the total value of this Portfolio.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
-        public decimal GetValue(DateTime settlementDate)
+        public decimal CalculateValue(DateTime settlementDate)
         {
             var cash = GetAvailableCash(settlementDate);
-            var invested = Positions.Sum(position => position.GetInvestedValue(settlementDate));
+            var invested = Positions.Sum(position => position.CalculateInvestedValue(settlementDate));
             return cash + invested;
         }
 
@@ -185,10 +185,10 @@ namespace Sonneville.PriceTools
         ///   Gets the raw rate of return for this Portfolio, not accounting for commissions.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
-        public decimal? GetRawReturn(DateTime settlementDate)
+        public decimal? CalculateRawReturn(DateTime settlementDate)
         {
-            decimal proceeds = GetProceeds(settlementDate);
-            decimal costs = GetCost(settlementDate);
+            decimal proceeds = CalculateProceeds(settlementDate);
+            decimal costs = CalculateCost(settlementDate);
             decimal profit = proceeds - costs;
             return proceeds != 0
                 ? (profit / costs)
@@ -199,11 +199,11 @@ namespace Sonneville.PriceTools
         ///   Gets the total rate of return for this Portfolio, after commissions.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
-        public decimal? GetTotalReturn(DateTime settlementDate)
+        public decimal? CalculateTotalReturn(DateTime settlementDate)
         {
-            decimal proceeds = GetProceeds(settlementDate);
-            decimal costs = GetCost(settlementDate);
-            decimal commissions = GetCommissions(settlementDate);
+            decimal proceeds = CalculateProceeds(settlementDate);
+            decimal costs = CalculateCost(settlementDate);
+            decimal commissions = CalculateCommissions(settlementDate);
             decimal profit = proceeds - costs - commissions;
             return proceeds != 0
                        ? (profit / costs)
@@ -217,10 +217,10 @@ namespace Sonneville.PriceTools
         ///   Assumes a year has 365 days.
         /// </remarks>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
-        public decimal? GetAverageAnnualReturn(DateTime settlementDate)
+        public decimal? CalculateAverageAnnualReturn(DateTime settlementDate)
         {
             decimal time = ((Tail - Head).Days / 365.0m);
-            decimal? totalReturn = GetTotalReturn(settlementDate);
+            decimal? totalReturn = CalculateTotalReturn(settlementDate);
 
             return totalReturn / (time);
         }
@@ -230,9 +230,9 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount spent on share purchases.</returns>
-        public decimal GetCost(DateTime settlementDate)
+        public decimal CalculateCost(DateTime settlementDate)
         {
-            return Positions.Sum(p => p.GetCost(settlementDate));
+            return Positions.Sum(p => p.CalculateCost(settlementDate));
         }
 
         /// <summary>
@@ -240,9 +240,9 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of proceeds from share sales.</returns>
-        public decimal GetProceeds(DateTime settlementDate)
+        public decimal CalculateProceeds(DateTime settlementDate)
         {
-            return Positions.Sum(p => p.GetProceeds(settlementDate));
+            return Positions.Sum(p => p.CalculateProceeds(settlementDate));
         }
 
         /// <summary>
@@ -250,9 +250,9 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s.</returns>
-        public decimal GetCommissions(DateTime settlementDate)
+        public decimal CalculateCommissions(DateTime settlementDate)
         {
-            return Positions.Sum(p => p.GetCommissions(settlementDate));
+            return Positions.Sum(p => p.CalculateCommissions(settlementDate));
         }
 
         /// <summary>
@@ -279,9 +279,9 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the IPortfolio as of the given date.</returns>
-        public decimal GetInvestedValue(DateTime settlementDate)
+        public decimal CalculateInvestedValue(DateTime settlementDate)
         {
-            return Positions.Sum(p => p.GetInvestedValue(settlementDate));
+            return Positions.Sum(p => p.CalculateInvestedValue(settlementDate));
         }
 
         /// <summary>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 
@@ -36,9 +37,9 @@ namespace Sonneville.PriceToolsTest
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
             target.Sell(cDate, cShares, cPrice, cCommission);
 
-            // No longer hold these shares, so GetValue should return total profit (or negative loss) minus any commissions.
+            // No longer hold these shares, so CalculateValue should return total profit (or negative loss) minus any commissions.
             const decimal expected = 550.00m;   // sold all shares for $550.00
-            decimal actual = target.GetValue(cDate);
+            decimal actual = target.CalculateValue(cDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -60,9 +61,9 @@ namespace Sonneville.PriceToolsTest
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
             target.Sell(cDate, cShares, cPrice, cCommission);
 
-            // No longer hold these shares, so GetValue should return total profit (or negative loss) minus any commissions.
+            // No longer hold these shares, so CalculateValue should return total profit (or negative loss) minus any commissions.
             const decimal expected = 450.00m;   // sold all shares for $550.00
-            decimal actual = target.GetValue(cDate);
+            decimal actual = target.CalculateValue(cDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -78,7 +79,7 @@ namespace Sonneville.PriceToolsTest
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
             target.Buy(oDate, oShares, oPrice, oCommission);
 
-            decimal expected = target.GetValue(oDate);
+            decimal expected = target.CalculateValue(oDate);
             decimal? actual = target[oDate];
             Assert.AreEqual(expected, actual);
         }
@@ -108,7 +109,7 @@ namespace Sonneville.PriceToolsTest
             // DE price @ 29 Dec 2000 = $45.81
             // invested value should be $45.81 * 5 shares = $229.05
             const decimal expected = 229.05m;
-            decimal actual = target.GetInvestedValue(buyDate);
+            decimal actual = target.CalculateInvestedValue(buyDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -132,7 +133,7 @@ namespace Sonneville.PriceToolsTest
             // DE price @ 29 Dec 2000 = $44.81
             // invested value should be $44.81 * 5 shares = $224.05
             const decimal expected = 224.05m;
-            decimal actual = target.GetInvestedValue(sellDate);
+            decimal actual = target.CalculateInvestedValue(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -152,7 +153,7 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, shares, price + 10m, commission);
 
             const decimal expected = 0.00m;     // $0.00 currently invested
-            decimal actual = target.GetInvestedValue(sellDate);
+            decimal actual = target.CalculateInvestedValue(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -189,7 +190,7 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, shares, price + 10m, commission);
 
             const decimal expected = 0.1m;      // 10% raw return on investment
-            decimal? actual = target.GetRawReturn(sellDate);
+            decimal? actual = target.CalculateRawReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -207,7 +208,7 @@ namespace Sonneville.PriceToolsTest
 
             target.Buy(buyDate, shares, price, commission);
 
-            Assert.IsNull(target.GetRawReturn(sellDate));
+            Assert.IsNull(target.CalculateRawReturn(sellDate));
         }
 
         [TestMethod]
@@ -226,7 +227,7 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, shares, price + 2.00m, commission);
             
             const decimal expected = 0.00m;      // 0% return; 100% of original investment
-            decimal? actual = target.GetTotalReturn(sellDate);
+            decimal? actual = target.CalculateTotalReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -244,7 +245,7 @@ namespace Sonneville.PriceToolsTest
 
             target.Buy(buyDate, shares, price, commission);
             
-            Assert.IsNull(target.GetTotalReturn(sellDate));
+            Assert.IsNull(target.CalculateTotalReturn(sellDate));
         }
 
         [TestMethod]
@@ -264,11 +265,11 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, shares, sellPrice, commission);
 
             const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
-            decimal? actualReturn = target.GetTotalReturn(sellDate);
+            decimal? actualReturn = target.CalculateTotalReturn(sellDate);
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = 0.5m;          // 50% annual rate return
-            decimal? actual = target.GetAverageAnnualReturn(sellDate);
+            decimal? actual = target.CalculateAverageAnnualReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -286,7 +287,7 @@ namespace Sonneville.PriceToolsTest
 
             target.Buy(buyDate, shares, price, commission);
 
-            Assert.IsNull(target.GetAverageAnnualReturn(sellDate));
+            Assert.IsNull(target.CalculateAverageAnnualReturn(sellDate));
         }
 
         [TestMethod]
@@ -390,7 +391,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         /// <summary>
-        ///A test for GetCost
+        ///A test for CalculateCost
         ///</summary>
         [TestMethod]
         public void GetCostWithBuyOnlyTest()
@@ -407,12 +408,12 @@ namespace Sonneville.PriceToolsTest
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
             const decimal expectedCosts = 500.00m;
-            decimal actualCosts = target.GetCost(buyDate);
+            decimal actualCosts = target.CalculateCost(buyDate);
             Assert.AreEqual(expectedCosts, actualCosts);
         }
 
         /// <summary>
-        ///A test for GetCost
+        ///A test for CalculateCost
         ///</summary>
         [TestMethod]
         public void GetCostWithBuyAndSellTest()
@@ -435,12 +436,12 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
             const decimal expectedCosts = 500.00m;
-            decimal actualCosts = target.GetCost(sellDate);
+            decimal actualCosts = target.CalculateCost(sellDate);
             Assert.AreEqual(expectedCosts, actualCosts);
         }
 
         /// <summary>
-        ///A test for GetProceeds
+        ///A test for CalculateProceeds
         ///</summary>
         [TestMethod]
         public void GetProceedsWithBuyOnlyTest()
@@ -457,12 +458,12 @@ namespace Sonneville.PriceToolsTest
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
             const decimal expectedProceeds = 0.00m;
-            decimal actualProceeds = target.GetProceeds(buyDate);
+            decimal actualProceeds = target.CalculateProceeds(buyDate);
             Assert.AreEqual(expectedProceeds, actualProceeds);
         }
 
         /// <summary>
-        ///A test for GetProceeds
+        ///A test for CalculateProceeds
         ///</summary>
         [TestMethod]
         public void GetProceedsWithBuyAndSellTest()
@@ -485,12 +486,12 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
             const decimal expectedProceeds = 375.00m;
-            decimal actualProceeds = target.GetProceeds(sellDate);
+            decimal actualProceeds = target.CalculateProceeds(sellDate);
             Assert.AreEqual(expectedProceeds, actualProceeds);
         }
 
         /// <summary>
-        ///A test for GetCommissions
+        ///A test for CalculateCommissions
         ///</summary>
         [TestMethod]
         public void GetCommissionsWithBuyOnlyTest()
@@ -507,12 +508,12 @@ namespace Sonneville.PriceToolsTest
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
             const decimal expectedCommissions = 5.00m;
-            decimal actualCommissions = target.GetCommissions(buyDate);
+            decimal actualCommissions = target.CalculateCommissions(buyDate);
             Assert.AreEqual(expectedCommissions, actualCommissions);
         }
 
         /// <summary>
-        ///A test for GetCommissions
+        ///A test for CalculateCommissions
         ///</summary>
         [TestMethod]
         public void GetCommissionsWithBuyAndSellTest()
@@ -535,7 +536,7 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
             const decimal expectedCommissions = 10.00m;
-            decimal actualCommissions = target.GetCommissions(sellDate);
+            decimal actualCommissions = target.CalculateCommissions(sellDate);
             Assert.AreEqual(expectedCommissions, actualCommissions);
         }
     }

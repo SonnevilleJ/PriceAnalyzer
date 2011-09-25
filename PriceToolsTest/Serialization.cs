@@ -128,8 +128,8 @@ namespace Sonneville.PriceToolsTest
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
             IPortfolio target = new Portfolio(purchaseDate, amount, ticker);
 
-            decimal expected = target.GetValue(purchaseDate);
-            decimal actual = TestUtilities.Serialize(target).GetValue(purchaseDate);
+            decimal expected = target.CalculateValue(purchaseDate);
+            decimal actual = TestUtilities.Serialize(target).CalculateValue(purchaseDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -147,8 +147,8 @@ namespace Sonneville.PriceToolsTest
 
             target.Buy(purchaseDate, shares, buyPrice, commission);
 
-            decimal expected = target.GetValue(purchaseDate);
-            decimal actual = TestUtilities.Serialize(target).GetValue(purchaseDate);
+            decimal expected = target.CalculateValue(purchaseDate);
+            decimal actual = TestUtilities.Serialize(target).CalculateValue(purchaseDate);
             Assert.AreEqual(expected, actual);
         }
 

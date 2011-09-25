@@ -18,19 +18,19 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the IMeasurableSecurityBasket as of the given date.</returns>
-        decimal GetValue(DateTime settlementDate);
+        decimal CalculateValue(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the raw rate of return for this IMeasurableSecurityBasket, not accounting for commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        decimal? GetRawReturn(DateTime settlementDate);
+        decimal? CalculateRawReturn(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the total rate of return for this IMeasurableSecurityBasket, after commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        decimal? GetTotalReturn(DateTime settlementDate);
+        decimal? CalculateTotalReturn(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the total rate of return on an annual basis for this IMeasurableSecurityBasket.
@@ -39,34 +39,34 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        decimal? GetAverageAnnualReturn(DateTime settlementDate);
+        decimal? CalculateAverageAnnualReturn(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the gross investment of this IMeasurableSecurityBasket, ignoring any proceeds and commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount spent on share purchases.</returns>
-        decimal GetCost(DateTime settlementDate);
+        decimal CalculateCost(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the gross proceeds of this IMeasurableSecurityBasket, ignoring all costs and commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of proceeds from share sales.</returns>
-        decimal GetProceeds(DateTime settlementDate);
+        decimal CalculateProceeds(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the total commissions paid as of a given date.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s.</returns>
-        decimal GetCommissions(DateTime settlementDate);
+        decimal CalculateCommissions(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the value of any shares held the IMeasurableSecurityBasket as of a given date.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the IMeasurableSecurityBasket as of the given date.</returns>
-        decimal GetInvestedValue(DateTime settlementDate);
+        decimal CalculateInvestedValue(DateTime settlementDate);
     }
 }

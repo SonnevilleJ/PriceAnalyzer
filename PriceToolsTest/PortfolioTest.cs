@@ -146,7 +146,7 @@ namespace Sonneville.PriceToolsTest
             IPortfolio target = new Portfolio();
 
             const decimal expectedValue = 0;
-            decimal actualValue = target.GetValue(DateTime.Now);
+            decimal actualValue = target.CalculateValue(DateTime.Now);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
@@ -170,7 +170,7 @@ namespace Sonneville.PriceToolsTest
             IPortfolio target = new Portfolio(dateTime, openingDeposit);
 
             const decimal expectedValue = openingDeposit;
-            decimal actualValue = target.GetValue(dateTime);
+            decimal actualValue = target.CalculateValue(dateTime);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
@@ -200,7 +200,7 @@ namespace Sonneville.PriceToolsTest
             target.Withdraw(dateTime.AddDays(1), amount);
 
             const decimal expectedValue = 0;
-            decimal actualValue = target.GetValue(withdrawalDate);
+            decimal actualValue = target.CalculateValue(withdrawalDate);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
@@ -228,7 +228,7 @@ namespace Sonneville.PriceToolsTest
 
             target.AddTransaction(buy);
 
-            Assert.IsNull(target.GetRawReturn(sellDate));
+            Assert.IsNull(target.CalculateRawReturn(sellDate));
         }
 
         [TestMethod]
@@ -265,7 +265,7 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(sell);
 
             const decimal expected = 0.0m;      // 0% raw return on investment
-            decimal? actual = target.GetRawReturn(sellDate);
+            decimal? actual = target.CalculateRawReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -293,7 +293,7 @@ namespace Sonneville.PriceToolsTest
 
             target.AddTransaction(buy);
 
-            Assert.IsNull(target.GetTotalReturn(sellDate));
+            Assert.IsNull(target.CalculateTotalReturn(sellDate));
         }
 
         [TestMethod]
@@ -330,7 +330,7 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(sell);
 
             const decimal expected = -0.02m;      // negative 2% return; 98% of original investment
-            decimal? actual = target.GetTotalReturn(sellDate);
+            decimal? actual = target.CalculateTotalReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -358,7 +358,7 @@ namespace Sonneville.PriceToolsTest
 
             target.AddTransaction(buy);
 
-            Assert.IsNull(target.GetAverageAnnualReturn(sellDate));
+            Assert.IsNull(target.CalculateAverageAnnualReturn(sellDate));
         }
 
         [TestMethod]
@@ -396,11 +396,11 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(sell);
 
             const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
-            decimal? actualReturn = target.GetTotalReturn(sellDate);
+            decimal? actualReturn = target.CalculateTotalReturn(sellDate);
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = 0.5m;          // 50% annual rate return
-            decimal? actual = target.GetAverageAnnualReturn(sellDate);
+            decimal? actual = target.CalculateAverageAnnualReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -408,7 +408,7 @@ namespace Sonneville.PriceToolsTest
         public void GetInvestedValueFromEmptyPortfolio()
         {
             IPortfolio target = new Portfolio();
-            Assert.AreEqual(0.0m, target.GetInvestedValue(DateTime.Now));
+            Assert.AreEqual(0.0m, target.CalculateInvestedValue(DateTime.Now));
         }
 
         [TestMethod]
@@ -436,13 +436,13 @@ namespace Sonneville.PriceToolsTest
 
             target.AddTransaction(buy);
 
-            // If the price date falls within a period, GetInvestedValue will use price data from that period.
+            // If the price date falls within a period, CalculateInvestedValue will use price data from that period.
             // Because of this, I changed the price date to 11:59 pm rather than the next day (default of midnight).
             // Todo: adding a "market open/close times" feature would be a better fix; more convenient for the client.
             DateTime priceDate = new DateTime(2011, 4, 25, 23, 59, 59);
             
             const decimal expected = 189.44m; // closing price 25 April 2011 = $94.72 * 2 shares = 189.44
-            decimal actual = target.GetInvestedValue(priceDate);
+            decimal actual = target.CalculateInvestedValue(priceDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -480,7 +480,7 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(sell);
 
             const decimal expected = 0.00m; // all shares sold = no value
-            decimal actual = target.GetInvestedValue(sellDate);
+            decimal actual = target.CalculateInvestedValue(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -488,7 +488,7 @@ namespace Sonneville.PriceToolsTest
         public void GetCostFromEmptyPortfolio()
         {
             IPortfolio target = new Portfolio();
-            Assert.AreEqual(0.0m, target.GetCost(DateTime.Now));
+            Assert.AreEqual(0.0m, target.CalculateCost(DateTime.Now));
         }
 
         [TestMethod]
@@ -525,7 +525,7 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(sell);
 
             const decimal expected = 100.00m;
-            decimal actual = target.GetCost(sellDate);
+            decimal actual = target.CalculateCost(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -533,7 +533,7 @@ namespace Sonneville.PriceToolsTest
         public void GetProceedsFromEmptyPortfolio()
         {
             IPortfolio target = new Portfolio();
-            Assert.AreEqual(0.0m, target.GetProceeds(DateTime.Now));
+            Assert.AreEqual(0.0m, target.CalculateProceeds(DateTime.Now));
         }
 
         [TestMethod]
@@ -570,7 +570,7 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(sell);
 
             const decimal expected = 100.00m;
-            decimal actual = target.GetProceeds(sellDate);
+            decimal actual = target.CalculateProceeds(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -578,7 +578,7 @@ namespace Sonneville.PriceToolsTest
         public void GetCommissionsFromEmptyPortfolio()
         {
             IPortfolio target = new Portfolio();
-            Assert.AreEqual(0.0m, target.GetCommissions(DateTime.Now));
+            Assert.AreEqual(0.0m, target.CalculateCommissions(DateTime.Now));
         }
 
         [TestMethod]
@@ -615,7 +615,7 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(sell);
 
             const decimal expected = 15.90m; // two $7.95 commissions paid
-            decimal actual = target.GetCommissions(sellDate);
+            decimal actual = target.CalculateCommissions(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -649,7 +649,7 @@ namespace Sonneville.PriceToolsTest
             const decimal amount = 10000m;
             IPortfolio target = new Portfolio(dateTime, amount);
 
-            decimal expectedValue = target.GetValue(dateTime);
+            decimal expectedValue = target.CalculateValue(dateTime);
             decimal? actualValue = target[dateTime];
             Assert.AreEqual(expectedValue, actualValue);
         }
@@ -883,7 +883,7 @@ namespace Sonneville.PriceToolsTest
             // total value should be = 10,000 - 100.00 - 5,000 + 168.68 = 5068.68
             
             const decimal expectedValue = 5068.68m;
-            decimal actualValue = target.GetValue(buyDate);
+            decimal actualValue = target.CalculateValue(buyDate);
             Assert.AreEqual(expectedValue, actualValue);
         }
 

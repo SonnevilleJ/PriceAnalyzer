@@ -39,19 +39,19 @@ namespace Sonneville.PriceToolsTest
                 var settlementDate = new DateTime(2010, 11, 16);
 
                 var ALTR = portfolio.Positions.Where(p => p.Ticker == "ALTR").First();
-                decimal investedValue = ALTR.GetInvestedValue(settlementDate);
+                decimal investedValue = ALTR.CalculateInvestedValue(settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
 
                 var NTAP = portfolio.Positions.Where(p => p.Ticker == "NTAP").First();
-                investedValue = NTAP.GetInvestedValue(settlementDate);
+                investedValue = NTAP.CalculateInvestedValue(settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
 
                 var NTCT = portfolio.Positions.Where(p => p.Ticker == "NTCT").First();
-                investedValue = NTCT.GetInvestedValue(settlementDate);
+                investedValue = NTCT.CalculateInvestedValue(settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
 
                 var PG = portfolio.Positions.Where(p => p.Ticker == "PG").First();
-                investedValue = PG.GetInvestedValue(settlementDate);
+                investedValue = PG.CalculateInvestedValue(settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
 
                 const decimal expectedAvailableCash = 2848.43m;
@@ -59,7 +59,7 @@ namespace Sonneville.PriceToolsTest
                 Assert.AreEqual(expectedAvailableCash, availableCash);
 
                 const decimal expectedValue = 2848.43m;
-                var actualValue = portfolio.GetValue(new DateTime(2010, 11, 16));
+                var actualValue = portfolio.CalculateValue(new DateTime(2010, 11, 16));
                 Assert.AreEqual(expectedValue, actualValue);
             }
         }
