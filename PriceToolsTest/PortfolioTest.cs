@@ -620,6 +620,29 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
+        public void GetPositionTest()
+        {
+            DateTime dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+            
+            const string ticker = "DE";
+            var buy = new Buy {SettlementDate = dateTime, Shares = 5, Ticker = ticker};
+            
+            target.AddTransaction(buy);
+
+            var position = target.GetPosition(ticker);
+            Assert.IsTrue(position.Transactions.Contains(buy));
+        }
+
+        [TestMethod]
+        public void GetPositionTestMissing()
+        {
+            var target = new Portfolio("FTEXX");
+            Assert.IsNull(target.GetPosition("ASDF"));
+        }
+
+        [TestMethod]
         public void IndexerTest()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
