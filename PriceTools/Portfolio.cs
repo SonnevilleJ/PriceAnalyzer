@@ -387,6 +387,21 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Portfolio.
+        /// </summary>
+        /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
+        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Portfolio.</returns>
+        public IList<IHolding> CalculateHoldings(DateTime settlementDate)
+        {
+            var holdings = new List<IHolding>();
+            foreach (var position in Positions)
+            {
+                holdings.AddRange(position.CalculateHoldings(settlementDate));
+            }
+            return holdings.OrderByDescending(h=>h.Tail).ToList();
+        }
+
+        /// <summary>
         ///   Retrieves the <see cref="IPosition"/> with Ticker <paramref name="ticker"/>.
         /// </summary>
         /// <param name="ticker">The Ticker symbol of the position to retrieve.</param>

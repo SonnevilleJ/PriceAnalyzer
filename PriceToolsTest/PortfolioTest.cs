@@ -1,4 +1,5 @@
-﻿using Sonneville.PriceTools;
+﻿using System.Collections.Generic;
+using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Sonneville.PriceTools.Services;
@@ -1067,6 +1068,158 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(false, target.HasValueInRange(testDate));
             Assert.AreEqual(true, target.HasValueInRange(purchaseDate));
             Assert.AreEqual(true, target.HasValueInRange(purchaseDate.AddDays(1)));
+        }
+
+        [TestMethod]
+        public void CalculateHoldingsTestWithOnePositionOneBuyOneSell()
+        {
+            Settings.CanConnectToInternet = true;
+
+            DateTime dateTime = new DateTime(2011, 7, 26);
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(dateTime, deposit);
+
+            DateTime buyDate = new DateTime(2011, 7, 26);
+            const string ticker = "DE";
+            const decimal buyPrice = 50.00m;
+            const double shares = 2;
+            Buy buy = new Buy {SettlementDate = buyDate, Ticker = ticker, Price = buyPrice, Shares = shares};
+            target.AddTransaction(buy);
+
+            DateTime sellDate = new DateTime(2011, 9, 26);
+            const decimal sellPrice = 75.00m;
+            Sell sell = new Sell {SettlementDate = sellDate, Ticker = ticker, Price = sellPrice, Shares = shares};
+            target.AddTransaction(sell);
+
+            IList<IHolding> holdings = target.CalculateHoldings(sellDate);
+
+            Assert.AreEqual(1, holdings.Count);
+            var expected = new Holding
+            {
+                Ticker = ticker,
+                Head = buyDate,
+                Tail = sellDate,
+                Shares = shares,
+                OpenPrice = buyPrice * (decimal)shares,
+                ClosePrice = sellPrice * (decimal)shares
+            };
+            var actual = holdings[0];
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateHoldingsTestWithOnePositionTwoBuysTwoSells()
+        {
+            Settings.CanConnectToInternet = true;
+
+            DateTime testDate = new DateTime(2001, 1, 1);
+            DateTime firstBuyDate = testDate.AddDays(1);
+            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double sharesBought = 5;      // 5 shares
+            const decimal commission = 5.00m;   // with $5 commission
+
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(testDate, deposit);
+
+            target.AddTransaction(new Buy {SettlementDate = firstBuyDate, Ticker = ticker, Shares = sharesBought, Price = buyPrice, Commission = commission});
+            target.AddTransaction(new Buy {SettlementDate = secondBuyDate, Ticker = ticker, Shares = sharesBought, Price = buyPrice, Commission = commission});
+
+            DateTime firstSellDate = secondBuyDate.AddDays(2);
+            DateTime secondSellDate = firstSellDate.AddDays(1);
+            const decimal sellPrice = 75.00m;   // $75.00 per share
+            const double sharesSold = 5;        // 5 shares
+
+            target.AddTransaction(new Sell {SettlementDate = firstSellDate, Ticker = ticker, Shares = sharesSold, Price = sellPrice, Commission = commission});
+            target.AddTransaction(new Sell {SettlementDate = secondSellDate, Ticker = ticker, Shares = sharesSold, Price = sellPrice, Commission = commission});
+
+            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+
+            Assert.AreEqual(2, holdings.Count);
+
+            const double sharesInHolding = sharesSold;
+            var expected1 = new Holding
+            {
+                Ticker = ticker,
+                Head = secondBuyDate,
+                Tail = secondSellDate,
+                Shares = sharesInHolding,
+                OpenPrice = buyPrice * (decimal)sharesInHolding,
+                ClosePrice = sellPrice * (decimal)sharesInHolding
+            };
+            var expected2 = new Holding
+            {
+                Ticker = ticker,
+                Head = firstBuyDate,
+                Tail = firstSellDate,
+                Shares = sharesInHolding,
+                OpenPrice = buyPrice * (decimal)sharesInHolding,
+                ClosePrice = sellPrice * (decimal)sharesInHolding
+            };
+            var holding1 = holdings[0];
+            var holding2 = holdings[1];
+            Assert.AreEqual(expected1, holding1);
+            Assert.AreEqual(expected2, holding2);
+        }
+
+        [TestMethod]
+        public void CalculateHoldingsTestWithTwoPositionsOneBuyOneSellEach()
+        {
+            Settings.CanConnectToInternet = true;
+
+            DateTime testDate = new DateTime(2001, 1, 1);
+            DateTime firstBuyDate = testDate.AddDays(1);
+            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            const string firstTicker = "DE";
+            const string secondTicker = "IBM";
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double sharesBought = 5;      // 5 shares
+            const decimal commission = 5.00m;   // with $5 commission
+
+            const decimal deposit = 10000m;
+            IPortfolio target = new Portfolio(testDate, deposit);
+
+            target.AddTransaction(new Buy { SettlementDate = firstBuyDate, Ticker = firstTicker, Shares = sharesBought, Price = buyPrice, Commission = commission });
+            target.AddTransaction(new Buy { SettlementDate = secondBuyDate, Ticker = secondTicker, Shares = sharesBought, Price = buyPrice, Commission = commission });
+
+            DateTime firstSellDate = secondBuyDate.AddDays(2);
+            DateTime secondSellDate = firstSellDate.AddDays(1);
+            const decimal sellPrice = 75.00m;   // $75.00 per share
+            const double sharesSold = 5;        // 5 shares
+
+            target.AddTransaction(new Sell { SettlementDate = firstSellDate, Ticker = firstTicker, Shares = sharesSold, Price = sellPrice, Commission = commission });
+            target.AddTransaction(new Sell { SettlementDate = secondSellDate, Ticker = secondTicker, Shares = sharesSold, Price = sellPrice, Commission = commission });
+
+            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+
+            Assert.AreEqual(2, holdings.Count);
+
+            const double sharesInHolding = sharesSold;
+            var expected1 = new Holding
+            {
+                Ticker = secondTicker,
+                Head = secondBuyDate,
+                Tail = secondSellDate,
+                Shares = sharesInHolding,
+                OpenPrice = buyPrice * (decimal)sharesInHolding,
+                ClosePrice = sellPrice * (decimal)sharesInHolding
+            };
+            var expected2 = new Holding
+            {
+                Ticker = firstTicker,
+                Head = firstBuyDate,
+                Tail = firstSellDate,
+                Shares = sharesInHolding,
+                OpenPrice = buyPrice * (decimal)sharesInHolding,
+                ClosePrice = sellPrice * (decimal)sharesInHolding
+            };
+            var holding1 = holdings[0];
+            var holding2 = holdings[1];
+
+            // test for order: descending by tail.
+            Assert.AreEqual(expected1, holding1);
+            Assert.AreEqual(expected2, holding2);
         }
     }
 }

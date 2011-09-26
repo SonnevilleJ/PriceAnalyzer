@@ -67,5 +67,12 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="csvFile">The CSV file containing the transactions to add.</param>
         void AddTransactionHistory(TransactionHistoryCsvFile csvFile);
+
+        /// <summary>
+        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the IPortfolio.
+        /// </summary>
+        /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
+        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the IPortfolio.</returns>
+        IList<IHolding> CalculateHoldings(DateTime settlementDate);
     }
 }
