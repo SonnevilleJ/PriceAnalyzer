@@ -303,23 +303,41 @@ namespace Sonneville.PriceTools
         public IList<IHolding> CalculateHoldings(DateTime settlementDate)
         {
             var holdings = new List<IHolding>();
+            var buys = AdditiveTransactions.Where(t => t.SettlementDate < settlementDate).OrderByDescending(t => t.SettlementDate);
+            var buysUsed = 0;
+            var unusedSharesInCurrentBuy = 0.0;
+            IShareTransaction buy = null;
 
-            var usedBuys = new List<ITransaction>();
-            foreach (var sell in SubtractiveTransactions.Where(t => t.SettlementDate <= settlementDate).OrderBy(t => t.SettlementDate))
+            foreach (var sell in SubtractiveTransactions.Where(t => t.SettlementDate <= settlementDate).OrderByDescending(t => t.SettlementDate))
             {
                 // collect shares from most recent buy
                 double sharesToMatch = sell.Shares;
                 while (sharesToMatch > 0)
                 {
-                    var buys = AdditiveTransactions.Where(t => t.SettlementDate < settlementDate && !usedBuys.Contains(t)).OrderBy(t => t.SettlementDate);
-
                     // find a matching purchase and record a new holding
                     // must keep track of remaining shares in corresponding purchase
-                    var buy = buys.Last();
+                    if (unusedSharesInCurrentBuy == 0)
+                    {
+                        buy = buys.Skip(buysUsed).First();
+                    }
 
-                    var availableShares = buy.Shares;
-                    var neededShares = sell.Shares;
-                    var shares = availableShares >= neededShares ? neededShares : availableShares;
+                    var availableShares = unusedSharesInCurrentBuy > 0 ? unusedSharesInCurrentBuy : buy.Shares;
+                    var neededShares = sharesToMatch;
+                    double shares;
+                    if (availableShares >= neededShares)
+                    {
+                        shares = neededShares;
+                        unusedSharesInCurrentBuy = availableShares - shares;
+                        if (unusedSharesInCurrentBuy == 0)
+                        {
+                            buysUsed++;
+                        }
+                    }
+                    else
+                    {
+                        shares = availableShares;
+                        buysUsed++;
+                    }
                     var holding = new Holding
                                       {
                                           Ticker = Ticker,
@@ -331,7 +349,6 @@ namespace Sonneville.PriceTools
                                       };
                     holdings.Add(holding);
 
-                    usedBuys.Add(buy);
                     sharesToMatch -= shares;
                 }
             }
