@@ -573,8 +573,8 @@ namespace Sonneville.PriceToolsTest
                                    OpenPrice = buyPrice*(decimal) sharesSold,
                                    ClosePrice = sellPrice*(decimal) sharesSold
                                };
-            var actual = holdings[0];
-            Assert.AreEqual(expected, actual);
+
+            Assert.IsTrue(holdings.Contains(expected));
         }
 
         [TestMethod]
@@ -621,10 +621,9 @@ namespace Sonneville.PriceToolsTest
                 OpenPrice = buyPrice * (decimal)sharesBought,
                 ClosePrice = sellPrice * (decimal)sharesBought
             };
-            var holding1 = holdings[0];
-            var holding2 = holdings[1];
-            Assert.AreEqual(expected1, holding1);
-            Assert.AreEqual(expected2, holding2);
+
+            Assert.IsTrue(holdings.Contains(expected1));
+            Assert.IsTrue(holdings.Contains(expected2));
         }
 
         [TestMethod]
@@ -672,10 +671,9 @@ namespace Sonneville.PriceToolsTest
                 OpenPrice = buyPrice * (decimal)sharesInHolding,
                 ClosePrice = sellPrice * (decimal)sharesInHolding
             };
-            var holding1 = holdings[0];
-            var holding2 = holdings[1];
-            Assert.AreEqual(expected1, holding1);
-            Assert.AreEqual(expected2, holding2);
+
+            Assert.IsTrue(holdings.Contains(expected1));
+            Assert.IsTrue(holdings.Contains(expected2));
         }
 
         [TestMethod]
@@ -725,10 +723,9 @@ namespace Sonneville.PriceToolsTest
                 OpenPrice = buyPrice * (decimal)sharesInHolding,
                 ClosePrice = sellPrice * (decimal)sharesInHolding
             };
-            var holding1 = holdings[0];
-            var holding2 = holdings[1];
-            Assert.AreEqual(expected1, holding1);
-            Assert.AreEqual(expected2, holding2);
+
+            Assert.IsTrue(holdings.Contains(expected1));
+            Assert.IsTrue(holdings.Contains(expected2));
         }
 
         [TestMethod]
@@ -778,14 +775,76 @@ namespace Sonneville.PriceToolsTest
                 OpenPrice = buyPrice * (decimal)sharesInHolding,
                 ClosePrice = sellPrice * (decimal)sharesInHolding
             };
-            var holding1 = holdings[0];
-            var holding2 = holdings[1];
-            Assert.AreEqual(expected1, holding1);
-            Assert.AreEqual(expected2, holding2);
+
+            Assert.IsTrue(holdings.Contains(expected1));
+            Assert.IsTrue(holdings.Contains(expected2));
         }
 
         [TestMethod]
         public void GetHoldingsTestWithTwoBuysTwoSellsOverlappingUneven()
+        {
+            const string ticker = "DE";
+            const decimal commission = 5.00m;   // with $5 commission
+            var target = PositionFactory.CreatePosition(ticker);
+
+            DateTime testDate = new DateTime(2001, 1, 1);
+            DateTime firstBuyDate = testDate.AddDays(1);
+            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double firstSharesBought = 9;
+            const double secondSharesBought = 1;
+
+            target.Buy(firstBuyDate, firstSharesBought, buyPrice, commission);
+            target.Buy(secondBuyDate, secondSharesBought, buyPrice, commission);
+
+            DateTime firstSellDate = secondBuyDate;
+            DateTime secondSellDate = firstSellDate.AddDays(1);
+            const decimal sellPrice = 75.00m;   // $75.00 per share
+            const double sharesSold = 5;        // 5 shares
+
+            target.Sell(firstSellDate, sharesSold, sellPrice, commission);
+            target.Sell(secondSellDate, sharesSold, sellPrice, commission);
+
+            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+
+            Assert.AreEqual(3, holdings.Count);
+
+            var expected1 = new Holding
+            {
+                Ticker = ticker,
+                Head = secondBuyDate,
+                Tail = secondSellDate,
+                Shares = 1,
+                OpenPrice = buyPrice,
+                ClosePrice = sellPrice
+            };
+            var expected2 = new Holding
+            {
+                Ticker = ticker,
+                Head = firstBuyDate,
+                Tail = secondSellDate,
+                Shares = 4,
+                OpenPrice = buyPrice * 4,
+                ClosePrice = sellPrice * 4
+            };
+            var expected3 = new Holding
+            {
+                Ticker = ticker,
+                Head = firstBuyDate,
+                Tail = firstSellDate,
+                Shares = 5,
+                OpenPrice = buyPrice * 5,
+                ClosePrice = sellPrice * 5
+            };
+
+
+            Assert.IsTrue(holdings.Contains(expected1));
+            Assert.IsTrue(holdings.Contains(expected2));
+            Assert.IsTrue(holdings.Contains(expected3));
+        }
+
+        [TestMethod]
+        public void GetHoldingsTestWithTwoBuysTwoSellsOverlappingUnevenSortOrder()
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
