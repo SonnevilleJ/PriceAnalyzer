@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   Specifies the resolution of an IPriceSeries.
     /// </summary>
-    public enum PriceSeriesResolution : long
+    public enum Resolution : long
     {
         /// <summary>
         ///   Data is available for each second.

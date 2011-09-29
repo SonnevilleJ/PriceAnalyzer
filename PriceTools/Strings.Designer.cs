@@ -97,7 +97,7 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to determine PriceSeriesResolution of data periods in CSV data..
+        ///   Looks up a localized string similar to Unable to determine Resolution of data periods in CSV data..
         /// </summary>
         internal static string PriceHistoryCsvFile_DetermineResolution_Unable_to_determine_PriceSeriesResolution_of_data_periods_in_CSV_data_ {
             get {
@@ -125,7 +125,7 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Given duration represents an unknown PriceSeriesResolution..
+        ///   Looks up a localized string similar to Given duration represents an unknown Resolution..
         /// </summary>
         internal static string PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSeriesResolution_ {
             get {

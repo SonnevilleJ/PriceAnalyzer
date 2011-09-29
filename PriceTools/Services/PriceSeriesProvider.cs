@@ -38,9 +38,9 @@ namespace Sonneville.PriceTools.Services
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> of <see cref="IPricePeriod"/>s to download.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to download.</param>
         /// <returns></returns>
-        public PriceHistoryCsvFile GetPriceHistoryCsvFile(string ticker, DateTime head, DateTime tail, PriceSeriesResolution resolution)
+        public PriceHistoryCsvFile GetPriceHistoryCsvFile(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             using (Stream stream = DownloadPricesToCsv(ticker, head, tail, resolution))
             {
@@ -65,10 +65,10 @@ namespace Sonneville.PriceTools.Services
         /// <param name = "ticker">The ticker symbol of the security to price.</param>
         /// <param name = "head">The beginning of the date range to price.</param>
         /// <param name = "tail">The end of the date range to price.</param>
-        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> of <see cref="IPricePeriod"/>s to download.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to download.</param>
         /// <exception cref="WebException">Thrown when accessing the Internet fails.</exception>
         /// <returns>A <see cref = "Stream" /> containing the price data in CSV format.</returns>
-        private Stream DownloadPricesToCsv(string ticker, DateTime head, DateTime tail, PriceSeriesResolution resolution)
+        private Stream DownloadPricesToCsv(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             try
             {
@@ -116,11 +116,11 @@ namespace Sonneville.PriceTools.Services
         protected abstract string GetUrlTailDate(DateTime tail);
 
         /// <summary>
-        /// Gets the <see cref="PriceSeriesResolution"/> component of the URL query string used to retrieve price history.
+        /// Gets the <see cref="Resolution"/> component of the URL query string used to retrieve price history.
         /// </summary>
-        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> to request.</param>
-        /// <returns>A partial URL query string containing a marker which requests the given <see cref="PriceSeriesResolution"/>.</returns>
-        protected abstract string GetUrlResolution(PriceSeriesResolution resolution);
+        /// <param name="resolution">The <see cref="Resolution"/> to request.</param>
+        /// <returns>A partial URL query string containing a marker which requests the given <see cref="Resolution"/>.</returns>
+        protected abstract string GetUrlResolution(Resolution resolution);
 
         /// <summary>
         /// Gets the dividend component of the URL query string used to retrieve the PriceHistoryCsvFile.
@@ -142,7 +142,7 @@ namespace Sonneville.PriceTools.Services
         /// <param name="tail">The last date to request.</param>
         /// <param name="resolution"></param>
         /// <returns>A fully formed URL.</returns>
-        protected virtual string FormUrlQuery(string ticker, DateTime head, DateTime tail, PriceSeriesResolution resolution)
+        protected virtual string FormUrlQuery(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             StringBuilder builder = new StringBuilder();
             builder.Append(GetUrlBase());
@@ -167,9 +167,9 @@ namespace Sonneville.PriceTools.Services
         protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail);
 
         /// <summary>
-        /// Gets the smallest <see cref="PriceSeriesResolution"/> available from this PriceSeriesProvider.
+        /// Gets the smallest <see cref="Resolution"/> available from this PriceSeriesProvider.
         /// </summary>
-        public abstract PriceSeriesResolution BestResolution { get; }
+        public abstract Resolution BestResolution { get; }
 
         #endregion
     }

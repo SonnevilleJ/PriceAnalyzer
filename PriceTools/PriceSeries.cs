@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools
         {
         }
 
-        internal PriceSeries(PriceSeriesResolution resolution)
+        internal PriceSeries(Resolution resolution)
         {
             Resolution = resolution;
         }
@@ -174,24 +174,24 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceSeriesResolution"/>.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
-        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> used to view the PricePeriods.</param>
+        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
-        public IList<IPricePeriod> GetPricePeriods(PriceSeriesResolution resolution)
+        public IList<IPricePeriod> GetPricePeriods(Resolution resolution)
         {
             return GetPricePeriods(resolution, Head, Tail);
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceSeriesResolution"/>.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
-        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> used to view the PricePeriods.</param>
+        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
         /// <param name="head">The head of the periods to retrieve.</param>
         /// <param name="tail">The tail of the periods to retrieve.</param>
         /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this IPriceSeries.</exception>
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
-        public IList<IPricePeriod> GetPricePeriods(PriceSeriesResolution resolution, DateTime head, DateTime tail)
+        public IList<IPricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail)
         {
             if (resolution < Resolution)
             {
@@ -217,7 +217,7 @@ namespace Sonneville.PriceTools
 
         private delegate DateTime GetDateTime(DateTime date);
 
-        private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetPairs(PriceSeriesResolution resolution, DateTime head, DateTime tail)
+        private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetPairs(Resolution resolution, DateTime head, DateTime tail)
         {
             if (head.DayOfWeek == DayOfWeek.Saturday || head.DayOfWeek == DayOfWeek.Sunday)
             {
@@ -239,19 +239,19 @@ namespace Sonneville.PriceTools
             return list;
         }
 
-        private static void GetDelegates(PriceSeriesResolution resolution, ref GetDateTime getPeriodClose, ref GetDateTime getNextOpen)
+        private static void GetDelegates(Resolution resolution, ref GetDateTime getPeriodClose, ref GetDateTime getNextOpen)
         {
             switch (resolution)
             {
-                case PriceSeriesResolution.Days:
+                case PriceTools.Resolution.Days:
                     getPeriodClose = DateTimeExtensions.GetFollowingClose;
                     getNextOpen = DateTimeExtensions.GetFollowingOpen;
                     break;
-                case PriceSeriesResolution.Weeks:
+                case PriceTools.Resolution.Weeks:
                     getPeriodClose = DateTimeExtensions.GetFollowingWeeklyClose;
                     getNextOpen = DateTimeExtensions.GetFollowingWeeklyOpen;
                     break;
-                case PriceSeriesResolution.Months:
+                case PriceTools.Resolution.Months:
                     getPeriodClose = DateTimeExtensions.GetFollowingMonthlyClose;
                     getNextOpen = DateTimeExtensions.GetFollowingMonthlyOpen;
                     break;
@@ -263,7 +263,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets or sets the resolution of PricePeriods to retrieve.
         /// </summary>
-        public PriceSeriesResolution Resolution { get; private set; }
+        public Resolution Resolution { get; private set; }
 
         #endregion
 

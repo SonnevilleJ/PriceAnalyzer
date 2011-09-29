@@ -23,8 +23,8 @@ namespace Sonneville.PriceToolsTest
             const int range = 5;
             SimpleMovingAverage target = new SimpleMovingAverage(priceSeries, range);
 
-            const PriceSeriesResolution expected = PriceSeriesResolution.Days;
-            PriceSeriesResolution actual = target.Resolution;
+            const Resolution expected = Resolution.Days;
+            Resolution actual = target.Resolution;
             Assert.AreEqual(expected, actual);
         }
 
@@ -117,19 +117,6 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(4.0m, target[date.AddDays(6)]);
             Assert.AreEqual(3.5m, target[date.AddDays(7)]);
             Assert.AreEqual(2.5m, target[date.AddDays(8)]);
-        }
-
-        [TestMethod]
-        public void SpanTest()
-        {
-            IPriceSeries series = CreateTestPriceSeries(90, new DateTime(2011, 3, 1), 100);
-            const int range = 30;
-
-            SimpleMovingAverage target = new SimpleMovingAverage(series, range);
-
-            int expected = series.PricePeriods.Count - (range - 1);
-            int actual = target.Span;
-            Assert.AreEqual(expected, actual);
         }
 
         private static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)

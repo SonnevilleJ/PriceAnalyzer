@@ -320,7 +320,7 @@ namespace Sonneville.PriceToolsTest
             var tail = new DateTime(2011, 6, 30, 23, 59, 59);
             var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, head, tail).PriceSeries;
             
-            var pricePeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Weeks);
+            var pricePeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
 
             Assert.AreEqual(26, pricePeriods.Count);
         }
@@ -332,8 +332,8 @@ namespace Sonneville.PriceToolsTest
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
             var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, seriesHead, seriesTail).PriceSeries;
 
-            var dailyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Days);
-            var weeklyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Weeks);
+            var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
+            var weeklyPeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
 
             var weekHead = seriesHead.GetCurrentOrFollowingTradingDay();
             var weekTail = seriesHead.GetFollowingWeekClose();
@@ -371,8 +371,8 @@ namespace Sonneville.PriceToolsTest
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
             var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, seriesHead, seriesTail).PriceSeries;
 
-            var dailyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Days);
-            var monthlyPeriods = priceSeries.GetPricePeriods(PriceSeriesResolution.Months);
+            var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
+            var monthlyPeriods = priceSeries.GetPricePeriods(Resolution.Months);
 
             var monthHead = seriesHead.GetCurrentOrFollowingTradingDay();
             var monthTail = seriesHead.GetFollowingMonthlyClose();
@@ -422,7 +422,7 @@ namespace Sonneville.PriceToolsTest
         public void GetDailyPeriodsFromWeeklyPeriodsTest()
         {
             IPriceSeries priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google).PriceSeries;
-            priceSeries.GetPricePeriods(PriceSeriesResolution.Days);
+            priceSeries.GetPricePeriods(Resolution.Days);
         }
 
         /// <summary>

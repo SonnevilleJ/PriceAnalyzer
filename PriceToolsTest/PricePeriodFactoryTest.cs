@@ -18,7 +18,7 @@ namespace Sonneville.PriceToolsTest
             const decimal close = 60.00m;
             const long volume = 100;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, PriceSeriesResolution.Weeks, open, high, low, close, volume);
+            var target = PricePeriodFactory.CreateStaticPricePeriod(head, Resolution.Weeks, open, high, low, close, volume);
 
             Assert.AreEqual(head, target.Head);
             Assert.AreEqual(tail, target.Tail);

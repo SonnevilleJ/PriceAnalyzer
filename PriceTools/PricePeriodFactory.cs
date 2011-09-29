@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools
         /// <param name="close">The per-share price of the last transaction in the period.</param>
         /// <param name="volume">The total number of shares traded during the period.</param>
         /// <returns>A PricePeriod object with only a close.</returns>
-        public static StaticPricePeriod CreateStaticPricePeriod(DateTime head, PriceSeriesResolution resolution, decimal open, decimal high, decimal low, decimal close, long volume)
+        public static StaticPricePeriod CreateStaticPricePeriod(DateTime head, Resolution resolution, decimal open, decimal high, decimal low, decimal close, long volume)
         {
             return new StaticPricePeriod(head, resolution, open, high, low, close, volume);
         }

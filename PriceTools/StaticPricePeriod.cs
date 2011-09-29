@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools
         {
         }
 
-        internal StaticPricePeriod(DateTime head, PriceSeriesResolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
+        internal StaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
             : this(head, ConstructTail(head, resolution), open, high, low, close, volume)
         {
         }
@@ -40,15 +40,15 @@ namespace Sonneville.PriceTools
 
         #region Private Methods
 
-        private static DateTime ConstructTail(DateTime head, PriceSeriesResolution resolution)
+        private static DateTime ConstructTail(DateTime head, Resolution resolution)
         {
             var result = head;
             switch (resolution)
             {
-                case PriceSeriesResolution.Days:
+                case Resolution.Days:
                     result = head.AddDays(1);
                     break;
-                case PriceSeriesResolution.Weeks:
+                case Resolution.Weeks:
                     switch (result.DayOfWeek)
                     {
                         case DayOfWeek.Monday:

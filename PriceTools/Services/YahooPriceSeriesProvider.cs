@@ -50,11 +50,11 @@ namespace Sonneville.PriceTools.Services
         }
 
         /// <summary>
-        /// Gets the smallest <see cref="PriceSeriesResolution"/> available from this PriceSeriesProvider.
+        /// Gets the smallest <see cref="Resolution"/> available from this PriceSeriesProvider.
         /// </summary>
-        public override PriceSeriesResolution BestResolution
+        public override Resolution BestResolution
         {
-            get { return PriceSeriesResolution.Days; }
+            get { return Resolution.Days; }
         }
 
         #region URL Management
@@ -115,19 +115,19 @@ namespace Sonneville.PriceTools.Services
         }
 
         /// <summary>
-        /// Gets the <see cref="PriceSeriesResolution"/> component of the URL query string used to retrieve price history.
+        /// Gets the <see cref="Resolution"/> component of the URL query string used to retrieve price history.
         /// </summary>
-        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> to request.</param>
-        /// <returns>A partial URL query string containing a marker which requests the given <see cref="PriceSeriesResolution"/>.</returns>
-        protected override string GetUrlResolution(PriceSeriesResolution resolution)
+        /// <param name="resolution">The <see cref="Resolution"/> to request.</param>
+        /// <returns>A partial URL query string containing a marker which requests the given <see cref="Resolution"/>.</returns>
+        protected override string GetUrlResolution(Resolution resolution)
         {
             switch (resolution)
             {
-                case PriceSeriesResolution.Days:
+                case Resolution.Days:
                     return "g=d&";
-                case PriceSeriesResolution.Weeks:
+                case Resolution.Weeks:
                     return "g=w&";
-                case PriceSeriesResolution.Months:
+                case Resolution.Months:
                     return "g=m&";
                 default:
                     throw new NotSupportedException(String.Format(CultureInfo.CurrentCulture,

@@ -169,33 +169,33 @@ namespace Sonneville.PriceTools.Services
             return priceSeries;
         }
 
-        private static DateTime GetHead(DateTime date, PriceSeriesResolution resolution)
+        private static DateTime GetHead(DateTime date, Resolution resolution)
         {
             switch (resolution)
             {
-                case PriceSeriesResolution.Days:
+                case Resolution.Days:
                     return date.GetMostRecentOpen();
-                case PriceSeriesResolution.Weeks:
+                case Resolution.Weeks:
                     return date.GetMostRecentWeeklyOpen();
                 default:
                     throw new ArgumentOutOfRangeException(null, String.Format(Strings.PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution, resolution));
             }
         }
 
-        private static DateTime GetTail(DateTime date, PriceSeriesResolution resolution)
+        private static DateTime GetTail(DateTime date, Resolution resolution)
         {
             switch (resolution)
             {
-                case PriceSeriesResolution.Days:
+                case Resolution.Days:
                     return date.GetFollowingClose();
-                case PriceSeriesResolution.Weeks:
+                case Resolution.Weeks:
                     return date.GetFollowingWeeklyClose();
                 default:
                     throw new ArgumentOutOfRangeException(null, String.Format(Strings.PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution, resolution));
             }
         }
 
-        private static PriceSeriesResolution DetermineResolution(IList<BasicPeriod> periods)
+        private static Resolution DetermineResolution(IList<BasicPeriod> periods)
         {
             if (periods.Count >= 3)
             {
@@ -217,34 +217,34 @@ namespace Sonneville.PriceTools.Services
             throw new InvalidOperationException(Strings.PriceHistoryCsvFile_DetermineResolution_Unable_to_determine_PriceSeriesResolution_of_data_periods_in_CSV_data_);
         }
 
-        private static PriceSeriesResolution SetResolution(TimeSpan duration)
+        private static Resolution SetResolution(TimeSpan duration)
         {
             // ensure positive time, not negative time
             duration = new TimeSpan(Math.Abs(duration.Ticks));
 
             if (duration <= new TimeSpan(0, 0, 1))          // test for second periods
             {
-                return PriceSeriesResolution.Seconds;
+                return Resolution.Seconds;
             }
             if (duration <= new TimeSpan(0, 1, 0))          // test for minute periods
             {
-                return PriceSeriesResolution.Minutes;
+                return Resolution.Minutes;
             }
             if (duration <= new TimeSpan(1, 0, 0))          // test for hourly periods
             {
-                return PriceSeriesResolution.Hours;
+                return Resolution.Hours;
             }
             if (duration <= new TimeSpan(1, 0, 0, 0))       // test for daily periods
             {
-                return PriceSeriesResolution.Days;
+                return Resolution.Days;
             }
             if (duration <= new TimeSpan(7, 0, 0, 0))       // test for weekly periods
             {
-                return PriceSeriesResolution.Weeks;
+                return Resolution.Weeks;
             }
             if (duration <= new TimeSpan(31, 0, 0, 0))      // test for monthly periods
             {
-                return PriceSeriesResolution.Months;
+                return Resolution.Months;
             }
             throw new ArgumentOutOfRangeException("duration", duration, Strings.PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSeriesResolution_);
         }

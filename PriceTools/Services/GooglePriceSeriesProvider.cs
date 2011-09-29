@@ -61,11 +61,11 @@ namespace Sonneville.PriceTools.Services
         }
 
         /// <summary>
-        /// Gets the <see cref="PriceSeriesResolution"/> component of the URL query string used to retrieve price history.
+        /// Gets the <see cref="Resolution"/> component of the URL query string used to retrieve price history.
         /// </summary>
-        /// <param name="resolution">The <see cref="PriceSeriesResolution"/> to request.</param>
-        /// <returns>A partial URL query string containing a marker which requests the given <see cref="PriceSeriesResolution"/>.</returns>
-        protected override string GetUrlResolution(PriceSeriesResolution resolution)
+        /// <param name="resolution">The <see cref="Resolution"/> to request.</param>
+        /// <returns>A partial URL query string containing a marker which requests the given <see cref="Resolution"/>.</returns>
+        protected override string GetUrlResolution(Resolution resolution)
         {
             return String.Format("histperiod={0}&", TranslateResolution(resolution));
         }
@@ -101,11 +101,11 @@ namespace Sonneville.PriceTools.Services
         }
 
         /// <summary>
-        /// Gets the smallest <see cref="PriceSeriesResolution"/> available from this PriceSeriesProvider.
+        /// Gets the smallest <see cref="Resolution"/> available from this PriceSeriesProvider.
         /// </summary>
-        public override PriceSeriesResolution BestResolution
+        public override Resolution BestResolution
         {
-            get { return PriceSeriesResolution.Days; }
+            get { return Resolution.Days; }
         }
 
         #endregion
@@ -143,13 +143,13 @@ namespace Sonneville.PriceTools.Services
             }
         }
 
-        private static string TranslateResolution(PriceSeriesResolution resolution)
+        private static string TranslateResolution(Resolution resolution)
         {
             switch (resolution)
             {
-                case PriceSeriesResolution.Days:
+                case Resolution.Days:
                     return "daily";
-                case PriceSeriesResolution.Weeks:
+                case Resolution.Weeks:
                     return "weekly";
                 default:
                     throw new NotSupportedException();

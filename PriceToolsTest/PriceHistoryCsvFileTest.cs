@@ -37,7 +37,7 @@ namespace Sonneville.PriceToolsTest
         {
             PriceHistoryCsvFile target = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo);
             
-            Assert.AreEqual(PriceSeriesResolution.Days, target.PriceSeries.Resolution);
+            Assert.AreEqual(Resolution.Days, target.PriceSeries.Resolution);
             foreach (var period in ((PriceSeries)target.PriceSeries).DataPeriods)
             {
                 Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
@@ -70,7 +70,7 @@ namespace Sonneville.PriceToolsTest
         {
             PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(TestData.DE_Apr_June2011_Weekly_Google);
 
-            Assert.AreEqual(PriceSeriesResolution.Weeks, target.PriceSeries.Resolution);
+            Assert.AreEqual(Resolution.Weeks, target.PriceSeries.Resolution);
             var periods = target.PricePeriods;
 
             for (int i = 1; i < periods.Count - 1; i++) // skip check on first and last periods

@@ -8,11 +8,6 @@ namespace Sonneville.PriceTools
     public interface IIndicator : ITimeSeries
     {
         /// <summary>
-        /// Gets the number of periods for which this Indicator has a value.
-        /// </summary>
-        int Span { get; }
-
-        /// <summary>
         /// Gets the range of this Indicator which specifies how many periods are required for the first indicator value.
         /// </summary>
         /// <example>A 50-period MovingAverage has a Range of 50.</example>
@@ -26,7 +21,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The Resolution of this Indicator. Used when splitting the PriceSeries into periods.
         /// </summary>
-        PriceSeriesResolution Resolution { get; }
+        Resolution Resolution { get; }
 
         /// <summary>
         /// Pre-caches all values for this Indicator.

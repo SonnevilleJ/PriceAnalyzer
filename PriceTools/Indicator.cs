@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools
             Resolution = priceSeries.Resolution;
             if(priceSeries.TimeSpan < new TimeSpan(range * (long)Resolution))
             {
-                throw new InvalidOperationException("The TimeSpan of priceSeries is too narrow for the given PriceSeriesResolution.");
+                throw new InvalidOperationException("The TimeSpan of priceSeries is too narrow for the given Resolution.");
             }
             Dictionary = new Dictionary<DateTime, decimal?>(priceSeries.PricePeriods.Count - range);
             Range = range;
@@ -112,18 +112,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the number of periods for which this Indicator has a value.
-        /// </summary>
-        public virtual int Span
-        {
-            get
-            {
-                CalculateAll();
-                return Dictionary.Count;
-            }
-        }
-
-        /// <summary>
         /// Gets the range of this Indicator which specifies how many periods are required for the first indicator value.
         /// </summary>
         /// <example>A 50-period MovingAverage has a Range of 50.</example>
@@ -145,7 +133,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The Resolution of this Indicator. Used when splitting the PriceSeries into periods.
         /// </summary>
-        public PriceSeriesResolution Resolution { get; private set; }
+        public Resolution Resolution { get; private set; }
 
         /// <summary>
         /// Determines if the Indicator has a valid value for a given date.
