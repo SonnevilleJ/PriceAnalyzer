@@ -34,13 +34,13 @@ namespace Sonneville.PriceTools
             }
 
             decimal sum = 0;
-            for (var i = index.Subtract(new TimeSpan(Range - 1, 0, 0, 0)); i <= index; i = IncrementDate(i))
+            for (var i = index.Subtract(new TimeSpan(Lookback - 1, 0, 0, 0)); i <= index; i = IncrementDate(i))
             {
                 sum += PriceSeries[i];
             }
             lock (Padlock)
             {
-                return this[index] = sum / Range;
+                return this[index] = sum / Lookback;
             }
         }
 

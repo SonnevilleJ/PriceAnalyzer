@@ -11,6 +11,7 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
+        private IDictionary<DateTime, decimal?> Dictionary { get; set; }
         private readonly object _padlock = new object();
 
         #endregion
@@ -21,8 +22,8 @@ namespace Sonneville.PriceTools
         /// Constructs an Indicator for a given <see cref="IPriceSeries"/>.
         /// </summary>
         /// <param name="priceSeries">The <see cref="IPriceSeries"/> to measure.</param>
-        /// <param name="range">The range of this Indicator which specifies how many periods are required for the first indicator value.</param>
-        protected Indicator(IPriceSeries priceSeries, int range)
+        /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
+        protected Indicator(IPriceSeries priceSeries, int lookback)
         {
             if (priceSeries == null)
             {
@@ -30,17 +31,15 @@ namespace Sonneville.PriceTools
             }
             PriceSeries = priceSeries;
             Resolution = priceSeries.Resolution;
-            if(priceSeries.TimeSpan < new TimeSpan(range * (long)Resolution))
+            if(priceSeries.TimeSpan < new TimeSpan(lookback * (long)Resolution))
             {
                 throw new InvalidOperationException("The TimeSpan of priceSeries is too narrow for the given Resolution.");
             }
-            Dictionary = new Dictionary<DateTime, decimal?>(priceSeries.PricePeriods.Count - range);
-            Range = range;
+            Dictionary = new Dictionary<DateTime, decimal?>(priceSeries.PricePeriods.Count - lookback);
+            Lookback = lookback;
         }
 
         #endregion
-
-        private IDictionary<DateTime, decimal?> Dictionary { get; set; }
 
         #region Accessors
 
@@ -49,7 +48,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual DateTime Head
         {
-            get { return PriceSeries.Head.Add(new TimeSpan((long) Resolution * (Range - 1))); }
+            get { return PriceSeries.Head.Add(new TimeSpan((long) Resolution * (Lookback - 1))); }
         }
 
         /// <summary>
@@ -112,10 +111,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the range of this Indicator which specifies how many periods are required for the first indicator value.
+        /// Gets the lookback of this Indicator which specifies how many periods are required for the first indicator value.
         /// </summary>
-        /// <example>A 50-period MovingAverage has a Range of 50.</example>
-        public int Range { get; private set; }
+        /// <example>A 50-period MovingAverage has a Lookback of 50.</example>
+        public int Lookback { get; private set; }
 
         /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
