@@ -26,6 +26,11 @@ namespace Sonneville.PriceTools
         DateTime Tail { get; }
 
         /// <summary>
+        /// Gets the <see cref="Resolution"/> of price data stored within the ITimeSeries.
+        /// </summary>
+        Resolution Resolution { get; }
+
+        /// <summary>
         /// Determines if the ITimeSeries has a valid value for a given date.
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>

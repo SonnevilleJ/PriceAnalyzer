@@ -19,11 +19,6 @@ namespace Sonneville.PriceTools
         ITimeSeries PriceSeries { get; }
 
         /// <summary>
-        /// The Resolution of this Indicator. Used when splitting the PriceSeries into periods.
-        /// </summary>
-        Resolution Resolution { get; }
-
-        /// <summary>
         /// Pre-caches all values for this Indicator.
         /// </summary>
         void CalculateAll();

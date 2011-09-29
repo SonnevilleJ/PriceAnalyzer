@@ -19,17 +19,6 @@ namespace Sonneville.PriceTools
         IList<IPricePeriod> PricePeriods { get; }
 
         /// <summary>
-        /// Gets or sets the resolution of PricePeriods to retrieve.
-        /// </summary>
-        Resolution Resolution { get; }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
-        /// </summary>
-        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
-        IList<IPricePeriod> GetPricePeriods();
-
-        /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>

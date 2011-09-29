@@ -304,5 +304,131 @@ namespace Sonneville.PriceToolsTest
 
             Assert.AreEqual(volume, target.Volume);
         }
+
+        /// <summary>
+        ///A test for Resolution
+        ///</summary>
+        [TestMethod]
+        public void ResolutionTestSeconds()
+        {
+            DateTime head = new DateTime(2011, 9, 28);
+            DateTime tail = head.AddSeconds(1);
+            const decimal open = 10.00m;
+            const decimal high = 11.00m;
+            const decimal low = 9.00m;
+            const decimal close = 10.00m;
+            const long volume = 1000;
+
+            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+            const Resolution expected = Resolution.Seconds;
+            var actual = target.Resolution;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Resolution
+        ///</summary>
+        [TestMethod]
+        public void ResolutionTestMinutes()
+        {
+            DateTime head = new DateTime(2011, 9, 28);
+            DateTime tail = head.AddMinutes(1);
+            const decimal open = 10.00m;
+            const decimal high = 11.00m;
+            const decimal low = 9.00m;
+            const decimal close = 10.00m;
+            const long volume = 1000;
+
+            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+            const Resolution expected = Resolution.Minutes;
+            var actual = target.Resolution;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Resolution
+        ///</summary>
+        [TestMethod]
+        public void ResolutionTestHours()
+        {
+            DateTime head = new DateTime(2011, 9, 28);
+            DateTime tail = head.AddHours(1);
+            const decimal open = 10.00m;
+            const decimal high = 11.00m;
+            const decimal low = 9.00m;
+            const decimal close = 10.00m;
+            const long volume = 1000;
+
+            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+            const Resolution expected = Resolution.Hours;
+            var actual = target.Resolution;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Resolution
+        ///</summary>
+        [TestMethod]
+        public void ResolutionTestDays()
+        {
+            DateTime head = new DateTime(2011, 9, 28);
+            DateTime tail = head.AddDays(1);
+            const decimal open = 10.00m;
+            const decimal high = 11.00m;
+            const decimal low = 9.00m;
+            const decimal close = 10.00m;
+            const long volume = 1000;
+
+            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+            const Resolution expected = Resolution.Days;
+            var actual = target.Resolution;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Resolution
+        ///</summary>
+        [TestMethod]
+        public void ResolutionTestWeeks()
+        {
+            DateTime head = new DateTime(2011, 9, 25);
+            DateTime tail = head.AddDays(7);
+            const decimal open = 10.00m;
+            const decimal high = 11.00m;
+            const decimal low = 9.00m;
+            const decimal close = 10.00m;
+            const long volume = 1000;
+
+            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+            const Resolution expected = Resolution.Weeks;
+            var actual = target.Resolution;
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for Resolution
+        ///</summary>
+        [TestMethod]
+        public void ResolutionTestMonths()
+        {
+            DateTime head = new DateTime(2011, 8, 1);
+            DateTime tail = head.AddMonths(1);
+            const decimal open = 10.00m;
+            const decimal high = 11.00m;
+            const decimal low = 9.00m;
+            const decimal close = 10.00m;
+            const long volume = 1000;
+
+            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+            const Resolution expected = Resolution.Months;
+            var actual = target.Resolution;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

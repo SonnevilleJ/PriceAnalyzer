@@ -50,6 +50,6 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Data is available for each month.
         /// </summary>
-        Months = TimeSpan.TicksPerDay*30
+        Months = TimeSpan.TicksPerDay*31
     }
 }

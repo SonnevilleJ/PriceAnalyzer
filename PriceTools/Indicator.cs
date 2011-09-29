@@ -30,7 +30,6 @@ namespace Sonneville.PriceTools
                 throw new ArgumentNullException("priceSeries");
             }
             PriceSeries = priceSeries;
-            Resolution = priceSeries.Resolution;
             if(priceSeries.TimeSpan < new TimeSpan(lookback * (long)Resolution))
             {
                 throw new InvalidOperationException("The TimeSpan of priceSeries is too narrow for the given Resolution.");
@@ -132,7 +131,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The Resolution of this Indicator. Used when splitting the PriceSeries into periods.
         /// </summary>
-        public Resolution Resolution { get; private set; }
+        public Resolution Resolution { get { return PriceSeries.Resolution; } }
 
         /// <summary>
         /// Determines if the Indicator has a valid value for a given date.

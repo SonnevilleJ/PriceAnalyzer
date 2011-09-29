@@ -143,6 +143,14 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Gets the <see cref="ITimeSeries.Resolution"/> of price data stored within the ITimeSeries.
+        /// </summary>
+        public Resolution Resolution
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
         /// Determines if the ITimeSeries has a valid value for a given date.
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>

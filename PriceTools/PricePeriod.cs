@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Sonneville.PriceTools
 {
@@ -65,6 +66,23 @@ namespace Sonneville.PriceTools
         /// Gets the last DateTime in the ITimeSeries.
         /// </summary>
         public abstract DateTime Tail { get; }
+
+        /// <summary>
+        /// Gets the <see cref="ITimeSeries.Resolution"/> of price data stored within the ITimeSeries.
+        /// </summary>
+        public virtual Resolution Resolution
+        {
+            get
+            {
+                foreach (long resolution in
+                    Enum.GetValues(typeof (Resolution)).Cast<long>().OrderBy(ticks => ticks).Where(ticks => TimeSpan <= new TimeSpan(ticks)))
+                {
+                    return (Resolution)Enum.ToObject(typeof(Resolution), new TimeSpan(resolution).Ticks);
+                }
+
+                throw new OverflowException();
+            }
+        }
 
         /// <summary>
         /// Determines if the PricePeriod has a valid value for a given date.
