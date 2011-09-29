@@ -8,11 +8,6 @@ namespace Sonneville.PriceTools
     public interface IPricePeriod : ITimeSeries, IEquatable<IPricePeriod>
     {
         /// <summary>
-        /// Gets the last price for the IPricePeriod.
-        /// </summary>
-        decimal Last { get; }
-
-        /// <summary>
         /// Gets the closing price for the IPricePeriod.
         /// </summary>
         decimal Close { get; }

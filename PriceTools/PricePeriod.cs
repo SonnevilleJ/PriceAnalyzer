@@ -12,11 +12,6 @@ namespace Sonneville.PriceTools
         #region Implementation of IPricePeriod
 
         /// <summary>
-        /// Gets the last price for the IPricePeriod.
-        /// </summary>
-        public decimal Last { get { return Close; } }
-
-        /// <summary>
         /// Gets the closing price for the IPricePeriod.
         /// </summary>
         public abstract decimal Close { get; }

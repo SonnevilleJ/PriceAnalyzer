@@ -78,19 +78,6 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void LastTest()
-        {
-            IPriceQuote q1 = TestUtilities.CreateQuote1();
-            IPriceQuote q2 = TestUtilities.CreateQuote2();
-            IPriceQuote q3 = TestUtilities.CreateQuote3();
-
-            QuotedPricePeriod target = new QuotedPricePeriod();
-            target.AddPriceQuotes(q1, q2, q3);
-
-            Assert.AreEqual(target.Close, target.Last);
-        }
-
-        [TestMethod]
         public void VolumeTest()
         {
             IPriceQuote q1 = TestUtilities.CreateQuote1();

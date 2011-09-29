@@ -194,21 +194,6 @@ namespace Sonneville.PriceToolsTest
         }
 
         /// <summary>
-        ///A test for Close
-        ///</summary>
-        [TestMethod]
-        public void LastTest()
-        {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
-            const decimal close = 100.00m;
-
-            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
-
-            Assert.AreEqual(target.Close, target.Last);
-        }
-
-        /// <summary>
         ///A test for Low
         ///</summary>
         [TestMethod]
