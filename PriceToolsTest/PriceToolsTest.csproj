@@ -57,6 +57,7 @@
     <Compile Include="PriceHistoryCsvFileTest.cs" />
     <Compile Include="PriceSeriesProviderTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />
+    <Compile Include="RelativeStrengthIndexTest.cs" />
     <Compile Include="Serialization.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="TestData.Designer.cs">
