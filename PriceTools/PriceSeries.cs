@@ -11,6 +11,12 @@ namespace Sonneville.PriceTools
     /// </summary>
     public partial class PriceSeries : IPriceSeries
     {
+        #region Private Members
+
+        private readonly Resolution _resolution;
+
+        #endregion
+
         #region Constructors
 
         internal PriceSeries()
@@ -20,7 +26,7 @@ namespace Sonneville.PriceTools
 
         internal PriceSeries(Resolution resolution)
         {
-            Resolution = resolution;
+            _resolution = resolution;
         }
 
         #endregion
@@ -195,7 +201,7 @@ namespace Sonneville.PriceTools
         {
             if (resolution < Resolution)
             {
-                throw new InvalidOperationException(String.Format("Unable to get price periods using resolution {0}. Minimum supported resolution is {1}.",
+                throw new InvalidOperationException(String.Format("Unable to get price periods using resolution {0}. Best supported resolution is {1}.",
                                                                   resolution, Resolution));
             }
             var dataPeriods = DataPeriods.Where(period => period.Head >= head && period.Tail <= tail).Cast<IPricePeriod>().OrderBy(period => period.Head).ToList();
@@ -263,7 +269,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets or sets the resolution of PricePeriods to retrieve.
         /// </summary>
-        public Resolution Resolution { get; private set; }
+        public override Resolution Resolution
+        {
+            get { return _resolution; }
+        }
 
         #endregion
 
