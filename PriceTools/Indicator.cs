@@ -76,9 +76,18 @@ namespace Sonneville.PriceTools
             {
                 if (HasValueInRange(date))
                 {
-                    this[date] = Calculate(date);
+                    this[date] = CalculatePeriod(date);
                 }
             }
+        }
+
+        private decimal CalculatePeriod(DateTime index)
+        {
+            if (!HasValueInRange(index))
+            {
+                throw new ArgumentOutOfRangeException("index", index, Strings.IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator);
+            }
+            return Calculate(index);
         }
 
         /// <summary>
@@ -104,9 +113,15 @@ namespace Sonneville.PriceTools
             {
                 decimal? value;
                 Dictionary.TryGetValue(index, out value);
-                return value ?? Calculate(index);
+                return value ?? CalculatePeriod(index);
             }
-            protected set { Dictionary[index] = value; }
+            protected set
+            {
+                lock (Padlock)
+                {
+                    Dictionary[index] = value;
+                }
+            }
         }
 
         /// <summary>
@@ -123,7 +138,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// An object to lock when performing thread unsafe tasks.
         /// </summary>
-        protected object Padlock
+        private object Padlock
         {
             get { return _padlock; }
         }
@@ -139,7 +154,7 @@ namespace Sonneville.PriceTools
         /// <remarks>Assumes the Indicator has a valid value for every date of the underlying IPriceSeries.</remarks>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the Indicator has a valid value for the given date.</returns>
-        public virtual bool HasValueInRange(DateTime settlementDate)
+        public bool HasValueInRange(DateTime settlementDate)
         {
             return (settlementDate >= Head && settlementDate <= Tail);
         }
