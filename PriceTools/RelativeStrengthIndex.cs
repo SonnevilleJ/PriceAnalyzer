@@ -30,6 +30,11 @@ namespace Sonneville.PriceTools
         /// <returns>The value of this Indicator for the given period.</returns>
         protected override decimal Calculate(DateTime index)
         {
+            if (!HasValueInRange(index))
+            {
+                throw new ArgumentOutOfRangeException("index", index, Strings.IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator);
+            }
+
             throw new NotImplementedException();
         }
 

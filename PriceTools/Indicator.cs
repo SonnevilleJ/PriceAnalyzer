@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual DateTime Head
         {
-            get { return PriceSeries.Head.Add(new TimeSpan((long) Resolution * (Lookback - 1))); }
+            get { return PriceSeries.GetPricePeriods(Resolution)[Lookback - 1].Head; }
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
         /// </summary>
-        public ITimeSeries PriceSeries { get; private set; }
+        public IPriceSeries PriceSeries { get; private set; }
 
         /// <summary>
         /// An object to lock when performing thread unsafe tasks.

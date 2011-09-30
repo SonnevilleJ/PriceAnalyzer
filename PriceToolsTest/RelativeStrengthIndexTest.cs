@@ -39,12 +39,11 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void HeadTest()
         {
-            DateTime date = new DateTime(2011, 1, 1);
             IPriceSeries priceSeries = GetPriceSeries();
 
             RelativeStrengthIndex target = new RelativeStrengthIndex(priceSeries);
 
-            DateTime expected = date.AddDays(target.Lookback);
+            DateTime expected = priceSeries.GetPricePeriods(target.Resolution)[target.Lookback - 1].Head;
             DateTime actual = target.Head;
             Assert.AreEqual(expected, actual);
         }
