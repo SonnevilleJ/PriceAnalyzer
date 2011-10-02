@@ -530,7 +530,7 @@ namespace Sonneville.PriceToolsTest
             Assert.IsNotNull(target[dateTime.AddHours(12)]);    // add 12 hours because no price is available at midnight.
         }
 
-        private static IEnumerable<ReactionMove> GetNewHighs()
+        private static IEnumerable<ReactionMove> GetReactionHighs()
         {
             return new List<ReactionMove>
                        {
@@ -583,7 +583,7 @@ namespace Sonneville.PriceToolsTest
                        };
         }
 
-        private static IEnumerable<ReactionMove> GetNewLows()
+        private static IEnumerable<ReactionMove> GetReactionLows()
         {
             return new List<ReactionMove>
                        {
@@ -642,10 +642,44 @@ namespace Sonneville.PriceToolsTest
                        };
         }
 
+        private static IEnumerable<ReactionMove> GetReactionMoves()
+        {
+            var reactionMoves = GetReactionHighs().ToList();
+            reactionMoves.AddRange(GetReactionLows());
+            reactionMoves.OrderBy(rm => rm.DateTime);
+
+            return reactionMoves;
+        }
+
+        [TestMethod]
+        public void ReactionMovesCountTest()
+        {
+            var reactionMoves = GetReactionMoves();
+            var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
+
+            var actualMoves = target.ReactionMoves;
+
+            Assert.AreEqual(reactionMoves.Count(), actualMoves.Count());
+        }
+
+        [TestMethod]
+        public void ReactionMovesTest()
+        {
+            var reactionMoves = GetReactionMoves();
+            var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
+
+            var actualMoves = target.ReactionMoves;
+
+            foreach (var reactionMove in reactionMoves)
+            {
+                Assert.IsTrue(actualMoves.Contains(reactionMove));
+            }
+        }
+
         [TestMethod]
         public void ReactionHighsCountTest()
         {
-            var newHighs = GetNewHighs();
+            var newHighs = GetReactionHighs();
             var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
 
             var actualHighs = target.ReactionHighs;
@@ -656,7 +690,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ReactionHighsTest()
         {
-            var newHighs = GetNewHighs();
+            var newHighs = GetReactionHighs();
             var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
 
             var actualHighs = target.ReactionHighs;
@@ -670,7 +704,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ReactionLowsCountTest()
         {
-            var newLows = GetNewLows();
+            var newLows = GetReactionLows();
             var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
 
             var actualLows = target.ReactionLows;
@@ -681,7 +715,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ReactionLowsTest()
         {
-            var newLows = GetNewLows();
+            var newLows = GetReactionLows();
             var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
 
             var actualLows = target.ReactionLows;
