@@ -65,7 +65,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the highest price that occurred during the IPricePeriod.
         /// </summary>
-        public override decimal? High
+        public override decimal High
         {
             get { return PriceQuotes.Max(q => q.Price); }
         }
@@ -73,7 +73,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the lowest price that occurred during the IPricePeriod.
         /// </summary>
-        public override decimal? Low
+        public override decimal Low
         {
             get { return PriceQuotes.Min(q => q.Price); }
         }
@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the opening price for the IPricePeriod.
         /// </summary>
-        public override decimal? Open
+        public override decimal Open
         {
             get { return PriceQuotes.OrderBy(q => q.SettlementDate).First().Price; }
         }

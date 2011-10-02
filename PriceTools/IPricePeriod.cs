@@ -15,17 +15,17 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the highest price that occurred during the IPricePeriod.
         /// </summary>
-        decimal? High { get; }
+        decimal High { get; }
 
         /// <summary>
         /// Gets the lowest price that occurred during the IPricePeriod.
         /// </summary>
-        decimal? Low { get; }
+        decimal Low { get; }
 
         /// <summary>
         /// Gets the opening price for the IPricePeriod.
         /// </summary>
-        decimal? Open { get; }
+        decimal Open { get; }
 
         /// <summary>
         /// Gets the total volume of trades during the IPricePeriod.

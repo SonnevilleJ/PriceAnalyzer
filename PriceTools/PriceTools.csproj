@@ -63,6 +63,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Entities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="HighLow.cs" />
     <Compile Include="Holding.cs" />
     <Compile Include="ICashAccount.cs" />
     <Compile Include="ICashTransaction.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="PriceSeries.cs" />
     <Compile Include="PriceSeriesFactory.cs" />
     <Compile Include="QuotedPricePeriodEnumerator.cs" />
+    <Compile Include="ReactionMove.cs" />
     <Compile Include="RelativeStrengthIndex.cs" />
     <Compile Include="Services\FidelityBrokerageLinkTransactionHistoryCsvFile.cs" />
     <Compile Include="Services\FidelityTransactionHistoryCsvFile.cs" />
@@ -137,6 +139,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Entities.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="Properties\DataSources\Container.datasource" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />

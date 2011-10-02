@@ -20,17 +20,17 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the highest price that occurred during the IPricePeriod.
         /// </summary>
-        public abstract decimal? High { get; }
+        public abstract decimal High { get; }
 
         /// <summary>
         /// Gets the lowest price that occurred during the IPricePeriod.
         /// </summary>
-        public abstract decimal? Low { get; }
+        public abstract decimal Low { get; }
 
         /// <summary>
         /// Gets the opening price for the IPricePeriod.
         /// </summary>
-        public abstract decimal? Open { get; }
+        public abstract decimal Open { get; }
 
         /// <summary>
         /// Gets the total volume of trades during the IPricePeriod.
@@ -183,10 +183,10 @@ namespace Sonneville.PriceTools
             unchecked
             {
                 int result = 0;
-                result = (result * 397) ^ (Open.HasValue ? Open.Value.GetHashCode() : 0);
-                result = (result * 397) ^ (High.HasValue ? High.Value.GetHashCode() : 0);
-                result = (result * 397) ^ (Low.HasValue ? Low.Value.GetHashCode() : 0);
-                result = (result * 397) ^ (Volume.HasValue ? Volume.Value.GetHashCode() : 0);
+                result = (result * 397) ^ (Open.GetHashCode());
+                result = (result * 397) ^ (High.GetHashCode());
+                result = (result * 397) ^ (Low.GetHashCode());
+                result = (result * 397) ^ (Volume.HasValue ? Volume.GetHashCode() : 0);
                 result = (result * 397) ^ Close.GetHashCode();
                 result = (result * 397) ^ Head.GetHashCode();
                 result = (result * 397) ^ Tail.GetHashCode();

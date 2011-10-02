@@ -19,14 +19,19 @@ namespace Sonneville.PriceTools
         IList<IPricePeriod> PricePeriods { get; }
 
         /// <summary>
+        /// Gets a collection of reaction moves observed in the IPriceSeries.
+        /// </summary>
+        IEnumerable<ReactionMove> ReactionMoves { get; }
+
+        /// <summary>
         /// Gets a collection of reaction highs observed in the IPriceSeries.
         /// </summary>
-        IEnumerable<KeyValuePair<DateTime, decimal>> ReactionHighs { get; }
+        IEnumerable<ReactionMove> ReactionHighs { get; }
 
         /// <summary>
         /// Gets a collection of reaction lows observed in the IPriceSeries.
         /// </summary>
-        IEnumerable<KeyValuePair<DateTime, decimal>> ReactionLows { get; }
+        IEnumerable<ReactionMove> ReactionLows { get; }
 
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.

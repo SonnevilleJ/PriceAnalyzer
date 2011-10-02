@@ -56,9 +56,9 @@ namespace Sonneville.PriceChartTools
                 var decHigh = pricePeriod.High;
                 var decLow = pricePeriod.Low;
 
-                var open = decOpen.HasValue ? Convert.ToDouble(decOpen.Value) : (double?)null;
-                var high = decHigh.HasValue ? Convert.ToDouble(decHigh.Value) : (double?)null;
-                var low = decLow.HasValue ? Convert.ToDouble(decLow.Value) : (double?)null;
+                var open = Convert.ToDouble(decOpen);
+                var high = Convert.ToDouble(decHigh);
+                var low = Convert.ToDouble(decLow);
                 var close = Convert.ToDouble(pricePeriod.Close);
                 double previousClose;
                 try
@@ -279,7 +279,7 @@ namespace Sonneville.PriceChartTools
         /// </summary>
         public double MinDisplayedPrice
         {
-            get { return (double)PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Min(p => p.Low ?? 0); }
+            get { return (double)PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Min(p => p.Low); }
         }
 
         /// <summary>
@@ -287,7 +287,7 @@ namespace Sonneville.PriceChartTools
         /// </summary>
         public double MaxDisplayedPrice
         {
-            get { return (double)PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Max(p => p.High ?? 100); }
+            get { return (double)PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Max(p => p.High); }
         }
 
         #endregion

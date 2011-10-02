@@ -90,25 +90,25 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the highest price that occurred during the IPricePeriod.
         /// </summary>
-        public override decimal? High
+        public override decimal High
         {
-            get { return EFHigh; }
+            get { return EFHigh ?? Close; }
         }
 
         /// <summary>
         /// Gets the lowest price that occurred during  the IPricePeriod.
         /// </summary>
-        public override decimal? Low
+        public override decimal Low
         {
-            get { return EFLow; }
+            get { return EFLow ?? Close; }
         }
 
         /// <summary>
         /// Gets the opening price for the IPricePeriod.
         /// </summary>
-        public override decimal? Open
+        public override decimal Open
         {
-            get { return EFOpen; }
+            get { return EFOpen ?? Close; }
         }
 
         /// <summary>
@@ -211,9 +211,9 @@ namespace Sonneville.PriceTools
             unchecked
             {
                 var result = base.GetHashCode();
-                result = (result*397) ^ (Open.HasValue ? Open.Value.GetHashCode() : 0);
-                result = (result*397) ^ (High.HasValue ? High.Value.GetHashCode() : 0);
-                result = (result*397) ^ (Low.HasValue ? Low.Value.GetHashCode() : 0);
+                result = (result*397) ^ (Open.GetHashCode());
+                result = (result*397) ^ (High.GetHashCode());
+                result = (result*397) ^ (Low.GetHashCode());
                 result = (result*397) ^ (Volume.HasValue ? Volume.Value.GetHashCode() : 0);
                 result = (result*397) ^ Close.GetHashCode();
                 result = (result*397) ^ Head.GetHashCode();

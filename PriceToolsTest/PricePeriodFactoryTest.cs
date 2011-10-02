@@ -68,9 +68,9 @@ namespace Sonneville.PriceToolsTest
 
             Assert.AreEqual(head, target.Head);
             Assert.AreEqual(tail, target.Tail);
-            Assert.AreEqual(null, target.Open);
-            Assert.AreEqual(null, target.High);
-            Assert.AreEqual(null, target.Low);
+            Assert.AreEqual(close, target.Open);
+            Assert.AreEqual(close, target.High);
+            Assert.AreEqual(close, target.Low);
             Assert.AreEqual(close, target.Close);
             Assert.AreEqual(null, target.Volume);
         }

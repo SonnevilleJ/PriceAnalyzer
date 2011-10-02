@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the highest price that occurred during the PriceSeries.
         /// </summary>
-        public override decimal? High
+        public override decimal High
         {
             get { return DataPeriods.Max(p => p.High); }
         }
@@ -52,7 +52,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the lowest price that occurred during the PriceSeries.
         /// </summary>
-        public override decimal? Low
+        public override decimal Low
         {
             get { return DataPeriods.Min(p => p.Low); }
         }
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the opening price for the PriceSeries.
         /// </summary>
-        public override decimal? Open
+        public override decimal Open
         {
             get { return DataPeriods.OrderBy(p => p.Head).First().Open; }
         }
@@ -172,19 +172,72 @@ namespace Sonneville.PriceTools
         public IList<IPricePeriod> PricePeriods { get { return GetPricePeriods(); } }
 
         /// <summary>
+        /// Gets a collection of reaction moves observed in the IPriceSeries.
+        /// </summary>
+        public IEnumerable<ReactionMove> ReactionMoves
+        {
+            get
+            {
+                var moves = new List<ReactionMove>();
+
+                bool todayUp = false;
+                bool todayDown = false;
+                bool yesterdayUp = false;
+                bool yesterdayDown = false;
+
+                for (int i = 1; i < PricePeriods.Count; i++)
+                {
+                    var yesterday = PricePeriods[i - 1];
+                    var today = PricePeriods[i];
+                    if (i > 1)
+                    {
+                        yesterdayUp = todayUp;
+                        yesterdayDown = todayDown;
+                        //yesterdayConverging = todayConverging;
+                        //yesterdayWidening = todayWidening;
+                    }
+
+                    // calculate change
+                    var highChange = today.High - yesterday.High;
+                    var higherHigh = highChange > 0;
+                    var lowerHigh = highChange < 0;
+
+                    var lowChange = today.Low - yesterday.Low;
+                    var higherLow = lowChange > 0;
+                    var lowerLow = lowChange < 0;
+
+                    // calculate direction
+                    todayUp = higherHigh && higherLow;
+                    todayDown = lowerHigh && lowerLow;
+                    //todayConverging = ((lowerHigh && !lowerLow) || (higherLow && !higherHigh));
+                    bool todayWidening = higherHigh && lowerLow;
+
+                    if (i > 1)
+                    {
+                        if (yesterdayUp && !todayUp && !todayWidening)
+                            moves.Add(new ReactionMove {DateTime = yesterday.Head, HighLow = HighLow.High, Reaction = yesterday.High});
+                        if (yesterdayDown && !todayDown && !todayWidening)
+                            moves.Add(new ReactionMove {DateTime = yesterday.Head, HighLow = HighLow.Low, Reaction = yesterday.Low});
+                    }
+                }
+                return moves;
+            }
+        }
+
+        /// <summary>
         /// Gets a collection of reaction highs observed in the PriceSeries.
         /// </summary>
-        public IEnumerable<KeyValuePair<DateTime, decimal>> ReactionHighs
+        public IEnumerable<ReactionMove> ReactionHighs
         {
-            get { throw new NotImplementedException(); }
+            get { return ReactionMoves.Where(rm => rm.HighLow == HighLow.High); }
         }
 
         /// <summary>
         /// Gets a collection of reaction lows observed in the PriceSeries.
         /// </summary>
-        public IEnumerable<KeyValuePair<DateTime, decimal>> ReactionLows
+        public IEnumerable<ReactionMove> ReactionLows
         {
-            get { throw new NotImplementedException(); }
+            get { return ReactionMoves.Where(rm => rm.HighLow == HighLow.Low); }
         }
 
         /// <summary>
@@ -266,15 +319,15 @@ namespace Sonneville.PriceTools
         {
             switch (resolution)
             {
-                case PriceTools.Resolution.Days:
+                case Resolution.Days:
                     getPeriodClose = DateTimeExtensions.GetFollowingClose;
                     getNextOpen = DateTimeExtensions.GetFollowingOpen;
                     break;
-                case PriceTools.Resolution.Weeks:
+                case Resolution.Weeks:
                     getPeriodClose = DateTimeExtensions.GetFollowingWeeklyClose;
                     getNextOpen = DateTimeExtensions.GetFollowingWeeklyOpen;
                     break;
-                case PriceTools.Resolution.Months:
+                case Resolution.Months:
                     getPeriodClose = DateTimeExtensions.GetFollowingMonthlyClose;
                     getNextOpen = DateTimeExtensions.GetFollowingMonthlyOpen;
                     break;
