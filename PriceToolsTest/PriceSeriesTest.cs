@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -319,7 +320,7 @@ namespace Sonneville.PriceToolsTest
             var head = new DateTime(2011, 1, 1);
             var tail = new DateTime(2011, 6, 30, 23, 59, 59);
             var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, head, tail).PriceSeries;
-            
+
             var pricePeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
 
             Assert.AreEqual(26, pricePeriods.Count);
@@ -522,11 +523,105 @@ namespace Sonneville.PriceToolsTest
             Settings.CanConnectToInternet = true;
             DateTime dateTime = new DateTime(2011, 4, 1);
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("DE");
-            
+
             target.DownloadPriceData(dateTime);
 
             Settings.CanConnectToInternet = false;
             Assert.IsNotNull(target[dateTime.AddHours(12)]);    // add 12 hours because no price is available at midnight.
+        }
+
+        private static List<KeyValuePair<DateTime, decimal>> GetNewHighs()
+        {
+            return new List<KeyValuePair<DateTime, decimal>>
+                       {
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 1, 13), 89.97m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 1, 18), 91.63m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 1, 21), 90.64m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 2, 2), 94.24m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 2, 7), 94.61m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 2, 9), 94.74m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 2, 14), 95.9m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 2, 16), 97.36m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 2, 25), 92m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 3, 3), 93.16m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 3, 14), 88.13m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 3, 21), 92.46m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 3, 28), 94.98m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 4, 1), 99.8m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 4, 15), 94.49m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 4, 26), 97.78m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 5, 2), 98.3m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 5, 6), 94.17m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 5, 10), 94.61m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 5, 19), 87.73m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 6, 9), 82.79m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 6, 14), 82.66m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 6, 22), 83m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 6, 29), 82.99m)
+                       };
+        }
+
+        private static List<KeyValuePair<DateTime, decimal>> GetNewLows()
+        {
+            return new List<KeyValuePair<DateTime, decimal>>
+                       {
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 1, 4), 81.8m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 1, 20), 86.89m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 1, 25), 88.24m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 1, 31), 88.38m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 2, 3), 92.37m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 2, 8), 93.01m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 2, 15), 93.09m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 2, 23), 86.23m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 3, 1), 88.33m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 3, 8), 88.9m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 3, 11), 84.59m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 3, 15), 84.27m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 3, 23), 90.12m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 3, 29), 91.75m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 4, 14), 92.61m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 4, 18), 90.65m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 4, 27), 94.65m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 5, 5), 91m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 5, 18), 84.65m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 5, 23), 82.25m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 6, 1), 82.73m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 6, 8), 79.61m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 6, 13), 79.77m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 6, 16), 78.23m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 6, 20), 77.81m),
+                           new KeyValuePair<DateTime, decimal>(new DateTime(2011, 6, 23), 78.8m)
+                       };
+        }
+
+        [TestMethod]
+        public void ReactionMHighsTest()
+        {
+            var newHighs = GetNewHighs();
+            var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
+
+            IEnumerable<KeyValuePair<DateTime, decimal>> actualHighs = target.ReactionHighs;
+
+            Assert.AreEqual(newHighs.Count, actualHighs.Count());
+            foreach (var dateTime in newHighs)
+            {
+                Assert.IsTrue(actualHighs.Contains(dateTime));
+            }
+        }
+
+        [TestMethod]
+        public void ReactionLowsTest()
+        {
+            var newLows = GetNewLows();
+            var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
+
+            IEnumerable<KeyValuePair<DateTime, decimal>> actualLows = target.ReactionLows;
+
+            Assert.AreEqual(newLows.Count, actualLows.Count());
+            foreach (var dateTime in newLows)
+            {
+                Assert.IsTrue(actualLows.Contains(dateTime));
+            }
         }
     }
 }

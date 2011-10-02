@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools
         #region Overrides of IPriceSeries
 
         /// <summary>
-        /// Gets the closing price for the IPricePeriod.
+        /// Gets the closing price for the PriceSeries.
         /// </summary>
         public override decimal Close
         {
@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the highest price that occurred during the IPricePeriod.
+        /// Gets the highest price that occurred during the PriceSeries.
         /// </summary>
         public override decimal? High
         {
@@ -50,7 +50,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the lowest price that occurred during the IPricePeriod.
+        /// Gets the lowest price that occurred during the PriceSeries.
         /// </summary>
         public override decimal? Low
         {
@@ -58,7 +58,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the opening price for the IPricePeriod.
+        /// Gets the opening price for the PriceSeries.
         /// </summary>
         public override decimal? Open
         {
@@ -66,7 +66,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the total volume of trades during the IPricePeriod.
+        /// Gets the total volume of trades during the PriceSeries.
         /// </summary>
         public override long? Volume
         {
@@ -74,10 +74,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets a value stored at a given DateTime index of the ITimeSeries.
+        /// Gets a value stored at a given DateTime index of the PriceSeries.
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
-        /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
+        /// <returns>The value of the PriceSeries as of the given DateTime.</returns>
         public override decimal this[DateTime index]
         {
             get
@@ -93,7 +93,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the first DateTime in the ITimeSeries.
+        /// Gets the first DateTime in the PriceSeries.
         /// </summary>
         public override DateTime Head
         {
@@ -105,7 +105,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the last DateTime in the ITimeSeries.
+        /// Gets the last DateTime in the PriceSeries.
         /// </summary>
         public override DateTime Tail
         {
@@ -167,12 +167,28 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries.
         /// </summary>
         public IList<IPricePeriod> PricePeriods { get { return GetPricePeriods(); } }
 
         /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
+        /// Gets a collection of reaction highs observed in the PriceSeries.
+        /// </summary>
+        public IEnumerable<KeyValuePair<DateTime, decimal>> ReactionHighs
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
+        /// Gets a collection of reaction lows observed in the PriceSeries.
+        /// </summary>
+        public IEnumerable<KeyValuePair<DateTime, decimal>> ReactionLows
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries.
         /// </summary>
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public IList<IPricePeriod> GetPricePeriods()
@@ -181,7 +197,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
@@ -191,12 +207,12 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
         /// <param name="head">The head of the periods to retrieve.</param>
         /// <param name="tail">The tail of the periods to retrieve.</param>
-        /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this IPriceSeries.</exception>
+        /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this PriceSeries.</exception>
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public IList<IPricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail)
         {
