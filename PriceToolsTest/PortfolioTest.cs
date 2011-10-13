@@ -1073,8 +1073,6 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CalculateHoldingsTestWithOnePositionOneBuyOneSell()
         {
-            Settings.CanConnectToInternet = true;
-
             DateTime dateTime = new DateTime(2011, 7, 26);
             const decimal deposit = 10000m;
             IPortfolio target = new Portfolio(dateTime, deposit);
@@ -1110,8 +1108,6 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CalculateHoldingsTestWithOnePositionTwoBuysTwoSells()
         {
-            Settings.CanConnectToInternet = true;
-
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime firstBuyDate = testDate.AddDays(1);
             DateTime secondBuyDate = firstBuyDate.AddDays(1);
@@ -1166,8 +1162,6 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CalculateHoldingsTestWithTwoPositionsOneBuyOneSellEach()
         {
-            Settings.CanConnectToInternet = true;
-
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime firstBuyDate = testDate.AddDays(1);
             DateTime secondBuyDate = firstBuyDate.AddDays(1);
@@ -1222,8 +1216,6 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CalculateHoldingsTestSortOrder()
         {
-            Settings.CanConnectToInternet = true;
-
             DateTime testDate = new DateTime(2001, 1, 1);
             DateTime firstBuyDate = testDate.AddDays(1);
             DateTime secondBuyDate = firstBuyDate.AddDays(1);
