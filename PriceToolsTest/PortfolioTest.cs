@@ -1101,8 +1101,8 @@ namespace Sonneville.PriceToolsTest
                 OpenPrice = buyPrice * (decimal)shares,
                 ClosePrice = sellPrice * (decimal)shares
             };
-            var actual = holdings[0];
-            Assert.AreEqual(expected, actual);
+
+            Assert.IsTrue(holdings.Contains(expected));
         }
 
         [TestMethod]
@@ -1153,10 +1153,9 @@ namespace Sonneville.PriceToolsTest
                 OpenPrice = buyPrice * (decimal)sharesInHolding,
                 ClosePrice = sellPrice * (decimal)sharesInHolding
             };
-            var holding1 = holdings[0];
-            var holding2 = holdings[1];
-            Assert.AreEqual(expected1, holding1);
-            Assert.AreEqual(expected2, holding2);
+
+            Assert.IsTrue(holdings.Contains(expected1));
+            Assert.IsTrue(holdings.Contains(expected2));
         }
 
         [TestMethod]
