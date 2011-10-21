@@ -54,6 +54,7 @@
       <DependentUpon>Chart.xaml</DependentUpon>
     </Compile>
     <Compile Include="ChartCanvas.cs" />
+    <Compile Include="ChartCanvasV2.cs" />
     <Compile Include="IChart.cs" />
     <Compile Include="LineChart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

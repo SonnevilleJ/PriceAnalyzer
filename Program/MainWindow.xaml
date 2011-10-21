@@ -4,7 +4,6 @@
         xmlns:PriceChartTools="clr-namespace:Sonneville.PriceChartTools;assembly=PriceChartTools"
         Title="MainWindow" Height="300" Width="1000">
     <Grid>
-        <PriceChartTools:Chart x:Name="chart1" Width="{Binding Width}" Height="{Binding Height}" />
-        <Button Height="30" Width="100" Click="ButtonClick">Button</Button>
+        <PriceChartTools:ChartCanvasV2 x:Name="chart1" Width="{Binding Width}" Height="{Binding Height}" />
     </Grid>
 </Window>

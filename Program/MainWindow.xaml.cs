@@ -14,13 +14,16 @@ namespace Program
         public MainWindow()
         {
             InitializeComponent();
-            
-            _priceSeries.DownloadPriceData(new DateTime(2011, 1, 1));
+
+            ContentRendered += DrawPriceChart;
         }
 
-        private void ButtonClick(object sender, RoutedEventArgs e)
+        void DrawPriceChart(object sender, EventArgs e)
         {
+            _priceSeries.DownloadPriceData(new DateTime(2011, 1, 1));
             DrawChart();
+
+            ContentRendered -= DrawPriceChart;
         }
 
         private void DrawChart()
