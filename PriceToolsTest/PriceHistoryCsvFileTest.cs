@@ -1,8 +1,11 @@
 ﻿using System;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Extensions;
+using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.PriceTools.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.Utilities;
+using PriceSeries = Sonneville.PriceTools.PriceSeries;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -18,7 +21,7 @@ namespace Sonneville.PriceToolsTest
         {
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            PriceHistoryCsvFile target = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo, head, tail);
+            PriceHistoryCsvFile target = PriceHistoryCsvFiles.DE_1_1_2011_to_3_15_2011_Daily_Yahoo;
 
             Assert.AreEqual(head, target.PriceSeries.Head);
             Assert.AreEqual(tail, target.PriceSeries.Tail);
@@ -27,7 +30,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void YahooDailyTestPeriods()
         {
-            PriceHistoryCsvFile target = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo);
+            PriceHistoryCsvFile target = PriceHistoryCsvFiles.DE_1_1_2011_to_3_15_2011_Daily_Yahoo;
             
             Assert.AreEqual(50, target.PriceSeries.PricePeriods.Count);
         }
@@ -35,7 +38,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void YahooDailyTestResolution()
         {
-            PriceHistoryCsvFile target = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo);
+            PriceHistoryCsvFile target = PriceHistoryCsvFiles.DE_1_1_2011_to_3_15_2011_Daily_Yahoo;
             
             Assert.AreEqual(Resolution.Days, target.PriceSeries.Resolution);
             foreach (var period in ((PriceSeries)target.PriceSeries).DataPeriods)
@@ -49,9 +52,9 @@ namespace Sonneville.PriceToolsTest
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, seriesHead, seriesTail).PriceSeries;
+            var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(CsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
 
-            var expectedHead = DateTimeExtensions.GetCurrentOrFollowingTradingDay(seriesHead);
+            var expectedHead = seriesHead.GetCurrentOrFollowingTradingDay();
             Assert.AreEqual(expectedHead, priceSeries.Head);
 
             // todo: add a similar test to ensure tail is corrected if it is on a weekend

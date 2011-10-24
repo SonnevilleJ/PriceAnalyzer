@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace Sonneville.Utilities
+namespace Sonneville.PriceTools.SamplePriceData
 {
     public class ResourceStream : Stream
     {

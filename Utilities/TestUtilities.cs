@@ -2,7 +2,6 @@
 using System.Data;
 using System.Data.Objects.DataClasses;
 using System.IO;
-using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;

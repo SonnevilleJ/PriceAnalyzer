@@ -1,8 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Services;
-using Sonneville.Utilities;
+using Sonneville.PriceTools.SamplePriceData;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -12,11 +11,6 @@ namespace Sonneville.PriceToolsTest
     [TestClass]
     public class RelativeStrengthIndexTest
     {
-        private static IPriceSeries GetPriceSeries()
-        {
-            return new YahooPriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo)).PriceSeries;
-        }
-
         [TestInitialize]
         public void TestInitialize()
         {
@@ -27,7 +21,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ResolutionDaysByDefault()
         {
-            IPriceSeries priceSeries = GetPriceSeries();
+            IPriceSeries priceSeries = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
 
             RelativeStrengthIndex target = new RelativeStrengthIndex(priceSeries);
 
@@ -39,7 +33,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void HeadTest()
         {
-            IPriceSeries priceSeries = GetPriceSeries();
+            IPriceSeries priceSeries = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
 
             RelativeStrengthIndex target = new RelativeStrengthIndex(priceSeries);
 
@@ -52,7 +46,7 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void QueryBeforeHeadThrowsException()
         {
-            IPriceSeries series = GetPriceSeries();
+            IPriceSeries series = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
             RelativeStrengthIndex rsi = new RelativeStrengthIndex(series);
 
             var result = rsi[rsi.Head.Subtract(new TimeSpan(1))];

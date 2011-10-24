@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.SamplePriceData;
 
 namespace Program
 {
@@ -9,7 +10,7 @@ namespace Program
     /// </summary>
     public partial class MainWindow : Window
     {
-        readonly PriceSeries _priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
+        private readonly IPriceSeries _priceSeries = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
         
         public MainWindow()
         {
@@ -20,7 +21,6 @@ namespace Program
 
         void DrawPriceChart(object sender, EventArgs e)
         {
-            _priceSeries.DownloadPriceData(new DateTime(2011, 1, 1));
             DrawChart();
 
             ContentRendered -= DrawPriceChart;

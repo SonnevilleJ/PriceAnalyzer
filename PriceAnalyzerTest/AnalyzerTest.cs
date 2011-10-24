@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceAnalyzer;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.PriceTools.Services;
 
 namespace PriceAnalyzerTest
@@ -22,7 +23,7 @@ namespace PriceAnalyzerTest
         {
             var head = new DateTime(2011, 1, 1);
             var tail = new DateTime(2011, 6, 30, 23, 59, 59);
-            _priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, head, tail).PriceSeries;
+            _priceSeries = new YahooPriceHistoryCsvFile(CsvPriceHistory.DE_1_1_2011_to_6_30_2011, head, tail).PriceSeries;
         }
 
         [TestMethod]

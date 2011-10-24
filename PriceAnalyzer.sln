@@ -24,6 +24,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAnalyzerTest", "PriceA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.csproj", "{54683842-8486-43F9-B180-CEE8B2D8557E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamplePriceData", "SamplePriceData\SamplePriceData.csproj", "{0C6B87C5-6D7F-43A7-9E42-456DFC558004}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = PriceAnalyzer.vsmdi
@@ -99,6 +101,12 @@ Global
 		{54683842-8486-43F9-B180-CEE8B2D8557E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{54683842-8486-43F9-B180-CEE8B2D8557E}.Release|x86.ActiveCfg = Release|x86
 		{54683842-8486-43F9-B180-CEE8B2D8557E}.Release|x86.Build.0 = Release|x86
+		{0C6B87C5-6D7F-43A7-9E42-456DFC558004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0C6B87C5-6D7F-43A7-9E42-456DFC558004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0C6B87C5-6D7F-43A7-9E42-456DFC558004}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{0C6B87C5-6D7F-43A7-9E42-456DFC558004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0C6B87C5-6D7F-43A7-9E42-456DFC558004}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0C6B87C5-6D7F-43A7-9E42-456DFC558004}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

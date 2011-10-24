@@ -5,6 +5,7 @@ using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Sonneville.PriceTools.Extensions;
+using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.PriceTools.Services;
 using Sonneville.Utilities;
 
@@ -60,7 +61,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p3);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p1);
@@ -84,7 +85,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -99,7 +100,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -117,7 +118,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -144,7 +145,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -164,7 +165,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -184,7 +185,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -205,7 +206,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -223,7 +224,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -243,7 +244,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -263,7 +264,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -283,7 +284,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p3);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p1);
@@ -303,7 +304,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -319,7 +320,7 @@ namespace Sonneville.PriceToolsTest
         {
             var head = new DateTime(2011, 1, 1);
             var tail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, head, tail).PriceSeries;
+            var priceSeries = new YahooPriceHistoryCsvFile(CsvPriceHistory.DE_1_1_2011_to_6_30_2011, head, tail).PriceSeries;
 
             var pricePeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
 
@@ -331,7 +332,7 @@ namespace Sonneville.PriceToolsTest
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, seriesHead, seriesTail).PriceSeries;
+            var priceSeries = new YahooPriceHistoryCsvFile(CsvPriceHistory.DE_1_1_2011_to_6_30_2011, seriesHead, seriesTail).PriceSeries;
 
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var weeklyPeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
@@ -370,7 +371,7 @@ namespace Sonneville.PriceToolsTest
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = new YahooPriceHistoryCsvFile(TestData.DE_1_1_2011_to_6_30_2011, seriesHead, seriesTail).PriceSeries;
+            var priceSeries = new YahooPriceHistoryCsvFile(CsvPriceHistory.DE_1_1_2011_to_6_30_2011, seriesHead, seriesTail).PriceSeries;
 
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var monthlyPeriods = priceSeries.GetPricePeriods(Resolution.Months);
@@ -436,7 +437,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -477,7 +478,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -494,7 +495,7 @@ namespace Sonneville.PriceToolsTest
             PricePeriod p2 = TestUtilities.CreatePeriod2();
             PricePeriod p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            PriceTools.PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
             target.DataPeriods.Add(p1);
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
@@ -655,7 +656,7 @@ namespace Sonneville.PriceToolsTest
         public void ReactionMovesCountTest()
         {
             var reactionMoves = GetReactionMoves();
-            var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
+            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
 
             var actualMoves = target.ReactionMoves;
 
@@ -666,7 +667,7 @@ namespace Sonneville.PriceToolsTest
         public void ReactionMovesTest()
         {
             var reactionMoves = GetReactionMoves();
-            var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
+            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
 
             var actualMoves = target.ReactionMoves;
 
@@ -680,7 +681,7 @@ namespace Sonneville.PriceToolsTest
         public void ReactionHighsCountTest()
         {
             var newHighs = GetReactionHighs();
-            var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
+            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
 
             var actualHighs = target.ReactionHighs;
 
@@ -691,7 +692,7 @@ namespace Sonneville.PriceToolsTest
         public void ReactionHighsTest()
         {
             var newHighs = GetReactionHighs();
-            var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
+            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
 
             var actualHighs = target.ReactionHighs;
 
@@ -705,7 +706,7 @@ namespace Sonneville.PriceToolsTest
         public void ReactionLowsCountTest()
         {
             var newLows = GetReactionLows();
-            var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
+            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
 
             var actualLows = target.ReactionLows;
 
@@ -716,7 +717,7 @@ namespace Sonneville.PriceToolsTest
         public void ReactionLowsTest()
         {
             var newLows = GetReactionLows();
-            var target = new GooglePriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_6_30_2011)).PriceSeries;
+            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
 
             var actualLows = target.ReactionLows;
 
