@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CandlestickChart.cs" />
-    <Compile Include="ChartCanvasV2.cs" />
+    <Compile Include="ChartCanvas.cs" />
     <Compile Include="IChart.cs" />
     <Compile Include="LineChart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

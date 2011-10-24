@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace Sonneville.PriceChartTools
 {
-    public class LineChart : ChartCanvasV2
+    public class LineChart : ChartCanvas
     {
         public LineChart()
             : base(true)

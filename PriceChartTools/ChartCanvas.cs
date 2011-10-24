@@ -8,7 +8,7 @@ using Sonneville.PriceTools;
 
 namespace Sonneville.PriceChartTools
 {
-    public class ChartCanvasV2 : Canvas, IChart
+    public class ChartCanvas : Canvas, IChart
     {
         #region Private Members
 
@@ -18,12 +18,12 @@ namespace Sonneville.PriceChartTools
 
         #region Constructors
 
-        public ChartCanvasV2()
+        public ChartCanvas()
             : this(false)
         {
         }
 
-        public ChartCanvasV2(bool connectPeriods)
+        public ChartCanvas(bool connectPeriods)
         {
             GainStroke = Brushes.Black;
             LossStroke = Brushes.Red;
