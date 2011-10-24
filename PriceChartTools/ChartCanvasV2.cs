@@ -193,13 +193,10 @@ namespace Sonneville.PriceChartTools
             for (var i = 0; i < orderedPeriods.Count(); i++)
             {
                 var pricePeriod = orderedPeriods.ElementAt(i);
-                var decOpen = pricePeriod.Open;
-                var decHigh = pricePeriod.High;
-                var decLow = pricePeriod.Low;
 
-                var open = Convert.ToDouble(decOpen);
-                var high = Convert.ToDouble(decHigh);
-                var low = Convert.ToDouble(decLow);
+                var open = Convert.ToDouble(pricePeriod.Open);
+                var high = Convert.ToDouble(pricePeriod.High);
+                var low = Convert.ToDouble(pricePeriod.Low);
                 var close = Convert.ToDouble(pricePeriod.Close);
                 double previousClose;
                 try

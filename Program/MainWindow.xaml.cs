@@ -28,7 +28,7 @@ namespace Program
 
         private void DrawChart()
         {
-            chart1.PriceSeries = _priceSeries;
+            chartCanvas.PriceSeries = _priceSeries;
         }
     }
 }
