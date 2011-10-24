@@ -46,14 +46,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutosizableChart.xaml.cs">
-      <DependentUpon>AutosizableChart.xaml</DependentUpon>
-    </Compile>
     <Compile Include="CandlestickChart.cs" />
-    <Compile Include="Chart.xaml.cs">
-      <DependentUpon>Chart.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="ChartCanvas.cs" />
     <Compile Include="ChartCanvasV2.cs" />
     <Compile Include="IChart.cs" />
     <Compile Include="LineChart.cs" />
@@ -64,16 +57,6 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="AutosizableChart.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Chart.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
