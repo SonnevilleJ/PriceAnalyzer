@@ -18,12 +18,12 @@ namespace Sonneville.PriceChartTools
 
         #region Constructors
 
-        public ChartCanvas()
+        protected ChartCanvas()
             : this(false)
         {
         }
 
-        public ChartCanvas(bool connectPeriods)
+        protected ChartCanvas(bool connectPeriods)
         {
             GainStroke = Brushes.Black;
             LossStroke = Brushes.Red;
@@ -39,9 +39,6 @@ namespace Sonneville.PriceChartTools
             BufferTop = 3;
             BufferBottom = 3;
             ConnectPeriods = connectPeriods;
-
-            //LastDisplayedPeriod = DateTime.Now;
-            //FirstDisplayedPeriod = LastDisplayedPeriod.Subtract(new TimeSpan(30, 0, 0, 0));
         }
 
         #endregion
@@ -98,18 +95,12 @@ namespace Sonneville.PriceChartTools
         /// <summary>
         /// Gets or sets the first period displayed on the chart.
         /// </summary>
-        public DateTime FirstDisplayedPeriod
-        {
-            get { return PriceSeries.Head; }
-        }
+        public DateTime FirstDisplayedPeriod { get; private set; }
 
         /// <summary>
         /// Gets or sets the last period displayed on the chart.
         /// </summary>
-        public DateTime LastDisplayedPeriod
-        {
-            get { return PriceSeries.Tail; }
-        }
+        public DateTime LastDisplayedPeriod { get; private set; }
 
         /// <summary>
         /// Gets or sets the <see cref="IPriceSeries"/> containing the price data to be charted.
@@ -120,6 +111,12 @@ namespace Sonneville.PriceChartTools
             set
             {
                 _priceSeries = value;
+
+                if (FirstDisplayedPeriod == new DateTime())
+                {
+                    FirstDisplayedPeriod = _priceSeries.Head;
+                    LastDisplayedPeriod = _priceSeries.Tail;
+                }
 
                 DrawChart();
             }
