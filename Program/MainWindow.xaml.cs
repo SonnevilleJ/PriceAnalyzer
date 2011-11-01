@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.SamplePriceData;
 
@@ -8,7 +7,7 @@ namespace Program
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow
     {
         private readonly IPriceSeries _priceSeries = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
         
@@ -19,7 +18,7 @@ namespace Program
             ContentRendered += DrawPriceChart;
         }
 
-        void DrawPriceChart(object sender, EventArgs e)
+        private void DrawPriceChart(object sender, EventArgs e)
         {
             DrawChart();
 
