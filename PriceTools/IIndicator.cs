@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
 {
@@ -8,7 +9,7 @@ namespace Sonneville.PriceTools
     public interface IIndicator : ITimeSeries
     {
         /// <summary>
-        /// Gets the lookback period of this Indicator which specifies how many periods are required for the first indicator value.
+        /// Gets the lookback of this Indicator which specifies how many periods are required for the first indicator value.
         /// </summary>
         /// <example>A 50-period MovingAverage has a Lookback of 50.</example>
         int Lookback { get; }

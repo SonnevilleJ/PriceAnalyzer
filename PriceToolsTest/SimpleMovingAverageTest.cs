@@ -15,44 +15,6 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void ResolutionDaysByDefault()
-        {
-            DateTime date = new DateTime(2011, 3, 1);
-            IPriceSeries priceSeries = CreateTestPriceSeries(20, date, 1);
-
-            const int range = 5;
-            SimpleMovingAverage target = new SimpleMovingAverage(priceSeries, range);
-
-            const Resolution expected = Resolution.Days;
-            Resolution actual = target.Resolution;
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void HeadTest()
-        {
-            DateTime date = new DateTime(2011, 3, 1);
-            IPriceSeries priceSeries = CreateTestPriceSeries(10, date, 1);
-            const int range = 4;
-
-            SimpleMovingAverage target = new SimpleMovingAverage(priceSeries, range);
-
-            DateTime expected = priceSeries.GetPricePeriods(target.Resolution)[target.Lookback - 1].Head;
-            DateTime actual = target.Head;
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void QueryBeforeHeadThrowsException()
-        {
-            IPriceSeries series = CreateTestPriceSeries(4, new DateTime(2011, 1, 6), 2);
-            SimpleMovingAverage ma = new SimpleMovingAverage(series, 2);
-
-            var result = ma[ma.Head.Subtract(new TimeSpan(1))];
-        }
-
-        [TestMethod]
         public void FlatPeriodReturnsSameAverage()
         {
             DateTime date = new DateTime(2011, 3, 1);
@@ -60,11 +22,11 @@ namespace Sonneville.PriceToolsTest
 
             IPriceSeries series = CreateTestPriceSeries(10, date, price);
 
-            const int range = 2;
-            SimpleMovingAverage ma = new SimpleMovingAverage(series, range);
+            const int lookback = 2;
+            SimpleMovingAverage ma = new SimpleMovingAverage(series, lookback);
 
             const decimal expected = price;
-            for (int i = range; i < series.PricePeriods.Count; i++)
+            for (int i = lookback; i < series.PricePeriods.Count; i++)
             {
                 decimal? actual = ma[date.AddDays(i)];
                 Assert.AreEqual(expected, actual);
@@ -107,8 +69,8 @@ namespace Sonneville.PriceToolsTest
             series.DataPeriods.Add(p9);
 
             // create 4 day moving average
-            const int range = 4;
-            SimpleMovingAverage target = new SimpleMovingAverage(series, range);
+            const int lookback = 4;
+            SimpleMovingAverage target = new SimpleMovingAverage(series, lookback);
 
             target.CalculateAll();
             Assert.AreEqual(2.5m, target[date.AddDays(3)]);

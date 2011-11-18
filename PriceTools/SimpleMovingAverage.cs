@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
     ///   A moving average indicator using the simple moving average method.
@@ -26,14 +24,18 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "index">The index of the value to calculate. The index of the current period is 0.</param>
         /// <returns>The value of this MovingAverage for the given period.</returns>
-        protected override decimal Calculate(DateTime index)
+        protected override void Calculate(int index)
         {
-            decimal sum = 0;
-            for (var i = index.Subtract(new TimeSpan(Lookback - 1, 0, 0, 0)); i <= index; i = IncrementDate(i))
+            var count = Lookback - 1;
+            if (index >= count)
             {
-                sum += PriceSeries[i];
+                decimal sum = 0;
+                for (var i = index - count; i <= index; i++)
+                {
+                    sum += PricePeriods[i].Close;
+                }
+                Results[index] = sum / Lookback;
             }
-            return this[index] = sum / Lookback;
         }
     }
 }

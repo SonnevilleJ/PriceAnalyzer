@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 
 namespace Sonneville.PriceTools
 {
@@ -9,13 +11,6 @@ namespace Sonneville.PriceTools
     /// </summary>
     public abstract class Indicator : IIndicator
     {
-        #region Private Members
-
-        private IDictionary<DateTime, decimal?> Dictionary { get; set; }
-        private readonly object _padlock = new object();
-
-        #endregion
-
         #region Constructors
 
         /// <summary>
@@ -34,8 +29,8 @@ namespace Sonneville.PriceTools
             {
                 throw new InvalidOperationException("The TimeSpan of priceSeries is too narrow for the given Resolution.");
             }
-            Dictionary = new Dictionary<DateTime, decimal?>(priceSeries.PricePeriods.Count - lookback);
             Lookback = lookback;
+            Reset();
         }
 
         #endregion
@@ -60,47 +55,33 @@ namespace Sonneville.PriceTools
 
         #endregion
 
+        #region Protected Members
+
+        /// <summary>
+        /// The underlying list of <see cref="IPricePeriod"/>s.
+        /// </summary>
+        protected IList<IPricePeriod> PricePeriods { get { return PriceSeries.PricePeriods; } }
+
+        /// <summary>
+        /// Contains boolean values indicating whether or not all required data is available for calculation of later periods.
+        /// </summary>
+        /// <remarks>Note that inheriting classes must store this data separately.</remarks>
+        protected IDictionary<int, bool> PreCalculatedPeriods { get; private set; }
+
+        /// <summary>
+        /// Contains the calculated values for each period. These values are publically accessible through the <see cref="Indicator"/> indexer.
+        /// </summary>
+        protected IDictionary<int, decimal?> Results { get; private set; }
+
         /// <summary>
         /// Calculates a single value of this Indicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
-        /// <returns>The value of this Indicator for the given period.</returns>
-        protected abstract decimal Calculate(DateTime index);
+        protected abstract void Calculate(int index);
 
-        /// <summary>
-        /// Pre-caches all values for this Indicator.
-        /// </summary>
-        public virtual void CalculateAll()
-        {
-            for (var date = Head; date <= Tail; date = IncrementDate(date))
-            {
-                if (HasValueInRange(date))
-                {
-                    this[date] = CalculatePeriod(date);
-                }
-            }
-        }
+        #endregion
 
-        private decimal CalculatePeriod(DateTime index)
-        {
-            if (!HasValueInRange(index))
-            {
-                throw new ArgumentOutOfRangeException("index", index, Strings.IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator);
-            }
-            return Calculate(index);
-        }
-
-        /// <summary>
-        /// Increments a date by 1 day.
-        /// </summary>
-        /// <param name="date">The date to increment.</param>
-        /// <returns>A <see cref="DateTime"/> 1 day after <paramref name="date"/>.</returns>
-        protected static DateTime IncrementDate(DateTime date)
-        {
-            return date.AddDays(1);
-        }
-
-        #region Implementation of ITimeSeries
+        #region Implementation of IIndicator
 
         /// <summary>
         /// Gets the value stored at a given index of this Indicator.
@@ -112,15 +93,10 @@ namespace Sonneville.PriceTools
             get
             {
                 decimal? value;
-                Dictionary.TryGetValue(index, out value);
-                return value ?? CalculatePeriod(index);
-            }
-            protected set
-            {
-                lock (Padlock)
-                {
-                    Dictionary[index] = value;
-                }
+                Results.TryGetValue(ConvertDateTimeToIndex(index), out value);
+                if (value.HasValue) return value.Value;
+                CalculatePeriod(index);
+                return this[index];
             }
         }
 
@@ -136,14 +112,6 @@ namespace Sonneville.PriceTools
         public IPriceSeries PriceSeries { get; private set; }
 
         /// <summary>
-        /// An object to lock when performing thread unsafe tasks.
-        /// </summary>
-        private object Padlock
-        {
-            get { return _padlock; }
-        }
-
-        /// <summary>
         /// The Resolution of this Indicator. Used when splitting the PriceSeries into periods.
         /// </summary>
         public Resolution Resolution { get { return PriceSeries.Resolution; } }
@@ -157,6 +125,18 @@ namespace Sonneville.PriceTools
         public bool HasValueInRange(DateTime settlementDate)
         {
             return (settlementDate >= Head && settlementDate <= Tail);
+        }
+
+        /// <summary>
+        /// Pre-caches all values for this Indicator.
+        /// </summary>
+        public virtual void CalculateAll()
+        {
+            Reset();
+            foreach (var pricePeriod in PricePeriods)
+            {
+                CalculatePeriod(pricePeriod);
+            }
         }
 
         #endregion
@@ -185,6 +165,64 @@ namespace Sonneville.PriceTools
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private void Reset()
+        {
+            PreCalculatedPeriods = new Dictionary<int, bool>();
+            Results = new Dictionary<int, decimal?>(PriceSeries.PricePeriods.Count - Lookback);
+        }
+
+        private void CalculatePeriod(IPricePeriod period)
+        {
+            Calculate(GetPeriodIndex(period));
+        }
+
+        private void CalculatePeriod(DateTime index)
+        {
+            if (!HasValueInRange(index)) throw new ArgumentOutOfRangeException("index", index, Strings.IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator);
+
+            Calculate(ConvertDateTimeToIndex(index));
+        }
+
+        /// <summary>
+        /// Converts a DateTime to the index of the corresponding <see cref="IPricePeriod"/>.
+        /// </summary>
+        /// <param name="dateTime">The <see cref="DateTime"/> corresponding to the <see cref="IPricePeriod"/> to index.</param>
+        /// <returns>The index of the corresponding <see cref="IPricePeriod"/>.</returns>
+        private int ConvertDateTimeToIndex(DateTime dateTime)
+        {
+            var period = GetCorrespondingPeriod(dateTime);
+            return GetPeriodIndex(period);
+        }
+
+        /// <summary>
+        /// Retrieves the index of a given <see cref="IPricePeriod"/> within an <see cref="IPriceSeries"/>.
+        /// </summary>
+        /// <param name="period">The <see cref="IPricePeriod"/> to index.</param>
+        /// <returns>The index of the given <see cref="IPricePeriod"/>.</returns>
+        private int GetPeriodIndex(IPricePeriod period)
+        {
+            return PriceSeries.PricePeriods.IndexOf(period);
+        }
+
+        /// <summary>
+        /// Retrieves the PricePeriod corresponding to <paramref name="dateTime"/>
+        /// </summary>
+        /// <param name="dateTime">The <see cref="DateTime"/> of the PricePeriod to retrieve.</param>
+        /// <returns>The <see cref="PricePeriod"/> for the given DateTime.</returns>
+        private IPricePeriod GetCorrespondingPeriod(DateTime dateTime)
+        {
+            var periods = PriceSeries.GetPricePeriods().Where(p => p.Head <= dateTime && p.Tail >= dateTime);
+            if (periods.Count() < 1)
+                throw new ArgumentOutOfRangeException(String.Format("The underlying PriceSeries does not have a value for DateTime: {0}.", dateTime));
+            if (periods.Count() > 1)
+                throw new InvalidDataException(String.Format("The PricePeriod data contains more than one period for the same DateTime: {0}", dateTime));
+            return periods.First();
         }
 
         #endregion
