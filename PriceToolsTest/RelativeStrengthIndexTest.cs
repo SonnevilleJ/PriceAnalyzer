@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
@@ -26,30 +27,43 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void CalculatesCorrectly14Periods()
+        public void Calculates14PeriodSingleCorrect()
+        {
+            var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo)).PriceSeries;
+            var target = new RelativeStrengthIndex(priceSeries);
+
+            const decimal expected = 81.42m;
+            var actual = target[target.Head];
+            Assert.AreEqual(expected, Math.Round(actual, 2));
+        }
+
+        [TestMethod]
+        public void Calculates14PeriodAllCorrect()
         {
             var expected = new[]
                                {
-                                   81.42,
-                                   75.70,
-                                   79.16,
-                                   79.08,
-                                   65.17,
-                                   70.54,
-                                   74.86,
-                                   76.86,
-                                   73.46,
-                                   71.94
+                                   81.42m,
+                                   75.70m,
+                                   79.16m,
+                                   79.08m,
+                                   65.17m,
+                                   70.54m,
+                                   74.86m,
+                                   76.86m,
+                                   73.46m,
+                                   71.94m
                                };
             var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo)).PriceSeries;
             var target = new RelativeStrengthIndex(priceSeries);
 
             target.CalculateAll();
 
-            for (var i = 14; i < 24; i++)
+            var index = target.Head;
+            var lookback = target.Lookback;
+            for (var i = 0; i < expected.Length; i++)
             {
-                var index = priceSeries.Head.GetFollowingOpen();
-                Assert.AreEqual(target[index], expected[i - 14]);
+                Assert.AreEqual(Math.Round(target[index], 2), expected[i - lookback]);
+                index = index.GetFollowingOpen();
             }
         }
     }

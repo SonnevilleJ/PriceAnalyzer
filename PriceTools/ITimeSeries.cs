@@ -11,9 +11,9 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets a value stored at a given DateTime index of the ITimeSeries.
         /// </summary>
-        /// <param name="index">The DateTime of the desired value.</param>
+        /// <param name="dateTimehe DateTime of the desired value.</param>
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
-        decimal this[DateTime index] { get; }
+        decimal this[DateTime dateTime] { get; }
 
         /// <summary>
         /// Gets the first DateTime in the ITimeSeries.

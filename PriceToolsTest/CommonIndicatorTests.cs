@@ -40,7 +40,7 @@ namespace Sonneville.PriceToolsTest
 
             SimpleMovingAverage target = new SimpleMovingAverage(priceSeries, lookback);
 
-            DateTime expected = priceSeries.GetPricePeriods(target.Resolution)[target.Lookback - 1].Head;
+            DateTime expected = priceSeries.PricePeriods[target.Lookback - 1].Head;
             DateTime actual = target.Head;
             Assert.AreEqual(expected, actual);
         }

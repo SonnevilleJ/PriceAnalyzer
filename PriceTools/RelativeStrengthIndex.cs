@@ -36,40 +36,65 @@ namespace Sonneville.PriceTools
 
         #region Overrides of Indicator
 
+        public override System.DateTime Head
+        {
+            get { return PricePeriods[Lookback].Head; }
+        }
+
         /// <summary>
         /// Calculates a single value of this Indicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
         protected override void Calculate(int index)
         {
-            // if we can calculate any data for future use
+            // cannot do anything for the first period; we need to have a delta to even begin
             if (index > 0)
             {
-                var change = PricePeriods[index].Close - PricePeriods[index - 1].Close;
-                if (change > 0) _gains.Add(new KeyValuePair<int, decimal>(index, change));
-                if (change < 0) _losses.Add(new KeyValuePair<int, decimal>(index, change));
+                // if any data is missing, calculate it
+                for (var i = index - (Lookback - 1); i > 0 && i <= index; i++)
+                {
+                    if (!PreCalculatedPeriods.ContainsKey(i))
+                    {
+                        Precalculate(i);
+                    }
+                }
+                
+                // if we have enough data to calculate an RSI value
+                if (index >= Lookback)
+                {
+                    var averageGain = GetAverageGain(index);
+                    var averageLoss = GetAverageLoss(index);
+                    if (averageLoss != 0)
+                    {
+                        var relativeStrength = averageGain / -averageLoss;
+                        var result = 100.0m - (100.0m/(1.0m + relativeStrength));
+                        Results[index] = result;
+                    }
+                    else
+                    {
+                        Results[index] = 100.0m;
+                    }
+                }
             }
+        }
 
-            // if we have enough data to calculate an RSI value
-            var uncalculatedPeriods = PreCalculatedPeriods.Where(pcp => pcp.Key >= index - Lookback && pcp.Key <= index && pcp.Value != true);
-            if (uncalculatedPeriods.Count() != 0)
+        /// <summary>
+        /// Calculates gain and loss data for use in later RSI calculations.
+        /// </summary>
+        /// <param name="index">The period to calulate.</param>
+        private void Precalculate(int index)
+        {
+            if (index > 0)
             {
-                foreach (var uncalculatedPeriod in uncalculatedPeriods)
-                {
-                    Calculate(uncalculatedPeriod.Key);
-                }
-            }
-            if (index >= Lookback + 1)
-            {
-                var averageGain = GetAverageGain(index);
-                var averageLoss = GetAverageLoss(index);
-                if (averageLoss != 0)
-                {
-                    var relativeStrength = averageGain/averageLoss;
-                    var result = 100.0m - (100.0m/(1.0m + relativeStrength));
-                    Results[index] = result;
-                }
-                Results[index] = 100.0m;
+                //var sufficientAmount = PreCalculatedPeriods.Count >= index + 1;
+                //if (!sufficientAmount || !PreCalculatedPeriods[index])
+                //{
+                    var change = PricePeriods[index].Close - PricePeriods[index - 1].Close;
+                    if (change > 0) _gains.Add(new KeyValuePair<int, decimal>(index, change));
+                    if (change < 0) _losses.Add(new KeyValuePair<int, decimal>(index, change));
+                    PreCalculatedPeriods[index] = true;
+                //}
+
             }
         }
 
@@ -79,12 +104,12 @@ namespace Sonneville.PriceTools
 
         private decimal GetAverageGain(int index)
         {
-            return _gains.Where(kvp => kvp.Key <= index && kvp.Key >= index - Lookback).Sum(kvp => kvp.Value);
+            return _gains.Where(kvp => kvp.Key <= index && kvp.Key >= index - Lookback).Sum(kvp => kvp.Value) / Lookback;
         }
 
         private decimal GetAverageLoss(int index)
         {
-            return _losses.Where(kvp => kvp.Key <= index && kvp.Key >= index - Lookback).Sum(kvp => kvp.Value);
+            return _losses.Where(kvp => kvp.Key <= index && kvp.Key >= index - Lookback).Sum(kvp => kvp.Value) / Lookback;
         }
 
         #endregion

@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual DateTime Head
         {
-            get { return PriceSeries.GetPricePeriods(Resolution)[Lookback - 1].Head; }
+            get { return PricePeriods[Lookback - 1].Head; }
         }
 
         /// <summary>
@@ -92,11 +92,9 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                decimal? value;
-                Results.TryGetValue(ConvertDateTimeToIndex(index), out value);
-                if (value.HasValue) return value.Value;
-                CalculatePeriod(index);
-                return this[index];
+                var i = ConvertDateTimeToIndex(index);
+                if (!Results.ContainsKey(i)) CalculatePeriod(index);
+                return Results[i].Value;
             }
         }
 

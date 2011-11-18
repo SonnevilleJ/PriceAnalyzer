@@ -84,8 +84,8 @@ namespace Sonneville.PriceTools
             {
                 if (!HasValueInRange(index) && Settings.CanConnectToInternet)
                 {
-                    var dateTime = DataPeriods.Count != 0 ? Tail : index;
-                    DownloadPriceData(Settings.PreferredPriceSeriesProvider, dateTime);
+                    var a = DataPeriods.Count != 0 ? Tail : index;
+                    DownloadPriceData(Settings.PreferredPriceSeriesProvider, a);
                 }
 
                 return GetLatestPrice(index);
