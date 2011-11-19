@@ -40,7 +40,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void Calculates14PeriodAllCorrect()
         {
-            var expected = new[]
+            var results = new[]
                                {
                                    81.42m,
                                    75.70m,
@@ -60,10 +60,11 @@ namespace Sonneville.PriceToolsTest
 
             var index = target.Head;
             var lookback = target.Lookback;
-            for (var i = 0; i < expected.Length; i++)
+            for (var i = lookback; i < results.Length + lookback; i++, index = index.GetFollowingOpen())
             {
-                Assert.AreEqual(Math.Round(target[index], 2), expected[i - lookback]);
-                index = index.GetFollowingOpen();
+                var expected = results[i - lookback];
+                var actual = target[index];
+                Assert.AreEqual(expected, Math.Round(actual, 2));
             }
         }
     }

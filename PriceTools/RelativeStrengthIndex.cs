@@ -104,12 +104,26 @@ namespace Sonneville.PriceTools
 
         private decimal GetAverageGain(int index)
         {
-            return _gains.Where(kvp => kvp.Key <= index && kvp.Key >= index - Lookback).Sum(kvp => kvp.Value) / Lookback;
+            if (index == Lookback)
+            {
+                return _gains.Where(kvp => kvp.Key <= index && kvp.Key >= index - Lookback).Sum(kvp => kvp.Value)/Lookback;
+            }
+            var today = _gains.Where(kvp => kvp.Key == index);
+            var value = today.Count() == 1 ? today.First().Value : 0;
+
+            return ((GetAverageGain(index - 1) * (Lookback - 1)) + value) / 14;
         }
 
         private decimal GetAverageLoss(int index)
         {
-            return _losses.Where(kvp => kvp.Key <= index && kvp.Key >= index - Lookback).Sum(kvp => kvp.Value) / Lookback;
+            if (index == Lookback)
+            {
+                return _losses.Where(kvp => kvp.Key <= index && kvp.Key >= index - Lookback).Sum(kvp => kvp.Value) / Lookback;
+            }
+            var today = _losses.Where(kvp => kvp.Key == index);
+            var value = today.Count() == 1 ? today.First().Value : 0;
+
+            return ((GetAverageLoss(index - 1) * (Lookback - 1)) + value) / 14;
         }
 
         #endregion
