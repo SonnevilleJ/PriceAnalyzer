@@ -111,7 +111,7 @@ namespace Sonneville.PriceTools
             var today = _gains.Where(kvp => kvp.Key == index);
             var value = today.Count() == 1 ? today.First().Value : 0;
 
-            return ((GetAverageGain(index - 1) * (Lookback - 1)) + value) / 14;
+            return ((GetAverageGain(index - 1) * (Lookback - 1)) + value) / Lookback;
         }
 
         private decimal GetAverageLoss(int index)
@@ -123,7 +123,7 @@ namespace Sonneville.PriceTools
             var today = _losses.Where(kvp => kvp.Key == index);
             var value = today.Count() == 1 ? today.First().Value : 0;
 
-            return ((GetAverageLoss(index - 1) * (Lookback - 1)) + value) / 14;
+            return ((GetAverageLoss(index - 1) * (Lookback - 1)) + value) / Lookback;
         }
 
         #endregion
