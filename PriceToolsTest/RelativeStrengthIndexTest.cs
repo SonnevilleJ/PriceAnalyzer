@@ -85,15 +85,15 @@ namespace Sonneville.PriceToolsTest
             var results = new[]
                               {
                                   93.01m,
-                                  75.67m,
-                                  73.89m,
-                                  73.61m,
-                                  77.68m,
-                                  68.01m,
-                                  75.45m,
-                                  75.33m,
-                                  54.95m,
-                                  65.05m
+                                  79.93m,
+                                  78.50m,
+                                  78.28m,
+                                  80.92m,
+                                  72.76m,
+                                  78.13m,
+                                  78.02m,
+                                  59.36m,
+                                  67.63m
                               };
             var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo)).PriceSeries;
             var target = new RelativeStrengthIndex(priceSeries, 10);
