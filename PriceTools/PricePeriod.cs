@@ -36,15 +36,7 @@ namespace Sonneville.PriceTools
         /// Gets the total volume of trades during the IPricePeriod.
         /// </summary>
         public abstract long? Volume { get; }
-
-        /// <summary>
-        ///   Gets a <see cref = "IPricePeriod.TimeSpan" /> value indicating the length of time covered by this IPricePeriod.
-        /// </summary>
-        public TimeSpan TimeSpan
-        {
-            get { return Tail - Head; }
-        }
-
+        
         /// <summary>
         ///   Event which is invoked when new price data is available for the IPricePeriod.
         /// </summary>
@@ -75,13 +67,21 @@ namespace Sonneville.PriceTools
             get
             {
                 foreach (long resolution in
-                    Enum.GetValues(typeof (Resolution)).Cast<long>().OrderBy(ticks => ticks).Where(ticks => TimeSpan <= new TimeSpan(ticks)))
+                    Enum.GetValues(typeof (Resolution)).Cast<long>().OrderBy(ticks => ticks).Where(ticks => this.TimeSpan() <= new TimeSpan(ticks)))
                 {
                     return (Resolution)Enum.ToObject(typeof(Resolution), new TimeSpan(resolution).Ticks);
                 }
 
                 throw new OverflowException();
             }
+        }
+
+        /// <summary>
+        /// Gets the values stored within the ITimeSeries.
+        /// </summary>
+        public IDictionary<DateTime, decimal> Values
+        {
+            get { throw new NotImplementedException(); }
         }
 
         /// <summary>

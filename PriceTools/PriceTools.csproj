@@ -63,6 +63,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Entities.edmx</DependentUpon>
     </Compile>
+    <Compile Include="TimeSeriesExtensions.cs" />
     <Compile Include="HighLow.cs" />
     <Compile Include="Holding.cs" />
     <Compile Include="ICashAccount.cs" />

@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace Sonneville.PriceTools
 {
     /// <summary>
@@ -17,7 +14,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
         /// </summary>
-        IPriceSeries PriceSeries { get; }
+        ITimeSeries TimeSeries { get; }
 
         /// <summary>
         /// Pre-caches all values for this Indicator.

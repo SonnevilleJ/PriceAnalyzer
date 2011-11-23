@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets a value stored at a given DateTime index of the ITimeSeries.
         /// </summary>
-        /// <param name="dateTimehe DateTime of the desired value.</param>
+        /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
         decimal this[DateTime dateTime] { get; }
 
@@ -29,6 +29,11 @@ namespace Sonneville.PriceTools
         /// Gets the <see cref="Resolution"/> of price data stored within the ITimeSeries.
         /// </summary>
         Resolution Resolution { get; }
+
+        /// <summary>
+        /// Gets the values stored within the ITimeSeries.
+        /// </summary>
+        IDictionary<DateTime, decimal> Values { get; }
 
         /// <summary>
         /// Determines if the ITimeSeries has a valid value for a given date.

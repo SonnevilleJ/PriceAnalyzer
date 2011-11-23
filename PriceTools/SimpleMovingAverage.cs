@@ -12,7 +12,7 @@
         /// </summary>
         /// <param name = "series">The <see cref="IPriceSeries"/> containing the data to be averaged.</param>
         /// <param name = "range">The number of periods to average together.</param>
-        public SimpleMovingAverage(IPriceSeries series, int range)
+        public SimpleMovingAverage(ITimeSeries series, int range)
             : base(series, range)
         {
         }
@@ -32,7 +32,7 @@
                 decimal sum = 0;
                 for (var i = index - count; i <= index; i++)
                 {
-                    sum += PricePeriods[i].Close;
+                    sum += IndexedTimeSeriesValues[i];
                 }
                 Results[index] = sum / Lookback;
             }

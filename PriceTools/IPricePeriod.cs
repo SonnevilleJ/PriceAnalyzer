@@ -33,11 +33,6 @@ namespace Sonneville.PriceTools
         Int64? Volume { get; }
 
         /// <summary>
-        ///   Gets a <see cref = "TimeSpan" /> value indicating the length of time covered by this IPricePeriod.
-        /// </summary>
-        TimeSpan TimeSpan { get; }
-
-        /// <summary>
         ///   Event which is invoked when new price data is available for the IPricePeriod.
         /// </summary>
         event EventHandler<NewPriceDataAvailableEventArgs> NewPriceDataAvailable;

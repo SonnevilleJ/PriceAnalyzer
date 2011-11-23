@@ -16,19 +16,20 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs an Indicator for a given <see cref="IPriceSeries"/>.
         /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to measure.</param>
+        /// <param name="timeSeries">The <see cref="IPriceSeries"/> to measure.</param>
         /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
-        protected Indicator(IPriceSeries priceSeries, int lookback)
+        protected Indicator(ITimeSeries timeSeries, int lookback)
         {
-            if (priceSeries == null)
+            if (timeSeries == null)
             {
-                throw new ArgumentNullException("priceSeries");
+                throw new ArgumentNullException("timeSeries");
             }
-            PriceSeries = priceSeries;
-            if(priceSeries.TimeSpan < new TimeSpan(lookback * (long)Resolution))
+            if(timeSeries.TimeSpan() < new TimeSpan(lookback * (long)timeSeries.Resolution))
             {
-                throw new InvalidOperationException("The TimeSpan of priceSeries is too narrow for the given Resolution.");
+                throw new InvalidOperationException("The TimeSpan of timeSeries is too narrow for the given lookback duration.");
             }
+
+            TimeSeries = timeSeries;
             Lookback = lookback;
             Reset();
         }
@@ -42,7 +43,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual DateTime Head
         {
-            get { return PricePeriods[Lookback - 1].Head; }
+            get { return TimeSeries.Values.First().Key; }
         }
 
         /// <summary>
@@ -50,17 +51,14 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual DateTime Tail
         {
-            get { return PriceSeries.Tail; }
+            get { return TimeSeries.Tail; }
         }
 
         #endregion
 
         #region Protected Members
 
-        /// <summary>
-        /// The underlying list of <see cref="IPricePeriod"/>s.
-        /// </summary>
-        protected IList<IPricePeriod> PricePeriods { get { return PriceSeries.PricePeriods; } }
+        protected IDictionary<int, decimal> IndexedTimeSeriesValues { get; private set; }
 
         /// <summary>
         /// Contains boolean values indicating whether or not all required data is available for calculation of later periods.
@@ -69,7 +67,7 @@ namespace Sonneville.PriceTools
         protected IDictionary<int, bool> PreCalculatedPeriods { get; private set; }
 
         /// <summary>
-        /// Contains the calculated values for each period. These values are publically accessible through the <see cref="Indicator"/> indexer.
+        /// Stores the calculated values for each period. These values are publically accessible through the <see cref="Indicator"/> indexer.
         /// </summary>
         protected IDictionary<int, decimal?> Results { get; private set; }
 
@@ -107,12 +105,29 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
         /// </summary>
-        public IPriceSeries PriceSeries { get; private set; }
+        public ITimeSeries TimeSeries { get; private set; }
 
         /// <summary>
-        /// The Resolution of this Indicator. Used when splitting the PriceSeries into periods.
+        /// The Resolution of this Indicator.
         /// </summary>
-        public Resolution Resolution { get { return PriceSeries.Resolution; } }
+        public Resolution Resolution { get { return TimeSeries.Resolution; } }
+
+        /// <summary>
+        /// Gets the calculated values of the Indicator.
+        /// </summary>
+        public IDictionary<DateTime, decimal> Values
+        {
+            get
+            {
+                var dictionary = new Dictionary<DateTime, decimal>(Results.Count);
+                foreach (var result in Results)
+                {
+                    var value = result.Value;
+                    if(value.HasValue) dictionary.Add(ConvertIndexToDateTime(result.Key), value.Value);
+                }
+                return dictionary;
+            }
+        }
 
         /// <summary>
         /// Determines if the Indicator has a valid value for a given date.
@@ -131,9 +146,9 @@ namespace Sonneville.PriceTools
         public virtual void CalculateAll()
         {
             Reset();
-            foreach (var pricePeriod in PricePeriods)
+            foreach (var pricePeriod in TimeSeries.Values)
             {
-                CalculatePeriod(pricePeriod);
+                CalculatePeriod(pricePeriod.Key);
             }
         }
 
@@ -172,12 +187,19 @@ namespace Sonneville.PriceTools
         private void Reset()
         {
             PreCalculatedPeriods = new Dictionary<int, bool>();
-            Results = new Dictionary<int, decimal?>(PriceSeries.PricePeriods.Count - Lookback);
+            Results = new Dictionary<int, decimal?>(TimeSeries.Values.Count - Lookback);
+            IndexTimeSeriesValues();
         }
 
-        private void CalculatePeriod(IPricePeriod period)
+        private void IndexTimeSeriesValues()
         {
-            Calculate(GetPeriodIndex(period));
+            IndexedTimeSeriesValues = new Dictionary<int, decimal>();
+
+            var array = Values.ToArray();
+            for (var i = 0; i < Values.Count; i++)
+            {
+                IndexedTimeSeriesValues.Add(i, array[i].Value);
+            }
         }
 
         private void CalculatePeriod(DateTime index)
@@ -194,33 +216,19 @@ namespace Sonneville.PriceTools
         /// <returns>The index of the corresponding <see cref="IPricePeriod"/>.</returns>
         private int ConvertDateTimeToIndex(DateTime dateTime)
         {
-            var period = GetCorrespondingPeriod(dateTime);
-            return GetPeriodIndex(period);
-        }
-
-        /// <summary>
-        /// Retrieves the index of a given <see cref="IPricePeriod"/> within an <see cref="IPriceSeries"/>.
-        /// </summary>
-        /// <param name="period">The <see cref="IPricePeriod"/> to index.</param>
-        /// <returns>The index of the given <see cref="IPricePeriod"/>.</returns>
-        private int GetPeriodIndex(IPricePeriod period)
-        {
-            return PriceSeries.PricePeriods.IndexOf(period);
-        }
-
-        /// <summary>
-        /// Retrieves the PricePeriod corresponding to <paramref name="dateTime"/>
-        /// </summary>
-        /// <param name="dateTime">The <see cref="DateTime"/> of the PricePeriod to retrieve.</param>
-        /// <returns>The <see cref="PricePeriod"/> for the given DateTime.</returns>
-        private IPricePeriod GetCorrespondingPeriod(DateTime dateTime)
-        {
-            var periods = PriceSeries.GetPricePeriods().Where(p => p.Head <= dateTime && p.Tail >= dateTime);
+            var values = TimeSeries.Values.ToList();
+            var periods = values.Where(kvp => kvp.Key <= dateTime);
             if (periods.Count() < 1)
-                throw new ArgumentOutOfRangeException(String.Format("The underlying PriceSeries does not have a value for DateTime: {0}.", dateTime));
+                throw new ArgumentOutOfRangeException(String.Format("The underlying TimeSeries does not have a value for DateTime: {0}.", dateTime));
             if (periods.Count() > 1)
                 throw new InvalidDataException(String.Format("The PricePeriod data contains more than one period for the same DateTime: {0}", dateTime));
-            return periods.First();
+            return values.IndexOf(periods.Last());
+        }
+
+        protected DateTime ConvertIndexToDateTime(int index)
+        {
+            var values = TimeSeries.Values.ToArray();
+            return values[index].Key;
         }
 
         #endregion

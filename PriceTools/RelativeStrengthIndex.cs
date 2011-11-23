@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
@@ -27,7 +28,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="priceSeries">The <see cref="IPriceSeries"/> to measure.</param>
         /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
-        public RelativeStrengthIndex(IPriceSeries priceSeries, int lookback = 14)
+        public RelativeStrengthIndex(ITimeSeries priceSeries, int lookback = 14)
             : base(priceSeries, lookback)
         {
         }
@@ -36,9 +37,9 @@ namespace Sonneville.PriceTools
 
         #region Overrides of Indicator
 
-        public override System.DateTime Head
+        public override DateTime Head
         {
-            get { return PricePeriods[Lookback].Head; }
+            get { return ConvertIndexToDateTime(Lookback); }
         }
 
         /// <summary>
@@ -89,7 +90,7 @@ namespace Sonneville.PriceTools
                 //var sufficientAmount = PreCalculatedPeriods.Count >= index + 1;
                 //if (!sufficientAmount || !PreCalculatedPeriods[index])
                 //{
-                    var change = PricePeriods[index].Close - PricePeriods[index - 1].Close;
+                    var change = IndexedTimeSeriesValues[index] - IndexedTimeSeriesValues[index - 1];
                     if (change > 0) _gains.Add(new KeyValuePair<int, decimal>(index, change));
                     if (change < 0) _losses.Add(new KeyValuePair<int, decimal>(index, change));
                     PreCalculatedPeriods[index] = true;

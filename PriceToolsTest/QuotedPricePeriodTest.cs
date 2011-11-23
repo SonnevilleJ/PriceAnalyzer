@@ -22,7 +22,7 @@ namespace Sonneville.PriceToolsTest
             QuotedPricePeriod target = new QuotedPricePeriod();
             target.AddPriceQuotes(q1, q2, q3);
 
-            Assert.AreEqual(new TimeSpan(2, 4, 30, 0), target.TimeSpan);
+            Assert.AreEqual(new TimeSpan(2, 4, 30, 0), target.TimeSpan());
         }
 
         [TestMethod]
@@ -101,10 +101,10 @@ namespace Sonneville.PriceToolsTest
             QuotedPricePeriod target = new QuotedPricePeriod();
 
             target.AddPriceQuotes(q1, q2, q3);
-            Assert.AreEqual(new TimeSpan(2, 4, 30, 0), target.TimeSpan);
+            Assert.AreEqual(new TimeSpan(2, 4, 30, 0), target.TimeSpan());
 
             target.AddPriceQuotes(q4);
-            Assert.AreEqual(new TimeSpan(2, 6, 30, 0), target.TimeSpan);
+            Assert.AreEqual(new TimeSpan(2, 6, 30, 0), target.TimeSpan());
         }
 
         [TestMethod]

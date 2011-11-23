@@ -157,6 +157,14 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Gets the values stored within the ITimeSeries.
+        /// </summary>
+        public IDictionary<DateTime, decimal> Values
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
         ///   Determines if the ITimeSeries has a valid value for a given date.
         /// </summary>
         /// <param name = "settlementDate">The date to check.</param>
