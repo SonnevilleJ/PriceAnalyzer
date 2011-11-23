@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.PriceTools.Services;
-using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -1266,6 +1266,100 @@ namespace Sonneville.PriceToolsTest
             var holding2 = holdings[1];
             Assert.AreEqual(expected1, holding1);
             Assert.AreEqual(expected2, holding2);
+        }
+
+        #region Mock PriceSeriesProviders
+        private class HourlyProvider : PriceSeriesProvider
+        {
+            public override Resolution BestResolution { get { return Resolution.Hours; } }
+            #region Not Implemented
+            public override string GetIndexTicker(StockIndex index) { throw new NotImplementedException(); }
+            protected override string GetUrlBase() { throw new NotImplementedException(); }
+            protected override string GetUrlTicker(string symbol) { throw new NotImplementedException(); }
+            protected override string GetUrlHeadDate(DateTime head) { throw new NotImplementedException(); }
+            protected override string GetUrlTailDate(DateTime tail) { throw new NotImplementedException(); }
+            protected override string GetUrlResolution(Resolution resolution) { throw new NotImplementedException(); }
+            protected override string GetUrlDividends() { throw new NotImplementedException(); }
+            protected override string GetUrlCsvMarker() { throw new NotImplementedException(); }
+            protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail) { throw new NotImplementedException(); }
+            #endregion
+        }
+
+        private class DailyProvider : PriceSeriesProvider
+        {
+            public override Resolution BestResolution { get { return Resolution.Days; } }
+            #region Not Implemented
+            public override string GetIndexTicker(StockIndex index) { throw new NotImplementedException(); }
+            protected override string GetUrlBase() { throw new NotImplementedException(); }
+            protected override string GetUrlTicker(string symbol) { throw new NotImplementedException(); }
+            protected override string GetUrlHeadDate(DateTime head) { throw new NotImplementedException(); }
+            protected override string GetUrlTailDate(DateTime tail) { throw new NotImplementedException(); }
+            protected override string GetUrlResolution(Resolution resolution) { throw new NotImplementedException(); }
+            protected override string GetUrlDividends() { throw new NotImplementedException(); }
+            protected override string GetUrlCsvMarker() { throw new NotImplementedException(); }
+            protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail) { throw new NotImplementedException(); }
+            #endregion
+        }
+
+        private class WeeklyProvider : PriceSeriesProvider
+        {
+            public override Resolution BestResolution { get { return Resolution.Weeks; } }
+            #region Not Implemented
+            public override string GetIndexTicker(StockIndex index) { throw new NotImplementedException(); }
+            protected override string GetUrlBase() { throw new NotImplementedException(); }
+            protected override string GetUrlTicker(string symbol) { throw new NotImplementedException(); }
+            protected override string GetUrlHeadDate(DateTime head) { throw new NotImplementedException(); }
+            protected override string GetUrlTailDate(DateTime tail) { throw new NotImplementedException(); }
+            protected override string GetUrlResolution(Resolution resolution) { throw new NotImplementedException(); }
+            protected override string GetUrlDividends() { throw new NotImplementedException(); }
+            protected override string GetUrlCsvMarker() { throw new NotImplementedException(); }
+            protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail) { throw new NotImplementedException(); }
+            #endregion
+        }
+        #endregion
+
+        [TestMethod]
+        public void ResolutionEqualsResolutionOfPriceSeriesTest()
+        {
+            // As of this writing, Settings.PreferredPriceSeriesProvider is only read when target.Resolution is read.
+            // This is because the Portfolio's individual positions perform lazy loading of their underlying PriceSeries.
+            
+            try
+            {
+                Settings.PreferredPriceSeriesProvider = new HourlyProvider();
+
+                DateTime testDate = new DateTime(2001, 1, 1);
+                DateTime firstBuyDate = testDate.AddDays(1);
+                DateTime secondBuyDate = firstBuyDate.AddDays(1);
+                const string firstTicker = "DE";
+                const string secondTicker = "IBM";
+                const decimal buyPrice = 50.00m;    // $50.00 per share
+                const double sharesBought = 5;      // 5 shares
+                const decimal commission = 5.00m;   // with $5 commission
+
+                const decimal deposit = 10000m;
+                IPortfolio target = new Portfolio(testDate, deposit);
+
+                target.AddTransaction(new Buy { SettlementDate = firstBuyDate, Ticker = firstTicker, Shares = sharesBought, Price = buyPrice, Commission = commission });
+                target.AddTransaction(new Buy { SettlementDate = secondBuyDate, Ticker = secondTicker, Shares = sharesBought, Price = buyPrice, Commission = commission });
+
+                DateTime firstSellDate = secondBuyDate.AddDays(2);
+                DateTime secondSellDate = firstSellDate.AddDays(1);
+                const decimal sellPrice = 75.00m;   // $75.00 per share
+                const double sharesSold = 5;        // 5 shares
+
+                target.AddTransaction(new Sell { SettlementDate = firstSellDate, Ticker = firstTicker, Shares = sharesSold, Price = sellPrice, Commission = commission });
+                target.AddTransaction(new Sell { SettlementDate = secondSellDate, Ticker = secondTicker, Shares = sharesSold, Price = sellPrice, Commission = commission });
+
+                var expected = Settings.PreferredPriceSeriesProvider.BestResolution;
+                var actual = target.Resolution;
+
+                Assert.AreEqual(expected, actual);
+            }
+            finally
+            {
+                Settings.SetDefaultSettings();
+            }
         }
     }
 }

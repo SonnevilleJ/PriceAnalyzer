@@ -147,7 +147,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public Resolution Resolution
         {
-            get { throw new NotImplementedException(); }
+            get { return Positions.Min(p => p.Resolution); }
         }
 
         /// <summary>

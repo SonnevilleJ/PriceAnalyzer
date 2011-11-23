@@ -125,7 +125,7 @@ namespace Sonneville.PriceTools.Services
                                         : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
                             break;
                         default:
-                            throw new NotImplementedException();
+                            throw new NotSupportedException();
                     }
                     _transactions.Add(TransactionFactory.CreateTransaction(
                         settlementDate,

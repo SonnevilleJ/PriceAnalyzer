@@ -906,5 +906,17 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected2, holding2);
             Assert.AreEqual(expected3, holding3);
         }
+
+        [TestMethod]
+        public void ResolutionEqualsResolutionOfPriceSeriesTest()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var expected = Settings.PreferredPriceSeriesProvider.BestResolution;
+            var actual = target.Resolution;
+
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
