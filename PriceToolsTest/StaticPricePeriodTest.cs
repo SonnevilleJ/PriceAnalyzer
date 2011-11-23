@@ -1,4 +1,5 @@
-﻿using Sonneville.PriceTools;
+﻿using System.Collections.Generic;
+using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -429,6 +430,46 @@ namespace Sonneville.PriceToolsTest
             const Resolution expected = Resolution.Months;
             var actual = target.Resolution;
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ValuesCountTest()
+        {
+            DateTime head = new DateTime(2011, 8, 1);
+            DateTime tail = head.AddMonths(1);
+            const decimal open = 10.00m;
+            const decimal high = 11.00m;
+            const decimal low = 9.00m;
+            const decimal close = 10.00m;
+            const long volume = 1000;
+
+            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+            var expected = new Dictionary<DateTime, decimal> {{head, close}};
+            var actual = target.Values;
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void ValuesMatchTest()
+        {
+            DateTime head = new DateTime(2011, 8, 1);
+            DateTime tail = head.AddMonths(1);
+            const decimal open = 10.00m;
+            const decimal high = 11.00m;
+            const decimal low = 9.00m;
+            const decimal close = 10.00m;
+            const long volume = 1000;
+
+            IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+            var expected = new Dictionary<DateTime, decimal> { { head, close } };
+            var actual = target.Values;
+
+            foreach (var key in expected.Keys)
+            {
+                Assert.IsTrue(actual.ContainsKey(key));
+            }
         }
     }
 }

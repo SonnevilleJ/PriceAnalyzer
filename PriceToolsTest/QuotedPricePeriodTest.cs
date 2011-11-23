@@ -261,5 +261,40 @@ namespace Sonneville.PriceToolsTest
 
             Assert.AreEqual(3, count);
         }
+
+        [TestMethod]
+        public void ValuesCountTest()
+        {
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
+
+            QuotedPricePeriod target = new QuotedPricePeriod();
+            target.AddPriceQuotes(q1, q2, q3);
+
+            IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> { { q1.SettlementDate, q1.Price }, { q2.SettlementDate, q2.Price }, { q3.SettlementDate, q3.Price } };
+
+            var actual = target.Values;
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void ValuesMatchTest()
+        {
+            IPriceQuote q1 = TestUtilities.CreateQuote1();
+            IPriceQuote q2 = TestUtilities.CreateQuote2();
+            IPriceQuote q3 = TestUtilities.CreateQuote3();
+
+            QuotedPricePeriod target = new QuotedPricePeriod();
+            target.AddPriceQuotes(q1, q2, q3);
+
+            IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> {{q1.SettlementDate, q1.Price}, {q2.SettlementDate, q2.Price}, {q3.SettlementDate, q3.Price}};
+
+            var actual = target.Values;
+            foreach (var key in expected.Keys)
+            {
+                Assert.IsTrue(actual.ContainsKey(key));
+            }
+        }
     }
 }

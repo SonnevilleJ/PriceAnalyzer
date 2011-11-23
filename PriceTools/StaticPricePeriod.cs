@@ -156,7 +156,10 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override IDictionary<DateTime, decimal> Values
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return new Dictionary<DateTime, decimal> {{Head, Close}};
+            }
         }
 
         #endregion
