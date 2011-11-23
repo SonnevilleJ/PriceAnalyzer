@@ -26,10 +26,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a new RSI <see cref="IIndicator"/>.
         /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to measure.</param>
+        /// <param name="timeSeries">The <see cref="ITimeSeries"/> to measure.</param>
         /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
-        public RelativeStrengthIndex(ITimeSeries priceSeries, int lookback = 14)
-            : base(priceSeries, lookback)
+        public RelativeStrengthIndex(ITimeSeries timeSeries, int lookback = 14)
+            : base(timeSeries, lookback)
         {
         }
 
