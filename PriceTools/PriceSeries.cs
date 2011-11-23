@@ -121,7 +121,16 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override IDictionary<DateTime, decimal> Values
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                var pricePeriods = PricePeriods;
+                var dictionary = new Dictionary<DateTime, decimal>(pricePeriods.Count);
+                foreach (var pricePeriod in pricePeriods)
+                {
+                    dictionary.Add(pricePeriod.Head, pricePeriod.Close);
+                }
+                return dictionary;
+            }
         }
 
         /// <summary>

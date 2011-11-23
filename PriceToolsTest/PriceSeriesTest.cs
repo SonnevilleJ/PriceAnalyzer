@@ -726,5 +726,44 @@ namespace Sonneville.PriceToolsTest
                 Assert.IsTrue(actualLows.Contains(reactionMove));
             }
         }
+
+        [TestMethod]
+        public void ValuesCountTest()
+        {
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
+
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
+
+            IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> {{p1.Head, p1.Close}, {p2.Head, p2.Close}, {p3.Head, p3.Close}};
+
+            var actual = target.Values;
+            Assert.AreEqual(expected.Count, actual.Count);
+        }
+
+        [TestMethod]
+        public void ValuesMatchTest()
+        {
+            PricePeriod p1 = TestUtilities.CreatePeriod1();
+            PricePeriod p2 = TestUtilities.CreatePeriod2();
+            PricePeriod p3 = TestUtilities.CreatePeriod3();
+
+            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.DataPeriods.Add(p1);
+            target.DataPeriods.Add(p2);
+            target.DataPeriods.Add(p3);
+
+            IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> {{p1.Head, p1.Close}, {p2.Head, p2.Close}, {p3.Head, p3.Close}};
+
+            var actual = target.Values;
+            foreach (var key in expected.Keys)
+            {
+                Assert.IsTrue(actual.ContainsKey(key));
+            }
+        }
     }
 }
