@@ -151,6 +151,14 @@ namespace Sonneville.PriceTools
             get { return EFTail; }
         }
 
+        /// <summary>
+        /// Gets the values stored within the ITimeSeries.
+        /// </summary>
+        public override IDictionary<DateTime, decimal> Values
+        {
+            get { throw new NotImplementedException(); }
+        }
+
         #endregion
 
         #region Equality Checks

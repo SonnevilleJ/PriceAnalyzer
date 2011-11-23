@@ -78,10 +78,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the values stored within the ITimeSeries.
         /// </summary>
-        public IDictionary<DateTime, decimal> Values
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public abstract IDictionary<DateTime, decimal> Values { get; }
 
         /// <summary>
         /// Determines if the PricePeriod has a valid value for a given date.

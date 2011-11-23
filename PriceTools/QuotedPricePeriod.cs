@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Sonneville.PriceTools
@@ -32,6 +33,14 @@ namespace Sonneville.PriceTools
         public override DateTime Tail
         {
             get { return PriceQuotes.Max(q => q.SettlementDate); }
+        }
+
+        /// <summary>
+        /// Gets the values stored within the ITimeSeries.
+        /// </summary>
+        public override IDictionary<DateTime, decimal> Values
+        {
+            get { throw new NotImplementedException(); }
         }
 
         /// <summary>
