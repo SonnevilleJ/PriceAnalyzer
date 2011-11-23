@@ -3,7 +3,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
-using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -29,7 +28,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void Calculates14PeriodSingleCorrect()
         {
-            var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo)).PriceSeries;
+            var priceSeries = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
             var target = new RelativeStrengthIndex(priceSeries);
 
             const decimal expected = 81.42m;
@@ -53,7 +52,7 @@ namespace Sonneville.PriceToolsTest
                                   73.46m,
                                   71.94m
                               };
-            var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo)).PriceSeries;
+            var priceSeries = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
             var target = new RelativeStrengthIndex(priceSeries);
 
             target.CalculateAll();
@@ -71,7 +70,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void Calculates10PeriodSingleCorrect()
         {
-            var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo)).PriceSeries;
+            var priceSeries = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
             var target = new RelativeStrengthIndex(priceSeries, 10);
 
             const decimal expected = 93.01m;
@@ -95,7 +94,7 @@ namespace Sonneville.PriceToolsTest
                                   59.36m,
                                   67.63m
                               };
-            var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(TestData.DE_1_1_2011_to_3_15_2011_Daily_Yahoo)).PriceSeries;
+            var priceSeries = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
             var target = new RelativeStrengthIndex(priceSeries, 10);
 
             target.CalculateAll();

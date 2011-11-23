@@ -118,23 +118,8 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="DE_1_1_2011_to_6_30_2011" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\DE 1-1-2011 to 6-30-2011.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="DE_Apr_June2011_Weekly_Google" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\DE Apr-June 2011 Weekly Google.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="DE_1_1_2011_to_3_15_2011_Daily_Yahoo" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\DE 1-1-2011 to 3-15-2011 Daily Yahoo.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
   <data name="FidelityTransactions" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\FidelityTransactions.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="SPX_8_Dec_2010_to_10_Dec_2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
-  </data>
-  <data name="SPX_price_24_aug_2010" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>Resources\SPX price 24 aug 2010.xlsx;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
   <data name="BrokerageLink_trades" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>Resources\BrokerageLink_trades.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>

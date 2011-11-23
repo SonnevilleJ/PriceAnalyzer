@@ -106,12 +106,7 @@
     <None Include="Resources\BrokerageLink_trades.csv" />
     <None Include="Resources\BrokerageLink_TransactionPriceRounding.csv" />
     <None Include="Resources\cs-rsi.xls" />
-    <None Include="Resources\DE 1-1-2011 to 3-15-2011 Daily Yahoo.csv" />
-    <None Include="Resources\DE 1-1-2011 to 6-30-2011.csv" />
-    <None Include="Resources\DE Apr-June 2011 Weekly Google.csv" />
     <None Include="Resources\FidelityTransactions.csv" />
-    <None Include="Resources\SPX price 24 aug 2010.xlsx" />
-    <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="TestData.resx">
