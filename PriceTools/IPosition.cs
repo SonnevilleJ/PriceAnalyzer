@@ -14,11 +14,11 @@ namespace Sonneville.PriceTools
         string Ticker { get; }
 
         /// <summary>
-        ///   Gets the average cost of all held shares in this IPosition as of a given date.
+        ///   Calculates the average cost of all held shares in this IPosition as of a given date.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The average cost of all shares held at <paramref name = "settlementDate" />.</returns>
-        decimal GetAverageCost(DateTime settlementDate);
+        decimal CalculateAverageCost(DateTime settlementDate);
 
         /// <summary>
         ///   Buys shares of the ticker held by this IPosition.

@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The average cost of all shares held at <paramref name = "settlementDate" />.</returns>
-        public decimal GetAverageCost(DateTime settlementDate)
+        public decimal CalculateAverageCost(DateTime settlementDate)
         {
             List<ShareTransaction> transactions = EFTransactions
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
