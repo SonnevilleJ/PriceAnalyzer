@@ -1172,6 +1172,52 @@ namespace Sonneville.PriceToolsTest
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
+
+            var expected = 0;
+            for (var dateTime = firstBuyDate; dateTime <= secondSellDate; dateTime = dateTime.AddDays(1))
+            {
+                expected++;
+            }
+            var actual = target.Values.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ValuesMatchTest()
+        {
+            const string ticker = "DE";
+            const decimal commission = 5.00m;   // with $5 commission
+            var target = PositionFactory.CreatePosition(ticker);
+
+            DateTime testDate = new DateTime(2011, 1, 2);
+            DateTime firstBuyDate = testDate.AddDays(1);
+            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double firstSharesBought = 9;
+            const double secondSharesBought = 1;
+
+            target.Buy(firstBuyDate, firstSharesBought, buyPrice, commission);
+            target.Buy(secondBuyDate, secondSharesBought, buyPrice, commission);
+
+            DateTime firstSellDate = secondBuyDate;
+            DateTime secondSellDate = firstSellDate.AddDays(1);
+            const decimal sellPrice = 75.00m;   // $75.00 per share
+            const double sharesSold = 5;        // 5 shares
+
+            target.Sell(firstSellDate, sharesSold, sellPrice, commission);
+            target.Sell(secondSellDate, sharesSold, sellPrice, commission);
+
+            var expected = new Dictionary<DateTime, decimal>()
+                               {
+                                   {firstBuyDate, target.CalculateTotalValue(firstBuyDate)},
+                                   {firstSellDate, target.CalculateTotalValue(firstSellDate)},
+                                   {secondSellDate, target.CalculateTotalValue(secondSellDate)}
+                               };
+            var actual = target.Values;
+            foreach (var key in expected.Keys)
+            {
+                Assert.AreEqual(expected[key], actual[key]);
+            }
         }
     }
 }
