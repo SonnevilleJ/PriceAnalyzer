@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.Services;
@@ -198,6 +197,16 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        ///   Gets the total value of the Portfolio, including any commissions, as of a given date.
+        /// </summary>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The total value of the Portfolio as of the given date.</returns>
+        public decimal CalculateTotalValue(DateTime settlementDate)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
         ///   Gets the raw rate of return for this Portfolio, not accounting for commissions.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
@@ -291,10 +300,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the value of all shares held the IPortfolio as of a given date.
+        ///   Gets the value of all shares held the Portfolio as of a given date.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The value of the shares held in the IPortfolio as of the given date.</returns>
+        /// <returns>The value of the shares held in the Portfolio as of the given date.</returns>
         public decimal CalculateInvestedValue(DateTime settlementDate)
         {
             return Positions.Sum(p => p.CalculateInvestedValue(settlementDate));

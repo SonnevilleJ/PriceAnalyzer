@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Constructs a new Position that will handle transactions for a given ticker symbol.
         /// </summary>
-        /// <param name = "ticker">The ticker symbol that this portfolio will hold. All transactions will use this ticker symbol.</param>
+        /// <param name = "ticker">The ticker symbol that this Position will hold. All transactions will use this ticker symbol.</param>
         internal Position(string ticker)
         {
             Ticker = ticker;
@@ -180,10 +180,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the value of any shares held the Portfolio as of a given date.
+        ///   Gets the value of any shares held the Position as of a given date.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The value of the shares held in the Portfolio as of the given date.</returns>
+        /// <returns>The value of the shares held in the Position as of the given date.</returns>
         public decimal CalculateInvestedValue(DateTime settlementDate)
         {
             var heldShares = (decimal) GetHeldShares(settlementDate);
@@ -193,7 +193,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IMeasurableSecurityBasket.
+        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
         /// </summary>
         public IList<ITransaction> Transactions
         {
@@ -201,10 +201,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the value of the IPortfolio as of a given date, excluding all commissions.
+        ///   Gets the value of the Position as of a given date, excluding all commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The value of the IPortfolio as of the given date.</returns>
+        /// <returns>The value of the Position as of the given date.</returns>
         public decimal CalculateValue(DateTime settlementDate)
         {
             decimal proceeds = CalculateProceeds(settlementDate); // positive proceeds = gain, negative proceeds = loss
@@ -220,6 +220,16 @@ namespace Sonneville.PriceTools
                 costOfUnsoldShares = totalCosts*(decimal) (heldShares/totalShares);
             }
             return proceeds + costOfUnsoldShares;
+        }
+
+        /// <summary>
+        ///   Gets the total value of the Position, including any commissions, as of a given date.
+        /// </summary>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The total value of the Position as of the given date.</returns>
+        public decimal CalculateTotalValue(DateTime settlementDate)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
