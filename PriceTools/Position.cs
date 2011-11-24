@@ -229,7 +229,7 @@ namespace Sonneville.PriceTools
         /// <returns>The total value of the Position as of the given date.</returns>
         public decimal CalculateTotalValue(DateTime settlementDate)
         {
-            throw new NotImplementedException();
+            return CalculateValue(settlementDate) - CalculateCommissions(settlementDate);
         }
 
         /// <summary>

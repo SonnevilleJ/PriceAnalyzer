@@ -37,7 +37,7 @@ namespace Sonneville.PriceToolsTest
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
             target.Sell(cDate, cShares, cPrice, cCommission);
 
-            // No longer hold these shares, so CalculateValue should return total profit (or negative loss) minus any commissions.
+            // No longer hold these shares, so CalculateValue should return total value without any commissions.
             const decimal expected = 550.00m;   // sold all shares for $550.00
             decimal actual = target.CalculateValue(cDate);
             Assert.AreEqual(expected, actual);
@@ -61,14 +61,62 @@ namespace Sonneville.PriceToolsTest
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
             target.Sell(cDate, cShares, cPrice, cCommission);
 
-            // No longer hold these shares, so CalculateValue should return total profit (or negative loss) minus any commissions.
-            const decimal expected = 450.00m;   // sold all shares for $550.00
+            // No longer hold these shares, so CalculateValue should return total value without any commissions.
+            const decimal expected = 450.00m;   // sold all shares for $450.00
             decimal actual = target.CalculateValue(cDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void IndexerReturnsGetValue()
+        public void CalculateTotalValueReturnsCorrectWithCommissionsAfterGain()
+        {
+            const string ticker = "DE";
+            IPosition target = PositionFactory.CreatePosition(ticker);
+
+            DateTime oDate = new DateTime(2000, 1, 1);
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
+            const double oShares = 5;           // bought 5 shares
+            const decimal oCommission = 7.95m;  // bought with $7.95 commission
+            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            DateTime cDate = new DateTime(2001, 1, 1);
+            const decimal cPrice = 110.00m;     // sold at $110.00 per share
+            const double cShares = 5;           // sold 5 shares
+            const decimal cCommission = 7.95m;  // sold with $7.95 commission
+            target.Sell(cDate, cShares, cPrice, cCommission);
+
+            // No longer hold these shares, so CalculateTotalValue should return total value minus any commissions.
+            const decimal expected = 534.10m;   // sold all shares for $550.00
+            decimal actual = target.CalculateTotalValue(cDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateTotalValueReturnsCorrectWithCommissionsAfterLoss()
+        {
+            const string ticker = "DE";
+            IPosition target = PositionFactory.CreatePosition(ticker);
+
+            DateTime oDate = new DateTime(2000, 1, 1);
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
+            const double oShares = 5;           // bought 5 shares
+            const decimal oCommission = 7.95m;  // bought with $7.95 commission
+            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            DateTime cDate = new DateTime(2001, 1, 1);
+            const decimal cPrice = 90.00m;      // sold at $90.00 per share - $10 per share loss
+            const double cShares = 5;           // sold 5 shares
+            const decimal cCommission = 7.95m;  // sold with $7.95 commission
+            target.Sell(cDate, cShares, cPrice, cCommission);
+
+            // No longer hold these shares, so CalculateTotalValue should return total value minus any commissions.
+            const decimal expected = 434.10m;   // sold all shares for $450.00
+            decimal actual = target.CalculateTotalValue(cDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void IndexerReturnsCalculateValue()
         {
             const string ticker = "DE";
             IPosition target = PositionFactory.CreatePosition(ticker);
@@ -92,7 +140,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void GetInvestedValueTestBuy()
+        public void CalculateInvestedValueTestBuy()
         {
             Settings.CanConnectToInternet = true;
 
@@ -114,7 +162,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void GetInvestedValueTestSellHalf()
+        public void CalculateInvestedValueTestSellHalf()
         {
             Settings.CanConnectToInternet = true;
 
@@ -138,7 +186,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void GetInvestedValueTestSellAll()
+        public void CalculateInvestedValueTestSellAll()
         {
             const string ticker = "DE";
             IPosition target = PositionFactory.CreatePosition(ticker);
@@ -195,7 +243,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void GetRawReturnWithoutProceedsTest()
+        public void CalculateRawReturnWithoutProceedsTest()
         {
             const string ticker = "DE";
             IPosition target = PositionFactory.CreatePosition(ticker);
@@ -212,7 +260,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void GetTotalReturnTest()
+        public void CalculateTotalReturnTest()
         {
             const string ticker = "DE";
             IPosition target = PositionFactory.CreatePosition(ticker);
@@ -232,7 +280,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void GetTotalReturnTest2()
+        public void CalculateTotalReturnTest2()
         {
             const string ticker = "DE";
             IPosition target = PositionFactory.CreatePosition(ticker);
@@ -252,7 +300,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void GetTotalReturnWithoutProceedsTest()
+        public void CalculateTotalReturnWithoutProceedsTest()
         {
             const string ticker = "DE";
             IPosition target = PositionFactory.CreatePosition(ticker);
@@ -269,7 +317,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void GetAverageAnnualReturnTest()
+        public void CalculateAverageAnnualReturnTest()
         {
             const string ticker = "DE";
             IPosition target = PositionFactory.CreatePosition(ticker);
@@ -294,7 +342,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void GetAverageAnnualReturnWithoutProceedsTest()
+        public void CalculateAverageAnnualReturnWithoutProceedsTest()
         {
             const string ticker = "DE";
             IPosition target = PositionFactory.CreatePosition(ticker);
