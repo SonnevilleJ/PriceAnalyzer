@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public virtual DateTime Head
         {
-            get { return TimeSeries.Values.First().Key; }
+            get { return TimeSeries.Values.ToArray()[Lookback - 1].Key; }
         }
 
         /// <summary>
@@ -146,9 +146,9 @@ namespace Sonneville.PriceTools
         public virtual void CalculateAll()
         {
             Reset();
-            foreach (var pricePeriod in TimeSeries.Values)
+            foreach (var pricePeriod in IndexedTimeSeriesValues)
             {
-                CalculatePeriod(pricePeriod.Key);
+                Calculate(pricePeriod.Key);
             }
         }
 
@@ -167,8 +167,8 @@ namespace Sonneville.PriceTools
         {
             IndexedTimeSeriesValues = new Dictionary<int, decimal>();
 
-            var array = Values.ToArray();
-            for (var i = 0; i < Values.Count; i++)
+            var array = TimeSeries.Values.ToArray();
+            for (var i = 0; i < array.Length; i++)
             {
                 IndexedTimeSeriesValues.Add(i, array[i].Value);
             }
@@ -192,8 +192,6 @@ namespace Sonneville.PriceTools
             var periods = values.Where(kvp => kvp.Key <= dateTime);
             if (periods.Count() < 1)
                 throw new ArgumentOutOfRangeException(String.Format("The underlying TimeSeries does not have a value for DateTime: {0}.", dateTime));
-            if (periods.Count() > 1)
-                throw new InvalidDataException(String.Format("The PricePeriod data contains more than one period for the same DateTime: {0}", dateTime));
             return values.IndexOf(periods.Last());
         }
 
