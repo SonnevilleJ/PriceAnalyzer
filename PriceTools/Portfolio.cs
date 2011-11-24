@@ -186,14 +186,16 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the total value of this Portfolio.
+        ///   Gets the value of this Portfolio, excluding any commissions, as of a given date..
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal CalculateValue(DateTime settlementDate)
         {
-            var cash = GetAvailableCash(settlementDate);
-            var invested = Positions.Sum(position => position.CalculateInvestedValue(settlementDate));
-            return cash + invested;
+            var availableCash = GetAvailableCash(settlementDate);
+            var proceeds = Positions.Sum(position => position.CalculateProceeds(settlementDate));
+            var commissionsPaid = Positions.Sum(position => position.CalculateCommissions(settlementDate));
+            var value = Positions.Sum(position => position.CalculateValue(settlementDate));
+            return availableCash - proceeds + commissionsPaid + value;
         }
 
         /// <summary>
@@ -203,7 +205,9 @@ namespace Sonneville.PriceTools
         /// <returns>The total value of the Portfolio as of the given date.</returns>
         public decimal CalculateTotalValue(DateTime settlementDate)
         {
-            throw new NotImplementedException();
+            var cash = GetAvailableCash(settlementDate);
+            var invested = Positions.Sum(position => position.CalculateInvestedValue(settlementDate));
+            return cash + invested;
         }
 
         /// <summary>

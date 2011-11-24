@@ -91,7 +91,7 @@ namespace Sonneville.PriceToolsTest
                 Assert.AreEqual(expectedAvailableCash, availableCash);
 
                 const decimal expectedValue = 14293.81547m;
-                var actualValue = portfolio.CalculateValue(settlementDate);
+                var actualValue = portfolio.CalculateTotalValue(settlementDate);
                 Assert.AreEqual(expectedValue, actualValue);
             }
         }

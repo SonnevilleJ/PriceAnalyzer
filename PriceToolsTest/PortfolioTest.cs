@@ -221,6 +221,32 @@ namespace Sonneville.PriceToolsTest
             const decimal sellPrice = 75.00m;
             const int shares = 5;
             const decimal commission = 7.95m;
+            const decimal buyValue = (shares*buyPrice);
+            const decimal sellValue = (shares*sellPrice);
+
+            target.AddTransaction(new Buy {Ticker = ticker, SettlementDate = buyDate, Shares = shares, Price = buyPrice, Commission = commission});
+            target.AddTransaction(new Sell {Ticker = ticker, SettlementDate = sellDate, Shares = shares, Price = sellPrice, Commission = commission});
+
+            const decimal expected = amount - buyValue + sellValue;
+            decimal actual = target.CalculateValue(calculateDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateTotalValueWithClosedPosition()
+        {
+            DateTime dateTime = new DateTime(2011, 11, 21);
+            const decimal amount = 10000m;
+            IPortfolio target = new Portfolio(dateTime, amount);
+
+            var buyDate = dateTime.AddDays(1);
+            var sellDate = buyDate.AddDays(1);
+            var calculateDate = sellDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal buyPrice = 50.00m;
+            const decimal sellPrice = 75.00m;
+            const int shares = 5;
+            const decimal commission = 7.95m;
             const decimal buyValue = (shares*buyPrice) + commission;
             const decimal sellValue = (shares*sellPrice) - commission;
 
@@ -228,7 +254,7 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(new Sell {Ticker = ticker, SettlementDate = sellDate, Shares = shares, Price = sellPrice, Commission = commission});
 
             const decimal expected = amount - buyValue + sellValue;
-            decimal actual = target.CalculateValue(calculateDate);
+            decimal actual = target.CalculateTotalValue(calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -911,7 +937,7 @@ namespace Sonneville.PriceToolsTest
             // total value should be = 10,000 - 100.00 - 5,000 + 168.68 = 5068.68
             
             const decimal expectedValue = 5068.68m;
-            decimal actualValue = target.CalculateValue(buyDate);
+            decimal actualValue = target.CalculateTotalValue(buyDate);
             Assert.AreEqual(expectedValue, actualValue);
         }
 

@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools
         IList<ITransaction> Transactions { get; }
 
         /// <summary>
-        ///   Gets the value of the IMeasurableSecurityBasket as of a given date.
+        ///   Gets the value of the IMeasurableSecurityBasket, excluding any commissions, as of a given date.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the IMeasurableSecurityBasket as of the given date.</returns>

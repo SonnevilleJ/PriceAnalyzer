@@ -201,7 +201,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the value of the Position as of a given date, excluding all commissions.
+        ///   Gets the value of the Position, excluding all commissions, as of a given date.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the Position as of the given date.</returns>
