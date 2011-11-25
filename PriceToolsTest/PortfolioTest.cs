@@ -1413,5 +1413,88 @@ namespace Sonneville.PriceToolsTest
                 Settings.SetDefaultSettings();
             }
         }
+
+        [TestMethod]
+        public void ValuesCountTest()
+        {
+            Settings.CanConnectToInternet = true;
+
+            const decimal commission = 5.00m;   // with $5 commission
+            var portfolio = new Portfolio();
+
+            DateTime testDate = new DateTime(2011, 1, 2);
+            DateTime deereBuyDate = testDate.AddDays(1);
+            DateTime ibmBuyDate = deereBuyDate.AddDays(1);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double deereShares = 5;
+            const double ibmShares = 5;
+
+            DateTime deereSellDate = ibmBuyDate;
+            DateTime ibmSellDate = deereSellDate.AddDays(1);
+            const decimal sellPrice = 75.00m;   // $75.00 per share
+
+            var deereBuy = new Buy { Ticker = "DE", SettlementDate = deereBuyDate, Shares = deereShares, Price = buyPrice, Commission = commission };
+            var deereSell = new Sell { Ticker = "DE", SettlementDate = deereSellDate, Shares = deereShares, Price = buyPrice, Commission = commission };
+            var ibmBuy = new Buy { Ticker = "IBM", SettlementDate = ibmBuyDate, Shares = ibmShares, Price = sellPrice, Commission = commission };
+            var ibmSell = new Sell { Ticker = "IBM", SettlementDate = ibmSellDate, Shares = ibmShares, Price = sellPrice, Commission = commission };
+
+            portfolio.Deposit(testDate, 10000.00m);
+            portfolio.AddTransaction(deereBuy);
+            portfolio.AddTransaction(deereSell);
+            portfolio.AddTransaction(ibmBuy);
+            portfolio.AddTransaction(ibmSell);
+
+            var expected = 0;
+            for (var dateTime = testDate; dateTime <= portfolio.Tail; dateTime = dateTime.AddDays(1))
+            {
+                expected++;
+            }
+            var actual = portfolio.Values.Count;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ValuesMatchTest()
+        {
+            Settings.CanConnectToInternet = true;
+
+            const decimal commission = 5.00m;   // with $5 commission
+            var portfolio = new Portfolio();
+
+            DateTime testDate = new DateTime(2011, 1, 2);
+            DateTime deereBuyDate = testDate.AddDays(1);
+            DateTime ibmBuyDate = deereBuyDate.AddDays(1);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double deereShares = 5;
+            const double ibmShares = 5;
+
+            DateTime deereSellDate = ibmBuyDate;
+            DateTime ibmSellDate = deereSellDate.AddDays(1);
+            const decimal sellPrice = 75.00m;   // $75.00 per share
+
+            var deereBuy = new Buy {Ticker = "DE", SettlementDate = deereBuyDate, Shares = deereShares, Price = buyPrice, Commission = commission};
+            var deereSell = new Sell { Ticker = "DE", SettlementDate = deereSellDate, Shares = deereShares, Price = buyPrice, Commission = commission };
+            var ibmBuy = new Buy { Ticker = "IBM", SettlementDate = ibmBuyDate, Shares = ibmShares, Price = sellPrice, Commission = commission };
+            var ibmSell = new Sell { Ticker = "IBM", SettlementDate = ibmSellDate, Shares = ibmShares, Price = sellPrice, Commission = commission };
+
+            portfolio.Deposit(testDate, 10000.00m);
+            portfolio.AddTransaction(deereBuy);
+            portfolio.AddTransaction(deereSell);
+            portfolio.AddTransaction(ibmBuy);
+            portfolio.AddTransaction(ibmSell);
+
+            var expected = new Dictionary<DateTime, decimal>
+                               {
+                                   {testDate, portfolio.CalculateTotalValue(testDate)},
+                                   {deereBuyDate, portfolio.CalculateTotalValue(deereBuyDate)},
+                                   {deereSellDate, portfolio.CalculateTotalValue(deereSellDate)},
+                                   {ibmSellDate, portfolio.CalculateTotalValue(ibmSellDate)}
+                               };
+            var actual = portfolio.Values;
+            foreach (var key in expected.Keys)
+            {
+                Assert.AreEqual(expected[key], actual[key]);
+            }
+        }
     }
 }

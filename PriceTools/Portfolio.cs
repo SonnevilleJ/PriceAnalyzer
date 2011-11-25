@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceTools
@@ -154,7 +155,15 @@ namespace Sonneville.PriceTools
         /// </summary>
         public IDictionary<DateTime, decimal> Values
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                var results = new Dictionary<DateTime, decimal>();
+                for (var dateTime = Head.GetMostRecentOpen(); dateTime <= Tail; dateTime = dateTime.Add(new TimeSpan((long)Resolution)))
+                {
+                    results.Add(dateTime, CalculateTotalValue(dateTime));
+                }
+                return results;
+            }
         }
 
         /// <summary>
