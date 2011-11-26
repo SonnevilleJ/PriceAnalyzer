@@ -103,7 +103,7 @@ namespace Sonneville.PriceTools.Services
 
         private void Parse(TextReader stringReader)
         {
-            using (CsvReader reader = new CsvReader(stringReader, true))
+            using (var reader = new CsvReader(stringReader, true))
             {
                 ParseData(reader);
             }
@@ -118,11 +118,11 @@ namespace Sonneville.PriceTools.Services
 
         private IDictionary<PriceColumn, int> MapHeaders(CsvReader reader)
         {
-            string[] headers = reader.GetFieldHeaders();
+            var headers = reader.GetFieldHeaders();
             var dictionary = new Dictionary<PriceColumn, int>();
-            for (int i = 0; i < headers.Length; i++)
+            for (var i = 0; i < headers.Length; i++)
             {
-                PriceColumn column = ParseColumnHeader(headers[i]);
+                var column = ParseColumnHeader(headers[i]);
                 if (column != PriceColumn.None)
                 {
                     dictionary.Add(column, i);
@@ -133,16 +133,16 @@ namespace Sonneville.PriceTools.Services
 
         private IList<BasicPeriod> StagePeriods(CsvReader reader, IDictionary<PriceColumn, int> map)
         {
-            IList<BasicPeriod> stagedPeriods = new List<BasicPeriod>();
+            var stagedPeriods = new List<BasicPeriod>();
 
             while (reader.ReadNextRecord())
             {
-                DateTime date = ParseDateColumn(reader[map[PriceColumn.Date]]);
-                decimal? open = ParsePriceColumn(reader[map[PriceColumn.Open]]);
-                decimal? high = ParsePriceColumn(reader[map[PriceColumn.High]]);
-                decimal? low = ParsePriceColumn(reader[map[PriceColumn.Low]]);
-                decimal? close = ParsePriceColumn(reader[map[PriceColumn.Close]]);
-                long? volume = ParseVolumeColumn(reader[map[PriceColumn.Volume]]);
+                var date = ParseDateColumn(reader[map[PriceColumn.Date]]);
+                var open = ParsePriceColumn(reader[map[PriceColumn.Open]]);
+                var high = ParsePriceColumn(reader[map[PriceColumn.High]]);
+                var low = ParsePriceColumn(reader[map[PriceColumn.Low]]);
+                var close = ParsePriceColumn(reader[map[PriceColumn.Close]]);
+                var volume = ParseVolumeColumn(reader[map[PriceColumn.Volume]]);
 
                 if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period);
                 stagedPeriods.Add(new BasicPeriod {Date = date, Open = open, High = high, Low = low, Close = close.Value, Volume = volume});
@@ -158,7 +158,7 @@ namespace Sonneville.PriceTools.Services
             var resolution = DetermineResolution(stagedPeriods);
             var priceSeries = new PriceSeries(resolution);
 
-            for (int i = 0; i < stagedPeriods.Count; i++)
+            for (var i = 0; i < stagedPeriods.Count; i++)
             {
                 var stagedPeriod = stagedPeriods[i];
                 var head = i == 0 && seriesHead.HasValue ? seriesHead.Value.GetCurrentOrFollowingTradingDay() : GetHead(stagedPeriod.Date, resolution);
@@ -199,13 +199,13 @@ namespace Sonneville.PriceTools.Services
         {
             if (periods.Count >= 3)
             {
-                DateTime time1 = periods[0].Date;
-                DateTime time2 = periods[1].Date;
+                var time1 = periods[0].Date;
+                var time2 = periods[1].Date;
 
-                for (int i = 2; i < periods.Count; i++)
+                for (var i = 2; i < periods.Count; i++)
                 {
-                    TimeSpan duration = time1 - time2;
-                    DateTime time3 = periods[i].Date;
+                    var duration = time1 - time2;
+                    var time3 = periods[i].Date;
                     if (Math.Abs((time2 - time3).Ticks) == Math.Abs(duration.Ticks))
                     {
                         return SetResolution(duration);
@@ -298,7 +298,7 @@ namespace Sonneville.PriceTools.Services
         /// <returns>The parsed <see cref="DateTime"/>.</returns>
         protected virtual DateTime ParseDateColumn(string text)
         {
-            string result = text.Trim();
+            var result = text.Trim();
             if (string.IsNullOrWhiteSpace(result))
             {
                 throw new ArgumentNullException("text", Strings.ParseError_Parsed_date_was_returned_as_null_or_whitespace);
@@ -313,7 +313,7 @@ namespace Sonneville.PriceTools.Services
         /// <returns>The parsed per-share price.</returns>
         protected virtual decimal? ParsePriceColumn(string text)
         {
-            string result = text.Trim();
+            var result = text.Trim();
             return string.IsNullOrWhiteSpace(result)
                        ? (decimal?) null
                        : Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture));
@@ -326,7 +326,7 @@ namespace Sonneville.PriceTools.Services
         /// <returns>The parsed per-share price.</returns>
         protected virtual long? ParseVolumeColumn(string text)
         {
-            string result = text.Trim();
+            var result = text.Trim();
             return string.IsNullOrWhiteSpace(result)
                        ? (long?) null
                        : Math.Abs(long.Parse(text.Trim(), CultureInfo.InvariantCulture));

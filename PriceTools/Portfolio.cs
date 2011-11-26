@@ -100,7 +100,7 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                DateTime earliest = DateTime.Now;
+                var earliest = DateTime.Now;
                 if (CashAccount.Transactions.Count > 0)
                 {
                     ICashTransaction first = CashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).First();
@@ -128,14 +128,15 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                DateTime latest = DateTime.Now;
+                var latest = DateTime.Now;
                 if (Positions.Count > 0)
                 {
                     latest = Positions.OrderBy(position => position.Head).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last().SettlementDate;
                 }
-                if (CashAccount.Transactions.Count > 0)
+                var cashTransactions = CashAccount.Transactions.Where(transaction=>transaction.SettlementDate < latest);
+                if (cashTransactions.Count() > 0)
                 {
-                    latest = ((ITransaction)CashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).Last()).SettlementDate;
+                    latest = ((ITransaction)cashTransactions.OrderBy(transaction => transaction.SettlementDate).Last()).SettlementDate;
                 }
 
                 return latest;
@@ -173,7 +174,7 @@ namespace Sonneville.PriceTools
         /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
-            DateTime end = Tail;
+            var end = Tail;
             if (CalculateValue(settlementDate) != 0)
             {
                 end = settlementDate;
@@ -225,9 +226,9 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal? CalculateRawReturn(DateTime settlementDate)
         {
-            decimal proceeds = CalculateProceeds(settlementDate);
-            decimal costs = CalculateCost(settlementDate);
-            decimal profit = proceeds - costs;
+            var proceeds = CalculateProceeds(settlementDate);
+            var costs = CalculateCost(settlementDate);
+            var profit = proceeds - costs;
             return proceeds != 0
                 ? (profit / costs)
                 : (decimal?)null;
@@ -239,10 +240,10 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal? CalculateTotalReturn(DateTime settlementDate)
         {
-            decimal proceeds = CalculateProceeds(settlementDate);
-            decimal costs = CalculateCost(settlementDate);
-            decimal commissions = CalculateCommissions(settlementDate);
-            decimal profit = proceeds - costs - commissions;
+            var proceeds = CalculateProceeds(settlementDate);
+            var costs = CalculateCost(settlementDate);
+            var commissions = CalculateCommissions(settlementDate);
+            var profit = proceeds - costs - commissions;
             return proceeds != 0
                        ? (profit / costs)
                        : (decimal?)null;
@@ -257,8 +258,8 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal? CalculateAverageAnnualReturn(DateTime settlementDate)
         {
-            decimal time = ((Tail - Head).Days / 365.0m);
-            decimal? totalReturn = CalculateTotalReturn(settlementDate);
+            var time = ((Tail - Head).Days / 365.0m);
+            var totalReturn = CalculateTotalReturn(settlementDate);
 
             return totalReturn / (time);
         }
@@ -300,8 +301,8 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                List<ITransaction> list = new List<ITransaction>();
-                foreach (Position p in Positions)
+                var list = new List<ITransaction>();
+                foreach (var p in Positions)
                 {
                     list.AddRange(p.Transactions);
                 }
@@ -339,7 +340,7 @@ namespace Sonneville.PriceTools
                     Withdraw((Withdrawal)transaction);
                     break;
                 case OrderType.DividendReinvestment:
-                    DividendReinvestment dr = ((DividendReinvestment)transaction);
+                    var dr = ((DividendReinvestment)transaction);
                     if (dr.Ticker == CashTicker)
                     {
                         // DividendReceipt already deposited into cash account,
@@ -352,22 +353,22 @@ namespace Sonneville.PriceTools
                     }
                     break;
                 case OrderType.Buy:
-                    Buy buy = ((Buy)transaction);
+                    var buy = ((Buy)transaction);
                     Withdraw(buy.SettlementDate, buy.TotalValue);
                     AddToPosition(buy);
                     break;
                 case OrderType.SellShort:
-                    SellShort sellShort = ((SellShort)transaction);
+                    var sellShort = ((SellShort)transaction);
                     Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
                     AddToPosition(sellShort);
                     break;
                 case OrderType.Sell:
-                    Sell sell = ((Sell)transaction);
+                    var sell = ((Sell)transaction);
                     AddToPosition(sell);
                     Deposit(sell.SettlementDate, sell.TotalValue);
                     break;
                 case OrderType.BuyToCover:
-                    BuyToCover buyToCover = ((BuyToCover)transaction);
+                    var buyToCover = ((BuyToCover)transaction);
                     AddToPosition(buyToCover);
                     Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
                     break;
@@ -418,7 +419,7 @@ namespace Sonneville.PriceTools
         /// <param name="csvFile">The CSV file containing the transactions to add.</param>
         public void AddTransactionHistory(TransactionHistoryCsvFile csvFile)
         {
-            foreach (ITransaction transaction in csvFile.Transactions)
+            foreach (var transaction in csvFile.Transactions)
             {
                 AddTransaction(transaction);
             }
