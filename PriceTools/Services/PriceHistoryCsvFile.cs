@@ -131,9 +131,9 @@ namespace Sonneville.PriceTools.Services
             return dictionary;
         }
 
-        private IList<BasicPeriod> StagePeriods(CsvReader reader, IDictionary<PriceColumn, int> map)
+        private IList<SingleDatePeriod> StagePeriods(CsvReader reader, IDictionary<PriceColumn, int> map)
         {
-            var stagedPeriods = new List<BasicPeriod>();
+            var stagedPeriods = new List<SingleDatePeriod>();
 
             while (reader.ReadNextRecord())
             {
@@ -145,17 +145,17 @@ namespace Sonneville.PriceTools.Services
                 var volume = ParseVolumeColumn(reader[map[PriceColumn.Volume]]);
 
                 if (close == null) throw new ArgumentNullException("", Strings.ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period);
-                stagedPeriods.Add(new BasicPeriod {Date = date, Open = open, High = high, Low = low, Close = close.Value, Volume = volume});
+                stagedPeriods.Add(new SingleDatePeriod {Date = date, Open = open, High = high, Low = low, Close = close.Value, Volume = volume});
             }
             return stagedPeriods;
         }
 
         #region Static parsing methods
 
-        private static PriceSeries BuildPriceSeries(IList<BasicPeriod> stagedPeriods, DateTime? seriesHead, DateTime? seriesTail)
+        private static PriceSeries BuildPriceSeries(IList<SingleDatePeriod> stagedPeriods, DateTime? seriesHead, DateTime? seriesTail)
         {
             stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
-            var resolution = DetermineResolution(stagedPeriods);
+            var resolution = SetResolution(stagedPeriods);
             var priceSeries = new PriceSeries(resolution);
 
             for (var i = 0; i < stagedPeriods.Count; i++)
@@ -195,7 +195,7 @@ namespace Sonneville.PriceTools.Services
             }
         }
 
-        private static Resolution DetermineResolution(IList<BasicPeriod> periods)
+        private static Resolution SetResolution(IList<SingleDatePeriod> periods)
         {
             if (periods.Count >= 3)
             {
@@ -208,7 +208,7 @@ namespace Sonneville.PriceTools.Services
                     var time3 = periods[i].Date;
                     if (Math.Abs((time2 - time3).Ticks) == Math.Abs(duration.Ticks))
                     {
-                        return SetResolution(duration);
+                        return DetermineResolution(duration);
                     }
                     time1 = time2;
                     time2 = time3;
@@ -217,7 +217,7 @@ namespace Sonneville.PriceTools.Services
             throw new InvalidOperationException(Strings.PriceHistoryCsvFile_DetermineResolution_Unable_to_determine_PriceSeriesResolution_of_data_periods_in_CSV_data_);
         }
 
-        private static Resolution SetResolution(TimeSpan duration)
+        private static Resolution DetermineResolution(TimeSpan duration)
         {
             // ensure positive time, not negative time
             duration = new TimeSpan(Math.Abs(duration.Ticks));
@@ -251,7 +251,7 @@ namespace Sonneville.PriceTools.Services
 
         #endregion
 
-        private struct BasicPeriod
+        private struct SingleDatePeriod
         {
             public DateTime Date;
             public decimal? Open;
