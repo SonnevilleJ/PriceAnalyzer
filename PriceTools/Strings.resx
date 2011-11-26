@@ -122,4 +122,7 @@
 	<data name="PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution">
 		<value xml:space="preserve">Unable to get head using Price Series Resolution: {0}</value>
 	</data>
+	<data name="PriceSeriesProvider_DownloadPricesToCsv_Current_settings_prevent_connection_to_the_Internet_">
+		<value xml:space="preserve">Current settings prevent connection to the Internet.</value>
+	</data>
 </root>

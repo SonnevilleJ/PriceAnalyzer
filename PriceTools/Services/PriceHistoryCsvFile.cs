@@ -201,17 +201,16 @@ namespace Sonneville.PriceTools.Services
             {
                 var time1 = periods[0].Date;
                 var time2 = periods[1].Date;
-
-                for (var i = 2; i < periods.Count; i++)
+                DateTime time3;
+                
+                for (var i = 2; i < periods.Count; i++, time1 = time2, time2 = time3)
                 {
                     var duration = time1 - time2;
-                    var time3 = periods[i].Date;
+                    time3 = periods[i].Date;
                     if (Math.Abs((time2 - time3).Ticks) == Math.Abs(duration.Ticks))
                     {
                         return DetermineResolution(duration);
                     }
-                    time1 = time2;
-                    time2 = time3;
                 }
             }
             throw new InvalidOperationException(Strings.PriceHistoryCsvFile_DetermineResolution_Unable_to_determine_PriceSeriesResolution_of_data_periods_in_CSV_data_);

@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.Services
         /// <returns></returns>
         public PriceHistoryCsvFile GetPriceHistoryCsvFile(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
-            using (Stream stream = DownloadPricesToCsv(ticker, head, tail, resolution))
+            using (var stream = DownloadPricesToCsv(ticker, head, tail, resolution))
             {
                 return CreatePriceHistoryCsvFile(stream, head, tail);
             }
@@ -70,10 +70,12 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A <see cref = "Stream" /> containing the price data in CSV format.</returns>
         private Stream DownloadPricesToCsv(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
+            if (!Settings.CanConnectToInternet) throw new WebException(Strings.PriceSeriesProvider_DownloadPricesToCsv_Current_settings_prevent_connection_to_the_Internet_);
+            
             try
             {
-                string url = FormUrlQuery(ticker, head, tail, resolution);
-                WebClient client = new WebClient {Proxy = {Credentials = CredentialCache.DefaultNetworkCredentials}};
+                var url = FormUrlQuery(ticker, head, tail, resolution);
+                var client = new WebClient {Proxy = {Credentials = CredentialCache.DefaultNetworkCredentials}};
                 return client.OpenRead(url);
             }
             catch(WebException e)
@@ -144,7 +146,7 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A fully formed URL.</returns>
         protected virtual string FormUrlQuery(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
-            StringBuilder builder = new StringBuilder();
+            var builder = new StringBuilder();
             builder.Append(GetUrlBase());
             builder.Append(GetUrlTicker(ticker));
             builder.Append(GetUrlHeadDate(head));
