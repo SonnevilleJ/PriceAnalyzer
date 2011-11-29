@@ -5,7 +5,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceAnalyzer;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.SamplePriceData;
-using Sonneville.PriceTools.Services;
 
 namespace PriceAnalyzerTest
 {
@@ -21,17 +20,15 @@ namespace PriceAnalyzerTest
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            var head = new DateTime(2011, 1, 1);
-            var tail = new DateTime(2011, 6, 30, 23, 59, 59);
-            _priceSeries = new YahooPriceHistoryCsvFile(CsvPriceHistory.DE_1_1_2011_to_6_30_2011, head, tail).PriceSeries;
+            _priceSeries = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
         public void PriceSeriesAnalyzerThrowsExceptionWhenTimeSeriesIsNotPriceSeries()
         {
-            DateTime head = new DateTime(2011, 7, 1);
-            DateTime tail = head;
+            var head = new DateTime(2011, 7, 1);
+            var tail = head;
             const decimal close = 5.0m;
             ITimeSeries period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
 

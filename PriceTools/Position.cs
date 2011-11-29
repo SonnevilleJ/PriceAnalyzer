@@ -346,7 +346,7 @@ namespace Sonneville.PriceTools
             foreach (var sell in SubtractiveTransactions.Where(t => t.SettlementDate <= settlementDate).OrderByDescending(t => t.SettlementDate))
             {
                 // collect shares from most recent buy
-                double sharesToMatch = sell.Shares;
+                var sharesToMatch = sell.Shares;
                 while (sharesToMatch > 0)
                 {
                     // find a matching purchase and record a new holding
@@ -515,7 +515,7 @@ namespace Sonneville.PriceTools
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                throw new ArgumentNullException("value", "Ticker must not be null, empty, or whitespace.");
+                throw new ArgumentNullException("value", Strings.Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_);
             }
         }
     }

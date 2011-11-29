@@ -97,6 +97,15 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ticker must not be null, empty, or whitespace..
+        /// </summary>
+        internal static string Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_ {
+            get {
+                return ResourceManager.GetString("Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Unable to determine PriceSeriesResolution of data periods in CSV data..
         /// </summary>
         internal static string PriceHistoryCsvFile_DetermineResolution_Unable_to_determine_PriceSeriesResolution_of_data_periods_in_CSV_data_ {

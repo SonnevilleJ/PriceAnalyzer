@@ -116,6 +116,11 @@ namespace Sonneville.PriceTools.Extensions
             return GetFollowingClose(date);
         }
 
+        /// <summary>
+        /// Gets the following open of a trading month.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public static DateTime GetFollowingMonthlyOpen(this DateTime date)
         {
             var next = date.AddMonths(1);
@@ -123,6 +128,11 @@ namespace Sonneville.PriceTools.Extensions
             return firstDayOfMonth.GetCurrentOrFollowingTradingDay();
         }
 
+        /// <summary>
+        /// Gets the following close of a trading month.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public static DateTime GetFollowingMonthlyClose(this DateTime date)
         {
             var next = date.AddMonths(1);
@@ -131,6 +141,11 @@ namespace Sonneville.PriceTools.Extensions
             return lastDayOfMonth.GetCurrentOrFollowingTradingDay().GetFollowingClose();
         }
 
+        /// <summary>
+        /// Gets the most recent open of the trading month.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
         public static DateTime GetMostRecentMonthlyOpen(this DateTime date)
         {
             var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);

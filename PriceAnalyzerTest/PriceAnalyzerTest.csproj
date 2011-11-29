@@ -60,11 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestData.resx</DependentUpon>
-    </Compile>
     <Compile Include="AnalyzerTest.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,15 +83,6 @@
       <Project>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</Project>
       <Name>SamplePriceData</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>TestData.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DE 1-1-2011 to 6-30-2011.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

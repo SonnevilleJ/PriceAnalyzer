@@ -128,18 +128,19 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                var latest = DateTime.Now;
+                DateTime? latest = null;
+                IEnumerable<CashTransaction> cashTransactions = CashAccount.Transactions;
                 if (Positions.Count > 0)
                 {
                     latest = Positions.OrderBy(position => position.Head).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last().SettlementDate;
+                    cashTransactions = CashAccount.Transactions.Where(transaction=>transaction.SettlementDate > latest);
                 }
-                var cashTransactions = CashAccount.Transactions.Where(transaction=>transaction.SettlementDate < latest);
                 if (cashTransactions.Count() > 0)
                 {
                     latest = ((ITransaction)cashTransactions.OrderBy(transaction => transaction.SettlementDate).Last()).SettlementDate;
                 }
 
-                return latest;
+                return latest ?? DateTime.Now;
             }
         }
 

@@ -14,9 +14,9 @@ namespace Sonneville.PriceTools.SamplePriceData
             get { return new YahooPriceHistoryCsvFile(new ResourceStream(CsvPriceHistory.DE_1_1_2011_to_6_30_2011)); }
         }
 
-        public static YahooPriceHistoryCsvFile DE_Apr_June_2011_Weekly_Google
+        public static GooglePriceHistoryCsvFile DE_Apr_June_2011_Weekly_Google
         {
-            get { return new YahooPriceHistoryCsvFile(new ResourceStream(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google)); }
+            get { return new GooglePriceHistoryCsvFile(new ResourceStream(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google)); }
         }
 
         public static YahooPriceHistoryCsvFile SPX_8_Dec_2010_to_10_Dec_2010
