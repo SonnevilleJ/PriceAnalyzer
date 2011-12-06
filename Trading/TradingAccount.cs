@@ -27,9 +27,9 @@ namespace Sonneville.PriceTools.Trading
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        public void SubmitOrder(Order order)
+        public void Submit(Order order)
         {
-            var executor = new OrderDelegate(SubmitOrderImpl);
+            var executor = new OrderDelegate(ProcessOrder);
             var result = executor.BeginInvoke(order, OrderFilledCallback, null);
         }
 
@@ -56,6 +56,6 @@ namespace Sonneville.PriceTools.Trading
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        protected abstract void SubmitOrderImpl(Order order);
+        protected abstract void ProcessOrder(Order order);
     }
 }

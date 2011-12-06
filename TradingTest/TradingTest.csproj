@@ -46,9 +46,14 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErroneousSimulatedAccount.cs" />
     <Compile Include="OrderExecutedEventArgsTest.cs" />
     <Compile Include="OrderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SimulatedAccount.cs" />
+    <Compile Include="TradingAccountTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">

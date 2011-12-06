@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Threading;
+using Sonneville.PriceTools;
+using Sonneville.PriceTools.Trading;
 
-namespace Sonneville.PriceTools.Trading
+namespace TradingTest
 {
     /// <summary>
     /// A trading account which simulates the execution of orders.
@@ -9,18 +11,23 @@ namespace Sonneville.PriceTools.Trading
     public class SimulatedAccount : TradingAccount
     {
         /// <summary>
-        /// $5.00 brokerage commission.
+        /// $5.00 brokerage commission for all orders.
         /// </summary>
         private const decimal Commission = 5.00m;
+
+        public static TimeSpan MaxTimeout
+        {
+            get { return new TimeSpan(0, 0, 0, 5); }
+        }
 
         /// <summary>
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        protected override void SubmitOrderImpl(Order order)
+        protected override void ProcessOrder(Order order)
         {
             // simulate a delay in processing - up to 10 seconds
-            Thread.Sleep(new Random().Next(10000));
+            Thread.Sleep(new Random().Next(MaxTimeout.Milliseconds));
 
             var executed = DateTime.Now;
             if (executed <= order.Expiration)
