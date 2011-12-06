@@ -28,6 +28,8 @@
                 <CodeCoverageItem binaryFile="PriceChartTools\bin\Debug\PriceChartTools.dll" pdbFile="PriceChartTools\bin\Debug\PriceChartTools.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="PriceTools\bin\Debug\PriceTools.dll" pdbFile="PriceTools\bin\Debug\PriceTools.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="PriceAnalyzer\bin\Debug\PriceAnalyzer.dll" pdbFile="PriceAnalyzer\bin\Debug\PriceAnalyzer.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="Trading\bin\Debug\Trading.dll" pdbFile="Trading\bin\Debug\Trading.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="BackTesting\bin\Debug\BackTesting.dll" pdbFile="BackTesting\bin\Debug\BackTesting.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>
