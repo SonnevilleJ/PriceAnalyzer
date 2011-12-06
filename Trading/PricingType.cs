@@ -1,9 +1,8 @@
 ﻿namespace Sonneville.PriceTools.Trading
 {
-    public enum OrderType
+    public enum PricingType
     {
         Market,
-        Limit,
-        StopLoss
+        Limit
     }
 }

@@ -19,29 +19,14 @@ namespace Sonneville.PriceTools.Trading
         #region Signal Events
 
         /// <summary>
-        /// Triggered when a new Buy order is signaled by the TradingStrategy.
+        /// Triggered when a new order is signaled by the TradingStrategy.
         /// </summary>
-        public event EventHandler<OrderInfo> Buy;
-
-        /// <summary>
-        /// Triggered when a new Sell order is signaled by the TradingStrategy.
-        /// </summary>
-        public event EventHandler<OrderInfo> Sell;
-
-        /// <summary>
-        /// Triggered when a new SellShort order is signaled by the TradingStrategy.
-        /// </summary>
-        public event EventHandler<OrderInfo> SellShort;
-
-        /// <summary>
-        /// Triggered when a new BuyToCover order is signaled by the TradingStrategy.
-        /// </summary>
-        public event EventHandler<OrderInfo> BuyToCover;
+        public event EventHandler<Order> SubmitOrder;
 
         /// <summary>
         /// Triggered when the TradingStrategy signals that all open orders should be cancelled.
         /// </summary>
-        public event EventHandler<OrderInfo> CancelAllOrders;
+        public event EventHandler CancelAllOrders;
 
         #endregion
     }

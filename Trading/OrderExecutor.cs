@@ -35,13 +35,20 @@ namespace Sonneville.PriceTools.Trading
             Strategy = strategy;
             Account = account;
 
-            Account.OrderFilled += OrderFilled;
+            Account.OrderFilled += OnOrderFilled;
 
-            Strategy.CancelAllOrders += CancelAllOrders;
-            Strategy.Buy += Buy;
-            Strategy.SellShort += SellShort;
-            Strategy.Sell += Sell;
-            Strategy.BuyToCover += BuyToCover;
+            Strategy.CancelAllOrders += OnAllOrdersCancelled;
+            Strategy.SubmitOrder += OnOrderSignaled;
+        }
+
+        /// <summary>
+        /// Handles a signal to submit an order.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnOrderSignaled(object sender, Order e)
+        {
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -49,7 +56,7 @@ namespace Sonneville.PriceTools.Trading
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void OrderFilled(object sender, OrderInfo e)
+        private void OnOrderFilled(object sender, OrderExecutedInfo e)
         {
             throw new NotImplementedException();
         }
@@ -59,47 +66,7 @@ namespace Sonneville.PriceTools.Trading
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        void CancelAllOrders(object sender, OrderInfo e)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Handles an order to buy shares, thereby opening a long position.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void Buy(object sender, OrderInfo e)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Handles an order to sell shares, thereby closing a long position.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void Sell(object sender, OrderInfo e)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Handles an order to sell shares short, thereby opening a short position.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void SellShort(object sender, OrderInfo e)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Handles an order to buy shares to cover a short position, thereby closing a short position.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        void BuyToCover(object sender, OrderInfo e)
+        private void OnAllOrdersCancelled(object sender, EventArgs e)
         {
             throw new NotImplementedException();
         }

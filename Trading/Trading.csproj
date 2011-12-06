@@ -33,6 +33,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -40,10 +41,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ErroneousSimulatedAccount.cs" />
+    <Compile Include="OrderExecutedInfo.cs" />
+    <Compile Include="SimulatedAccount.cs" />
     <Compile Include="TradingAccount.cs" />
     <Compile Include="OrderExecutor.cs" />
-    <Compile Include="OrderInfo.cs" />
-    <Compile Include="OrderType.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="PricingType.cs" />
     <Compile Include="TradingStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Runtime.Remoting.Messaging;
 
 namespace Sonneville.PriceTools.Trading
 {
@@ -8,44 +10,52 @@ namespace Sonneville.PriceTools.Trading
     /// </summary>
     public abstract class TradingAccount
     {
+        private readonly List<IPosition> _positions;
+        private delegate void OrderDelegate(Order order);
+
+        protected TradingAccount()
+        {
+            _positions = new List<IPosition>();
+        }
+
         /// <summary>
         /// A list of <see cref="IPosition"/>s currently held in this account.
         /// </summary>
-        public ReadOnlyCollection<IPosition> Positions { get; private set; }
+        public ReadOnlyCollection<IPosition> Positions { get { return _positions.AsReadOnly(); } }
 
         /// <summary>
-        /// Initiates a market order to buy a security.
+        /// Submits an order for execution by the brokerage.
         /// </summary>
-        /// <param name="ticker">The security to buy.</param>
-        /// <param name="shares">The number of shares to buy.</param>
-        public abstract void Buy(string ticker, double shares);
+        /// <param name="order">The <see cref="Order"/> to execute.</param>
+        public void SubmitOrder(Order order)
+        {
+            var executor = new OrderDelegate(SubmitOrderImpl);
+            var result = executor.BeginInvoke(order, OrderFilledCallback, null);
+        }
 
-        /// <summary>
-        /// Initiates a limit order to buy a security.
-        /// </summary>
-        /// <param name="ticker">The security to buy.</param>
-        /// <param name="shares">The number of shares to buy.</param>
-        /// <param name="limitPrice">The limit price at which to buy.</param>
-        public abstract void Buy(string ticker, double shares, decimal limitPrice);
+        private static void OrderFilledCallback(IAsyncResult result)
+        {
+            var ar = (AsyncResult) result;
+            var del = (OrderDelegate) ar.AsyncDelegate;
 
-        /// <summary>
-        /// Initiates a market order to sell a security.
-        /// </summary>
-        /// <param name="ticker">The security to sell.</param>
-        /// <param name="shares">The number of shares to sell.</param>
-        public abstract void Sell(string ticker, double shares);
-
-        /// <summary>
-        /// Initiates a limit order to sell a security.
-        /// </summary>
-        /// <param name="ticker">The security to sell.</param>
-        /// <param name="shares">The number of shares to sell.</param>
-        /// <param name="limitPrice">The limit price at which to sell.</param>
-        public abstract void Sell(string ticker, double shares, decimal limitPrice);
+            del.EndInvoke(result);
+        }
 
         /// <summary>
         /// Triggered when an order has been filled.
         /// </summary>
-        public event EventHandler<OrderInfo> OrderFilled;
+        public event EventHandler<OrderExecutedInfo> OrderFilled;
+
+        protected void InvokeOrderFilled(OrderExecutedInfo e)
+        {
+            EventHandler<OrderExecutedInfo> handler = OrderFilled;
+            if (handler != null) handler(this, e);
+        }
+
+        /// <summary>
+        /// Submits an order for execution by the brokerage.
+        /// </summary>
+        /// <param name="order">The <see cref="Order"/> to execute.</param>
+        protected abstract void SubmitOrderImpl(Order order);
     }
 }
