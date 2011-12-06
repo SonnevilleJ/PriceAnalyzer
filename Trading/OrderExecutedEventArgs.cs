@@ -2,19 +2,20 @@
 
 namespace Sonneville.PriceTools.Trading
 {
-    public sealed class OrderExecutedInfo : EventArgs
+    public sealed class OrderExecutedEventArgs : EventArgs
     {
         /// <summary>
-        /// Constructs a new OrderExecutedInfo event args.
+        /// Constructs a new OrderExecutedEventArgs object.
         /// </summary>
         /// <param name="executed">The DateTime at which the order was executed.</param>
         /// <param name="order">The Order which was executed.</param>
         /// <param name="transaction">The resulting IShareTransaction from the execution of the order.</param>
-        public OrderExecutedInfo(DateTime executed, Order order, IShareTransaction transaction)
+        public OrderExecutedEventArgs(DateTime executed, Order order, IShareTransaction transaction)
         {
             Executed = executed;
             Order = order;
             Transaction = transaction;
+            Validate();
         }
 
         /// <summary>
@@ -25,11 +26,19 @@ namespace Sonneville.PriceTools.Trading
         /// <summary>
         /// The Order which was executed.
         /// </summary>
-        public Order Order { get; set; }
+        public Order Order { get; private set; }
 
         /// <summary>
         /// The resulting IShareTransaction from the execution of the order.
         /// </summary>
         public IShareTransaction Transaction { get; private set; }
+
+        private void Validate()
+        {
+            if (Executed > Order.Expiration)
+            {
+                throw new InvalidOperationException("Execution date must be earlier than or equal to the Order expiration date.");
+            }
+        }
     }
 }

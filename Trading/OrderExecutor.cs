@@ -56,7 +56,7 @@ namespace Sonneville.PriceTools.Trading
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnOrderFilled(object sender, OrderExecutedInfo e)
+        private void OnOrderFilled(object sender, OrderExecutedEventArgs e)
         {
             throw new NotImplementedException();
         }

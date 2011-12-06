@@ -44,11 +44,11 @@ namespace Sonneville.PriceTools.Trading
         /// <summary>
         /// Triggered when an order has been filled.
         /// </summary>
-        public event EventHandler<OrderExecutedInfo> OrderFilled;
+        public event EventHandler<OrderExecutedEventArgs> OrderFilled;
 
-        protected void InvokeOrderFilled(OrderExecutedInfo e)
+        protected void InvokeOrderFilled(OrderExecutedEventArgs e)
         {
-            EventHandler<OrderExecutedInfo> handler = OrderFilled;
+            EventHandler<OrderExecutedEventArgs> handler = OrderFilled;
             if (handler != null) handler(this, e);
         }
 

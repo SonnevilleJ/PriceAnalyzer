@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools.Trading
                 var transaction = TransactionFactory.CreateShareTransaction(executed, order.OrderType, order.Ticker, price, order.Shares, Commission);
 
                 // signal the order has been filled
-                InvokeOrderFilled(new OrderExecutedInfo(executed, order, transaction));
+                InvokeOrderFilled(new OrderExecutedEventArgs(executed, order, transaction));
             }
             else
             {
