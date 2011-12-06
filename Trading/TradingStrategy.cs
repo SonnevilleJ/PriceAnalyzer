@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.Trading
         /// <summary>
         /// Triggered when a new order is signaled by the TradingStrategy.
         /// </summary>
-        public event EventHandler<Order> SubmitOrder;
+        public event EventHandler<OrderExecutedEventArgs> SubmitOrder;
 
         /// <summary>
         /// Triggered when the TradingStrategy signals that all open orders should be cancelled.

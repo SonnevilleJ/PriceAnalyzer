@@ -5,14 +5,9 @@ namespace Sonneville.PriceTools.Trading
     /// <summary>
     /// An order to take a position on a financial security.
     /// </summary>
-    public sealed class Order : EventArgs
+    public sealed class Order
     {
-        public Order(DateTime issued, DateTime expiration, OrderType orderType, string ticker, double shares, decimal price)
-            : this(issued, expiration, orderType, ticker, shares, price, PricingType.Market)
-        {
-        }
-
-        public Order(DateTime issued, DateTime expiration, OrderType orderType, string ticker, double shares, decimal price, PricingType pricingType)
+        public Order(DateTime issued, DateTime expiration, OrderType orderType, string ticker, double shares, decimal price, PricingType pricingType = PricingType.Market)
         {
             Issued = issued;
             Expiration = expiration;
@@ -21,6 +16,8 @@ namespace Sonneville.PriceTools.Trading
             Price = price;
             PricingType = pricingType;
             Shares = shares;
+
+            Validate();
         }
 
         /// <summary>
@@ -57,5 +54,17 @@ namespace Sonneville.PriceTools.Trading
         /// The number of shares for this order.
         /// </summary>
         public double Shares { get; private set; }
+
+        private void Validate()
+        {
+            if (Price < 0)
+            {
+                throw new InvalidOperationException("Price must be a positive number.");
+            }
+            if (Shares < 0)
+            {
+                throw new InvalidOperationException("Shares must be a positive number.");
+            }
+        }
     }
 }

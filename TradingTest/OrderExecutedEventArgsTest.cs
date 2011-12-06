@@ -16,11 +16,10 @@ namespace TradingTest
             const string ticker = "DE";
             const double shares = 5.0;
             const decimal price = 100.00m;
-            const PricingType pricingType = PricingType.Market;
             const decimal commission = 5.00m;
 
             executed = issued.AddSeconds(3);
-            order = new Order(issued, expired, orderType, ticker, shares, price, pricingType);
+            order = new Order(issued, expired, orderType, ticker, shares, price);
             transaction = TransactionFactory.CreateShareTransaction(executed, orderType, ticker, price, shares, commission);
             target = new OrderExecutedEventArgs(executed, order, transaction);
         }
@@ -77,11 +76,10 @@ namespace TradingTest
             const string ticker = "DE";
             const double shares = 5.0;
             const decimal price = 100.00m;
-            const PricingType pricingType = PricingType.Market;
             const decimal commission = 5.00m;
 
             var executed = expired.AddTicks(1);
-            var order = new Order(issued, expired, orderType, ticker, shares, price, pricingType);
+            var order = new Order(issued, expired, orderType, ticker, shares, price);
             var transaction = TransactionFactory.CreateShareTransaction(executed, orderType, ticker, price, shares, commission);
             
             new OrderExecutedEventArgs(executed, order, transaction);

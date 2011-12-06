@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.Trading
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnOrderSignaled(object sender, Order e)
+        private void OnOrderSignaled(object sender, OrderExecutedEventArgs e)
         {
             throw new NotImplementedException();
         }
@@ -57,6 +57,16 @@ namespace Sonneville.PriceTools.Trading
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void OnOrderFilled(object sender, OrderExecutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Receives notification that an order has expired.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnOrderExpired(object sender, OrderExecutedEventArgs e)
         {
             throw new NotImplementedException();
         }
