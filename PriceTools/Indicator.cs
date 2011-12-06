@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools
         #region Accessors
 
         /// <summary>
-        /// Gets the first DateTime in the ITimeSeries.
+        /// Gets the first DateTime in the Indicator.
         /// </summary>
         public virtual DateTime Head
         {
@@ -45,7 +45,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the last DateTime in the ITimeSeries.
+        /// Gets the last DateTime in the Indicator.
         /// </summary>
         public virtual DateTime Tail
         {
@@ -56,6 +56,9 @@ namespace Sonneville.PriceTools
 
         #region Protected Members
 
+        /// <summary>
+        /// The indexed values from <see cref="TimeSeries"/>.
+        /// </summary>
         protected IDictionary<int, decimal> IndexedTimeSeriesValues { get; private set; }
 
         /// <summary>
@@ -193,6 +196,11 @@ namespace Sonneville.PriceTools
             return values.IndexOf(periods.Last());
         }
 
+        /// <summary>
+        /// Converts the index of the corresponding <see cref="IPricePeriod"/> to a DateTime.
+        /// </summary>
+        /// <param name="index">The index to convert.</param>
+        /// <returns>The DateTime of the corresponding <paramref name="index"/>.</returns>
         protected DateTime ConvertIndexToDateTime(int index)
         {
             var values = TimeSeries.Values.ToArray();

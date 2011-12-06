@@ -37,6 +37,9 @@ namespace Sonneville.PriceTools
 
         #region Overrides of Indicator
 
+        /// <summary>
+        /// Gets the first DateTime in the Indicator.
+        /// </summary>
         public override DateTime Head
         {
             get { return ConvertIndexToDateTime(Lookback); }
