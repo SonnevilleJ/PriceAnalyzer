@@ -6,3 +6,5 @@ TestResults\*
 _ReSharper.*
 *.ReSharper.*
 *.user
+access.log
+error.log
