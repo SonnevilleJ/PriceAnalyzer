@@ -12,18 +12,11 @@ namespace Sonneville.PriceTools.Trading
     {
         #region Private Members
 
-        private readonly List<IPosition> _positions;
-
-        private delegate void ProcessDelegate(Order order);
+        private readonly List<IPosition> _positions = new List<IPosition>();
 
         private readonly IDictionary<Order, Thread> _inProcess = new Dictionary<Order, Thread>();
 
         #endregion
-
-        protected TradingAccount()
-        {
-            _positions = new List<IPosition>();
-        }
 
         /// <summary>
         /// A list of <see cref="IPosition"/>s currently held in this account.
