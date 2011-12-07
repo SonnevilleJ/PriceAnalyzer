@@ -54,7 +54,6 @@ namespace Sonneville.PriceTools.Trading
             {
                 value.Abort();
                 var cancelled = DateTime.Now;
-                _inProcess.Remove(order);
                 InvokeOrderCancelled(new OrderCancelledEventArgs(cancelled, order));
             }
         }
@@ -76,20 +75,20 @@ namespace Sonneville.PriceTools.Trading
 
         protected void InvokeOrderFilled(OrderExecutedEventArgs e)
         {
-            EventHandler<OrderExecutedEventArgs> handler = OrderFilled;
-            if (handler != null) handler(this, e);
+            if (OrderFilled != null) OrderFilled(this, e);
+            _inProcess.Remove(e.Order);
         }
 
-        public void InvokeOrderExpired(OrderExpiredEventArgs e)
+        protected void InvokeOrderExpired(OrderExpiredEventArgs e)
         {
-            EventHandler<OrderExpiredEventArgs> handler = OrderExpired;
-            if (handler != null) handler(this, e);
+            if (OrderExpired != null) OrderExpired(this, e);
+            _inProcess.Remove(e.Order);
         }
 
-        public void InvokeOrderCancelled(OrderCancelledEventArgs e)
+        private void InvokeOrderCancelled(OrderCancelledEventArgs e)
         {
-            EventHandler<OrderCancelledEventArgs> handler = OrderCancelled;
-            if (handler != null) handler(this, e);
+            if (OrderCancelled != null) OrderCancelled(this, e);
+            _inProcess.Remove(e.Order);
         }
     }
 }
