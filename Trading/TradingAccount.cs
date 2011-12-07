@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Runtime.Remoting.Messaging;
 using System.Threading;
 
 namespace Sonneville.PriceTools.Trading
@@ -58,14 +57,6 @@ namespace Sonneville.PriceTools.Trading
                 _inProcess.Remove(order);
                 InvokeOrderCancelled(new OrderCancelledEventArgs(cancelled, order));
             }
-        }
-
-        private static void OrderFilledCallback(IAsyncResult result)
-        {
-            var ar = (AsyncResult) result;
-            var del = (ProcessDelegate) ar.AsyncDelegate;
-
-            del.EndInvoke(result);
         }
 
         /// <summary>
