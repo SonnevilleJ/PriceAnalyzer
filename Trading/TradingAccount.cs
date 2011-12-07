@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Runtime.Remoting.Messaging;
+using System.Threading;
 
 namespace Sonneville.PriceTools.Trading
 {
@@ -10,8 +11,15 @@ namespace Sonneville.PriceTools.Trading
     /// </summary>
     public abstract class TradingAccount
     {
+        #region Private Members
+
         private readonly List<IPosition> _positions;
-        private delegate void OrderDelegate(Order order);
+
+        private delegate void ProcessDelegate(Order order);
+
+        private readonly IDictionary<Order, Thread> _inProcess = new Dictionary<Order, Thread>();
+
+        #endregion
 
         protected TradingAccount()
         {
@@ -29,14 +37,33 @@ namespace Sonneville.PriceTools.Trading
         /// <param name="order">The <see cref="Order"/> to execute.</param>
         public void Submit(Order order)
         {
-            var executor = new OrderDelegate(ProcessOrder);
-            var result = executor.BeginInvoke(order, OrderFilledCallback, null);
+            var thread = new Thread(o => ProcessOrder(order));
+            _inProcess.Add(order, thread);
+            thread.Start();
+        }
+
+        /// <summary>
+        /// Submits an order for execution by the brokerage.
+        /// </summary>
+        /// <param name="order">The <see cref="Order"/> to execute.</param>
+        protected abstract void ProcessOrder(Order order);
+
+        public void TryCancelOrder(Order order)
+        {
+            Thread value;
+            if(_inProcess.TryGetValue(order, out value))
+            {
+                value.Abort();
+                var cancelled = DateTime.Now;
+                _inProcess.Remove(order);
+                InvokeOrderCancelled(new OrderCancelledEventArgs(cancelled, order));
+            }
         }
 
         private static void OrderFilledCallback(IAsyncResult result)
         {
             var ar = (AsyncResult) result;
-            var del = (OrderDelegate) ar.AsyncDelegate;
+            var del = (ProcessDelegate) ar.AsyncDelegate;
 
             del.EndInvoke(result);
         }
@@ -46,16 +73,32 @@ namespace Sonneville.PriceTools.Trading
         /// </summary>
         public event EventHandler<OrderExecutedEventArgs> OrderFilled;
 
+        /// <summary>
+        /// Triggered when an order has expired.
+        /// </summary>
+        public event EventHandler<OrderExpiredEventArgs> OrderExpired;
+
+        /// <summary>
+        /// Triggered when an order has been cancelled.
+        /// </summary>
+        public event EventHandler<OrderCancelledEventArgs> OrderCancelled;
+
         protected void InvokeOrderFilled(OrderExecutedEventArgs e)
         {
             EventHandler<OrderExecutedEventArgs> handler = OrderFilled;
             if (handler != null) handler(this, e);
         }
 
-        /// <summary>
-        /// Submits an order for execution by the brokerage.
-        /// </summary>
-        /// <param name="order">The <see cref="Order"/> to execute.</param>
-        protected abstract void ProcessOrder(Order order);
+        public void InvokeOrderExpired(OrderExpiredEventArgs e)
+        {
+            EventHandler<OrderExpiredEventArgs> handler = OrderExpired;
+            if (handler != null) handler(this, e);
+        }
+
+        public void InvokeOrderCancelled(OrderCancelledEventArgs e)
+        {
+            EventHandler<OrderCancelledEventArgs> handler = OrderCancelled;
+            if (handler != null) handler(this, e);
+        }
     }
 }

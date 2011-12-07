@@ -41,7 +41,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrderCancelledEventArgs.cs" />
     <Compile Include="OrderExecutedEventArgs.cs" />
+    <Compile Include="OrderExpiredEventArgs.cs" />
     <Compile Include="TradingAccount.cs" />
     <Compile Include="OrderExecutor.cs" />
     <Compile Include="Order.cs" />

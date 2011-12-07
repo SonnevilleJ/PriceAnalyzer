@@ -15,7 +15,12 @@ namespace TradingTest
         /// </summary>
         private const decimal Commission = 5.00m;
 
-        public static TimeSpan MaxTimeout
+        internal static TimeSpan MinProcessingTimeSpan
+        {
+            get { return new TimeSpan(0, 0, 0, 1); }
+        }
+
+        internal static TimeSpan MaxProcessingTimeSpan
         {
             get { return new TimeSpan(0, 0, 0, 5); }
         }
@@ -26,8 +31,8 @@ namespace TradingTest
         /// <param name="order">The <see cref="Order"/> to execute.</param>
         protected override void ProcessOrder(Order order)
         {
-            // simulate a delay in processing - up to 10 seconds
-            Thread.Sleep(new Random().Next(MaxTimeout.Milliseconds));
+            // simulate a delay in processing
+            DelayProcessing();
 
             var executed = DateTime.Now;
             if (executed <= order.Expiration)
@@ -41,8 +46,14 @@ namespace TradingTest
             }
             else
             {
-                // todo: InvokeOrderExpired()
+                InvokeOrderExpired(new OrderExpiredEventArgs(order));
             }
+        }
+
+        private static void DelayProcessing()
+        {
+            Thread.Sleep(MinProcessingTimeSpan);
+            Thread.Sleep(new Random().Next((MaxProcessingTimeSpan - MinProcessingTimeSpan).Milliseconds));
         }
     }
 }

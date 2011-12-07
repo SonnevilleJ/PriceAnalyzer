@@ -12,7 +12,9 @@ namespace TradingTest
     [TestClass]
     public class TradingAccountTest
     {
-        private EventHandler<OrderExecutedEventArgs> _eventHandler;
+        private EventHandler<OrderExecutedEventArgs> _filledHandler;
+        private EventHandler<OrderExpiredEventArgs> _expiredHandler;
+        private EventHandler<OrderCancelledEventArgs> _cancelledHandler;
 
         [TestMethod]
         public void EmptyPositionsByDefault()
@@ -23,26 +25,104 @@ namespace TradingTest
         }
 
         [TestMethod]
-        public void BuyFillsOrder()
+        public void OrderFilled()
         {
             TradingAccount target = new SimulatedAccount();
 
             const string ticker = "DE";
-            var eventRaised = false;
-            _eventHandler = (sender, e) => eventRaised = e.Transaction.Ticker == ticker;
+            var filledRaised = false;
+            var expiredRaised = false;
+            var cancelRaised = false;
+            _expiredHandler = (sender, e) => expiredRaised = true;
+            _cancelledHandler = (sender, e) => cancelRaised = true;
+            _filledHandler = (sender, e) => filledRaised = e.Transaction.Ticker == ticker;
             try
             {
-                target.OrderFilled += _eventHandler;
-
-                var order = new Order(DateTime.Now, DateTime.Now.AddDays(1), OrderType.Buy, ticker, 5, 100.00m);
+                target.OrderCancelled += _cancelledHandler;
+                target.OrderFilled += _filledHandler;
+                target.OrderExpired += _expiredHandler;
+                
+                var order = new Order(DateTime.Now, DateTime.Now.Add(SimulatedAccount.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
                 target.Submit(order);
 
-                Thread.Sleep(SimulatedAccount.MaxTimeout);
-                Assert.IsTrue(eventRaised);
+                Thread.Sleep(SimulatedAccount.MaxProcessingTimeSpan);
+
+                Assert.IsTrue(filledRaised);
+                Assert.IsFalse(cancelRaised);
+                Assert.IsFalse(expiredRaised);
             }
             finally
             {
-                target.OrderFilled -= _eventHandler;
+                target.OrderCancelled -= _cancelledHandler;
+                target.OrderFilled -= _filledHandler;
+                target.OrderExpired -= _expiredHandler;
+            }
+        }
+
+        [TestMethod]
+        public void OrderExpired()
+        {
+            TradingAccount target = new SimulatedAccount();
+
+            var expiredRaised = false;
+            var cancelRaised = false;
+            var filledRaised = false;
+            _expiredHandler = (sender, e) => expiredRaised = e.Order.Expiration < DateTime.Now;
+            _cancelledHandler = (sender, e) => cancelRaised = true;
+            _filledHandler = (sender, e) => filledRaised = true;
+            try
+            {
+                target.OrderCancelled += _cancelledHandler;
+                target.OrderFilled += _filledHandler;
+                target.OrderExpired += _expiredHandler;
+
+                var order = new Order(DateTime.Now, DateTime.Now.AddMilliseconds(SimulatedAccount.MinProcessingTimeSpan.Milliseconds / 2.0), OrderType.Buy, "DE", 5, 100.00m);
+                target.Submit(order);
+
+                Thread.Sleep(SimulatedAccount.MaxProcessingTimeSpan);
+                Assert.IsTrue(expiredRaised);
+                Assert.IsFalse(cancelRaised);
+                Assert.IsFalse(filledRaised);
+            }
+            finally
+            {
+                target.OrderCancelled -= _cancelledHandler;
+                target.OrderFilled -= _filledHandler;
+                target.OrderExpired -= _expiredHandler;
+            }
+        }
+
+        [TestMethod]
+        public void OrderCancelled()
+        {
+            TradingAccount target = new SimulatedAccount();
+
+            var cancelRaised = false;
+            var expiredRaised = false;
+            var filledRaised = false;
+            _cancelledHandler = (sender, e) => cancelRaised = true;
+            _filledHandler = (sender, e) => filledRaised = true;
+            _expiredHandler = (sender, e) => expiredRaised = true;
+            try
+            {
+                target.OrderCancelled += _cancelledHandler;
+                target.OrderFilled += _filledHandler;
+                target.OrderExpired += _expiredHandler;
+
+                var order = new Order(DateTime.Now, DateTime.Now.Add(SimulatedAccount.MaxProcessingTimeSpan), OrderType.Buy, "DE", 5, 100.00m);
+                target.Submit(order);
+                target.TryCancelOrder(order);
+
+                Thread.Sleep(SimulatedAccount.MaxProcessingTimeSpan);
+                Assert.IsTrue(cancelRaised);
+                Assert.IsFalse(filledRaised);
+                Assert.IsFalse(expiredRaised);
+            }
+            finally
+            {
+                target.OrderCancelled -= _cancelledHandler;
+                target.OrderFilled -= _filledHandler;
+                target.OrderExpired -= _expiredHandler;
             }
         }
     }

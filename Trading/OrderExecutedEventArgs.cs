@@ -2,12 +2,15 @@
 
 namespace Sonneville.PriceTools.Trading
 {
+    /// <summary>
+    /// Contains event data for an Order excution.
+    /// </summary>
     public sealed class OrderExecutedEventArgs : EventArgs
     {
         /// <summary>
         /// Constructs a new OrderExecutedEventArgs object.
         /// </summary>
-        /// <param name="executed">The DateTime at which the order was executed.</param>
+        /// <param name="executed">The DateTime at which the Order was executed.</param>
         /// <param name="order">The Order which was executed.</param>
         /// <param name="transaction">The resulting IShareTransaction from the execution of the order.</param>
         public OrderExecutedEventArgs(DateTime executed, Order order, IShareTransaction transaction)
