@@ -67,7 +67,7 @@ namespace TradingTest
             var expiredRaised = false;
             var cancelRaised = false;
             var filledRaised = false;
-            _expiredHandler = (sender, e) => expiredRaised = e.Order.Expiration < DateTime.Now;
+            _expiredHandler = (sender, e) => expiredRaised = (e.Expired < DateTime.Now) && (e.Order.Expiration == e.Expired);
             _cancelledHandler = (sender, e) => cancelRaised = true;
             _filledHandler = (sender, e) => filledRaised = true;
             try
