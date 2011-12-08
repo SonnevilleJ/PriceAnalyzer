@@ -68,19 +68,22 @@ namespace Sonneville.PriceTools.Trading
 
         protected void InvokeOrderFilled(OrderExecutedEventArgs e)
         {
-            if (OrderFilled != null) OrderFilled(this, e);
+            var handler = OrderFilled;
+            if (handler != null) handler(this, e);
             _inProcess.Remove(e.Order);
         }
 
         protected void InvokeOrderExpired(OrderExpiredEventArgs e)
         {
-            if (OrderExpired != null) OrderExpired(this, e);
+            var handler = OrderExpired;
+            if (handler != null) handler(this, e);
             _inProcess.Remove(e.Order);
         }
 
         private void InvokeOrderCancelled(OrderCancelledEventArgs e)
         {
-            if (OrderCancelled != null) OrderCancelled(this, e);
+            var handler = OrderCancelled;
+            if (handler != null) handler(this, e);
             _inProcess.Remove(e.Order);
         }
     }
