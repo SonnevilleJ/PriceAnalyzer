@@ -65,7 +65,7 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                foreach (long resolution in
+                foreach (var resolution in
                     Enum.GetValues(typeof (Resolution)).Cast<long>().OrderBy(ticks => ticks).Where(ticks => this.TimeSpan() <= new TimeSpan(ticks)))
                 {
                     return (Resolution)Enum.ToObject(typeof(Resolution), new TimeSpan(resolution).Ticks);
@@ -161,7 +161,7 @@ namespace Sonneville.PriceTools
         {
             unchecked
             {
-                int result = 0;
+                var result = 0;
                 result = (result * 397) ^ (Open.GetHashCode());
                 result = (result * 397) ^ (High.GetHashCode());
                 result = (result * 397) ^ (Low.GetHashCode());

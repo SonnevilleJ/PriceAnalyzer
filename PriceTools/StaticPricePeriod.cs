@@ -6,13 +6,21 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    public partial class StaticPricePeriod
+    public class StaticPricePeriod : PricePeriod
     {
-        #region Constructors
+        #region Private Members
 
-        private StaticPricePeriod()
-        {
-        }
+        private readonly decimal? _open;
+        private readonly decimal? _high;
+        private readonly decimal? _low;
+        private readonly decimal _close;
+        private readonly long? _volume;
+        private readonly DateTime _head;
+        private readonly DateTime _tail;
+
+        #endregion
+
+        #region Constructors
 
         internal StaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
             : this(head, ConstructTail(head, resolution), open, high, low, close, volume)
@@ -28,13 +36,13 @@ namespace Sonneville.PriceTools
             if(low > open) throw new InvalidOperationException();
             if(low > close) throw new InvalidOperationException();
 
-            EFHead = head;
-            EFTail = tail;
-            EFOpen = open;
-            EFHigh = high;
-            EFLow = low;
-            EFClose = close;
-            EFVolume = volume;
+            _head = head;
+            _tail = tail;
+            _open = open;
+            _high = high;
+            _low = low;
+            _close = close;
+            _volume = volume;
         }
 
         #endregion
@@ -80,12 +88,13 @@ namespace Sonneville.PriceTools
 
         #region Implementation of IPricePeriod
 
+
         /// <summary>
         /// Gets the closing price for the IPricePeriod.
         /// </summary>
         public override decimal Close
         {
-            get { return EFClose; }
+            get { return _close; }
         }
 
         /// <summary>
@@ -93,7 +102,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal High
         {
-            get { return EFHigh ?? Close; }
+            get { return _high ?? Close; }
         }
 
         /// <summary>
@@ -101,7 +110,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal Low
         {
-            get { return EFLow ?? Close; }
+            get { return _low ?? Close; }
         }
 
         /// <summary>
@@ -109,7 +118,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal Open
         {
-            get { return EFOpen ?? Close; }
+            get { return _open ?? Close; }
         }
 
         /// <summary>
@@ -117,7 +126,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override long? Volume
         {
-            get { return EFVolume; }
+            get { return _volume; }
         }
 
         /// <summary>
@@ -140,7 +149,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override DateTime Head
         {
-            get { return EFHead; }
+            get { return _head; }
         }
 
         /// <summary>
@@ -148,7 +157,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override DateTime Tail
         {
-            get { return EFTail; }
+            get { return _tail; }
         }
 
         /// <summary>
