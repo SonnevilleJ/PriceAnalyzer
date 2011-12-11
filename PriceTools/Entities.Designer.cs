@@ -19,7 +19,6 @@ using System.Runtime.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("Entities", "PositionShareTransaction", "Position", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.Position), "ShareTransaction", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.ShareTransaction))]
-[assembly: EdmRelationshipAttribute("Entities", "CashAccountCashTransaction", "CashAccount", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.CashAccount), "CashTransaction", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.CashTransaction))]
 
 #endregion
 
@@ -102,22 +101,6 @@ namespace Sonneville.PriceTools
             }
         }
         private ObjectSet<Position> _Positions;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<CashAccount> CashAccounts
-        {
-            get
-            {
-                if ((_CashAccounts == null))
-                {
-                    _CashAccounts = base.CreateObjectSet<CashAccount>("CashAccounts");
-                }
-                return _CashAccounts;
-            }
-        }
-        private ObjectSet<CashAccount> _CashAccounts;
 
         #endregion
         #region AddTo Methods
@@ -137,14 +120,6 @@ namespace Sonneville.PriceTools
         {
             base.AddObject("Positions", position);
         }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the CashAccounts EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToCashAccounts(CashAccount cashAccount)
-        {
-            base.AddObject("CashAccounts", cashAccount);
-        }
 
         #endregion
     }
@@ -153,86 +128,6 @@ namespace Sonneville.PriceTools
     #endregion
     
     #region Entities
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="CashAccount")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class CashAccount : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new CashAccount object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        public static CashAccount CreateCashAccount(global::System.Int32 id)
-        {
-            CashAccount cashAccount = new CashAccount();
-            cashAccount.Id = id;
-            return cashAccount;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Entities", "CashAccountCashTransaction", "CashTransaction")]
-        public EntityCollection<CashTransaction> Transactions
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<CashTransaction>("Entities.CashAccountCashTransaction", "CashTransaction");
-            }
-            private set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<CashTransaction>("Entities.CashAccountCashTransaction", "CashTransaction", value);
-                }
-            }
-        }
-
-        #endregion
-    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -294,47 +189,6 @@ namespace Sonneville.PriceTools
 
         #endregion
     
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Entities", "CashAccountCashTransaction", "CashAccount")]
-        public CashAccount CashAccount
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CashAccount>("Entities.CashAccountCashTransaction", "CashAccount").Value;
-            }
-            private set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CashAccount>("Entities.CashAccountCashTransaction", "CashAccount").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<CashAccount> CashAccountReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CashAccount>("Entities.CashAccountCashTransaction", "CashAccount");
-            }
-            private set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CashAccount>("Entities.CashAccountCashTransaction", "CashAccount", value);
-                }
-            }
-        }
-
-        #endregion
     }
     
     /// <summary>

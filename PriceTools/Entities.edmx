@@ -8,16 +8,11 @@
   <EntityContainer Name="EntitiesStoreContainer">
     <EntitySet Name="Transactions" EntityType="Entities.Store.Transactions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Positions" EntityType="Entities.Store.Positions" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="CashAccounts" EntityType="Entities.Store.CashAccounts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_ShareTransaction" EntityType="Entities.Store.Transactions_ShareTransaction" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_CashTransaction" EntityType="Entities.Store.Transactions_CashTransaction" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="PositionShareTransaction" Association="Entities.Store.PositionShareTransaction">
       <End Role="Position" EntitySet="Positions" />
       <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
-    </AssociationSet>
-    <AssociationSet Name="CashAccountCashTransaction" Association="Entities.Store.CashAccountCashTransaction">
-      <End Role="CashAccount" EntitySet="CashAccounts" />
-      <End Role="CashTransaction" EntitySet="Transactions_CashTransaction" />
     </AssociationSet>
     <AssociationSet Name="FK_ShareTransaction_inherits_Transaction" Association="Entities.Store.FK_ShareTransaction_inherits_Transaction">
       <End Role="Transaction" EntitySet="Transactions" />
@@ -42,12 +37,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Ticker" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Portfolio_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="CashAccounts">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
   </EntityType>
   <EntityType Name="Transactions_ShareTransaction">
     <Key>
@@ -79,18 +68,6 @@
       </Principal>
       <Dependent Role="ShareTransaction">
         <PropertyRef Name="Position_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="CashAccountCashTransaction">
-    <End Role="CashAccount" Type="Entities.Store.CashAccounts" Multiplicity="0..1" />
-    <End Role="CashTransaction" Type="Entities.Store.Transactions_CashTransaction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CashAccount">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="CashTransaction">
-        <PropertyRef Name="CashAccount_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -129,11 +106,6 @@
             <End Role="Position" EntitySet="Positions" />
             <End Role="ShareTransaction" EntitySet="Transactions" />
           </AssociationSet>
-          <EntitySet Name="CashAccounts" EntityType="Entities.CashAccount" />
-          <AssociationSet Name="CashAccountCashTransaction" Association="Entities.CashAccountCashTransaction">
-            <End Role="CashAccount" EntitySet="CashAccounts" />
-            <End Role="CashTransaction" EntitySet="Transactions" />
-          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Transaction" Abstract="true">
           <Key>
@@ -144,7 +116,6 @@
         </EntityType>
         <EntityType Name="CashTransaction" BaseType="Entities.Transaction" Abstract="true" >
           <Property Type="Decimal" Name="Amount" Nullable="false" cg:SetterAccess="Public" />
-          <NavigationProperty Name="CashAccount" Relationship="Entities.CashAccountCashTransaction" FromRole="CashTransaction" ToRole="CashAccount" cg:SetterAccess="Private" />
           <Property Type="Int32" Name="EFTransactionType" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
         </EntityType>
         <EntityType Name="ShareTransaction" BaseType="Entities.Transaction" Abstract="true" >
@@ -187,17 +158,6 @@
           <End Type="Entities.Position" Role="Position" Multiplicity="0..1" />
           <End Type="Entities.ShareTransaction" Role="ShareTransaction" Multiplicity="*" />
         </Association>
-        <EntityType Name="CashAccount">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Transactions" Relationship="Entities.CashAccountCashTransaction" FromRole="CashAccount" ToRole="CashTransaction" cg:SetterAccess="Private" />
-        </EntityType>
-        <Association Name="CashAccountCashTransaction">
-          <End Type="Entities.CashAccount" Role="CashAccount" Multiplicity="0..1" />
-          <End Type="Entities.CashTransaction" Role="CashTransaction" Multiplicity="*" />
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -237,13 +197,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="CashAccounts">
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.CashAccount)">
-        <MappingFragment StoreEntitySet="CashAccounts">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <AssociationSetMapping Name="PositionShareTransaction" TypeName="Entities.PositionShareTransaction" StoreEntitySet="Transactions_ShareTransaction">
       <EndProperty Name="Position">
         <ScalarProperty Name="Id" ColumnName="Position_Id" />
@@ -252,15 +205,6 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
       <Condition ColumnName="Position_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="CashAccountCashTransaction" TypeName="Entities.CashAccountCashTransaction" StoreEntitySet="Transactions_CashTransaction">
-      <EndProperty Name="CashAccount">
-        <ScalarProperty Name="Id" ColumnName="CashAccount_Id" />
-      </EndProperty>
-      <EndProperty Name="CashTransaction">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="CashAccount_Id" IsNull="false" />
     </AssociationSetMapping>
           </EntityContainerMapping>
 </Mapping></edmx:Mappings>
@@ -283,10 +227,13 @@
       <Diagram Name="Entities" ZoomLevel="54" >
         <EntityTypeShape EntityType="Entities.Transaction" Width="1.5" PointX="4.5" PointY="6" Height="1.4033821614583331" />
         <EntityTypeShape EntityType="Entities.CashTransaction" Width="1.5" PointX="1.5" PointY="7.125" Height="1.5956835937499996" />
-        <InheritanceConnector EntityType="Entities.CashTransaction" ManuallyRouted="false" >
-          <ConnectorPoint PointX="4.5" PointY="6.9552862234072919" />
-          <ConnectorPoint PointX="2.656252" PointY="6.9552862234072919" />
-          <ConnectorPoint PointX="2.656252" PointY="7.125" />
+        <InheritanceConnector EntityType="Entities.CashTransaction" ManuallyRouted="true" >
+          <ConnectorPoint PointX="5.25" PointY="7.4033821614583335" />
+          <ConnectorPoint PointX="5.25" PointY="7.7783821614583335" />
+          <ConnectorPoint PointX="3.375" PointY="7.7783821614583335" />
+          <ConnectorPoint PointX="3.375" PointY="6.75" />
+          <ConnectorPoint PointX="2.25" PointY="6.75" />
+          <ConnectorPoint PointX="2.25" PointY="7.125" />
         </InheritanceConnector>
         <EntityTypeShape EntityType="Entities.ShareTransaction" Width="1.5" PointX="7.5" PointY="6.5" Height="2.1725878906249996" />
         <InheritanceConnector EntityType="Entities.ShareTransaction" ManuallyRouted="false" >
@@ -295,13 +242,8 @@
         </InheritanceConnector>
         <EntityTypeShape EntityType="Entities.Position" Width="1.5" PointX="7.5" PointY="3.875" Height="1.7879850260416657" />
         <AssociationConnector Association="Entities.PositionShareTransaction" ManuallyRouted="false">
-          <ConnectorPoint PointX="8.25" PointY="5.6629850260416656" />
+          <ConnectorPoint PointX="8.25" PointY="5.47068359375" />
           <ConnectorPoint PointX="8.25" PointY="6.5" />
-        </AssociationConnector>
-        <EntityTypeShape EntityType="Entities.CashAccount" Width="1.5" PointX="1.5" PointY="3.875" Height="1.59568359375" />
-        <AssociationConnector Association="Entities.CashAccountCashTransaction">
-          <ConnectorPoint PointX="2.25" PointY="5.47068359375" />
-          <ConnectorPoint PointX="2.25" PointY="7.125" />
         </AssociationConnector>
         </Diagram>
     </edmx:Diagrams>

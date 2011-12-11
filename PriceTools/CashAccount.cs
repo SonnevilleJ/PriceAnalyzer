@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Sonneville.PriceTools
@@ -6,10 +7,11 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a single account used to hold cash.
     /// </summary>
-    public partial class CashAccount : ICashAccount
+    public class CashAccount : ICashAccount
     {
         #region Private Members
 
+        private IList<ICashTransaction> _transactions = new List<ICashTransaction>();
         #endregion
 
         #region Constructors
@@ -71,6 +73,14 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Gets a <see cref="List{T}"/> of <see cref="ICashTransaction"/>s in this ICashAccount.
+        /// </summary>
+        public ICollection<ICashTransaction> Transactions
+        {
+            get { return _transactions; }
+        }
+
+        /// <summary>
         ///   Gets the balance of cash in this CashAccount.
         /// </summary>
         /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
@@ -123,7 +133,7 @@ namespace Sonneville.PriceTools
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(CashAccount other)
+        private bool Equals(CashAccount other)
         {
             return other == this;
         }

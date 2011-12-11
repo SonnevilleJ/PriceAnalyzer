@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets a <see cref="List{T}"/> of <see cref="ICashTransaction"/>s in this ICashAccount.
         /// </summary>
-        EntityCollection<CashTransaction> Transactions { get; }
+        ICollection<ICashTransaction> Transactions { get; }
 
         /// <summary>
         ///   Gets the balance of cash in this ICashAccount.
