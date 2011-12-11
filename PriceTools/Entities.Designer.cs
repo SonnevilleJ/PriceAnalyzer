@@ -22,7 +22,6 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("Entities", "PortfolioPosition", "Portfolio", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.Portfolio), "Position", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.Position))]
 [assembly: EdmRelationshipAttribute("Entities", "CashAccountPortfolio", "CashAccount", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Sonneville.PriceTools.CashAccount), "Portfolio", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.Portfolio))]
 [assembly: EdmRelationshipAttribute("Entities", "CashAccountCashTransaction", "CashAccount", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.CashAccount), "CashTransaction", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.CashTransaction))]
-[assembly: EdmRelationshipAttribute("Entities", "QuotedPricePeriodPriceQuote", "QuotedPricePeriod", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.QuotedPricePeriod), "PriceQuote", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.PriceQuote))]
 
 #endregion
 
@@ -141,22 +140,6 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<PriceQuote> PriceQuotes
-        {
-            get
-            {
-                if ((_PriceQuotes == null))
-                {
-                    _PriceQuotes = base.CreateObjectSet<PriceQuote>("PriceQuotes");
-                }
-                return _PriceQuotes;
-            }
-        }
-        private ObjectSet<PriceQuote> _PriceQuotes;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<PricePeriod> PricePeriods
         {
             get
@@ -203,14 +186,6 @@ namespace Sonneville.PriceTools
         public void AddToCashAccounts(CashAccount cashAccount)
         {
             base.AddObject("CashAccounts", cashAccount);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the PriceQuotes EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToPriceQuotes(PriceQuote priceQuote)
-        {
-            base.AddObject("PriceQuotes", priceQuote);
         }
     
         /// <summary>
@@ -744,7 +719,6 @@ namespace Sonneville.PriceTools
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="PricePeriod")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    [KnownTypeAttribute(typeof(QuotedPricePeriod))]
     [KnownTypeAttribute(typeof(StaticPricePeriod))]
     public abstract partial class PricePeriod : EntityObject
     {
@@ -779,228 +753,6 @@ namespace Sonneville.PriceTools
 
         #endregion
     
-    }
-    
-    /// <summary>
-    /// Represents a price quote for a financial security.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="PriceQuote")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class PriceQuote : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new PriceQuote object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="settlementDate">Initial value of the SettlementDate property.</param>
-        /// <param name="price">Initial value of the Price property.</param>
-        public static PriceQuote CreatePriceQuote(global::System.Int32 id, global::System.DateTime settlementDate, global::System.Decimal price)
-        {
-            PriceQuote priceQuote = new PriceQuote();
-            priceQuote.Id = id;
-            priceQuote.SettlementDate = settlementDate;
-            priceQuote.Price = price;
-            return priceQuote;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
-        /// <summary>
-        /// The &lt;see cref=&quot;DateTime&quot;/&gt; which the price quote is made.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.DateTime SettlementDate
-        {
-            get
-            {
-                return _SettlementDate;
-            }
-            set
-            {
-                OnSettlementDateChanging(value);
-                ReportPropertyChanging("SettlementDate");
-                _SettlementDate = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("SettlementDate");
-                OnSettlementDateChanged();
-            }
-        }
-        private global::System.DateTime _SettlementDate;
-        partial void OnSettlementDateChanging(global::System.DateTime value);
-        partial void OnSettlementDateChanged();
-    
-        /// <summary>
-        /// The price at which the security is available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Decimal Price
-        {
-            get
-            {
-                return _Price;
-            }
-            set
-            {
-                OnPriceChanging(value);
-                ReportPropertyChanging("Price");
-                _Price = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Price");
-                OnPriceChanged();
-            }
-        }
-        private global::System.Decimal _Price;
-        partial void OnPriceChanging(global::System.Decimal value);
-        partial void OnPriceChanged();
-    
-        /// <summary>
-        /// The number of shares traded.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
-        [DataMemberAttribute()]
-        public Nullable<global::System.Int64> Volume
-        {
-            get
-            {
-                return _Volume;
-            }
-            set
-            {
-                OnVolumeChanging(value);
-                ReportPropertyChanging("Volume");
-                _Volume = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Volume");
-                OnVolumeChanged();
-            }
-        }
-        private Nullable<global::System.Int64> _Volume = 1;
-        partial void OnVolumeChanging(Nullable<global::System.Int64> value);
-        partial void OnVolumeChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Entities", "QuotedPricePeriodPriceQuote", "QuotedPricePeriod")]
-        public QuotedPricePeriod QuotedPricePeriod
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<QuotedPricePeriod>("Entities.QuotedPricePeriodPriceQuote", "QuotedPricePeriod").Value;
-            }
-            set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<QuotedPricePeriod>("Entities.QuotedPricePeriodPriceQuote", "QuotedPricePeriod").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<QuotedPricePeriod> QuotedPricePeriodReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<QuotedPricePeriod>("Entities.QuotedPricePeriodPriceQuote", "QuotedPricePeriod");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<QuotedPricePeriod>("Entities.QuotedPricePeriodPriceQuote", "QuotedPricePeriod", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="QuotedPricePeriod")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class QuotedPricePeriod : PricePeriod
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new QuotedPricePeriod object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        public static QuotedPricePeriod CreateQuotedPricePeriod(global::System.Int32 id)
-        {
-            QuotedPricePeriod quotedPricePeriod = new QuotedPricePeriod();
-            quotedPricePeriod.Id = id;
-            return quotedPricePeriod;
-        }
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Entities", "QuotedPricePeriodPriceQuote", "PriceQuote")]
-        public EntityCollection<PriceQuote> PriceQuotes
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<PriceQuote>("Entities.QuotedPricePeriodPriceQuote", "PriceQuote");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PriceQuote>("Entities.QuotedPricePeriodPriceQuote", "PriceQuote", value);
-                }
-            }
-        }
-
-        #endregion
     }
     
     /// <summary>

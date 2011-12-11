@@ -1,9 +1,11 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a price quote for a financial security.
     /// </summary>
-    public partial class PriceQuote : IPriceQuote
+    public class PriceQuote : IPriceQuote
     {
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
@@ -83,12 +85,31 @@
         {
             unchecked
             {
-                int result = _SettlementDate.GetHashCode();
-                result = (result*397) ^ _Price.GetHashCode();
-                result = (result*397) ^ (_Volume.HasValue ? _Volume.Value.GetHashCode() : 0);
+                int result = SettlementDate.GetHashCode();
+                result = (result*397) ^ Price.GetHashCode();
+                result = (result*397) ^ (Volume.HasValue ? Volume.Value.GetHashCode() : 0);
                 return result;
             }
         }
+        #endregion
+
+        #region Implementation of IPriceQuote
+
+        /// <summary>
+        /// The <see cref="DateTime"/> which the price quote is made.
+        /// </summary>
+        public DateTime SettlementDate { get; set; }
+
+        /// <summary>
+        /// The price at which the security is available.
+        /// </summary>
+        public decimal Price { get; set; }
+
+        /// <summary>
+        /// The number of shares traded.
+        /// </summary>
+        public long? Volume { get; set; }
+
         #endregion
     }
 }

@@ -7,8 +7,15 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   A PricePeriod made from PriceQuotes.
     /// </summary>
-    public partial class QuotedPricePeriod
+    public class QuotedPricePeriod : PricePeriod
     {
+        private readonly IList<PriceQuote> _priceQuotes = new List<PriceQuote>();
+
+        /// <summary>
+        /// The <see cref="PriceQuote"/>s contained within this QuotedPricePeriod.
+        /// </summary>
+        public IList<PriceQuote> PriceQuotes { get { return _priceQuotes; } }
+
         #region Overrides of IPricePeriod
 
         /// <summary>
