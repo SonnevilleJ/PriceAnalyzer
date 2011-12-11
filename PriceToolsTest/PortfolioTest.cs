@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.PriceTools.Services;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -1319,56 +1319,6 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected1, holding1);
             Assert.AreEqual(expected2, holding2);
         }
-
-        #region Mock PriceSeriesProviders
-        private class HourlyProvider : PriceSeriesProvider
-        {
-            public override Resolution BestResolution { get { return Resolution.Hours; } }
-            #region Not Implemented
-            public override string GetIndexTicker(StockIndex index) { throw new NotImplementedException(); }
-            protected override string GetUrlBase() { throw new NotImplementedException(); }
-            protected override string GetUrlTicker(string symbol) { throw new NotImplementedException(); }
-            protected override string GetUrlHeadDate(DateTime head) { throw new NotImplementedException(); }
-            protected override string GetUrlTailDate(DateTime tail) { throw new NotImplementedException(); }
-            protected override string GetUrlResolution(Resolution resolution) { throw new NotImplementedException(); }
-            protected override string GetUrlDividends() { throw new NotImplementedException(); }
-            protected override string GetUrlCsvMarker() { throw new NotImplementedException(); }
-            protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail) { throw new NotImplementedException(); }
-            #endregion
-        }
-
-        private class DailyProvider : PriceSeriesProvider
-        {
-            public override Resolution BestResolution { get { return Resolution.Days; } }
-            #region Not Implemented
-            public override string GetIndexTicker(StockIndex index) { throw new NotImplementedException(); }
-            protected override string GetUrlBase() { throw new NotImplementedException(); }
-            protected override string GetUrlTicker(string symbol) { throw new NotImplementedException(); }
-            protected override string GetUrlHeadDate(DateTime head) { throw new NotImplementedException(); }
-            protected override string GetUrlTailDate(DateTime tail) { throw new NotImplementedException(); }
-            protected override string GetUrlResolution(Resolution resolution) { throw new NotImplementedException(); }
-            protected override string GetUrlDividends() { throw new NotImplementedException(); }
-            protected override string GetUrlCsvMarker() { throw new NotImplementedException(); }
-            protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail) { throw new NotImplementedException(); }
-            #endregion
-        }
-
-        private class WeeklyProvider : PriceSeriesProvider
-        {
-            public override Resolution BestResolution { get { return Resolution.Weeks; } }
-            #region Not Implemented
-            public override string GetIndexTicker(StockIndex index) { throw new NotImplementedException(); }
-            protected override string GetUrlBase() { throw new NotImplementedException(); }
-            protected override string GetUrlTicker(string symbol) { throw new NotImplementedException(); }
-            protected override string GetUrlHeadDate(DateTime head) { throw new NotImplementedException(); }
-            protected override string GetUrlTailDate(DateTime tail) { throw new NotImplementedException(); }
-            protected override string GetUrlResolution(Resolution resolution) { throw new NotImplementedException(); }
-            protected override string GetUrlDividends() { throw new NotImplementedException(); }
-            protected override string GetUrlCsvMarker() { throw new NotImplementedException(); }
-            protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail) { throw new NotImplementedException(); }
-            #endregion
-        }
-        #endregion
 
         [TestMethod]
         public void ResolutionEqualsResolutionOfPriceSeriesTest()

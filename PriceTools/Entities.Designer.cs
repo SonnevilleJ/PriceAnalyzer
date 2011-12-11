@@ -23,7 +23,6 @@ using System.Runtime.Serialization;
 [assembly: EdmRelationshipAttribute("Entities", "CashAccountPortfolio", "CashAccount", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Sonneville.PriceTools.CashAccount), "Portfolio", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.Portfolio))]
 [assembly: EdmRelationshipAttribute("Entities", "CashAccountCashTransaction", "CashAccount", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.CashAccount), "CashTransaction", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.CashTransaction))]
 [assembly: EdmRelationshipAttribute("Entities", "QuotedPricePeriodPriceQuote", "QuotedPricePeriod", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.QuotedPricePeriod), "PriceQuote", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.PriceQuote))]
-[assembly: EdmRelationshipAttribute("Entities", "PriceSeriesPricePeriod", "PriceSeries", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.PriceSeries), "PricePeriod", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.PricePeriod))]
 
 #endregion
 
@@ -746,7 +745,6 @@ namespace Sonneville.PriceTools
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     [KnownTypeAttribute(typeof(QuotedPricePeriod))]
-    [KnownTypeAttribute(typeof(PriceSeries))]
     [KnownTypeAttribute(typeof(StaticPricePeriod))]
     public abstract partial class PricePeriod : EntityObject
     {
@@ -948,85 +946,6 @@ namespace Sonneville.PriceTools
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<QuotedPricePeriod>("Entities.QuotedPricePeriodPriceQuote", "QuotedPricePeriod", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="PriceSeries")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class PriceSeries : PricePeriod
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new PriceSeries object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="ticker">Initial value of the Ticker property.</param>
-        public static PriceSeries CreatePriceSeries(global::System.Int32 id, global::System.String ticker)
-        {
-            PriceSeries priceSeries = new PriceSeries();
-            priceSeries.Id = id;
-            priceSeries.Ticker = ticker;
-            return priceSeries;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Ticker
-        {
-            get
-            {
-                return _Ticker;
-            }
-            set
-            {
-                OnTickerChanging(value);
-                ReportPropertyChanging("Ticker");
-                _Ticker = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Ticker");
-                OnTickerChanged();
-            }
-        }
-        private global::System.String _Ticker;
-        partial void OnTickerChanging(global::System.String value);
-        partial void OnTickerChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Entities", "PriceSeriesPricePeriod", "PricePeriod")]
-        public EntityCollection<PricePeriod> DataPeriods
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<PricePeriod>("Entities.PriceSeriesPricePeriod", "PricePeriod");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<PricePeriod>("Entities.PriceSeriesPricePeriod", "PricePeriod", value);
                 }
             }
         }

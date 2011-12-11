@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Constructs an IPriceSeries object.
@@ -11,27 +9,8 @@ namespace Sonneville.PriceTools
         /// Constructs an <see cref="IPriceSeries"/> for the given ticker.
         /// </summary>
         /// <param name="ticker">The ticker symbol of the IPriceSeries.</param>
-        /// <param name="loadFromDatabase"></param>
         /// <returns>The IPriceSeries for the given ticker.</returns>
-        public static PriceSeries CreatePriceSeries(string ticker, bool loadFromDatabase = false)
-        {
-            return loadFromDatabase ? LoadPriceSeries(ticker) : GetEmptyPriceSeries(ticker);
-        }
-
-        private static PriceSeries LoadPriceSeries(string ticker)
-        {
-            using (var db = new Container())
-            {
-                foreach (PriceSeries series in
-                        db.PricePeriods.Select(period => period as PriceSeries).Where(series => series != null && series.Ticker == ticker))
-                {
-                    return series;
-                }
-            }
-            return GetEmptyPriceSeries(ticker);
-        }
-
-        private static PriceSeries GetEmptyPriceSeries(string ticker)
+        public static PriceSeries CreatePriceSeries(string ticker)
         {
             return new PriceSeries { Ticker = ticker };
         }

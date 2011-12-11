@@ -519,7 +519,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void TestDownloadPriceHistory()
+        public void TestDownloadPriceDataHead()
         {
             Settings.CanConnectToInternet = true;
             DateTime dateTime = new DateTime(2011, 4, 1);
@@ -529,6 +529,33 @@ namespace Sonneville.PriceToolsTest
 
             Settings.CanConnectToInternet = false;
             Assert.IsNotNull(target[dateTime.AddHours(12)]);    // add 12 hours because no price is available at midnight.
+        }
+
+        [TestMethod]
+        public void TestDownloadPriceDataHeadTail()
+        {
+            Settings.CanConnectToInternet = true;
+            var head = new DateTime(2011, 4, 1);
+            var tail = head.AddMonths(1);
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("DE");
+
+            target.DownloadPriceData(head, tail);
+
+            Settings.CanConnectToInternet = false;
+            Assert.IsNotNull(target[tail]);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
+        public void TestDownloadPriceDataProvidersResolutionIsChecked()
+        {
+            Settings.CanConnectToInternet = true;
+            var provider = new WeeklyProvider();
+            var head = new DateTime(2011, 4, 1);
+            var tail = head.AddMonths(1);
+            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("DE");
+
+            target.DownloadPriceData(provider, head, tail);
         }
 
         private static IEnumerable<ReactionMove> GetReactionHighs()

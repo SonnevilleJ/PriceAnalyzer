@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    public partial class PriceSeries : IPriceSeries
+    public class PriceSeries : PricePeriod, IPriceSeries
     {
         #region Private Members
 
@@ -184,6 +184,11 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Gets the ticker symbol priced by this IPriceSeries.
+        /// </summary>
+        public string Ticker { get; set; }
+
+        /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries.
         /// </summary>
         public IList<IPricePeriod> PricePeriods { get { return GetPricePeriods(); } }
@@ -197,12 +202,12 @@ namespace Sonneville.PriceTools
             {
                 var moves = new List<ReactionMove>();
 
-                bool todayUp = false;
-                bool todayDown = false;
-                bool yesterdayUp = false;
-                bool yesterdayDown = false;
+                var todayUp = false;
+                var todayDown = false;
+                var yesterdayUp = false;
+                var yesterdayDown = false;
 
-                for (int i = 1; i < PricePeriods.Count; i++)
+                for (var i = 1; i < PricePeriods.Count; i++)
                 {
                     var yesterday = PricePeriods[i - 1];
                     var today = PricePeriods[i];
@@ -227,7 +232,7 @@ namespace Sonneville.PriceTools
                     todayUp = higherHigh && higherLow;
                     todayDown = lowerHigh && lowerLow;
                     //todayConverging = ((lowerHigh && !lowerLow) || (higherLow && !higherHigh));
-                    bool todayWidening = higherHigh && lowerLow;
+                    var todayWidening = higherHigh && lowerLow;
 
                     if (i > 1)
                     {
@@ -363,11 +368,17 @@ namespace Sonneville.PriceTools
 
         #endregion
 
+        /// <summary>
+        /// The collection of <see cref="PricePeriod"/>s containing price data for the PriceSeries.
+        /// </summary>
+        public readonly IList<PricePeriod> DataPeriods = new List<PricePeriod>();
+
         #region Private Methods
 
         private void DownloadPriceDataIncludingBuffer(PriceSeriesProvider provider, DateTime head, DateTime tail)
         {
-            foreach (var pricePeriod in provider.GetPriceHistoryCsvFile(Ticker, head.Subtract(Settings.TimespanToDownload), tail).PricePeriods.OrderByDescending(period => period.Head))
+            if (provider.BestResolution > Resolution) throw new ArgumentException(string.Format("Provider must be capable of providing periods of resolution {0} or better.", Resolution), "provider");
+            foreach (var pricePeriod in provider.GetPriceHistoryCsvFile(Ticker, head.Subtract(Settings.TimespanToDownload), tail, Resolution).PricePeriods.OrderByDescending(period => period.Head))
             {
                 DataPeriods.Add((PricePeriod) pricePeriod);
             }
