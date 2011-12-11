@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a cash deposit to an <see cref="IPortfolio"/>.
     /// </summary>
-    public sealed partial class Deposit : CashTransaction
+    public sealed class Deposit : CashTransaction
     {
         #region Constructors
 

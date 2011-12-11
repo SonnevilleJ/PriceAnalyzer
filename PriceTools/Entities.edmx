@@ -16,14 +16,6 @@
     <EntitySet Name="Transactions_CashTransaction" EntityType="Entities.Store.Transactions_CashTransaction" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PricePeriods_QuotedPricePeriod" EntityType="Entities.Store.PricePeriods_QuotedPricePeriod" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PricePeriods_PriceSeries" EntityType="Entities.Store.PricePeriods_PriceSeries" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Transactions_Deposit" EntityType="Entities.Store.Transactions_Deposit" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Transactions_Withdrawal" EntityType="Entities.Store.Transactions_Withdrawal" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Transactions_SellShort" EntityType="Entities.Store.Transactions_SellShort" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Transactions_BuyToCover" EntityType="Entities.Store.Transactions_BuyToCover" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Transactions_Sell" EntityType="Entities.Store.Transactions_Sell" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Transactions_DividendReceipt" EntityType="Entities.Store.Transactions_DividendReceipt" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Transactions_DividendReinvestment" EntityType="Entities.Store.Transactions_DividendReinvestment" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Transactions_Buy" EntityType="Entities.Store.Transactions_Buy" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="PricePeriods_StaticPricePeriod" EntityType="Entities.Store.PricePeriods_StaticPricePeriod" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="PositionShareTransaction" Association="Entities.Store.PositionShareTransaction">
       <End Role="Position" EntitySet="Positions" />
@@ -64,38 +56,6 @@
     <AssociationSet Name="FK_PriceSeries_inherits_PricePeriod" Association="Entities.Store.FK_PriceSeries_inherits_PricePeriod">
       <End Role="PricePeriod" EntitySet="PricePeriods" />
       <End Role="PriceSeries" EntitySet="PricePeriods_PriceSeries" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Deposit_inherits_CashTransaction" Association="Entities.Store.FK_Deposit_inherits_CashTransaction">
-      <End Role="CashTransaction" EntitySet="Transactions_CashTransaction" />
-      <End Role="Deposit" EntitySet="Transactions_Deposit" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Withdrawal_inherits_CashTransaction" Association="Entities.Store.FK_Withdrawal_inherits_CashTransaction">
-      <End Role="CashTransaction" EntitySet="Transactions_CashTransaction" />
-      <End Role="Withdrawal" EntitySet="Transactions_Withdrawal" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SellShort_inherits_ShareTransaction" Association="Entities.Store.FK_SellShort_inherits_ShareTransaction">
-      <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
-      <End Role="SellShort" EntitySet="Transactions_SellShort" />
-    </AssociationSet>
-    <AssociationSet Name="FK_BuyToCover_inherits_ShareTransaction" Association="Entities.Store.FK_BuyToCover_inherits_ShareTransaction">
-      <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
-      <End Role="BuyToCover" EntitySet="Transactions_BuyToCover" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Sell_inherits_ShareTransaction" Association="Entities.Store.FK_Sell_inherits_ShareTransaction">
-      <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
-      <End Role="Sell" EntitySet="Transactions_Sell" />
-    </AssociationSet>
-    <AssociationSet Name="FK_DividendReceipt_inherits_CashTransaction" Association="Entities.Store.FK_DividendReceipt_inherits_CashTransaction">
-      <End Role="CashTransaction" EntitySet="Transactions_CashTransaction" />
-      <End Role="DividendReceipt" EntitySet="Transactions_DividendReceipt" />
-    </AssociationSet>
-    <AssociationSet Name="FK_DividendReinvestment_inherits_ShareTransaction" Association="Entities.Store.FK_DividendReinvestment_inherits_ShareTransaction">
-      <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
-      <End Role="DividendReinvestment" EntitySet="Transactions_DividendReinvestment" />
-    </AssociationSet>
-    <AssociationSet Name="FK_Buy_inherits_ShareTransaction" Association="Entities.Store.FK_Buy_inherits_ShareTransaction">
-      <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
-      <End Role="Buy" EntitySet="Transactions_Buy" />
     </AssociationSet>
     <AssociationSet Name="FK_StaticPricePeriod_inherits_PricePeriod" Association="Entities.Store.FK_StaticPricePeriod_inherits_PricePeriod">
       <End Role="PricePeriod" EntitySet="PricePeriods" />
@@ -180,54 +140,6 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Ticker" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Transactions_Deposit">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Transactions_Withdrawal">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Transactions_SellShort">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Transactions_BuyToCover">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Transactions_Sell">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Transactions_DividendReceipt">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Transactions_DividendReinvestment">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Transactions_Buy">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
     <Property Name="Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="PricePeriods_StaticPricePeriod">
@@ -363,102 +275,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Deposit_inherits_CashTransaction">
-    <End Role="CashTransaction" Type="Entities.Store.Transactions_CashTransaction" Multiplicity="1" />
-    <End Role="Deposit" Type="Entities.Store.Transactions_Deposit" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="CashTransaction">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Deposit">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Withdrawal_inherits_CashTransaction">
-    <End Role="CashTransaction" Type="Entities.Store.Transactions_CashTransaction" Multiplicity="1" />
-    <End Role="Withdrawal" Type="Entities.Store.Transactions_Withdrawal" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="CashTransaction">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Withdrawal">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SellShort_inherits_ShareTransaction">
-    <End Role="ShareTransaction" Type="Entities.Store.Transactions_ShareTransaction" Multiplicity="1" />
-    <End Role="SellShort" Type="Entities.Store.Transactions_SellShort" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="ShareTransaction">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="SellShort">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_BuyToCover_inherits_ShareTransaction">
-    <End Role="ShareTransaction" Type="Entities.Store.Transactions_ShareTransaction" Multiplicity="1" />
-    <End Role="BuyToCover" Type="Entities.Store.Transactions_BuyToCover" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="ShareTransaction">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="BuyToCover">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Sell_inherits_ShareTransaction">
-    <End Role="ShareTransaction" Type="Entities.Store.Transactions_ShareTransaction" Multiplicity="1" />
-    <End Role="Sell" Type="Entities.Store.Transactions_Sell" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="ShareTransaction">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Sell">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_DividendReceipt_inherits_CashTransaction">
-    <End Role="CashTransaction" Type="Entities.Store.Transactions_CashTransaction" Multiplicity="1" />
-    <End Role="DividendReceipt" Type="Entities.Store.Transactions_DividendReceipt" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="CashTransaction">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="DividendReceipt">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_DividendReinvestment_inherits_ShareTransaction">
-    <End Role="ShareTransaction" Type="Entities.Store.Transactions_ShareTransaction" Multiplicity="1" />
-    <End Role="DividendReinvestment" Type="Entities.Store.Transactions_DividendReinvestment" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="ShareTransaction">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="DividendReinvestment">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_Buy_inherits_ShareTransaction">
-    <End Role="ShareTransaction" Type="Entities.Store.Transactions_ShareTransaction" Multiplicity="1" />
-    <End Role="Buy" Type="Entities.Store.Transactions_Buy" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="ShareTransaction">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Buy">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_StaticPricePeriod_inherits_PricePeriod">
     <End Role="PricePeriod" Type="Entities.Store.PricePeriods" Multiplicity="1" />
     <End Role="StaticPricePeriod" Type="Entities.Store.PricePeriods_StaticPricePeriod" Multiplicity="0..1" />
@@ -519,10 +335,6 @@
           <NavigationProperty Name="CashAccount" Relationship="Entities.CashAccountCashTransaction" FromRole="CashTransaction" ToRole="CashAccount" cg:SetterAccess="Private" />
           <Property Type="Int32" Name="EFTransactionType" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
         </EntityType>
-        <EntityType Name="Deposit" BaseType="Entities.CashTransaction" >
-        </EntityType>
-        <EntityType Name="Withdrawal" BaseType="Entities.CashTransaction" >
-        </EntityType>
         <EntityType Name="ShareTransaction" BaseType="Entities.Transaction" Abstract="true" >
           <Property Type="Double" Name="Shares" Nullable="false" >
             <Documentation>
@@ -543,12 +355,6 @@
           <Property Type="Int32" Name="EFTransactionType" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
           <NavigationProperty Name="Position" Relationship="Entities.PositionShareTransaction" FromRole="ShareTransaction" ToRole="Position" cg:SetterAccess="Private" />
         </EntityType>
-        <EntityType Name="SellShort" BaseType="Entities.ShareTransaction" />
-        <EntityType Name="BuyToCover" BaseType="Entities.ShareTransaction" />
-        <EntityType Name="Sell" BaseType="Entities.ShareTransaction" />
-        <EntityType Name="DividendReceipt" BaseType="Entities.CashTransaction" />
-        <EntityType Name="DividendReinvestment" BaseType="Entities.ShareTransaction" />
-        <EntityType Name="Buy" BaseType="Entities.ShareTransaction" />
         <EntityType Name="Position">
           <Key>
             <PropertyRef Name="Id" />
@@ -692,47 +498,7 @@
           <ScalarProperty Name="EFTransactionType" ColumnName="EFTransactionType" />
         </MappingFragment>
       </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.Deposit)">
-        <MappingFragment StoreEntitySet="Transactions_Deposit">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.Withdrawal)">
-        <MappingFragment StoreEntitySet="Transactions_Withdrawal">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.SellShort)">
-        <MappingFragment StoreEntitySet="Transactions_SellShort">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.BuyToCover)">
-        <MappingFragment StoreEntitySet="Transactions_BuyToCover">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.Sell)">
-        <MappingFragment StoreEntitySet="Transactions_Sell">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.DividendReceipt)">
-        <MappingFragment StoreEntitySet="Transactions_DividendReceipt">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.DividendReinvestment)">
-        <MappingFragment StoreEntitySet="Transactions_DividendReinvestment">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.Buy)">
-        <MappingFragment StoreEntitySet="Transactions_Buy">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
+      </EntitySetMapping>
     <EntitySetMapping Name="Positions">
       <EntityTypeMapping TypeName="IsTypeOf(Entities.Position)">
         <MappingFragment StoreEntitySet="Positions">
@@ -849,7 +615,7 @@
       </EndProperty>
       <Condition ColumnName="PriceSeriesPricePeriod_PricePeriod_Id" IsNull="false" />
     </AssociationSetMapping>
-  </EntityContainerMapping>
+          </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
   <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
@@ -875,60 +641,10 @@
           <ConnectorPoint PointX="2.656252" PointY="6.9552862234072919" />
           <ConnectorPoint PointX="2.656252" PointY="7.125" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Deposit" PointX="0.5" PointY="10.875" Width="1.5" Height="1.0187792968749996" />
-        <InheritanceConnector ManuallyRouted="false" EntityType="Entities.Deposit">
-          <ConnectorPoint PointX="2.25" PointY="8.72068359375" />
-          <ConnectorPoint PointX="2.25" PointY="10.5" />
-          <ConnectorPoint PointX="1.25" PointY="10.5" />
-          <ConnectorPoint PointX="1.25" PointY="10.875" />
-        </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Withdrawal" PointX="2.5" PointY="10.875" Width="1.5" Height="1.0187792968749996" />
-        <InheritanceConnector ManuallyRouted="false" EntityType="Entities.Withdrawal">
-          <ConnectorPoint PointX="2.25" PointY="8.72068359375" />
-          <ConnectorPoint PointX="2.25" PointY="10.5" />
-          <ConnectorPoint PointX="3.25" PointY="10.5" />
-          <ConnectorPoint PointX="3.25" PointY="10.875" />
-        </InheritanceConnector>
         <EntityTypeShape EntityType="Entities.ShareTransaction" Width="1.5" PointX="7.5" PointY="6.5" Height="2.1725878906249996" />
         <InheritanceConnector EntityType="Entities.ShareTransaction" ManuallyRouted="false" >
           <ConnectorPoint PointX="6" PointY="6.9516910807291667" />
           <ConnectorPoint PointX="7.5" PointY="6.9516910807291667" />
-        </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.SellShort" Width="1.5" PointX="10.375" PointY="10.875" Height="1.0187792968749996" />
-        <InheritanceConnector EntityType="Entities.SellShort" ManuallyRouted="false" >
-          <ConnectorPoint PointX="8.25" PointY="8.672587890625" />
-          <ConnectorPoint PointX="8.25" PointY="10.5" />
-          <ConnectorPoint PointX="11.125" PointY="10.5" />
-          <ConnectorPoint PointX="11.125" PointY="10.875" />
-        </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.BuyToCover" Width="1.5" PointX="8.5" PointY="10.875" Height="1.0187792968749996" />
-        <InheritanceConnector EntityType="Entities.BuyToCover" ManuallyRouted="false" >
-          <ConnectorPoint PointX="8.25" PointY="8.672587890625" />
-          <ConnectorPoint PointX="8.25" PointY="10.5" />
-          <ConnectorPoint PointX="9.25" PointY="10.5" />
-          <ConnectorPoint PointX="9.25" PointY="10.875" />
-        </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Sell" Width="1.5" PointX="6.5" PointY="10.875" Height="1.0187792968749996" />
-        <InheritanceConnector EntityType="Entities.Sell" ManuallyRouted="true" >
-          <ConnectorPoint PointX="8.25" PointY="8.672587890625" />
-          <ConnectorPoint PointX="8.25" PointY="10.503040808787898" />
-          <ConnectorPoint PointX="7.25" PointY="10.503040808787898" />
-          <ConnectorPoint PointX="7.25" PointY="10.875" />
-        </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.DividendReceipt" Width="1.5" PointX="3.5" PointY="9.125" Height="1.0187792968749996" />
-        <EntityTypeShape EntityType="Entities.DividendReinvestment" Width="1.5" PointX="5.5" PointY="9.125" Height="1.0187792968749996" />
-        <InheritanceConnector EntityType="Entities.DividendReinvestment" ManuallyRouted="false" >
-          <ConnectorPoint PointX="8.25" PointY="8.672587890625" />
-          <ConnectorPoint PointX="8.25" PointY="8.922587890625" />
-          <ConnectorPoint PointX="6.25" PointY="8.922587890625" />
-          <ConnectorPoint PointX="6.25" PointY="9.125" />
-        </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Buy" Width="1.5" PointX="4.625" PointY="10.875" Height="1.0187792968749996" />
-        <InheritanceConnector EntityType="Entities.Buy" ManuallyRouted="false" >
-          <ConnectorPoint PointX="8.25" PointY="8.672587890625" />
-          <ConnectorPoint PointX="8.25" PointY="10.5" />
-          <ConnectorPoint PointX="5.375" PointY="10.5" />
-          <ConnectorPoint PointX="5.375" PointY="10.875" />
         </InheritanceConnector>
         <EntityTypeShape EntityType="Entities.Position" Width="1.5" PointX="7.5" PointY="3.875" Height="1.7879850260416657" />
         <AssociationConnector Association="Entities.PositionShareTransaction" ManuallyRouted="false">
@@ -950,12 +666,6 @@
           <ConnectorPoint PointX="2.25" PointY="7.125" />
         </AssociationConnector>
         <EntityTypeShape EntityType="Entities.QuotedPricePeriod" PointX="14" PointY="6.25" Width="1.5" Height="1.0187792968749996" />
-        <InheritanceConnector EntityType="Entities.DividendReceipt" ManuallyRouted="false" >
-          <ConnectorPoint PointX="2.25" PointY="8.72068359375" />
-          <ConnectorPoint PointX="2.25" PointY="8.97068359375" />
-          <ConnectorPoint PointX="4.25" PointY="8.97068359375" />
-          <ConnectorPoint PointX="4.25" PointY="9.125" />
-        </InheritanceConnector>
         <EntityTypeShape EntityType="Entities.PriceQuote" PointX="14" PointY="9.875" Width="1.5" Height="1.9802864583333335" />
         <EntityTypeShape EntityType="Entities.StaticPricePeriod" Width="1.5" PointX="16.125" PointY="6.25" Height="1.9802864583333335" />
         <EntityTypeShape EntityType="Entities.PricePeriod" Width="1.5" PointX="15.125" PointY="4.125" Height="1.2110807291666665" />

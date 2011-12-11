@@ -231,77 +231,7 @@ namespace Sonneville.PriceTools
     #region Entities
     
     /// <summary>
-    /// Represents a transaction to buy shares.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Buy")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Buy : ShareTransaction
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Buy object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="settlementDate">Initial value of the SettlementDate property.</param>
-        /// <param name="shares">Initial value of the Shares property.</param>
-        /// <param name="price">Initial value of the Price property.</param>
-        /// <param name="commission">Initial value of the Commission property.</param>
-        /// <param name="ticker">Initial value of the Ticker property.</param>
-        public static Buy CreateBuy(global::System.Int32 id, global::System.DateTime settlementDate, global::System.Double shares, global::System.Decimal price, global::System.Decimal commission, global::System.String ticker)
-        {
-            Buy buy = new Buy();
-            buy.Id = id;
-            buy.SettlementDate = settlementDate;
-            buy.Shares = shares;
-            buy.Price = price;
-            buy.Commission = commission;
-            buy.Ticker = ticker;
-            return buy;
-        }
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// Represents a transaction to buy shares to cover a previous short sell.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="BuyToCover")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class BuyToCover : ShareTransaction
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new BuyToCover object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="settlementDate">Initial value of the SettlementDate property.</param>
-        /// <param name="shares">Initial value of the Shares property.</param>
-        /// <param name="price">Initial value of the Price property.</param>
-        /// <param name="commission">Initial value of the Commission property.</param>
-        /// <param name="ticker">Initial value of the Ticker property.</param>
-        public static BuyToCover CreateBuyToCover(global::System.Int32 id, global::System.DateTime settlementDate, global::System.Double shares, global::System.Decimal price, global::System.Decimal commission, global::System.String ticker)
-        {
-            BuyToCover buyToCover = new BuyToCover();
-            buyToCover.Id = id;
-            buyToCover.SettlementDate = settlementDate;
-            buyToCover.Shares = shares;
-            buyToCover.Price = price;
-            buyToCover.Commission = commission;
-            buyToCover.Ticker = ticker;
-            return buyToCover;
-        }
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// Represents a single account used to hold cash.
+    /// No Metadata Documentation available.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="CashAccount")]
     [Serializable()]
@@ -419,14 +349,11 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// Represents a transaction for an <see cref="ICashAccount"/>.
+    /// No Metadata Documentation available.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="CashTransaction")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    [KnownTypeAttribute(typeof(Deposit))]
-    [KnownTypeAttribute(typeof(Withdrawal))]
-    [KnownTypeAttribute(typeof(DividendReceipt))]
     public abstract partial class CashTransaction : Transaction
     {
         #region Primitive Properties
@@ -525,100 +452,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// Represents a cash deposit to an <see cref="IPortfolio"/>.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Deposit")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Deposit : CashTransaction
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Deposit object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="settlementDate">Initial value of the SettlementDate property.</param>
-        /// <param name="amount">Initial value of the Amount property.</param>
-        public static Deposit CreateDeposit(global::System.Int32 id, global::System.DateTime settlementDate, global::System.Decimal amount)
-        {
-            Deposit deposit = new Deposit();
-            deposit.Id = id;
-            deposit.SettlementDate = settlementDate;
-            deposit.Amount = amount;
-            return deposit;
-        }
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// Represents a transaction for receipt of dividends.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="DividendReceipt")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class DividendReceipt : CashTransaction
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new DividendReceipt object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="settlementDate">Initial value of the SettlementDate property.</param>
-        /// <param name="amount">Initial value of the Amount property.</param>
-        public static DividendReceipt CreateDividendReceipt(global::System.Int32 id, global::System.DateTime settlementDate, global::System.Decimal amount)
-        {
-            DividendReceipt dividendReceipt = new DividendReceipt();
-            dividendReceipt.Id = id;
-            dividendReceipt.SettlementDate = settlementDate;
-            dividendReceipt.Amount = amount;
-            return dividendReceipt;
-        }
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// Represents a transaction to reinvest dividends.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="DividendReinvestment")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class DividendReinvestment : ShareTransaction
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new DividendReinvestment object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="settlementDate">Initial value of the SettlementDate property.</param>
-        /// <param name="shares">Initial value of the Shares property.</param>
-        /// <param name="price">Initial value of the Price property.</param>
-        /// <param name="commission">Initial value of the Commission property.</param>
-        /// <param name="ticker">Initial value of the Ticker property.</param>
-        public static DividendReinvestment CreateDividendReinvestment(global::System.Int32 id, global::System.DateTime settlementDate, global::System.Double shares, global::System.Decimal price, global::System.Decimal commission, global::System.String ticker)
-        {
-            DividendReinvestment dividendReinvestment = new DividendReinvestment();
-            dividendReinvestment.Id = id;
-            dividendReinvestment.SettlementDate = settlementDate;
-            dividendReinvestment.Shares = shares;
-            dividendReinvestment.Price = price;
-            dividendReinvestment.Commission = commission;
-            dividendReinvestment.Ticker = ticker;
-            return dividendReinvestment;
-        }
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// Represents a portfolio of investments.
+    /// No Metadata Documentation available.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Portfolio")]
     [Serializable()]
@@ -762,7 +596,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.
+    /// No Metadata Documentation available.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Position")]
     [Serializable()]
@@ -906,7 +740,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// Represents a defined period of price data.
+    /// No Metadata Documentation available.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="PricePeriod")]
     [Serializable()]
@@ -1122,7 +956,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// Represents a time series of price data.
+    /// No Metadata Documentation available.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="PriceSeries")]
     [Serializable()]
@@ -1201,7 +1035,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// A PricePeriod made from PriceQuotes.
+    /// No Metadata Documentation available.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="QuotedPricePeriod")]
     [Serializable()]
@@ -1251,86 +1085,11 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// Represents a transaction to sell shares.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Sell")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Sell : ShareTransaction
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Sell object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="settlementDate">Initial value of the SettlementDate property.</param>
-        /// <param name="shares">Initial value of the Shares property.</param>
-        /// <param name="price">Initial value of the Price property.</param>
-        /// <param name="commission">Initial value of the Commission property.</param>
-        /// <param name="ticker">Initial value of the Ticker property.</param>
-        public static Sell CreateSell(global::System.Int32 id, global::System.DateTime settlementDate, global::System.Double shares, global::System.Decimal price, global::System.Decimal commission, global::System.String ticker)
-        {
-            Sell sell = new Sell();
-            sell.Id = id;
-            sell.SettlementDate = settlementDate;
-            sell.Shares = shares;
-            sell.Price = price;
-            sell.Commission = commission;
-            sell.Ticker = ticker;
-            return sell;
-        }
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// Represents a transaction to short-sell shares.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="SellShort")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class SellShort : ShareTransaction
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new SellShort object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="settlementDate">Initial value of the SettlementDate property.</param>
-        /// <param name="shares">Initial value of the Shares property.</param>
-        /// <param name="price">Initial value of the Price property.</param>
-        /// <param name="commission">Initial value of the Commission property.</param>
-        /// <param name="ticker">Initial value of the Ticker property.</param>
-        public static SellShort CreateSellShort(global::System.Int32 id, global::System.DateTime settlementDate, global::System.Double shares, global::System.Decimal price, global::System.Decimal commission, global::System.String ticker)
-        {
-            SellShort sellShort = new SellShort();
-            sellShort.Id = id;
-            sellShort.SettlementDate = settlementDate;
-            sellShort.Shares = shares;
-            sellShort.Price = price;
-            sellShort.Commission = commission;
-            sellShort.Ticker = ticker;
-            return sellShort;
-        }
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// Represents a transaction (or order) for a financial security.
+    /// No Metadata Documentation available.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="ShareTransaction")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
-    [KnownTypeAttribute(typeof(SellShort))]
-    [KnownTypeAttribute(typeof(BuyToCover))]
-    [KnownTypeAttribute(typeof(Sell))]
-    [KnownTypeAttribute(typeof(DividendReinvestment))]
-    [KnownTypeAttribute(typeof(Buy))]
     public abstract partial class ShareTransaction : Transaction
     {
         #region Primitive Properties
@@ -1501,7 +1260,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// Represents a defined period of price data.
+    /// No Metadata Documentation available.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="StaticPricePeriod")]
     [Serializable()]
@@ -1697,7 +1456,7 @@ namespace Sonneville.PriceTools
     }
     
     /// <summary>
-    /// Represents a financial transaction.
+    /// No Metadata Documentation available.
     /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Transaction")]
     [Serializable()]
@@ -1758,35 +1517,6 @@ namespace Sonneville.PriceTools
         private global::System.DateTime _SettlementDate;
         partial void OnSettlementDateChanging(global::System.DateTime value);
         partial void OnSettlementDateChanged();
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// Represents a cash withdrawal from an <see cref="IPortfolio"/>.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Withdrawal")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Withdrawal : CashTransaction
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Withdrawal object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="settlementDate">Initial value of the SettlementDate property.</param>
-        /// <param name="amount">Initial value of the Amount property.</param>
-        public static Withdrawal CreateWithdrawal(global::System.Int32 id, global::System.DateTime settlementDate, global::System.Decimal amount)
-        {
-            Withdrawal withdrawal = new Withdrawal();
-            withdrawal.Id = id;
-            withdrawal.SettlementDate = settlementDate;
-            withdrawal.Amount = amount;
-            return withdrawal;
-        }
 
         #endregion
     

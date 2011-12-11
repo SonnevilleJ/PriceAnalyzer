@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction to reinvest dividends.
     /// </summary>
-    public sealed partial class DividendReinvestment : ShareTransaction
+    public sealed class DividendReinvestment : ShareTransaction
     {
         /// <summary>
         /// Constructs a DividendReinvestment Transaction.

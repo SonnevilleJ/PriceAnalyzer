@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction to buy shares.
     /// </summary>
-    public sealed partial class Buy : ShareTransaction
+    public sealed class Buy : ShareTransaction
     {
         /// <summary>
         /// Constructs a Buy Transaction.

@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction to short-sell shares.
     /// </summary>
-    public sealed partial class SellShort : ShareTransaction
+    public sealed class SellShort : ShareTransaction
     {
         /// <summary>
         /// Constructs a SellShort Transaction.

@@ -51,7 +51,6 @@
     <Compile Include="BuyToCoverTest.cs" />
     <Compile Include="CommonIndicatorTests.cs" />
     <Compile Include="DateTimeExtensionsTest.cs" />
-    <Compile Include="EntityFramework.cs" />
     <Compile Include="FidelityBrokeragelinkTransactionHistoryCsvFileTest.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteTest.cs" />

@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction to sell shares.
     /// </summary>
-    public sealed partial class Sell : ShareTransaction
+    public sealed class Sell : ShareTransaction
     {
         /// <summary>
         /// Constructs a Sell Transaction.

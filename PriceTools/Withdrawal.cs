@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a cash withdrawal from an <see cref="IPortfolio"/>.
     /// </summary>
-    public sealed partial class Withdrawal : CashTransaction
+    public sealed class Withdrawal : CashTransaction
     {
         #region Constructors
 
