@@ -58,6 +58,7 @@
     <Compile Include="PriceSeriesProviderTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />
     <Compile Include="RelativeStrengthIndexTest.cs" />
+    <Compile Include="ShareTransactionTest.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="TestData.Designer.cs">
       <AutoGen>True</AutoGen>
