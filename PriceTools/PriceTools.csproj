@@ -58,11 +58,6 @@
     <Compile Include="Deposit.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="DividendReinvestment.cs" />
-    <Compile Include="Entities.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Entities.edmx</DependentUpon>
-    </Compile>
     <Compile Include="TimeSeriesExtensions.cs" />
     <Compile Include="HighLow.cs" />
     <Compile Include="Holding.cs" />
@@ -136,16 +131,9 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <EntityDeploy Include="Entities.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Entities.Designer.cs</LastGenOutput>
-    </EntityDeploy>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="CustomDictionary.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Entities.edmx.sql" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Strings.resx">

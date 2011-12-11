@@ -6,28 +6,91 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   Represents a transaction (or order) for a financial security.
     /// </summary>
-    public abstract partial class ShareTransaction : IShareTransaction
+    public abstract class ShareTransaction : IShareTransaction
     {
-        #region Constructors
+        #region Private Members
 
-        /// <summary>
-        ///   Constructs a ShareTransaction.
-        /// </summary>
-        protected internal ShareTransaction()
-        {
-        }
+        private decimal _price;
+        private double _shares;
+        private decimal _commission;
 
         #endregion
-
+        
         #region Accessors
+
+        /// <summary>
+        ///   Gets the DateTime that the ITransaction occurred.
+        /// </summary>
+        public DateTime SettlementDate { get; set; }
 
         /// <summary>
         ///   Gets the <see cref="OrderType"/> of this ShareTransaction.
         /// </summary>
-        public OrderType OrderType
+        public OrderType OrderType { get; protected set; }
+
+        /// <summary>
+        ///   Gets the ticker symbol of the security traded in this IShareTransaction.
+        /// </summary>
+        public string Ticker { get; set; }
+
+        /// <summary>
+        ///   Gets the amount of securities traded in this IShareTransaction.
+        /// </summary>
+        public double Shares
         {
-            get { return (OrderType) EFTransactionType; }
-            protected set { EFTransactionType = (Int32) value; }
+            get { return _shares; }
+            set
+            {
+                if (value < 0) throw new ArgumentOutOfRangeException("value", value, Strings.ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_);
+                _shares = value;
+            }
+        }
+
+        /// <summary>
+        ///   Gets the value of all securities traded in this IShareTransaction.
+        /// </summary>
+        public decimal Price
+        {
+            get { return _price; }
+            set
+            {
+                var price = Math.Abs(value);
+                switch (PriceDirection)
+                {
+                    case 1:
+                        _price = price;
+                        break;
+                    case -1:
+                        _price = -price;
+                        break;
+                }
+            }
+        }
+
+        /// <summary>
+        ///   Gets the commission charged for this IShareTransaction.
+        /// </summary>
+        public decimal Commission
+        {
+            get { return _commission; }
+            set
+            {
+                switch (OrderType)
+                {
+                    case OrderType.DividendReceipt:
+                    case OrderType.DividendReinvestment:
+                    case OrderType.Deposit:
+                    case OrderType.Withdrawal:
+                        if (value != 0)
+                            throw new ArgumentOutOfRangeException("value", value, String.Format(Strings.ShareTransaction_Commission_Commission_for__0__transactions_must_be_0_, OrderType));
+                        break;
+                    default:
+                        if (value < 0)
+                            throw new ArgumentOutOfRangeException("value", value, Strings.ShareTransaction_Commission_Commission_must_be_greater_than_or_equal_to_0_);
+                        break;
+                }
+                _commission = value;
+            }
         }
 
         /// <summary>
@@ -59,53 +122,8 @@ namespace Sonneville.PriceTools
                     case OrderType.Sell:
                         return -1;
                     default:
-                        return 0; // unknown
+                        throw new NotSupportedException(String.Format("OrderType {0} is unknown.", OrderType));
                 }
-            }
-        }
-
-        #endregion
-
-        #region Change Handlers
-
-        partial void OnCommissionChanging(decimal value)
-        {
-            switch (OrderType)
-            {
-                case OrderType.DividendReceipt:
-                case OrderType.DividendReinvestment:
-                case OrderType.Deposit:
-                case OrderType.Withdrawal:
-                    if (value != 0)
-                    {
-                        throw new ArgumentOutOfRangeException("value", value,
-                                                              String.Format(CultureInfo.CurrentCulture,
-                                                                            "Commission for {0} must be 0.", OrderType));
-                    }
-                    break;
-                default:
-                    if (value < 0)
-                    {
-                        throw new ArgumentOutOfRangeException("value", value,
-                                                              "Commission must be greater than or equal to 0.");
-                    }
-                    break;
-            }
-        }
-
-        partial void OnSharesChanging(double value)
-        {
-            if (value < 0)
-            {
-                throw new ArgumentOutOfRangeException("value", value, "Shares must be greater than or equal to 0.");
-            }
-        }
-
-        partial void OnPriceChanged()
-        {
-            if ((PriceDirection > 0 && Price < 0) || (PriceDirection < 0 && Price > 0))
-            {
-                Price = -Price;
             }
         }
 
