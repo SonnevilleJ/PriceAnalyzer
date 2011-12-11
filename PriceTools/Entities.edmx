@@ -8,21 +8,12 @@
   <EntityContainer Name="EntitiesStoreContainer">
     <EntitySet Name="Transactions" EntityType="Entities.Store.Transactions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Positions" EntityType="Entities.Store.Positions" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Portfolios" EntityType="Entities.Store.Portfolios" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="CashAccounts" EntityType="Entities.Store.CashAccounts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_ShareTransaction" EntityType="Entities.Store.Transactions_ShareTransaction" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_CashTransaction" EntityType="Entities.Store.Transactions_CashTransaction" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="PositionShareTransaction" Association="Entities.Store.PositionShareTransaction">
       <End Role="Position" EntitySet="Positions" />
       <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
-    </AssociationSet>
-    <AssociationSet Name="PortfolioPosition" Association="Entities.Store.PortfolioPosition">
-      <End Role="Portfolio" EntitySet="Portfolios" />
-      <End Role="Position" EntitySet="Positions" />
-    </AssociationSet>
-    <AssociationSet Name="CashAccountPortfolio" Association="Entities.Store.CashAccountPortfolio">
-      <End Role="CashAccount" EntitySet="CashAccounts" />
-      <End Role="Portfolio" EntitySet="Portfolios" />
     </AssociationSet>
     <AssociationSet Name="CashAccountCashTransaction" Association="Entities.Store.CashAccountCashTransaction">
       <End Role="CashAccount" EntitySet="CashAccounts" />
@@ -51,14 +42,6 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Ticker" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Portfolio_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <EntityType Name="Portfolios">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CashTicker" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="CashAccount_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="CashAccounts">
     <Key>
@@ -96,30 +79,6 @@
       </Principal>
       <Dependent Role="ShareTransaction">
         <PropertyRef Name="Position_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="PortfolioPosition">
-    <End Role="Portfolio" Type="Entities.Store.Portfolios" Multiplicity="0..1" />
-    <End Role="Position" Type="Entities.Store.Positions" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Portfolio">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Position">
-        <PropertyRef Name="Portfolio_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="CashAccountPortfolio">
-    <End Role="CashAccount" Type="Entities.Store.CashAccounts" Multiplicity="1" />
-    <End Role="Portfolio" Type="Entities.Store.Portfolios" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="CashAccount">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="Portfolio">
-        <PropertyRef Name="CashAccount_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -170,16 +129,7 @@
             <End Role="Position" EntitySet="Positions" />
             <End Role="ShareTransaction" EntitySet="Transactions" />
           </AssociationSet>
-          <EntitySet Name="Portfolios" EntityType="Entities.Portfolio" />
-          <AssociationSet Name="PortfolioPosition" Association="Entities.PortfolioPosition">
-            <End Role="Portfolio" EntitySet="Portfolios" />
-            <End Role="Position" EntitySet="Positions" />
-          </AssociationSet>
           <EntitySet Name="CashAccounts" EntityType="Entities.CashAccount" />
-          <AssociationSet Name="CashAccountPortfolio" Association="Entities.CashAccountPortfolio">
-            <End Role="CashAccount" EntitySet="CashAccounts" />
-            <End Role="Portfolio" EntitySet="Portfolios" />
-          </AssociationSet>
           <AssociationSet Name="CashAccountCashTransaction" Association="Entities.CashAccountCashTransaction">
             <End Role="CashAccount" EntitySet="CashAccounts" />
             <End Role="CashTransaction" EntitySet="Transactions" />
@@ -232,45 +182,18 @@
               <Summary>A collection of all &lt;see cref = "IShareTransaction" /&gt;s in this IPosition.</Summary>
             </Documentation>
           </NavigationProperty>
-          <NavigationProperty Name="Portfolio" Relationship="Entities.PortfolioPosition" FromRole="Position" ToRole="Portfolio" cg:SetterAccess="Private" />
         </EntityType>
         <Association Name="PositionShareTransaction">
           <End Type="Entities.Position" Role="Position" Multiplicity="0..1" />
           <End Type="Entities.ShareTransaction" Role="ShareTransaction" Multiplicity="*" />
-        </Association>
-        <EntityType Name="Portfolio">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Positions" Relationship="Entities.PortfolioPosition" FromRole="Portfolio" ToRole="Position" cg:SetterAccess="Private" >
-            <Documentation>
-              <Summary>All Positions held in this Portfolio.</Summary>
-            </Documentation>
-          </NavigationProperty>
-          <Property Type="String" Name="CashTicker" Nullable="false" cg:SetterAccess="Private" >
-            <Documentation>
-              <Summary>The ticker to use for the holding of cash in this Portfolio.</Summary>
-            </Documentation>
-          </Property>
-          <NavigationProperty Name="CashAccount" Relationship="Entities.CashAccountPortfolio" FromRole="Portfolio" ToRole="CashAccount" cg:SetterAccess="Private" />
-        </EntityType>
-        <Association Name="PortfolioPosition">
-          <End Type="Entities.Portfolio" Role="Portfolio" Multiplicity="0..1" />
-          <End Type="Entities.Position" Role="Position" Multiplicity="*" />
         </Association>
         <EntityType Name="CashAccount">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Portfolio" Relationship="Entities.CashAccountPortfolio" FromRole="CashAccount" ToRole="Portfolio" cg:SetterAccess="Private" />
           <NavigationProperty Name="Transactions" Relationship="Entities.CashAccountCashTransaction" FromRole="CashAccount" ToRole="CashTransaction" cg:SetterAccess="Private" />
         </EntityType>
-        <Association Name="CashAccountPortfolio">
-          <End Type="Entities.CashAccount" Role="CashAccount" Multiplicity="1" />
-          <End Type="Entities.Portfolio" Role="Portfolio" Multiplicity="0..1" />
-        </Association>
         <Association Name="CashAccountCashTransaction">
           <End Type="Entities.CashAccount" Role="CashAccount" Multiplicity="0..1" />
           <End Type="Entities.CashTransaction" Role="CashTransaction" Multiplicity="*" />
@@ -314,14 +237,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="Portfolios">
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.Portfolio)">
-        <MappingFragment StoreEntitySet="Portfolios">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CashTicker" ColumnName="CashTicker" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <EntitySetMapping Name="CashAccounts">
       <EntityTypeMapping TypeName="IsTypeOf(Entities.CashAccount)">
         <MappingFragment StoreEntitySet="CashAccounts">
@@ -337,23 +252,6 @@
         <ScalarProperty Name="Id" ColumnName="Id" />
       </EndProperty>
       <Condition ColumnName="Position_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="PortfolioPosition" TypeName="Entities.PortfolioPosition" StoreEntitySet="Positions">
-      <EndProperty Name="Portfolio">
-        <ScalarProperty Name="Id" ColumnName="Portfolio_Id" />
-      </EndProperty>
-      <EndProperty Name="Position">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Portfolio_Id" IsNull="false" />
-    </AssociationSetMapping>
-    <AssociationSetMapping Name="CashAccountPortfolio" TypeName="Entities.CashAccountPortfolio" StoreEntitySet="Portfolios">
-      <EndProperty Name="CashAccount">
-        <ScalarProperty Name="Id" ColumnName="CashAccount_Id" />
-      </EndProperty>
-      <EndProperty Name="Portfolio">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
     </AssociationSetMapping>
     <AssociationSetMapping Name="CashAccountCashTransaction" TypeName="Entities.CashAccountCashTransaction" StoreEntitySet="Transactions_CashTransaction">
       <EndProperty Name="CashAccount">
@@ -400,16 +298,7 @@
           <ConnectorPoint PointX="8.25" PointY="5.6629850260416656" />
           <ConnectorPoint PointX="8.25" PointY="6.5" />
         </AssociationConnector>
-        <EntityTypeShape EntityType="Entities.Portfolio" Width="1.5" PointX="4.5" PointY="2.5" Height="1.7879850260416665" />
-        <AssociationConnector Association="Entities.PortfolioPosition">
-          <ConnectorPoint PointX="6" PointY="4.0814925130208337" />
-          <ConnectorPoint PointX="7.5" PointY="4.0814925130208337" />
-        </AssociationConnector>
         <EntityTypeShape EntityType="Entities.CashAccount" Width="1.5" PointX="1.5" PointY="3.875" Height="1.59568359375" />
-        <AssociationConnector Association="Entities.CashAccountPortfolio">
-          <ConnectorPoint PointX="3" PointY="4.0814925130208337" />
-          <ConnectorPoint PointX="4.5" PointY="4.0814925130208337" />
-        </AssociationConnector>
         <AssociationConnector Association="Entities.CashAccountCashTransaction">
           <ConnectorPoint PointX="2.25" PointY="5.47068359375" />
           <ConnectorPoint PointX="2.25" PointY="7.125" />

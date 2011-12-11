@@ -34,8 +34,9 @@ namespace Sonneville.PriceAnalyzer
 
         private void LoadPortfolios()
         {
-            Portfolios = new ObservableCollection<Portfolio>(_container.Portfolios);
-            DataContext = Portfolios;
+            throw new NotImplementedException();
+            //Portfolios = new ObservableCollection<Portfolio>(_container.Portfolios);
+            //DataContext = Portfolios;
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

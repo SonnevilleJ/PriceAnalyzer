@@ -9,11 +9,13 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a portfolio of investments.
     /// </summary>
-    public partial class Portfolio : IPortfolio
+    public class Portfolio : IPortfolio
     {
         #region Private Members
 
         private static readonly string DefaultCashTicker = String.Empty;
+        private readonly CashAccount _cashAccount = new CashAccount();
+        private readonly ICollection<Position> _positions = new List<Position>();
 
         #endregion
 
@@ -34,7 +36,7 @@ namespace Sonneville.PriceTools
         public Portfolio(string ticker)
         {
             CashTicker = ticker;
-            CashAccount = new CashAccount();
+            _cashAccount = new CashAccount();
         }
 
         /// <summary>
@@ -101,9 +103,9 @@ namespace Sonneville.PriceTools
             get
             {
                 var earliest = DateTime.Now;
-                if (CashAccount.Transactions.Count > 0)
+                if (_cashAccount.Transactions.Count > 0)
                 {
-                    ICashTransaction first = CashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).First();
+                    ICashTransaction first = _cashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).First();
 
                     earliest = first.SettlementDate;
                 }
@@ -129,11 +131,11 @@ namespace Sonneville.PriceTools
             get
             {
                 DateTime? latest = null;
-                IEnumerable<CashTransaction> cashTransactions = CashAccount.Transactions;
+                IEnumerable<CashTransaction> cashTransactions = _cashAccount.Transactions;
                 if (Positions.Count > 0)
                 {
                     latest = Positions.OrderBy(position => position.Head).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last().SettlementDate;
-                    cashTransactions = CashAccount.Transactions.Where(transaction=>transaction.SettlementDate > latest);
+                    cashTransactions = _cashAccount.Transactions.Where(transaction=>transaction.SettlementDate > latest);
                 }
                 if (cashTransactions.Count() > 0)
                 {
@@ -193,8 +195,13 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetAvailableCash(DateTime settlementDate)
         {
-            return CashAccount.GetCashBalance(settlementDate);
+            return _cashAccount.GetCashBalance(settlementDate);
         }
+
+        /// <summary>
+        /// Gets or sets the ticker to use for the holding of cash in this IPortfolio.
+        /// </summary>
+        public string CashTicker { get; private set; }
 
         /// <summary>
         ///   Gets the value of this Portfolio, excluding any commissions, as of a given date..
@@ -307,7 +314,7 @@ namespace Sonneville.PriceTools
                 {
                     list.AddRange(p.Transactions);
                 }
-                list.AddRange(CashAccount.Transactions);
+                list.AddRange(_cashAccount.Transactions);
 
                 list.OrderBy(t => t.SettlementDate);
                 return list;
@@ -332,7 +339,7 @@ namespace Sonneville.PriceTools
             switch (transaction.OrderType)
             {
                 case OrderType.DividendReceipt:
-                    CashAccount.Deposit((DividendReceipt)transaction);
+                    _cashAccount.Deposit((DividendReceipt)transaction);
                     break;
                 case OrderType.Deposit:
                     Deposit((Deposit)transaction);
@@ -383,7 +390,7 @@ namespace Sonneville.PriceTools
         /// <param name="cashAmount">The amount of cash deposited.</param>
         public void Deposit(DateTime settlementDate, decimal cashAmount)
         {
-            CashAccount.Deposit(settlementDate, cashAmount);
+            _cashAccount.Deposit(settlementDate, cashAmount);
         }
 
         /// <summary>
@@ -392,7 +399,7 @@ namespace Sonneville.PriceTools
         /// <param name="deposit">The <see cref="PriceTools.Deposit"/> to deposit.</param>
         public void Deposit(Deposit deposit)
         {
-            CashAccount.Deposit(deposit);
+            _cashAccount.Deposit(deposit);
         }
 
         /// <summary>
@@ -402,7 +409,7 @@ namespace Sonneville.PriceTools
         /// <param name="cashAmount">The amount of cash withdrawn.</param>
         public void Withdraw(DateTime settlementDate, decimal cashAmount)
         {
-            CashAccount.Withdraw(settlementDate, cashAmount);
+            _cashAccount.Withdraw(settlementDate, cashAmount);
         }
 
         /// <summary>
@@ -411,7 +418,7 @@ namespace Sonneville.PriceTools
         /// <param name="withdrawal">The <see cref="PriceTools.Withdrawal"/> to withdraw.</param>
         public void Withdraw(Withdrawal withdrawal)
         {
-            CashAccount.Withdraw(withdrawal);
+            _cashAccount.Withdraw(withdrawal);
         }
 
         /// <summary>
@@ -439,6 +446,14 @@ namespace Sonneville.PriceTools
                 holdings.AddRange(position.CalculateHoldings(settlementDate));
             }
             return holdings.OrderByDescending(h=>h.Tail).ToList();
+        }
+
+        /// <summary>
+        ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
+        /// </summary>
+        public ICollection<Position> Positions
+        {
+            get { return _positions; }
         }
 
         /// <summary>

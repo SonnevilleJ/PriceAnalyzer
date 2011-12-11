@@ -19,8 +19,6 @@ using System.Runtime.Serialization;
 #region EDM Relationship Metadata
 
 [assembly: EdmRelationshipAttribute("Entities", "PositionShareTransaction", "Position", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.Position), "ShareTransaction", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.ShareTransaction))]
-[assembly: EdmRelationshipAttribute("Entities", "PortfolioPosition", "Portfolio", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.Portfolio), "Position", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.Position))]
-[assembly: EdmRelationshipAttribute("Entities", "CashAccountPortfolio", "CashAccount", System.Data.Metadata.Edm.RelationshipMultiplicity.One, typeof(Sonneville.PriceTools.CashAccount), "Portfolio", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.Portfolio))]
 [assembly: EdmRelationshipAttribute("Entities", "CashAccountCashTransaction", "CashAccount", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.CashAccount), "CashTransaction", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.CashTransaction))]
 
 #endregion
@@ -108,22 +106,6 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// No Metadata Documentation available.
         /// </summary>
-        public ObjectSet<Portfolio> Portfolios
-        {
-            get
-            {
-                if ((_Portfolios == null))
-                {
-                    _Portfolios = base.CreateObjectSet<Portfolio>("Portfolios");
-                }
-                return _Portfolios;
-            }
-        }
-        private ObjectSet<Portfolio> _Portfolios;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
         public ObjectSet<CashAccount> CashAccounts
         {
             get
@@ -154,14 +136,6 @@ namespace Sonneville.PriceTools
         public void AddToPositions(Position position)
         {
             base.AddObject("Positions", position);
-        }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Portfolios EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToPortfolios(Portfolio portfolio)
-        {
-            base.AddObject("Portfolios", portfolio);
         }
     
         /// <summary>
@@ -234,44 +208,6 @@ namespace Sonneville.PriceTools
         #endregion
     
         #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Entities", "CashAccountPortfolio", "Portfolio")]
-        public Portfolio Portfolio
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Portfolio>("Entities.CashAccountPortfolio", "Portfolio").Value;
-            }
-            private set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Portfolio>("Entities.CashAccountPortfolio", "Portfolio").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Portfolio> PortfolioReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Portfolio>("Entities.CashAccountPortfolio", "Portfolio");
-            }
-            private set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Portfolio>("Entities.CashAccountPortfolio", "Portfolio", value);
-                }
-            }
-        }
     
         /// <summary>
         /// No Metadata Documentation available.
@@ -404,150 +340,6 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// No Metadata Documentation available.
     /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Portfolio")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Portfolio : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Portfolio object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="cashTicker">Initial value of the CashTicker property.</param>
-        public static Portfolio CreatePortfolio(global::System.Int32 id, global::System.String cashTicker)
-        {
-            Portfolio portfolio = new Portfolio();
-            portfolio.Id = id;
-            portfolio.CashTicker = cashTicker;
-            return portfolio;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
-        /// <summary>
-        /// The ticker to use for the holding of cash in this Portfolio.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String CashTicker
-        {
-            get
-            {
-                return _CashTicker;
-            }
-            private set
-            {
-                OnCashTickerChanging(value);
-                ReportPropertyChanging("CashTicker");
-                _CashTicker = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("CashTicker");
-                OnCashTickerChanged();
-            }
-        }
-        private global::System.String _CashTicker;
-        partial void OnCashTickerChanging(global::System.String value);
-        partial void OnCashTickerChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// All Positions held in this Portfolio.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Entities", "PortfolioPosition", "Position")]
-        public EntityCollection<Position> Positions
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<Position>("Entities.PortfolioPosition", "Position");
-            }
-            private set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<Position>("Entities.PortfolioPosition", "Position", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Entities", "CashAccountPortfolio", "CashAccount")]
-        public CashAccount CashAccount
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CashAccount>("Entities.CashAccountPortfolio", "CashAccount").Value;
-            }
-            private set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CashAccount>("Entities.CashAccountPortfolio", "CashAccount").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<CashAccount> CashAccountReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<CashAccount>("Entities.CashAccountPortfolio", "CashAccount");
-            }
-            private set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<CashAccount>("Entities.CashAccountPortfolio", "CashAccount", value);
-                }
-            }
-        }
-
-        #endregion
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
     [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Position")]
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
@@ -644,44 +436,6 @@ namespace Sonneville.PriceTools
                 if ((value != null))
                 {
                     ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ShareTransaction>("Entities.PositionShareTransaction", "ShareTransaction", value);
-                }
-            }
-        }
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Entities", "PortfolioPosition", "Portfolio")]
-        public Portfolio Portfolio
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Portfolio>("Entities.PortfolioPosition", "Portfolio").Value;
-            }
-            private set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Portfolio>("Entities.PortfolioPosition", "Portfolio").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Portfolio> PortfolioReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Portfolio>("Entities.PortfolioPosition", "Portfolio");
-            }
-            private set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Portfolio>("Entities.PortfolioPosition", "Portfolio", value);
                 }
             }
         }

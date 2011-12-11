@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Objects.DataClasses;
 using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceTools
@@ -13,7 +12,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
         /// </summary>
-        EntityCollection<Position> Positions { get; }
+        ICollection<Position> Positions { get; }
 
         /// <summary>
         ///   Retrieves the <see cref="IPosition"/> with Ticker <paramref name="ticker"/>.
