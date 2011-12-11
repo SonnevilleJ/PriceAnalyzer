@@ -16,11 +16,6 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 
 [assembly: EdmSchemaAttribute()]
-#region EDM Relationship Metadata
-
-[assembly: EdmRelationshipAttribute("Entities", "PositionShareTransaction", "Position", System.Data.Metadata.Edm.RelationshipMultiplicity.ZeroOrOne, typeof(Sonneville.PriceTools.Position), "ShareTransaction", System.Data.Metadata.Edm.RelationshipMultiplicity.Many, typeof(Sonneville.PriceTools.ShareTransaction))]
-
-#endregion
 
 namespace Sonneville.PriceTools
 {
@@ -85,22 +80,6 @@ namespace Sonneville.PriceTools
             }
         }
         private ObjectSet<Transaction> _Transactions;
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        public ObjectSet<Position> Positions
-        {
-            get
-            {
-                if ((_Positions == null))
-                {
-                    _Positions = base.CreateObjectSet<Position>("Positions");
-                }
-                return _Positions;
-            }
-        }
-        private ObjectSet<Position> _Positions;
 
         #endregion
         #region AddTo Methods
@@ -112,14 +91,6 @@ namespace Sonneville.PriceTools
         {
             base.AddObject("Transactions", transaction);
         }
-    
-        /// <summary>
-        /// Deprecated Method for adding a new object to the Positions EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
-        /// </summary>
-        public void AddToPositions(Position position)
-        {
-            base.AddObject("Positions", position);
-        }
 
         #endregion
     }
@@ -128,174 +99,6 @@ namespace Sonneville.PriceTools
     #endregion
     
     #region Entities
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="CashTransaction")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public abstract partial class CashTransaction : Transaction
-    {
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Decimal Amount
-        {
-            get
-            {
-                return _Amount;
-            }
-            set
-            {
-                OnAmountChanging(value);
-                ReportPropertyChanging("Amount");
-                _Amount = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("Amount");
-                OnAmountChanged();
-            }
-        }
-        private global::System.Decimal _Amount;
-        partial void OnAmountChanging(global::System.Decimal value);
-        partial void OnAmountChanged();
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        private global::System.Int32 EFTransactionType
-        {
-            get
-            {
-                return _EFTransactionType;
-            }
-            set
-            {
-                OnEFTransactionTypeChanging(value);
-                ReportPropertyChanging("EFTransactionType");
-                _EFTransactionType = StructuralObject.SetValidValue(value);
-                ReportPropertyChanged("EFTransactionType");
-                OnEFTransactionTypeChanged();
-            }
-        }
-        private global::System.Int32 _EFTransactionType;
-        partial void OnEFTransactionTypeChanging(global::System.Int32 value);
-        partial void OnEFTransactionTypeChanged();
-
-        #endregion
-    
-    }
-    
-    /// <summary>
-    /// No Metadata Documentation available.
-    /// </summary>
-    [EdmEntityTypeAttribute(NamespaceName="Entities", Name="Position")]
-    [Serializable()]
-    [DataContractAttribute(IsReference=true)]
-    public partial class Position : EntityObject
-    {
-        #region Factory Method
-    
-        /// <summary>
-        /// Create a new Position object.
-        /// </summary>
-        /// <param name="id">Initial value of the Id property.</param>
-        /// <param name="ticker">Initial value of the Ticker property.</param>
-        public static Position CreatePosition(global::System.Int32 id, global::System.String ticker)
-        {
-            Position position = new Position();
-            position.Id = id;
-            position.Ticker = ticker;
-            return position;
-        }
-
-        #endregion
-        #region Primitive Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.Int32 Id
-        {
-            get
-            {
-                return _Id;
-            }
-            set
-            {
-                if (_Id != value)
-                {
-                    OnIdChanging(value);
-                    ReportPropertyChanging("Id");
-                    _Id = StructuralObject.SetValidValue(value);
-                    ReportPropertyChanged("Id");
-                    OnIdChanged();
-                }
-            }
-        }
-        private global::System.Int32 _Id;
-        partial void OnIdChanging(global::System.Int32 value);
-        partial void OnIdChanged();
-    
-        /// <summary>
-        /// Gets the ticker symbol held by this Position.
-        /// </summary>
-        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
-        [DataMemberAttribute()]
-        public global::System.String Ticker
-        {
-            get
-            {
-                return _Ticker;
-            }
-            set
-            {
-                OnTickerChanging(value);
-                ReportPropertyChanging("Ticker");
-                _Ticker = StructuralObject.SetValidValue(value, false);
-                ReportPropertyChanged("Ticker");
-                OnTickerChanged();
-            }
-        }
-        private global::System.String _Ticker;
-        partial void OnTickerChanging(global::System.String value);
-        partial void OnTickerChanged();
-
-        #endregion
-    
-        #region Navigation Properties
-    
-        /// <summary>
-        /// A collection of all &lt;see cref = &quot;IShareTransaction&quot; /&gt;s in this IPosition.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Entities", "PositionShareTransaction", "ShareTransaction")]
-        private EntityCollection<ShareTransaction> EFTransactions
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedCollection<ShareTransaction>("Entities.PositionShareTransaction", "ShareTransaction");
-            }
-            set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedCollection<ShareTransaction>("Entities.PositionShareTransaction", "ShareTransaction", value);
-                }
-            }
-        }
-
-        #endregion
-    }
     
     /// <summary>
     /// No Metadata Documentation available.
@@ -429,47 +232,6 @@ namespace Sonneville.PriceTools
 
         #endregion
     
-        #region Navigation Properties
-    
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [XmlIgnoreAttribute()]
-        [SoapIgnoreAttribute()]
-        [DataMemberAttribute()]
-        [EdmRelationshipNavigationPropertyAttribute("Entities", "PositionShareTransaction", "Position")]
-        public Position Position
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Position>("Entities.PositionShareTransaction", "Position").Value;
-            }
-            private set
-            {
-                ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Position>("Entities.PositionShareTransaction", "Position").Value = value;
-            }
-        }
-        /// <summary>
-        /// No Metadata Documentation available.
-        /// </summary>
-        [BrowsableAttribute(false)]
-        [DataMemberAttribute()]
-        public EntityReference<Position> PositionReference
-        {
-            get
-            {
-                return ((IEntityWithRelationships)this).RelationshipManager.GetRelatedReference<Position>("Entities.PositionShareTransaction", "Position");
-            }
-            private set
-            {
-                if ((value != null))
-                {
-                    ((IEntityWithRelationships)this).RelationshipManager.InitializeRelatedReference<Position>("Entities.PositionShareTransaction", "Position", value);
-                }
-            }
-        }
-
-        #endregion
     }
     
     /// <summary>
@@ -479,7 +241,6 @@ namespace Sonneville.PriceTools
     [Serializable()]
     [DataContractAttribute(IsReference=true)]
     [KnownTypeAttribute(typeof(ShareTransaction))]
-    [KnownTypeAttribute(typeof(CashTransaction))]
     public abstract partial class Transaction : EntityObject
     {
         #region Primitive Properties

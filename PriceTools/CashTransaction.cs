@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a transaction for an <see cref="ICashAccount"/>.
     /// </summary>
-    public abstract partial class CashTransaction : ICashTransaction
+    public abstract class CashTransaction : ICashTransaction
     {
         #region Constructors
 
@@ -21,26 +21,16 @@ namespace Sonneville.PriceTools
         #region Implementation of ITransaction
 
         /// <summary>
-        ///   Gets the <see cref = "PriceTools.OrderType" /> of this CashTransaction.
+        ///   Gets the DateTime that the ITransaction occurred.
         /// </summary>
-        public OrderType OrderType
-        {
-            get { return (OrderType) EFTransactionType; }
-            protected set { EFTransactionType = (Int32) value; }
-        }
-
-        #endregion
+        public DateTime SettlementDate { get; set; }
 
         /// <summary>
-        /// Ensure Amount is positive for Deposit and negative for Withdrawal.
+        ///   Gets the <see cref = "PriceTools.OrderType" /> of this CashTransaction.
         /// </summary>
-        partial void OnAmountChanged()
-        {
-            if ((OrderType == OrderType.Deposit && Amount < 0) || (OrderType == OrderType.Withdrawal && Amount > 0))
-            {
-                Amount = -Amount;
-            }
-        }
+        public OrderType OrderType { get; protected set; }
+
+        #endregion
 
         #region Equality Checks
 
@@ -130,6 +120,34 @@ namespace Sonneville.PriceTools
                 //return (result * 397) ^ (int)OrderType;
 
                 return base.GetHashCode();
+            }
+        }
+
+        #endregion
+
+        #region Implementation of ICashTransaction
+
+        private decimal _amount;
+
+        /// <summary>
+        ///   Gets the amount of cash in this ICashTransaction.
+        /// </summary>
+        public decimal Amount
+        {
+            get { return _amount; }
+            set
+            {
+                // ensure Amount is negative for Withdrawal
+                var amount = Math.Abs(value);
+                switch (OrderType)
+                {
+                    case OrderType.Withdrawal:
+                        _amount = -amount;
+                        break;
+                    default:
+                        _amount = amount;
+                        break;
+                }
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,22 +9,17 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.
     /// </summary>
-    public partial class Position : IPosition
+    public class Position : IPosition
     {
         #region Private Members
 
         private IPriceSeries _priceSeries;
+        private string _ticker;
+        private readonly ICollection<IShareTransaction> _transactions = new List<IShareTransaction>();
 
         #endregion
 
         #region Constructors
-
-        /// <summary>
-        ///   Constructs a new Position that will handle transactions for a given ticker symbol.
-        /// </summary>
-        private Position()
-        {
-        }
 
         /// <summary>
         ///   Constructs a new Position that will handle transactions for a given ticker symbol.
@@ -47,15 +41,15 @@ namespace Sonneville.PriceTools
         /// <returns>The average cost of all shares held at <paramref name = "settlementDate" />.</returns>
         public decimal CalculateAverageCost(DateTime settlementDate)
         {
-            List<ShareTransaction> transactions = EFTransactions
+            var transactions = _transactions
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .OrderBy(transaction => transaction.SettlementDate).ToList();
-            int count = transactions.Count();
+            var count = transactions.Count();
 
-            decimal totalCost = 0.00m;
-            double shares = 0.0;
+            var totalCost = 0.00m;
+            var shares = 0.0;
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 switch (transactions[i].OrderType)
                 {
@@ -180,7 +174,7 @@ namespace Sonneville.PriceTools
         /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
-            DateTime end = Tail;
+            var end = Tail;
             if (CalculateValue(settlementDate) != 0)
             {
                 end = settlementDate;
@@ -206,7 +200,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public IList<ITransaction> Transactions
         {
-            get { return new List<ITransaction>(EFTransactions); }
+            get { return new List<ITransaction>(_transactions); }
         }
 
         /// <summary>
@@ -216,14 +210,14 @@ namespace Sonneville.PriceTools
         /// <returns>The value of the Position as of the given date.</returns>
         public decimal CalculateValue(DateTime settlementDate)
         {
-            decimal proceeds = CalculateProceeds(settlementDate); // positive proceeds = gain, negative proceeds = loss
-            decimal totalCosts = CalculateCost(settlementDate);
+            var proceeds = CalculateProceeds(settlementDate); // positive proceeds = gain, negative proceeds = loss
+            var totalCosts = CalculateCost(settlementDate);
                 // positive totalCosts = revenue, negative totalCosts = expense
 
-            double heldShares = GetHeldShares(settlementDate);
-            double totalShares = GetOpenedShares(settlementDate);
+            var heldShares = GetHeldShares(settlementDate);
+            var totalShares = GetOpenedShares(settlementDate);
 
-            decimal costOfUnsoldShares = 0.00m;
+            var costOfUnsoldShares = 0.00m;
             if (totalShares != 0)
             {
                 costOfUnsoldShares = totalCosts*(decimal) (heldShares/totalShares);
@@ -273,7 +267,7 @@ namespace Sonneville.PriceTools
         public decimal CalculateCommissions(DateTime settlementDate)
         {
             return
-                EFTransactions.Where(transaction => transaction.SettlementDate <= settlementDate).Sum(
+                _transactions.Where(transaction => transaction.SettlementDate <= settlementDate).Sum(
                     transaction => transaction.Commission);
         }
 
@@ -294,10 +288,10 @@ namespace Sonneville.PriceTools
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         public decimal? CalculateTotalReturn(DateTime settlementDate)
         {
-            decimal proceeds = CalculateProceeds(settlementDate);
-            decimal costs = CalculateCost(settlementDate);
-            decimal commissions = CalculateCommissions(settlementDate);
-            decimal profit = proceeds - costs - commissions;
+            var proceeds = CalculateProceeds(settlementDate);
+            var costs = CalculateCost(settlementDate);
+            var commissions = CalculateCommissions(settlementDate);
+            var profit = proceeds - costs - commissions;
             return proceeds != 0
                        ? (profit/costs)
                        : (decimal?) null;
@@ -311,8 +305,8 @@ namespace Sonneville.PriceTools
         /// </remarks>
         public decimal? CalculateAverageAnnualReturn(DateTime settlementDate)
         {
-            decimal? totalReturn = CalculateTotalReturn(settlementDate);
-            decimal time = (Duration.Days/365.0m);
+            var totalReturn = CalculateTotalReturn(settlementDate);
+            var time = (Duration.Days/365.0m);
             return totalReturn != null
                        ? totalReturn/time
                        : null;
@@ -327,7 +321,7 @@ namespace Sonneville.PriceTools
             // verify shareTransaction is apporpriate for this Position.
             Validate(shareTransaction);
 
-            EFTransactions.Add((ShareTransaction)shareTransaction);
+            _transactions.Add(shareTransaction);
         }
 
         /// <summary>
@@ -415,7 +409,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         private IEnumerable<IShareTransaction> AdditiveTransactions
         {
-            get { return EFTransactions.Where(t => Additive.Contains(t.OrderType)); }
+            get { return _transactions.Where(t => Additive.Contains(t.OrderType)); }
         }
 
         /// <summary>
@@ -424,22 +418,38 @@ namespace Sonneville.PriceTools
         /// </summary>
         private IEnumerable<IShareTransaction> SubtractiveTransactions
         {
-            get { return EFTransactions.Where(t => Subtractive.Contains(t.OrderType)); }
+            get { return _transactions.Where(t => Subtractive.Contains(t.OrderType)); }
         }
 
         private IShareTransaction Last
         {
-            get { return EFTransactions.OrderBy(t => t.SettlementDate).Last(); }
+            get { return _transactions.OrderBy(t => t.SettlementDate).Last(); }
         }
 
         private IShareTransaction First
         {
-            get { return EFTransactions.OrderBy(t => t.SettlementDate).First(); }
+            get { return _transactions.OrderBy(t => t.SettlementDate).First(); }
         }
 
         private IPriceSeries PriceSeries
         {
             get { return _priceSeries ?? (_priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker)); }
+        }
+
+        public string Ticker
+        {
+            get
+            {
+                return _ticker;
+            }
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentNullException("value", Strings.Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_);
+                }
+                _ticker = value;
+            }
         }
 
         #endregion
@@ -448,7 +458,7 @@ namespace Sonneville.PriceTools
 
         private void AddTransaction(double shares, OrderType type, DateTime settlementDate, decimal price, decimal commission)
         {
-            ShareTransaction shareTransaction = TransactionFactory.CreateShareTransaction(settlementDate, type, Ticker, price,
+            var shareTransaction = TransactionFactory.CreateShareTransaction(settlementDate, type, Ticker, price,
                                                                                      shares, commission);
             AddTransaction(shareTransaction);
         }
@@ -465,8 +475,8 @@ namespace Sonneville.PriceTools
                 case OrderType.BuyToCover:
                 case OrderType.Sell:
                     // Verify that closed holdings do not exceed available shares at the time of the shareTransaction.
-                    DateTime date = shareTransaction.SettlementDate.Subtract(new TimeSpan(0, 0, 0, 1));
-                    double heldShares = GetHeldShares(date);
+                    var date = shareTransaction.SettlementDate.Subtract(new TimeSpan(0, 0, 0, 1));
+                    var heldShares = GetHeldShares(date);
                     if (shareTransaction.Shares > heldShares)
                     {
                         throw new InvalidOperationException(
@@ -510,13 +520,5 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
-
-        partial void OnTickerChanging(string value)
-        {
-            if (string.IsNullOrWhiteSpace(value))
-            {
-                throw new ArgumentNullException("value", Strings.Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_);
-            }
-        }
     }
 }

@@ -7,20 +7,10 @@
     <Schema Namespace="Entities.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
   <EntityContainer Name="EntitiesStoreContainer">
     <EntitySet Name="Transactions" EntityType="Entities.Store.Transactions" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Positions" EntityType="Entities.Store.Positions" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Transactions_ShareTransaction" EntityType="Entities.Store.Transactions_ShareTransaction" store:Type="Tables" Schema="dbo" />
-    <EntitySet Name="Transactions_CashTransaction" EntityType="Entities.Store.Transactions_CashTransaction" store:Type="Tables" Schema="dbo" />
-    <AssociationSet Name="PositionShareTransaction" Association="Entities.Store.PositionShareTransaction">
-      <End Role="Position" EntitySet="Positions" />
-      <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
-    </AssociationSet>
     <AssociationSet Name="FK_ShareTransaction_inherits_Transaction" Association="Entities.Store.FK_ShareTransaction_inherits_Transaction">
       <End Role="Transaction" EntitySet="Transactions" />
       <End Role="ShareTransaction" EntitySet="Transactions_ShareTransaction" />
-    </AssociationSet>
-    <AssociationSet Name="FK_CashTransaction_inherits_Transaction" Association="Entities.Store.FK_CashTransaction_inherits_Transaction">
-      <End Role="Transaction" EntitySet="Transactions" />
-      <End Role="CashTransaction" EntitySet="Transactions_CashTransaction" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Transactions">
@@ -29,14 +19,6 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="SettlementDate" Type="datetime" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Positions">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="Ticker" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Portfolio_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Transactions_ShareTransaction">
     <Key>
@@ -50,27 +32,6 @@
     <Property Name="Id" Type="int" Nullable="false" />
     <Property Name="Position_Id" Type="int" Nullable="true" />
   </EntityType>
-  <EntityType Name="Transactions_CashTransaction">
-    <Key>
-      <PropertyRef Name="Id" />
-    </Key>
-    <Property Name="Amount" Type="decimal" Nullable="false" />
-    <Property Name="EFTransactionType" Type="int" Nullable="false" />
-    <Property Name="Id" Type="int" Nullable="false" />
-    <Property Name="CashAccount_Id" Type="int" Nullable="true" />
-  </EntityType>
-  <Association Name="PositionShareTransaction">
-    <End Role="Position" Type="Entities.Store.Positions" Multiplicity="0..1" />
-    <End Role="ShareTransaction" Type="Entities.Store.Transactions_ShareTransaction" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Position">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="ShareTransaction">
-        <PropertyRef Name="Position_Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_ShareTransaction_inherits_Transaction">
     <End Role="Transaction" Type="Entities.Store.Transactions" Multiplicity="1" />
     <End Role="ShareTransaction" Type="Entities.Store.Transactions_ShareTransaction" Multiplicity="0..1" />
@@ -83,29 +44,12 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_CashTransaction_inherits_Transaction">
-    <End Role="Transaction" Type="Entities.Store.Transactions" Multiplicity="1" />
-    <End Role="CashTransaction" Type="Entities.Store.Transactions_CashTransaction" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Transaction">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="CashTransaction">
-        <PropertyRef Name="Id" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="Entities" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
         <EntityContainer Name="Container" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Transactions" EntityType="Entities.Transaction" />
-          <EntitySet Name="Positions" EntityType="Entities.Position" />
-          <AssociationSet Name="PositionShareTransaction" Association="Entities.PositionShareTransaction">
-            <End Role="Position" EntitySet="Positions" />
-            <End Role="ShareTransaction" EntitySet="Transactions" />
-          </AssociationSet>
           </EntityContainer>
         <EntityType Name="Transaction" Abstract="true">
           <Key>
@@ -113,10 +57,6 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="DateTime" Name="SettlementDate" Nullable="false" />
-        </EntityType>
-        <EntityType Name="CashTransaction" BaseType="Entities.Transaction" Abstract="true" >
-          <Property Type="Decimal" Name="Amount" Nullable="false" cg:SetterAccess="Public" />
-          <Property Type="Int32" Name="EFTransactionType" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
         </EntityType>
         <EntityType Name="ShareTransaction" BaseType="Entities.Transaction" Abstract="true" >
           <Property Type="Double" Name="Shares" Nullable="false" >
@@ -136,28 +76,7 @@
             </Documentation>
           </Property>
           <Property Type="Int32" Name="EFTransactionType" Nullable="false" cg:GetterAccess="Private" cg:SetterAccess="Private" />
-          <NavigationProperty Name="Position" Relationship="Entities.PositionShareTransaction" FromRole="ShareTransaction" ToRole="Position" cg:SetterAccess="Private" />
         </EntityType>
-        <EntityType Name="Position">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Ticker" Nullable="false" cg:SetterAccess="Public" >
-            <Documentation>
-              <Summary>Gets the ticker symbol held by this Position.</Summary>
-            </Documentation>
-          </Property>
-          <NavigationProperty Name="EFTransactions" Relationship="Entities.PositionShareTransaction" FromRole="Position" ToRole="ShareTransaction" cg:SetterAccess="Private" cg:GetterAccess="Private" >
-            <Documentation>
-              <Summary>A collection of all &lt;see cref = "IShareTransaction" /&gt;s in this IPosition.</Summary>
-            </Documentation>
-          </NavigationProperty>
-        </EntityType>
-        <Association Name="PositionShareTransaction">
-          <End Type="Entities.Position" Role="Position" Multiplicity="0..1" />
-          <End Type="Entities.ShareTransaction" Role="ShareTransaction" Multiplicity="*" />
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -181,31 +100,7 @@
           <ScalarProperty Name="EFTransactionType" ColumnName="EFTransactionType" />
         </MappingFragment>
       </EntityTypeMapping>
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.CashTransaction)">
-        <MappingFragment StoreEntitySet="Transactions_CashTransaction">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Amount" ColumnName="Amount" />
-          <ScalarProperty Name="EFTransactionType" ColumnName="EFTransactionType" />
-        </MappingFragment>
-      </EntityTypeMapping>
       </EntitySetMapping>
-    <EntitySetMapping Name="Positions">
-      <EntityTypeMapping TypeName="IsTypeOf(Entities.Position)">
-        <MappingFragment StoreEntitySet="Positions">
-          <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="Ticker" ColumnName="Ticker" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <AssociationSetMapping Name="PositionShareTransaction" TypeName="Entities.PositionShareTransaction" StoreEntitySet="Transactions_ShareTransaction">
-      <EndProperty Name="Position">
-        <ScalarProperty Name="Id" ColumnName="Position_Id" />
-      </EndProperty>
-      <EndProperty Name="ShareTransaction">
-        <ScalarProperty Name="Id" ColumnName="Id" />
-      </EndProperty>
-      <Condition ColumnName="Position_Id" IsNull="false" />
-    </AssociationSetMapping>
           </EntityContainerMapping>
 </Mapping></edmx:Mappings>
   </edmx:Runtime>
@@ -226,25 +121,11 @@
     <edmx:Diagrams>
       <Diagram Name="Entities" ZoomLevel="54" >
         <EntityTypeShape EntityType="Entities.Transaction" Width="1.5" PointX="4.5" PointY="6" Height="1.4033821614583331" />
-        <EntityTypeShape EntityType="Entities.CashTransaction" Width="1.5" PointX="1.5" PointY="7.125" Height="1.5956835937499996" />
-        <InheritanceConnector EntityType="Entities.CashTransaction" ManuallyRouted="true" >
-          <ConnectorPoint PointX="5.25" PointY="7.4033821614583335" />
-          <ConnectorPoint PointX="5.25" PointY="7.7783821614583335" />
-          <ConnectorPoint PointX="3.375" PointY="7.7783821614583335" />
-          <ConnectorPoint PointX="3.375" PointY="6.75" />
-          <ConnectorPoint PointX="2.25" PointY="6.75" />
-          <ConnectorPoint PointX="2.25" PointY="7.125" />
-        </InheritanceConnector>
         <EntityTypeShape EntityType="Entities.ShareTransaction" Width="1.5" PointX="7.5" PointY="6.5" Height="2.1725878906249996" />
         <InheritanceConnector EntityType="Entities.ShareTransaction" ManuallyRouted="false" >
           <ConnectorPoint PointX="6" PointY="6.9516910807291667" />
           <ConnectorPoint PointX="7.5" PointY="6.9516910807291667" />
         </InheritanceConnector>
-        <EntityTypeShape EntityType="Entities.Position" Width="1.5" PointX="7.5" PointY="3.875" Height="1.7879850260416657" />
-        <AssociationConnector Association="Entities.PositionShareTransaction" ManuallyRouted="false">
-          <ConnectorPoint PointX="8.25" PointY="5.47068359375" />
-          <ConnectorPoint PointX="8.25" PointY="6.5" />
-        </AssociationConnector>
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

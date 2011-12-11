@@ -476,7 +476,7 @@ namespace Sonneville.PriceTools
             var position = GetPosition(ticker);
             if (position == null)
             {
-                position = new Position(ticker);
+                position = PositionFactory.CreatePosition(ticker);
                 Positions.Add((Position) position);
             }
             position.AddTransaction(transaction);
