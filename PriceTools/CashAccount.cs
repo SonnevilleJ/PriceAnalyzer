@@ -11,7 +11,9 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private readonly ICollection<ICashTransaction> _transactions = new List<ICashTransaction>();
+        private readonly HashSet<ICashTransaction> _transactions = new HashSet<ICashTransaction>();
+        private readonly object _padlock = new object();
+
         #endregion
 
         #region Constructors
@@ -37,7 +39,10 @@ namespace Sonneville.PriceTools
         /// </summary>
         public void Deposit(Deposit deposit)
         {
-            _transactions.Add(deposit);
+            lock(_padlock)
+            {
+                _transactions.Add(deposit);
+            }
         }
 
         /// <summary>
@@ -46,7 +51,10 @@ namespace Sonneville.PriceTools
         /// <param name="dividendReceipt"></param>
         public void Deposit(DividendReceipt dividendReceipt)
         {
-            _transactions.Add(dividendReceipt);
+            lock(_padlock)
+            {
+                _transactions.Add(dividendReceipt);
+            }
         }
 
         /// <summary>
@@ -68,8 +76,11 @@ namespace Sonneville.PriceTools
         /// </summary>
         public void Withdraw(Withdrawal withdrawal)
         {
-            VerifySufficientFunds(withdrawal);
-            _transactions.Add(withdrawal);
+            lock (_padlock)
+            {
+                VerifySufficientFunds(withdrawal);
+                _transactions.Add(withdrawal);
+            }
         }
 
         /// <summary>
@@ -77,7 +88,13 @@ namespace Sonneville.PriceTools
         /// </summary>
         public ICollection<ICashTransaction> Transactions
         {
-            get { return new List<ICashTransaction>(_transactions); }
+            get
+            {
+                lock(_padlock)
+                {
+                    return new List<ICashTransaction>(_transactions);
+                }
+            }
         }
 
         /// <summary>
@@ -86,9 +103,12 @@ namespace Sonneville.PriceTools
         /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetCashBalance(DateTime asOfDate)
         {
-            return Transactions
-                .Where(transaction => transaction.SettlementDate <= asOfDate)
-                .Sum(transaction => transaction.Amount);
+            lock (_padlock)
+            {
+                return _transactions
+                    .Where(transaction => transaction.SettlementDate <= asOfDate)
+                    .Sum(transaction => transaction.Amount);
+            }
         }
 
         private void VerifySufficientFunds(Withdrawal withdrawal)
