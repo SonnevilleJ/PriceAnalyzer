@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a price quote for a financial security.
     /// </summary>
-    public interface IPriceQuote : IEquatable<IPriceQuote>
+    public interface IPriceQuote
     {
         /// <summary>
         /// The <see cref="DateTime"/> which the price quote is made.

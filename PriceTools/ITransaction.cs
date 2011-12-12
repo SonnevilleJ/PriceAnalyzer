@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a financial transaction.
     /// </summary>
-    public interface ITransaction : IEquatable<ITransaction>
+    public interface ITransaction
     {
         /// <summary>
         ///   Gets the DateTime that the ITransaction occurred.

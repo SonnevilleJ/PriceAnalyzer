@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private IList<ICashTransaction> _transactions = new List<ICashTransaction>();
+        private readonly IList<ICashTransaction> _transactions = new List<ICashTransaction>();
         #endregion
 
         #region Constructors
@@ -98,82 +98,5 @@ namespace Sonneville.PriceTools
                 throw new InvalidOperationException("Insufficient funds.");
             }
         }
-
-        #region Equality Checks
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator ==(CashAccount left, CashAccount right)
-        {
-            if (ReferenceEquals(null, left)) return false;
-            if (ReferenceEquals(null, right)) return false;
-
-            return left.Transactions.Count == right.Transactions.Count && left.Transactions.All(transaction => right.Transactions.Where(t => t.OrderType == transaction.OrderType && t.Amount == transaction.Amount && t.SettlementDate == transaction.SettlementDate).Count() != 0);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator !=(CashAccount left, CashAccount right)
-        {
-            return !(left == right);
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        private bool Equals(CashAccount other)
-        {
-            return other == this;
-        }
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ICashAccount other)
-        {
-            return other as CashAccount == this;
-        }
-
-        /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as CashAccount);
-        }
-
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public override int GetHashCode()
-        {
-            return base.GetHashCode();
-        }
-
-        #endregion
     }
 }

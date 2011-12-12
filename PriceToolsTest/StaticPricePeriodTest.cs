@@ -18,8 +18,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CloseTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
             IPricePeriod target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
@@ -33,8 +33,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void HeadTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 100.00m;
             const decimal high = 110.00m;
             const decimal low = 90.00m;
@@ -52,8 +52,8 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(InvalidOperationException))]
         public void HeadBeforeTailTest()
         {
-            DateTime tail = new DateTime(2011, 3, 13);
-            DateTime head = tail.AddDays(1);
+            var tail = new DateTime(2011, 3, 13);
+            var head = tail.AddDays(1);
             const decimal open = 100.00m;
             const decimal high = 110.00m;
             const decimal low = 90.00m;
@@ -68,8 +68,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void HighTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -88,8 +88,8 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(InvalidOperationException))]
         public void HighLessThanOpenTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 9.00m;
             const decimal low = 8.00m;
@@ -106,9 +106,9 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(InvalidOperationException))]
         public void HighLessThanCloseTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
-            const decimal open = 10.00m;
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
+            const decimal open = 7.00m;
             const decimal high = 8.00m;
             const decimal low = 6.00m;
             const decimal close = 9.00m;
@@ -123,8 +123,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void IndexerValueAtHeadTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -142,8 +142,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void IndexerValueAtTailTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -162,8 +162,8 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(InvalidOperationException))]
         public void IndexerValueBeforeHeadTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -181,8 +181,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void IndexerValueAfterTailTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -200,8 +200,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void LowTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -220,8 +220,8 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(InvalidOperationException))]
         public void LowGreaterThanOpenTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 13.00m;
             const decimal low = 11.00m;
@@ -238,8 +238,8 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(InvalidOperationException))]
         public void LowGreaterThanCloseTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -255,8 +255,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void OpenTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -274,8 +274,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void TailTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -293,8 +293,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void VolumeTest()
         {
-            DateTime head = new DateTime(2011, 3, 13);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 13);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -312,8 +312,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ResolutionTestSeconds()
         {
-            DateTime head = new DateTime(2011, 9, 28);
-            DateTime tail = head.AddSeconds(1);
+            var head = new DateTime(2011, 9, 28);
+            var tail = head.AddSeconds(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -333,8 +333,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ResolutionTestMinutes()
         {
-            DateTime head = new DateTime(2011, 9, 28);
-            DateTime tail = head.AddMinutes(1);
+            var head = new DateTime(2011, 9, 28);
+            var tail = head.AddMinutes(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -354,8 +354,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ResolutionTestHours()
         {
-            DateTime head = new DateTime(2011, 9, 28);
-            DateTime tail = head.AddHours(1);
+            var head = new DateTime(2011, 9, 28);
+            var tail = head.AddHours(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -375,8 +375,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ResolutionTestDays()
         {
-            DateTime head = new DateTime(2011, 9, 28);
-            DateTime tail = head.AddDays(1);
+            var head = new DateTime(2011, 9, 28);
+            var tail = head.AddDays(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -396,8 +396,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ResolutionTestWeeks()
         {
-            DateTime head = new DateTime(2011, 9, 25);
-            DateTime tail = head.AddDays(7);
+            var head = new DateTime(2011, 9, 25);
+            var tail = head.AddDays(7);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -417,8 +417,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ResolutionTestMonths()
         {
-            DateTime head = new DateTime(2011, 8, 1);
-            DateTime tail = head.AddMonths(1);
+            var head = new DateTime(2011, 8, 1);
+            var tail = head.AddMonths(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -435,8 +435,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ValuesCountTest()
         {
-            DateTime head = new DateTime(2011, 8, 1);
-            DateTime tail = head.AddMonths(1);
+            var head = new DateTime(2011, 8, 1);
+            var tail = head.AddMonths(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;
@@ -453,8 +453,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ValuesMatchTest()
         {
-            DateTime head = new DateTime(2011, 8, 1);
-            DateTime tail = head.AddMonths(1);
+            var head = new DateTime(2011, 8, 1);
+            var tail = head.AddMonths(1);
             const decimal open = 10.00m;
             const decimal high = 11.00m;
             const decimal low = 9.00m;

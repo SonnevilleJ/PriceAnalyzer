@@ -131,16 +131,11 @@ namespace Sonneville.PriceTools
             get
             {
                 DateTime? latest = null;
-                IEnumerable<ICashTransaction> cashTransactions = _cashAccount.Transactions;
                 if (Positions.Count > 0)
-                {
-                    latest = Positions.OrderBy(position => position.Head).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last().SettlementDate;
-                    cashTransactions = _cashAccount.Transactions.Where(transaction=>transaction.SettlementDate > latest);
-                }
+                    latest = Positions.OrderBy(position => position.Tail).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last().SettlementDate;
+                var cashTransactions = _cashAccount.Transactions.Where(transaction => transaction.SettlementDate > (latest ?? DateTime.MinValue));
                 if (cashTransactions.Count() > 0)
-                {
-                    latest = cashTransactions.OrderBy(transaction => transaction.SettlementDate).Last().SettlementDate;
-                }
+                    latest = cashTransactions.Max(t=>t.SettlementDate);
 
                 return latest ?? DateTime.Now;
             }
@@ -316,8 +311,7 @@ namespace Sonneville.PriceTools
                 }
                 list.AddRange(_cashAccount.Transactions);
 
-                list.OrderBy(t => t.SettlementDate);
-                return list;
+                return list.OrderBy(t => t.SettlementDate).ToList();
             }
         }
 

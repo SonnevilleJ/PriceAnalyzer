@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.Objects.DataClasses;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a single account used to hold cash.
     /// </summary>
-    public interface ICashAccount : IEquatable<ICashAccount>
+    public interface ICashAccount
     {
         /// <summary>
         /// Deposits cash into the ICashAccount.

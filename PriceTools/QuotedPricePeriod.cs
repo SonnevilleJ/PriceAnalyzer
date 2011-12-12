@@ -59,17 +59,17 @@ namespace Sonneville.PriceTools
         /// <param name = "priceQuote">The <see cref = "IPriceQuote" />s to add.</param>
         public void AddPriceQuotes(params IPriceQuote[] priceQuote)
         {
-            DateTime[] dates = new DateTime[priceQuote.Count()];
-            for (int i = 0; i < priceQuote.Length; i++)
+            var dates = new DateTime[priceQuote.Count()];
+            for (var i = 0; i < priceQuote.Length; i++)
             {
-                IPriceQuote quote = priceQuote[i];
+                var quote = priceQuote[i];
                 PriceQuotes.Add((PriceQuote) quote);
                 dates[i] = quote.SettlementDate;
             }
-            NewPriceDataAvailableEventArgs args = new NewPriceDataAvailableEventArgs
-                                                      {
-                                                          Indices = dates
-                                                      };
+            var args = new NewPriceDataAvailableEventArgs
+                           {
+                               Indices = dates
+                           };
             InvokeNewPriceDataAvailable(args);
         }
 
@@ -113,82 +113,6 @@ namespace Sonneville.PriceTools
         public override decimal this[DateTime index]
         {
             get { return PriceQuotes.Where(q => q.SettlementDate <= index).Last().Price; }
-        }
-
-        #endregion
-
-        #region Equality Checks
-
-        /// <summary>
-        /// </summary>
-        /// <param name = "left"></param>
-        /// <param name = "right"></param>
-        /// <returns></returns>
-        public static bool operator ==(QuotedPricePeriod left, QuotedPricePeriod right)
-        {
-            if (ReferenceEquals(null, left)) return false;
-            if (ReferenceEquals(null, right)) return false;
-
-            bool priceQuotesMatch = false;
-            if (left.PriceQuotes.Count == right.PriceQuotes.Count)
-            {
-                priceQuotesMatch = left.PriceQuotes.All(quote => right.PriceQuotes.Contains(quote));
-            }
-
-            return priceQuotesMatch &&
-                left.Close == right.Close &&
-                left.Head == right.Head &&
-                left.High == right.High &&
-                left.Low == right.Low &&
-                left.Open == right.Open &&
-                left.Tail == right.Tail &&
-                left.Volume == right.Volume;
-        }
-
-        /// <summary>
-        /// </summary>
-        /// <param name = "left"></param>
-        /// <param name = "right"></param>
-        /// <returns></returns>
-        public static bool operator !=(QuotedPricePeriod left, QuotedPricePeriod right)
-        {
-            return !(left == right);
-        }
-
-        #endregion
-
-        #region Implementation of IEquatable<IPricePeriod>
-
-        /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
-        public override bool Equals(object obj)
-        {
-            return this == obj as QuotedPricePeriod;
-        }
-
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
-        public override int GetHashCode()
-        {
-            unchecked
-            {
-                int result = 0;
-                foreach (var priceQuote in PriceQuotes)
-                {
-                    result = (result*397) ^ priceQuote.GetHashCode();
-                }
-                return result;
-            }
         }
 
         #endregion

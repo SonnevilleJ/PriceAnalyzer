@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    public interface IPricePeriod : ITimeSeries, IEquatable<IPricePeriod>
+    public interface IPricePeriod : ITimeSeries
     {
         /// <summary>
         /// Gets the closing price for the IPricePeriod.

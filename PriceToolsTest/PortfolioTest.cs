@@ -991,6 +991,17 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
+        public void HeadTestWhenEmpty()
+        {
+            IPortfolio target = new Portfolio();
+
+            // measure DayOfYear because ticks will be slightly different between calls
+            var expected = DateTime.Now.DayOfYear;
+            var actual = target.Head.DayOfYear;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void HeadTestWithPosition()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -1045,6 +1056,17 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
+        public void TailTestWhenEmpty()
+        {
+            IPortfolio target = new Portfolio();
+
+            // measure DayOfYear because ticks will be slightly different between calls
+            var expected = DateTime.Now.DayOfYear;
+            var actual = target.Tail.DayOfYear;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void TailTestWithPosition()
         {
             DateTime dateTime = new DateTime(2011, 1, 8);
@@ -1091,9 +1113,10 @@ namespace Sonneville.PriceToolsTest
             IPortfolio target = new Portfolio();
 
             target.Deposit(originalDate, amount);
-            target.Deposit(originalDate.AddDays(10), amount);
+            var nextDate = originalDate.AddDays(10);
+            target.Deposit(nextDate, amount);
 
-            DateTime expected = originalDate.AddDays(10);
+            DateTime expected = nextDate;
             DateTime actual = target.Tail;
             Assert.AreEqual(expected, actual);
         }
