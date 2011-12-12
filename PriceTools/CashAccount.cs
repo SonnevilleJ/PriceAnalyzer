@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private readonly IList<ICashTransaction> _transactions = new List<ICashTransaction>();
+        private readonly ICollection<ICashTransaction> _transactions = new List<ICashTransaction>();
         #endregion
 
         #region Constructors
@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public void Deposit(Deposit deposit)
         {
-            Transactions.Add(deposit);
+            _transactions.Add(deposit);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools
         /// <param name="dividendReceipt"></param>
         public void Deposit(DividendReceipt dividendReceipt)
         {
-            Transactions.Add(dividendReceipt);
+            _transactions.Add(dividendReceipt);
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Sonneville.PriceTools
         public void Withdraw(Withdrawal withdrawal)
         {
             VerifySufficientFunds(withdrawal);
-            Transactions.Add(withdrawal);
+            _transactions.Add(withdrawal);
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public ICollection<ICashTransaction> Transactions
         {
-            get { return _transactions; }
+            get { return new List<ICashTransaction>(_transactions); }
         }
 
         /// <summary>

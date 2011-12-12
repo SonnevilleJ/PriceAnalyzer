@@ -1,4 +1,5 @@
-﻿using Sonneville.PriceTools;
+﻿using System.Threading.Tasks;
+using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -160,6 +161,26 @@ namespace Sonneville.PriceToolsTest
             const decimal amount = 500.00m;
             target.Deposit(dateTime, amount);
             target.Withdraw(dateTime, amount);
+
+            const int expectedTransactions = 2;
+            var actualTransactions = target.Transactions.Count;
+            Assert.AreEqual(expectedTransactions, actualTransactions);
+        }
+
+        /// <summary>
+        ///A test for Transactions
+        ///</summary>
+        [TestMethod]
+        public void ModifyingTransactionsListDoesNotAffectCashAccountTest()
+        {
+            ICashAccount target = new CashAccount();
+            var dateTime = new DateTime(2010, 1, 16);
+            const decimal amount = 500.00m;
+            target.Deposit(dateTime, amount);
+            target.Withdraw(dateTime, amount);
+            
+            var deposit = new Deposit {SettlementDate = dateTime, Amount = amount};
+            target.Transactions.Add(deposit);
 
             const int expectedTransactions = 2;
             var actualTransactions = target.Transactions.Count;
