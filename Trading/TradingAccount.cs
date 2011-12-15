@@ -40,15 +40,29 @@ namespace Sonneville.PriceTools.Trading
         /// <param name="order">The <see cref="Order"/> to execute.</param>
         protected abstract void ProcessOrder(Order order);
 
-        public void TryCancelOrder(Order order)
+        /// <summary>
+        /// Attempts to cancel an <see cref="Order"/> before it is filled.
+        /// </summary>
+        /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
+        public bool TryCancelOrder(Order order)
         {
             Thread value;
+            var result = false;
             if(_inProcess.TryGetValue(order, out value))
             {
-                value.Abort();
-                var cancelled = DateTime.Now;
-                InvokeOrderCancelled(new OrderCancelledEventArgs(cancelled, order));
+                EventHandler<OrderCancelledEventArgs> handler = (sender, args) => result = order == args.Order;
+                try
+                {
+                    OrderCancelled += handler;
+                    value.Abort();
+                    InvokeOrderCancelled(new OrderCancelledEventArgs(DateTime.Now, order));
+                }
+                finally
+                {
+                    OrderCancelled -= handler;
+                }
             }
+            return result;
         }
 
         /// <summary>

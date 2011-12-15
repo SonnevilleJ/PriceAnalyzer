@@ -121,5 +121,33 @@ namespace TradingTest
                 target.OrderExpired -= expiredHandler;
             }
         }
+
+        [TestMethod]
+        public void OrderCancelledReturnsTrue()
+        {
+            TradingAccount target = new SimulatedAccount();
+
+            var order = new Order(DateTime.Now, DateTime.Now.Add(SimulatedAccount.MaxProcessingTimeSpan), OrderType.Buy, "DE", 5, 100.00m);
+            target.Submit(order);
+            var result = target.TryCancelOrder(order);
+
+            Thread.Sleep(SimulatedAccount.MaxProcessingTimeSpan);
+            Assert.IsTrue(result);
+        }
+
+        [TestMethod]
+        public void OrderCancelledReturnsFalse()
+        {
+            TradingAccount target = new SimulatedAccount();
+
+            var order = new Order(DateTime.Now, DateTime.Now.Add(SimulatedAccount.MaxProcessingTimeSpan), OrderType.Buy, "DE", 5, 100.00m);
+            target.Submit(order);
+
+            Thread.Sleep(SimulatedAccount.MaxProcessingTimeSpan);
+            var result = target.TryCancelOrder(order);
+
+            Thread.Sleep(SimulatedAccount.MaxProcessingTimeSpan);
+            Assert.IsFalse(result);
+        }
     }
 }
