@@ -17,12 +17,12 @@ namespace TradingTest
 
         internal static TimeSpan MinProcessingTimeSpan
         {
-            get { return new TimeSpan(0, 0, 0, 1); }
+            get { return new TimeSpan(0, 0, 0, 0, 100); }
         }
 
         internal static TimeSpan MaxProcessingTimeSpan
         {
-            get { return new TimeSpan(0, 0, 0, 5); }
+            get { return new TimeSpan(0, 0, 0, 0, 500); }
         }
 
         /// <summary>
