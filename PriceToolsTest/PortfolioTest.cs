@@ -201,23 +201,27 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CalculateValueWithOpenPosition()
         {
-            //DateTime dateTime = new DateTime(2011, 11, 21);
-            //const decimal amount = 10000m;
-            //IPortfolio target = new Portfolio(dateTime, amount);
+            DateTime dateTime = new DateTime(2011, 11, 21);
+            const decimal amount = 10000m;
+            IPortfolio target = new Portfolio(dateTime, amount);
 
-            //var buyDate = dateTime.AddDays(1);
-            //var calculateDate = buyDate.AddDays(1);
-            //const string ticker = "DE";
-            //const decimal buyPrice = 50.00m;
-            //const int shares = 5;
-            //const decimal commission = 7.95m;
-            //const decimal buyValue = (shares * buyPrice);
+            var buyDate = dateTime.AddDays(1);
+            var calculateDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal buyPrice = 50.00m;
+            const int shares = 5;
+            const decimal commission = 7.95m;
+            const decimal buyValue = (shares * buyPrice);
+            
+            // Because CalculateValue cannot get price data, it must calculate based on the buy prices and any sell prices
+            const decimal currentValue = buyPrice*shares;
 
-            //target.AddTransaction(new Buy { Ticker = ticker, SettlementDate = buyDate, Shares = shares, Price = buyPrice, Commission = commission });
+            var buy = new Buy { Ticker = ticker, SettlementDate = buyDate, Shares = shares, Price = buyPrice, Commission = commission };
+            target.AddTransaction(buy);
 
-            //const decimal expected = amount - buyValue + sellValue;
-            //decimal actual = target.CalculateValue(calculateDate);
-            //Assert.AreEqual(expected, actual);
+            const decimal expected = amount - buyValue + currentValue;
+            decimal actual = target.CalculateValue(calculateDate);
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
