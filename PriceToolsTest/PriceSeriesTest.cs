@@ -525,7 +525,8 @@ namespace Sonneville.PriceToolsTest
             DateTime dateTime = new DateTime(2011, 4, 1);
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
-            target.DownloadPriceData(dateTime);
+            var provider = Settings.PreferredPriceSeriesProvider;
+            target.DownloadPriceData(provider, dateTime);
 
             Settings.CanConnectToInternet = false;
             Assert.IsNotNull(target[dateTime.AddHours(12)]);    // add 12 hours because no price is available at midnight.
@@ -539,7 +540,8 @@ namespace Sonneville.PriceToolsTest
             var tail = head.AddMonths(1);
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
-            target.DownloadPriceData(head, tail);
+            var provider = Settings.PreferredPriceSeriesProvider;
+            target.DownloadPriceData(provider, head, tail);
 
             Settings.CanConnectToInternet = false;
             Assert.IsNotNull(target[tail]);
