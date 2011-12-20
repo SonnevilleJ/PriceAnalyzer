@@ -30,29 +30,6 @@ namespace Sonneville.PriceTools
         decimal CalculateTotalValue(PriceSeriesProvider provider, DateTime settlementDate);
 
         /// <summary>
-        ///   Gets the raw rate of return for this IMeasurableSecurityBasket, not accounting for commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>Returns the raw rate of return, before commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
-        decimal? CalculateRawReturn(DateTime settlementDate);
-
-        /// <summary>
-        ///   Gets the total rate of return for this IMeasurableSecurityBasket, after commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>Returns the total rate of return, after commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
-        decimal? CalculateTotalReturn(DateTime settlementDate);
-
-        /// <summary>
-        ///   Gets the total rate of return on an annual basis for this IMeasurableSecurityBasket.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <remarks>
-        ///   Assumes a year has 365 days.
-        /// </remarks>
-        decimal? CalculateAverageAnnualReturn(DateTime settlementDate);
-
-        /// <summary>
         ///   Gets the gross investment of this IMeasurableSecurityBasket, ignoring any proceeds and commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>

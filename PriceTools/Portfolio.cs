@@ -216,52 +216,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the raw rate of return for this Portfolio, not accounting for commissions.
-        /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
-        /// <returns>Returns the raw rate of return, before commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
-        public decimal? CalculateRawReturn(DateTime settlementDate)
-        {
-            var proceeds = CalculateProceeds(settlementDate);
-            var costs = CalculateCost(settlementDate);
-            var profit = proceeds - costs;
-            return proceeds != 0
-                ? (profit / costs)
-                : (decimal?)null;
-        }
-
-        /// <summary>
-        ///   Gets the total rate of return for this Portfolio, after commissions.
-        /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
-        /// <returns>Returns the total rate of return, after commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
-        public decimal? CalculateTotalReturn(DateTime settlementDate)
-        {
-            var proceeds = CalculateProceeds(settlementDate);
-            var costs = CalculateCost(settlementDate);
-            var commissions = CalculateCommissions(settlementDate);
-            var profit = proceeds - costs - commissions;
-            return proceeds != 0
-                       ? (profit / costs)
-                       : (decimal?)null;
-        }
-
-        /// <summary>
-        ///   Gets the total rate of return on an annual basis for this Portfolio.
-        /// </summary>
-        /// <remarks>
-        ///   Assumes a year has 365 days.
-        /// </remarks>
-        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
-        public decimal? CalculateAverageAnnualReturn(DateTime settlementDate)
-        {
-            var time = ((Tail - Head).Days / 365.0m);
-            var totalReturn = CalculateTotalReturn(settlementDate);
-
-            return totalReturn / (time);
-        }
-
-        /// <summary>
         ///   Gets the gross investment of this Portfolio, ignoring any proceeds and commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>

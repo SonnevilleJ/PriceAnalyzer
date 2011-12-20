@@ -270,49 +270,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the raw rate of return for this Position, not accounting for commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>Returns the raw rate of return, before commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
-        public decimal? CalculateRawReturn(DateTime settlementDate)
-        {
-            return GetClosedShares(settlementDate) > 0
-                       ? (decimal?) ((CalculateValue(settlementDate)/CalculateCost(settlementDate)) - 1)
-                       : null;
-        }
-
-        /// <summary>
-        ///   Gets the total rate of return for this Position, after commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>Returns the total rate of return, after commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
-        public decimal? CalculateTotalReturn(DateTime settlementDate)
-        {
-            var proceeds = CalculateProceeds(settlementDate);
-            var costs = CalculateCost(settlementDate);
-            var commissions = CalculateCommissions(settlementDate);
-            var profit = proceeds - costs - commissions;
-            return proceeds != 0
-                       ? (profit/costs)
-                       : (decimal?) null;
-        }
-
-        /// <summary>
-        ///   Gets the total rate of return on an annual basis for this Position.
-        /// </summary>
-        /// <remarks>
-        ///   Assumes a year has 365 days.
-        /// </remarks>
-        public decimal? CalculateAverageAnnualReturn(DateTime settlementDate)
-        {
-            var totalReturn = CalculateTotalReturn(settlementDate);
-            var time = (Duration.Days/365.0m);
-            return totalReturn != null
-                       ? totalReturn/time
-                       : null;
-        }
-
-        /// <summary>
         /// Adds an IShareTransaction to the Position.
         /// </summary>
         /// <param name="shareTransaction"></param>
