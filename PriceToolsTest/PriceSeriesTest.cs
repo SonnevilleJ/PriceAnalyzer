@@ -795,5 +795,15 @@ namespace Sonneville.PriceToolsTest
                 Assert.IsTrue(actual.ContainsKey(key));
             }
         }
+
+        [TestMethod]
+        public void DefaultResolutionTest()
+        {
+            var target = PriceSeriesFactory.CreatePriceSeries("DE");
+
+            const Resolution expected = Resolution.Days;
+            var actual = target.Resolution;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

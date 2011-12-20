@@ -12,6 +12,8 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
+        private const Resolution DefaultResolution = Resolution.Days;
+
         private readonly Resolution _resolution;
 
         #endregion
@@ -19,7 +21,7 @@ namespace Sonneville.PriceTools
         #region Constructors
 
         internal PriceSeries()
-            : this(Settings.PreferredPriceSeriesProvider.BestResolution)
+            : this(DefaultResolution)
         {
         }
 
@@ -338,7 +340,9 @@ namespace Sonneville.PriceTools
         {
             var matchingPeriods = PricePeriods.Where(p => p.HasValueInRange(settlementDate));
             if (matchingPeriods.Count() > 0) return matchingPeriods.OrderBy(p => p.Tail).Last()[settlementDate];
-            if (PricePeriods.Count > 0) return PricePeriods.Where(p => p.Tail <= settlementDate).OrderBy(p => p.Tail).Last().Close;
+
+            if (PricePeriods.Count > 0) return PricePeriods.OrderBy(p => p.Tail).Last().Close;
+
             throw new InvalidOperationException(String.Format("No price data available for settlement date: {0}", settlementDate));
         }
 

@@ -1344,50 +1344,6 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void ResolutionEqualsResolutionOfPriceSeriesTest()
-        {
-            // As of this writing, Settings.PreferredPriceSeriesProvider is only read when target.Resolution is read.
-            // This is because the Portfolio's individual positions perform lazy loading of their underlying PriceSeries.
-            
-            try
-            {
-                Settings.PreferredPriceSeriesProvider = new HourlyProvider();
-
-                DateTime testDate = new DateTime(2001, 1, 1);
-                DateTime firstBuyDate = testDate.AddDays(1);
-                DateTime secondBuyDate = firstBuyDate.AddDays(1);
-                const string firstTicker = "DE";
-                const string secondTicker = "IBM";
-                const decimal buyPrice = 50.00m;    // $50.00 per share
-                const double sharesBought = 5;      // 5 shares
-                const decimal commission = 5.00m;   // with $5 commission
-
-                const decimal deposit = 10000m;
-                IPortfolio target = new Portfolio(testDate, deposit);
-
-                target.AddTransaction(new Buy { SettlementDate = firstBuyDate, Ticker = firstTicker, Shares = sharesBought, Price = buyPrice, Commission = commission });
-                target.AddTransaction(new Buy { SettlementDate = secondBuyDate, Ticker = secondTicker, Shares = sharesBought, Price = buyPrice, Commission = commission });
-
-                DateTime firstSellDate = secondBuyDate.AddDays(2);
-                DateTime secondSellDate = firstSellDate.AddDays(1);
-                const decimal sellPrice = 75.00m;   // $75.00 per share
-                const double sharesSold = 5;        // 5 shares
-
-                target.AddTransaction(new Sell { SettlementDate = firstSellDate, Ticker = firstTicker, Shares = sharesSold, Price = sellPrice, Commission = commission });
-                target.AddTransaction(new Sell { SettlementDate = secondSellDate, Ticker = secondTicker, Shares = sharesSold, Price = sellPrice, Commission = commission });
-
-                var expected = Settings.PreferredPriceSeriesProvider.BestResolution;
-                var actual = target.Resolution;
-
-                Assert.AreEqual(expected, actual);
-            }
-            finally
-            {
-                Settings.SetDefaultSettings();
-            }
-        }
-
-        [TestMethod]
         public void ValuesCountTest()
         {
             Settings.CanConnectToInternet = true;
