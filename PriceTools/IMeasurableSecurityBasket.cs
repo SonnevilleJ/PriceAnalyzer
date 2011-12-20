@@ -24,7 +24,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the total value of the IMeasurableSecurityBasket, including any commissions, as of a given date.
         /// </summary>
-        /// <param name="provider"></param>
+        /// <param name="provider">The <see cref="PriceSeriesProvider"/> to use when requesting price data.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total value of the IMeasurableSecurityBasket as of the given date.</returns>
         decimal CalculateTotalValue(PriceSeriesProvider provider, DateTime settlementDate);
@@ -53,7 +53,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the value of any shares held the IMeasurableSecurityBasket as of a given date.
         /// </summary>
-        /// <param name="provider"></param>
+        /// <param name="provider">The <see cref="PriceSeriesProvider"/> to use when requesting price data.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the IMeasurableSecurityBasket as of the given date.</returns>
         decimal CalculateInvestedValue(PriceSeriesProvider provider, DateTime settlementDate);

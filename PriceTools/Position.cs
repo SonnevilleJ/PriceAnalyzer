@@ -179,7 +179,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the value of any shares held the Position as of a given date.
         /// </summary>
-        /// <param name="provider"></param>
+        /// <param name="provider">The <see cref="PriceSeriesProvider"/> to use when requesting price data.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the Position as of the given date.</returns>
         public decimal CalculateInvestedValue(PriceSeriesProvider provider, DateTime settlementDate)
@@ -225,7 +225,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the total value of the Position, including any commissions, as of a given date.
         /// </summary>
-        /// <param name="provider"></param>
+        /// <param name="provider">The <see cref="PriceSeriesProvider"/> to use when requesting price data.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total value of the Position as of the given date.</returns>
         public decimal CalculateTotalValue(PriceSeriesProvider provider, DateTime settlementDate)
