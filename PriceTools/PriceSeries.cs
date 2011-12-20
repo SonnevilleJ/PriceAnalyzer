@@ -10,9 +10,12 @@ namespace Sonneville.PriceTools
     /// </summary>
     public class PriceSeries : PricePeriod, IPriceSeries
     {
-        #region Private Members
+        /// <summary>
+        /// The default <see cref="Resolution"/> of a PriceSeries.
+        /// </summary>
+        public const Resolution DefaultResolution = Resolution.Days;
 
-        private const Resolution DefaultResolution = Resolution.Days;
+        #region Private Members
 
         private readonly Resolution _resolution;
 

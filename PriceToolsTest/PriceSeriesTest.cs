@@ -526,7 +526,7 @@ namespace Sonneville.PriceToolsTest
             DateTime dateTime = new DateTime(2011, 4, 1);
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
-            var provider = Settings.PreferredPriceSeriesProvider;
+            var provider = new YahooPriceSeriesProvider();
             target.DownloadPriceData(provider, dateTime);
 
             Settings.CanConnectToInternet = false;
@@ -541,7 +541,7 @@ namespace Sonneville.PriceToolsTest
             var tail = head.AddMonths(1);
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
-            var provider = Settings.PreferredPriceSeriesProvider;
+            var provider = new YahooPriceSeriesProvider();
             target.DownloadPriceData(provider, head, tail);
 
             Settings.CanConnectToInternet = false;
