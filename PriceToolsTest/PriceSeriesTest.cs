@@ -523,7 +523,7 @@ namespace Sonneville.PriceToolsTest
         {
             Settings.CanConnectToInternet = true;
             DateTime dateTime = new DateTime(2011, 4, 1);
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("DE");
+            var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
             target.DownloadPriceData(dateTime);
 
@@ -537,7 +537,7 @@ namespace Sonneville.PriceToolsTest
             Settings.CanConnectToInternet = true;
             var head = new DateTime(2011, 4, 1);
             var tail = head.AddMonths(1);
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("DE");
+            var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
             target.DownloadPriceData(head, tail);
 
@@ -553,7 +553,7 @@ namespace Sonneville.PriceToolsTest
             var provider = new WeeklyProvider();
             var head = new DateTime(2011, 4, 1);
             var tail = head.AddMonths(1);
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("DE");
+            var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
             target.DownloadPriceData(provider, head, tail);
         }

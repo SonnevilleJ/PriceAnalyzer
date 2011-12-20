@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceTools
 {
@@ -85,9 +84,8 @@ namespace Sonneville.PriceTools
                 if (!HasValueInRange(index) && Settings.CanConnectToInternet)
                 {
                     var a = DataPeriods.Count != 0 ? Tail : index;
-                    DownloadPriceData(Settings.PreferredPriceSeriesProvider, a);
+                    this.DownloadPriceData(Settings.PreferredPriceSeriesProvider, a);
                 }
-
                 return GetLatestPrice(index);
             }
         }
@@ -141,46 +139,6 @@ namespace Sonneville.PriceTools
         public override bool HasValueInRange(DateTime settlementDate)
         {
             return DataPeriods.Count > 0 ? base.HasValueInRange(settlementDate) : false;
-        }
-
-        /// <summary>
-        /// Downloads price data from the given date until <see cref="DateTime.Now"/>.
-        /// </summary>
-        /// <param name="head">The first date to retrieve price data for.</param>
-        public void DownloadPriceData(DateTime head)
-        {
-            DownloadPriceData(Settings.PreferredPriceSeriesProvider, head);
-        }
-
-        /// <summary>
-        /// Downloads price data for the period between the given dates.
-        /// </summary>
-        /// <param name="head">The first date to retrieve price data for.</param>
-        /// <param name="tail">The last date to retrieve price data for.</param>
-        public void DownloadPriceData(DateTime head, DateTime tail)
-        {
-            DownloadPriceData(Settings.PreferredPriceSeriesProvider, head, tail);
-        }
-
-        /// <summary>
-        /// Downloads price data from the given date until <see cref="DateTime.Now"/>.
-        /// </summary>
-        /// <param name="provider">The <see cref="PriceSeriesProvider"/> to use for retrieving price data.</param>
-        /// <param name="head">The first date to retrieve price data for.</param>
-        public void DownloadPriceData(PriceSeriesProvider provider, DateTime head)
-        {
-            DownloadPriceData(provider, head, DateTime.Now);
-        }
-
-        /// <summary>
-        /// Downloads price data for the period between the given dates.
-        /// </summary>
-        /// <param name="provider">The <see cref="PriceSeriesProvider"/> to use for retrieving price data.</param>
-        /// <param name="head">The first date to retrieve price data for.</param>
-        /// <param name="tail">The last date to retrieve price data for.</param>
-        public void DownloadPriceData(PriceSeriesProvider provider, DateTime head, DateTime tail)
-        {
-            DownloadPriceDataIncludingBuffer(provider, head, tail);
         }
 
         /// <summary>
@@ -374,15 +332,6 @@ namespace Sonneville.PriceTools
         public readonly IList<PricePeriod> DataPeriods = new List<PricePeriod>();
 
         #region Private Methods
-
-        private void DownloadPriceDataIncludingBuffer(PriceSeriesProvider provider, DateTime head, DateTime tail)
-        {
-            if (provider.BestResolution > Resolution) throw new ArgumentException(string.Format("Provider must be capable of providing periods of resolution {0} or better.", Resolution), "provider");
-            foreach (var pricePeriod in provider.GetPriceHistoryCsvFile(Ticker, head.Subtract(Settings.TimespanToDownload), tail, Resolution).PricePeriods.OrderByDescending(period => period.Head))
-            {
-                DataPeriods.Add((PricePeriod) pricePeriod);
-            }
-        }
 
         /// <summary>
         /// Gets the most recent price at or before <paramref name="settlementDate"/>.
