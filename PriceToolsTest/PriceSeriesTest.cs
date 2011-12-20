@@ -199,7 +199,6 @@ namespace Sonneville.PriceToolsTest
         ///A test for Item
         ///</summary>
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void IndexerValueBeforeHeadTest()
         {
             PricePeriod p1 = TestUtilities.CreatePeriod1();
@@ -211,7 +210,9 @@ namespace Sonneville.PriceToolsTest
             target.DataPeriods.Add(p2);
             target.DataPeriods.Add(p3);
 
-            var result = target[p1.Head.Subtract(new TimeSpan(1))];
+            const decimal expected = 0.00m;
+            var actual = target[p1.Head.Subtract(new TimeSpan(1))];
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>

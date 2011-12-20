@@ -35,7 +35,8 @@ namespace Sonneville.PriceTools.Extensions
         private static void DownloadPriceDataIncludingBuffer(PriceSeries priceSeries, PriceSeriesProvider provider, DateTime head, DateTime tail)
         {
             if (provider.BestResolution > priceSeries.Resolution) throw new ArgumentException(string.Format("Provider must be capable of providing periods of resolution {0} or better.", priceSeries.Resolution), "provider");
-            foreach (var pricePeriod in provider.GetPriceHistoryCsvFile(priceSeries.Ticker, head.Subtract(Settings.TimespanToDownload), tail, priceSeries.Resolution).PricePeriods.OrderByDescending(period => period.Head))
+            var toDownload = new TimeSpan(7, 0, 0, 0);
+            foreach (var pricePeriod in provider.GetPriceHistoryCsvFile(priceSeries.Ticker, head.Subtract(toDownload), tail, priceSeries.Resolution).PricePeriods.OrderByDescending(period => period.Head))
             {
                 priceSeries.DataPeriods.Add((PricePeriod)pricePeriod);
             }
