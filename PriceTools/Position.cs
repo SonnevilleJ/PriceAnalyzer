@@ -158,7 +158,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public IDictionary<DateTime, decimal> Values
         {
-            get { throw new NotImplementedException(); }
+            get { throw new NotSupportedException(); }
         }
 
         /// <summary>

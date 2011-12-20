@@ -58,7 +58,7 @@
     <Compile Include="Deposit.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="DividendReinvestment.cs" />
-    <Compile Include="Extensions\PriceSeriesExtensions.cs" />
+    <Compile Include="Extensions\PriceSeriesDownloadExtensions.cs" />
     <Compile Include="TimeSeriesExtensions.cs" />
     <Compile Include="HighLow.cs" />
     <Compile Include="Holding.cs" />

@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.Extensions
     /// <summary>
     /// A class which holds extension methods for the <see cref="PriceSeries"/> class.
     /// </summary>
-    public static class PriceSeriesExtensions
+    public static class PriceSeriesDownloadExtensions
     {
         /// <summary>
         /// Downloads price data from the given date until <see cref="DateTime.Now"/>.
