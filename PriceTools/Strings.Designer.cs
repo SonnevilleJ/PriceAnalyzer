@@ -144,16 +144,6 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Current settings prevent connection to the Internet..
-        /// </summary>
-        internal static string PriceSeriesProvider_DownloadPricesToCsv_Current_settings_prevent_connection_to_the_Internet_ {
-            get {
-                return ResourceManager.GetString("PriceSeriesProvider_DownloadPricesToCsv_Current_settings_prevent_connection_to_th" +
-                        "e_Internet_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Commission for {0} transactions must be 0..
         /// </summary>
         internal static string ShareTransaction_Commission_Commission_for__0__transactions_must_be_0_ {

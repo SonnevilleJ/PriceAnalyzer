@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Sonneville.PriceTools.Extensions;
+using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceTools
 {
@@ -28,6 +29,7 @@ namespace Sonneville.PriceTools
         internal Position(string ticker)
         {
             Ticker = ticker;
+            _priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker);
         }
 
         #endregion
@@ -156,15 +158,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public IDictionary<DateTime, decimal> Values
         {
-            get
-            {
-                var results = new Dictionary<DateTime, decimal>();
-                for (var dateTime = Head.GetMostRecentOpen(); dateTime <= Tail; dateTime = dateTime.Add(new TimeSpan((long)Resolution)))
-                {
-                    results.Add(dateTime, CalculateTotalValue(dateTime));
-                }
-                return results;
-            }
+            get { throw new NotImplementedException(); }
         }
 
         /// <summary>
@@ -185,14 +179,17 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the value of any shares held the Position as of a given date.
         /// </summary>
+        /// <param name="provider"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the Position as of the given date.</returns>
-        public decimal CalculateInvestedValue(DateTime settlementDate)
+        public decimal CalculateInvestedValue(PriceSeriesProvider provider, DateTime settlementDate)
         {
             var heldShares = (decimal) GetHeldShares(settlementDate);
-            return heldShares > 0
-                       ? heldShares*(PriceSeries[settlementDate])
-                       : 0;
+            if (heldShares == 0) return 0;
+
+            if (!PriceSeries.HasValueInRange(settlementDate)) (PriceSeries as PriceSeries).DownloadPriceData(provider, settlementDate);
+            var price = PriceSeries[settlementDate];
+            return heldShares*price;
         }
 
         /// <summary>
@@ -228,9 +225,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the total value of the Position, including any commissions, as of a given date.
         /// </summary>
+        /// <param name="provider"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total value of the Position as of the given date.</returns>
-        public decimal CalculateTotalValue(DateTime settlementDate)
+        public decimal CalculateTotalValue(PriceSeriesProvider provider, DateTime settlementDate)
         {
             return CalculateValue(settlementDate) - CalculateCommissions(settlementDate);
         }
@@ -242,7 +240,7 @@ namespace Sonneville.PriceTools
         /// <returns>The total amount spent on share purchases as a negative number.</returns>
         public decimal CalculateCost(DateTime settlementDate)
         {
-            return AdditiveTransactions
+            return AdditiveTransactions.AsParallel()
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .Sum(transaction => transaction.Price*(decimal) transaction.Shares);
         }
@@ -254,7 +252,7 @@ namespace Sonneville.PriceTools
         /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
         public decimal CalculateProceeds(DateTime settlementDate)
         {
-            return -1*SubtractiveTransactions
+            return -1*SubtractiveTransactions.AsParallel()
                           .Where(transaction => transaction.SettlementDate <= settlementDate)
                           .Sum(transaction => transaction.Price*(decimal) transaction.Shares);
         }
@@ -267,7 +265,7 @@ namespace Sonneville.PriceTools
         public decimal CalculateCommissions(DateTime settlementDate)
         {
             return
-                _transactions.Where(transaction => transaction.SettlementDate <= settlementDate).Sum(
+                _transactions.AsParallel().Where(transaction => transaction.SettlementDate <= settlementDate).Sum(
                     transaction => transaction.Commission);
         }
 
@@ -275,6 +273,7 @@ namespace Sonneville.PriceTools
         ///   Gets the raw rate of return for this Position, not accounting for commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>Returns the raw rate of return, before commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
         public decimal? CalculateRawReturn(DateTime settlementDate)
         {
             return GetClosedShares(settlementDate) > 0
@@ -286,6 +285,7 @@ namespace Sonneville.PriceTools
         ///   Gets the total rate of return for this Position, after commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>Returns the total rate of return, after commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
         public decimal? CalculateTotalReturn(DateTime settlementDate)
         {
             var proceeds = CalculateProceeds(settlementDate);
@@ -458,8 +458,7 @@ namespace Sonneville.PriceTools
 
         private void AddTransaction(double shares, OrderType type, DateTime settlementDate, decimal price, decimal commission)
         {
-            var shareTransaction = TransactionFactory.CreateShareTransaction(settlementDate, type, Ticker, price,
-                                                                                     shares, commission);
+            var shareTransaction = TransactionFactory.CreateShareTransaction(settlementDate, type, Ticker, price, shares, commission);
             AddTransaction(shareTransaction);
         }
 

@@ -18,19 +18,6 @@ namespace Sonneville.PriceToolsTest
     [TestClass]
     public class PriceSeriesTest
     {
-        [ClassCleanup]
-        public static void ClassCleanup()
-        {
-            Settings.SetDefaultSettings();
-        }
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            Settings.SetDefaultSettings();
-            Settings.CanConnectToInternet = false;
-        }
-
         /// <summary>
         ///A test for Close
         ///</summary>
@@ -507,36 +494,20 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void TestIndexerWhenConnectedToInternet()
-        {
-            Settings.CanConnectToInternet = true;
-
-            DateTime dateTime = new DateTime(2011, 5, 2, 22, 52, 0);
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("DE");
-
-            const decimal expected = 97.39m;
-            decimal? actual = target[dateTime];
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
         public void TestDownloadPriceDataHead()
         {
-            Settings.CanConnectToInternet = true;
             DateTime dateTime = new DateTime(2011, 4, 1);
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
             var provider = new YahooPriceSeriesProvider();
             target.DownloadPriceData(provider, dateTime);
 
-            Settings.CanConnectToInternet = false;
             Assert.IsNotNull(target[dateTime.AddHours(12)]);    // add 12 hours because no price is available at midnight.
         }
 
         [TestMethod]
         public void TestDownloadPriceDataHeadTail()
         {
-            Settings.CanConnectToInternet = true;
             var head = new DateTime(2011, 4, 1);
             var tail = head.AddMonths(1);
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
@@ -544,7 +515,6 @@ namespace Sonneville.PriceToolsTest
             var provider = new YahooPriceSeriesProvider();
             target.DownloadPriceData(provider, head, tail);
 
-            Settings.CanConnectToInternet = false;
             Assert.IsNotNull(target[tail]);
         }
 
@@ -552,7 +522,6 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(ArgumentException))]
         public void TestDownloadPriceDataProvidersResolutionIsChecked()
         {
-            Settings.CanConnectToInternet = true;
             var provider = new WeeklyProvider();
             var head = new DateTime(2011, 4, 1);
             var tail = head.AddMonths(1);

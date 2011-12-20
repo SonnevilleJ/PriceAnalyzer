@@ -18,13 +18,6 @@ namespace Sonneville.PriceToolsTest
         // See the cs-rsi.xls file in the Resources folder.
         //
 
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            Settings.SetDefaultSettings();
-            Settings.CanConnectToInternet = false;
-        }
-
         [TestMethod]
         public void Calculates14PeriodSingleCorrect()
         {

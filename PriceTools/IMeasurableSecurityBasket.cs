@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceTools
 {
@@ -23,20 +24,23 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the total value of the IMeasurableSecurityBasket, including any commissions, as of a given date.
         /// </summary>
+        /// <param name="provider"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total value of the IMeasurableSecurityBasket as of the given date.</returns>
-        decimal CalculateTotalValue(DateTime settlementDate);
+        decimal CalculateTotalValue(PriceSeriesProvider provider, DateTime settlementDate);
 
         /// <summary>
         ///   Gets the raw rate of return for this IMeasurableSecurityBasket, not accounting for commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>Returns the raw rate of return, before commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
         decimal? CalculateRawReturn(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the total rate of return for this IMeasurableSecurityBasket, after commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>Returns the total rate of return, after commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
         decimal? CalculateTotalReturn(DateTime settlementDate);
 
         /// <summary>
@@ -72,8 +76,9 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the value of any shares held the IMeasurableSecurityBasket as of a given date.
         /// </summary>
+        /// <param name="provider"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the IMeasurableSecurityBasket as of the given date.</returns>
-        decimal CalculateInvestedValue(DateTime settlementDate);
+        decimal CalculateInvestedValue(PriceSeriesProvider provider, DateTime settlementDate);
     }
 }

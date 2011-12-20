@@ -9,12 +9,6 @@ namespace Sonneville.PriceToolsTest
     [TestClass]
     public class PriceSeriesProviderTest
     {
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            Settings.SetDefaultSettings();
-        }
-
         [TestMethod]
         public void YahooDownloadDailyTestResolution()
         {
@@ -98,18 +92,6 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(WebException))]
-        public void YahooDownloadWhenNotConnected()
-        {
-            Settings.CanConnectToInternet = false;
-
-            var provider = new YahooPriceSeriesProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var value = provider.GetPriceHistoryCsvFile("DE", head, tail);
-        }
-
-        [TestMethod]
         public void GoogleDownloadDailyTestResolution()
         {
             var provider = new GooglePriceSeriesProvider();
@@ -185,18 +167,6 @@ namespace Sonneville.PriceToolsTest
 
             Assert.AreEqual(head, target.PriceSeries.Head);
             Assert.AreEqual(tail, target.PriceSeries.Tail);
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(WebException))]
-        public void GoogleDownloadWhenNotConnected()
-        {
-            Settings.CanConnectToInternet = false;
-
-            var provider = new GooglePriceSeriesProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var value = provider.GetPriceHistoryCsvFile("DE", head, tail);
         }
     }
 }

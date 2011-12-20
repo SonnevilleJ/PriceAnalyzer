@@ -15,75 +15,65 @@ namespace Sonneville.PriceToolsTest
     [TestClass]
     public class FidelityBrokeragelinkTransactionHistoryCsvFileTest
     {
-        private const string Ticker = "FDRXX";
-
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            Settings.SetDefaultSettings();
-            Settings.CanConnectToInternet = false;
-        }
-
         /// <summary>
         ///A test for ParsePortfolio
         ///</summary>
         [TestMethod]
         public void ParsePortfolioTest()
         {
-            Settings.CanConnectToInternet = true;
-
             using (Stream csvStream = new ResourceStream(TestData.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
-                IPortfolio portfolio = new Portfolio(target, Ticker);
+                IPortfolio portfolio = new Portfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
+                PriceSeriesProvider provider = new YahooPriceSeriesProvider();
 
                 var FCNTX = portfolio.Positions.Where(p => p.Ticker == "FCNTX").First();
-                decimal investedValue = FCNTX.CalculateInvestedValue(settlementDate);
+                decimal investedValue = FCNTX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(530.24044m, investedValue);
 
                 var FDLSX = portfolio.Positions.Where(p => p.Ticker == "FDLSX").First();
-                investedValue = FDLSX.CalculateInvestedValue(settlementDate);
+                investedValue = FDLSX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(1780.07445m, investedValue);
 
                 var FEMEX = portfolio.Positions.Where(p => p.Ticker == "FEMEX").First();
-                investedValue = FEMEX.CalculateInvestedValue(settlementDate);
+                investedValue = FEMEX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(800.00325m, investedValue);
 
                 var FEMKX = portfolio.Positions.Where(p => p.Ticker == "FEMKX").First();
-                investedValue = FEMKX.CalculateInvestedValue(settlementDate);
+                investedValue = FEMKX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(543.33666m, investedValue);
 
                 var FHKCX = portfolio.Positions.Where(p => p.Ticker == "FHKCX").First();
-                investedValue = FHKCX.CalculateInvestedValue(settlementDate);
+                investedValue = FHKCX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(558.50175m, investedValue);
 
                 var FICDX = portfolio.Positions.Where(p => p.Ticker == "FICDX").First();
-                investedValue = FICDX.CalculateInvestedValue(settlementDate);
+                investedValue = FICDX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(919.53195m, investedValue);
 
                 var FLATX = portfolio.Positions.Where(p => p.Ticker == "FLATX").First();
-                investedValue = FLATX.CalculateInvestedValue(settlementDate);
+                investedValue = FLATX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(1379.28336m, investedValue);
 
                 var FSAGX = portfolio.Positions.Where(p => p.Ticker == "FSAGX").First();
-                investedValue = FSAGX.CalculateInvestedValue(settlementDate);
+                investedValue = FSAGX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(0m, investedValue);
 
                 var FSCHX = portfolio.Positions.Where(p => p.Ticker == "FSCHX").First();
-                investedValue = FSCHX.CalculateInvestedValue(settlementDate);
+                investedValue = FSCHX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(792.87264m, investedValue);
 
                 var FSLBX = portfolio.Positions.Where(p => p.Ticker == "FSLBX").First();
-                investedValue = FSLBX.CalculateInvestedValue(settlementDate);
+                investedValue = FSLBX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(3376.71644m, investedValue);
 
                 var FSNGX = portfolio.Positions.Where(p => p.Ticker == "FSNGX").First();
-                investedValue = FSNGX.CalculateInvestedValue(settlementDate);
+                investedValue = FSNGX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(1966.2302m, investedValue);
 
                 var FTRNX = portfolio.Positions.Where(p => p.Ticker == "FTRNX").First();
-                investedValue = FTRNX.CalculateInvestedValue(settlementDate);
+                investedValue = FTRNX.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(597.02433m, investedValue);
 
                 const decimal expectedAvailableCash = 1050.00m;
@@ -91,7 +81,7 @@ namespace Sonneville.PriceToolsTest
                 Assert.AreEqual(expectedAvailableCash, availableCash);
 
                 const decimal expectedValue = 14293.81547m;
-                var actualValue = portfolio.CalculateTotalValue(settlementDate);
+                var actualValue = portfolio.CalculateTotalValue(provider, settlementDate);
                 Assert.AreEqual(expectedValue, actualValue);
             }
         }
@@ -119,9 +109,9 @@ namespace Sonneville.PriceToolsTest
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
-                IPortfolio portfolio = new Portfolio(target, Ticker);
+                IPortfolio portfolio = new Portfolio(target, "FDRXX");
 
-                Assert.AreEqual(Ticker, portfolio.CashTicker);
+                Assert.AreEqual("FDRXX", portfolio.CashTicker);
             }
         }
 
@@ -132,7 +122,7 @@ namespace Sonneville.PriceToolsTest
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
-                IPortfolio portfolio = new Portfolio(target, Ticker);
+                IPortfolio portfolio = new Portfolio(target, "FDRXX");
 
                 Assert.AreEqual(12, portfolio.Positions.Count);
             }
@@ -145,7 +135,7 @@ namespace Sonneville.PriceToolsTest
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
-                IPortfolio portfolio = new Portfolio(target, Ticker);
+                IPortfolio portfolio = new Portfolio(target, "FDRXX");
 
                 Assert.AreEqual(1050.00m, portfolio.GetAvailableCash(new DateTime(2009, 7, 23)));
             }

@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.PriceTools.Services;
-using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -15,13 +14,6 @@ namespace Sonneville.PriceToolsTest
     [TestClass]
     public class PortfolioTest
     {
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            Settings.SetDefaultSettings();
-            Settings.CanConnectToInternet = false;
-        }
-
         [TestMethod]
         public void ConstructorTest1()
         {
@@ -207,6 +199,28 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
+        public void CalculateValueWithOpenPosition()
+        {
+            //DateTime dateTime = new DateTime(2011, 11, 21);
+            //const decimal amount = 10000m;
+            //IPortfolio target = new Portfolio(dateTime, amount);
+
+            //var buyDate = dateTime.AddDays(1);
+            //var calculateDate = buyDate.AddDays(1);
+            //const string ticker = "DE";
+            //const decimal buyPrice = 50.00m;
+            //const int shares = 5;
+            //const decimal commission = 7.95m;
+            //const decimal buyValue = (shares * buyPrice);
+
+            //target.AddTransaction(new Buy { Ticker = ticker, SettlementDate = buyDate, Shares = shares, Price = buyPrice, Commission = commission });
+
+            //const decimal expected = amount - buyValue + sellValue;
+            //decimal actual = target.CalculateValue(calculateDate);
+            //Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void CalculateValueWithClosedPosition()
         {
             DateTime dateTime = new DateTime(2011, 11, 21);
@@ -254,7 +268,7 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(new Sell {Ticker = ticker, SettlementDate = sellDate, Shares = shares, Price = sellPrice, Commission = commission});
 
             const decimal expected = amount - buyValue + sellValue;
-            decimal actual = target.CalculateTotalValue(calculateDate);
+            decimal actual = target.CalculateTotalValue(new YahooPriceSeriesProvider(), calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -462,14 +476,12 @@ namespace Sonneville.PriceToolsTest
         public void GetInvestedValueFromEmptyPortfolio()
         {
             IPortfolio target = new Portfolio();
-            Assert.AreEqual(0.0m, target.CalculateInvestedValue(DateTime.Now));
+            Assert.AreEqual(0.0m, target.CalculateInvestedValue(new YahooPriceSeriesProvider(), DateTime.Now));
         }
 
         [TestMethod]
         public void GetInvestedValue()
         {
-            Settings.CanConnectToInternet = true;
-
             DateTime dateTime = new DateTime(2011, 4, 8);
             const decimal deposit = 10000m;
             IPortfolio target = new Portfolio(dateTime, deposit);
@@ -496,7 +508,7 @@ namespace Sonneville.PriceToolsTest
             DateTime priceDate = new DateTime(2011, 4, 25, 23, 59, 59);
             
             const decimal expected = 189.44m; // closing price 25 April 2011 = $94.72 * 2 shares = 189.44
-            decimal actual = target.CalculateInvestedValue(priceDate);
+            decimal actual = target.CalculateInvestedValue(new YahooPriceSeriesProvider(), priceDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -534,7 +546,7 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(sell);
 
             const decimal expected = 0.00m; // all shares sold = no value
-            decimal actual = target.CalculateInvestedValue(sellDate);
+            decimal actual = target.CalculateInvestedValue(new YahooPriceSeriesProvider(), sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -909,12 +921,11 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void PositionTest_OnePosition_TwoCashTransactions()
         {
-            Settings.CanConnectToInternet = true;
-            DateTime dateTime = new DateTime(2011, 1, 8);
+            DateTime dateTime = new DateTime(2011, 1, 6);
             const decimal deposit = 10000m;
             IPortfolio target = new Portfolio(dateTime, deposit);
 
-            DateTime buyDate = new DateTime(2011, 1, 9);
+            DateTime buyDate = new DateTime(2011, 1, 7);
             const string ticker = "DE";
             const decimal price = 50.00m;
             const double shares = 2;
@@ -937,7 +948,7 @@ namespace Sonneville.PriceToolsTest
             // total value should be = 10,000 - 100.00 - 5,000 + 168.68 = 5068.68
             
             const decimal expectedValue = 5068.68m;
-            decimal actualValue = target.CalculateTotalValue(buyDate);
+            decimal actualValue = target.CalculateTotalValue(new YahooPriceSeriesProvider(), buyDate);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
@@ -1341,89 +1352,6 @@ namespace Sonneville.PriceToolsTest
             var holding2 = holdings[1];
             Assert.AreEqual(expected1, holding1);
             Assert.AreEqual(expected2, holding2);
-        }
-
-        [TestMethod]
-        public void ValuesCountTest()
-        {
-            Settings.CanConnectToInternet = true;
-
-            const decimal commission = 5.00m;   // with $5 commission
-            var portfolio = new Portfolio();
-
-            DateTime testDate = new DateTime(2011, 1, 2);
-            DateTime deereBuyDate = testDate.AddDays(1);
-            DateTime ibmBuyDate = deereBuyDate.AddDays(1);
-            const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double deereShares = 5;
-            const double ibmShares = 5;
-
-            DateTime deereSellDate = ibmBuyDate;
-            DateTime ibmSellDate = deereSellDate.AddDays(1);
-            const decimal sellPrice = 75.00m;   // $75.00 per share
-
-            var deereBuy = new Buy { Ticker = "DE", SettlementDate = deereBuyDate, Shares = deereShares, Price = buyPrice, Commission = commission };
-            var deereSell = new Sell { Ticker = "DE", SettlementDate = deereSellDate, Shares = deereShares, Price = buyPrice, Commission = commission };
-            var ibmBuy = new Buy { Ticker = "IBM", SettlementDate = ibmBuyDate, Shares = ibmShares, Price = sellPrice, Commission = commission };
-            var ibmSell = new Sell { Ticker = "IBM", SettlementDate = ibmSellDate, Shares = ibmShares, Price = sellPrice, Commission = commission };
-
-            portfolio.Deposit(testDate, 10000.00m);
-            portfolio.AddTransaction(deereBuy);
-            portfolio.AddTransaction(deereSell);
-            portfolio.AddTransaction(ibmBuy);
-            portfolio.AddTransaction(ibmSell);
-
-            var expected = 0;
-            for (var dateTime = testDate; dateTime <= portfolio.Tail; dateTime = dateTime.AddDays(1))
-            {
-                expected++;
-            }
-            var actual = portfolio.Values.Count;
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void ValuesMatchTest()
-        {
-            Settings.CanConnectToInternet = true;
-
-            const decimal commission = 5.00m;   // with $5 commission
-            var portfolio = new Portfolio();
-
-            DateTime testDate = new DateTime(2011, 1, 2);
-            DateTime deereBuyDate = testDate.AddDays(1);
-            DateTime ibmBuyDate = deereBuyDate.AddDays(1);
-            const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double deereShares = 5;
-            const double ibmShares = 5;
-
-            DateTime deereSellDate = ibmBuyDate;
-            DateTime ibmSellDate = deereSellDate.AddDays(1);
-            const decimal sellPrice = 75.00m;   // $75.00 per share
-
-            var deereBuy = new Buy {Ticker = "DE", SettlementDate = deereBuyDate, Shares = deereShares, Price = buyPrice, Commission = commission};
-            var deereSell = new Sell { Ticker = "DE", SettlementDate = deereSellDate, Shares = deereShares, Price = buyPrice, Commission = commission };
-            var ibmBuy = new Buy { Ticker = "IBM", SettlementDate = ibmBuyDate, Shares = ibmShares, Price = sellPrice, Commission = commission };
-            var ibmSell = new Sell { Ticker = "IBM", SettlementDate = ibmSellDate, Shares = ibmShares, Price = sellPrice, Commission = commission };
-
-            portfolio.Deposit(testDate, 10000.00m);
-            portfolio.AddTransaction(deereBuy);
-            portfolio.AddTransaction(deereSell);
-            portfolio.AddTransaction(ibmBuy);
-            portfolio.AddTransaction(ibmSell);
-
-            var expected = new Dictionary<DateTime, decimal>
-                               {
-                                   {testDate, portfolio.CalculateTotalValue(testDate)},
-                                   {deereBuyDate, portfolio.CalculateTotalValue(deereBuyDate)},
-                                   {deereSellDate, portfolio.CalculateTotalValue(deereSellDate)},
-                                   {ibmSellDate, portfolio.CalculateTotalValue(ibmSellDate)}
-                               };
-            var actual = portfolio.Values;
-            foreach (var key in expected.Keys)
-            {
-                Assert.AreEqual(expected[key], actual[key]);
-            }
         }
     }
 }

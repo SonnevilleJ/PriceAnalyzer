@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceTools
@@ -154,15 +153,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public IDictionary<DateTime, decimal> Values
         {
-            get
-            {
-                var results = new Dictionary<DateTime, decimal>();
-                for (var dateTime = Head.GetMostRecentOpen(); dateTime <= Tail; dateTime = dateTime.Add(new TimeSpan((long)Resolution)))
-                {
-                    results.Add(dateTime, CalculateTotalValue(dateTime));
-                }
-                return results;
-            }
+            get { throw new NotImplementedException(); }
         }
 
         /// <summary>
@@ -214,12 +205,13 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the total value of the Portfolio, including any commissions, as of a given date.
         /// </summary>
+        /// <param name="provider"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total value of the Portfolio as of the given date.</returns>
-        public decimal CalculateTotalValue(DateTime settlementDate)
+        public decimal CalculateTotalValue(PriceSeriesProvider provider, DateTime settlementDate)
         {
             var cash = GetAvailableCash(settlementDate);
-            var invested = Positions.Sum(position => position.CalculateInvestedValue(settlementDate));
+            var invested = Positions.Sum(position => position.CalculateInvestedValue(provider, settlementDate));
             return cash + invested;
         }
 
@@ -227,6 +219,7 @@ namespace Sonneville.PriceTools
         ///   Gets the raw rate of return for this Portfolio, not accounting for commissions.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
+        /// <returns>Returns the raw rate of return, before commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
         public decimal? CalculateRawReturn(DateTime settlementDate)
         {
             var proceeds = CalculateProceeds(settlementDate);
@@ -241,6 +234,7 @@ namespace Sonneville.PriceTools
         ///   Gets the total rate of return for this Portfolio, after commissions.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
+        /// <returns>Returns the total rate of return, after commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
         public decimal? CalculateTotalReturn(DateTime settlementDate)
         {
             var proceeds = CalculateProceeds(settlementDate);
@@ -318,11 +312,12 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the value of all shares held the Portfolio as of a given date.
         /// </summary>
+        /// <param name="provider"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the Portfolio as of the given date.</returns>
-        public decimal CalculateInvestedValue(DateTime settlementDate)
+        public decimal CalculateInvestedValue(PriceSeriesProvider provider, DateTime settlementDate)
         {
-            return Positions.Sum(p => p.CalculateInvestedValue(settlementDate));
+            return Positions.Sum(p => p.CalculateInvestedValue(provider, settlementDate));
         }
 
         /// <summary>

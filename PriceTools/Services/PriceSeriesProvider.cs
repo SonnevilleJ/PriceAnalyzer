@@ -70,8 +70,6 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A <see cref = "Stream" /> containing the price data in CSV format.</returns>
         private Stream DownloadPricesToCsv(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
-            if (!Settings.CanConnectToInternet) throw new WebException(Strings.PriceSeriesProvider_DownloadPricesToCsv_Current_settings_prevent_connection_to_the_Internet_);
-            
             try
             {
                 var url = FormUrlQuery(ticker, head, tail, resolution);

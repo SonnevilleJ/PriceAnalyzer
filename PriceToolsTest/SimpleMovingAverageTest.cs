@@ -7,13 +7,6 @@ namespace Sonneville.PriceToolsTest
     [TestClass]
     public class SimpleMovingAverageTest
     {
-        [TestInitialize]
-        public void TestInitialize()
-        {
-            Settings.SetDefaultSettings();
-            Settings.CanConnectToInternet = false;
-        }
-
         [TestMethod]
         public void FlatPeriodReturnsSameAverage()
         {
