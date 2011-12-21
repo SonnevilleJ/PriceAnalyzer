@@ -19,12 +19,23 @@ namespace Sonneville.PriceTools.Trading
 
         #endregion
 
+        #region Constructors
+
+        protected TradingAccount(TradingAccountFeatures features)
+        {
+            Features = features;
+        }
+
+        #endregion
+
         #region Public Interface
 
         /// <summary>
         /// A list of <see cref="IPosition"/>s currently held in this account.
         /// </summary>
         public ReadOnlyCollection<IPosition> Positions { get { return _positions.AsReadOnly(); } }
+
+        public TradingAccountFeatures Features { get; private set; }
 
         /// <summary>
         /// Submits an order for execution by the brokerage.

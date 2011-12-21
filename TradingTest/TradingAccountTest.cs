@@ -14,6 +14,16 @@ namespace Sonneville.TradingTest
     public class TradingAccountTest
     {
         [TestMethod]
+        public void TradingAccountFeaturesSupportedOrderTypesTest()
+        {
+            TradingAccount target = new BacktestSimulator();
+
+            var expected = TradingAccountFeatures.Factory.CreateFullTradingAccountFeatures().SupportedOrderTypes;
+            var actual = target.Features.SupportedOrderTypes;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void EmptyPositionsByDefault()
         {
             TradingAccount target = new BacktestSimulator();
