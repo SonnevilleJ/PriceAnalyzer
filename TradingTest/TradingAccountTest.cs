@@ -21,7 +21,7 @@ namespace TradingTest
         }
 
         [TestMethod]
-        public void OrderFilled()
+        public void EventsTestFilled()
         {
             TradingAccount target = new BacktestSimulator();
 
@@ -56,7 +56,7 @@ namespace TradingTest
         }
 
         [TestMethod]
-        public void OrderExpired()
+        public void EventsTestExpired()
         {
             TradingAccount target = new BacktestSimulator();
 
@@ -89,7 +89,7 @@ namespace TradingTest
         }
 
         [TestMethod]
-        public void OrderCancelled()
+        public void EventsTestCancelled()
         {
             TradingAccount target = new BacktestSimulator();
 
@@ -256,7 +256,7 @@ namespace TradingTest
         }
 
         [TestMethod]
-        public void MultipleOrdersFilled()
+        public void MultipleEventsTestFilled()
         {
             TradingAccount target = new BacktestSimulator();
             var padlock = new object();
@@ -291,6 +291,48 @@ namespace TradingTest
 
                 Assert.AreEqual(count, filledRaised);
                 Assert.IsFalse(cancelRaised);
+                Assert.IsFalse(expiredRaised);
+            }
+            finally
+            {
+                target.OrderCancelled -= cancelledHandler;
+                target.OrderFilled -= filledHandler;
+                target.OrderExpired -= expiredHandler;
+            }
+        }
+
+        [TestMethod]
+        public void MultipleEventsTestCancelled()
+        {
+            TradingAccount target = new BacktestSimulator();
+            var padlock = new object();
+
+            const string ticker = "DE";
+            var filledRaised = false;
+            var expiredRaised = false;
+            var cancelRaised = 0;
+            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
+            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => { lock (padlock) cancelRaised++; };
+            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) => filledRaised = true;
+            try
+            {
+                target.OrderCancelled += cancelledHandler;
+                target.OrderFilled += filledHandler;
+                target.OrderExpired += expiredHandler;
+
+                const int count = 200;
+                for (int i = 0; i < count; i++)
+                {
+                    var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
+                    target.Submit(order);
+                    target.TryCancelOrder(order);
+                    Thread.Sleep(1);
+                }
+
+                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+
+                Assert.IsFalse(filledRaised);
+                Assert.AreEqual(count, cancelRaised);
                 Assert.IsFalse(expiredRaised);
             }
             finally
