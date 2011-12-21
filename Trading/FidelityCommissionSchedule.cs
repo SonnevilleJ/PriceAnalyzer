@@ -13,12 +13,7 @@ namespace Sonneville.PriceTools.Trading
 
         public decimal PriceCheck(Order order)
         {
-            var price = 0.00m;
-            if (_prices.TryGetValue(new Tuple<OrderType>(order.OrderType), out price))
-            {
-                return price;
-            }
-            return price;
+            return 7.95m;
         }
     }
 }

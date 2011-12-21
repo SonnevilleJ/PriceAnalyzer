@@ -41,7 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IBrokerage.cs" />
+    <Compile Include="FidelityBrokerage.cs" />
     <Compile Include="FidelityCommissionSchedule.cs" />
+    <Compile Include="FidelityTradingAccount.cs" />
     <Compile Include="ICommissionSchedule.cs" />
     <Compile Include="OrderCancelledEventArgs.cs" />
     <Compile Include="OrderExecutedEventArgs.cs" />
