@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
@@ -160,10 +161,6 @@ namespace TradingTest
             IShareTransaction actual = null;
             
             var filledRaised = false;
-            var expiredRaised = false;
-            var cancelRaised = false;
-            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
-            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => cancelRaised = true;
             EventHandler<OrderExecutedEventArgs> filledHandler =
                 (sender, e) =>
                     {
@@ -173,9 +170,7 @@ namespace TradingTest
                     };
             try
             {
-                target.OrderCancelled += cancelledHandler;
                 target.OrderFilled += filledHandler;
-                target.OrderExpired += expiredHandler;
 
                 var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
                 target.Submit(order);
@@ -183,16 +178,12 @@ namespace TradingTest
                 Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
 
                 Assert.IsTrue(filledRaised);
-                Assert.IsFalse(cancelRaised);
-                Assert.IsFalse(expiredRaised);
 
                 AssertSameTransaction(expected, actual);
             }
             finally
             {
-                target.OrderCancelled -= cancelledHandler;
                 target.OrderFilled -= filledHandler;
-                target.OrderExpired -= expiredHandler;
             }
         }
 
@@ -209,10 +200,6 @@ namespace TradingTest
             IShareTransaction actual = null;
 
             var filledRaised = false;
-            var expiredRaised = false;
-            var cancelRaised = false;
-            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
-            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => cancelRaised = true;
             EventHandler<OrderExecutedEventArgs> filledHandler =
                 (sender, e) =>
                 {
@@ -222,9 +209,7 @@ namespace TradingTest
                 };
             try
             {
-                target.OrderCancelled += cancelledHandler;
                 target.OrderFilled += filledHandler;
-                target.OrderExpired += expiredHandler;
 
                 var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
                 target.Submit(order);
@@ -232,16 +217,12 @@ namespace TradingTest
                 Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
 
                 Assert.IsTrue(filledRaised);
-                Assert.IsFalse(cancelRaised);
-                Assert.IsFalse(expiredRaised);
 
                 AssertSameTransaction(expected, actual);
             }
             finally
             {
-                target.OrderCancelled -= cancelledHandler;
                 target.OrderFilled -= filledHandler;
-                target.OrderExpired -= expiredHandler;
             }
         }
 
@@ -270,8 +251,7 @@ namespace TradingTest
             EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
                                                                      {
                                                                          if (e.Transaction.Ticker == ticker)
-                                                                             lock(padlock)
-                                                                                 filledRaised++;
+                                                                             lock(padlock) { filledRaised++; }
                                                                      };
             try
             {
@@ -353,10 +333,6 @@ namespace TradingTest
             IShareTransaction actual = null;
 
             var filledRaised = false;
-            var expiredRaised = false;
-            var cancelRaised = false;
-            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
-            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => cancelRaised = true;
             EventHandler<OrderExecutedEventArgs> filledHandler =
                 (sender, e) =>
                 {
@@ -366,9 +342,7 @@ namespace TradingTest
                 };
             try
             {
-                target.OrderCancelled += cancelledHandler;
                 target.OrderFilled += filledHandler;
-                target.OrderExpired += expiredHandler;
 
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
@@ -378,17 +352,80 @@ namespace TradingTest
                 Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
 
                 Assert.IsTrue(filledRaised);
-                Assert.IsFalse(cancelRaised);
-                Assert.IsFalse(expiredRaised);
 
                 AssertSameTransaction(expected, actual);
             }
             finally
             {
-                target.OrderCancelled -= cancelledHandler;
                 target.OrderFilled -= filledHandler;
-                target.OrderExpired -= expiredHandler;
             }
+        }
+
+        [TestMethod]
+        public void FilledAddsToPositionsCount()
+        {
+            var target = new BacktestSimulator();
+
+            const string ticker = "DE";
+            var issued = new DateTime(2010, 12, 20, 12, 0, 0);
+            var expiration = issued.AddDays(1);
+            var order = new Order(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
+
+            target.Submit(order);
+            Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+            
+            Assert.AreEqual(1, target.Positions.Count);
+        }
+
+        [TestMethod]
+        public void FilledAddsToPositionsCorrectly()
+        {
+            var target = new BacktestSimulator();
+
+            const string ticker = "DE";
+            IShareTransaction expected = null;
+
+            EventHandler<OrderExecutedEventArgs> processedHandler =
+                (sender, e) =>
+                {
+                    expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, target.Commission);
+                };
+            try
+            {
+                target.TransactionProcessed += processedHandler;
+
+                var issued = new DateTime(2010, 12, 20, 12, 0, 0);
+                var expiration = issued.AddDays(1);
+                var order = new Order(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
+                target.Submit(order);
+
+                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+
+                Assert.IsTrue(TargetContainsTransaction(target, expected));
+            }
+            finally
+            {
+                target.TransactionProcessed -= processedHandler;
+            }
+        }
+
+        private static bool TargetContainsTransaction(TradingAccount target, IShareTransaction transaction)
+        {
+            var positions = target.Positions;
+            var position = positions.First(p => p.Ticker == transaction.Ticker);
+            var transactions = position.Transactions.Cast<IShareTransaction>();
+
+            foreach (var trans in transactions)
+            {
+                return (trans.OrderType == transaction.OrderType &&
+                        trans.Commission == transaction.Commission &&
+                        trans.SettlementDate == transaction.SettlementDate &&
+                        // price may fluctuate
+                        //trans.Price == transaction.Price &&
+                        trans.Shares == transaction.Shares &&
+                        trans.Ticker == transaction.Ticker);
+            }
+            return false;
         }
     }
 }

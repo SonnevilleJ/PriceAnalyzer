@@ -28,7 +28,7 @@ namespace TradingTest
 
         internal static TimeSpan MaxProcessingTimeSpan
         {
-            get { return new TimeSpan(0, 0, 0, 0, 500); }
+            get { return new TimeSpan(0, 0, 0, 1, 0); }
         }
 
         /// <summary>
