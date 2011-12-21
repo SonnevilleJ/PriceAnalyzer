@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sonneville.PriceTools.Trading
+namespace Sonneville.PriceTools.Trading.Fidelity
 {
     /// <summary>
     /// A trading account which communicates with Fidelity to perform execution of orders.

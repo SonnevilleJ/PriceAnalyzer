@@ -46,7 +46,6 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FidelityCommissionScheduleTest.cs" />
     <Compile Include="ErroneousSimulatedAccount.cs" />
     <Compile Include="OrderExecutedEventArgsTest.cs" />
     <Compile Include="OrderTest.cs" />

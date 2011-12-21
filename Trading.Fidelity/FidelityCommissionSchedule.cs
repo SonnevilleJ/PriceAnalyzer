@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Sonneville.PriceTools.Trading
+namespace Sonneville.PriceTools.Trading.Fidelity
 {
     public class FidelityCommissionSchedule : ICommissionSchedule
     {

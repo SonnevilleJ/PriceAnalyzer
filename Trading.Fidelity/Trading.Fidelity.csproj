@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</ProjectGuid>
+    <ProjectGuid>{779392F7-58E2-494F-837A-0F49588B42D1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.Trading</RootNamespace>
-    <AssemblyName>Trading</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.Trading.Fidelity</RootNamespace>
+    <AssemblyName>Trading.Fidelity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -33,7 +33,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -41,24 +40,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IBrokerage.cs" />
-    <Compile Include="ICommissionSchedule.cs" />
-    <Compile Include="OrderCancelledEventArgs.cs" />
-    <Compile Include="OrderExecutedEventArgs.cs" />
-    <Compile Include="OrderExpiredEventArgs.cs" />
-    <Compile Include="TradingAccount.cs" />
-    <Compile Include="OrderExecutor.cs" />
-    <Compile Include="Order.cs" />
-    <Compile Include="PricingType.cs" />
-    <Compile Include="TradingAccountFeatures.cs" />
-    <Compile Include="TradingAccountFeaturesFactory.cs" />
-    <Compile Include="TradingStrategy.cs" />
+    <Compile Include="FidelityBrokerage.cs" />
+    <Compile Include="FidelityCommissionSchedule.cs" />
+    <Compile Include="FidelityTradingAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Trading\Trading.csproj">
+      <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
+      <Name>Trading</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

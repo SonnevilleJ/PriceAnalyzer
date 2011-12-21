@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sonneville.PriceTools.Trading
+namespace Sonneville.PriceTools.Trading.Fidelity
 {
     public class FidelityBrokerage : IBrokerage
     {
@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools.Trading
         public TradingAccount GetTradingAccount()
         {
             var commissionSchedule = GetCommissionSchedule();
-            var features = new TradingAccountFeatures(GetSupportedOrderTypes());
+            var features = TradingAccountFeatures.Factory.CreateCustomTradingAccountFeatures(GetSupportedOrderTypes());
             var tradingAccount = new FidelityTradingAccount(features);
             return tradingAccount;
         }
