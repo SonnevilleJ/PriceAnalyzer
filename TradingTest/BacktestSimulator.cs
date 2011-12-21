@@ -11,7 +11,15 @@ namespace TradingTest
     /// </summary>
     public class BacktestSimulator : TradingAccount
     {
-        private decimal _commission = 5.00m;
+        public BacktestSimulator()
+        : this(5.00m)
+        {
+        }
+
+        public BacktestSimulator(decimal commission)
+        {
+            Commission = commission;
+        }
 
         internal static TimeSpan MinProcessingTimeSpan
         {
@@ -26,11 +34,7 @@ namespace TradingTest
         /// <summary>
         /// Brokerage commission charged for all orders.
         /// </summary>
-        public decimal Commission
-        {
-            get { return _commission; }
-            set { _commission = value; }
-        }
+        public decimal Commission { get; set; }
 
         /// <summary>
         /// Submits an order for execution by the brokerage.

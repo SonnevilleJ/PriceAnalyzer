@@ -196,6 +196,55 @@ namespace TradingTest
             }
         }
 
+        [TestMethod]
+        public void OrderFilledReturnsCorrectTransactionWhenCommissionCustomized()
+        {
+            const decimal commission = 7.95m;
+            var target = new BacktestSimulator(commission);
+
+            Assert.AreEqual(commission, target.Commission);
+
+            const string ticker = "DE";
+            IShareTransaction expected = null;
+            IShareTransaction actual = null;
+
+            var filledRaised = false;
+            var expiredRaised = false;
+            var cancelRaised = false;
+            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
+            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => cancelRaised = true;
+            EventHandler<OrderExecutedEventArgs> filledHandler =
+                (sender, e) =>
+                {
+                    expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, target.Commission);
+                    actual = e.Transaction;
+                    filledRaised = true;
+                };
+            try
+            {
+                target.OrderCancelled += cancelledHandler;
+                target.OrderFilled += filledHandler;
+                target.OrderExpired += expiredHandler;
+
+                var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
+                target.Submit(order);
+
+                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+
+                Assert.IsTrue(filledRaised);
+                Assert.IsFalse(cancelRaised);
+                Assert.IsFalse(expiredRaised);
+
+                AssertSameTransaction(expected, actual);
+            }
+            finally
+            {
+                target.OrderCancelled -= cancelledHandler;
+                target.OrderFilled -= filledHandler;
+                target.OrderExpired -= expiredHandler;
+            }
+        }
+
         private static void AssertSameTransaction(IShareTransaction expected, IShareTransaction actual)
         {
             Assert.AreEqual(expected.SettlementDate, actual.SettlementDate);
