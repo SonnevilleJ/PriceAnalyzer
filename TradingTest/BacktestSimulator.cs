@@ -8,12 +8,9 @@ namespace TradingTest
     /// <summary>
     /// A trading account which simulates the execution of orders.
     /// </summary>
-    public class SimulatedAccount : TradingAccount
+    public class BacktestSimulator : TradingAccount
     {
-        /// <summary>
-        /// $5.00 brokerage commission for all orders.
-        /// </summary>
-        private const decimal Commission = 5.00m;
+        private decimal _commission = 5.00m;
 
         internal static TimeSpan MinProcessingTimeSpan
         {
@@ -23,6 +20,15 @@ namespace TradingTest
         internal static TimeSpan MaxProcessingTimeSpan
         {
             get { return new TimeSpan(0, 0, 0, 0, 500); }
+        }
+
+        /// <summary>
+        /// Brokerage commission charged for all orders.
+        /// </summary>
+        public decimal Commission
+        {
+            get { return _commission; }
+            set { _commission = value; }
         }
 
         /// <summary>
@@ -39,7 +45,7 @@ namespace TradingTest
             {
                 // fill the order at 1% higher price
                 var price = Math.Round(order.Price*1.01m, 2);
-                var transaction = TransactionFactory.CreateShareTransaction(executed, order.OrderType, order.Ticker, price, order.Shares, Commission);
+                var transaction = TransactionFactory.Instance.CreateShareTransaction(executed, order.OrderType, order.Ticker, price, order.Shares, Commission);
 
                 // signal the order has been filled
                 InvokeOrderFilled(new OrderExecutedEventArgs(executed, order, transaction));

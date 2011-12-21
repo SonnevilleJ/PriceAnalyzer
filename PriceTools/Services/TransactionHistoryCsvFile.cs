@@ -127,7 +127,7 @@ namespace Sonneville.PriceTools.Services
                         default:
                             throw new NotSupportedException();
                     }
-                    _transactions.Add(TransactionFactory.CreateTransaction(
+                    _transactions.Add(TransactionFactory.Instance.CreateTransaction(
                         settlementDate,
                         orderType,
                         ticker,

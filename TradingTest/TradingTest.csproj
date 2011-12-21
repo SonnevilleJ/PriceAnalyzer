@@ -50,10 +50,11 @@
     <Compile Include="OrderExecutedEventArgsTest.cs" />
     <Compile Include="OrderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulatedAccount.cs" />
+    <Compile Include="BacktestSimulator.cs" />
     <Compile Include="TradingAccountTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TransactionFactoryExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
