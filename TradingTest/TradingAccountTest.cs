@@ -251,5 +251,53 @@ namespace TradingTest
                 target.OrderExpired -= expiredHandler;
             }
         }
+
+        [TestMethod]
+        public void HistoricalOrderFilledReturnsCorrectTransaction()
+        {
+            var target = new BacktestSimulator();
+
+            const string ticker = "DE";
+            IShareTransaction expected = null;
+            IShareTransaction actual = null;
+
+            var filledRaised = false;
+            var expiredRaised = false;
+            var cancelRaised = false;
+            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
+            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => cancelRaised = true;
+            EventHandler<OrderExecutedEventArgs> filledHandler =
+                (sender, e) =>
+                {
+                    expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, target.Commission);
+                    actual = e.Transaction;
+                    filledRaised = true;
+                };
+            try
+            {
+                target.OrderCancelled += cancelledHandler;
+                target.OrderFilled += filledHandler;
+                target.OrderExpired += expiredHandler;
+
+                var issued = new DateTime(2010, 12, 20, 12, 0, 0);
+                var expiration = issued.AddDays(1);
+                var order = new Order(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
+                target.Submit(order);
+
+                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+
+                Assert.IsTrue(filledRaised);
+                Assert.IsFalse(cancelRaised);
+                Assert.IsFalse(expiredRaised);
+
+                AssertSameTransaction(expected, actual);
+            }
+            finally
+            {
+                target.OrderCancelled -= cancelledHandler;
+                target.OrderFilled -= filledHandler;
+                target.OrderExpired -= expiredHandler;
+            }
+        }
     }
 }

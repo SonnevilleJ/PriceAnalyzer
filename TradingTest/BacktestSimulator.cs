@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Trading;
@@ -37,18 +38,22 @@ namespace TradingTest
         /// <param name="order">The <see cref="Order"/> to execute.</param>
         protected override void ProcessOrder(Order order)
         {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             // simulate a delay in processing
             DelayProcessing();
+            stopwatch.Stop();
 
-            var executed = DateTime.Now;
-            if (executed <= order.Expiration)
+            var now = order.Issued.Add(stopwatch.Elapsed);
+            if (now <= order.Expiration)
             {
                 // fill the order at 1% higher price
                 var price = Math.Round(order.Price*1.01m, 2);
-                var transaction = TransactionFactory.Instance.CreateShareTransaction(executed, order.OrderType, order.Ticker, price, order.Shares, Commission);
+                var transaction = TransactionFactory.Instance.CreateShareTransaction(now, order.OrderType, order.Ticker, price, order.Shares, Commission);
 
                 // signal the order has been filled
-                InvokeOrderFilled(new OrderExecutedEventArgs(executed, order, transaction));
+                InvokeOrderFilled(new OrderExecutedEventArgs(now, order, transaction));
             }
             else
             {
