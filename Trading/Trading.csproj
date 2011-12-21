@@ -41,6 +41,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FidelityCommissionSchedule.cs" />
+    <Compile Include="ICommissionSchedule.cs" />
     <Compile Include="OrderCancelledEventArgs.cs" />
     <Compile Include="OrderExecutedEventArgs.cs" />
     <Compile Include="OrderExpiredEventArgs.cs" />

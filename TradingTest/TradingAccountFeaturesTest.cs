@@ -70,7 +70,7 @@ namespace Sonneville.TradingTest
         {
             var target = TradingAccountFeatures.Factory.CreateShortTradingAccountFeatures();
 
-            const OrderType expected = OrderType.Deposit | OrderType.Withdrawal | OrderType.Buy | OrderType.Sell | OrderType.SellShort | OrderType.BuyToCover;
+            const OrderType expected = OrderType.Deposit | OrderType.Withdrawal | OrderType.SellShort | OrderType.BuyToCover;
             var actual = target.SupportedOrderTypes;
             Assert.AreEqual(expected, actual);
         }
@@ -92,19 +92,19 @@ namespace Sonneville.TradingTest
         }
 
         [TestMethod]
-        public void ShortSupportsBuyTest()
+        public void ShortDoesNotSupportBuyTest()
         {
             var target = TradingAccountFeatures.Factory.CreateShortTradingAccountFeatures();
 
-            Assert.IsTrue(target.Supports(OrderType.Buy));
+            Assert.IsFalse(target.Supports(OrderType.Buy));
         }
 
         [TestMethod]
-        public void ShortSupportsSellTest()
+        public void ShortDoesNotSupportSellTest()
         {
             var target = TradingAccountFeatures.Factory.CreateShortTradingAccountFeatures();
 
-            Assert.IsTrue(target.Supports(OrderType.Sell));
+            Assert.IsFalse(target.Supports(OrderType.Sell));
         }
 
         [TestMethod]
@@ -119,6 +119,64 @@ namespace Sonneville.TradingTest
         public void ShortSupportsBuyToCoverTest()
         {
             var target = TradingAccountFeatures.Factory.CreateShortTradingAccountFeatures();
+
+            Assert.IsTrue(target.Supports(OrderType.BuyToCover));
+        }
+
+        [TestMethod]
+        public void FactoryConstructorFullSupportedOrderTypesTest()
+        {
+            var target = TradingAccountFeatures.Factory.CreateFullTradingAccountFeatures();
+
+            const OrderType expected = OrderType.Deposit | OrderType.Withdrawal | OrderType.Buy | OrderType.Sell | OrderType.SellShort | OrderType.BuyToCover;
+            var actual = target.SupportedOrderTypes;
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void FullSupportsDepositTest()
+        {
+            var target = TradingAccountFeatures.Factory.CreateFullTradingAccountFeatures();
+
+            Assert.IsTrue(target.Supports(OrderType.Deposit));
+        }
+
+        [TestMethod]
+        public void FullSupportsWithdrawalTest()
+        {
+            var target = TradingAccountFeatures.Factory.CreateFullTradingAccountFeatures();
+
+            Assert.IsTrue(target.Supports(OrderType.Withdrawal));
+        }
+
+        [TestMethod]
+        public void FullSupportsBuyTest()
+        {
+            var target = TradingAccountFeatures.Factory.CreateFullTradingAccountFeatures();
+
+            Assert.IsTrue(target.Supports(OrderType.Buy));
+        }
+
+        [TestMethod]
+        public void FullSupportsSellTest()
+        {
+            var target = TradingAccountFeatures.Factory.CreateFullTradingAccountFeatures();
+
+            Assert.IsTrue(target.Supports(OrderType.Sell));
+        }
+
+        [TestMethod]
+        public void FullSupportsSellFullTest()
+        {
+            var target = TradingAccountFeatures.Factory.CreateFullTradingAccountFeatures();
+
+            Assert.IsTrue(target.Supports(OrderType.SellShort));
+        }
+
+        [TestMethod]
+        public void FullSupportsBuyToCoverTest()
+        {
+            var target = TradingAccountFeatures.Factory.CreateFullTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.BuyToCover));
         }
