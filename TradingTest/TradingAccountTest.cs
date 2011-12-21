@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Trading;
 
-namespace TradingTest
+namespace Sonneville.TradingTest
 {
     /// <summary>
     /// Summary description for TradingAccountTest
@@ -260,7 +260,7 @@ namespace TradingTest
                 target.OrderExpired += expiredHandler;
 
                 const int count = 200;
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
                     target.Submit(order);
@@ -301,7 +301,7 @@ namespace TradingTest
                 target.OrderExpired += expiredHandler;
 
                 const int count = 200;
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
                     var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
                     target.Submit(order);
@@ -415,17 +415,16 @@ namespace TradingTest
             var position = positions.First(p => p.Ticker == transaction.Ticker);
             var transactions = position.Transactions.Cast<IShareTransaction>();
 
-            foreach (var trans in transactions)
-            {
-                return (trans.OrderType == transaction.OrderType &&
-                        trans.Commission == transaction.Commission &&
-                        trans.SettlementDate == transaction.SettlementDate &&
-                        // price may fluctuate
-                        //trans.Price == transaction.Price &&
-                        trans.Shares == transaction.Shares &&
-                        trans.Ticker == transaction.Ticker);
-            }
-            return false;
+            return transactions.Select(
+                trans => (
+                    trans.OrderType == transaction.OrderType &&
+                    trans.Commission == transaction.Commission &&
+                    trans.SettlementDate == transaction.SettlementDate &&
+                    // price may fluctuate
+                    //trans.Price == transaction.Price &&
+                    trans.Shares == transaction.Shares &&
+                    trans.Ticker == transaction.Ticker)
+                    ).FirstOrDefault();
         }
     }
 }

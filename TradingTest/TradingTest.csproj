@@ -9,7 +9,7 @@
     <ProjectGuid>{3C9D8671-15C6-4521-A886-C192AED54121}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TradingTest</RootNamespace>
+    <RootNamespace>Sonneville.TradingTest</RootNamespace>
     <AssemblyName>TradingTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

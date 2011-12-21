@@ -1,7 +1,7 @@
 ﻿using System;
 using Sonneville.PriceTools.Trading;
 
-namespace TradingTest
+namespace Sonneville.TradingTest
 {
     public class ErroneousSimulatedAccount : BacktestSimulator
     {

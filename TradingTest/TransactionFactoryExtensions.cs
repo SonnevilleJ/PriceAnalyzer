@@ -2,7 +2,7 @@
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Trading;
 
-namespace TradingTest
+namespace Sonneville.TradingTest
 {
     public static class TransactionFactoryExtensions
     {

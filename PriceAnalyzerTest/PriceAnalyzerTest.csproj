@@ -9,7 +9,7 @@
     <ProjectGuid>{24780FA7-F5DA-48DC-AE74-918C03268E75}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PriceAnalyzerTest</RootNamespace>
+    <RootNamespace>Sonneville.PriceAnalyzerTest</RootNamespace>
     <AssemblyName>PriceAnalyzerTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

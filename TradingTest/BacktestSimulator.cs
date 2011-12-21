@@ -4,7 +4,7 @@ using System.Threading;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Trading;
 
-namespace TradingTest
+namespace Sonneville.TradingTest
 {
     /// <summary>
     /// A trading account which simulates the execution of orders.

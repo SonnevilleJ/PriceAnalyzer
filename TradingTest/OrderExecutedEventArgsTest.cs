@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Trading;
 
-namespace TradingTest
+namespace Sonneville.TradingTest
 {
     [TestClass]
     public class OrderExecutedEventArgsTest

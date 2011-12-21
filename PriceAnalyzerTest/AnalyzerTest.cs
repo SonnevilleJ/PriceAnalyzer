@@ -6,7 +6,7 @@ using Sonneville.PriceAnalyzer;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.SamplePriceData;
 
-namespace PriceAnalyzerTest
+namespace Sonneville.PriceAnalyzerTest
 {
     /// <summary>
     ///This is a test class for PriceOverThresholdAnalyzerTest and is intended
