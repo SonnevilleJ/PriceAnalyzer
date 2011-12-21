@@ -48,6 +48,8 @@
     <Compile Include="OrderExecutor.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="PricingType.cs" />
+    <Compile Include="TradingAccountFeatures.cs" />
+    <Compile Include="TradingAccountFeaturesFactory.cs" />
     <Compile Include="TradingStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

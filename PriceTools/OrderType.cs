@@ -1,8 +1,11 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+
+namespace Sonneville.PriceTools
 {
     /// <summary>
     ///   Specifies the type of order for a transaction.
     /// </summary>
+    [Flags]
     public enum OrderType
     {
         /// <summary>
@@ -16,33 +19,33 @@
         DividendReceipt         = 2,
 
         /// <summary>
-        /// A cash dividend was reinvested.
+        ///   A cash dividend was reinvested.
         /// </summary>
-        DividendReinvestment    = 3,
+        DividendReinvestment    = 4,
 
         /// <summary>
-        ///   A sell transaction.
+        ///   An order to sell.
         /// </summary>
-        Sell                    = 4,
+        Sell                    = 8,
 
         /// <summary>
-        ///   A buy transaction used to cover a <see cref="OrderType.SellShort"/> order.
+        ///   An order to buy used to cover a <see cref="OrderType.SellShort"/> order.
         /// </summary>
-        BuyToCover              = 5,
+        BuyToCover              = 16,
 
         /// <summary>
-        ///   A buy transaction or a new investment.
+        ///   An order to buy.
         /// </summary>
-        Buy                     = 6,
+        Buy                     = 32,
 
         /// <summary>
         ///   An order to sell short.
         /// </summary>
-        SellShort               = 7,
+        SellShort               = 64,
 
         /// <summary>
         ///   A cash withdrawal.
         /// </summary>
-        Withdrawal              = 8
+        Withdrawal              = 128
     }
 }
