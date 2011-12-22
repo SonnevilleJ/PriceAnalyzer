@@ -312,7 +312,11 @@ namespace Sonneville.TradingTest
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.StopMarket;
 
-            new Order(issued, expired, orderType, ticker, shares, price, pricingType);
+            var order = new Order(issued, expired, orderType, ticker, shares, price, pricingType);
+
+            const PricingType expected = PricingType.StopMarket;
+            var actual = order.PricingType;
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
@@ -329,7 +333,11 @@ namespace Sonneville.TradingTest
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.Stop | PricingType.Limit;
 
-            new Order(issued, expired, orderType, ticker, shares, price, pricingType);
+            var order = new Order(issued, expired, orderType, ticker, shares, price, pricingType);
+
+            const PricingType expected = PricingType.StopLimit;
+            var actual = order.PricingType;
+            Assert.AreEqual(expected, actual);
         }
 
         /// <summary>
