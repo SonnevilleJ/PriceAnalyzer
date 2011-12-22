@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools.Trading
             OrderType = orderType;
             Ticker = ticker;
             Price = price;
-            PricingType = pricingType;
+            PricingType = pricingType == PricingType.Stop ? PricingType.StopMarket : pricingType;
             Shares = shares;
         }
 

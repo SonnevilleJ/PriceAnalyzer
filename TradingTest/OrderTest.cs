@@ -331,5 +331,26 @@ namespace Sonneville.TradingTest
 
             new Order(issued, expired, orderType, ticker, shares, price, pricingType);
         }
+
+        /// <summary>
+        /// Verifies that an order constructed with <see cref="PricingType.Stop"/> converts automatically to <see cref="PricingType.StopMarket"/>
+        /// </summary>
+        [TestMethod]
+        public void StopPricingTypeTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.Buy;
+            const string ticker = "DE";
+            const double shares = 5.0;
+            const decimal price = 100.00m;
+            const PricingType pricingType = PricingType.Stop;
+
+            var order = new Order(issued, expired, orderType, ticker, shares, price, pricingType);
+
+            const PricingType expected = PricingType.StopMarket;
+            var actual = order.PricingType;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
