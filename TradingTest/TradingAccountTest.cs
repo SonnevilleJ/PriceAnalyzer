@@ -16,9 +16,9 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void TradingAccountFeaturesSupportedOrderTypesTest()
         {
-            TradingAccount target = new BacktestSimulator();
+            TradingAccount target = GetBacktestSimulator();
 
-            var expected = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures(null).SupportedOrderTypes;
+            var expected = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures().SupportedOrderTypes;
             var actual = target.Features.SupportedOrderTypes;
             Assert.AreEqual(expected, actual);
         }
@@ -26,7 +26,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EmptyPositionsByDefault()
         {
-            TradingAccount target = new BacktestSimulator();
+            TradingAccount target = GetBacktestSimulator();
 
             Assert.AreEqual(0, target.Positions.Count);
         }
@@ -34,7 +34,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EventsTestFilled()
         {
-            TradingAccount target = new BacktestSimulator();
+            TradingAccount target = GetBacktestSimulator();
 
             const string ticker = "DE";
             var filledRaised = false;
@@ -69,7 +69,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EventsTestExpired()
         {
-            TradingAccount target = new BacktestSimulator();
+            TradingAccount target = GetBacktestSimulator();
 
             var expiredRaised = false;
             var cancelRaised = false;
@@ -102,7 +102,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EventsTestCancelled()
         {
-            TradingAccount target = new BacktestSimulator();
+            TradingAccount target = GetBacktestSimulator();
 
             var cancelRaised = false;
             var expiredRaised = false;
@@ -136,7 +136,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void OrderCancelledReturnsTrue()
         {
-            TradingAccount target = new BacktestSimulator();
+            TradingAccount target = GetBacktestSimulator();
 
             var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, "DE", 5, 100.00m);
             target.Submit(order);
@@ -149,7 +149,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void OrderCancelledReturnsFalse()
         {
-            TradingAccount target = new BacktestSimulator();
+            TradingAccount target = GetBacktestSimulator();
 
             var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, "DE", 5, 100.00m);
             target.Submit(order);
@@ -164,7 +164,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void OrderFilledReturnsCorrectTransaction()
         {
-            var target = new BacktestSimulator();
+            var target = GetBacktestSimulator();
 
             const string ticker = "DE";
             IShareTransaction expected = null;
@@ -174,49 +174,11 @@ namespace Sonneville.TradingTest
             EventHandler<OrderExecutedEventArgs> filledHandler =
                 (sender, e) =>
                     {
-                        expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, target.Commission);
+                        var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                        expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, commission);
                         actual = e.Transaction;
                         filledRaised = true;
                     };
-            try
-            {
-                target.OrderFilled += filledHandler;
-
-                var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
-                target.Submit(order);
-
-                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
-
-                Assert.IsTrue(filledRaised);
-
-                AssertSameTransaction(expected, actual);
-            }
-            finally
-            {
-                target.OrderFilled -= filledHandler;
-            }
-        }
-
-        [TestMethod]
-        public void OrderFilledReturnsCorrectTransactionWhenCommissionCustomized()
-        {
-            const decimal commission = 7.95m;
-            var target = new BacktestSimulator(commission);
-
-            Assert.AreEqual(commission, target.Commission);
-
-            const string ticker = "DE";
-            IShareTransaction expected = null;
-            IShareTransaction actual = null;
-
-            var filledRaised = false;
-            EventHandler<OrderExecutedEventArgs> filledHandler =
-                (sender, e) =>
-                {
-                    expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, target.Commission);
-                    actual = e.Transaction;
-                    filledRaised = true;
-                };
             try
             {
                 target.OrderFilled += filledHandler;
@@ -249,7 +211,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void MultipleEventsTestFilled()
         {
-            TradingAccount target = new BacktestSimulator();
+            TradingAccount target = GetBacktestSimulator();
             var padlock = new object();
 
             const string ticker = "DE";
@@ -294,7 +256,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void MultipleEventsTestCancelled()
         {
-            TradingAccount target = new BacktestSimulator();
+            TradingAccount target = GetBacktestSimulator();
             var padlock = new object();
 
             const string ticker = "DE";
@@ -336,7 +298,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void HistoricalOrderFilledReturnsCorrectTransaction()
         {
-            var target = new BacktestSimulator();
+            var target = GetBacktestSimulator();
 
             const string ticker = "DE";
             IShareTransaction expected = null;
@@ -346,7 +308,8 @@ namespace Sonneville.TradingTest
             EventHandler<OrderExecutedEventArgs> filledHandler =
                 (sender, e) =>
                 {
-                    expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, target.Commission);
+                    var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                    expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, commission);
                     actual = e.Transaction;
                     filledRaised = true;
                 };
@@ -374,7 +337,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FilledAddsToPositionsCount()
         {
-            var target = new BacktestSimulator();
+            var target = GetBacktestSimulator();
 
             const string ticker = "DE";
             var issued = new DateTime(2010, 12, 20, 12, 0, 0);
@@ -390,7 +353,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FilledAddsToPositionsCorrectly()
         {
-            var target = new BacktestSimulator();
+            var target = GetBacktestSimulator();
 
             const string ticker = "DE";
             IShareTransaction expected = null;
@@ -398,7 +361,8 @@ namespace Sonneville.TradingTest
             EventHandler<OrderExecutedEventArgs> processedHandler =
                 (sender, e) =>
                 {
-                    expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, target.Commission);
+                    var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                    expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, commission);
                 };
             try
             {
@@ -417,6 +381,27 @@ namespace Sonneville.TradingTest
             {
                 target.TransactionProcessed -= processedHandler;
             }
+        }
+
+        private static BacktestSimulator GetBacktestSimulator()
+        {
+            return GetBacktestSimulator(new MarginNotAllowed());
+        }
+
+        private static BacktestSimulator GetBacktestSimulator(IMarginSchedule marginSchedule)
+        {
+            return GetBacktestSimulator(new FlatCommissionSchedule(5.00m), marginSchedule);
+        }
+
+        private static BacktestSimulator GetBacktestSimulator(ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
+        {
+            var orderTypes = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures().SupportedOrderTypes;
+            return GetBacktestSimulator(orderTypes, commissionSchedule, marginSchedule);
+        }
+
+        private static BacktestSimulator GetBacktestSimulator(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
+        {
+            return new BacktestSimulator(TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule));
         }
 
         private static bool TargetContainsTransaction(TradingAccount target, IShareTransaction transaction)

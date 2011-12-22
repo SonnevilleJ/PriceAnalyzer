@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Sonneville.PriceTools.Trading.Fidelity
 {
-    public class FidelityCommissionSchedule : ICommissionSchedule
+    public class FidelityCommissionSchedule : FlatCommissionSchedule
     {
         #region Private Members
 
@@ -11,9 +11,13 @@ namespace Sonneville.PriceTools.Trading.Fidelity
 
         #endregion
 
-        public decimal PriceCheck(Order order)
+        #region Constructors
+
+        public FidelityCommissionSchedule()
+            : base(7.95m)
         {
-            return 7.95m;
         }
+
+        #endregion
     }
 }

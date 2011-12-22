@@ -2,37 +2,40 @@
 {
     public static class TradingAccountFeaturesFactory
     {
-        private const OrderType CashAccount = OrderType.Deposit | OrderType.Withdrawal;
-        private const OrderType Basic = CashAccount | OrderType.Buy | OrderType.Sell;
-        private const OrderType Short = CashAccount | OrderType.SellShort | OrderType.BuyToCover;
-        private const OrderType Full = Basic | Short;
+        private const OrderType CashOnlyOrderTypes = OrderType.Deposit | OrderType.Withdrawal;
+        private const OrderType BasicOrderTypes = CashOnlyOrderTypes | OrderType.Buy | OrderType.Sell;
+        private const OrderType ShortOrderTypes = CashOnlyOrderTypes | OrderType.SellShort | OrderType.BuyToCover;
+        private const OrderType FullOrderTypes = BasicOrderTypes | ShortOrderTypes;
+        private const decimal DefaultPrice = 9.95m;
 
         public static TradingAccountFeatures CreateBasicTradingAccountFeatures()
         {
-            const OrderType orderTypes = Basic;
-            return CreateTradingAccountFeatures(orderTypes, new MarginNotAllowed());
+            return CreateTradingAccountFeatures(BasicOrderTypes);
         }
 
-        public static TradingAccountFeatures CreateShortTradingAccountFeatures(MarginNotAllowed marginSchedule)
+        public static TradingAccountFeatures CreateShortTradingAccountFeatures()
         {
-            const OrderType orderTypes = Short;
-            return CreateTradingAccountFeatures(orderTypes, marginSchedule);
+            return CreateTradingAccountFeatures(ShortOrderTypes);
         }
 
-        public static TradingAccountFeatures CreateFullTradingAccountFeatures(MarginNotAllowed marginSchedule)
+        public static TradingAccountFeatures CreateFullTradingAccountFeatures()
         {
-            const OrderType orderTypes = Full;
-            return CreateTradingAccountFeatures(orderTypes, marginSchedule);
+            return CreateTradingAccountFeatures(FullOrderTypes);
         }
 
-        public static TradingAccountFeatures CreateCustomTradingAccountFeatures(OrderType orderTypes, IMarginSchedule marginSchedule)
+        public static TradingAccountFeatures CreateTradingAccountFeatures(OrderType orderTypes)
         {
-            return CreateTradingAccountFeatures(orderTypes, marginSchedule);
+            return CreateTradingAccountFeatures(orderTypes, new FlatCommissionSchedule(DefaultPrice));
         }
 
-        private static TradingAccountFeatures CreateTradingAccountFeatures(OrderType orderTypes, IMarginSchedule marginSchedule)
+        public static TradingAccountFeatures CreateTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule)
         {
-            return new TradingAccountFeatures(orderTypes, marginSchedule);
+            return CreateTradingAccountFeatures(orderTypes, commissionSchedule, new MarginNotAllowed());
+        }
+
+        public static TradingAccountFeatures CreateTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
+        {
+            return new TradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
         }
     }
 }

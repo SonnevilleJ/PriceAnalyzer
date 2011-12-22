@@ -1,14 +1,13 @@
-﻿using System;
-
-namespace Sonneville.PriceTools.Trading
+﻿namespace Sonneville.PriceTools.Trading
 {
     public class TradingAccountFeatures
     {
         #region Constructors
 
-        internal TradingAccountFeatures(OrderType supportedOrderTypes, IMarginSchedule marginSchedule)
+        internal TradingAccountFeatures(OrderType supportedOrderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
         {
             SupportedOrderTypes = supportedOrderTypes;
+            CommissionSchedule = commissionSchedule;
             MarginSchedule = marginSchedule;
         }
 

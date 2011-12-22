@@ -5,9 +5,14 @@
     /// </summary>
     public class MarginNotAllowed : IMarginSchedule
     {
-        public double LeverageRequirement
+        /// <summary>
+        /// Gets the leverage requirement for a given ticker, expressed as a percentage.
+        /// </summary>
+        /// <param name="ticker">The ticker of a marginable trade.</param>
+        /// <returns>The leverage requirement for the given <paramref name="ticker"/>.</returns>
+        public double GetLeverageRequirement(string ticker)
         {
-            get { return 1.0; }
+            return 1.0;
         }
     }
 }

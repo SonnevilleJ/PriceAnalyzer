@@ -11,17 +11,9 @@ namespace Sonneville.TradingTest
     /// </summary>
     public class BacktestSimulator : TradingAccount
     {
-        private static readonly TradingAccountFeatures TradingAccountFeatures = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures(null);
-
-        public BacktestSimulator()
-            : this(5.00m)
+        public BacktestSimulator(TradingAccountFeatures tradingAccountFeatures)
+            : base(tradingAccountFeatures)
         {
-        }
-
-        public BacktestSimulator(decimal commission)
-            : base(TradingAccountFeatures)
-        {
-            Commission = commission;
         }
 
         internal static TimeSpan MinProcessingTimeSpan
@@ -33,11 +25,6 @@ namespace Sonneville.TradingTest
         {
             get { return new TimeSpan(0, 0, 0, 1, 0); }
         }
-
-        /// <summary>
-        /// Brokerage commission charged for all orders.
-        /// </summary>
-        public decimal Commission { get; set; }
 
         /// <summary>
         /// Submits an order for execution by the brokerage.
@@ -57,7 +44,8 @@ namespace Sonneville.TradingTest
             {
                 // fill the order at 1% higher price
                 var price = Math.Round(order.Price*1.01m, 2);
-                var transaction = TransactionFactory.Instance.CreateShareTransaction(now, order.OrderType, order.Ticker, price, order.Shares, Commission);
+                var commission = Features.CommissionSchedule.PriceCheck(order);
+                var transaction = TransactionFactory.Instance.CreateShareTransaction(now, order.OrderType, order.Ticker, price, order.Shares, commission);
 
                 // signal the order has been filled
                 InvokeOrderFilled(new OrderExecutedEventArgs(now, order, transaction));

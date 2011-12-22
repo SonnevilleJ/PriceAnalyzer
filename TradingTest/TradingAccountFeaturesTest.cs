@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Trading;
 
@@ -78,7 +79,7 @@ namespace Sonneville.TradingTest
         {
             var target = GetBasicTradingAccountFeatures();
 
-            Assert.AreEqual(1, target.MarginSchedule.LeverageRequirement);
+            Assert.AreEqual(1, target.MarginSchedule.GetLeverageRequirement(String.Empty));
         }
 
         [TestMethod]
@@ -219,7 +220,7 @@ namespace Sonneville.TradingTest
             // the ultimate suck account - you can deposit money and trade, but never withdraw!
             const OrderType orderTypes = OrderType.Deposit | OrderType.Buy | OrderType.Sell | OrderType.SellShort | OrderType.BuyToCover;
 
-            var target = TradingAccountFeaturesFactory.CreateCustomTradingAccountFeatures(orderTypes, null);
+            var target = TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes);
 
             var actual = target.SupportedOrderTypes;
             Assert.AreEqual(orderTypes, actual);
@@ -232,12 +233,12 @@ namespace Sonneville.TradingTest
 
         private static TradingAccountFeatures GetShortTradingAccountFeatures()
         {
-            return TradingAccountFeaturesFactory.CreateShortTradingAccountFeatures(null);
+            return TradingAccountFeaturesFactory.CreateShortTradingAccountFeatures();
         }
 
         private static TradingAccountFeatures GetFullTradingAccountFeatures()
         {
-            return TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures(null);
+            return TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures();
         }
     }
 }
