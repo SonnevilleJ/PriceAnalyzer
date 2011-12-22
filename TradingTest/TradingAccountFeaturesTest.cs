@@ -10,7 +10,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FactoryConstructorBasicSupportedOrderTypesTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateBasicTradingAccountFeatures();
+            var target = GetBasicTradingAccountFeatures();
 
             const OrderType expected = OrderType.Deposit | OrderType.Withdrawal | OrderType.Buy | OrderType.Sell;
             var actual = target.SupportedOrderTypes;
@@ -20,7 +20,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void BasicSupportsDepositTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateBasicTradingAccountFeatures();
+            var target = GetBasicTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.Deposit));
         }
@@ -28,7 +28,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void BasicSupportsWithdrawalTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateBasicTradingAccountFeatures();
+            var target = GetBasicTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.Withdrawal));
         }
@@ -36,7 +36,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void BasicSupportsBuyTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateBasicTradingAccountFeatures();
+            var target = GetBasicTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.Buy));
         }
@@ -44,7 +44,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void BasicSupportsSellTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateBasicTradingAccountFeatures();
+            var target = GetBasicTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.Sell));
         }
@@ -52,7 +52,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void BasicDoesNotSupportSellShortTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateBasicTradingAccountFeatures();
+            var target = GetBasicTradingAccountFeatures();
 
             Assert.IsFalse(target.Supports(OrderType.SellShort));
         }
@@ -60,15 +60,31 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void BasicDoesNotSupportBuyToCoverTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateBasicTradingAccountFeatures();
+            var target = GetBasicTradingAccountFeatures();
 
             Assert.IsFalse(target.Supports(OrderType.BuyToCover));
         }
 
         [TestMethod]
+        public void BasicDoesNotSupportMarginTest()
+        {
+            var target = GetBasicTradingAccountFeatures();
+
+            Assert.IsFalse(target.IsMarginAccount);
+        }
+
+        [TestMethod]
+        public void BasicRequiresFullLeverageTest()
+        {
+            var target = GetBasicTradingAccountFeatures();
+
+            Assert.AreEqual(1, target.MarginSchedule.LeverageRequirement);
+        }
+
+        [TestMethod]
         public void FactoryConstructorShortSupportedOrderTypesTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateShortTradingAccountFeatures();
+            var target = GetShortTradingAccountFeatures();
 
             const OrderType expected = OrderType.Deposit | OrderType.Withdrawal | OrderType.SellShort | OrderType.BuyToCover;
             var actual = target.SupportedOrderTypes;
@@ -78,7 +94,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void ShortSupportsDepositTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateShortTradingAccountFeatures();
+            var target = GetShortTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.Deposit));
         }
@@ -86,7 +102,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void ShortSupportsWithdrawalTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateShortTradingAccountFeatures();
+            var target = GetShortTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.Withdrawal));
         }
@@ -94,7 +110,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void ShortDoesNotSupportBuyTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateShortTradingAccountFeatures();
+            var target = GetShortTradingAccountFeatures();
 
             Assert.IsFalse(target.Supports(OrderType.Buy));
         }
@@ -102,7 +118,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void ShortDoesNotSupportSellTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateShortTradingAccountFeatures();
+            var target = GetShortTradingAccountFeatures();
 
             Assert.IsFalse(target.Supports(OrderType.Sell));
         }
@@ -110,7 +126,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void ShortSupportsSellShortTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateShortTradingAccountFeatures();
+            var target = GetShortTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.SellShort));
         }
@@ -118,15 +134,23 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void ShortSupportsBuyToCoverTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateShortTradingAccountFeatures();
+            var target = GetShortTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.BuyToCover));
         }
 
         [TestMethod]
+        public void ShortDoesSupportMarginTest()
+        {
+            var target = GetShortTradingAccountFeatures();
+
+            Assert.IsTrue(target.IsMarginAccount);
+        }
+
+        [TestMethod]
         public void FactoryConstructorFullSupportedOrderTypesTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures();
+            var target = GetFullTradingAccountFeatures();
 
             const OrderType expected = OrderType.Deposit | OrderType.Withdrawal | OrderType.Buy | OrderType.Sell | OrderType.SellShort | OrderType.BuyToCover;
             var actual = target.SupportedOrderTypes;
@@ -136,7 +160,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FullSupportsDepositTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures();
+            var target = GetFullTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.Deposit));
         }
@@ -144,7 +168,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FullSupportsWithdrawalTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures();
+            var target = GetFullTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.Withdrawal));
         }
@@ -152,7 +176,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FullSupportsBuyTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures();
+            var target = GetFullTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.Buy));
         }
@@ -160,7 +184,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FullSupportsSellTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures();
+            var target = GetFullTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.Sell));
         }
@@ -168,7 +192,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FullSupportsSellFullTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures();
+            var target = GetFullTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.SellShort));
         }
@@ -176,9 +200,17 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FullSupportsBuyToCoverTest()
         {
-            var target = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures();
+            var target = GetFullTradingAccountFeatures();
 
             Assert.IsTrue(target.Supports(OrderType.BuyToCover));
+        }
+
+        [TestMethod]
+        public void FullDoesSupportMarginTest()
+        {
+            var target = GetFullTradingAccountFeatures();
+
+            Assert.IsTrue(target.IsMarginAccount);
         }
 
         [TestMethod]
@@ -186,11 +218,26 @@ namespace Sonneville.TradingTest
         {
             // the ultimate suck account - you can deposit money and trade, but never withdraw!
             const OrderType orderTypes = OrderType.Deposit | OrderType.Buy | OrderType.Sell | OrderType.SellShort | OrderType.BuyToCover;
-            
-            var target = TradingAccountFeaturesFactory.CreateCustomTradingAccountFeatures(orderTypes);
+
+            var target = TradingAccountFeaturesFactory.CreateCustomTradingAccountFeatures(orderTypes, null);
 
             var actual = target.SupportedOrderTypes;
             Assert.AreEqual(orderTypes, actual);
+        }
+
+        private static TradingAccountFeatures GetBasicTradingAccountFeatures()
+        {
+            return TradingAccountFeaturesFactory.CreateBasicTradingAccountFeatures();
+        }
+
+        private static TradingAccountFeatures GetShortTradingAccountFeatures()
+        {
+            return TradingAccountFeaturesFactory.CreateShortTradingAccountFeatures(null);
+        }
+
+        private static TradingAccountFeatures GetFullTradingAccountFeatures()
+        {
+            return TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures(null);
         }
     }
 }

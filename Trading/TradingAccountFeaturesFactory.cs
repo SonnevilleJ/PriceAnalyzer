@@ -9,22 +9,30 @@
 
         public static TradingAccountFeatures CreateBasicTradingAccountFeatures()
         {
-            return new TradingAccountFeatures(Basic);
+            const OrderType orderTypes = Basic;
+            return CreateTradingAccountFeatures(orderTypes, new MarginNotAllowed());
         }
 
-        public static TradingAccountFeatures CreateShortTradingAccountFeatures()
+        public static TradingAccountFeatures CreateShortTradingAccountFeatures(MarginNotAllowed marginSchedule)
         {
-            return new TradingAccountFeatures(Short);
+            const OrderType orderTypes = Short;
+            return CreateTradingAccountFeatures(orderTypes, marginSchedule);
         }
 
-        public static TradingAccountFeatures CreateFullTradingAccountFeatures()
+        public static TradingAccountFeatures CreateFullTradingAccountFeatures(MarginNotAllowed marginSchedule)
         {
-            return new TradingAccountFeatures(Full);
+            const OrderType orderTypes = Full;
+            return CreateTradingAccountFeatures(orderTypes, marginSchedule);
         }
 
-        public static TradingAccountFeatures CreateCustomTradingAccountFeatures(OrderType orderTypes)
+        public static TradingAccountFeatures CreateCustomTradingAccountFeatures(OrderType orderTypes, IMarginSchedule marginSchedule)
         {
-            return new TradingAccountFeatures(orderTypes);
+            return CreateTradingAccountFeatures(orderTypes, marginSchedule);
+        }
+
+        private static TradingAccountFeatures CreateTradingAccountFeatures(OrderType orderTypes, IMarginSchedule marginSchedule)
+        {
+            return new TradingAccountFeatures(orderTypes, marginSchedule);
         }
     }
 }

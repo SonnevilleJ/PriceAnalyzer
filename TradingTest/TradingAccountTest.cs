@@ -18,7 +18,7 @@ namespace Sonneville.TradingTest
         {
             TradingAccount target = new BacktestSimulator();
 
-            var expected = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures().SupportedOrderTypes;
+            var expected = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures(null).SupportedOrderTypes;
             var actual = target.Features.SupportedOrderTypes;
             Assert.AreEqual(expected, actual);
         }

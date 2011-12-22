@@ -1,12 +1,15 @@
-﻿namespace Sonneville.PriceTools.Trading
+﻿using System;
+
+namespace Sonneville.PriceTools.Trading
 {
     public class TradingAccountFeatures
     {
         #region Constructors
 
-        internal TradingAccountFeatures(OrderType supportedOrderTypes)
+        internal TradingAccountFeatures(OrderType supportedOrderTypes, IMarginSchedule marginSchedule)
         {
             SupportedOrderTypes = supportedOrderTypes;
+            MarginSchedule = marginSchedule;
         }
 
         #endregion
@@ -20,6 +23,13 @@
         /// Gets the <see cref="ICommissionSchedule"/> used by the <see cref="TradingAccount"/>.
         /// </summary>
         public ICommissionSchedule CommissionSchedule { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether or not the TradingAccount supports margin trading.
+        /// </summary>
+        public bool IsMarginAccount { get { return (SupportedOrderTypes & OrderType.SellShort) == OrderType.SellShort; } }
+
+        public IMarginSchedule MarginSchedule { get; private set; }
 
         /// <summary>
         /// Gets a value indicating if a particular <see cref="OrderType"/> is supported by the <see cref="TradingAccount"/>.

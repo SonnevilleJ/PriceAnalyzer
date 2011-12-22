@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="IBrokerage.cs" />
     <Compile Include="ICommissionSchedule.cs" />
+    <Compile Include="IMarginSchedule.cs" />
+    <Compile Include="MarginNotAllowed.cs" />
     <Compile Include="OrderCancelledEventArgs.cs" />
     <Compile Include="OrderExecutedEventArgs.cs" />
     <Compile Include="OrderExpiredEventArgs.cs" />
