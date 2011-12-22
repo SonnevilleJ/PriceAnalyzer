@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools.Trading.Fidelity
         public TradingAccount GetTradingAccount()
         {
             var commissionSchedule = GetCommissionSchedule();
-            var features = TradingAccountFeatures.Factory.CreateCustomTradingAccountFeatures(GetSupportedOrderTypes());
+            var features = TradingAccountFeaturesFactory.CreateCustomTradingAccountFeatures(GetSupportedOrderTypes());
             var tradingAccount = new FidelityTradingAccount(features);
             return tradingAccount;
         }

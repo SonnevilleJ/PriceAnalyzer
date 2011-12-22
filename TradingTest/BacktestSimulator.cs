@@ -11,7 +11,7 @@ namespace Sonneville.TradingTest
     /// </summary>
     public class BacktestSimulator : TradingAccount
     {
-        private static readonly TradingAccountFeatures TradingAccountFeatures = TradingAccountFeatures.Factory.CreateFullTradingAccountFeatures();
+        private static readonly TradingAccountFeatures TradingAccountFeatures = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures();
 
         public BacktestSimulator()
             : this(5.00m)

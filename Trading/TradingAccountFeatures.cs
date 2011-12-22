@@ -2,10 +2,7 @@
 {
     public class TradingAccountFeatures
     {
-        #region Factory and Constructors
-
-        private static readonly TradingAccountFeaturesFactory Instance = new TradingAccountFeaturesFactory();
-        public static TradingAccountFeaturesFactory Factory { get { return Instance; } }
+        #region Constructors
 
         internal TradingAccountFeatures(OrderType supportedOrderTypes)
         {
