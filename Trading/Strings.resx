@@ -107,4 +107,7 @@
 	<data name="Order_Validate_Shares_must_be_a_positive_number_">
 		<value xml:space="preserve">Shares must be a positive number.</value>
 	</data>
+	<data name="Order_Order_Invalid_OrderType_">
+		<value xml:space="preserve">Invalid OrderType.</value>
+	</data>
 </root>

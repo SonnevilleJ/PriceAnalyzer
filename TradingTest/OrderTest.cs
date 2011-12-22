@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Trading;
@@ -199,6 +201,43 @@ namespace Sonneville.TradingTest
             const decimal price = 100.00m;
 
             new Order(issued, expired, orderType, ticker, shares, price);
+        }
+
+        /// <summary>
+        /// Verifies that an order cannot be created with a binary and-ed OrderType
+        /// </summary>
+        [TestMethod]
+        public void BinaryAndedOrderTypeTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const string ticker = "DE";
+            const double shares = 5.0;
+            const decimal price = 100.00m;
+
+            var errors = new List<int>();
+            var last = Enum.GetValues(typeof (OrderType)).Cast<int>().Max();
+            for (var i = 0; i < last; i++)
+            {
+                if (Enum.IsDefined(typeof (OrderType), i)) continue;
+
+                var orderType = (OrderType) i;
+                try
+                {
+                    new Order(issued, expired, orderType, ticker, shares, price);
+
+                    // Order class did not validate appropriately
+                    errors.Add(i);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    // Order class validated appropriately
+                }
+            }
+
+            const int expected = 0;
+            var actual = errors.Count;
+            Assert.AreEqual(expected, actual);
         }
     }
 }

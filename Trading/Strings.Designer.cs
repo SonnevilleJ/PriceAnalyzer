@@ -61,6 +61,15 @@ namespace Sonneville.PriceTools.Trading {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid OrderType..
+        /// </summary>
+        internal static string Order_Order_Invalid_OrderType_ {
+            get {
+                return ResourceManager.GetString("Order_Order_Invalid_OrderType_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to OrderType must not be Deposit or Withdrawal..
         /// </summary>
         internal static string Order_Validate_OrderType_must_not_be_Deposit_or_Withdrawal_ {

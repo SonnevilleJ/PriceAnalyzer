@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 namespace Sonneville.PriceTools.Trading
 {
@@ -9,8 +10,10 @@ namespace Sonneville.PriceTools.Trading
     {
         public Order(DateTime issued, DateTime expiration, OrderType orderType, string ticker, double shares, decimal price, PricingType pricingType = PricingType.Market)
         {
-            if (orderType == OrderType.Deposit || this.OrderType == OrderType.Withdrawal)
+            if (orderType == OrderType.Deposit || OrderType == OrderType.Withdrawal)
                 throw new ArgumentOutOfRangeException("orderType", orderType, Strings.Order_Validate_OrderType_must_not_be_Deposit_or_Withdrawal_);
+            if (!Enum.GetValues(typeof(OrderType)).Cast<OrderType>().Contains(orderType))
+                throw new ArgumentOutOfRangeException("orderType", orderType, Strings.Order_Order_Invalid_OrderType_);
             if (price < 0)
                 throw new ArgumentOutOfRangeException("price", price, Strings.Order_Validate_Price_must_be_a_positive_number_);
             if (shares < 0)
