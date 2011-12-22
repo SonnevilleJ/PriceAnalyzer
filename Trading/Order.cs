@@ -9,6 +9,13 @@ namespace Sonneville.PriceTools.Trading
     {
         public Order(DateTime issued, DateTime expiration, OrderType orderType, string ticker, double shares, decimal price, PricingType pricingType = PricingType.Market)
         {
+            if (orderType == OrderType.Deposit || this.OrderType == OrderType.Withdrawal)
+                throw new ArgumentOutOfRangeException("orderType", orderType, Strings.Order_Validate_OrderType_must_not_be_Deposit_or_Withdrawal_);
+            if (price < 0)
+                throw new ArgumentOutOfRangeException("price", price, Strings.Order_Validate_Price_must_be_a_positive_number_);
+            if (shares < 0)
+                throw new ArgumentOutOfRangeException("shares", shares, Strings.Order_Validate_Shares_must_be_a_positive_number_);
+
             Issued = issued;
             Expiration = expiration;
             OrderType = orderType;
@@ -16,8 +23,6 @@ namespace Sonneville.PriceTools.Trading
             Price = price;
             PricingType = pricingType;
             Shares = shares;
-
-            Validate();
         }
 
         /// <summary>
@@ -54,17 +59,5 @@ namespace Sonneville.PriceTools.Trading
         /// The number of shares for this order.
         /// </summary>
         public double Shares { get; private set; }
-
-        private void Validate()
-        {
-            if (Price < 0)
-            {
-                throw new InvalidOperationException("Price must be a positive number.");
-            }
-            if (Shares < 0)
-            {
-                throw new InvalidOperationException("Shares must be a positive number.");
-            }
-        }
     }
 }

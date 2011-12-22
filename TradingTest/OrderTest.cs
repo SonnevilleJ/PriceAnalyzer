@@ -146,7 +146,7 @@ namespace Sonneville.TradingTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativePriceTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -160,12 +160,40 @@ namespace Sonneville.TradingTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeSharesTest()
         {
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
+            const string ticker = "DE";
+            const double shares = -5.0;
+            const decimal price = 100.00m;
+
+            new Order(issued, expired, orderType, ticker, shares, price);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void DepositTypeTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.Deposit;
+            const string ticker = "DE";
+            const double shares = -5.0;
+            const decimal price = 100.00m;
+
+            new Order(issued, expired, orderType, ticker, shares, price);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void WithdrawalTypeTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.Withdrawal;
             const string ticker = "DE";
             const double shares = -5.0;
             const decimal price = 100.00m;

@@ -46,6 +46,11 @@
     <Compile Include="OrderCancelledEventArgs.cs" />
     <Compile Include="OrderExecutedEventArgs.cs" />
     <Compile Include="OrderExpiredEventArgs.cs" />
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
     <Compile Include="TradingAccount.cs" />
     <Compile Include="OrderExecutor.cs" />
     <Compile Include="Order.cs" />
@@ -60,6 +65,13 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

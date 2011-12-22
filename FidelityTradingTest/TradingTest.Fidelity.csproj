@@ -9,7 +9,7 @@
     <ProjectGuid>{406B14BB-34FE-48AF-9CA6-41B23B363929}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.FidelityTradingTest</RootNamespace>
+    <RootNamespace>Sonneville.TradingTest.Fidelity</RootNamespace>
     <AssemblyName>FidelityTradingTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
