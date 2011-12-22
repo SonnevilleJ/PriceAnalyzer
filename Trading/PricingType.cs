@@ -7,6 +7,8 @@ namespace Sonneville.PriceTools.Trading
     {
         Market      = 1,
         Limit       = 2,
-        Stop        = 4
+        Stop        = 4,
+        StopMarket  = Stop | Market,
+        StopLimit   = Stop | Limit
     }
 }

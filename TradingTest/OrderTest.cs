@@ -279,5 +279,57 @@ namespace Sonneville.TradingTest
             var actual = errors.Count;
             Assert.AreEqual(expected, actual);
         }
+
+        /// <summary>
+        /// Verifies that an order cannot be created with a binary and-ed market and limit PricingType
+        /// </summary>
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void ManualMarketLimitPricingTypeTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.Buy;
+            const string ticker = "DE";
+            const double shares = 5.0;
+            const decimal price = 100.00m;
+            const PricingType pricingType = PricingType.Market | PricingType.Limit;
+
+            new Order(issued, expired, orderType, ticker, shares, price, pricingType);
+        }
+
+        /// <summary>
+        /// Verifies that a stop order can be created
+        /// </summary>
+        [TestMethod]
+        public void ManualStopMarketPricingTypeTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.Buy;
+            const string ticker = "DE";
+            const double shares = 5.0;
+            const decimal price = 100.00m;
+            const PricingType pricingType = PricingType.StopMarket;
+
+            new Order(issued, expired, orderType, ticker, shares, price, pricingType);
+        }
+
+        /// <summary>
+        /// Verifies that a stop limit order can be created
+        /// </summary>
+        [TestMethod]
+        public void ManualStopLimitPricingTypeTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.Buy;
+            const string ticker = "DE";
+            const double shares = 5.0;
+            const decimal price = 100.00m;
+            const PricingType pricingType = PricingType.Stop | PricingType.Limit;
+
+            new Order(issued, expired, orderType, ticker, shares, price, pricingType);
+        }
     }
 }
