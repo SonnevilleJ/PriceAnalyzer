@@ -110,4 +110,7 @@
 	<data name="Order_Order_Invalid_OrderType_">
 		<value xml:space="preserve">Invalid OrderType.</value>
 	</data>
+	<data name="Order_Order_Invalid_PricingType_">
+		<value xml:space="preserve">Invalid PricingType.</value>
+	</data>
 </root>

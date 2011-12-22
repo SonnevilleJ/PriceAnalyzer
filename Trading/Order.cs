@@ -18,6 +18,8 @@ namespace Sonneville.PriceTools.Trading
                 throw new ArgumentOutOfRangeException("price", price, Strings.Order_Validate_Price_must_be_a_positive_number_);
             if (shares < 0)
                 throw new ArgumentOutOfRangeException("shares", shares, Strings.Order_Validate_Shares_must_be_a_positive_number_);
+            if (!Enum.GetValues(typeof(PricingType)).Cast<PricingType>().Contains(pricingType))
+                throw new ArgumentOutOfRangeException("pricingType", pricingType, Strings.Order_Order_Invalid_PricingType_);
 
             Issued = issued;
             Expiration = expiration;

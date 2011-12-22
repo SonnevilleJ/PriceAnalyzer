@@ -240,5 +240,44 @@ namespace Sonneville.TradingTest
             var actual = errors.Count;
             Assert.AreEqual(expected, actual);
         }
+
+        /// <summary>
+        /// Verifies that an order cannot be created with a binary and-ed PricingType, including bounds testing
+        /// </summary>
+        [TestMethod]
+        public void BinaryAndedPricingTypeTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.Buy;
+            const string ticker = "DE";
+            const double shares = 5.0;
+            const decimal price = 100.00m;
+
+            var errors = new List<int>();
+            var min = Enum.GetValues(typeof(PricingType)).Cast<int>().Min() - 1;
+            var max = Enum.GetValues(typeof(PricingType)).Cast<int>().Max() + 1;
+            for (var i = min; i < max; i++)
+            {
+                if (Enum.IsDefined(typeof(PricingType), i)) continue;
+
+                var pricingType = (PricingType)i;
+                try
+                {
+                    new Order(issued, expired, orderType, ticker, shares, price, pricingType);
+
+                    // Order class did not validate appropriately
+                    errors.Add(i);
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+                    // Order class validated appropriately
+                }
+            }
+
+            const int expected = 0;
+            var actual = errors.Count;
+            Assert.AreEqual(expected, actual);
+        }
     }
 }
