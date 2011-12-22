@@ -204,7 +204,7 @@ namespace Sonneville.TradingTest
         }
 
         /// <summary>
-        /// Verifies that an order cannot be created with a binary and-ed OrderType
+        /// Verifies that an order cannot be created with a binary and-ed OrderType, including bounds testing
         /// </summary>
         [TestMethod]
         public void BinaryAndedOrderTypeTest()
@@ -216,8 +216,9 @@ namespace Sonneville.TradingTest
             const decimal price = 100.00m;
 
             var errors = new List<int>();
-            var last = Enum.GetValues(typeof (OrderType)).Cast<int>().Max();
-            for (var i = 0; i < last; i++)
+            var min = Enum.GetValues(typeof(OrderType)).Cast<int>().Min() - 1;
+            var max = Enum.GetValues(typeof(OrderType)).Cast<int>().Max() + 1;
+            for (var i = min; i < max; i++)
             {
                 if (Enum.IsDefined(typeof (OrderType), i)) continue;
 
