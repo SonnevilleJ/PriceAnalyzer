@@ -10,8 +10,8 @@ namespace Sonneville.PriceTools.Trading
     {
         public Order(DateTime issued, DateTime expiration, OrderType orderType, string ticker, double shares, decimal price, PricingType pricingType = PricingType.Market)
         {
-            if (orderType == OrderType.Deposit || OrderType == OrderType.Withdrawal)
-                throw new ArgumentOutOfRangeException("orderType", orderType, Strings.Order_Validate_OrderType_must_not_be_Deposit_or_Withdrawal_);
+            if (orderType == OrderType.Deposit || orderType == OrderType.Withdrawal || orderType == OrderType.DividendReceipt || orderType == OrderType.DividendReinvestment)
+                throw new ArgumentOutOfRangeException("orderType", orderType, Strings.Order_Order_OrderType_must_be_Buy__Sell__SellShort__or_BuyToClose_);
             if (!Enum.GetValues(typeof(OrderType)).Cast<OrderType>().Contains(orderType))
                 throw new ArgumentOutOfRangeException("orderType", orderType, Strings.Order_Order_Invalid_OrderType_);
             if (price < 0)

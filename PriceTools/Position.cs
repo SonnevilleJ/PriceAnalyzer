@@ -32,6 +32,17 @@ namespace Sonneville.PriceTools
             _priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker);
         }
 
+        /// <summary>
+        ///   Constructs a copy of an <see cref="IPosition"/>.
+        /// </summary>
+        /// <param name="position">The <see cref="IPosition"/> to copy.</param>
+        internal Position(IPosition position)
+        {
+            Ticker = position.Ticker;
+            _priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker);
+            _transactions = new List<IShareTransaction>(((Position) position)._transactions);
+        }
+
         #endregion
 
         #region IPosition Members

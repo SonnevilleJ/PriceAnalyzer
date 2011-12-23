@@ -98,9 +98,6 @@
 	<resheader name="writer">
 		<value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.3500.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
 	</resheader>
-	<data name="Order_Validate_OrderType_must_not_be_Deposit_or_Withdrawal_">
-		<value xml:space="preserve">OrderType must not be Deposit or Withdrawal.</value>
-	</data>
 	<data name="Order_Validate_Price_must_be_a_positive_number_">
 		<value xml:space="preserve">Price must be a positive number.</value>
 	</data>
@@ -112,5 +109,8 @@
 	</data>
 	<data name="Order_Order_Invalid_PricingType_">
 		<value xml:space="preserve">Invalid PricingType.</value>
+	</data>
+	<data name="Order_Order_OrderType_must_be_Buy__Sell__SellShort__or_BuyToClose_">
+		<value xml:space="preserve">OrderType must be Buy, Sell, SellShort, or BuyToClose.</value>
 	</data>
 </root>

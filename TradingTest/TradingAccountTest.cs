@@ -134,7 +134,7 @@ namespace Sonneville.TradingTest
         }
 
         [TestMethod]
-        public void OrderCancelledReturnsTrue()
+        public void TryCancelOrderReturnsTrue()
         {
             TradingAccount target = GetBacktestSimulator();
 
@@ -147,7 +147,7 @@ namespace Sonneville.TradingTest
         }
 
         [TestMethod]
-        public void OrderCancelledReturnsFalse()
+        public void TryCancelOrderReturnsFalse()
         {
             TradingAccount target = GetBacktestSimulator();
 
@@ -162,7 +162,32 @@ namespace Sonneville.TradingTest
         }
 
         [TestMethod]
-        public void OrderFilledReturnsCorrectTransaction()
+        public void BuyOrderReturnsCorrectTransaction()
+        {
+            VerifyOrderFillsCorrectly(OrderType.Buy);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void SellOrderReturnsCorrectTransaction()
+        {
+            VerifyOrderFillsCorrectly(OrderType.Sell);
+        }
+
+        [TestMethod]
+        public void SellShortOrderReturnsCorrectTransaction()
+        {
+            VerifyOrderFillsCorrectly(OrderType.SellShort);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void BuyToCoverOrderReturnsCorrectTransaction()
+        {
+            VerifyOrderFillsCorrectly(OrderType.BuyToCover);
+        }
+
+        private static void VerifyOrderFillsCorrectly(OrderType orderType)
         {
             var target = GetBacktestSimulator();
 
@@ -183,7 +208,7 @@ namespace Sonneville.TradingTest
             {
                 target.OrderFilled += filledHandler;
 
-                var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
+                var order = new Order(DateTime.Now, DateTime.Now.AddDays(1), orderType, ticker, 5, 100.00m);
                 target.Submit(order);
 
                 Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
@@ -358,7 +383,7 @@ namespace Sonneville.TradingTest
             const string ticker = "DE";
             IShareTransaction expected = null;
 
-            EventHandler<OrderExecutedEventArgs> processedHandler =
+            EventHandler<OrderExecutedEventArgs> filledHandler =
                 (sender, e) =>
                 {
                     var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
@@ -366,7 +391,7 @@ namespace Sonneville.TradingTest
                 };
             try
             {
-                target.TransactionProcessed += processedHandler;
+                target.OrderFilled += filledHandler;
 
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
@@ -375,11 +400,12 @@ namespace Sonneville.TradingTest
 
                 Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
 
-                Assert.IsTrue(TargetContainsTransaction(target, expected));
+                var containsTransaction = TargetContainsTransaction(target, expected);
+                Assert.IsTrue(containsTransaction);
             }
             finally
             {
-                target.TransactionProcessed -= processedHandler;
+                target.OrderFilled -= filledHandler;
             }
         }
 
@@ -412,14 +438,14 @@ namespace Sonneville.TradingTest
 
             return transactions.Select(
                 trans => (
-                    trans.OrderType == transaction.OrderType &&
-                    trans.Commission == transaction.Commission &&
-                    trans.SettlementDate == transaction.SettlementDate &&
-                    // price may fluctuate
-                    //trans.Price == transaction.Price &&
-                    trans.Shares == transaction.Shares &&
-                    trans.Ticker == transaction.Ticker)
-                    ).FirstOrDefault();
+                             trans.OrderType == transaction.OrderType &&
+                             trans.Commission == transaction.Commission &&
+                             trans.SettlementDate == transaction.SettlementDate &&
+                             // price may fluctuate
+                             //trans.Price == transaction.Price &&
+                             trans.Shares == transaction.Shares &&
+                             trans.Ticker == transaction.Ticker)
+                ).FirstOrDefault();
         }
     }
 }

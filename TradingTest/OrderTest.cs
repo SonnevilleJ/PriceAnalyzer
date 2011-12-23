@@ -183,7 +183,7 @@ namespace Sonneville.TradingTest
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Deposit;
             const string ticker = "DE";
-            const double shares = -5.0;
+            const double shares = 5.0;
             const decimal price = 100.00m;
 
             new Order(issued, expired, orderType, ticker, shares, price);
@@ -197,7 +197,35 @@ namespace Sonneville.TradingTest
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Withdrawal;
             const string ticker = "DE";
-            const double shares = -5.0;
+            const double shares = 5.0;
+            const decimal price = 100.00m;
+
+            new Order(issued, expired, orderType, ticker, shares, price);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void DividendReceiptTypeTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.DividendReceipt;
+            const string ticker = "DE";
+            const double shares = 5.0;
+            const decimal price = 100.00m;
+
+            new Order(issued, expired, orderType, ticker, shares, price);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void DividendReinvestmentTypeTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.DividendReinvestment;
+            const string ticker = "DE";
+            const double shares = 5.0;
             const decimal price = 100.00m;
 
             new Order(issued, expired, orderType, ticker, shares, price);

@@ -79,11 +79,11 @@ namespace Sonneville.PriceTools.Trading {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to OrderType must not be Deposit or Withdrawal..
+        ///   Looks up a localized string similar to OrderType must be Buy, Sell, SellShort, or BuyToClose..
         /// </summary>
-        internal static string Order_Validate_OrderType_must_not_be_Deposit_or_Withdrawal_ {
+        internal static string Order_Order_OrderType_must_be_Buy__Sell__SellShort__or_BuyToClose_ {
             get {
-                return ResourceManager.GetString("Order_Validate_OrderType_must_not_be_Deposit_or_Withdrawal_", resourceCulture);
+                return ResourceManager.GetString("Order_Order_OrderType_must_be_Buy__Sell__SellShort__or_BuyToClose_", resourceCulture);
             }
         }
         

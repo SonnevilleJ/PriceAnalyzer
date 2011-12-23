@@ -43,6 +43,7 @@ namespace Sonneville.PriceTools.Trading
         /// <param name="order">The <see cref="Order"/> to execute.</param>
         public void Submit(Order order)
         {
+            ValidateOrder(order);
             var thread = new Thread(o => ProcessOrder(order));
             _inProcess.Add(order, thread);
             thread.Start();
@@ -102,18 +103,11 @@ namespace Sonneville.PriceTools.Trading
         /// </summary>
         public event EventHandler<OrderCancelledEventArgs> OrderCancelled;
 
-        /// <summary>
-        /// Triggered after an order has been filled and the resulting <see cref="IShareTransaction"/> has been processed.
-        /// </summary>
-        public event EventHandler<OrderExecutedEventArgs> TransactionProcessed;
-
         protected void InvokeOrderFilled(OrderExecutedEventArgs e)
         {
             RemoveInProcess(e.Order);
+            ProcessFill(e.Transaction);
             TriggerFilled(e);
-
-            ProcessFill(e);
-            TriggerProcessed(e);
         }
 
         protected void InvokeOrderExpired(OrderExpiredEventArgs e)
@@ -132,19 +126,37 @@ namespace Sonneville.PriceTools.Trading
 
         #region Private Methods
 
-        private void ProcessFill(OrderExecutedEventArgs e)
+        private void ValidateOrder(Order order)
+        {
+            var commission = Features.CommissionSchedule.PriceCheck(order);
+            var expectedTransaction = TransactionFactory.Instance.CreateShareTransaction(DateTime.Now, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
+            var position = GetPosition(order.Ticker);
+            var clone = PositionFactory.Copy(position);
+
+            clone.AddTransaction(expectedTransaction);
+        }
+
+        private void ProcessFill(IShareTransaction transaction)
         {
             lock (_lock)
             {
-                var transaction = e.Transaction;
                 var ticker = transaction.Ticker;
+                var position = GetPosition(ticker);
+                position.AddTransaction(transaction);
+            }
+        }
+
+        private IPosition GetPosition(string ticker)
+        {
+            lock (_lock)
+            {
                 var position = Positions.Where(p => p.Ticker == ticker).FirstOrDefault();
                 if (position == null)
                 {
                     position = PositionFactory.CreatePosition(ticker);
                     _positions.Add(position);
                 }
-                position.AddTransaction(transaction);
+                return position;
             }
         }
 
@@ -163,12 +175,6 @@ namespace Sonneville.PriceTools.Trading
         private void TriggerCancelled(OrderCancelledEventArgs e)
         {
             var handler = OrderCancelled;
-            if (handler != null) handler(this, e);
-        }
-
-        private void TriggerProcessed(OrderExecutedEventArgs e)
-        {
-            var handler = TransactionProcessed;
             if (handler != null) handler(this, e);
         }
 
