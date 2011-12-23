@@ -32,17 +32,6 @@ namespace Sonneville.PriceTools
             _priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker);
         }
 
-        /// <summary>
-        ///   Constructs a copy of an <see cref="IPosition"/>.
-        /// </summary>
-        /// <param name="position">The <see cref="IPosition"/> to copy.</param>
-        internal Position(IPosition position)
-        {
-            Ticker = position.Ticker;
-            _priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker);
-            _transactions = new List<IShareTransaction>(((Position) position)._transactions);
-        }
-
         #endregion
 
         #region IPosition Members
@@ -287,7 +276,7 @@ namespace Sonneville.PriceTools
         public void AddTransaction(IShareTransaction shareTransaction)
         {
             // verify shareTransaction is apporpriate for this Position.
-            Validate(shareTransaction);
+            ValidateWithoutAdding(shareTransaction);
 
             _transactions.Add(shareTransaction);
         }
@@ -355,11 +344,6 @@ namespace Sonneville.PriceTools
         #endregion
 
         #region Helper Properties
-
-        private TimeSpan Duration
-        {
-            get { return Last.SettlementDate - First.SettlementDate; }
-        }
 
         private static IEnumerable<OrderType> Additive
         {
@@ -430,7 +414,11 @@ namespace Sonneville.PriceTools
             AddTransaction(shareTransaction);
         }
 
-        private void Validate(IShareTransaction shareTransaction)
+        /// <summary>
+        /// Validates a transaction without adding it to the Position.
+        /// </summary>
+        /// <param name="shareTransaction"></param>
+        public void ValidateWithoutAdding(IShareTransaction shareTransaction)
         {
             // Validate OrderType
             switch (shareTransaction.OrderType)

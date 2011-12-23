@@ -131,9 +131,7 @@ namespace Sonneville.PriceTools.Trading
             var commission = Features.CommissionSchedule.PriceCheck(order);
             var expectedTransaction = TransactionFactory.Instance.CreateShareTransaction(DateTime.Now, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
             var position = GetPosition(order.Ticker);
-            var clone = PositionFactory.Copy(position);
-
-            clone.AddTransaction(expectedTransaction);
+            position.ValidateWithoutAdding(expectedTransaction);
         }
 
         private void ProcessFill(IShareTransaction transaction)
