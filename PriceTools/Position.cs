@@ -277,7 +277,7 @@ namespace Sonneville.PriceTools
         {
             // verify shareTransaction is apporpriate for this Position.
             if(!TransactionIsValid(shareTransaction))
-                throw new ArgumentOutOfRangeException("shareTransaction", shareTransaction, "Cannot add this transaction to the position.");
+                throw new ArgumentOutOfRangeException("shareTransaction", shareTransaction, Strings.Position_AddTransaction_Cannot_add_this_transaction_to_the_position_);
             _transactions.Add(shareTransaction);
         }
 

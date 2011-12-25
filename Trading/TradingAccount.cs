@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.Trading
         /// <param name="order">The <see cref="Order"/> to execute.</param>
         public void Submit(Order order)
         {
-            if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, "Cannot execute this order.");
+            if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, Strings.TradingAccount_Submit_Cannot_execute_this_order_);
             var thread = new Thread(o => ProcessOrder(order));
             lock (_inProcess) _inProcess.Add(order, thread);
             thread.Start();

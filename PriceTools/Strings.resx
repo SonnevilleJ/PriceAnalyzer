@@ -134,4 +134,7 @@
 	<data name="ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_">
 		<value xml:space="preserve">Shares must be greater than or equal to 0.</value>
 	</data>
+	<data name="Position_AddTransaction_Cannot_add_this_transaction_to_the_position_">
+		<value xml:space="preserve">Cannot add this transaction to the position.</value>
+	</data>
 </root>

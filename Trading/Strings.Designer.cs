@@ -104,5 +104,14 @@ namespace Sonneville.PriceTools.Trading {
                 return ResourceManager.GetString("Order_Validate_Shares_must_be_a_positive_number_", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot execute this order..
+        /// </summary>
+        internal static string TradingAccount_Submit_Cannot_execute_this_order_ {
+            get {
+                return ResourceManager.GetString("TradingAccount_Submit_Cannot_execute_this_order_", resourceCulture);
+            }
+        }
     }
 }

@@ -97,6 +97,15 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot add this transaction to the position..
+        /// </summary>
+        internal static string Position_AddTransaction_Cannot_add_this_transaction_to_the_position_ {
+            get {
+                return ResourceManager.GetString("Position_AddTransaction_Cannot_add_this_transaction_to_the_position_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ticker must not be null, empty, or whitespace..
         /// </summary>
         internal static string Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_ {
