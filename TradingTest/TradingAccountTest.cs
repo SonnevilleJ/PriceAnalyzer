@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -169,9 +170,15 @@ namespace Sonneville.TradingTest
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void SellOrderReturnsCorrectTransaction()
+        public void SellOrderThrowsValidationError()
         {
             VerifyOrderFillsCorrectly(OrderType.Sell);
+        }
+
+        [TestMethod]
+        public void SellOrderReturnsCorrectTransaction()
+        {
+            VerifyOrderFillsCorrectly(OrderType.Buy, OrderType.Sell);
         }
 
         [TestMethod]
@@ -182,16 +189,34 @@ namespace Sonneville.TradingTest
 
         [TestMethod]
         [ExpectedException(typeof(InvalidOperationException))]
-        public void BuyToCoverOrderReturnsCorrectTransaction()
+        public void BuyToCoverOrderThrowsValidationError()
         {
             VerifyOrderFillsCorrectly(OrderType.BuyToCover);
         }
 
-        private static void VerifyOrderFillsCorrectly(OrderType orderType)
+        [TestMethod]
+        public void BuyToCoverOrderReturnsCorrectTransaction()
+        {
+            VerifyOrderFillsCorrectly(OrderType.SellShort, OrderType.BuyToCover);
+        }
+
+        private static void VerifyOrderFillsCorrectly(params OrderType[] orderTypes)
         {
             var target = GetBacktestSimulator();
 
+            var issued = DateTime.Now;
+            var expiration = issued.AddDays(1);
+            var orderType = orderTypes[0];
             const string ticker = "DE";
+            const int shares = 5;
+            const decimal price = 100.00m;
+            var order = new Order(issued, expiration, orderType, ticker, shares, price);
+
+            VerifyOrderFillsCorrectly(target, order);
+        }
+
+        private static void VerifyOrderFillsCorrectly(TradingAccount target, Order order)
+        {
             IShareTransaction expected = null;
             IShareTransaction actual = null;
             
@@ -208,7 +233,6 @@ namespace Sonneville.TradingTest
             {
                 target.OrderFilled += filledHandler;
 
-                var order = new Order(DateTime.Now, DateTime.Now.AddDays(1), orderType, ticker, 5, 100.00m);
                 target.Submit(order);
 
                 Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
@@ -225,12 +249,26 @@ namespace Sonneville.TradingTest
 
         private static void AssertSameTransaction(IShareTransaction expected, IShareTransaction actual)
         {
-            Assert.AreEqual(expected.SettlementDate, actual.SettlementDate);
-            Assert.AreEqual(expected.Ticker, actual.Ticker);
-            // we may simulate price fluctuations, so ignore price
-            //Assert.AreEqual(expected.Price, actual.Price);
-            Assert.AreEqual(expected.Shares, actual.Shares);
-            Assert.AreEqual(expected.Commission, actual.Commission);
+            var expectedList = new List<IShareTransaction> {expected};
+            var actualList = new List<IShareTransaction> {actual};
+            AssertSameTransactions(expectedList, actualList);
+        }
+
+        private static void AssertSameTransactions(IEnumerable<IShareTransaction> expected, IEnumerable<IShareTransaction> actual)
+        {
+            foreach (var transaction in expected)
+            {
+                Func<IShareTransaction, bool> predicate = t => t.SettlementDate == transaction.SettlementDate &&
+                                                               t.Ticker == transaction.Ticker &&
+                                                               // we may simulate price fluctuations, so ignore price
+                                                               //t.Price == transaction.Price &&
+                                                               t.Shares == transaction.Shares &&
+                                                               t.Commission == transaction.Commission;
+                var actualCount = actual.Where(predicate).Count();
+                var expectedCount = expected.Where(predicate).Count();
+
+                Assert.AreEqual(expectedCount, actualCount);
+            }
         }
 
         [TestMethod]
