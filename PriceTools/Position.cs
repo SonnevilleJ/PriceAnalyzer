@@ -276,8 +276,8 @@ namespace Sonneville.PriceTools
         public void AddTransaction(IShareTransaction shareTransaction)
         {
             // verify shareTransaction is apporpriate for this Position.
-            ValidateWithoutAdding(shareTransaction);
-
+            if(!TransactionIsValid(shareTransaction))
+                throw new ArgumentOutOfRangeException("shareTransaction", shareTransaction, "Cannot add this transaction to the position.");
             _transactions.Add(shareTransaction);
         }
 
@@ -339,6 +339,23 @@ namespace Sonneville.PriceTools
                 }
             }
             return holdings;
+        }
+
+        /// <summary>
+        /// Validates a transaction without adding it to the Position.
+        /// </summary>
+        /// <param name="shareTransaction"></param>
+        public bool TransactionIsValid(IShareTransaction shareTransaction)
+        {
+            try
+            {
+                Validate(shareTransaction);
+                return true;
+            }
+            catch (InvalidOperationException)
+            {
+                return false;
+            }
         }
 
         #endregion
@@ -414,11 +431,7 @@ namespace Sonneville.PriceTools
             AddTransaction(shareTransaction);
         }
 
-        /// <summary>
-        /// Validates a transaction without adding it to the Position.
-        /// </summary>
-        /// <param name="shareTransaction"></param>
-        public void ValidateWithoutAdding(IShareTransaction shareTransaction)
+        private void Validate(IShareTransaction shareTransaction)
         {
             // Validate OrderType
             switch (shareTransaction.OrderType)

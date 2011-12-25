@@ -73,6 +73,6 @@ namespace Sonneville.PriceTools
         /// Validates a transaction without adding it to the Position.
         /// </summary>
         /// <param name="shareTransaction"></param>
-        void ValidateWithoutAdding(IShareTransaction shareTransaction);
+        bool TransactionIsValid(IShareTransaction shareTransaction);
     }
 }

@@ -1137,5 +1137,37 @@ namespace Sonneville.PriceToolsTest
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void ValidateTestTrue()
+        {
+            const string ticker = "DE";
+            const decimal commission = 5.00m;   // with $5 commission
+            var target = PositionFactory.CreatePosition(ticker);
+
+            DateTime buyDate = new DateTime(2011, 12, 25);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double shares = 9;
+
+            var buy = new Buy {SettlementDate = buyDate, Ticker = ticker, Price = buyPrice, Shares = shares, Commission = commission};
+
+            Assert.IsTrue(target.TransactionIsValid(buy));
+        }
+
+        [TestMethod]
+        public void ValidateTestFalse()
+        {
+            const string ticker = "DE";
+            const decimal commission = 5.00m;   // with $5 commission
+            var target = PositionFactory.CreatePosition(ticker);
+
+            DateTime buyDate = new DateTime(2011, 12, 25);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double shares = 9;
+
+            var sell = new Sell {SettlementDate = buyDate, Ticker = ticker, Price = buyPrice, Shares = shares, Commission = commission};
+
+            Assert.IsFalse(target.TransactionIsValid(sell));
+        }
     }
 }

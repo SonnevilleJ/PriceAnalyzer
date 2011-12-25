@@ -15,7 +15,6 @@ namespace Sonneville.PriceTools.Trading
 
         private readonly List<IPosition> _positions = new List<IPosition>();
         private readonly IDictionary<Order, Thread> _inProcess = new Dictionary<Order, Thread>();
-        private readonly object _lock = new object();
 
         #endregion
 
@@ -43,9 +42,9 @@ namespace Sonneville.PriceTools.Trading
         /// <param name="order">The <see cref="Order"/> to execute.</param>
         public void Submit(Order order)
         {
-            ValidateOrder(order);
+            if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, "Cannot execute this order.");
             var thread = new Thread(o => ProcessOrder(order));
-            _inProcess.Add(order, thread);
+            lock (_inProcess) _inProcess.Add(order, thread);
             thread.Start();
         }
 
@@ -57,7 +56,9 @@ namespace Sonneville.PriceTools.Trading
         {
             Thread value;
             var result = false;
-            if(_inProcess.TryGetValue(order, out value))
+            bool gotValue;
+            lock (_inProcess) gotValue = _inProcess.TryGetValue(order, out value);
+            if(gotValue)
             {
                 EventHandler<OrderCancelledEventArgs> handler = (sender, args) => result = order == args.Order;
                 try
@@ -126,17 +127,20 @@ namespace Sonneville.PriceTools.Trading
 
         #region Private Methods
 
-        private void ValidateOrder(Order order)
+        private bool ValidateOrder(Order order)
         {
-            var commission = Features.CommissionSchedule.PriceCheck(order);
-            var expectedTransaction = TransactionFactory.Instance.CreateShareTransaction(DateTime.Now, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
-            var position = GetPosition(order.Ticker);
-            position.ValidateWithoutAdding(expectedTransaction);
+            lock (_positions)
+            {
+                var commission = Features.CommissionSchedule.PriceCheck(order);
+                var expectedTransaction = TransactionFactory.Instance.CreateShareTransaction(DateTime.Now, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
+                var position = GetPosition(order.Ticker);
+                return position.TransactionIsValid(expectedTransaction);
+            }
         }
 
         private void ProcessFill(IShareTransaction transaction)
         {
-            lock (_lock)
+            lock (_positions)
             {
                 var ticker = transaction.Ticker;
                 var position = GetPosition(ticker);
@@ -146,7 +150,7 @@ namespace Sonneville.PriceTools.Trading
 
         private IPosition GetPosition(string ticker)
         {
-            lock (_lock)
+            lock (_positions)
             {
                 var position = Positions.Where(p => p.Ticker == ticker).FirstOrDefault();
                 if (position == null)
@@ -178,7 +182,10 @@ namespace Sonneville.PriceTools.Trading
 
         private void RemoveInProcess(Order order)
         {
-            _inProcess.Remove(order);
+            lock (_inProcess)
+            {
+                _inProcess.Remove(order);
+            }
         }
 
         #endregion

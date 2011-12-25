@@ -169,7 +169,7 @@ namespace Sonneville.TradingTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void SellOrderThrowsValidationError()
         {
             VerifyOrderFillsCorrectly(OrderType.Sell);
@@ -188,7 +188,7 @@ namespace Sonneville.TradingTest
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void BuyToCoverOrderThrowsValidationError()
         {
             VerifyOrderFillsCorrectly(OrderType.BuyToCover);
@@ -206,13 +206,16 @@ namespace Sonneville.TradingTest
 
             var issued = DateTime.Now;
             var expiration = issued.AddDays(1);
-            var orderType = orderTypes[0];
-            const string ticker = "DE";
-            const int shares = 5;
-            const decimal price = 100.00m;
-            var order = new Order(issued, expiration, orderType, ticker, shares, price);
 
-            VerifyOrderFillsCorrectly(target, order);
+            foreach (var orderType in orderTypes)
+            {
+                const string ticker = "DE";
+                const int shares = 5;
+                const decimal price = 100.00m;
+                var order = new Order(issued, expiration, orderType, ticker, shares, price);
+
+                VerifyOrderFillsCorrectly(target, order);
+            }
         }
 
         private static void VerifyOrderFillsCorrectly(TradingAccount target, Order order)
@@ -220,7 +223,7 @@ namespace Sonneville.TradingTest
             IShareTransaction expected = null;
             IShareTransaction actual = null;
             
-            var filledRaised = false;
+            bool filledRaised;
             EventHandler<OrderExecutedEventArgs> filledHandler =
                 (sender, e) =>
                     {
@@ -231,6 +234,7 @@ namespace Sonneville.TradingTest
                     };
             try
             {
+                filledRaised = false;
                 target.OrderFilled += filledHandler;
 
                 target.Submit(order);
