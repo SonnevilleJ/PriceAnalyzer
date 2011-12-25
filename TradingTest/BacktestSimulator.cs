@@ -59,7 +59,7 @@ namespace Sonneville.TradingTest
         private static void DelayProcessing()
         {
             Thread.Sleep(MinProcessingTimeSpan);
-            Thread.Sleep(new Random().Next((MaxProcessingTimeSpan - MinProcessingTimeSpan).Milliseconds));
+            Thread.Sleep(new Random().Next((MaxProcessingTimeSpan.Milliseconds / 2) - MinProcessingTimeSpan.Milliseconds));
         }
     }
 }
