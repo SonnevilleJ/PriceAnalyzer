@@ -35,6 +35,9 @@ namespace Sonneville.PriceTools.Trading
         /// </summary>
         public ReadOnlyCollection<IPosition> Positions { get { return _positions.AsReadOnly(); } }
 
+        /// <summary>
+        /// Gets the list of features supported by this TradingAccount.
+        /// </summary>
         public TradingAccountFeatures Features { get; private set; }
 
         /// <summary>
@@ -47,7 +50,7 @@ namespace Sonneville.PriceTools.Trading
 
             var cts = new CancellationTokenSource();
             var token = cts.Token;
-            var task = new Task(() => ProcessOrder(order, token), token);
+            var task = new Task(() => ProcessOrder(order, token), token, TaskCreationOptions.PreferFairness);
             lock (_items) _items.Add(new Tuple<Order, Task, CancellationTokenSource>(order, task, cts));
             task.Start();
         }
@@ -63,6 +66,20 @@ namespace Sonneville.PriceTools.Trading
             var cts = value.Item3;
 
             cts.Cancel();
+        }
+
+        /// <summary>
+        /// Blocks the calling thread until all submitted orders are filled, cancelled, or expired.
+        /// </summary>
+        public void WaitAll()
+        {
+            do
+            {
+                int count;
+                lock (_items) count = _items.Count;
+                if (count == 0) break;
+                Thread.Sleep(5);
+            } while (true);
         }
 
         #endregion
@@ -124,7 +141,7 @@ namespace Sonneville.PriceTools.Trading
             {
                 var commission = Features.CommissionSchedule.PriceCheck(order);
                 var expectedTransaction = TransactionFactory.Instance.CreateShareTransaction(DateTime.Now, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
-                var position = GetPosition(order.Ticker);
+                var position = GetPosition(order.Ticker, false);
                 return position.TransactionIsValid(expectedTransaction);
             }
         }
@@ -139,7 +156,7 @@ namespace Sonneville.PriceTools.Trading
             }
         }
 
-        private IPosition GetPosition(string ticker)
+        private IPosition GetPosition(string ticker, bool addIfNew = true)
         {
             lock (_positions)
             {
@@ -147,7 +164,7 @@ namespace Sonneville.PriceTools.Trading
                 if (position == null)
                 {
                     position = PositionFactory.CreatePosition(ticker);
-                    _positions.Add(position);
+                    if(addIfNew) _positions.Add(position);
                 }
                 return position;
             }

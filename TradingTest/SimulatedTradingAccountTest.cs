@@ -43,17 +43,18 @@ namespace Sonneville.TradingTest
             var cancelRaised = false;
             EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
             EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => cancelRaised = true;
-            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) => filledRaised = e.Transaction.Ticker == ticker;
+            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) => filledRaised = true;
             try
             {
                 target.OrderCancelled += cancelledHandler;
                 target.OrderFilled += filledHandler;
                 target.OrderExpired += expiredHandler;
 
-                var order = new Order(DateTime.Now, DateTime.Now.Add(MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
+                var issued = DateTime.Now;
+                var order = new Order(issued, issued.AddDays(1), OrderType.Buy, ticker, 5, 100.00m);
                 target.Submit(order);
 
-                Thread.Sleep(MaxProcessingTimeSpan);
+                target.WaitAll();
 
                 Assert.IsTrue(filledRaised);
                 Assert.IsFalse(cancelRaised);
@@ -75,7 +76,7 @@ namespace Sonneville.TradingTest
             var expiredRaised = false;
             var cancelRaised = false;
             var filledRaised = false;
-            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = (e.Expired < DateTime.Now) && (e.Order.Expiration == e.Expired);
+            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
             EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => cancelRaised = true;
             EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) => filledRaised = true;
             try
@@ -84,10 +85,12 @@ namespace Sonneville.TradingTest
                 target.OrderFilled += filledHandler;
                 target.OrderExpired += expiredHandler;
 
-                var order = new Order(DateTime.Now, DateTime.Now.AddMilliseconds(MinProcessingTimeSpan.Milliseconds / 2.0), OrderType.Buy, "DE", 5, 100.00m);
+                var issued = DateTime.Now;
+                var order = new Order(issued, issued.AddMilliseconds(1), OrderType.Buy, "DE", 5, 100.00m);
                 target.Submit(order);
 
-                Thread.Sleep(MaxProcessingTimeSpan);
+                target.WaitAll();
+
                 Assert.IsTrue(expiredRaised);
                 Assert.IsFalse(cancelRaised);
                 Assert.IsFalse(filledRaised);
@@ -117,11 +120,13 @@ namespace Sonneville.TradingTest
                 target.OrderFilled += filledHandler;
                 target.OrderExpired += expiredHandler;
 
-                var order = new Order(DateTime.Now, DateTime.Now.Add(MaxProcessingTimeSpan), OrderType.Buy, "DE", 5, 100.00m);
+                var issued = DateTime.Now;
+                var order = new Order(issued, issued.AddDays(1), OrderType.Buy, "DE", 5, 100.00m);
                 target.Submit(order);
                 target.TryCancelOrder(order);
 
-                Thread.Sleep(MaxProcessingTimeSpan);
+                target.WaitAll();
+
                 Assert.IsTrue(cancelRaised);
                 Assert.IsFalse(filledRaised);
                 Assert.IsFalse(expiredRaised);
@@ -211,7 +216,7 @@ namespace Sonneville.TradingTest
 
                 target.Submit(order);
 
-                Thread.Sleep(MaxProcessingTimeSpan);
+                target.WaitAll();
 
                 Assert.IsTrue(filledRaised);
 
@@ -251,44 +256,30 @@ namespace Sonneville.TradingTest
         public void MultipleEventsTestFilled()
         {
             var target = GetSimulator();
-            var padlock = new object();
 
             const string ticker = "DE";
-            var filledRaised = 0;
-            var expiredRaised = false;
-            var cancelRaised = false;
-            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
-            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => cancelRaised = true;
-            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
-                                                                     {
-                                                                         if (e.Transaction.Ticker == ticker)
-                                                                             lock(padlock) { filledRaised++; }
-                                                                     };
+            var fillCount = 0;
+            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) => Interlocked.Increment(ref fillCount);
             try
             {
-                target.OrderCancelled += cancelledHandler;
                 target.OrderFilled += filledHandler;
-                target.OrderExpired += expiredHandler;
 
                 const int count = 200;
                 for (var i = 0; i < count; i++)
                 {
-                    var order = new Order(DateTime.Now, DateTime.Now.Add(MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
+                    var issued = DateTime.Now;
+                    var order = new Order(issued, issued.AddDays(1), OrderType.Buy, ticker, 5, 100.00m);
                     target.Submit(order);
                     Thread.Sleep(1);
                 }
 
-                Thread.Sleep(MaxProcessingTimeSpan);
+                target.WaitAll();
 
-                Assert.AreEqual(count, filledRaised);
-                Assert.IsFalse(cancelRaised);
-                Assert.IsFalse(expiredRaised);
+                Assert.AreEqual(count, fillCount);
             }
             finally
             {
-                target.OrderCancelled -= cancelledHandler;
                 target.OrderFilled -= filledHandler;
-                target.OrderExpired -= expiredHandler;
             }
         }
 
@@ -296,40 +287,61 @@ namespace Sonneville.TradingTest
         public void MultipleEventsTestCancelled()
         {
             var target = GetSimulator();
-            var padlock = new object();
 
             const string ticker = "DE";
-            var filledRaised = false;
-            var expiredRaised = false;
-            var cancelRaised = 0;
-            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
-            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => { lock (padlock) cancelRaised++; };
-            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) => filledRaised = true;
+            var cancelCount = 0;
+            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => Interlocked.Increment(ref cancelCount);
             try
             {
                 target.OrderCancelled += cancelledHandler;
-                target.OrderFilled += filledHandler;
-                target.OrderExpired += expiredHandler;
 
                 const int count = 200;
                 for (var i = 0; i < count; i++)
                 {
-                    var order = new Order(DateTime.Now, DateTime.Now.Add(MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
+                    var issued = DateTime.Now;
+                    var order = new Order(issued, issued.AddDays(1), OrderType.Buy, ticker, 5, 100.00m);
                     target.Submit(order);
                     target.TryCancelOrder(order);
                     Thread.Sleep(1);
                 }
 
-                Thread.Sleep(MaxProcessingTimeSpan);
+                target.WaitAll();
 
-                Assert.IsFalse(filledRaised);
-                Assert.AreEqual(count, cancelRaised);
-                Assert.IsFalse(expiredRaised);
+                Assert.AreEqual(count, cancelCount);
             }
             finally
             {
                 target.OrderCancelled -= cancelledHandler;
-                target.OrderFilled -= filledHandler;
+            }
+        }
+
+        [TestMethod]
+        public void MultipleEventsTestExpired()
+        {
+            var target = GetSimulator();
+
+            const string ticker = "DE";
+            var expiredCount = 0;
+            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => Interlocked.Increment(ref expiredCount);
+            try
+            {
+                target.OrderExpired += expiredHandler;
+
+                const int count = 200;
+                for (var i = 0; i < count; i++)
+                {
+                    var issued = DateTime.Now;
+                    var order = new Order(issued, issued.AddMilliseconds(1), OrderType.Buy, ticker, 5, 100.00m);
+                    target.Submit(order);
+                    Thread.Sleep(1);
+                }
+
+                target.WaitAll();
+
+                Assert.AreEqual(count, expiredCount);
+            }
+            finally
+            {
                 target.OrderExpired -= expiredHandler;
             }
         }
@@ -361,7 +373,7 @@ namespace Sonneville.TradingTest
                 var order = new Order(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
                 target.Submit(order);
 
-                Thread.Sleep(MaxProcessingTimeSpan);
+                target.WaitAll();
 
                 Assert.IsTrue(filledRaised);
 
@@ -384,7 +396,8 @@ namespace Sonneville.TradingTest
             var order = new Order(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
 
             target.Submit(order);
-            Thread.Sleep(MaxProcessingTimeSpan);
+
+            target.WaitAll();
             
             Assert.AreEqual(1, target.Positions.Count);
         }
@@ -412,7 +425,7 @@ namespace Sonneville.TradingTest
                 var order = new Order(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
                 target.Submit(order);
 
-                Thread.Sleep(MaxProcessingTimeSpan);
+                target.WaitAll();
 
                 var containsTransaction = TargetContainsTransaction(target, expected);
                 Assert.IsTrue(containsTransaction);
@@ -460,16 +473,6 @@ namespace Sonneville.TradingTest
                              trans.Shares == transaction.Shares &&
                              trans.Ticker == transaction.Ticker)
                 ).FirstOrDefault();
-        }
-
-        private static TimeSpan MinProcessingTimeSpan
-        {
-            get { return new TimeSpan(0, 0, 0, 0, 100); }
-        }
-
-        private static TimeSpan MaxProcessingTimeSpan
-        {
-            get { return new TimeSpan(0, 0, 0, 1, 500); }
         }
     }
 }

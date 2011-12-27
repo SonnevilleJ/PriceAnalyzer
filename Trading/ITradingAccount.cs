@@ -10,6 +10,9 @@ namespace Sonneville.PriceTools.Trading
         /// </summary>
         ReadOnlyCollection<IPosition> Positions { get; }
 
+        /// <summary>
+        /// Gets the list of features supported by this TradingAccount.
+        /// </summary>
         TradingAccountFeatures Features { get; }
 
         /// <summary>
@@ -38,5 +41,10 @@ namespace Sonneville.PriceTools.Trading
         /// Triggered when an order has been cancelled.
         /// </summary>
         event EventHandler<OrderCancelledEventArgs> OrderCancelled;
+
+        /// <summary>
+        /// Blocks the calling thread until all submitted orders are filled, cancelled, or expired.
+        /// </summary>
+        void WaitAll();
     }
 }
