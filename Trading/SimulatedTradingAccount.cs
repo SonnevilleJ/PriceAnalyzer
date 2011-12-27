@@ -1,36 +1,25 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.Trading;
 
-namespace Sonneville.TradingTest
+namespace Sonneville.PriceTools.Trading
 {
     /// <summary>
     /// A trading account which simulates the execution of orders.
     /// </summary>
-    public class BacktestSimulator : TradingAccount
+    public class SimulatedTradingAccount : TradingAccount
     {
-        public BacktestSimulator(TradingAccountFeatures tradingAccountFeatures)
+        public SimulatedTradingAccount(TradingAccountFeatures tradingAccountFeatures)
             : base(tradingAccountFeatures)
         {
-        }
-
-        internal static TimeSpan MinProcessingTimeSpan
-        {
-            get { return new TimeSpan(0, 0, 0, 0, 100); }
-        }
-
-        internal static TimeSpan MaxProcessingTimeSpan
-        {
-            get { return new TimeSpan(0, 0, 0, 1, 500); }
         }
 
         /// <summary>
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        protected override void ProcessOrder(Order order)
+        /// <param name="token"></param>
+        protected override void ProcessOrder(Order order, CancellationToken token)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -42,6 +31,12 @@ namespace Sonneville.TradingTest
             var now = order.Issued.Add(stopwatch.Elapsed);
             if (now <= order.Expiration)
             {
+                if (token.IsCancellationRequested)
+                {
+                    InvokeOrderCancelled(new OrderCancelledEventArgs(now, order));
+                    token.ThrowIfCancellationRequested();
+                }
+
                 // fill the order at 1% higher price
                 var price = Math.Round(order.Price*1.01m, 2);
                 var commission = Features.CommissionSchedule.PriceCheck(order);
@@ -58,8 +53,9 @@ namespace Sonneville.TradingTest
 
         private static void DelayProcessing()
         {
-            Thread.Sleep(MinProcessingTimeSpan);
-            Thread.Sleep(new Random().Next((MaxProcessingTimeSpan.Milliseconds / 2) - MinProcessingTimeSpan.Milliseconds));
+            var timeout = new TimeSpan(0, 0, 0, 0, 100);
+            Thread.Sleep(timeout);
+            Thread.Sleep(new Random().Next(timeout.Milliseconds));
         }
     }
 }

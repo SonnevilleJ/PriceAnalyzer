@@ -1,16 +1,17 @@
 ﻿using System;
+using System.Threading;
 using Sonneville.PriceTools.Trading;
 
 namespace Sonneville.TradingTest
 {
-    public class ErroneousSimulatedAccount : BacktestSimulator
+    public class ErroneousSimulatedAccount : TradingAccount
     {
         public ErroneousSimulatedAccount()
             : base(TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures())
         {
         }
 
-        protected override void ProcessOrder(Order order)
+        protected override void ProcessOrder(Order order, CancellationToken token)
         {
             throw new NotSupportedException();
         }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Sonneville.PriceTools.Trading.Fidelity
 {
@@ -16,7 +17,8 @@ namespace Sonneville.PriceTools.Trading.Fidelity
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        protected override void ProcessOrder(Order order)
+        /// <param name="token"></param>
+        protected override void ProcessOrder(Order order, CancellationToken token)
         {
             throw new NotImplementedException();
         }

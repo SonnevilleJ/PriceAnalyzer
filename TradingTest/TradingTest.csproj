@@ -50,16 +50,17 @@
     <Compile Include="OrderExecutedEventArgsTest.cs" />
     <Compile Include="OrderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BacktestSimulator.cs" />
+    <Compile Include="SimulatedTradingAccountTest.cs" />
     <Compile Include="TradingAccountFeaturesTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TradingAccountTest.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="TransactionFactoryExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\BackTesting\BackTesting.csproj">
+      <Project>{6E980D3F-F8EA-412D-9A0D-CC12FDF08965}</Project>
+      <Name>BackTesting</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>

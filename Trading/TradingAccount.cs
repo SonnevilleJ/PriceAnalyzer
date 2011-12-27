@@ -3,18 +3,19 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
+using System.Threading.Tasks;
 
 namespace Sonneville.PriceTools.Trading
 {
     /// <summary>
     /// A trading account which communicates with a brokerage to perform execution of orders.
     /// </summary>
-    public abstract class TradingAccount
+    public abstract class TradingAccount : ITradingAccount
     {
         #region Private Members
 
         private readonly List<IPosition> _positions = new List<IPosition>();
-        private readonly IDictionary<Order, Thread> _inProcess = new Dictionary<Order, Thread>();
+        private readonly IList<Tuple<Order, Task, CancellationTokenSource>> _items = new List<Tuple<Order, Task, CancellationTokenSource>>();
 
         #endregion
 
@@ -43,36 +44,25 @@ namespace Sonneville.PriceTools.Trading
         public void Submit(Order order)
         {
             if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, Strings.TradingAccount_Submit_Cannot_execute_this_order_);
-            var thread = new Thread(o => ProcessOrder(order));
-            lock (_inProcess) _inProcess.Add(order, thread);
-            thread.Start();
+
+            var cts = new CancellationTokenSource();
+            var token = cts.Token;
+            var task = new Task(() => ProcessOrder(order, token), token);
+            lock (_items) _items.Add(new Tuple<Order, Task, CancellationTokenSource>(order, task, cts));
+            task.Start();
         }
 
         /// <summary>
         /// Attempts to cancel an <see cref="Order"/> before it is filled.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
-        public bool TryCancelOrder(Order order)
+        public void TryCancelOrder(Order order)
         {
-            Thread value;
-            var result = false;
-            bool gotValue;
-            lock (_inProcess) gotValue = _inProcess.TryGetValue(order, out value);
-            if(gotValue)
-            {
-                EventHandler<OrderCancelledEventArgs> handler = (sender, args) => result = order == args.Order;
-                try
-                {
-                    OrderCancelled += handler;
-                    value.Abort();
-                    InvokeOrderCancelled(new OrderCancelledEventArgs(DateTime.Now, order));
-                }
-                finally
-                {
-                    OrderCancelled -= handler;
-                }
-            }
-            return result;
+            Tuple<Order, Task, CancellationTokenSource> value;
+            lock (_items) value = _items.First(tuple => tuple.Item1 == order);
+            var cts = value.Item3;
+
+            cts.Cancel();
         }
 
         #endregion
@@ -83,7 +73,8 @@ namespace Sonneville.PriceTools.Trading
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        protected abstract void ProcessOrder(Order order);
+        /// <param name="token"></param>
+        protected abstract void ProcessOrder(Order order, CancellationToken token);
 
         #endregion
 
@@ -117,7 +108,7 @@ namespace Sonneville.PriceTools.Trading
             TriggerExpired(e);
         }
 
-        private void InvokeOrderCancelled(OrderCancelledEventArgs e)
+        protected void InvokeOrderCancelled(OrderCancelledEventArgs e)
         {
             RemoveInProcess(e.Order);
             TriggerCancelled(e);
@@ -182,9 +173,10 @@ namespace Sonneville.PriceTools.Trading
 
         private void RemoveInProcess(Order order)
         {
-            lock (_inProcess)
+            lock (_items)
             {
-                _inProcess.Remove(order);
+                var tuple = _items.First(t => t.Item1 == order);
+                _items.Remove(tuple);
             }
         }
 

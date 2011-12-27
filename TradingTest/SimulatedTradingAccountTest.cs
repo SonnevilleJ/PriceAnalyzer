@@ -9,15 +9,15 @@ using Sonneville.PriceTools.Trading;
 namespace Sonneville.TradingTest
 {
     /// <summary>
-    /// Summary description for TradingAccountTest
+    /// Summary description for SimulatedTradingAccountTest
     /// </summary>
     [TestClass]
-    public class TradingAccountTest
+    public class SimulatedTradingAccountTest
     {
         [TestMethod]
         public void TradingAccountFeaturesSupportedOrderTypesTest()
         {
-            TradingAccount target = GetBacktestSimulator();
+            var target = GetSimulator();
 
             var expected = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures().SupportedOrderTypes;
             var actual = target.Features.SupportedOrderTypes;
@@ -27,7 +27,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EmptyPositionsByDefault()
         {
-            TradingAccount target = GetBacktestSimulator();
+            var target = GetSimulator();
 
             Assert.AreEqual(0, target.Positions.Count);
         }
@@ -35,7 +35,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EventsTestFilled()
         {
-            TradingAccount target = GetBacktestSimulator();
+            var target = GetSimulator();
 
             const string ticker = "DE";
             var filledRaised = false;
@@ -50,10 +50,10 @@ namespace Sonneville.TradingTest
                 target.OrderFilled += filledHandler;
                 target.OrderExpired += expiredHandler;
 
-                var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
+                var order = new Order(DateTime.Now, DateTime.Now.Add(MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
                 target.Submit(order);
 
-                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+                Thread.Sleep(MaxProcessingTimeSpan);
 
                 Assert.IsTrue(filledRaised);
                 Assert.IsFalse(cancelRaised);
@@ -70,7 +70,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EventsTestExpired()
         {
-            TradingAccount target = GetBacktestSimulator();
+            var target = GetSimulator();
 
             var expiredRaised = false;
             var cancelRaised = false;
@@ -84,10 +84,10 @@ namespace Sonneville.TradingTest
                 target.OrderFilled += filledHandler;
                 target.OrderExpired += expiredHandler;
 
-                var order = new Order(DateTime.Now, DateTime.Now.AddMilliseconds(BacktestSimulator.MinProcessingTimeSpan.Milliseconds / 2.0), OrderType.Buy, "DE", 5, 100.00m);
+                var order = new Order(DateTime.Now, DateTime.Now.AddMilliseconds(MinProcessingTimeSpan.Milliseconds / 2.0), OrderType.Buy, "DE", 5, 100.00m);
                 target.Submit(order);
 
-                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+                Thread.Sleep(MaxProcessingTimeSpan);
                 Assert.IsTrue(expiredRaised);
                 Assert.IsFalse(cancelRaised);
                 Assert.IsFalse(filledRaised);
@@ -103,7 +103,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EventsTestCancelled()
         {
-            TradingAccount target = GetBacktestSimulator();
+            var target = GetSimulator();
 
             var cancelRaised = false;
             var expiredRaised = false;
@@ -117,11 +117,11 @@ namespace Sonneville.TradingTest
                 target.OrderFilled += filledHandler;
                 target.OrderExpired += expiredHandler;
 
-                var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, "DE", 5, 100.00m);
+                var order = new Order(DateTime.Now, DateTime.Now.Add(MaxProcessingTimeSpan), OrderType.Buy, "DE", 5, 100.00m);
                 target.Submit(order);
                 target.TryCancelOrder(order);
 
-                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+                Thread.Sleep(MaxProcessingTimeSpan);
                 Assert.IsTrue(cancelRaised);
                 Assert.IsFalse(filledRaised);
                 Assert.IsFalse(expiredRaised);
@@ -132,34 +132,6 @@ namespace Sonneville.TradingTest
                 target.OrderFilled -= filledHandler;
                 target.OrderExpired -= expiredHandler;
             }
-        }
-
-        [TestMethod]
-        public void TryCancelOrderReturnsTrue()
-        {
-            TradingAccount target = GetBacktestSimulator();
-
-            var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, "DE", 5, 100.00m);
-            target.Submit(order);
-            var result = target.TryCancelOrder(order);
-
-            Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public void TryCancelOrderReturnsFalse()
-        {
-            TradingAccount target = GetBacktestSimulator();
-
-            var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, "DE", 5, 100.00m);
-            target.Submit(order);
-
-            Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
-            var result = target.TryCancelOrder(order);
-
-            Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
-            Assert.IsFalse(result);
         }
 
         [TestMethod]
@@ -202,7 +174,7 @@ namespace Sonneville.TradingTest
 
         private static void VerifyOrderFillsCorrectly(params OrderType[] orderTypes)
         {
-            var target = GetBacktestSimulator();
+            var target = GetSimulator();
 
             var issued = DateTime.Now;
             var expiration = issued.AddDays(1);
@@ -218,7 +190,7 @@ namespace Sonneville.TradingTest
             }
         }
 
-        private static void VerifyOrderFillsCorrectly(TradingAccount target, Order order)
+        private static void VerifyOrderFillsCorrectly(ITradingAccount target, Order order)
         {
             IShareTransaction expected = null;
             IShareTransaction actual = null;
@@ -239,7 +211,7 @@ namespace Sonneville.TradingTest
 
                 target.Submit(order);
 
-                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+                Thread.Sleep(MaxProcessingTimeSpan);
 
                 Assert.IsTrue(filledRaised);
 
@@ -278,7 +250,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void MultipleEventsTestFilled()
         {
-            TradingAccount target = GetBacktestSimulator();
+            var target = GetSimulator();
             var padlock = new object();
 
             const string ticker = "DE";
@@ -301,12 +273,12 @@ namespace Sonneville.TradingTest
                 const int count = 200;
                 for (var i = 0; i < count; i++)
                 {
-                    var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
+                    var order = new Order(DateTime.Now, DateTime.Now.Add(MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
                     target.Submit(order);
                     Thread.Sleep(1);
                 }
 
-                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+                Thread.Sleep(MaxProcessingTimeSpan);
 
                 Assert.AreEqual(count, filledRaised);
                 Assert.IsFalse(cancelRaised);
@@ -323,7 +295,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void MultipleEventsTestCancelled()
         {
-            TradingAccount target = GetBacktestSimulator();
+            var target = GetSimulator();
             var padlock = new object();
 
             const string ticker = "DE";
@@ -342,13 +314,13 @@ namespace Sonneville.TradingTest
                 const int count = 200;
                 for (var i = 0; i < count; i++)
                 {
-                    var order = new Order(DateTime.Now, DateTime.Now.Add(BacktestSimulator.MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
+                    var order = new Order(DateTime.Now, DateTime.Now.Add(MaxProcessingTimeSpan), OrderType.Buy, ticker, 5, 100.00m);
                     target.Submit(order);
                     target.TryCancelOrder(order);
                     Thread.Sleep(1);
                 }
 
-                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+                Thread.Sleep(MaxProcessingTimeSpan);
 
                 Assert.IsFalse(filledRaised);
                 Assert.AreEqual(count, cancelRaised);
@@ -365,7 +337,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void HistoricalOrderFilledReturnsCorrectTransaction()
         {
-            var target = GetBacktestSimulator();
+            var target = GetSimulator();
 
             const string ticker = "DE";
             IShareTransaction expected = null;
@@ -389,7 +361,7 @@ namespace Sonneville.TradingTest
                 var order = new Order(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
                 target.Submit(order);
 
-                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+                Thread.Sleep(MaxProcessingTimeSpan);
 
                 Assert.IsTrue(filledRaised);
 
@@ -404,7 +376,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FilledAddsToPositionsCount()
         {
-            var target = GetBacktestSimulator();
+            var target = GetSimulator();
 
             const string ticker = "DE";
             var issued = new DateTime(2010, 12, 20, 12, 0, 0);
@@ -412,7 +384,7 @@ namespace Sonneville.TradingTest
             var order = new Order(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
 
             target.Submit(order);
-            Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+            Thread.Sleep(MaxProcessingTimeSpan);
             
             Assert.AreEqual(1, target.Positions.Count);
         }
@@ -420,7 +392,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FilledAddsToPositionsCorrectly()
         {
-            var target = GetBacktestSimulator();
+            var target = GetSimulator();
 
             const string ticker = "DE";
             IShareTransaction expected = null;
@@ -440,7 +412,7 @@ namespace Sonneville.TradingTest
                 var order = new Order(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
                 target.Submit(order);
 
-                Thread.Sleep(BacktestSimulator.MaxProcessingTimeSpan);
+                Thread.Sleep(MaxProcessingTimeSpan);
 
                 var containsTransaction = TargetContainsTransaction(target, expected);
                 Assert.IsTrue(containsTransaction);
@@ -451,28 +423,28 @@ namespace Sonneville.TradingTest
             }
         }
 
-        private static BacktestSimulator GetBacktestSimulator()
+        private static ITradingAccount GetSimulator()
         {
-            return GetBacktestSimulator(new MarginNotAllowed());
+            return GetSimulator(new MarginNotAllowed());
         }
 
-        private static BacktestSimulator GetBacktestSimulator(IMarginSchedule marginSchedule)
+        private static ITradingAccount GetSimulator(IMarginSchedule marginSchedule)
         {
-            return GetBacktestSimulator(new FlatCommissionSchedule(5.00m), marginSchedule);
+            return GetSimulator(new FlatCommissionSchedule(5.00m), marginSchedule);
         }
 
-        private static BacktestSimulator GetBacktestSimulator(ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
+        private static ITradingAccount GetSimulator(ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
         {
             var orderTypes = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures().SupportedOrderTypes;
-            return GetBacktestSimulator(orderTypes, commissionSchedule, marginSchedule);
+            return GetSimulator(orderTypes, commissionSchedule, marginSchedule);
         }
 
-        private static BacktestSimulator GetBacktestSimulator(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
+        private static ITradingAccount GetSimulator(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
         {
-            return new BacktestSimulator(TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule));
+            return new SimulatedTradingAccount(TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule));
         }
 
-        private static bool TargetContainsTransaction(TradingAccount target, IShareTransaction transaction)
+        private static bool TargetContainsTransaction(ITradingAccount target, IShareTransaction transaction)
         {
             var positions = target.Positions;
             var position = positions.First(p => p.Ticker == transaction.Ticker);
@@ -488,6 +460,16 @@ namespace Sonneville.TradingTest
                              trans.Shares == transaction.Shares &&
                              trans.Ticker == transaction.Ticker)
                 ).FirstOrDefault();
+        }
+
+        private static TimeSpan MinProcessingTimeSpan
+        {
+            get { return new TimeSpan(0, 0, 0, 0, 100); }
+        }
+
+        private static TimeSpan MaxProcessingTimeSpan
+        {
+            get { return new TimeSpan(0, 0, 0, 1, 500); }
         }
     }
 }
