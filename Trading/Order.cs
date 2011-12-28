@@ -64,5 +64,10 @@ namespace Sonneville.PriceTools.Trading
         /// The number of shares for this order.
         /// </summary>
         public double Shares { get; private set; }
+
+        public override string ToString()
+        {
+            return String.Format("{0}: {1} {2} shares of {3} at {4}", Issued, OrderType, Shares, Ticker, Price);
+        }
     }
 }

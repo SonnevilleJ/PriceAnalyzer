@@ -50,7 +50,7 @@ namespace Sonneville.PriceTools.Trading
 
             var cts = new CancellationTokenSource();
             var token = cts.Token;
-            var task = new Task(() => ProcessOrder(order, token), token, TaskCreationOptions.PreferFairness);
+            var task = new Task(() => ProcessOrder(order, token), TaskCreationOptions.PreferFairness);
             lock (_items) _items.Add(new Tuple<Order, Task, CancellationTokenSource>(order, task, cts));
             task.Start();
         }
@@ -114,21 +114,30 @@ namespace Sonneville.PriceTools.Trading
 
         protected void InvokeOrderFilled(OrderExecutedEventArgs e)
         {
-            RemoveInProcess(e.Order);
-            ProcessFill(e.Transaction);
-            TriggerFilled(e);
+            lock (_items)
+            {
+                RemoveInProcess(e.Order);
+                ProcessFill(e.Transaction);
+                TriggerFilled(e);
+            }
         }
 
         protected void InvokeOrderExpired(OrderExpiredEventArgs e)
         {
-            RemoveInProcess(e.Order);
-            TriggerExpired(e);
+            lock (_items)
+            {
+                RemoveInProcess(e.Order);
+                TriggerExpired(e);
+            }
         }
 
         protected void InvokeOrderCancelled(OrderCancelledEventArgs e)
         {
-            RemoveInProcess(e.Order);
-            TriggerCancelled(e);
+            lock (_items)
+            {
+                RemoveInProcess(e.Order);
+                TriggerCancelled(e);
+            }
         }
 
         #endregion

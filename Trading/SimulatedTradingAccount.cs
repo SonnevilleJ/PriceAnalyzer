@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools.Trading
                 if (token.IsCancellationRequested)
                 {
                     InvokeOrderCancelled(new OrderCancelledEventArgs(now, order));
-                    token.ThrowIfCancellationRequested();
+                    return;
                 }
 
                 // fill the order at 1% higher price

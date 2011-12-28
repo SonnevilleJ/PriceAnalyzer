@@ -183,14 +183,12 @@ namespace Sonneville.TradingTest
 
             var issued = DateTime.Now;
             var expiration = issued.AddDays(1);
+            const string ticker = "DE";
+            const int shares = 5;
+            const decimal price = 100.00m;
 
-            foreach (var orderType in orderTypes)
+            foreach (var order in orderTypes.Select(orderType => new Order(issued, expiration, orderType, ticker, shares, price)))
             {
-                const string ticker = "DE";
-                const int shares = 5;
-                const decimal price = 100.00m;
-                var order = new Order(issued, expiration, orderType, ticker, shares, price);
-
                 VerifyOrderFillsCorrectly(target, order);
             }
         }
