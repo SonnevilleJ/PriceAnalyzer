@@ -17,11 +17,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingOpenTestFromMidnight()
         {
-            var dateTime = new DateTime(2011, 8, 2);
-            var expected = new DateTime(2011, 8, 3);
-            
-            var actual = DateTimeExtensions.GetFollowingOpen(dateTime);
+            var target = new DateTime(2011, 8, 2);
 
+            var expected = new DateTime(2011, 8, 3);
+            var actual = target.GetFollowingOpen();
             Assert.AreEqual(expected, actual);
         }
 
@@ -31,11 +30,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingOpenTestFromEndOfDay()
         {
-            var dateTime = new DateTime(2011, 8, 2, 23, 59, 59);
-            var expected = new DateTime(2011, 8, 3);
+            var target = new DateTime(2011, 8, 2, 23, 59, 59);
             
-            var actual = DateTimeExtensions.GetFollowingOpen(dateTime);
-
+            var expected = new DateTime(2011, 8, 3);
+            var actual = target.GetFollowingOpen();
             Assert.AreEqual(expected, actual);
         }
 
@@ -45,11 +43,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingOpenTestFromSaturday()
         {
-            var dateTime = new DateTime(2011, 8, 6);
+            var target = new DateTime(2011, 8, 6);
+            
             var expected = new DateTime(2011, 8, 8);
-
-            var actual = DateTimeExtensions.GetFollowingOpen(dateTime);
-
+            var actual = target.GetFollowingOpen();
             Assert.AreEqual(expected, actual);
         }
 
@@ -59,11 +56,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingCloseTestFromNoon()
         {
-            var dateTime = new DateTime(2011, 8, 2, 12, 0, 0);
-            var expected = new DateTime(2011, 8, 2, 23, 59, 59);
+            var target = new DateTime(2011, 8, 2, 12, 0, 0);
             
-            var actual = DateTimeExtensions.GetFollowingClose(dateTime);
-
+            var expected = new DateTime(2011, 8, 2, 23, 59, 59);
+            var actual = target.GetFollowingClose();
             Assert.AreEqual(expected, actual);
         }
 
@@ -73,11 +69,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingCloseTestFromEndOfDay()
         {
-            var dateTime = new DateTime(2011, 8, 2, 23, 59, 59);
-            var expected = new DateTime(2011, 8, 3, 23, 59, 59);
+            var target = new DateTime(2011, 8, 2, 23, 59, 59);
             
-            var actual = DateTimeExtensions.GetFollowingClose(dateTime);
-
+            var expected = new DateTime(2011, 8, 3, 23, 59, 59);
+            var actual = target.GetFollowingClose();
             Assert.AreEqual(expected, actual);
         }
 
@@ -87,11 +82,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingCloseTestFromSaturday()
         {
-            var dateTime = new DateTime(2011, 8, 6);
-            var expected = new DateTime(2011, 8, 8, 23, 59, 59);
+            var target = new DateTime(2011, 8, 6);
             
-            var actual = DateTimeExtensions.GetFollowingClose(dateTime);
-
+            var expected = new DateTime(2011, 8, 8, 23, 59, 59);
+            var actual = target.GetFollowingClose();
             Assert.AreEqual(expected, actual);
         }
 
@@ -101,11 +95,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingWeekCloseTestFromWednesday()
         {
-            var dateTime = new DateTime(2011, 8, 2);
-            var expected = new DateTime(2011, 8, 5, 23, 59, 59);
+            var target = new DateTime(2011, 8, 2);
             
-            var actual = DateTimeExtensions.GetFollowingWeekClose(dateTime);
-
+            var expected = new DateTime(2011, 8, 5, 23, 59, 59);
+            var actual = target.GetFollowingWeekClose();
             Assert.AreEqual(expected, actual);
         }
 
@@ -115,11 +108,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingWeekCloseTestFromFridayOpen()
         {
-            var dateTime = new DateTime(2011, 8, 5);
-            var expected = new DateTime(2011, 8, 5, 23, 59, 59);
+            var target = new DateTime(2011, 8, 5);
             
-            var actual = DateTimeExtensions.GetFollowingWeekClose(dateTime);
-
+            var expected = new DateTime(2011, 8, 5, 23, 59, 59);
+            var actual = target.GetFollowingWeekClose();
             Assert.AreEqual(expected, actual);
         }
 
@@ -129,11 +121,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingWeekCloseTestFromSaturday()
         {
-            var dateTime = new DateTime(2011, 8, 6);
-            var expected = new DateTime(2011, 8, 12, 23, 59, 59);
+            var target = new DateTime(2011, 8, 6);
             
-            var actual = DateTimeExtensions.GetFollowingWeekClose(dateTime);
-
+            var expected = new DateTime(2011, 8, 12, 23, 59, 59);
+            var actual = target.GetFollowingWeekClose();
             Assert.AreEqual(expected, actual);
         }
 
@@ -143,11 +134,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingWeekOpenTestFromWednesday()
         {
-            var dateTime = new DateTime(2011, 8, 2);
+            var target = new DateTime(2011, 8, 2);
+            
             var expected = new DateTime(2011, 8, 8);
-            
-            var actual = DateTimeExtensions.GetFollowingWeeklyOpen(dateTime);
-            
+            var actual = target.GetFollowingWeeklyOpen();
             Assert.AreEqual(expected, actual);
         }
 
@@ -157,11 +147,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingWeekOpenTestFromSaturday()
         {
-            var dateTime = new DateTime(2011, 8, 6);
+            var target = new DateTime(2011, 8, 6);
+            
             var expected = new DateTime(2011, 8, 8);
-
-            var actual = DateTimeExtensions.GetFollowingWeeklyOpen(dateTime);
-
+            var actual = target.GetFollowingWeeklyOpen();
             Assert.AreEqual(expected, actual);
         }
 
@@ -171,88 +160,80 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingWeekOpenTestFromMondayOpen()
         {
-            var dateTime = new DateTime(2011, 8, 8);
+            var target = new DateTime(2011, 8, 8);
+            
             var expected = new DateTime(2011, 8, 15);
-            
-            var actual = DateTimeExtensions.GetFollowingWeeklyOpen(dateTime);
-            
+            var actual = target.GetFollowingWeeklyOpen();
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void GetCurrentOrFollowingTradingDayTestMonday()
         {
-            var dateTime = new DateTime(2011, 8, 1);
-            var expected = dateTime;
-
-            var actual = DateTimeExtensions.GetCurrentOrFollowingTradingDay(dateTime);
-
+            var target = new DateTime(2011, 8, 1);
+            
+            var expected = target;
+            var actual = target.GetCurrentOrFollowingTradingDay();
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void GetCurrentOrFollowingTradingDayTestTuesday()
         {
-            var dateTime = new DateTime(2011, 8, 2);
-            var expected = dateTime;
-
-            var actual = DateTimeExtensions.GetCurrentOrFollowingTradingDay(dateTime);
-
+            var target = new DateTime(2011, 8, 2);
+            
+            var expected = target;
+            var actual = target.GetCurrentOrFollowingTradingDay();
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void GetCurrentOrFollowingTradingDayTestWednesday()
         {
-            var dateTime = new DateTime(2011, 8, 3);
-            var expected = dateTime;
-
-            var actual = DateTimeExtensions.GetCurrentOrFollowingTradingDay(dateTime);
-
+            var target = new DateTime(2011, 8, 3);
+            
+            var expected = target;
+            var actual = target.GetCurrentOrFollowingTradingDay();
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void GetCurrentOrFollowingTradingDayTestThursday()
         {
-            var dateTime = new DateTime(2011, 8, 4);
-            var expected = dateTime;
-
-            var actual = DateTimeExtensions.GetCurrentOrFollowingTradingDay(dateTime);
-
+            var target = new DateTime(2011, 8, 4);
+            
+            var expected = target;
+            var actual = target.GetCurrentOrFollowingTradingDay();
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void GetCurrentOrFollowingTradingDayTestFriday()
         {
-            var dateTime = new DateTime(2011, 8, 5);
-            var expected = dateTime;
-
-            var actual = DateTimeExtensions.GetCurrentOrFollowingTradingDay(dateTime);
-
+            var target = new DateTime(2011, 8, 5);
+            
+            var expected = target;
+            var actual = target.GetCurrentOrFollowingTradingDay();
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void GetCurrentOrFollowingTradingDayTestSaturday()
         {
-            var dateTime = new DateTime(2011, 8, 6);
+            var target = new DateTime(2011, 8, 6);
+            
             var expected = new DateTime(2011, 8, 8);
-
-            var actual = DateTimeExtensions.GetCurrentOrFollowingTradingDay(dateTime);
-
+            var actual = target.GetCurrentOrFollowingTradingDay();
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void GetCurrentOrFollowingTradingDayTestSunday()
         {
-            var dateTime = new DateTime(2011, 8, 7);
+            var target = new DateTime(2011, 8, 7);
+            
             var expected = new DateTime(2011, 8, 8);
-
-            var actual = DateTimeExtensions.GetCurrentOrFollowingTradingDay(dateTime);
-
+            var actual = target.GetCurrentOrFollowingTradingDay();
             Assert.AreEqual(expected, actual);
         }
 
@@ -260,13 +241,12 @@ namespace Sonneville.PriceToolsTest
         ///A test for GetBeginningOfTradingDay
         ///</summary>
         [TestMethod]
-        public void GetBeginningOfTradingDayTest()
+        public void GetMostRecentOpenTest()
         {
-            var date = new DateTime(2011, 8, 5);
-            var expected = date.Date;
+            var target = new DateTime(2011, 8, 5);
             
-            var actual = DateTimeExtensions.GetMostRecentOpen(date);
-            
+            var expected = target.Date;
+            var actual = target.GetMostRecentOpen();
             Assert.AreEqual(expected, actual);
         }
 
@@ -274,13 +254,12 @@ namespace Sonneville.PriceToolsTest
         ///A test for GetBeginningOfTradingDay
         ///</summary>
         [TestMethod]
-        public void GetBeginningOfTradingDayFromNoonTest()
+        public void GetMostRecentOpenFromNoonTest()
         {
-            var date = new DateTime(2011, 8, 5, 12, 0, 0);
-            var expected = date.Date;
-
-            var actual = DateTimeExtensions.GetMostRecentOpen(date);
-
+            var target = new DateTime(2011, 8, 5, 12, 0, 0);
+            
+            var expected = target.Date;
+            var actual = target.GetMostRecentOpen();
             Assert.AreEqual(expected, actual);
         }
 
@@ -290,11 +269,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingCloseFromCloseTest()
         {
-            var date = new DateTime(2011, 8, 5, 23, 59, 59);
+            var target = new DateTime(2011, 8, 5, 23, 59, 59);
+            
             var expected = new DateTime(2011, 8, 8, 23, 59, 59);
-
-            var actual = DateTimeExtensions.GetFollowingClose(date);
-
+            var actual = target.GetFollowingClose();
             Assert.AreEqual(expected, actual);
         }
 
@@ -304,44 +282,100 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GetFollowingCloseFromNoonTest()
         {
-            var date = new DateTime(2011, 8, 5, 12, 0, 0);
-            var expected = new DateTime(2011, 8, 5, 23, 59, 59);
-
-            var actual = DateTimeExtensions.GetFollowingClose(date);
+            var target = new DateTime(2011, 8, 5, 12, 0, 0);
             
+            var expected = new DateTime(2011, 8, 5, 23, 59, 59);
+            var actual = target.GetFollowingClose();
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void GetFollowingMonthOpenTest()
         {
-            var date = new DateTime(2011, 8, 5);
+            var target = new DateTime(2011, 8, 5);
+            
             var expected = new DateTime(2011, 9, 1);
-
-            var actual = DateTimeExtensions.GetFollowingMonthlyOpen(date);
-
+            var actual = target.GetFollowingMonthlyOpen();
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void GetFollowingMonthCloseTest()
         {
-            var date = new DateTime(2011, 8, 5);
+            var target = new DateTime(2011, 8, 5);
+            
             var expected = new DateTime(2011, 9, 30).GetFollowingClose();
-
-            var actual = DateTimeExtensions.GetFollowingMonthlyClose(date);
-
+            var actual = target.GetFollowingMonthlyClose();
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void GetMostRecentMonthOpenTest()
         {
-            var date = new DateTime(2011, 8, 5);
+            var target = new DateTime(2011, 8, 5);
+            
             var expected = new DateTime(2011, 8, 1);
+            var actual = target.GetMostRecentMonthlyOpen();
+            Assert.AreEqual(expected, actual);
+        }
 
-            var actual = DateTimeExtensions.GetMostRecentMonthlyOpen(date);
+        [TestMethod]
+        public void GetMostRecentWeeklyOpenWeekdayTest()
+        {
+            var target = new DateTime(2011, 12, 22);
+            
+            var expected = new DateTime(2011, 12, 19);
+            var actual = target.GetMostRecentWeeklyOpen();
+            Assert.AreEqual(expected, actual);
+        }
 
+        [TestMethod]
+        public void GetMostRecentWeeklyOpenSaturdayTest()
+        {
+            var target = new DateTime(2011, 12, 17);
+            
+            var expected = new DateTime(2011, 12, 12);
+            var actual = target.GetMostRecentWeeklyOpen();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetMostRecentWeeklyOpenSundayTest()
+        {
+            var target = new DateTime(2011, 12, 18);
+            
+            var expected = new DateTime(2011, 12, 12);
+            var actual = target.GetMostRecentWeeklyOpen();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetMostRecentWeeklyCloseWeekdayTest()
+        {
+            var target = new DateTime(2011, 12, 20);
+
+            var expected = new DateTime(2011, 12, 16).GetFollowingClose();
+            var actual = target.GetMostRecentWeeklyClose();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetMostRecentWeeklyCloseSaturdayTest()
+        {
+            var target = new DateTime(2011, 12, 17);
+
+            var expected = new DateTime(2011, 12, 16).GetFollowingClose();
+            var actual = target.GetMostRecentWeeklyClose();
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void GetMostRecentWeeklyCloseSundayTest()
+        {
+            var target = new DateTime(2011, 12, 18);
+
+            var expected = new DateTime(2011, 12, 16).GetFollowingClose();
+            var actual = target.GetMostRecentWeeklyClose();
             Assert.AreEqual(expected, actual);
         }
     }

@@ -103,6 +103,20 @@ namespace Sonneville.PriceTools.Extensions
         }
 
         /// <summary>
+        /// Gets the most recent close of a trading week.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static DateTime GetMostRecentWeeklyClose(this DateTime date)
+        {
+            while (date.DayOfWeek != DayOfWeek.Friday)
+            {
+                date = date.AddDays(-1);
+            }
+            return date.GetFollowingClose();
+        }
+
+        /// <summary>
         /// Gets the following close of a trading week.
         /// </summary>
         /// <param name="date"></param>
