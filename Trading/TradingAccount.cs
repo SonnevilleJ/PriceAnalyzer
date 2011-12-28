@@ -31,10 +31,7 @@ namespace Sonneville.PriceTools.Trading
         /// Attempts to cancel an <see cref="Order"/> before it is filled.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
-        public virtual void TryCancelOrder(Order order)
-        {
-            throw new NotSupportedException("Order cancellation is not supported by the synchronous TradingAccount.");
-        }
+        public abstract void TryCancelOrder(Order order);
 
         /// <summary>
         /// Blocks the calling thread until all submitted orders are filled, cancelled, or expired.
