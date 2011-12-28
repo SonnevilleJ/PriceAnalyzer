@@ -15,9 +15,9 @@
         void LogIn(string username, string password);
 
         /// <summary>
-        /// Gets the <see cref="SynchronousTradingAccount"/> associated with the user's brokerage account.
+        /// Gets the <see cref="TradingAccount"/> associated with the user's brokerage account.
         /// </summary>
-        /// <returns>The <see cref="SynchronousTradingAccount"/> associated with the user's brokerage account.</returns>
-        SynchronousTradingAccount GetTradingAccount();
+        /// <returns>The <see cref="TradingAccount"/> associated with the user's brokerage account.</returns>
+        TradingAccount GetTradingAccount();
     }
 }

@@ -1,19 +1,18 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 
 namespace Sonneville.PriceTools.Trading
 {
     public interface ITradingAccount
     {
         /// <summary>
-        /// A list of <see cref="IPosition"/>s currently held in this account.
+        /// The portfolio of transactions recorded by this TradingAccount.
         /// </summary>
-        ReadOnlyCollection<IPosition> Positions { get; }
+        IPortfolio Portfolio { get; set; }
 
         /// <summary>
         /// Gets the list of features supported by this TradingAccount.
         /// </summary>
-        TradingAccountFeatures Features { get; }
+        TradingAccountFeatures Features { get; set; }
 
         /// <summary>
         /// Submits an order for execution by the brokerage.

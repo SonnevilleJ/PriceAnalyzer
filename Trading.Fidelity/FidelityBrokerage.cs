@@ -23,15 +23,15 @@ namespace Sonneville.PriceTools.Trading.Fidelity
         }
 
         /// <summary>
-        /// Gets the <see cref="SynchronousTradingAccount"/> associated with the user's brokerage account.
+        /// Gets the <see cref="TradingAccount"/> associated with the user's brokerage account.
         /// </summary>
-        /// <returns>The <see cref="SynchronousTradingAccount"/> associated with the user's brokerage account.</returns>
-        public SynchronousTradingAccount GetTradingAccount()
+        /// <returns>The <see cref="TradingAccount"/> associated with the user's brokerage account.</returns>
+        public TradingAccount GetTradingAccount()
         {
             var commissionSchedule = GetCommissionSchedule();
             var marginSchedule = GetMarginSchedule();
             var features = TradingAccountFeaturesFactory.CreateTradingAccountFeatures(GetSupportedOrderTypes(), commissionSchedule, marginSchedule);
-            var tradingAccount = new FidelityTradingAccount(features);
+            var tradingAccount = new FidelityTradingAccount() {Features = features};
             return tradingAccount;
         }
 

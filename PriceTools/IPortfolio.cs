@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
         /// </summary>
-        ICollection<IPosition> Positions { get; }
+        IList<IPosition> Positions { get; }
 
         /// <summary>
         ///   Retrieves the <see cref="IPosition"/> with Ticker <paramref name="ticker"/>.
@@ -73,5 +73,12 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
         /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the IPortfolio.</returns>
         IList<IHolding> CalculateHoldings(DateTime settlementDate);
+
+        /// <summary>
+        /// Validates an <see cref="ITransaction"/> without adding it to the IPortfolio.
+        /// </summary>
+        /// <param name="transaction">The <see cref="ITransaction"/> to validate.</param>
+        /// <returns></returns>
+        bool TransactionIsValid(ITransaction transaction);
     }
 }

@@ -1,44 +1,20 @@
 ﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Threading;
 
 namespace Sonneville.PriceTools.Trading
 {
-    public abstract class SynchronousTradingAccount : ITradingAccount
+    public abstract class TradingAccount : ITradingAccount
     {
-        #region Private Members
-
-        private readonly IPortfolio _portfolio = new Portfolio();
-
-        #endregion
-
-        #region Constructors
-
-        protected SynchronousTradingAccount(TradingAccountFeatures tradingAccountFeatures)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
         #region Implementation of ITradingAccount
 
         /// <summary>
-        /// A list of <see cref="IPosition"/>s currently held in this account.
+        /// The portfolio of transactions recorded by this TradingAccount.
         /// </summary>
-        public ReadOnlyCollection<IPosition> Positions
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public IPortfolio Portfolio { get; set; }
 
         /// <summary>
         /// Gets the list of features supported by this TradingAccount.
         /// </summary>
-        public TradingAccountFeatures Features
-        {
-            get { throw new NotImplementedException(); }
-        }
+        public TradingAccountFeatures Features { get; set; }
 
         /// <summary>
         /// Submits an order for execution by the brokerage.
@@ -46,7 +22,9 @@ namespace Sonneville.PriceTools.Trading
         /// <param name="order">The <see cref="Order"/> to execute.</param>
         public virtual void Submit(Order order)
         {
-            throw new NotImplementedException();
+            if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, Strings.TradingAccount_Submit_Cannot_execute_this_order_);
+
+            ProcessOrder(order);
         }
 
         /// <summary>
@@ -55,7 +33,7 @@ namespace Sonneville.PriceTools.Trading
         /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
         public virtual void TryCancelOrder(Order order)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException("Order cancellation is not supported by the synchronous TradingAccount.");
         }
 
         /// <summary>
@@ -63,7 +41,6 @@ namespace Sonneville.PriceTools.Trading
         /// </summary>
         public virtual void WaitAll()
         {
-            throw new NotImplementedException();
         }
 
         #endregion
@@ -109,29 +86,22 @@ namespace Sonneville.PriceTools.Trading
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        /// <param name="token"></param>
-        protected abstract void ProcessOrder(Order order, CancellationToken token);
+        protected abstract void ProcessOrder(Order order);
 
         #endregion
 
         #region Private Methods
 
-        protected bool ValidateOrder(Order order)
+        private bool ValidateOrder(Order order)
         {
             var commission = Features.CommissionSchedule.PriceCheck(order);
             var expectedTransaction = TransactionFactory.Instance.CreateShareTransaction(DateTime.Now, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
-            var position = GetPosition(order.Ticker);
-            return position.TransactionIsValid(expectedTransaction);
-        }
-
-        private IPosition GetPosition(string ticker)
-        {
-            return Positions.Where(p => p.Ticker == ticker).FirstOrDefault() ?? PositionFactory.CreatePosition(ticker);
+            return Portfolio.TransactionIsValid(expectedTransaction);
         }
 
         private void ProcessFill(IShareTransaction transaction)
         {
-            _portfolio.AddTransaction(transaction);
+            Portfolio.AddTransaction(transaction);
         }
 
         private void TriggerFilled(OrderExecutedEventArgs e)

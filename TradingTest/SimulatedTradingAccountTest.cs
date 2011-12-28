@@ -29,7 +29,7 @@ namespace Sonneville.TradingTest
         {
             var target = GetSimulator();
 
-            Assert.AreEqual(0, target.Positions.Count);
+            Assert.AreEqual(0, target.Portfolio.Positions.Count);
         }
 
         [TestMethod]
@@ -106,7 +106,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EventsTestCancelled()
         {
-            var target = GetSimulator();
+            var target = GetAsyncSimulator();
 
             var cancelRaised = false;
             var expiredRaised = false;
@@ -181,14 +181,16 @@ namespace Sonneville.TradingTest
         {
             var target = GetSimulator();
 
-            var issued = DateTime.Now;
-            var expiration = issued.AddDays(1);
-            const string ticker = "DE";
-            const int shares = 5;
-            const decimal price = 100.00m;
-
-            foreach (var order in orderTypes.Select(orderType => new Order(issued, expiration, orderType, ticker, shares, price)))
+            foreach (var orderType in orderTypes)
             {
+                var issued = DateTime.Now;
+                var expiration = issued.AddDays(1);
+                const string ticker = "DE";
+                const int shares = 5;
+                const decimal price = 100.00m;
+                
+                var order = new Order(issued, expiration, orderType, ticker, shares, price);
+                
                 VerifyOrderFillsCorrectly(target, order);
             }
         }
@@ -262,7 +264,7 @@ namespace Sonneville.TradingTest
             {
                 target.OrderFilled += filledHandler;
 
-                const int count = 200;
+                const int count = 20;
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
@@ -284,7 +286,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void MultipleEventsTestCancelled()
         {
-            var target = GetSimulator();
+            var target = GetAsyncSimulator();
 
             const string ticker = "DE";
             var cancelCount = 0;
@@ -293,7 +295,7 @@ namespace Sonneville.TradingTest
             {
                 target.OrderCancelled += cancelledHandler;
 
-                const int count = 200;
+                const int count = 20;
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
@@ -325,7 +327,7 @@ namespace Sonneville.TradingTest
             {
                 target.OrderExpired += expiredHandler;
 
-                const int count = 200;
+                const int count = 20;
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
@@ -384,7 +386,7 @@ namespace Sonneville.TradingTest
         }
 
         [TestMethod]
-        public void FilledAddsToPositionsCount()
+        public void FilledAddsToPortfolio()
         {
             var target = GetSimulator();
 
@@ -397,11 +399,11 @@ namespace Sonneville.TradingTest
 
             target.WaitAll();
             
-            Assert.AreEqual(1, target.Positions.Count);
+            Assert.AreEqual(1, target.Portfolio.Positions.Count);
         }
 
         [TestMethod]
-        public void FilledAddsToPositionsCorrectly()
+        public void FilledAddsToPortfolioCorrectly()
         {
             var target = GetSimulator();
 
@@ -452,12 +454,28 @@ namespace Sonneville.TradingTest
 
         private static ITradingAccount GetSimulator(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
         {
-            return new SimulatedTradingAccount(TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule));
+            // default deposit of $1,000,000
+            var deposit = new Deposit {SettlementDate = new DateTime(1900, 1, 1), Amount = 1000000.00m};
+            return GetSimulator(orderTypes, commissionSchedule, marginSchedule, deposit);
+        }
+
+        private static ITradingAccount GetSimulator(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, Deposit openingDeposit)
+        {
+            var tradingAccountFeatures = TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
+            var portfolio = new Portfolio();
+            portfolio.Deposit(openingDeposit);
+            return new SimulatedTradingAccount {Features = tradingAccountFeatures, Portfolio = portfolio};
+        }
+
+        private static ITradingAccount GetAsyncSimulator()
+        {
+            Assert.Inconclusive("No TradingAccount which supports order cancellation is available.");
+            return null;
         }
 
         private static bool TargetContainsTransaction(ITradingAccount target, IShareTransaction transaction)
         {
-            var positions = target.Positions;
+            var positions = target.Portfolio.Positions;
             var position = positions.First(p => p.Ticker == transaction.Ticker);
             var transactions = position.Transactions.Cast<IShareTransaction>();
 

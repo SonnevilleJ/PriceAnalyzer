@@ -7,19 +7,13 @@ namespace Sonneville.PriceTools.Trading
     /// <summary>
     /// A trading account which simulates the execution of orders.
     /// </summary>
-    public class SimulatedTradingAccount : SynchronousTradingAccount
+    public class SimulatedTradingAccount : TradingAccount
     {
-        public SimulatedTradingAccount(TradingAccountFeatures tradingAccountFeatures)
-            : base(tradingAccountFeatures)
-        {
-        }
-
         /// <summary>
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        /// <param name="token"></param>
-        protected override void ProcessOrder(Order order, CancellationToken token)
+        protected override void ProcessOrder(Order order)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -31,11 +25,6 @@ namespace Sonneville.PriceTools.Trading
             var now = order.Issued.Add(stopwatch.Elapsed);
             if (now <= order.Expiration)
             {
-                if (token.IsCancellationRequested)
-                {
-                    InvokeOrderCancelled(new OrderCancelledEventArgs(now, order));
-                    return;
-                }
 
                 // fill the order at 1% higher price
                 var price = Math.Round(order.Price*1.01m, 2);

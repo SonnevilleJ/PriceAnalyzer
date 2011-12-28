@@ -442,8 +442,7 @@ namespace Sonneville.PriceTools
                     break;
                 case OrderType.BuyToCover:
                 case OrderType.Sell:
-                    // Verify that closed holdings do not exceed available shares at the time of the shareTransaction.
-                    var date = shareTransaction.SettlementDate.Subtract(new TimeSpan(0, 0, 0, 1));
+                    var date = shareTransaction.SettlementDate;
                     var heldShares = GetHeldShares(date);
                     if (shareTransaction.Shares > heldShares)
                     {

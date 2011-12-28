@@ -56,7 +56,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="SynchronousTradingAccount.cs" />
+    <Compile Include="TradingAccount.cs" />
     <Compile Include="AsynchronousTradingAccount.cs" />
     <Compile Include="OrderExecutor.cs" />
     <Compile Include="Order.cs" />

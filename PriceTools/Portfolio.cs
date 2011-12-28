@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools
 
         private static readonly string DefaultCashTicker = String.Empty;
         private readonly CashAccount _cashAccount = new CashAccount();
-        private readonly ICollection<IPosition> _positions = new List<IPosition>();
+        private readonly IList<IPosition> _positions = new List<IPosition>();
 
         #endregion
 
@@ -392,9 +392,45 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Validates an <see cref="ITransaction"/> without adding it to the IPortfolio.
+        /// </summary>
+        /// <param name="transaction">The <see cref="IShareTransaction"/> to validate.</param>
+        /// <returns></returns>
+        public bool TransactionIsValid(ITransaction transaction)
+        {
+            bool sufficientCash;
+            switch (transaction.OrderType)
+            {
+                case OrderType.DividendReceipt:
+                case OrderType.Deposit:
+                case OrderType.Withdrawal:
+                    var cashTransaction = (ICashTransaction) transaction;
+                    return _cashAccount.TransactionIsValid(cashTransaction);
+                case OrderType.DividendReinvestment:
+                case OrderType.Buy:
+                    var buy = ((IShareTransaction)transaction);
+                    sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
+                    return sufficientCash && GetPosition(buy.Ticker, false).TransactionIsValid(buy);
+                case OrderType.SellShort:
+                    var sellShort = ((SellShort)transaction);
+                    return GetPosition(sellShort.Ticker, false).TransactionIsValid(sellShort);
+                case OrderType.Sell:
+                    var sell = ((IShareTransaction)transaction);
+                    return GetPosition(sell.Ticker, false).TransactionIsValid(sell);
+                case OrderType.BuyToCover:
+                    var buyToCover = ((IShareTransaction)transaction);
+                    sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
+                    return sufficientCash && GetPosition(buyToCover.Ticker, false).TransactionIsValid(buyToCover);
+                default:
+                    // unknown order type
+                    return false;
+            }
+        }
+
+        /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
         /// </summary>
-        public ICollection<IPosition> Positions
+        public IList<IPosition> Positions
         {
             get { return _positions; }
         }
@@ -406,17 +442,23 @@ namespace Sonneville.PriceTools
         /// <returns>The <see cref="IPosition"/> with the requested Ticker. Returns null if no <see cref="IPosition"/> is found with the requested Ticker.</returns>
         public IPosition GetPosition(string ticker)
         {
-            return Positions.Where(p => p.Ticker == ticker).FirstOrDefault();
+            return GetPosition(ticker, true);
         }
 
         #endregion
 
         #region Private Methods
-        
+
+        private IPosition GetPosition(string ticker, bool nullAcceptable)
+        {
+            var firstOrDefault = Positions.Where(p => p.Ticker == ticker).FirstOrDefault();
+            return firstOrDefault == null && !nullAcceptable ? PositionFactory.CreatePosition(ticker) : firstOrDefault;
+        }
+
         private void AddToPosition(IShareTransaction transaction)
         {
             var ticker = transaction.Ticker;
-            var position = GetPosition(ticker);
+            var position = GetPosition(ticker, true);
             if (position == null)
             {
                 position = PositionFactory.CreatePosition(ticker);
