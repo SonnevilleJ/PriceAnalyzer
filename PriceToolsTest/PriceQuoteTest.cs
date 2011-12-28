@@ -1,5 +1,4 @@
 ﻿using Sonneville.PriceTools;
-using Sonneville.Utilities;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 
@@ -18,11 +17,11 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void PriceTest()
         {
-            IPriceQuote target = new PriceQuote();
-
             const decimal expected = 100.00m;
-            target.Price = expected;
-            decimal actual = target.Price;
+            
+            var target = new PriceQuote {Price = expected};
+            
+            var actual = target.Price;
             Assert.AreEqual(expected, actual);
         }
 
@@ -32,11 +31,11 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void QuotedDateTimeTest()
         {
-            IPriceQuote target = new PriceQuote();
+            var expected = new DateTime(2011, 2, 24);
+            
+            var target = new PriceQuote {SettlementDate = expected};
 
-            DateTime expected = new DateTime(2011, 2, 24);
-            target.SettlementDate = expected;
-            DateTime actual = target.SettlementDate;
+            var actual = target.SettlementDate;
             Assert.AreEqual(expected, actual);
         }
 
@@ -46,12 +45,27 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void VolumeTest()
         {
-            IPriceQuote target = new PriceQuote();
+            const long expected = long.MaxValue;
+            
+            var target = new PriceQuote {Volume = expected};
 
-            long? expected = long.MaxValue;
-            target.Volume = expected;
-            long? actual = target.Volume;
+            var actual = target.Volume;
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ToStringTest()
+        {
+            var settlementDate = new DateTime(2011, 12, 28);
+            const decimal price = 10.00m;
+            const long volume = 300;
+
+            var target = new PriceQuote {SettlementDate = settlementDate, Price = price, Volume = volume};
+
+            var actual = target.ToString();
+
+            Assert.IsTrue(actual.Contains(settlementDate.ToString()));
+            Assert.IsTrue(actual.Contains(price.ToString()));
         }
     }
 }

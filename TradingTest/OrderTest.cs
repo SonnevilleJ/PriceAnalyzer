@@ -402,5 +402,23 @@ namespace Sonneville.TradingTest
             var actual = order.PricingType;
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void ToStringTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.Buy;
+            const string ticker = "DE";
+            const double shares = 5.0;
+            const decimal price = 100.00m;
+
+            var target = new Order(issued, expired, orderType, ticker, shares, price);
+
+            var actual = target.ToString();
+
+            Assert.IsTrue(actual.Contains(Enum.GetName(typeof (OrderType), orderType)));
+            Assert.IsTrue(actual.Contains(ticker));
+        }
     }
 }
