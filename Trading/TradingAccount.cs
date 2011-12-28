@@ -95,7 +95,7 @@ namespace Sonneville.PriceTools.Trading
         private bool ValidateOrder(Order order)
         {
             var commission = Features.CommissionSchedule.PriceCheck(order);
-            var expectedTransaction = TransactionFactory.Instance.CreateShareTransaction(DateTime.Now, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
+            var expectedTransaction = TransactionFactory.CreateShareTransaction(DateTime.Now, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
             return Portfolio.TransactionIsValid(expectedTransaction);
         }
 

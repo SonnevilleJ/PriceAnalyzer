@@ -21,7 +21,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 100.00m;      // sold at $100.00 per share
             const double shares = -5;           // sold 5 shares
             const decimal commission = 7.95m;  // sold with $7.95 commission
-            TransactionFactory.Instance.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
@@ -36,7 +36,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = -100.00m;     // sold at $-100.00 per share - error
             const double shares = 5;            // sold 5 shares
             const decimal commission = 7.95m;   // sold with $7.95 commission
-            TransactionFactory.Instance.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
@@ -52,7 +52,7 @@ namespace Sonneville.PriceToolsTest
             const decimal price = 100.00m;      // sold at $100.00 per share
             const double shares = 5;            // sold 5 shares
             const decimal commission = -7.95m;  // sold with $7.95 commission
-            TransactionFactory.Instance.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5;            // bought 5 shares
             const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = TransactionFactory.Instance.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
             const string expected = ticker;
             string actual = target.Ticker;
@@ -88,7 +88,7 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5;            // bought 5 shares
             const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = TransactionFactory.Instance.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
             DateTime expected = date;
             DateTime actual = target.SettlementDate;
@@ -108,7 +108,7 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5;            // bought 5 shares
             const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = TransactionFactory.Instance.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
             const OrderType expected = type;
             OrderType actual = target.OrderType;
@@ -128,7 +128,7 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5;            // bought 5 shares
             const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = TransactionFactory.Instance.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
             const decimal expected = 100.00m;
             decimal actual = target.Price;
@@ -148,7 +148,7 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5;            // bought 5 shares
             const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = TransactionFactory.Instance.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
             const double expected = shares;
             double actual = target.Shares;
@@ -168,7 +168,7 @@ namespace Sonneville.PriceToolsTest
             const double shares = 5;            // cover 5 shares
             const decimal commission = 7.95m;   // $7.95 trading commission
 
-            IShareTransaction target = TransactionFactory.Instance.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
             const decimal expected = commission;
             decimal actual = target.Commission;

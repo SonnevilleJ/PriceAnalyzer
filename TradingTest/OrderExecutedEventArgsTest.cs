@@ -20,7 +20,7 @@ namespace Sonneville.TradingTest
 
             executed = issued.AddSeconds(3);
             order = new Order(issued, expired, orderType, ticker, shares, price);
-            transaction = TransactionFactory.Instance.CreateShareTransaction(executed, orderType, ticker, price, shares, commission);
+            transaction = TransactionFactory.CreateShareTransaction(executed, orderType, ticker, price, shares, commission);
             target = new OrderExecutedEventArgs(executed, order, transaction);
         }
 
@@ -80,7 +80,7 @@ namespace Sonneville.TradingTest
 
             var executed = expired.AddTicks(1);
             var order = new Order(issued, expired, orderType, ticker, shares, price);
-            var transaction = TransactionFactory.Instance.CreateShareTransaction(executed, orderType, ticker, price, shares, commission);
+            var transaction = TransactionFactory.CreateShareTransaction(executed, orderType, ticker, price, shares, commission);
             
             new OrderExecutedEventArgs(executed, order, transaction);
         }

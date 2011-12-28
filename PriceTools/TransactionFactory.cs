@@ -6,12 +6,8 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Factory object which creates IShareTransaction objects.
     /// </summary>
-    public class TransactionFactory
+    public static class TransactionFactory
     {
-        private static TransactionFactory _instance = new TransactionFactory();
-
-        public static TransactionFactory Instance { get { return _instance; } }
-
         /// <summary>
         /// Constructs a Transaction.
         /// </summary>
@@ -21,7 +17,7 @@ namespace Sonneville.PriceTools
         /// <param name="price">The price at which the ShareTransaction took place.</param>
         /// <param name="shares">The optional number of shares which were traded. Default = 1</param>
         /// <param name="commission">The optional commission paid for this ShareTransaction. Default = $0.00</param>
-        public ITransaction CreateTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
+        public static ITransaction CreateTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
         {
             switch (type)
             {
@@ -96,7 +92,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a ShareTransaction.
         /// </summary>
-        public ShareTransaction CreateShareTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares, decimal commission)
+        public static ShareTransaction CreateShareTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares, decimal commission)
         {
             return (ShareTransaction) CreateTransaction(settlementDate, type, ticker, price, shares, commission);
         }

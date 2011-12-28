@@ -80,7 +80,6 @@
     <Compile Include="PricePeriodFactory.cs" />
     <Compile Include="PriceSeries.cs" />
     <Compile Include="PriceSeriesFactory.cs" />
-    <Compile Include="QuotedPricePeriodEnumerator.cs" />
     <Compile Include="ReactionMove.cs" />
     <Compile Include="RelativeStrengthIndex.cs" />
     <Compile Include="Services\FidelityBrokerageLinkTransactionHistoryCsvFile.cs" />

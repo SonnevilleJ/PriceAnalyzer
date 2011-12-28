@@ -24,7 +24,7 @@ namespace Sonneville.PriceToolsTest
             const int shares = 5;
             const decimal commission = 10.00m;
 
-            var target = TransactionFactory.Instance.CreateShareTransaction(settlementDate, orderType, ticker, price, shares, commission);
+            var target = TransactionFactory.CreateShareTransaction(settlementDate, orderType, ticker, price, shares, commission);
 
             const decimal expected = (price*shares) + commission;
             var actual = target.TotalValue;

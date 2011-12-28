@@ -205,7 +205,7 @@ namespace Sonneville.TradingTest
                 (sender, e) =>
                     {
                         var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                        expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, commission);
+                        expected = CreateShareTransaction(e.Executed, e.Order, commission);
                         actual = e.Transaction;
                         filledRaised = true;
                     };
@@ -360,7 +360,7 @@ namespace Sonneville.TradingTest
                 (sender, e) =>
                 {
                     var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                    expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, commission);
+                    expected = CreateShareTransaction(e.Executed, e.Order, commission);
                     actual = e.Transaction;
                     filledRaised = true;
                 };
@@ -414,7 +414,7 @@ namespace Sonneville.TradingTest
                 (sender, e) =>
                 {
                     var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                    expected = TransactionFactory.Instance.CreateShareTransaction(e.Executed, e.Order, commission);
+                    expected = CreateShareTransaction(e.Executed, e.Order, commission);
                 };
             try
             {
@@ -489,6 +489,11 @@ namespace Sonneville.TradingTest
                              trans.Shares == transaction.Shares &&
                              trans.Ticker == transaction.Ticker)
                 ).FirstOrDefault();
+        }
+
+        private static IShareTransaction CreateShareTransaction(DateTime settlementDate, Order order, decimal commission)
+        {
+            return TransactionFactory.CreateShareTransaction(settlementDate, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
         }
     }
 }
