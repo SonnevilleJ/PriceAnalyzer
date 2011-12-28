@@ -61,6 +61,16 @@ namespace Sonneville.PriceTools.Trading {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot create an Order with an expiration date before the issue date..
+        /// </summary>
+        internal static string Order_Order_Cannot_create_an_Order_with_an_expiration_date_before_the_issue_date_ {
+            get {
+                return ResourceManager.GetString("Order_Order_Cannot_create_an_Order_with_an_expiration_date_before_the_issue_date_" +
+                        "", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid OrderType..
         /// </summary>
         internal static string Order_Order_Invalid_OrderType_ {

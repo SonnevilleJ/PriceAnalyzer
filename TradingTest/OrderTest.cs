@@ -45,6 +45,20 @@ namespace Sonneville.TradingTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void IssuedAfterExpiredFails()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddTicks(-1);
+            const OrderType orderType = OrderType.Buy;
+            const string ticker = "DE";
+            const double shares = 5.0;
+            const decimal price = 100.00m;
+
+            new Order(issued, expired, orderType, ticker, shares, price);
+        }
+
+        [TestMethod]
         public void TickerTest()
         {
             var issued = new DateTime(2011, 12, 6);
