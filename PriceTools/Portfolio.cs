@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools
 
         private static readonly string DefaultCashTicker = String.Empty;
         private readonly CashAccount _cashAccount = new CashAccount();
-        private readonly ICollection<Position> _positions = new List<Position>();
+        private readonly ICollection<IPosition> _positions = new List<IPosition>();
 
         #endregion
 
@@ -394,7 +394,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
         /// </summary>
-        public ICollection<Position> Positions
+        public ICollection<IPosition> Positions
         {
             get { return _positions; }
         }
@@ -420,7 +420,7 @@ namespace Sonneville.PriceTools
             if (position == null)
             {
                 position = PositionFactory.CreatePosition(ticker);
-                Positions.Add((Position) position);
+                Positions.Add(position);
             }
             position.AddTransaction(transaction);
         }

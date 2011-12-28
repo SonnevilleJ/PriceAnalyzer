@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.Trading
     /// <summary>
     /// A trading account which simulates the execution of orders.
     /// </summary>
-    public class SimulatedTradingAccount : TradingAccount
+    public class SimulatedTradingAccount : SynchronousTradingAccount
     {
         public SimulatedTradingAccount(TradingAccountFeatures tradingAccountFeatures)
             : base(tradingAccountFeatures)

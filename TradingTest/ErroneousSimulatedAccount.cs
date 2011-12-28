@@ -4,7 +4,7 @@ using Sonneville.PriceTools.Trading;
 
 namespace Sonneville.TradingTest
 {
-    public class ErroneousSimulatedAccount : TradingAccount
+    public class ErroneousSimulatedAccount : SynchronousTradingAccount
     {
         public ErroneousSimulatedAccount()
             : base(TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures())

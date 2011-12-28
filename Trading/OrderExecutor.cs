@@ -3,7 +3,7 @@
 namespace Sonneville.PriceTools.Trading
 {
     /// <summary>
-    /// Processes orders from a <see cref="TradingStrategy"/> and forwards them to a <see cref="TradingAccount"/>.
+    /// Processes orders from a <see cref="TradingStrategy"/> and forwards them to a <see cref="SynchronousTradingAccount"/>.
     /// </summary>
     public abstract class OrderExecutor : IDisposable
     {
@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools.Trading
 
         #endregion
 
-        protected OrderExecutor(TradingStrategy strategy, TradingAccount account)
+        protected OrderExecutor(TradingStrategy strategy, SynchronousTradingAccount account)
         {
             Strategy = strategy;
             Account = account;
@@ -106,6 +106,6 @@ namespace Sonneville.PriceTools.Trading
         /// <summary>
         /// The trading account to use for automated trading.
         /// </summary>
-        public TradingAccount Account { get; private set; }
+        public SynchronousTradingAccount Account { get; private set; }
     }
 }

@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Trading.Fidelity
     /// <summary>
     /// A trading account which communicates with Fidelity to perform execution of orders.
     /// </summary>
-    public class FidelityTradingAccount : TradingAccount
+    public class FidelityTradingAccount : SynchronousTradingAccount
     {
         public FidelityTradingAccount(TradingAccountFeatures features)
             : base(features)
