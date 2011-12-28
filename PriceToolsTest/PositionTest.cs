@@ -1127,6 +1127,16 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void ValuesTest()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var values = target.Values;
+        }
+
+        [TestMethod]
         public void ResolutionEqualsResolutionOfPriceSeriesTest()
         {
             const string ticker = "DE";
@@ -1139,7 +1149,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void ValidateTestTrue()
+        public void TransactionIsValidBuyWithSufficientCash()
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
@@ -1155,7 +1165,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void ValidateTestFalse()
+        public void TransactionIsValidFalse()
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
