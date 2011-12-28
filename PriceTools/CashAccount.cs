@@ -11,12 +11,8 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private readonly HashSet<ICashTransaction> _transactions = new HashSet<ICashTransaction>();
+        private readonly IList<ICashTransaction> _transactions = new List<ICashTransaction>();
         private readonly object _padlock = new object();
-
-        #endregion
-
-        #region Constructors
 
         #endregion
 
@@ -84,7 +80,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets a <see cref="List{T}"/> of <see cref="ICashTransaction"/>s in this ICashAccount.
+        /// Gets a <see cref="List{T}"/> of <see cref="ICashTransaction"/>s in this CashAccount.
         /// </summary>
         public ICollection<ICashTransaction> Transactions
         {
@@ -111,9 +107,27 @@ namespace Sonneville.PriceTools
             }
         }
 
+        /// <summary>
+        /// Validates an <see cref="ICashTransaction"/> without adding it to the CashAccount.
+        /// </summary>
+        /// <param name="cashTransaction">The <see cref="ICashAccount"/> to validate.</param>
+        /// <returns></returns>
+        public bool TransactionIsValid(ICashTransaction cashTransaction)
+        {
+            switch (cashTransaction.OrderType)
+            {
+                case OrderType.Deposit:
+                    return true;
+                case OrderType.Withdrawal:
+                    return GetCashBalance(cashTransaction.SettlementDate) >= Math.Abs(cashTransaction.Amount);
+                default:
+                    return false;
+            }
+        }
+
         private void VerifySufficientFunds(Withdrawal withdrawal)
         {
-            if (GetCashBalance(withdrawal.SettlementDate) < Math.Abs(withdrawal.Amount))
+            if (!TransactionIsValid(withdrawal))
             {
                 throw new InvalidOperationException("Insufficient funds.");
             }

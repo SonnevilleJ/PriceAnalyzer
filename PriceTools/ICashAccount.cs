@@ -48,5 +48,12 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
         decimal GetCashBalance(DateTime asOfDate);
+
+        /// <summary>
+        /// Validates an <see cref="ICashTransaction"/> without adding it to the ICashAccount.
+        /// </summary>
+        /// <param name="cashTransaction">The <see cref="ICashAccount"/> to validate.</param>
+        /// <returns></returns>
+        bool TransactionIsValid(ICashTransaction cashTransaction);
     }
 }

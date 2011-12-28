@@ -32,11 +32,26 @@ namespace Sonneville.PriceToolsTest
         ///A test for Withdraw
         ///</summary>
         [TestMethod]
-        public void WithdrawTest()
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void WithdrawBeforeDepositTest()
         {
             ICashAccount target = new CashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
+
+            target.Withdraw(dateTime, amount);
+        }
+        
+        /// <summary>
+        ///A test for Withdraw
+        ///</summary>
+        [TestMethod]
+        public void WithdrawAfterDepositTest()
+        {
+            ICashAccount target = new CashAccount();
+            var dateTime = new DateTime(2010, 1, 16);
+            const decimal amount = 500.00m;
+
             target.Deposit(dateTime, amount);
             target.Withdraw(dateTime, amount);
 
@@ -154,7 +169,7 @@ namespace Sonneville.PriceToolsTest
         ///A test for Transactions
         ///</summary>
         [TestMethod]
-        public void TransactionsTest()
+        public void DepositWithdrawalTest()
         {
             ICashAccount target = new CashAccount();
             var dateTime = new DateTime(2010, 1, 16);
@@ -165,6 +180,81 @@ namespace Sonneville.PriceToolsTest
             const int expectedTransactions = 2;
             var actualTransactions = target.Transactions.Count;
             Assert.AreEqual(expectedTransactions, actualTransactions);
+        }
+
+        /// <summary>
+        ///A test for Transactions
+        ///</summary>
+        [TestMethod]
+        public void DepositIsValidTest()
+        {
+            ICashAccount target = new CashAccount();
+            var dateTime = new DateTime(2010, 1, 16);
+            const decimal amount = 500.00m;
+
+            var deposit = new Deposit {SettlementDate = dateTime, Amount = amount};
+
+            Assert.IsTrue(target.TransactionIsValid(deposit));
+        }
+
+        /// <summary>
+        ///A test for Transactions
+        ///</summary>
+        [TestMethod]
+        public void WithdrawalIsValidBeforeDepositTest()
+        {
+            ICashAccount target = new CashAccount();
+            var dateTime = new DateTime(2010, 1, 16);
+            const decimal amount = 500.00m;
+
+            var withdrawal = new Withdrawal { SettlementDate = dateTime, Amount = amount };
+
+            Assert.IsFalse(target.TransactionIsValid(withdrawal));
+        }
+
+        /// <summary>
+        ///A test for Transactions
+        ///</summary>
+        [TestMethod]
+        public void WithdrawalIsValidAfterDepositTest()
+        {
+            ICashAccount target = new CashAccount();
+            var dateTime = new DateTime(2010, 1, 16);
+            const decimal amount = 500.00m;
+
+            var deposit = new Deposit { SettlementDate = dateTime, Amount = amount };
+            var withdrawal = new Withdrawal { SettlementDate = dateTime, Amount = amount };
+            target.Deposit(deposit);
+            
+            Assert.IsTrue(target.TransactionIsValid(withdrawal));
+        }
+
+        [TestMethod]
+        public void UnknownIsNotValid()
+        {
+            ICashAccount target = new CashAccount();
+
+            var fakeTransaction = new UnknownOrderType {OrderType = (OrderType) (-1)};
+
+            Assert.IsFalse(target.TransactionIsValid(fakeTransaction));
+        }
+
+        private class UnknownOrderType : ICashTransaction
+        {
+            /// <summary>
+            ///   Gets the DateTime that the ITransaction occurred.
+            /// </summary>
+            public DateTime SettlementDate { get; set; }
+
+            /// <summary>
+            ///   Gets the <see cref = "PriceTools.OrderType" /> of this ITransaction.
+            /// </summary>
+            public OrderType OrderType { get; set; }
+
+            /// <summary>
+            ///   Gets the amount of cash in this ICashTransaction.
+            /// </summary>
+            public decimal Amount { get; set; }
         }
 
         /// <summary>
