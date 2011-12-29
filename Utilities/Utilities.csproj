@@ -60,6 +60,10 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Trading\Trading.csproj">
+      <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
+      <Name>Trading</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -59,7 +59,6 @@
     <Compile Include="SynchronousTradingAccount.cs" />
     <Compile Include="TradingAccount.cs" />
     <Compile Include="AsynchronousTradingAccount.cs" />
-    <Compile Include="OrderExecutor.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="PricingType.cs" />
     <Compile Include="TradingAccountFeatures.cs" />

@@ -5,6 +5,7 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Trading;
+using Sonneville.Utilities;
 
 namespace Sonneville.TradingTest
 {
@@ -17,7 +18,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void TradingAccountFeaturesSupportedOrderTypesTest()
         {
-            var target = GetSimulator();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
 
             var expected = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures().SupportedOrderTypes;
             var actual = target.Features.SupportedOrderTypes;
@@ -27,7 +28,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EmptyPositionsByDefault()
         {
-            var target = GetSimulator();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
 
             Assert.AreEqual(0, target.Portfolio.Positions.Count);
         }
@@ -35,7 +36,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EventsTestFilled()
         {
-            var target = GetSimulator();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
 
             const string ticker = "DE";
             var filledRaised = false;
@@ -71,7 +72,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EventsTestExpired()
         {
-            var target = GetSimulator();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
 
             var expiredRaised = false;
             var cancelRaised = false;
@@ -106,7 +107,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void EventsTestCancelled()
         {
-            var target = GetAsyncSimulator();
+            var target = TestUtilities.GetAsynchronousSimulatedTradingAccount();
 
             var cancelRaised = false;
             var expiredRaised = false;
@@ -179,7 +180,7 @@ namespace Sonneville.TradingTest
 
         private static void VerifyOrderFillsCorrectly(params OrderType[] orderTypes)
         {
-            var target = GetSimulator();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
 
             foreach (var orderType in orderTypes)
             {
@@ -205,7 +206,7 @@ namespace Sonneville.TradingTest
                 (sender, e) =>
                     {
                         var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                        expected = CreateShareTransaction(e.Executed, e.Order, commission);
+                        expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
                         actual = e.Transaction;
                         filledRaised = true;
                     };
@@ -255,7 +256,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void MultipleEventsTestFilled()
         {
-            var target = GetSimulator();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
 
             const string ticker = "DE";
             var fillCount = 0;
@@ -286,7 +287,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void MultipleEventsTestCancelled()
         {
-            var target = GetAsyncSimulator();
+            var target = TestUtilities.GetAsynchronousSimulatedTradingAccount();
 
             const string ticker = "DE";
             var cancelCount = 0;
@@ -318,7 +319,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void MultipleEventsTestExpired()
         {
-            var target = GetSimulator();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
 
             const string ticker = "DE";
             var expiredCount = 0;
@@ -349,7 +350,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void HistoricalOrderFilledReturnsCorrectTransaction()
         {
-            var target = GetSimulator();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
 
             const string ticker = "DE";
             IShareTransaction expected = null;
@@ -360,7 +361,7 @@ namespace Sonneville.TradingTest
                 (sender, e) =>
                 {
                     var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                    expected = CreateShareTransaction(e.Executed, e.Order, commission);
+                    expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
                     actual = e.Transaction;
                     filledRaised = true;
                 };
@@ -388,7 +389,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FilledAddsToPortfolio()
         {
-            var target = GetSimulator();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
 
             const string ticker = "DE";
             var issued = new DateTime(2010, 12, 20, 12, 0, 0);
@@ -405,7 +406,7 @@ namespace Sonneville.TradingTest
         [TestMethod]
         public void FilledAddsToPortfolioCorrectly()
         {
-            var target = GetSimulator();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
 
             const string ticker = "DE";
             IShareTransaction expected = null;
@@ -414,7 +415,7 @@ namespace Sonneville.TradingTest
                 (sender, e) =>
                 {
                     var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                    expected = CreateShareTransaction(e.Executed, e.Order, commission);
+                    expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
                 };
             try
             {
@@ -436,43 +437,6 @@ namespace Sonneville.TradingTest
             }
         }
 
-        private static ITradingAccount GetSimulator()
-        {
-            return GetSimulator(new MarginNotAllowed());
-        }
-
-        private static ITradingAccount GetSimulator(IMarginSchedule marginSchedule)
-        {
-            return GetSimulator(new FlatCommissionSchedule(5.00m), marginSchedule);
-        }
-
-        private static ITradingAccount GetSimulator(ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
-        {
-            var orderTypes = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures().SupportedOrderTypes;
-            return GetSimulator(orderTypes, commissionSchedule, marginSchedule);
-        }
-
-        private static ITradingAccount GetSimulator(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
-        {
-            // default deposit of $1,000,000
-            var deposit = new Deposit {SettlementDate = new DateTime(1900, 1, 1), Amount = 1000000.00m};
-            return GetSimulator(orderTypes, commissionSchedule, marginSchedule, deposit);
-        }
-
-        private static ITradingAccount GetSimulator(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, Deposit openingDeposit)
-        {
-            var tradingAccountFeatures = TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
-            var portfolio = new Portfolio();
-            portfolio.Deposit(openingDeposit);
-            return new SimulatedTradingAccount {Features = tradingAccountFeatures, Portfolio = portfolio};
-        }
-
-        private static ITradingAccount GetAsyncSimulator()
-        {
-            Assert.Inconclusive("No TradingAccount which supports order cancellation is available.");
-            return null;
-        }
-
         private static bool TargetContainsTransaction(ITradingAccount target, IShareTransaction transaction)
         {
             var positions = target.Portfolio.Positions;
@@ -489,11 +453,6 @@ namespace Sonneville.TradingTest
                              trans.Shares == transaction.Shares &&
                              trans.Ticker == transaction.Ticker)
                 ).FirstOrDefault();
-        }
-
-        private static IShareTransaction CreateShareTransaction(DateTime settlementDate, Order order, decimal commission)
-        {
-            return TransactionFactory.CreateShareTransaction(settlementDate, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
         }
     }
 }

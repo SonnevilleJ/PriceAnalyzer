@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using Sonneville.PriceTools.Extensions;
 
 namespace Sonneville.PriceTools.Trading
 {
@@ -7,27 +9,62 @@ namespace Sonneville.PriceTools.Trading
     /// </summary>
     public abstract class TradingStrategy
     {
-        protected TradingStrategy(IPriceSeries priceSeries)
+        private IList<IPricePeriod> _pricePeriods;
+
+        protected DateTime StartDateTime { get; set; }
+
+        public IPriceSeries PriceSeries { get; set; }
+
+        public ITradingAccount TradingAccount { get; set; }
+
+        public void Start()
         {
-            PriceSeries = priceSeries;
+            if (TradingAccount == null)
+                throw new InvalidOperationException("A TradingAccount is required before executing the TradingStrategy.");
+            if(PriceSeries == null)
+                throw new InvalidOperationException("A PriceSeries is required before executing the TradingStrategy.");
+
+            ProcessAllPeriods();
         }
 
-        public IPriceSeries PriceSeries { get; private set; }
+        public void Stop()
+        {
+            throw new NotSupportedException();
+        }
 
-        protected abstract void ProcessPeriod(int index);
+        protected void ProcessPeriod(int index)
+        {
+            var period = _pricePeriods[index];
 
-        #region Signal Events
+            const bool timeToBuy = true;
 
-        /// <summary>
-        /// Triggered when a new order is signaled by the TradingStrategy.
-        /// </summary>
-        public event EventHandler<OrderExecutedEventArgs> SubmitOrder;
+            if (timeToBuy)
+            {
+                var order = CreateBuyOrder(period.Tail);
 
-        /// <summary>
-        /// Triggered when the TradingStrategy signals that all open orders should be cancelled.
-        /// </summary>
-        public event EventHandler CancelAllOrders;
+                TradingAccount.Submit(order);
+            }
+        }
 
-        #endregion
+        private void ProcessAllPeriods()
+        {
+            _pricePeriods = PriceSeries.GetPricePeriods(PriceSeries.Resolution, StartDateTime, DateTime.Now);
+
+            for (var i = 0; i < _pricePeriods.Count; i++)
+            {
+                ProcessPeriod(i);
+            }
+        }
+
+        private Order CreateBuyOrder(DateTime issued)
+        {
+            var expiration = issued.GetFollowingClose();
+            var orderType = OrderType.Buy;
+            var ticker = PriceSeries.Ticker;
+            var shares = 5;
+            var price = 100.00m;
+
+            return new Order(issued, expiration, orderType, ticker, shares, price);
+        }
     }
 }

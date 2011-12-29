@@ -165,10 +165,11 @@ namespace Sonneville.PriceTools
                 var yesterdayUp = false;
                 var yesterdayDown = false;
 
-                for (var i = 1; i < PricePeriods.Count; i++)
+                var pricePeriods = PricePeriods;
+                for (var i = 1; i < pricePeriods.Count; i++)
                 {
-                    var yesterday = PricePeriods[i - 1];
-                    var today = PricePeriods[i];
+                    var yesterday = pricePeriods[i - 1];
+                    var today = pricePeriods[i];
                     if (i > 1)
                     {
                         yesterdayUp = todayUp;
@@ -249,11 +250,7 @@ namespace Sonneville.PriceTools
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public IList<IPricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail)
         {
-            if (resolution < Resolution)
-            {
-                throw new InvalidOperationException(String.Format("Unable to get price periods using resolution {0}. Best supported resolution is {1}.",
-                                                                  resolution, Resolution));
-            }
+            if (resolution < Resolution) throw new InvalidOperationException(String.Format("Unable to get price periods using resolution {0}. Best supported resolution is {1}.", resolution, Resolution));
             var dataPeriods = DataPeriods.Where(period => period.Head >= head && period.Tail <= tail).Cast<IPricePeriod>().OrderBy(period => period.Head).ToList();
             if (resolution == Resolution) return dataPeriods;
 
