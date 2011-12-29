@@ -56,19 +56,20 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Adds one or more <see cref = "IPriceQuote" />s to the IPriceSeries.
         /// </summary>
-        /// <param name = "priceQuote">The <see cref = "IPriceQuote" />s to add.</param>
-        public void AddPriceQuotes(params IPriceQuote[] priceQuote)
+        /// <param name = "priceQuotes">The <see cref = "IPriceQuote" />s to add.</param>
+        public void AddPriceQuotes(params IPriceQuote[] priceQuotes)
         {
-            var dates = new DateTime[priceQuote.Count()];
-            for (var i = 0; i < priceQuote.Length; i++)
+            var dates = new DateTime[priceQuotes.Count()];
+            for (var i = 0; i < priceQuotes.Length; i++)
             {
-                var quote = priceQuote[i];
+                var quote = priceQuotes[i];
                 PriceQuotes.Add((PriceQuote) quote);
                 dates[i] = quote.SettlementDate;
             }
             var args = new NewPriceDataAvailableEventArgs
                            {
-                               Indices = dates
+                               Head = dates.Min(dateTime => dateTime),
+                               Tail = dates.Max(dateTime => dateTime)
                            };
             InvokeNewPriceDataAvailable(args);
         }

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
 {
@@ -9,8 +8,13 @@ namespace Sonneville.PriceTools
     public class NewPriceDataAvailableEventArgs : EventArgs
     {
         /// <summary>
-        /// Gets or sets an array of date indices which are now available in the <see cref="IPriceSeries"/>.
+        /// Gets the head of the date range for which prices are now available.
         /// </summary>
-        public IEnumerable<DateTime> Indices { get; set; }
+        public DateTime Head { get; set; }
+
+        /// <summary>
+        /// Gets the tail of the date range for which prices are now available.
+        /// </summary>
+        public DateTime Tail { get; set; }
     }
 }

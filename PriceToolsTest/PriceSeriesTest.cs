@@ -779,7 +779,7 @@ namespace Sonneville.PriceToolsTest
         public void AddPricePeriodEventTest()
         {
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
-            var head = new DateTime(2011, 12, 28);
+            var head = new DateTime(2011, 12, 28).GetCurrentOrFollowingOpen();
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
             var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
@@ -802,10 +802,72 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
+        public void AddPricePeriodEventArgsTest()
+        {
+            var target = PriceSeriesFactory.CreatePriceSeries("DE");
+            var head = new DateTime(2011, 12, 28).GetCurrentOrFollowingOpen();
+            var tail = head.GetFollowingClose();
+            const decimal close = 5.00m;
+            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+
+            NewPriceDataAvailableEventArgs args = null;
+            EventHandler<NewPriceDataAvailableEventArgs> handler = (sender, e) => { args = e; };
+
+            try
+            {
+                target.NewPriceDataAvailable += handler;
+
+                target.AddPriceData(period);
+
+                var argsHead = args.Head;
+                var argsTail = args.Tail;
+
+                Assert.AreEqual(head, argsHead);
+                Assert.AreEqual(tail, argsTail);
+            }
+            finally
+            {
+                target.NewPriceDataAvailable -= handler;
+            }
+        }
+
+        [TestMethod]
+        public void AddPricePeriodsEventArgsTest()
+        {
+            var target = PriceSeriesFactory.CreatePriceSeries("DE");
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
+            var pricePeriods = new List<IPricePeriod> {p1, p2, p3};
+            var head = p1.Head;
+            var tail = p3.Tail;
+
+            NewPriceDataAvailableEventArgs args = null;
+            EventHandler<NewPriceDataAvailableEventArgs> handler = (sender, e) => { args = e; };
+
+            try
+            {
+                target.NewPriceDataAvailable += handler;
+
+                target.AddPriceData(pricePeriods);
+
+                var argsHead = args.Head;
+                var argsTail = args.Tail;
+
+                Assert.AreEqual(head, argsHead);
+                Assert.AreEqual(tail, argsTail);
+            }
+            finally
+            {
+                target.NewPriceDataAvailable -= handler;
+            }
+        }
+
+        [TestMethod]
         public void AddPricePeriodAddsToPricePeriodsTest()
         {
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
-            var head = new DateTime(2011, 12, 28);
+            var head = new DateTime(2011, 12, 28).GetCurrentOrFollowingOpen();
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
             var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
@@ -820,7 +882,7 @@ namespace Sonneville.PriceToolsTest
         public void AddPricePeriodOverlapTestInner()
         {
             var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var head = new DateTime(2011, 2, 28);
+            var head = new DateTime(2011, 2, 28).GetCurrentOrFollowingOpen();
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
             var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);

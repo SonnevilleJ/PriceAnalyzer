@@ -294,7 +294,11 @@ namespace Sonneville.PriceTools
 
                 _dataPeriods.Add(period);
             }
-            var eventArgs = new NewPriceDataAvailableEventArgs();
+            var eventArgs = new NewPriceDataAvailableEventArgs
+                                {
+                                    Head = orderedPeriods.Min(p => p.Head),
+                                    Tail = orderedPeriods.Max(p => p.Tail)
+                                };
             InvokeNewPriceDataAvailable(eventArgs);
         }
 
