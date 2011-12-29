@@ -30,11 +30,16 @@ namespace Sonneville.PriceTools
         internal StaticPricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
         {
             // validate first
-            if(head > tail) throw new InvalidOperationException();
-            if(high < open) throw new InvalidOperationException();
-            if(high < close) throw new InvalidOperationException();
-            if(low > open) throw new InvalidOperationException();
-            if(low > close) throw new InvalidOperationException();
+            if(head > tail) 
+                throw new InvalidOperationException();
+            if(high < open) 
+                throw new InvalidOperationException();
+            if(high < close) 
+                throw new InvalidOperationException();
+            if(low > open) 
+                throw new InvalidOperationException();
+            if(low > close) 
+                throw new InvalidOperationException();
 
             _head = head;
             _tail = tail;

@@ -152,7 +152,7 @@ namespace Sonneville.PriceTools.Services
 
         #region Static parsing methods
 
-        private static PriceSeries BuildPriceSeries(IList<SingleDatePeriod> stagedPeriods, DateTime? seriesHead, DateTime? seriesTail)
+        private static PriceSeries BuildPriceSeries(IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail)
         {
             stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
             var resolution = SetResolution(stagedPeriods);
@@ -161,8 +161,8 @@ namespace Sonneville.PriceTools.Services
             for (var i = 0; i < stagedPeriods.Count; i++)
             {
                 var stagedPeriod = stagedPeriods[i];
-                var head = i == 0 && seriesHead.HasValue ? seriesHead.Value.GetCurrentOrFollowingTradingDay() : GetHead(stagedPeriod.Date, resolution);
-                var tail = i == stagedPeriods.Count - 1 && seriesTail.HasValue ? seriesTail.Value : GetTail(stagedPeriod.Date, resolution);
+                var head = i == 0 && impliedHead.HasValue ? impliedHead.Value.GetCurrentOrFollowingOpen() : GetHead(stagedPeriod.Date, resolution);
+                var tail = i == stagedPeriods.Count - 1 && impliedTail.HasValue ? impliedTail.Value.AddSeconds(1).GetMostRecentClose() : GetTail(stagedPeriod.Date, resolution);
                 priceSeries.AddPricePeriod(PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume));
             }
             return priceSeries;

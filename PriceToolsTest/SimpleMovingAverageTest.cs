@@ -10,16 +10,16 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void FlatPeriodReturnsSameAverage()
         {
-            DateTime date = new DateTime(2011, 3, 1);
+            var date = new DateTime(2011, 3, 1);
             const int price = 2;
 
-            IPriceSeries series = CreateTestPriceSeries(10, date, price);
+            var series = CreateTestPriceSeries(10, date, price);
 
             const int lookback = 2;
-            SimpleMovingAverage ma = new SimpleMovingAverage(series, lookback);
+            var ma = new SimpleMovingAverage(series, lookback);
 
             const decimal expected = price;
-            for (int i = lookback; i < series.PricePeriods.Count; i++)
+            for (var i = lookback; i < series.PricePeriods.Count; i++)
             {
                 decimal? actual = ma[date.AddDays(i)];
                 Assert.AreEqual(expected, actual);
@@ -29,17 +29,17 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void RisingAndFallingMovingAverageReturnsCorrectValues()
         {
-            QuotedPricePeriod p1 = new QuotedPricePeriod();
-            QuotedPricePeriod p2 = new QuotedPricePeriod();
-            QuotedPricePeriod p3 = new QuotedPricePeriod();
-            QuotedPricePeriod p4 = new QuotedPricePeriod();
-            QuotedPricePeriod p5 = new QuotedPricePeriod();
-            QuotedPricePeriod p6 = new QuotedPricePeriod();
-            QuotedPricePeriod p7 = new QuotedPricePeriod();
-            QuotedPricePeriod p8 = new QuotedPricePeriod();
-            QuotedPricePeriod p9 = new QuotedPricePeriod();
+            var p1 = new QuotedPricePeriod();
+            var p2 = new QuotedPricePeriod();
+            var p3 = new QuotedPricePeriod();
+            var p4 = new QuotedPricePeriod();
+            var p5 = new QuotedPricePeriod();
+            var p6 = new QuotedPricePeriod();
+            var p7 = new QuotedPricePeriod();
+            var p8 = new QuotedPricePeriod();
+            var p9 = new QuotedPricePeriod();
 
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
             p1.AddPriceQuotes(new PriceQuote {SettlementDate = date, Price = 1});
             p2.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(1), Price = 2});
             p3.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(2), Price = 3});
@@ -50,20 +50,20 @@ namespace Sonneville.PriceToolsTest
             p8.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(7), Price = 2});
             p9.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(8), Price = 1});
 
-            PriceSeries series = PriceSeriesFactory.CreatePriceSeries("test");
-            series.DataPeriods.Add(p1);
-            series.DataPeriods.Add(p2);
-            series.DataPeriods.Add(p3);
-            series.DataPeriods.Add(p4);
-            series.DataPeriods.Add(p5);
-            series.DataPeriods.Add(p6);
-            series.DataPeriods.Add(p7);
-            series.DataPeriods.Add(p8);
-            series.DataPeriods.Add(p9);
+            var series = PriceSeriesFactory.CreatePriceSeries("test");
+            series.AddPricePeriod(p1);
+            series.AddPricePeriod(p2);
+            series.AddPricePeriod(p3);
+            series.AddPricePeriod(p4);
+            series.AddPricePeriod(p5);
+            series.AddPricePeriod(p6);
+            series.AddPricePeriod(p7);
+            series.AddPricePeriod(p8);
+            series.AddPricePeriod(p9);
 
             // create 4 day moving average
             const int lookback = 4;
-            SimpleMovingAverage target = new SimpleMovingAverage(series, lookback);
+            var target = new SimpleMovingAverage(series, lookback);
 
             target.CalculateAll();
             Assert.AreEqual(2.5m, target[date.AddDays(3)]);
@@ -76,12 +76,12 @@ namespace Sonneville.PriceToolsTest
 
         private static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
         {
-            PriceSeries series = PriceSeriesFactory.CreatePriceSeries("test");
-            for (int i = 0; i < count; i++)
+            var series = PriceSeriesFactory.CreatePriceSeries("test");
+            for (var i = 0; i < count; i++)
             {
-                QuotedPricePeriod period = new QuotedPricePeriod();
+                var period = new QuotedPricePeriod();
                 period.AddPriceQuotes(new PriceQuote {SettlementDate = startDate.AddDays(i), Price = price});
-                series.DataPeriods.Add(period);
+                series.AddPricePeriod(period);
             }
             return series;
         }

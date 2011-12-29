@@ -325,7 +325,7 @@ namespace Sonneville.PriceToolsTest
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var weeklyPeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
 
-            var weekHead = seriesHead.GetCurrentOrFollowingTradingDay();
+            var weekHead = seriesHead.GetCurrentOrFollowingOpen();
             var weekTail = seriesHead.GetFollowingWeekClose();
 
             var dtfi = DateTimeFormatInfo.CurrentInfo;
@@ -364,7 +364,7 @@ namespace Sonneville.PriceToolsTest
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var monthlyPeriods = priceSeries.GetPricePeriods(Resolution.Months);
 
-            var monthHead = seriesHead.GetCurrentOrFollowingTradingDay();
+            var monthHead = seriesHead.GetCurrentOrFollowingOpen();
             var monthTail = seriesHead.GetFollowingMonthlyClose();
 
             var dtfi = DateTimeFormatInfo.CurrentInfo;
@@ -477,7 +477,7 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void TestIndexerWhenNotConnectedToInternet()
+        public void TestIndexerGetsMostRecentPriceBeforeNextPeriod()
         {
             var p1 = TestUtilities.CreatePeriod1();
             var p2 = TestUtilities.CreatePeriod2();

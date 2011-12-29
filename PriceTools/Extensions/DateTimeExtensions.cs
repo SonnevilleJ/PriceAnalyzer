@@ -7,6 +7,11 @@ namespace Sonneville.PriceTools.Extensions
     /// </summary>
     public static class DateTimeExtensions
     {
+        private static TimeSpan GetDailyPeriodTimeSpan()
+        {
+            return new TimeSpan(23, 59, 59);
+        }
+
         /// <summary>
         /// Gets the next opening DateTime. This method does not consider holidays.
         /// </summary>
@@ -24,7 +29,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime GetFollowingClose(this DateTime dateTime)
         {
-            return GetCurrentOrFollowingTradingDay(dateTime.AddSeconds(1)).Date.AddHours(23).AddMinutes(59).AddSeconds(59);
+            return GetCurrentOrFollowingOpen(dateTime.AddSeconds(1)).Date.Add(GetDailyPeriodTimeSpan());
         }
 
         /// <summary>
@@ -60,7 +65,7 @@ namespace Sonneville.PriceTools.Extensions
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
-        public static DateTime GetCurrentOrFollowingTradingDay(this DateTime dateTime)
+        public static DateTime GetCurrentOrFollowingOpen(this DateTime dateTime)
         {
             while (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday)
             {
@@ -73,7 +78,7 @@ namespace Sonneville.PriceTools.Extensions
 
         private static DateTime GetNextTradingDay(DateTime dateTime)
         {
-            return GetCurrentOrFollowingTradingDay(dateTime.AddDays(1));
+            return GetCurrentOrFollowingOpen(dateTime.AddDays(1));
         }
 
         #endregion
@@ -99,11 +104,12 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime GetMostRecentClose(this DateTime date)
         {
+            date = date.AddDays(-1);
             while (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
             {
                 date = date.AddDays(-1);
             }
-            return date.GetFollowingClose();
+            return date.GetMostRecentOpen().GetFollowingClose();
         }
 
         /// <summary>
@@ -157,7 +163,7 @@ namespace Sonneville.PriceTools.Extensions
         {
             var next = date.AddMonths(1);
             var firstDayOfMonth = new DateTime(next.Year, next.Month, 1);
-            return firstDayOfMonth.GetCurrentOrFollowingTradingDay();
+            return firstDayOfMonth.GetCurrentOrFollowingOpen();
         }
 
         /// <summary>
@@ -170,7 +176,7 @@ namespace Sonneville.PriceTools.Extensions
             var next = date.AddMonths(1);
             var firstDayOfMonth = new DateTime(next.Year, next.Month, 1);
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-            return lastDayOfMonth.GetCurrentOrFollowingTradingDay().GetFollowingClose();
+            return lastDayOfMonth.GetCurrentOrFollowingOpen().GetFollowingClose();
         }
 
         /// <summary>
@@ -181,7 +187,7 @@ namespace Sonneville.PriceTools.Extensions
         public static DateTime GetMostRecentMonthlyOpen(this DateTime date)
         {
             var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-            return firstDayOfMonth.GetCurrentOrFollowingTradingDay();
+            return firstDayOfMonth.GetCurrentOrFollowingOpen();
         }
     }
 }

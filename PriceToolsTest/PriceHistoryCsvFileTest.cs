@@ -39,7 +39,7 @@ namespace Sonneville.PriceToolsTest
             PriceHistoryCsvFile target = PriceHistoryCsvFiles.DE_1_1_2011_to_3_15_2011_Daily_Yahoo;
             
             Assert.AreEqual(Resolution.Days, target.PriceSeries.Resolution);
-            foreach (var period in ((PriceSeries)target.PriceSeries).DataPeriods)
+            foreach (var period in ((PriceSeries)target.PriceSeries).PricePeriods)
             {
                 Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
             }
@@ -48,14 +48,25 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void PriceHistoryCsvFileWillCorrectWeekendHeadTest()
         {
-            var seriesHead = new DateTime(2011, 1, 1);
-            var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
+            var seriesHead = new DateTime(2011, 1, 1);                          // Saturday
+            var seriesTail = new DateTime(2011, 6, 30).GetFollowingClose();     // Thursday
             var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(CsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
 
-            var expectedHead = seriesHead.GetCurrentOrFollowingTradingDay();
-            Assert.AreEqual(expectedHead, priceSeries.Head);
+            var expected = seriesHead.GetCurrentOrFollowingOpen();
+            var actual = priceSeries.Head;
+            Assert.AreEqual(expected, actual);
+        }
 
-            // todo: add a similar test to ensure tail is corrected if it is on a weekend
+        [TestMethod]
+        public void PriceHistoryCsvFileWillCorrectWeekendTailTest()
+        {
+            var seriesHead = new DateTime(2011, 1, 3);                          // Monday
+            var seriesTail = new DateTime(2011, 7, 2, 23, 59, 59);              // Saturday
+            var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(CsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
+
+            var expected = seriesTail.GetMostRecentClose();
+            var actual = priceSeries.Tail;
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
