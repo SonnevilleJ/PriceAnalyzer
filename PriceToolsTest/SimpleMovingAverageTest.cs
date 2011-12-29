@@ -51,15 +51,15 @@ namespace Sonneville.PriceToolsTest
             p9.AddPriceQuotes(new PriceQuote {SettlementDate = date.AddDays(8), Price = 1});
 
             var series = PriceSeriesFactory.CreatePriceSeries("test");
-            series.AddPricePeriod(p1);
-            series.AddPricePeriod(p2);
-            series.AddPricePeriod(p3);
-            series.AddPricePeriod(p4);
-            series.AddPricePeriod(p5);
-            series.AddPricePeriod(p6);
-            series.AddPricePeriod(p7);
-            series.AddPricePeriod(p8);
-            series.AddPricePeriod(p9);
+            series.AddPriceData(p1);
+            series.AddPriceData(p2);
+            series.AddPriceData(p3);
+            series.AddPriceData(p4);
+            series.AddPriceData(p5);
+            series.AddPriceData(p6);
+            series.AddPriceData(p7);
+            series.AddPriceData(p8);
+            series.AddPriceData(p9);
 
             // create 4 day moving average
             const int lookback = 4;
@@ -81,7 +81,7 @@ namespace Sonneville.PriceToolsTest
             {
                 var period = new QuotedPricePeriod();
                 period.AddPriceQuotes(new PriceQuote {SettlementDate = startDate.AddDays(i), Price = price});
-                series.AddPricePeriod(period);
+                series.AddPriceData(period);
             }
             return series;
         }

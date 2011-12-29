@@ -50,7 +50,7 @@ namespace Sonneville.PriceToolsTest
         {
             var seriesHead = new DateTime(2011, 1, 1);                          // Saturday
             var seriesTail = new DateTime(2011, 6, 30).GetFollowingClose();     // Thursday
-            var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(CsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
+            var priceSeries = new YahooPriceHistoryCsvFile("DE", new ResourceStream(CsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
 
             var expected = seriesHead.GetCurrentOrFollowingOpen();
             var actual = priceSeries.Head;
@@ -62,7 +62,7 @@ namespace Sonneville.PriceToolsTest
         {
             var seriesHead = new DateTime(2011, 1, 3);                          // Monday
             var seriesTail = new DateTime(2011, 7, 2, 23, 59, 59);              // Saturday
-            var priceSeries = new YahooPriceHistoryCsvFile(new ResourceStream(CsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
+            var priceSeries = new YahooPriceHistoryCsvFile("DE", new ResourceStream(CsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
 
             var expected = seriesTail.GetMostRecentClose();
             var actual = priceSeries.Tail;
@@ -72,7 +72,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GoogleWeeklyTestPeriods()
         {
-            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google);
+            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile("DE", CsvPriceHistory.DE_Apr_June_2011_Weekly_Google);
 
             Assert.AreEqual(14, target.PricePeriods.Count);
         }
@@ -80,7 +80,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GoogleWeeklyTestResolution()
         {
-            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google);
+            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile("DE", CsvPriceHistory.DE_Apr_June_2011_Weekly_Google);
 
             Assert.AreEqual(Resolution.Weeks, target.PriceSeries.Resolution);
             var periods = target.PricePeriods;
@@ -97,7 +97,7 @@ namespace Sonneville.PriceToolsTest
         {
             var head = new DateTime(2011, 4, 1);
             var tail = new DateTime(2011, 7, 1, 23, 59, 59);
-            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google, head, tail);
+            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile("DE", CsvPriceHistory.DE_Apr_June_2011_Weekly_Google, head, tail);
 
             Assert.AreEqual(head, target.PriceSeries.Head);
             Assert.AreEqual(tail, target.PriceSeries.Tail);

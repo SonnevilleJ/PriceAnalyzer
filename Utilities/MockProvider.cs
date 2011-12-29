@@ -7,14 +7,14 @@ namespace Sonneville.Utilities
 {
     public abstract class MockProvider : PriceDataProvider
     {
-        protected override void UpdatePriceSeries(IPriceSeries priceSeries)
+        protected override void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail)
         {
             if (UpdateAction == null) throw new NotImplementedException();
 
-            UpdateAction(priceSeries);
+            UpdateAction(priceSeries, head, tail);
         }
 
-        public Action<IPriceSeries> UpdateAction { get; set; }
+        public Action<IPriceSeries, DateTime, DateTime> UpdateAction { get; set; }
 
         #region Not Implemented
         public override string GetIndexTicker(StockIndex index) { throw new NotImplementedException(); }
@@ -25,7 +25,7 @@ namespace Sonneville.Utilities
         protected override string GetUrlResolution(Resolution resolution) { throw new NotImplementedException(); }
         protected override string GetUrlDividends() { throw new NotImplementedException(); }
         protected override string GetUrlCsvMarker() { throw new NotImplementedException(); }
-        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail) { throw new NotImplementedException(); }
+        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(string ticker, Stream stream, DateTime head, DateTime tail) { throw new NotImplementedException(); }
         #endregion
     }
 }

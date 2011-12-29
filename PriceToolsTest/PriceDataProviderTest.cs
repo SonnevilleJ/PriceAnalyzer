@@ -2,6 +2,7 @@
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.PriceTools.Services;
 using Sonneville.Utilities;
 
@@ -173,10 +174,26 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void AutoUpdateTest()
         {
+            var priceSeries = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var updateCount = 0;
+
+            Action<IPriceSeries, DateTime, DateTime> action = delegate { Interlocked.Increment(ref updateCount); };
+            var provider = GetProvider(action);
+
+            provider.StartAutoUpdate(priceSeries);
+            Thread.Sleep(new TimeSpan(((long)provider.BestResolution) * 5));
+            provider.StopAutoUpdate(priceSeries);
+
+            Assert.IsTrue(updateCount > 0);
+        }
+
+        [TestMethod]
+        public void AutoUpdateEmptyPriceSeriesTest()
+        {
             var priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
             var updateCount = 0;
 
-            Action<IPriceSeries> action = delegate { Interlocked.Increment(ref updateCount); };
+            Action<IPriceSeries, DateTime, DateTime> action = delegate { Interlocked.Increment(ref updateCount); };
             var provider = GetProvider(action);
 
             provider.StartAutoUpdate(priceSeries);
@@ -189,18 +206,16 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void AutoUpdateTwoTickersTest()
         {
-            const string de = "DE";
-            const string msft = "MSFT";
-            var deere = PriceSeriesFactory.CreatePriceSeries(de);
-            var microsoft = PriceSeriesFactory.CreatePriceSeries(msft);
+            var deere = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var microsoft = PriceSeriesFactory.CreatePriceSeries("MSFT");
             var deereUpdates = 0;
             var microsoftUpdates = 0;
 
-            Action<IPriceSeries> action = priceSeries =>
+            Action<IPriceSeries, DateTime, DateTime> action = (priceSeries, head, tail) =>
                                               {
-                                                  if (priceSeries.Ticker == de)
+                                                  if (priceSeries.Ticker == deere.Ticker)
                                                       Interlocked.Increment(ref deereUpdates);
-                                                  if (priceSeries.Ticker == msft)
+                                                  if (priceSeries.Ticker == microsoft.Ticker)
                                                       Interlocked.Increment(ref microsoftUpdates);
                                               };
             var provider = GetProvider(action);
@@ -221,7 +236,7 @@ namespace Sonneville.PriceToolsTest
             var priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
             var updateCount = 0;
 
-            Action<IPriceSeries> action = delegate { Interlocked.Increment(ref updateCount); };
+            Action<IPriceSeries, DateTime, DateTime> action = delegate { Interlocked.Increment(ref updateCount); };
             var provider = GetProvider(action);
 
             provider.StartAutoUpdate(priceSeries);
@@ -235,7 +250,44 @@ namespace Sonneville.PriceToolsTest
             }
         }
 
-        private static IPriceDataProvider GetProvider(Action<IPriceSeries> action = null)
+        [TestMethod]
+        public void AutoUpdatePriceSeriesEventsTest()
+        {
+            var priceSeries = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var updateCount = 0;
+            var locker = new object();
+
+            EventHandler<NewPriceDataAvailableEventArgs> handler = (sender, args) =>
+                                                                       {
+                                                                           Interlocked.Increment(ref updateCount);
+                                                                           lock (locker) Monitor.Pulse(locker);
+                                                                       };
+
+            try
+            {
+                priceSeries.NewPriceDataAvailable += handler;
+                var provider = new GooglePriceDataProvider();
+
+                provider.StartAutoUpdate(priceSeries);
+                
+                // wait until event has processed
+                lock (locker) Monitor.Wait(locker);
+
+                provider.StopAutoUpdate(priceSeries);
+
+                const int expected = 1;
+                var actual = updateCount;
+                Assert.AreEqual(expected, actual);
+            }
+            finally
+            {
+                priceSeries.NewPriceDataAvailable -= handler;
+            }
+
+            Assert.IsTrue(updateCount > 0);
+        }
+
+        private static IPriceDataProvider GetProvider(Action<IPriceSeries, DateTime, DateTime> action = null)
         {
             return new SecondsProvider {UpdateAction = action};
         }

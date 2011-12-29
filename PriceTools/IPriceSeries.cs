@@ -56,9 +56,15 @@ namespace Sonneville.PriceTools
         IList<IPricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail);
 
         /// <summary>
-        /// Adds an <see cref="IPricePeriod"/> to the IPriceSeries.
+        /// Adds price data to the IPriceSeries.
         /// </summary>
         /// <param name="pricePeriod"></param>
-        void AddPricePeriod(IPricePeriod pricePeriod);
+        void AddPriceData(IPricePeriod pricePeriod);
+
+        /// <summary>
+        /// Adds price data to the IPriceSeries.
+        /// </summary>
+        /// <param name="pricePeriods"></param>
+        void AddPriceData(IEnumerable<IPricePeriod> pricePeriods);
     }
 }

@@ -40,13 +40,14 @@ namespace Sonneville.PriceTools.Services
         /// <summary>
         /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
         /// </summary>
+        /// <param name="ticker">The ticker of the price data contained in the <see cref="PriceHistoryCsvFile"/>.</param>
         /// <param name="stream">The CSV data stream containing the price history.</param>
         /// <param name="head">The head of the price data to retrieve.</param>
         /// <param name="tail">The tail of the price data to retrieve.</param>
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
-        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail)
+        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(string ticker, Stream stream, DateTime head, DateTime tail)
         {
-            return new YahooPriceHistoryCsvFile(stream, head, tail);
+            return new YahooPriceHistoryCsvFile(ticker, stream, head, tail);
         }
 
         /// <summary>
@@ -85,11 +86,11 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A partial URL query string containing the given beginning date.</returns>
         protected override string GetUrlHeadDate(DateTime head)
         {
-            string month = String.Format(CultureInfo.InvariantCulture, "a={0:00}&", head.Month - 1);
-            string day = String.Format(CultureInfo.InvariantCulture, "b={0}&", head.Day);
-            string year = String.Format(CultureInfo.InvariantCulture, "c={0}&", head.Year);
+            var month = String.Format(CultureInfo.InvariantCulture, "a={0:00}&", head.Month - 1);
+            var day = String.Format(CultureInfo.InvariantCulture, "b={0}&", head.Day);
+            var year = String.Format(CultureInfo.InvariantCulture, "c={0}&", head.Year);
 
-            StringBuilder builder = new StringBuilder(3);
+            var builder = new StringBuilder(3);
             builder.Append(month);
             builder.Append(day);
             builder.Append(year);
@@ -103,11 +104,11 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A partial URL query string containing the given ending date.</returns>
         protected override string GetUrlTailDate(DateTime tail)
         {
-            string month = String.Format(CultureInfo.InvariantCulture, "d={0:00}&", tail.Month - 1);
-            string day = String.Format(CultureInfo.InvariantCulture, "e={0}&", tail.Day);
-            string year = String.Format(CultureInfo.InvariantCulture, "f={0}&", tail.Year);
+            var month = String.Format(CultureInfo.InvariantCulture, "d={0:00}&", tail.Month - 1);
+            var day = String.Format(CultureInfo.InvariantCulture, "e={0}&", tail.Day);
+            var year = String.Format(CultureInfo.InvariantCulture, "f={0}&", tail.Year);
 
-            StringBuilder builder = new StringBuilder(3);
+            var builder = new StringBuilder(3);
             builder.Append(month);
             builder.Append(day);
             builder.Append(year);

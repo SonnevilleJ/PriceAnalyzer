@@ -239,7 +239,7 @@ namespace Sonneville.PriceTools
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public IList<IPricePeriod> GetPricePeriods(Resolution resolution)
         {
-            return GetPricePeriods(resolution, Head, Tail);
+            return _dataPeriods.Count > 0 ? GetPricePeriods(resolution, Head, Tail) : new List<IPricePeriod>();
         }
 
         /// <summary>
@@ -271,16 +271,29 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Adds an <see cref="IPricePeriod"/> to the IPriceSeries.
+        /// Adds price data to the IPriceSeries.
         /// </summary>
         /// <param name="pricePeriod"></param>
-        public void AddPricePeriod(IPricePeriod pricePeriod)
+        public void AddPriceData(IPricePeriod pricePeriod)
         {
-            if (_dataPeriods.Where(p=>p.HasValueInRange(pricePeriod.Head) || p.HasValueInRange(pricePeriod.Tail)).Count() > 0)
-                throw new InvalidOperationException("Cannot add a PricePeriod for a DateTime range which overlaps that of the PriceSeries.");
+            AddPriceData(new [] {pricePeriod});
+        }
 
-            _dataPeriods.Add(pricePeriod);
+        /// <summary>
+        /// Adds price data to the IPriceSeries.
+        /// </summary>
+        /// <param name="pricePeriods"></param>
+        public void AddPriceData(IEnumerable<IPricePeriod> pricePeriods)
+        {
+            var orderedPeriods = pricePeriods.OrderByDescending(period => period.Head);
+            foreach (var pricePeriod in orderedPeriods)
+            {
+                var period = pricePeriod;
+                if (_dataPeriods.Where(p => p.HasValueInRange(period.Head) || p.HasValueInRange(period.Tail)).Count() > 0)
+                    throw new InvalidOperationException("Cannot add a PricePeriod for a DateTime range which overlaps that of the PriceSeries.");
 
+                _dataPeriods.Add(period);
+            }
             var eventArgs = new NewPriceDataAvailableEventArgs();
             InvokeNewPriceDataAvailable(eventArgs);
         }

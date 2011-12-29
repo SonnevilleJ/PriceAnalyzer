@@ -15,6 +15,7 @@ namespace Sonneville.PriceTools.Services
     {
         #region Private Members
 
+        private readonly string _ticker;
         private readonly DateTime? _fileHead;
         private readonly DateTime? _fileTail;
 
@@ -22,8 +23,9 @@ namespace Sonneville.PriceTools.Services
 
         #region Constructors
 
-        private PriceHistoryCsvFile(DateTime head, DateTime tail)
+        private PriceHistoryCsvFile(string ticker, DateTime? head, DateTime? tail)
         {
+            _ticker = ticker;
             _fileHead = head;
             _fileTail = tail;
         }
@@ -31,8 +33,12 @@ namespace Sonneville.PriceTools.Services
         /// <summary>
         /// Constructs a PriceHistoryCsvFile.
         /// </summary>
+        /// <param name="ticker">The ticker which should be assigned to the <see cref="IPriceSeries"/>.</param>
         /// <param name="stream">The CSV data stream to parse.</param>
-        protected internal PriceHistoryCsvFile(Stream stream)
+        /// <param name="head">The head of the price data contained in the CSV data.</param>
+        /// <param name="tail">The tail of the price data contained in the CSV data.</param>
+        protected internal PriceHistoryCsvFile(string ticker, Stream stream, DateTime? head = null, DateTime? tail = null)
+            : this(ticker, head, tail)
         {
             Parse(stream);
         }
@@ -40,32 +46,12 @@ namespace Sonneville.PriceTools.Services
         /// <summary>
         /// Constructs a PriceHistoryCsvFile.
         /// </summary>
-        /// <param name="csvText">The raw CSV data to parse.</param>
-        protected internal PriceHistoryCsvFile(string csvText)
-        {
-            Parse(csvText);
-        }
-
-        /// <summary>
-        /// Constructs a PriceHistoryCsvFile.
-        /// </summary>
-        /// <param name="stream">The CSV data stream to parse.</param>
-        /// <param name="head">The head of the price data contained in the CSV data.</param>
-        /// <param name="tail">The tail of the price data contained in the CSV data.</param>
-        protected internal PriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail)
-            : this(head, tail)
-        {
-            Parse(stream);
-        }
-
-        /// <summary>
-        /// Constructs a PriceHistoryCsvFile.
-        /// </summary>
+        /// <param name="ticker">The ticker which should be assigned to the <see cref="IPriceSeries"/>.</param>
         /// <param name="csvText">The raw CSV data to parse.</param>
         /// <param name="head">The head of the price data contained in the CSV data.</param>
         /// <param name="tail">The tail of the price data contained in the CSV data.</param>
-        protected internal PriceHistoryCsvFile(string csvText, DateTime head, DateTime tail)
-            : this(head, tail)
+        protected internal PriceHistoryCsvFile(string ticker, string csvText, DateTime? head = null, DateTime? tail = null)
+            : this(ticker, head, tail)
         {
             Parse(csvText);
         }
@@ -113,7 +99,7 @@ namespace Sonneville.PriceTools.Services
         {
             var map = MapHeaders(reader);
             var stagedPeriods = StagePeriods(reader, map);
-            PriceSeries = BuildPriceSeries(stagedPeriods, _fileHead, _fileTail);
+            PriceSeries = BuildPriceSeries(_ticker, stagedPeriods, _fileHead, _fileTail);
         }
 
         private IDictionary<PriceColumn, int> MapHeaders(CsvReader reader)
@@ -152,19 +138,22 @@ namespace Sonneville.PriceTools.Services
 
         #region Static parsing methods
 
-        private static PriceSeries BuildPriceSeries(IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail)
+        private static PriceSeries BuildPriceSeries(string ticker, IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail)
         {
             stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
             var resolution = SetResolution(stagedPeriods);
-            var priceSeries = new PriceSeries(resolution);
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker, resolution);
+            var pricePeriods = new List<IPricePeriod>();
 
             for (var i = 0; i < stagedPeriods.Count; i++)
             {
                 var stagedPeriod = stagedPeriods[i];
                 var head = i == 0 && impliedHead.HasValue ? impliedHead.Value.GetCurrentOrFollowingOpen() : GetHead(stagedPeriod.Date, resolution);
                 var tail = i == stagedPeriods.Count - 1 && impliedTail.HasValue ? impliedTail.Value.AddSeconds(1).GetMostRecentClose() : GetTail(stagedPeriod.Date, resolution);
-                priceSeries.AddPricePeriod(PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume));
+                var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
+                pricePeriods.Add(period);
             }
+            priceSeries.AddPriceData(pricePeriods);
             return priceSeries;
         }
 

@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Sonneville.PriceTools.Extensions;
 
 namespace Sonneville.PriceTools.Services
 {
@@ -50,7 +51,7 @@ namespace Sonneville.PriceTools.Services
         {
             using (var stream = DownloadPricesToCsv(ticker, head, tail, resolution))
             {
-                return CreatePriceHistoryCsvFile(stream, head, tail);
+                return CreatePriceHistoryCsvFile(ticker, stream, head, tail);
             }
         }
 
@@ -85,13 +86,22 @@ namespace Sonneville.PriceTools.Services
             CancellationTokenSource cts;
             if (_tokens.TryGetValue(priceSeries, out cts))
             {
+                var task = _tasks[priceSeries];
                 lock (priceSeries)
                 {
+                    // cleanup
                     _tokens.Remove(priceSeries);
                     _tasks.Remove(priceSeries);
+
+                    // signal cancellation
                     cts.Cancel();
+
+                    // wake up sleeping tasks so they can terminate
                     Monitor.PulseAll(priceSeries);
                 }
+
+                // wait for completion and throw exceptions
+                task.Wait();
             }
         }
 
@@ -139,6 +149,15 @@ namespace Sonneville.PriceTools.Services
                     Monitor.Wait(priceSeries, timeout);
                 }
             }
+        }
+
+        private void UpdatePriceSeries(IPriceSeries priceSeries)
+        {
+            var timeSpan = new TimeSpan((long) priceSeries.Resolution);
+            var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.GetFollowingOpen() : DateTime.Now.Subtract(timeSpan).GetCurrentOrFollowingOpen();
+            var tail = DateTime.Now.GetMostRecentClose();
+
+            UpdatePriceSeries(priceSeries, head, tail);
         }
 
         #endregion
@@ -219,11 +238,12 @@ namespace Sonneville.PriceTools.Services
         /// <summary>
         /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
         /// </summary>
+        /// <param name="ticker">The ticker of the price data contained in the <see cref="PriceHistoryCsvFile"/>.</param>
         /// <param name="stream">The CSV data stream containing the price history.</param>
         /// <param name="head">The head of the price data to retrieve.</param>
         /// <param name="tail">The tail of the price data to retrieve.</param>
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
-        protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail);
+        protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(string ticker, Stream stream, DateTime head, DateTime tail);
 
         /// <summary>
         /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
@@ -241,9 +261,13 @@ namespace Sonneville.PriceTools.Services
         /// Updates the <paramref name="priceSeries"/> with any missing price data.
         /// </summary>
         /// <param name="priceSeries">The <see cref="IPriceSeries"/> to update.</param>
-        protected virtual void UpdatePriceSeries(IPriceSeries priceSeries)
+        /// <param name="head">The head of the period to update.</param>
+        /// <param name="tail">The tail of the period to update.</param>
+        protected virtual void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail)
         {
-            throw new NotImplementedException();
+            var file = GetPriceHistoryCsvFile(priceSeries.Ticker, head, tail);
+            var pricePeriods = file.PricePeriods;
+            priceSeries.AddPriceData(pricePeriods);
         }
 
         #endregion

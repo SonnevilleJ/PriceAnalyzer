@@ -52,7 +52,7 @@ namespace Sonneville.PriceToolsTest
             {
                 var period = new QuotedPricePeriod();
                 period.AddPriceQuotes(new PriceQuote { SettlementDate = startDate.AddDays(i), Price = price });
-                series.AddPricePeriod(period);
+                series.AddPriceData(period);
             }
             return series;
         }

@@ -36,10 +36,8 @@ namespace Sonneville.PriceTools.Extensions
         {
             if (provider.BestResolution > priceSeries.Resolution) throw new ArgumentException(string.Format("Provider must be capable of providing periods of resolution {0} or better.", priceSeries.Resolution), "provider");
             var toDownload = new TimeSpan(7, 0, 0, 0);
-            foreach (var pricePeriod in provider.GetPriceHistoryCsvFile(priceSeries.Ticker, head.Subtract(toDownload), tail, priceSeries.Resolution).PricePeriods.OrderByDescending(period => period.Head))
-            {
-                priceSeries.AddPricePeriod(pricePeriod);
-            }
+            var pricePeriods = provider.GetPriceHistoryCsvFile(priceSeries.Ticker, head.Subtract(toDownload), tail, priceSeries.Resolution).PricePeriods;
+            priceSeries.AddPriceData(pricePeriods);
         }
     }
 }

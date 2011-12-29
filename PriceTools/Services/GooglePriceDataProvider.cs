@@ -56,7 +56,7 @@ namespace Sonneville.PriceTools.Services
         /// <returns>A partial URL query string containing the given ending date.</returns>
         protected override string GetUrlTailDate(DateTime tail)
         {
-            int day = tail.Day - 1; // Google Finance returns an extra day of price history for some reason
+            var day = tail.Day - 1; // Google Finance returns an extra day of price history for some reason
             return String.Format("enddate={0}+{1}%2C+{2}&", TranslateMonth(tail.Month), day, tail.Year);
         }
 
@@ -91,13 +91,14 @@ namespace Sonneville.PriceTools.Services
         /// <summary>
         /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
         /// </summary>
+        /// <param name="ticker">The ticker of the price data contained in the <see cref="PriceHistoryCsvFile"/>.</param>
         /// <param name="stream">The CSV data stream containing the price history.</param>
         /// <param name="head">The head of the price data to retrieve.</param>
         /// <param name="tail">The tail of the price data to retrieve.</param>
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
-        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail)
+        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(string ticker, Stream stream, DateTime head, DateTime tail)
         {
-            return new GooglePriceHistoryCsvFile(stream, head, tail);
+            return new GooglePriceHistoryCsvFile(ticker, stream, head, tail);
         }
 
         /// <summary>
