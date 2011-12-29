@@ -79,13 +79,31 @@ namespace Sonneville.PriceTools.Extensions
         #endregion
 
         /// <summary>
-        /// Gets the beginning of the given trading day.
+        /// Gets the DateTime of the most recent daily open.
         /// </summary>
         /// <param name="date"></param>
         /// <returns></returns>
         public static DateTime GetMostRecentOpen(this DateTime date)
         {
+            while (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
+            {
+                date = date.AddDays(-1);
+            }
             return date.Date;
+        }
+
+        /// <summary>
+        /// Gets the DateTime of the most recent daily close.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        public static DateTime GetMostRecentClose(this DateTime date)
+        {
+            while (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
+            {
+                date = date.AddDays(-1);
+            }
+            return date.GetFollowingClose();
         }
 
         /// <summary>

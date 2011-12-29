@@ -238,10 +238,10 @@ namespace Sonneville.PriceToolsTest
         }
 
         /// <summary>
-        ///A test for GetBeginningOfTradingDay
+        ///A test for GetMostRecentOpen
         ///</summary>
         [TestMethod]
-        public void GetMostRecentOpenTest()
+        public void GetMostRecentOpenFridayTest()
         {
             var target = new DateTime(2011, 8, 5);
             
@@ -251,7 +251,20 @@ namespace Sonneville.PriceToolsTest
         }
 
         /// <summary>
-        ///A test for GetBeginningOfTradingDay
+        ///A test for GetMostRecentOpen
+        ///</summary>
+        [TestMethod]
+        public void GetMostRecentOpenSaturdayTest()
+        {
+            var target = new DateTime(2011, 8, 6);
+
+            var expected = new DateTime(2011, 8, 5).GetCurrentOrFollowingTradingDay();
+            var actual = target.GetMostRecentOpen();
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetMostRecentOpen
         ///</summary>
         [TestMethod]
         public void GetMostRecentOpenFromNoonTest()
@@ -260,6 +273,45 @@ namespace Sonneville.PriceToolsTest
             
             var expected = target.Date;
             var actual = target.GetMostRecentOpen();
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetMostRecentClose
+        ///</summary>
+        [TestMethod]
+        public void GetMostRecentCloseFridayTest()
+        {
+            var target = new DateTime(2011, 8, 5);
+
+            var expected = new DateTime(2011, 8, 4).GetFollowingClose();
+            var actual = target.GetMostRecentClose();
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetMostRecentClose
+        ///</summary>
+        [TestMethod]
+        public void GetMostRecentCloseSundayTest()
+        {
+            var target = new DateTime(2011, 8, 7);
+
+            var expected = new DateTime(2011, 8, 5).GetFollowingClose();
+            var actual = target.GetMostRecentClose();
+            Assert.AreEqual(expected, actual);
+        }
+
+        /// <summary>
+        ///A test for GetMostRecentClose
+        ///</summary>
+        [TestMethod]
+        public void GetMostRecentCloseFromNoonTest()
+        {
+            var target = new DateTime(2011, 8, 5, 12, 0, 0);
+
+            var expected = new DateTime(2011, 8, 4).GetFollowingClose();
+            var actual = target.GetMostRecentClose();
             Assert.AreEqual(expected, actual);
         }
 
