@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools.Extensions
             var toDownload = new TimeSpan(7, 0, 0, 0);
             foreach (var pricePeriod in provider.GetPriceHistoryCsvFile(priceSeries.Ticker, head.Subtract(toDownload), tail, priceSeries.Resolution).PricePeriods.OrderByDescending(period => period.Head))
             {
-                priceSeries.DataPeriods.Add((PricePeriod)pricePeriod);
+                priceSeries.AddPricePeriod(pricePeriod);
             }
         }
     }

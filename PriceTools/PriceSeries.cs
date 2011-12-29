@@ -251,7 +251,7 @@ namespace Sonneville.PriceTools
         public IList<IPricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail)
         {
             if (resolution < Resolution) throw new InvalidOperationException(String.Format("Unable to get price periods using resolution {0}. Best supported resolution is {1}.", resolution, Resolution));
-            var dataPeriods = DataPeriods.Where(period => period.Head >= head && period.Tail <= tail).Cast<IPricePeriod>().OrderBy(period => period.Head).ToList();
+            var dataPeriods = DataPeriods.Where(period => period.Head >= head && period.Tail <= tail).OrderBy(period => period.Head).ToList();
             if (resolution == Resolution) return dataPeriods;
 
             var pairs = GetPairs(resolution, head, tail);
@@ -266,6 +266,21 @@ namespace Sonneville.PriceTools
                     let close = periodsInRange.Last().Close
                     let volume = periodsInRange.Sum(p => p.Volume)
                     select PricePeriodFactory.CreateStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).Cast<IPricePeriod>().ToList();
+        }
+
+        /// <summary>
+        /// Adds an <see cref="IPricePeriod"/> to the IPriceSeries.
+        /// </summary>
+        /// <param name="pricePeriod"></param>
+        public void AddPricePeriod(IPricePeriod pricePeriod)
+        {
+            if (DataPeriods.Where(p=>p.HasValueInRange(pricePeriod.Head) || p.HasValueInRange(pricePeriod.Tail)).Count() > 0)
+                throw new InvalidOperationException("Cannot add a PricePeriod for a DateTime range which overlaps that of the PriceSeries.");
+
+            DataPeriods.Add(pricePeriod);
+
+            var eventArgs = new NewPriceDataAvailableEventArgs();
+            InvokeNewPriceDataAvailable(eventArgs);
         }
 
         private delegate DateTime GetDateTime(DateTime date);
@@ -326,7 +341,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The collection of <see cref="PricePeriod"/>s containing price data for the PriceSeries.
         /// </summary>
-        public readonly IList<PricePeriod> DataPeriods = new List<PricePeriod>();
+        public readonly IList<IPricePeriod> DataPeriods = new List<IPricePeriod>();
 
         #region Private Methods
 
@@ -341,7 +356,7 @@ namespace Sonneville.PriceTools
             var matchingPeriods = PricePeriods.Where(p => p.HasValueInRange(settlementDate));
             if (matchingPeriods.Count() > 0) return matchingPeriods.OrderBy(p => p.Tail).Last()[settlementDate];
 
-            if (PricePeriods.Count > 0) return PricePeriods.OrderBy(p => p.Tail).Last().Close;
+            if (PricePeriods.Count > 0) return PricePeriods.OrderBy(p => p.Tail).Last(p => p.Tail <= settlementDate).Close;
 
             throw new InvalidOperationException(String.Format("No price data available for settlement date: {0}", settlementDate));
         }

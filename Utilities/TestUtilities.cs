@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.Trading;
 
 namespace Sonneville.Utilities
@@ -11,8 +12,8 @@ namespace Sonneville.Utilities
 
         public static PricePeriod CreatePeriod1()
         {
-            var head = new DateTime(2011, 3, 11);
-            var tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 14);
+            var tail = head.GetFollowingClose();
             const decimal open = 100.00m;
             const decimal high = 110.00m;
             const decimal low = 90.00m;
@@ -24,8 +25,8 @@ namespace Sonneville.Utilities
 
         public static PricePeriod CreatePeriod2()
         {
-            var head = new DateTime(2011, 3, 12);
-            var tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 15);
+            var tail = head.GetFollowingClose();
             const decimal open = 100.00m;
             const decimal high = 120.00m;
             const decimal low = 100.00m;
@@ -36,8 +37,8 @@ namespace Sonneville.Utilities
 
         public static PricePeriod CreatePeriod3()
         {
-            var head = new DateTime(2011, 3, 13);
-            var tail = head.AddDays(1);
+            var head = new DateTime(2011, 3, 16);
+            var tail = head.GetFollowingClose();
             const decimal open = 110.00m;
             const decimal high = 110.00m;
             const decimal low = 80.00m;

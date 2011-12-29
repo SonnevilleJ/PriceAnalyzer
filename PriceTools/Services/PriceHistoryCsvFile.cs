@@ -163,8 +163,7 @@ namespace Sonneville.PriceTools.Services
                 var stagedPeriod = stagedPeriods[i];
                 var head = i == 0 && seriesHead.HasValue ? seriesHead.Value.GetCurrentOrFollowingTradingDay() : GetHead(stagedPeriod.Date, resolution);
                 var tail = i == stagedPeriods.Count - 1 && seriesTail.HasValue ? seriesTail.Value : GetTail(stagedPeriod.Date, resolution);
-                priceSeries.DataPeriods.Add(PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High,
-                                                                                       stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume));
+                priceSeries.AddPricePeriod(PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume));
             }
             return priceSeries;
         }

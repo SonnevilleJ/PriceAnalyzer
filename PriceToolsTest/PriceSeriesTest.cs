@@ -24,17 +24,17 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CloseTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
-            decimal expected = p3.Close;
-            decimal actual = target.Close;
+            var expected = p3.Close;
+            var actual = target.Close;
             Assert.AreEqual(expected, actual);
         }
 
@@ -44,17 +44,17 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void OrderedCloseTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p3);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p1);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p3);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p1);
 
-            decimal expected = p3.Close;
-            decimal actual = target.Close;
+            var expected = p3.Close;
+            var actual = target.Close;
             Assert.AreEqual(expected, actual);
         }
 
@@ -68,14 +68,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void HasValue2Test()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             Assert.IsTrue(target.HasValueInRange(p1.Head));
         }
@@ -83,14 +83,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void HasValue3Test()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             Assert.IsTrue(target.HasValueInRange(p3.Tail));
         }
@@ -101,17 +101,17 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void HeadTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
-            DateTime expected = p1.Head;
-            DateTime actual = target.Head;
+            var expected = p1.Head;
+            var actual = target.Head;
             Assert.AreEqual(expected, actual);
         }
 
@@ -128,14 +128,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void HighTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             decimal? expected = p2.High;
             decimal? actual = target.High;
@@ -148,14 +148,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void IndexerValueAtHeadTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             decimal? expected = target.Open;
             decimal? actual = target[p1.Head];
@@ -168,14 +168,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void IndexerValueAtTailTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             decimal? expected = p3.Close;
             decimal? actual = target[target.Tail];
@@ -188,14 +188,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void IndexerValueBeforeHeadTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             const decimal expected = 0.00m;
             var actual = target[p1.Head.Subtract(new TimeSpan(1))];
@@ -208,14 +208,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void IndexerValueAfterTailTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             var expected = p3.Close;
             var actual = target[p3.Tail.Add(new TimeSpan(1))];
@@ -228,14 +228,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void LowTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             decimal? expected = p3.Low;
             decimal? actual = target.Low;
@@ -248,14 +248,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void OpenTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             decimal? expected = p1.Open;
             decimal? actual = target.Open;
@@ -268,14 +268,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void OrderedOpenTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p3);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p1);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p3);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p1);
 
             decimal? expected = p1.Open;
             decimal? actual = target.Open;
@@ -288,14 +288,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void PricePeriodsTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             Assert.AreEqual(3, target.PricePeriods.Count);
             Assert.IsTrue(target.PricePeriods.Contains(p1));
@@ -411,7 +411,7 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(InvalidOperationException))]
         public void GetDailyPeriodsFromWeeklyPeriodsTest()
         {
-            IPriceSeries priceSeries = new GooglePriceHistoryCsvFile(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google).PriceSeries;
+            var priceSeries = new GooglePriceHistoryCsvFile(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google).PriceSeries;
             priceSeries.GetPricePeriods(Resolution.Days);
         }
 
@@ -421,17 +421,17 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void TailTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
-            DateTime expected = p3.Tail;
-            DateTime actual = target.Tail;
+            var expected = p3.Tail;
+            var actual = target.Tail;
             Assert.AreEqual(expected, actual);
         }
 
@@ -452,7 +452,7 @@ namespace Sonneville.PriceToolsTest
             IPriceSeries target = PriceSeriesFactory.CreatePriceSeries(ticker);
 
             const string expected = ticker;
-            string actual = target.Ticker;
+            var actual = target.Ticker;
             Assert.AreEqual(expected, actual);
         }
 
@@ -462,31 +462,31 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void VolumeTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
-            long? expected = p1.Volume + p3.Volume; // p2 has no volume
-            long? actual = target.Volume;
+            var expected = p1.Volume + p3.Volume; // p2 has no volume
+            var actual = target.Volume;
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
         public void TestIndexerWhenNotConnectedToInternet()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             var expected = p2.Close;
             var actual = target[p3.Head.Subtract(new TimeSpan(1))];
@@ -496,7 +496,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void TestDownloadPriceDataHead()
         {
-            DateTime dateTime = new DateTime(2011, 4, 1);
+            var dateTime = new DateTime(2011, 4, 1);
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
             var provider = new YahooPriceSeriesProvider();
@@ -729,14 +729,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ValuesCountTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> {{p1.Head, p1.Close}, {p2.Head, p2.Close}, {p3.Head, p3.Close}};
 
@@ -747,14 +747,14 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ValuesMatchTest()
         {
-            PricePeriod p1 = TestUtilities.CreatePeriod1();
-            PricePeriod p2 = TestUtilities.CreatePeriod2();
-            PricePeriod p3 = TestUtilities.CreatePeriod3();
+            var p1 = TestUtilities.CreatePeriod1();
+            var p2 = TestUtilities.CreatePeriod2();
+            var p3 = TestUtilities.CreatePeriod3();
 
-            PriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.DataPeriods.Add(p1);
-            target.DataPeriods.Add(p2);
-            target.DataPeriods.Add(p3);
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
+            target.AddPricePeriod(p1);
+            target.AddPricePeriod(p2);
+            target.AddPricePeriod(p3);
 
             IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> {{p1.Head, p1.Close}, {p2.Head, p2.Close}, {p3.Head, p3.Close}};
 
@@ -773,6 +773,85 @@ namespace Sonneville.PriceToolsTest
             const Resolution expected = Resolution.Days;
             var actual = target.Resolution;
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void AddPricePeriodEventTest()
+        {
+            var target = PriceSeriesFactory.CreatePriceSeries("DE");
+            var head = new DateTime(2011, 12, 28);
+            var tail = head.GetFollowingClose();
+            const decimal close = 5.00m;
+            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+
+            var raised = false;
+            EventHandler<NewPriceDataAvailableEventArgs> handler = (sender, e) => { raised = true; };
+
+            try
+            {
+                target.NewPriceDataAvailable += handler;
+
+                target.AddPricePeriod(period);
+
+                Assert.IsTrue(raised);
+            }
+            finally
+            {
+                target.NewPriceDataAvailable -= handler;
+            }
+        }
+
+        [TestMethod]
+        public void AddPricePeriodAddsToPricePeriodsTest()
+        {
+            var target = PriceSeriesFactory.CreatePriceSeries("DE");
+            var head = new DateTime(2011, 12, 28);
+            var tail = head.GetFollowingClose();
+            const decimal close = 5.00m;
+            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+
+            target.AddPricePeriod(period);
+
+            Assert.IsTrue(target.PricePeriods.Contains(period));
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddPricePeriodOverlapTestInner()
+        {
+            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var head = new DateTime(2011, 2, 28);
+            var tail = head.GetFollowingClose();
+            const decimal close = 5.00m;
+            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+
+            target.AddPricePeriod(period);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddPricePeriodOverlapHeadTest()
+        {
+            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var tail = target.Head.GetFollowingClose();
+            var head = tail.AddDays(-1).GetMostRecentOpen();
+            const decimal close = 5.00m;
+            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+
+            target.AddPricePeriod(period);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AddPricePeriodOverlapTailTest()
+        {
+            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var head = target.Tail.GetMostRecentOpen();
+            var tail = head.AddDays(1).GetFollowingClose();
+            const decimal close = 5.00m;
+            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+
+            target.AddPricePeriod(period);
         }
     }
 }
