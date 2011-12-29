@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Sonneville.PriceTools.Services
 {
@@ -11,6 +14,9 @@ namespace Sonneville.PriceTools.Services
     public abstract class PriceDataProvider : IPriceDataProvider
     {
         #region Private Members
+
+        private readonly IDictionary<IPriceSeries, CancellationTokenSource> _tokens = new Dictionary<IPriceSeries, CancellationTokenSource>();
+        private readonly IDictionary<IPriceSeries, Task> _tasks = new Dictionary<IPriceSeries, Task>();
 
         #endregion
 
@@ -49,11 +55,45 @@ namespace Sonneville.PriceTools.Services
         }
 
         /// <summary>
-        /// Gets the ticker symbol for a given stock index.
+        /// Instructs the IPriceDataProvider to periodically update the price data in the <paramref name="priceSeries"/>.
         /// </summary>
-        /// <param name="index">The stock index to lookup.</param>
-        /// <returns>The ticker symbol of <paramref name="index"/> for this PriceDataProvider.</returns>
-        public abstract string GetIndexTicker(StockIndex index);
+        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to update.</param>
+        public void StartAutoUpdate(IPriceSeries priceSeries)
+        {
+            if (_tasks.ContainsKey(priceSeries))
+            {
+                throw new InvalidOperationException("Cannot execute duplicate tasks to update the same IPriceSeries.");
+            }
+            var cts = new CancellationTokenSource();
+            var token = cts.Token;
+            var task = new Task(() => UpdateLoop(priceSeries, token), token);
+            lock (priceSeries)
+            {
+                _tokens.Add(priceSeries, cts);
+                _tasks.Add(priceSeries, task);
+            }
+
+            task.Start();
+        }
+
+        /// <summary>
+        /// Instructs the IPriceDataProvider to stop periodically updating the price data in <paramref name="priceSeries"/>.
+        /// </summary>
+        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to stop updating.</param>
+        public void StopAutoUpdate(IPriceSeries priceSeries)
+        {
+            CancellationTokenSource cts;
+            if (_tokens.TryGetValue(priceSeries, out cts))
+            {
+                lock (priceSeries)
+                {
+                    _tokens.Remove(priceSeries);
+                    _tasks.Remove(priceSeries);
+                    cts.Cancel();
+                    Monitor.PulseAll(priceSeries);
+                }
+            }
+        }
 
         #endregion
 
@@ -79,6 +119,25 @@ namespace Sonneville.PriceTools.Services
             catch(WebException e)
             {
                 throw new WebException(Strings.DownloadPricesToCsv_InternetAccessFailed, e, e.Status, e.Response);
+            }
+        }
+
+        /// <summary>
+        /// Intended to be called asynchronously. Enters a loop which periodically updates the <paramref name="priceSeries"/>.
+        /// </summary>
+        /// <param name="priceSeries"></param>
+        /// <param name="token"></param>
+        private void UpdateLoop(IPriceSeries priceSeries, CancellationToken token)
+        {
+            var timeout = new TimeSpan((long) BestResolution);
+            while (!token.IsCancellationRequested)
+            {
+                lock (priceSeries)
+                {
+                    UpdatePriceSeries(priceSeries);
+
+                    Monitor.Wait(priceSeries, timeout);
+                }
             }
         }
 
@@ -170,6 +229,22 @@ namespace Sonneville.PriceTools.Services
         /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
         /// </summary>
         public abstract Resolution BestResolution { get; }
+
+        /// <summary>
+        /// Gets the ticker symbol for a given stock index.
+        /// </summary>
+        /// <param name="index">The stock index to lookup.</param>
+        /// <returns>The ticker symbol of <paramref name="index"/> for this PriceDataProvider.</returns>
+        public abstract string GetIndexTicker(StockIndex index);
+
+        /// <summary>
+        /// Updates the <paramref name="priceSeries"/> with any missing price data.
+        /// </summary>
+        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to update.</param>
+        protected virtual void UpdatePriceSeries(IPriceSeries priceSeries)
+        {
+            throw new NotImplementedException();
+        }
 
         #endregion
     }

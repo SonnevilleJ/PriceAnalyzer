@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Services;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
 {
     [TestClass]
-    public class PriceSeriesProviderTest
+    public class PriceDataProviderTest
     {
         [TestMethod]
         public void YahooDownloadDailyTestResolution()
@@ -166,6 +168,76 @@ namespace Sonneville.PriceToolsTest
 
             Assert.AreEqual(head, target.PriceSeries.Head);
             Assert.AreEqual(tail, target.PriceSeries.Tail);
+        }
+
+        [TestMethod]
+        public void AutoUpdateTest()
+        {
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
+            var updateCount = 0;
+
+            Action<IPriceSeries> action = delegate { Interlocked.Increment(ref updateCount); };
+            var provider = GetProvider(action);
+
+            provider.StartAutoUpdate(priceSeries);
+            Thread.Sleep(new TimeSpan(((long)provider.BestResolution) * 5));
+            provider.StopAutoUpdate(priceSeries);
+
+            Assert.IsTrue(updateCount > 0);
+        }
+
+        [TestMethod]
+        public void AutoUpdateTwoTickersTest()
+        {
+            const string de = "DE";
+            const string msft = "MSFT";
+            var deere = PriceSeriesFactory.CreatePriceSeries(de);
+            var microsoft = PriceSeriesFactory.CreatePriceSeries(msft);
+            var deereUpdates = 0;
+            var microsoftUpdates = 0;
+
+            Action<IPriceSeries> action = priceSeries =>
+                                              {
+                                                  if (priceSeries.Ticker == de)
+                                                      Interlocked.Increment(ref deereUpdates);
+                                                  if (priceSeries.Ticker == msft)
+                                                      Interlocked.Increment(ref microsoftUpdates);
+                                              };
+            var provider = GetProvider(action);
+
+            provider.StartAutoUpdate(deere);
+            provider.StartAutoUpdate(microsoft);
+            Thread.Sleep(new TimeSpan(((long)provider.BestResolution) * 5));
+            provider.StopAutoUpdate(deere);
+            provider.StopAutoUpdate(microsoft);
+
+            Assert.IsTrue(deereUpdates > 0 && microsoftUpdates > 0);
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AutoUpdateSamePriceSeriesTwiceTest()
+        {
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
+            var updateCount = 0;
+
+            Action<IPriceSeries> action = delegate { Interlocked.Increment(ref updateCount); };
+            var provider = GetProvider(action);
+
+            provider.StartAutoUpdate(priceSeries);
+            try
+            {
+                provider.StartAutoUpdate(priceSeries);
+            }
+            finally
+            {
+                provider.StopAutoUpdate(priceSeries);
+            }
+        }
+
+        private static IPriceDataProvider GetProvider(Action<IPriceSeries> action = null)
+        {
+            return new SecondsProvider {UpdateAction = action};
         }
     }
 }
