@@ -41,6 +41,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DailyTriggerTradingStrategy.cs" />
     <Compile Include="FlatCommissionSchedule.cs" />
     <Compile Include="IBrokerage.cs" />
     <Compile Include="ICommissionSchedule.cs" />

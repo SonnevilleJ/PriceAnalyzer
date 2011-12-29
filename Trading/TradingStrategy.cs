@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
 using Sonneville.PriceTools.Extensions;
 
 namespace Sonneville.PriceTools.Trading
@@ -9,7 +11,10 @@ namespace Sonneville.PriceTools.Trading
     /// </summary>
     public abstract class TradingStrategy
     {
+        private bool _isRunning;
         private IList<IPricePeriod> _pricePeriods;
+        private Task _task;
+        private CancellationTokenSource _tokenSource;
 
         protected DateTime StartDateTime { get; set; }
 
@@ -17,19 +22,38 @@ namespace Sonneville.PriceTools.Trading
 
         public ITradingAccount TradingAccount { get; set; }
 
+        /// <summary>
+        /// Signlas the TradingStrategy to start processing.
+        /// </summary>
         public void Start()
         {
+            if (_isRunning)
+                throw new InvalidOperationException("Cannot start execution of the TradingStrategy because it has already been started.");
             if (TradingAccount == null)
                 throw new InvalidOperationException("A TradingAccount is required before executing the TradingStrategy.");
             if(PriceSeries == null)
                 throw new InvalidOperationException("A PriceSeries is required before executing the TradingStrategy.");
 
-            ProcessAllPeriods();
+            _isRunning = true;
+            _tokenSource = new CancellationTokenSource();
+            var token = _tokenSource.Token;
+            _task = new Task(() => Execute(token), token);
+            
+            _task.Start();
         }
 
+        /// <summary>
+        /// Signals the TradingStrategy to stop processing and waits for it to complete.
+        /// </summary>
         public void Stop()
         {
-            throw new NotSupportedException();
+            _tokenSource.Cancel();
+            _task.Wait();
+
+            _isRunning = false;
+            _pricePeriods = null;
+            _task = null;
+            _tokenSource = null;
         }
 
         protected void ProcessPeriod(int index)
@@ -40,31 +64,23 @@ namespace Sonneville.PriceTools.Trading
 
             if (timeToBuy)
             {
-                var order = CreateBuyOrder(period.Tail);
+                var order = CreateOrder(period.Tail);
 
                 TradingAccount.Submit(order);
             }
         }
 
-        private void ProcessAllPeriods()
+        protected abstract Order CreateOrder(DateTime issued);
+
+        private void Execute(CancellationToken token)
         {
             _pricePeriods = PriceSeries.GetPricePeriods(PriceSeries.Resolution, StartDateTime, DateTime.Now);
 
             for (var i = 0; i < _pricePeriods.Count; i++)
             {
+                token.ThrowIfCancellationRequested();
                 ProcessPeriod(i);
             }
-        }
-
-        private Order CreateBuyOrder(DateTime issued)
-        {
-            var expiration = issued.GetFollowingClose();
-            var orderType = OrderType.Buy;
-            var ticker = PriceSeries.Ticker;
-            var shares = 5;
-            var price = 100.00m;
-
-            return new Order(issued, expiration, orderType, ticker, shares, price);
         }
     }
 }

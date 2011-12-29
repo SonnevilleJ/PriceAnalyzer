@@ -55,6 +55,9 @@
     <Compile Include="TradingAccountFeaturesTest.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="TradingStrategyTest.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\BackTesting\BackTesting.csproj">

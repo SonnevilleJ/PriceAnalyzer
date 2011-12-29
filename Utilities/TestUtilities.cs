@@ -93,6 +93,8 @@ namespace Sonneville.Utilities
 
         #endregion
 
+        #region Trading Account tools
+
         /// <summary>
         /// Creates a simulated <see cref="ITradingAccount"/> which accepts all <see cref="OrderType"/>s, does not allow margin trading, imposes a flat commission of $5.00 per transaction, and has an opening deposit of $1,000,000.00.
         /// </summary>
@@ -175,5 +177,7 @@ namespace Sonneville.Utilities
         {
             return TransactionFactory.CreateShareTransaction(settlementDate, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
         }
+
+        #endregion
     }
 }
