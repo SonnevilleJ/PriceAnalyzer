@@ -205,10 +205,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the total value of the Portfolio, including any commissions, as of a given date.
         /// </summary>
-        /// <param name="provider">The <see cref="PriceHistoryCsvFileProvider"/> to use when requesting price data.</param>
+        /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total value of the Portfolio as of the given date.</returns>
-        public decimal CalculateTotalValue(PriceHistoryCsvFileProvider provider, DateTime settlementDate)
+        public decimal CalculateTotalValue(IPriceDataProvider provider, DateTime settlementDate)
         {
             var cash = GetAvailableCash(settlementDate);
             var invested = Positions.Sum(position => position.CalculateInvestedValue(provider, settlementDate));
@@ -266,10 +266,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the value of all shares held the Portfolio as of a given date.
         /// </summary>
-        /// <param name="provider">The <see cref="PriceHistoryCsvFileProvider"/> to use when requesting price data.</param>
+        /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the shares held in the Portfolio as of the given date.</returns>
-        public decimal CalculateInvestedValue(PriceHistoryCsvFileProvider provider, DateTime settlementDate)
+        public decimal CalculateInvestedValue(IPriceDataProvider provider, DateTime settlementDate)
         {
             return Positions.Sum(p => p.CalculateInvestedValue(provider, settlementDate));
         }

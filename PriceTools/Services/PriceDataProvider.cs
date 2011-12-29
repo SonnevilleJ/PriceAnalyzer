@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Services
     /// <summary>
     ///   Provides a <see cref="PriceHistoryCsvFile"/> containing price data.
     /// </summary>
-    public abstract class PriceHistoryCsvFileProvider
+    public abstract class PriceDataProvider : IPriceDataProvider
     {
         #region Private Members
 
@@ -52,7 +52,7 @@ namespace Sonneville.PriceTools.Services
         /// Gets the ticker symbol for a given stock index.
         /// </summary>
         /// <param name="index">The stock index to lookup.</param>
-        /// <returns>The ticker symbol of <paramref name="index"/> for this PriceHistoryCsvFileProvider.</returns>
+        /// <returns>The ticker symbol of <paramref name="index"/> for this PriceDataProvider.</returns>
         public abstract string GetIndexTicker(StockIndex index);
 
         #endregion
@@ -158,7 +158,7 @@ namespace Sonneville.PriceTools.Services
         #endregion
 
         /// <summary>
-        /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceHistoryCsvFileProvider.
+        /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
         /// </summary>
         /// <param name="stream">The CSV data stream containing the price history.</param>
         /// <param name="head">The head of the price data to retrieve.</param>
@@ -167,7 +167,7 @@ namespace Sonneville.PriceTools.Services
         protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail);
 
         /// <summary>
-        /// Gets the smallest <see cref="Resolution"/> available from this PriceHistoryCsvFileProvider.
+        /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
         /// </summary>
         public abstract Resolution BestResolution { get; }
 

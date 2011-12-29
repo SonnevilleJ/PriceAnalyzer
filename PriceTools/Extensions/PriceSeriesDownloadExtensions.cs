@@ -13,9 +13,9 @@ namespace Sonneville.PriceTools.Extensions
         /// Downloads price data from the given date until <see cref="DateTime.Now"/>.
         /// </summary>
         /// <param name="priceSeries"></param>
-        /// <param name="provider">The <see cref="PriceHistoryCsvFileProvider"/> to use for retrieving price data.</param>
+        /// <param name="provider">The <see cref="PriceDataProvider"/> to use for retrieving price data.</param>
         /// <param name="head">The first date to retrieve price data for.</param>
-        public static void DownloadPriceData(this PriceSeries priceSeries, PriceHistoryCsvFileProvider provider, DateTime head)
+        public static void DownloadPriceData(this IPriceSeries priceSeries, IPriceDataProvider provider, DateTime head)
         {
             DownloadPriceData(priceSeries, provider, head, DateTime.Now);
         }
@@ -24,15 +24,15 @@ namespace Sonneville.PriceTools.Extensions
         /// Downloads price data for the period between the given dates.
         /// </summary>
         /// <param name="priceSeries"></param>
-        /// <param name="provider">The <see cref="PriceHistoryCsvFileProvider"/> to use for retrieving price data.</param>
+        /// <param name="provider">The <see cref="PriceDataProvider"/> to use for retrieving price data.</param>
         /// <param name="head">The first date to retrieve price data for.</param>
         /// <param name="tail">The last date to retrieve price data for.</param>
-        public static void DownloadPriceData(this PriceSeries priceSeries, PriceHistoryCsvFileProvider provider, DateTime head, DateTime tail)
+        public static void DownloadPriceData(this IPriceSeries priceSeries, IPriceDataProvider provider, DateTime head, DateTime tail)
         {
             DownloadPriceDataIncludingBuffer(priceSeries, provider, head, tail);
         }
 
-        private static void DownloadPriceDataIncludingBuffer(PriceSeries priceSeries, PriceHistoryCsvFileProvider provider, DateTime head, DateTime tail)
+        private static void DownloadPriceDataIncludingBuffer(IPriceSeries priceSeries, IPriceDataProvider provider, DateTime head, DateTime tail)
         {
             if (provider.BestResolution > priceSeries.Resolution) throw new ArgumentException(string.Format("Provider must be capable of providing periods of resolution {0} or better.", priceSeries.Resolution), "provider");
             var toDownload = new TimeSpan(7, 0, 0, 0);

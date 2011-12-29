@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Services
     /// <summary>
     ///   Parses an <see cref = "IPriceSeries" /> from Yahoo! CSV files.
     /// </summary>
-    public sealed class YahooPriceHistoryCsvFileProvider : PriceHistoryCsvFileProvider
+    public sealed class YahooPriceDataProvider : PriceDataProvider
     {
         //
         // Yahoo has many features beyond price history - i.e. fundamental indicators.
@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.Services
         #region IPriceSeriesProvider Implementation
 
         /// <summary>
-        /// Gets the ticker symbol for a <see cref="StockIndex"/> used by this <see cref="PriceHistoryCsvFileProvider"/>.
+        /// Gets the ticker symbol for a <see cref="StockIndex"/> used by this <see cref="PriceDataProvider"/>.
         /// </summary>
         /// <param name="index">The <see cref="StockIndex"/> to retrieve.</param>
         /// <returns>A string representing the ticker symbol of the requested <see cref="StockIndex"/>.</returns>
@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools.Services
         }
 
         /// <summary>
-        /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceHistoryCsvFileProvider.
+        /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
         /// </summary>
         /// <param name="stream">The CSV data stream containing the price history.</param>
         /// <param name="head">The head of the price data to retrieve.</param>
@@ -50,7 +50,7 @@ namespace Sonneville.PriceTools.Services
         }
 
         /// <summary>
-        /// Gets the smallest <see cref="Resolution"/> available from this PriceHistoryCsvFileProvider.
+        /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
         /// </summary>
         public override Resolution BestResolution
         {

@@ -6,15 +6,15 @@ namespace Sonneville.PriceTools.Services
     /// <summary>
     /// Parses an <see cref = "IPriceSeries" /> from Google Finance CSV files.
     /// </summary>
-    public sealed class GooglePriceHistoryCsvFileProvider : PriceHistoryCsvFileProvider
+    public sealed class GooglePriceDataProvider : PriceDataProvider
     {
-        #region Overrides of PriceHistoryCsvFileProvider
+        #region Overrides of PriceDataProvider
 
         /// <summary>
         /// Gets the ticker symbol for a given stock index.
         /// </summary>
         /// <param name="index">The stock index to lookup.</param>
-        /// <returns>The ticker symbol of <paramref name="index"/> for this PriceHistoryCsvFileProvider.</returns>
+        /// <returns>The ticker symbol of <paramref name="index"/> for this PriceDataProvider.</returns>
         public override string GetIndexTicker(StockIndex index)
         {
             throw new NotImplementedException();
@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools.Services
         }
 
         /// <summary>
-        /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceHistoryCsvFileProvider.
+        /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
         /// </summary>
         /// <param name="stream">The CSV data stream containing the price history.</param>
         /// <param name="head">The head of the price data to retrieve.</param>
@@ -101,7 +101,7 @@ namespace Sonneville.PriceTools.Services
         }
 
         /// <summary>
-        /// Gets the smallest <see cref="Resolution"/> available from this PriceHistoryCsvFileProvider.
+        /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
         /// </summary>
         public override Resolution BestResolution
         {
