@@ -5,7 +5,7 @@ using Sonneville.PriceTools.Services;
 
 namespace Sonneville.Utilities
 {
-    public class DailyProvider : PriceSeriesProvider
+    public class DailyProvider : PriceHistoryCsvFileProvider
     {
         public override Resolution BestResolution { get { return Resolution.Days; } }
         #region Not Implemented

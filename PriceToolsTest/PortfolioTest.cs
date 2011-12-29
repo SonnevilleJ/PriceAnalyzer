@@ -271,7 +271,7 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(new Sell {Ticker = ticker, SettlementDate = sellDate, Shares = shares, Price = sellPrice, Commission = commission});
 
             const decimal expected = amount - buyValue + sellValue;
-            var actual = target.CalculateTotalValue(new YahooPriceSeriesProvider(), calculateDate);
+            var actual = target.CalculateTotalValue(new YahooPriceHistoryCsvFileProvider(), calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -479,7 +479,7 @@ namespace Sonneville.PriceToolsTest
         public void GetInvestedValueFromEmptyPortfolio()
         {
             IPortfolio target = new Portfolio();
-            Assert.AreEqual(0.0m, target.CalculateInvestedValue(new YahooPriceSeriesProvider(), DateTime.Now));
+            Assert.AreEqual(0.0m, target.CalculateInvestedValue(new YahooPriceHistoryCsvFileProvider(), DateTime.Now));
         }
 
         [TestMethod]
@@ -511,7 +511,7 @@ namespace Sonneville.PriceToolsTest
             var priceDate = new DateTime(2011, 4, 25, 23, 59, 59);
             
             const decimal expected = 189.44m; // closing price 25 April 2011 = $94.72 * 2 shares = 189.44
-            var actual = target.CalculateInvestedValue(new YahooPriceSeriesProvider(), priceDate);
+            var actual = target.CalculateInvestedValue(new YahooPriceHistoryCsvFileProvider(), priceDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -549,7 +549,7 @@ namespace Sonneville.PriceToolsTest
             target.AddTransaction(sell);
 
             const decimal expected = 0.00m; // all shares sold = no value
-            var actual = target.CalculateInvestedValue(new YahooPriceSeriesProvider(), sellDate);
+            var actual = target.CalculateInvestedValue(new YahooPriceHistoryCsvFileProvider(), sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -951,7 +951,7 @@ namespace Sonneville.PriceToolsTest
             // total value should be = 10,000 - 100.00 - 5,000 + 168.68 = 5068.68
             
             const decimal expectedValue = 5068.68m;
-            var actualValue = target.CalculateTotalValue(new YahooPriceSeriesProvider(), buyDate);
+            var actualValue = target.CalculateTotalValue(new YahooPriceHistoryCsvFileProvider(), buyDate);
             Assert.AreEqual(expectedValue, actualValue);
         }
 

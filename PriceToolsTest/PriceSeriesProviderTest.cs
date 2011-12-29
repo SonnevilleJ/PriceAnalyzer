@@ -11,7 +11,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void YahooDownloadDailyTestResolution()
         {
-            var provider = new YahooPriceSeriesProvider();
+            var provider = new YahooPriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
 
@@ -27,7 +27,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void YahooDownloadDailyTestPeriods()
         {
-            var provider = new YahooPriceSeriesProvider();
+            var provider = new YahooPriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
 
@@ -39,7 +39,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void YahooDownloadDailyTestDates()
         {
-            var provider = new YahooPriceSeriesProvider();
+            var provider = new YahooPriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
 
@@ -53,7 +53,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void YahooDownloadWeeklyTestPeriods()
         {
-            var provider = new YahooPriceSeriesProvider();
+            var provider = new YahooPriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             var target = provider.GetPriceHistoryCsvFile("DE", head, tail, Resolution.Weeks);
@@ -64,7 +64,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void YahooDownloadWeeklyTestResolution()
         {
-            var provider = new YahooPriceSeriesProvider();
+            var provider = new YahooPriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             var target = provider.GetPriceHistoryCsvFile("DE", head, tail, Resolution.Weeks);
@@ -81,7 +81,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void YahooDownloadWeeklyTestDates()
         {
-            var provider = new YahooPriceSeriesProvider();
+            var provider = new YahooPriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             var target = provider.GetPriceHistoryCsvFile("DE", head, tail, Resolution.Weeks);
@@ -93,7 +93,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GoogleDownloadDailyTestResolution()
         {
-            var provider = new GooglePriceSeriesProvider();
+            var provider = new GooglePriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             var target = provider.GetPriceHistoryCsvFile("DE", head, tail, Resolution.Days);
@@ -108,7 +108,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GoogleDownloadDailyTestPeriods()
         {
-            var provider = new GooglePriceSeriesProvider();
+            var provider = new GooglePriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             var target = provider.GetPriceHistoryCsvFile("DE", head, tail, Resolution.Days);
@@ -119,7 +119,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GoogleDownloadDailyTestDates()
         {
-            var provider = new GooglePriceSeriesProvider();
+            var provider = new GooglePriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             var target = provider.GetPriceHistoryCsvFile("DE", head, tail, Resolution.Days);
@@ -131,7 +131,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GoogleDownloadWeeklyTestPeriods()
         {
-            var provider = new GooglePriceSeriesProvider();
+            var provider = new GooglePriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             var target = provider.GetPriceHistoryCsvFile("DE", head, tail, Resolution.Weeks);
@@ -142,7 +142,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GoogleDownloadWeeklyTestResolution()
         {
-            var provider = new GooglePriceSeriesProvider();
+            var provider = new GooglePriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             var target = provider.GetPriceHistoryCsvFile("DE", head, tail, Resolution.Weeks);
@@ -159,7 +159,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void GoogleDownloadWeeklyTestDates()
         {
-            var provider = new GooglePriceSeriesProvider();
+            var provider = new GooglePriceHistoryCsvFileProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
             var target = provider.GetPriceHistoryCsvFile("DE", head, tail, Resolution.Weeks);

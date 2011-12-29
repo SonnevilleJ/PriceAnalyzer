@@ -499,7 +499,7 @@ namespace Sonneville.PriceToolsTest
             var dateTime = new DateTime(2011, 4, 1);
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
-            var provider = new YahooPriceSeriesProvider();
+            var provider = new YahooPriceHistoryCsvFileProvider();
             target.DownloadPriceData(provider, dateTime);
 
             Assert.IsNotNull(target[dateTime.AddHours(12)]);    // add 12 hours because no price is available at midnight.
@@ -512,7 +512,7 @@ namespace Sonneville.PriceToolsTest
             var tail = head.AddMonths(1);
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
-            var provider = new YahooPriceSeriesProvider();
+            var provider = new YahooPriceHistoryCsvFileProvider();
             target.DownloadPriceData(provider, head, tail);
 
             Assert.IsNotNull(target[tail]);

@@ -81,7 +81,7 @@ namespace Sonneville.PriceToolsTest
 
             // No longer hold these shares, so CalculateTotalValue should return total value minus any commissions.
             const decimal expected = 534.10m;   // sold all shares for $550.00
-            decimal actual = target.CalculateTotalValue(new YahooPriceSeriesProvider(), cDate);
+            decimal actual = target.CalculateTotalValue(new YahooPriceHistoryCsvFileProvider(), cDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -105,7 +105,7 @@ namespace Sonneville.PriceToolsTest
 
             // No longer hold these shares, so CalculateTotalValue should return total value minus any commissions.
             const decimal expected = 434.10m;   // sold all shares for $450.00
-            decimal actual = target.CalculateTotalValue(new YahooPriceSeriesProvider(), cDate);
+            decimal actual = target.CalculateTotalValue(new YahooPriceHistoryCsvFileProvider(), cDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -149,7 +149,7 @@ namespace Sonneville.PriceToolsTest
             // DE price @ 29 Dec 2000 = $45.81
             // invested value should be $45.81 * 5 shares = $229.05
             const decimal expected = 229.05m;
-            decimal actual = target.CalculateInvestedValue(new YahooPriceSeriesProvider(), buyDate);
+            decimal actual = target.CalculateInvestedValue(new YahooPriceHistoryCsvFileProvider(), buyDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -171,7 +171,7 @@ namespace Sonneville.PriceToolsTest
             // DE price @ 29 Dec 2000 = $44.81
             // invested value should be $44.81 * 5 shares = $224.05
             const decimal expected = 224.05m;
-            decimal actual = target.CalculateInvestedValue(new YahooPriceSeriesProvider(), sellDate);
+            decimal actual = target.CalculateInvestedValue(new YahooPriceHistoryCsvFileProvider(), sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -191,7 +191,7 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, shares, price + 10m, commission);
 
             const decimal expected = 0.00m;     // $0.00 currently invested
-            decimal actual = target.CalculateInvestedValue(new YahooPriceSeriesProvider(), sellDate);
+            decimal actual = target.CalculateInvestedValue(new YahooPriceHistoryCsvFileProvider(), sellDate);
             Assert.AreEqual(expected, actual);
         }
 

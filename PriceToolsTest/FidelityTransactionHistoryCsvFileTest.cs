@@ -26,7 +26,7 @@ namespace Sonneville.PriceToolsTest
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 IPortfolio portfolio = new Portfolio(target, "FTEXX");
                 var settlementDate = new DateTime(2010, 11, 16);
-                PriceSeriesProvider provider = new YahooPriceSeriesProvider();
+                PriceHistoryCsvFileProvider provider = new YahooPriceHistoryCsvFileProvider();
 
                 var ALTR = portfolio.Positions.Where(p => p.Ticker == "ALTR").First();
                 decimal investedValue = ALTR.CalculateInvestedValue(provider, settlementDate);
