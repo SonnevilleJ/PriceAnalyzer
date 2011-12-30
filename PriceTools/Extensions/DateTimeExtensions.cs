@@ -7,11 +7,6 @@ namespace Sonneville.PriceTools.Extensions
     /// </summary>
     public static class DateTimeExtensions
     {
-        private static TimeSpan GetDailyPeriodTimeSpan()
-        {
-            return new TimeSpan(23, 59, 59);
-        }
-
         /// <summary>
         /// Gets the next opening DateTime. This method does not consider holidays.
         /// </summary>
@@ -19,7 +14,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime GetFollowingOpen(this DateTime dateTime)
         {
-            return GetNextTradingDay(dateTime).GetMostRecentOpen();
+            return dateTime.AddDays(1).GetCurrentOrFollowingOpen().GetMostRecentOpen();
         }
 
         /// <summary>
@@ -29,7 +24,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime GetFollowingClose(this DateTime dateTime)
         {
-            return GetCurrentOrFollowingOpen(dateTime.AddSeconds(1)).Date.Add(GetDailyPeriodTimeSpan());
+            return dateTime.AddSeconds(1).GetCurrentOrFollowingOpen().Date.Add(GetDailyPeriodTimeSpan());
         }
 
         /// <summary>
@@ -47,20 +42,6 @@ namespace Sonneville.PriceTools.Extensions
         }
 
         /// <summary>
-        /// Gets the closing DateTime of the following Friday. This method does not consider holidays.
-        /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
-        public static DateTime GetFollowingWeekClose(this DateTime dateTime)
-        {
-            while (dateTime.DayOfWeek != DayOfWeek.Friday)
-            {
-                dateTime = dateTime.AddDays(1);
-            }
-            return dateTime.GetFollowingClose();
-        }
-
-        /// <summary>
         /// Returns the nearest daily open. If the given day is not a trading day, the date is advanced to the next trading day.
         /// </summary>
         /// <param name="dateTime"></param>
@@ -74,25 +55,11 @@ namespace Sonneville.PriceTools.Extensions
             return dateTime.GetMostRecentOpen();
         }
 
-        /// <summary>
-        /// Returns the nearest daily close. If the given day is not a trading day, the date is advanced to the next trading day.
-        /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
-        public static DateTime GetCurrentOrFollowingClose(this DateTime dateTime)
-        {
-            while (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday)
-            {
-                dateTime = dateTime.AddDays(1);
-            }
-            return dateTime.GetFollowingClose();
-        }
-
         #region Private Methods
 
-        private static DateTime GetNextTradingDay(DateTime dateTime)
+        private static TimeSpan GetDailyPeriodTimeSpan()
         {
-            return GetCurrentOrFollowingOpen(dateTime.AddDays(1));
+            return new TimeSpan(23, 59, 59);
         }
 
         #endregion
@@ -165,7 +132,7 @@ namespace Sonneville.PriceTools.Extensions
             {
                 date = date.AddDays(1);
             }
-            return GetFollowingClose(date);
+            return date.GetFollowingClose();
         }
 
         /// <summary>
