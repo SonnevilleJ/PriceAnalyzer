@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.Extensions
             {
                 dateTime = dateTime.AddDays(1);
             } while (dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday);
-            return dateTime.Date.AddOpenTime();
+            return dateTime.TodaysOpen();
         }
 
         /// <summary>
@@ -28,7 +28,12 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime GetFollowingClose(this DateTime dateTime)
         {
-            return dateTime.AddSeconds(1).GetCurrentOrFollowingOpen().Date.Add(GetDailyPeriodTimeSpan());
+            dateTime = dateTime.AddSeconds(1);
+            while (dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday)
+            {
+                dateTime = dateTime.AddDays(1);
+            }
+            return dateTime.TodaysClose();
         }
 
         /// <summary>
@@ -61,14 +66,14 @@ namespace Sonneville.PriceTools.Extensions
 
         #region Private Methods
 
-        private static TimeSpan GetDailyPeriodTimeSpan()
+        private static DateTime TodaysClose(this DateTime dateTime)
         {
-            return new TimeSpan(23, 59, 59);
+            return dateTime.Date.Add(new TimeSpan(23, 59, 59));
         }
 
-        private static DateTime AddOpenTime(this DateTime dateTime)
+        private static DateTime TodaysOpen(this DateTime dateTime)
         {
-            return dateTime;
+            return dateTime.Date;
         }
 
         #endregion
