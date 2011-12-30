@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.Services
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to download.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
         PriceHistoryCsvFile GetPriceHistoryCsvFile(string ticker, DateTime head, DateTime tail, Resolution resolution);
 

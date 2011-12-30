@@ -500,7 +500,7 @@ namespace Sonneville.PriceToolsTest
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
             var provider = new YahooPriceDataProvider();
-            target.DownloadPriceData(provider, dateTime);
+            target.RetrievePriceData(provider, dateTime);
 
             Assert.IsNotNull(target[dateTime.AddHours(12)]);    // add 12 hours because no price is available at midnight.
         }
@@ -513,7 +513,7 @@ namespace Sonneville.PriceToolsTest
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
             var provider = new YahooPriceDataProvider();
-            target.DownloadPriceData(provider, head, tail);
+            target.RetrievePriceData(provider, head, tail);
 
             Assert.IsNotNull(target[tail]);
         }
@@ -527,7 +527,7 @@ namespace Sonneville.PriceToolsTest
             var tail = head.AddMonths(1);
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
 
-            target.DownloadPriceData(provider, head, tail);
+            target.RetrievePriceData(provider, head, tail);
         }
 
         private static IEnumerable<ReactionMove> GetReactionHighs()
