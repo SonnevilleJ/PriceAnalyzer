@@ -101,7 +101,7 @@ namespace Sonneville.PriceTools
         {
             lock (_padlock)
             {
-                return _transactions
+                return _transactions.AsParallel()
                     .Where(transaction => transaction.SettlementDate <= asOfDate)
                     .Sum(transaction => transaction.Amount);
             }
