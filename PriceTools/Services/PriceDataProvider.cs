@@ -132,7 +132,7 @@ namespace Sonneville.PriceTools.Services
         private void UpdatePriceSeries(IPriceSeries priceSeries)
         {
             var timeSpan = new TimeSpan((long) priceSeries.Resolution);
-            var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.GetFollowingOpen() : DateTime.Now.Subtract(timeSpan).GetCurrentOrFollowingOpen();
+            var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.GetFollowingOpen() : DateTime.Now.GetMostRecentOpen();
             var tail = DateTime.Now.GetMostRecentClose();
 
             priceSeries.RetrievePriceData(this, head, tail);

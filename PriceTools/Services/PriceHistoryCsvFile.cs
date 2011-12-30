@@ -148,8 +148,35 @@ namespace Sonneville.PriceTools.Services
             for (var i = 0; i < stagedPeriods.Count; i++)
             {
                 var stagedPeriod = stagedPeriods[i];
-                var head = i == 0 && impliedHead.HasValue ? impliedHead.Value.GetCurrentOrFollowingOpen() : GetHead(stagedPeriod.Date, resolution);
-                var tail = i == stagedPeriods.Count - 1 && impliedTail.HasValue ? impliedTail.Value.AddSeconds(1).GetMostRecentClose() : GetTail(stagedPeriod.Date, resolution);
+                DateTime head;
+                DateTime tail;
+
+                if (i == 0 && impliedHead.HasValue)
+                {
+                    var dateTime = impliedHead.Value;
+                    if (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday)
+                    {
+                        head = dateTime.GetFollowingOpen();
+                    }
+                    else
+                    {
+                        head = dateTime.GetMostRecentOpen();
+                    }
+                }
+                else
+                {
+                    head = GetHead(stagedPeriod.Date, resolution);
+                }
+
+                if (i == stagedPeriods.Count - 1 && impliedTail.HasValue)
+                {
+                    tail = impliedTail.Value.AddSeconds(1).GetMostRecentClose();
+                }
+                else
+                {
+                    tail = GetTail(stagedPeriod.Date, resolution);
+                }
+
                 var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
                 pricePeriods.Add(period);
             }

@@ -61,7 +61,7 @@ namespace Sonneville.PriceTools.Extensions
             {
                 dateTime = dateTime.AddDays(1);
             }
-            return dateTime.GetMostRecentOpen();
+            return dateTime.TodaysOpen();
         }
 
         #region Private Methods
