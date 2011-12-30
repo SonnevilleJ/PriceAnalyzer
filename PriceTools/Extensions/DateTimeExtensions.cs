@@ -14,7 +14,11 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime GetFollowingOpen(this DateTime dateTime)
         {
-            return dateTime.AddDays(1).GetCurrentOrFollowingOpen().GetMostRecentOpen();
+            do
+            {
+                dateTime = dateTime.AddDays(1);
+            } while (dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday);
+            return dateTime.Date.AddOpenTime();
         }
 
         /// <summary>
@@ -60,6 +64,11 @@ namespace Sonneville.PriceTools.Extensions
         private static TimeSpan GetDailyPeriodTimeSpan()
         {
             return new TimeSpan(23, 59, 59);
+        }
+
+        private static DateTime AddOpenTime(this DateTime dateTime)
+        {
+            return dateTime;
         }
 
         #endregion
