@@ -167,56 +167,6 @@ namespace Sonneville.PriceToolsTest
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
-        public void GetCurrentOrFollowingTradingDayTestMonday()
-        {
-            var target = new DateTime(2011, 8, 1);
-            
-            var expected = target;
-            var actual = target.GetCurrentOrFollowingOpen();
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void GetCurrentOrFollowingTradingDayReturnsOpen()
-        {
-            var target = new DateTime(2011, 8, 4, 12, 0, 0);
-            
-            var expected = target.GetMostRecentOpen();
-            var actual = target.GetCurrentOrFollowingOpen();
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void GetCurrentOrFollowingTradingDayTestFriday()
-        {
-            var target = new DateTime(2011, 8, 5);
-            
-            var expected = target;
-            var actual = target.GetCurrentOrFollowingOpen();
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void GetCurrentOrFollowingTradingDayTestSaturday()
-        {
-            var target = new DateTime(2011, 8, 6);
-            
-            var expected = new DateTime(2011, 8, 8);
-            var actual = target.GetCurrentOrFollowingOpen();
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void GetCurrentOrFollowingTradingDayTestSunday()
-        {
-            var target = new DateTime(2011, 8, 7);
-            
-            var expected = new DateTime(2011, 8, 8);
-            var actual = target.GetCurrentOrFollowingOpen();
-            Assert.AreEqual(expected, actual);
-        }
-
         /// <summary>
         ///A test for GetMostRecentOpen
         ///</summary>
@@ -238,7 +188,7 @@ namespace Sonneville.PriceToolsTest
         {
             var target = new DateTime(2011, 8, 6);
 
-            var expected = new DateTime(2011, 8, 5).GetCurrentOrFollowingOpen();
+            var expected = new DateTime(2011, 8, 5);
             var actual = target.GetMostRecentOpen();
             Assert.AreEqual(expected, actual);
         }

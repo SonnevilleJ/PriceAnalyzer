@@ -52,7 +52,7 @@ namespace Sonneville.PriceToolsTest
             var seriesTail = new DateTime(2011, 6, 30).GetFollowingClose();     // Thursday
             var priceSeries = new YahooPriceHistoryCsvFile("DE", new ResourceStream(CsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
 
-            var expected = seriesHead.GetCurrentOrFollowingOpen();
+            var expected = seriesHead.GetFollowingOpen();
             var actual = priceSeries.Head;
             Assert.AreEqual(expected, actual);
         }

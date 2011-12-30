@@ -7,6 +7,8 @@ namespace Sonneville.PriceTools.Extensions
     /// </summary>
     public static class DateTimeExtensions
     {
+        private static readonly TimeSpan TimeFromOpenToClose = new TimeSpan(23, 59, 59);
+
         /// <summary>
         /// Gets the next opening DateTime. This method does not consider holidays.
         /// </summary>
@@ -49,34 +51,6 @@ namespace Sonneville.PriceTools.Extensions
             } while (dateTime.DayOfWeek != DayOfWeek.Monday);
             return dateTime.TodaysOpen();
         }
-
-        /// <summary>
-        /// Returns the nearest daily open. If the given day is not a trading day, the date is advanced to the next trading day.
-        /// </summary>
-        /// <param name="dateTime"></param>
-        /// <returns></returns>
-        public static DateTime GetCurrentOrFollowingOpen(this DateTime dateTime)
-        {
-            while (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday)
-            {
-                dateTime = dateTime.AddDays(1);
-            }
-            return dateTime.TodaysOpen();
-        }
-
-        #region Private Methods
-
-        private static DateTime TodaysClose(this DateTime dateTime)
-        {
-            return dateTime.Date.Add(new TimeSpan(23, 59, 59));
-        }
-
-        private static DateTime TodaysOpen(this DateTime dateTime)
-        {
-            return dateTime.Date;
-        }
-
-        #endregion
 
         /// <summary>
         /// Gets the DateTime of the most recent daily open.
@@ -184,5 +158,19 @@ namespace Sonneville.PriceTools.Extensions
             var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
             return firstDayOfMonth.TodaysOpen();
         }
+
+        #region Private Methods
+
+        private static DateTime TodaysClose(this DateTime dateTime)
+        {
+            return dateTime.TodaysOpen().Add(TimeFromOpenToClose);
+        }
+
+        private static DateTime TodaysOpen(this DateTime dateTime)
+        {
+            return dateTime.Date;
+        }
+
+        #endregion
     }
 }

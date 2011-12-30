@@ -325,7 +325,7 @@ namespace Sonneville.PriceToolsTest
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var weeklyPeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
 
-            var weekHead = seriesHead.GetCurrentOrFollowingOpen();
+            var weekHead = seriesHead.GetFollowingOpen();
             var weekTail = seriesHead.GetFollowingWeeklyClose();
 
             var dtfi = DateTimeFormatInfo.CurrentInfo;
@@ -364,7 +364,7 @@ namespace Sonneville.PriceToolsTest
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var monthlyPeriods = priceSeries.GetPricePeriods(Resolution.Months);
 
-            var monthHead = seriesHead.GetCurrentOrFollowingOpen();
+            var monthHead = seriesHead.GetFollowingOpen();
             var monthTail = seriesHead.GetFollowingMonthlyClose();
 
             var dtfi = DateTimeFormatInfo.CurrentInfo;
@@ -779,7 +779,7 @@ namespace Sonneville.PriceToolsTest
         public void AddPricePeriodEventTest()
         {
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
-            var head = new DateTime(2011, 12, 28).GetCurrentOrFollowingOpen();
+            var head = new DateTime(2011, 12, 28);
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
             var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
@@ -805,7 +805,7 @@ namespace Sonneville.PriceToolsTest
         public void AddPricePeriodEventArgsTest()
         {
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
-            var head = new DateTime(2011, 12, 28).GetCurrentOrFollowingOpen();
+            var head = new DateTime(2011, 12, 28);
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
             var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
@@ -867,7 +867,7 @@ namespace Sonneville.PriceToolsTest
         public void AddPricePeriodAddsToPricePeriodsTest()
         {
             var target = PriceSeriesFactory.CreatePriceSeries("DE");
-            var head = new DateTime(2011, 12, 28).GetCurrentOrFollowingOpen();
+            var head = new DateTime(2011, 12, 28);
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
             var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
@@ -882,7 +882,7 @@ namespace Sonneville.PriceToolsTest
         public void AddPricePeriodOverlapTestInner()
         {
             var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var head = new DateTime(2011, 2, 28).GetCurrentOrFollowingOpen();
+            var head = new DateTime(2011, 2, 28);
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
             var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
