@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools.Extensions
             {
                 date = date.AddDays(-1);
             }
-            return date.Date;
+            return date.TodaysOpen();
         }
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace Sonneville.PriceTools.Extensions
             {
                 date = date.AddDays(-1);
             }
-            return date.GetMostRecentOpen().GetFollowingClose();
+            return date.TodaysClose();
         }
 
         /// <summary>
@@ -118,7 +118,7 @@ namespace Sonneville.PriceTools.Extensions
             {
                 date = date.AddDays(-1);
             }
-            return GetMostRecentOpen(date);
+            return date.TodaysOpen();
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Sonneville.PriceTools.Extensions
             {
                 date = date.AddDays(-1);
             }
-            return date.GetFollowingClose();
+            return date.TodaysClose();
         }
 
         /// <summary>
@@ -146,7 +146,7 @@ namespace Sonneville.PriceTools.Extensions
             {
                 date = date.AddDays(1);
             }
-            return date.GetFollowingClose();
+            return date.TodaysClose();
         }
 
         /// <summary>
