@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools.Extensions
             {
                 dateTime = dateTime.AddDays(1);
             } while (dateTime.DayOfWeek != DayOfWeek.Monday);
-            return dateTime.GetMostRecentOpen();
+            return dateTime.TodaysOpen();
         }
 
         /// <summary>
@@ -158,7 +158,7 @@ namespace Sonneville.PriceTools.Extensions
         {
             var next = date.AddMonths(1);
             var firstDayOfMonth = new DateTime(next.Year, next.Month, 1);
-            return firstDayOfMonth.GetCurrentOrFollowingOpen();
+            return firstDayOfMonth.TodaysOpen();
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace Sonneville.PriceTools.Extensions
             var next = date.AddMonths(1);
             var firstDayOfMonth = new DateTime(next.Year, next.Month, 1);
             var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-            return lastDayOfMonth.GetCurrentOrFollowingOpen().GetFollowingClose();
+            return lastDayOfMonth.TodaysClose();
         }
 
         /// <summary>
@@ -182,7 +182,7 @@ namespace Sonneville.PriceTools.Extensions
         public static DateTime GetMostRecentMonthlyOpen(this DateTime date)
         {
             var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-            return firstDayOfMonth.GetCurrentOrFollowingOpen();
+            return firstDayOfMonth.TodaysOpen();
         }
     }
 }
