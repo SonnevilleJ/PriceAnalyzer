@@ -286,13 +286,12 @@ namespace Sonneville.PriceTools
         public void AddPriceData(IEnumerable<IPricePeriod> pricePeriods)
         {
             var orderedPeriods = pricePeriods.OrderByDescending(period => period.Head);
+            if (_dataPeriods.Where(period => period.HasValueInRange(orderedPeriods.Min(p=>p.Head)) || period.HasValueInRange(orderedPeriods.Max(p=>p.Tail))).Count() > 0)
+                throw new InvalidOperationException("Cannot add a PricePeriod for a DateTime range which overlaps that of the PriceSeries.");
+
             foreach (var pricePeriod in orderedPeriods)
             {
-                var period = pricePeriod;
-                if (_dataPeriods.Where(p => p.HasValueInRange(period.Head) || p.HasValueInRange(period.Tail)).Count() > 0)
-                    throw new InvalidOperationException("Cannot add a PricePeriod for a DateTime range which overlaps that of the PriceSeries.");
-
-                _dataPeriods.Add(period);
+                _dataPeriods.Add(pricePeriod);
             }
             var eventArgs = new NewPriceDataAvailableEventArgs
                                 {

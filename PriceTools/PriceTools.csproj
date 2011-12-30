@@ -60,6 +60,7 @@
     <Compile Include="DividendReinvestment.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="MeasurableSecurityBasketExtensions.cs" />
+    <Compile Include="Services\CsvPriceDataProvider.cs" />
     <Compile Include="Services\IPriceDataProvider.cs" />
     <Compile Include="TimeSeriesExtensions.cs" />
     <Compile Include="HighLow.cs" />

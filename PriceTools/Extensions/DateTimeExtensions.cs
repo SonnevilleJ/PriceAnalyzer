@@ -61,7 +61,7 @@ namespace Sonneville.PriceTools.Extensions
         }
 
         /// <summary>
-        /// Returns the nearest trading day. If the given day is not a trading day, the date is advanced to the next trading day.
+        /// Returns the nearest daily open. If the given day is not a trading day, the date is advanced to the next trading day.
         /// </summary>
         /// <param name="dateTime"></param>
         /// <returns></returns>
@@ -71,7 +71,21 @@ namespace Sonneville.PriceTools.Extensions
             {
                 dateTime = dateTime.AddDays(1);
             }
-            return dateTime;
+            return dateTime.GetMostRecentOpen();
+        }
+
+        /// <summary>
+        /// Returns the nearest daily close. If the given day is not a trading day, the date is advanced to the next trading day.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
+        public static DateTime GetCurrentOrFollowingClose(this DateTime dateTime)
+        {
+            while (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday)
+            {
+                dateTime = dateTime.AddDays(1);
+            }
+            return dateTime.GetFollowingClose();
         }
 
         #region Private Methods

@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Services
     /// <summary>
     /// Parses an <see cref = "IPriceSeries" /> from Google Finance CSV files.
     /// </summary>
-    public sealed class GooglePriceDataProvider : PriceDataProvider
+    public sealed class GooglePriceDataProvider : CsvPriceDataProvider
     {
         #region Overrides of PriceDataProvider
 
