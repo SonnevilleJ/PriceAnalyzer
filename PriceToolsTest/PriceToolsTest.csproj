@@ -51,26 +51,18 @@
     <Compile Include="BuyToCoverTest.cs" />
     <Compile Include="CommonIndicatorTests.cs" />
     <Compile Include="DateTimeExtensionsTest.cs" />
-    <Compile Include="FidelityBrokeragelinkTransactionHistoryCsvFileTest.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteTest.cs" />
     <Compile Include="PriceHistoryCsvFileTest.cs" />
-    <Compile Include="PriceDataProviderTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />
     <Compile Include="RelativeStrengthIndexTest.cs" />
     <Compile Include="ShareTransactionTest.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
-    <Compile Include="TestData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>TestData.resx</DependentUpon>
-    </Compile>
     <Compile Include="WithdrawalTest.cs" />
     <Compile Include="DepositTest.cs" />
     <Compile Include="DividendReinvestmentTest.cs" />
     <Compile Include="DividendReceiptTest.cs" />
     <Compile Include="SellShortTest.cs" />
-    <Compile Include="FidelityTransactionHistoryCsvFileTest.cs" />
     <Compile Include="CashAccountTest.cs" />
     <Compile Include="SimpleMovingAverageTest.cs" />
     <Compile Include="PortfolioTest.cs" />
@@ -85,9 +77,25 @@
       <Project>{9E171B34-27C7-4017-B624-803250B399D2}</Project>
       <Name>CsvReader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Data.Fidelity\Data.Fidelity.csproj">
+      <Project>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</Project>
+      <Name>Data.Fidelity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data.Google\Data.Google.csproj">
+      <Project>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</Project>
+      <Name>Data.Google</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data.Yahoo\Data.Yahoo.csproj">
+      <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
+      <Name>Data.Yahoo</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SamplePortfolioData\SamplePortfolioData.csproj">
+      <Project>{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}</Project>
+      <Name>SamplePortfolioData</Name>
     </ProjectReference>
     <ProjectReference Include="..\SamplePriceData\SamplePriceData.csproj">
       <Project>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</Project>
@@ -102,17 +110,7 @@
     <None Include="App.Config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Resources\BrokerageLink_trades.csv" />
-    <None Include="Resources\BrokerageLink_TransactionPriceRounding.csv" />
     <None Include="Resources\cs-rsi.xls" />
-    <None Include="Resources\FidelityTransactions.csv" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="TestData.resx">
-      <SubType>Designer</SubType>
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>TestData.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

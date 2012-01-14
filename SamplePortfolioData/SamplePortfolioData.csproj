@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</ProjectGuid>
+    <ProjectGuid>{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.SamplePriceData</RootNamespace>
-    <AssemblyName>SamplePriceData</AssemblyName>
+    <RootNamespace>SamplePortfolioData</RootNamespace>
+    <AssemblyName>SamplePortfolioData</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,41 +40,35 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CsvPriceHistory.cs" />
-    <Compile Include="CsvPriceData.Designer.cs">
+    <Compile Include="FidelityBrokerageLinkCsv.cs" />
+    <Compile Include="PortfolioCsv.cs" />
+    <Compile Include="PortfolioTransactionHistoryCsvFiles.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FidelityData.Designer.cs">
+      <DependentUpon>FidelityData.resx</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CsvPriceData.resx</DependentUpon>
     </Compile>
-    <Compile Include="PriceHistoryCsvFiles.cs" />
-    <Compile Include="ResourceStream.cs" />
-    <Compile Include="SamplePriceSeries.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CsvPriceData.resx">
+    <EmbeddedResource Include="FidelityData.resx">
       <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>CsvPriceData.Designer.cs</LastGenOutput>
+      <LastGenOutput>FidelityData.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DE 1-1-2011 to 3-15-2011 Daily Yahoo.csv" />
-    <None Include="Resources\DE 1-1-2011 to 6-30-2011.csv" />
-    <None Include="Resources\DE Apr-June 2011 Weekly Google.csv" />
-    <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Data.Google\Data.Google.csproj">
-      <Project>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</Project>
-      <Name>Data.Google</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Data.Yahoo\Data.Yahoo.csproj">
-      <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
-      <Name>Data.Yahoo</Name>
+    <ProjectReference Include="..\Data.Fidelity\Data.Fidelity.csproj">
+      <Project>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</Project>
+      <Name>Data.Fidelity</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SamplePriceData\SamplePriceData.csproj">
+      <Project>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</Project>
+      <Name>SamplePriceData</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

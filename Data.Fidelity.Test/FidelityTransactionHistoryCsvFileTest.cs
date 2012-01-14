@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using Data.Yahoo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
+using SamplePortfolioData;
 using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.PriceTools.Services;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Data.Fidelity.Test
 {
     /// <summary>
     ///This is a test class for FidelityTransactionHistoryCsvFileTest and is intended
@@ -21,7 +22,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void ParsePortfolioTest()
         {
-            using (Stream csvStream = new ResourceStream(TestData.FidelityTransactions))
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.FidelityTransactions))
             {
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 IPortfolio portfolio = new Portfolio(target, "FTEXX");
@@ -57,7 +58,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void TickerTest()
         {
-            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(TestData.FidelityTransactions));
+            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.FidelityTransactions));
             var ticker = String.Empty;
 
             IPortfolio target = new Portfolio(csvFile, ticker);
@@ -68,7 +69,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void PositionsTest()
         {
-            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(TestData.FidelityTransactions));
+            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.FidelityTransactions));
             var ticker = String.Empty;
 
             IPortfolio target = new Portfolio(csvFile, ticker);
@@ -79,7 +80,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void AvailableCashTest()
         {
-            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(TestData.FidelityTransactions));
+            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.FidelityTransactions));
 
             IPortfolio target = new Portfolio(csvFile, "FTEXX");
 

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Data.Yahoo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceToolsTest
 {

@@ -1,8 +1,7 @@
-﻿using Sonneville.PriceTools;
+﻿using Data.Yahoo;
+using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Sonneville.PriceTools.SamplePriceData;
-using Sonneville.PriceTools.Services;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -48,9 +47,9 @@ namespace Sonneville.PriceToolsTest
         }
 
         [TestMethod]
-        public void ConstructorTest4()
+        public void Constructor4Test()
         {
-            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(TestData.FidelityTransactions));
+            var csvFile = SamplePortfolioData.PortfolioTransactionHistoryCsvFiles.FidelityTransactions;
             var ticker = String.Empty;
 
             IPortfolio target = new Portfolio(csvFile);

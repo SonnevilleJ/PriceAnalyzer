@@ -3,16 +3,17 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
+    <ProductVersion>
+    </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</ProjectGuid>
+    <ProjectGuid>{B7035D8C-D693-4BE2-B531-A5D58EE301AE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.SamplePriceData</RootNamespace>
-    <AssemblyName>SamplePriceData</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.Data.Fidelity.Test</RootNamespace>
+    <AssemblyName>Data.Fidelity.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,42 +33,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CsvPriceHistory.cs" />
-    <Compile Include="CsvPriceData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CsvPriceData.resx</DependentUpon>
-    </Compile>
-    <Compile Include="PriceHistoryCsvFiles.cs" />
-    <Compile Include="ResourceStream.cs" />
-    <Compile Include="SamplePriceSeries.cs" />
+    <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
+      <Visible>False</Visible>
+    </CodeAnalysisDependentAssemblyPaths>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FidelityBrokeragelinkTransactionHistoryCsvFileTest.cs" />
+    <Compile Include="FidelityTransactionHistoryCsvFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CsvPriceData.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>CsvPriceData.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\DE 1-1-2011 to 3-15-2011 Daily Yahoo.csv" />
-    <None Include="Resources\DE 1-1-2011 to 6-30-2011.csv" />
-    <None Include="Resources\DE Apr-June 2011 Weekly Google.csv" />
-    <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Data.Google\Data.Google.csproj">
-      <Project>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</Project>
-      <Name>Data.Google</Name>
+    <ProjectReference Include="..\Data.Fidelity\Data.Fidelity.csproj">
+      <Project>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</Project>
+      <Name>Data.Fidelity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Data.Yahoo\Data.Yahoo.csproj">
       <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
@@ -77,8 +62,16 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SamplePortfolioData\SamplePortfolioData.csproj">
+      <Project>{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}</Project>
+      <Name>SamplePortfolioData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SamplePriceData\SamplePriceData.csproj">
+      <Project>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</Project>
+      <Name>SamplePriceData</Name>
+    </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

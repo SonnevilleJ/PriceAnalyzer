@@ -84,17 +84,11 @@
     <Compile Include="PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
     <Compile Include="RelativeStrengthIndex.cs" />
-    <Compile Include="Services\FidelityBrokerageLinkTransactionHistoryCsvFile.cs" />
-    <Compile Include="Services\FidelityTransactionHistoryCsvFile.cs" />
-    <Compile Include="Services\GooglePriceHistoryCsvFile.cs" />
-    <Compile Include="Services\GooglePriceDataProvider.cs" />
     <Compile Include="Services\PriceColumn.cs" />
     <Compile Include="Services\PriceHistoryCsvFile.cs" />
     <Compile Include="Services\PriceDataProvider.cs" />
     <Compile Include="Services\TransactionColumn.cs" />
     <Compile Include="Services\TransactionHistoryCsvFile.cs" />
-    <Compile Include="Services\YahooPriceHistoryCsvFile.cs" />
-    <Compile Include="Services\YahooPriceDataProvider.cs" />
     <Compile Include="StaticPricePeriod.cs" />
     <Compile Include="PriceQuote.cs" />
     <Compile Include="QuotedPricePeriod.cs" />

@@ -2,98 +2,16 @@
 using System.Collections.Generic;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.PriceTools.Services;
 using Sonneville.Utilities;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Data.Google.Test
 {
     [TestClass]
-    public class PriceDataProviderTest
+    public class GooglePriceDataProviderTest
     {
-        [TestMethod]
-        public void YahooDownloadDailyTestResolution()
-        {
-            var provider = new YahooPriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Days);
-
-            Assert.AreEqual(Resolution.Days, target.Resolution);
-            foreach (var period in ((PriceSeries)target).PricePeriods)
-            {
-                Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
-            }
-        }
-
-        [TestMethod]
-        public void YahooDownloadDailyTestPeriods()
-        {
-            var provider = new YahooPriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Days);
-
-            Assert.AreEqual(50, target.PricePeriods.Count);
-        }
-
-        [TestMethod]
-        public void YahooDownloadDailyTestDates()
-        {
-            var provider = new YahooPriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Days);
-
-            // verify dates
-            Assert.AreEqual(head, target.Head);
-            Assert.AreEqual(tail, target.Tail);
-        }
-
-        [TestMethod]
-        public void YahooDownloadWeeklyTestPeriods()
-        {
-            var provider = new YahooPriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Weeks);
-
-            Assert.AreEqual(11, target.PricePeriods.Count);
-        }
-
-        [TestMethod]
-        public void YahooDownloadWeeklyTestResolution()
-        {
-            var provider = new YahooPriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Weeks);
-
-            Assert.AreEqual(Resolution.Weeks, target.Resolution);
-            var periods = target.PricePeriods;
-            for (var i = 1; i < periods.Count - 1; i++) // skip check on first and last periods
-            {
-                Assert.IsTrue(periods[i].Tail - periods[i].Head >= new TimeSpan(23, 59, 59));
-                Assert.IsTrue(periods[i].Tail - periods[i].Head < new TimeSpan(7, 0, 0, 0));
-            }
-        }
-
-        [TestMethod]
-        public void YahooDownloadWeeklyTestDates()
-        {
-            var provider = new YahooPriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Weeks);
-
-            Assert.AreEqual(head, target.Head);
-            Assert.AreEqual(tail, target.Tail);
-        }
 
         [TestMethod]
         public void GoogleDownloadDailyTestResolution()

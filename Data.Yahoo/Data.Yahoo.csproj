@@ -5,14 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</ProjectGuid>
+    <ProjectGuid>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.SamplePriceData</RootNamespace>
-    <AssemblyName>SamplePriceData</AssemblyName>
+    <RootNamespace>Data.Yahoo</RootNamespace>
+    <AssemblyName>Data.Yahoo</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -41,38 +40,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CsvPriceHistory.cs" />
-    <Compile Include="CsvPriceData.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>CsvPriceData.resx</DependentUpon>
-    </Compile>
-    <Compile Include="PriceHistoryCsvFiles.cs" />
-    <Compile Include="ResourceStream.cs" />
-    <Compile Include="SamplePriceSeries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="YahooPriceDataProvider.cs" />
+    <Compile Include="YahooPriceHistoryCsvFile.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CsvPriceData.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>CsvPriceData.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\DE 1-1-2011 to 3-15-2011 Daily Yahoo.csv" />
-    <None Include="Resources\DE 1-1-2011 to 6-30-2011.csv" />
-    <None Include="Resources\DE Apr-June 2011 Weekly Google.csv" />
-    <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Data.Google\Data.Google.csproj">
-      <Project>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</Project>
-      <Name>Data.Google</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Data.Yahoo\Data.Yahoo.csproj">
-      <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
-      <Name>Data.Yahoo</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>

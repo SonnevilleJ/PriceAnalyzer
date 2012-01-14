@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Data.Yahoo;
 using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
-using Sonneville.PriceTools.Services;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceToolsTest
@@ -411,7 +411,7 @@ namespace Sonneville.PriceToolsTest
         [ExpectedException(typeof(InvalidOperationException))]
         public void GetDailyPeriodsFromWeeklyPeriodsTest()
         {
-            var priceSeries = new GooglePriceHistoryCsvFile("DE", CsvPriceHistory.DE_Apr_June_2011_Weekly_Google).PriceSeries;
+            var priceSeries = SamplePriceSeries.DE_Apr_June_2011_Weekly_Google;
             priceSeries.GetPricePeriods(Resolution.Days);
         }
 
