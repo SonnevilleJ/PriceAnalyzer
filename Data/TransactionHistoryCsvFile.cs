@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.Data
     /// <summary>
     ///   Parses a single <see cref = "IPortfolio" /> from CSV data for an investment portfolio.
     /// </summary>
-    public abstract class TransactionHistoryCsvFile
+    public abstract class TransactionHistoryCsvFile : ITransactionHistory
     {
         #region Private Members
 
@@ -58,10 +58,10 @@ namespace Sonneville.PriceTools.Data
 
         private void MapHeaders(CsvReader reader)
         {
-            string[] headers = reader.GetFieldHeaders();
-            for (int i = 0; i < headers.Length; i++)
+            var headers = reader.GetFieldHeaders();
+            for (var i = 0; i < headers.Length; i++)
             {
-                TransactionColumn column = ParseColumnHeader(headers[i]);
+                var column = ParseColumnHeader(headers[i]);
                 if (column != TransactionColumn.None)
                 {
                     _map.Add(column, i);
@@ -75,19 +75,19 @@ namespace Sonneville.PriceTools.Data
         private void Parse(Stream stream)
         {
             if (_tableParsed) return;
-            using (CsvReader reader = new CsvReader(new StreamReader(stream), true))
+            using (var reader = new CsvReader(new StreamReader(stream), true))
             {
                 MapHeaders(reader);
 
                 while (reader.ReadNextRecord())
                 {
-                    string ticker = string.Empty;
+                    var ticker = string.Empty;
                     decimal price;
 
-                    OrderType orderType = ParseOrderTypeColumn(reader[_map[TransactionColumn.OrderType]]);
-                    DateTime settlementDate = ParseDateColumn(reader[_map[TransactionColumn.Date]]);
-                    double shares = ParseSharesColumn(reader[_map[TransactionColumn.Shares]]);
-                    decimal commission = ParsePriceColumn(reader[_map[TransactionColumn.Commission]]);
+                    var orderType = ParseOrderTypeColumn(reader[_map[TransactionColumn.OrderType]]);
+                    var settlementDate = ParseDateColumn(reader[_map[TransactionColumn.Date]]);
+                    var shares = ParseSharesColumn(reader[_map[TransactionColumn.Shares]]);
+                    var commission = ParsePriceColumn(reader[_map[TransactionColumn.Commission]]);
 
                     if (orderType != OrderType.Deposit &&
                         orderType != OrderType.Withdrawal &&
@@ -159,10 +159,10 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed <see cref="DateTime"/>.</returns>
         protected virtual DateTime ParseDateColumn(string text)
         {
-            string result = text.Trim();
+            var result = text.Trim();
             if(string.IsNullOrWhiteSpace(result))
             {
-                throw new ArgumentNullException("text", "Parsed date was returned as null or whitespace.");
+                throw new ArgumentNullException("text", Strings.TransactionHistoryCsvFile_ParseDateColumn_Parsed_date_was_returned_as_null_or_whitespace_);
             }
             return DateTime.Parse(result, CultureInfo.InvariantCulture);
         }
@@ -181,10 +181,10 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed ticker symbol.</returns>
         protected virtual string ParseSymbolColumn(string text)
         {
-            string result = text.Trim();
+            var result = text.Trim();
             if (string.IsNullOrWhiteSpace(result))
             {
-                throw new ArgumentNullException("text", "Parsed ticker symbol was returned as null or whitespace.");
+                throw new ArgumentNullException("text", Strings.TransactionHistoryCsvFile_ParseSymbolColumn_Parsed_ticker_symbol_was_returned_as_null_or_whitespace_);
             }
             return result.ToUpperInvariant();
         }
@@ -196,7 +196,7 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed number of shares.</returns>
         protected virtual double ParseSharesColumn(string text)
         {
-            string result = text.Trim();
+            var result = text.Trim();
             return string.IsNullOrWhiteSpace(result)
                        ? 0.0
                        : Math.Abs(double.Parse(text.Trim(), CultureInfo.InvariantCulture));
@@ -209,7 +209,7 @@ namespace Sonneville.PriceTools.Data
         /// <returns>The parsed per-share price.</returns>
         protected virtual decimal ParsePriceColumn(string text)
         {
-            string result = text.Trim();
+            var result = text.Trim();
             return string.IsNullOrWhiteSpace(result)
                        ? 0.00m
                        : Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture));

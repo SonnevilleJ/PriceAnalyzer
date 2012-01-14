@@ -1,11 +1,10 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Data.Yahoo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SamplePortfolioData;
+using Sonneville.PriceTools.Data.Yahoo;
+using Sonneville.PriceTools.SamplePortfolioData;
 using Sonneville.PriceTools.SamplePriceData;
-using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.Data.Fidelity.Test
 {
@@ -29,20 +28,20 @@ namespace Sonneville.PriceTools.Data.Fidelity.Test
                 var settlementDate = new DateTime(2010, 11, 16);
                 IPriceDataProvider provider = new YahooPriceDataProvider();
 
-                var ALTR = portfolio.Positions.Where(p => p.Ticker == "ALTR").First();
-                decimal investedValue = ALTR.CalculateInvestedValue(provider, settlementDate);
+                var altr = portfolio.Positions.Where(p => p.Ticker == "ALTR").First();
+                var investedValue = altr.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
 
-                var NTAP = portfolio.Positions.Where(p => p.Ticker == "NTAP").First();
-                investedValue = NTAP.CalculateInvestedValue(provider, settlementDate);
+                var ntap = portfolio.Positions.Where(p => p.Ticker == "NTAP").First();
+                investedValue = ntap.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
 
-                var NTCT = portfolio.Positions.Where(p => p.Ticker == "NTCT").First();
-                investedValue = NTCT.CalculateInvestedValue(provider, settlementDate);
+                var ntct = portfolio.Positions.Where(p => p.Ticker == "NTCT").First();
+                investedValue = ntct.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
 
-                var PG = portfolio.Positions.Where(p => p.Ticker == "PG").First();
-                investedValue = PG.CalculateInvestedValue(provider, settlementDate);
+                var pg = portfolio.Positions.Where(p => p.Ticker == "PG").First();
+                investedValue = pg.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
 
                 const decimal expectedAvailableCash = 2848.43m;

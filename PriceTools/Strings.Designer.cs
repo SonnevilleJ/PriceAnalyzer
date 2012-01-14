@@ -61,38 +61,11 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to access the Internet to download price data..
-        /// </summary>
-        internal static string DownloadPricesToCsv_InternetAccessFailed {
-            get {
-                return ResourceManager.GetString("DownloadPricesToCsv_InternetAccessFailed", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Argument index must be a date within the span of this Indicator..
         /// </summary>
         internal static string IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator {
             get {
                 return ResourceManager.GetString("IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to CSV data is corrupt; closing price cannot be null for any period..
-        /// </summary>
-        internal static string ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period {
-            get {
-                return ResourceManager.GetString("ParseError_CSV_data_is_corrupt__closing_price_cannot_be_null_for_any_period", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Parsed date was returned as null or whitespace..
-        /// </summary>
-        internal static string ParseError_Parsed_date_was_returned_as_null_or_whitespace {
-            get {
-                return ResourceManager.GetString("ParseError_Parsed_date_was_returned_as_null_or_whitespace", resourceCulture);
             }
         }
         
@@ -111,44 +84,6 @@ namespace Sonneville.PriceTools {
         internal static string Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_ {
             get {
                 return ResourceManager.GetString("Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to determine PriceSeriesResolution of data periods in CSV data..
-        /// </summary>
-        internal static string PriceHistoryCsvFile_DetermineResolution_Unable_to_determine_PriceSeriesResolution_of_data_periods_in_CSV_data_ {
-            get {
-                return ResourceManager.GetString("PriceHistoryCsvFile_DetermineResolution_Unable_to_determine_PriceSeriesResolution" +
-                        "_of_data_periods_in_CSV_data_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to get head using Price Series Resolution: {0}.
-        /// </summary>
-        internal static string PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution {
-            get {
-                return ResourceManager.GetString("PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to get tail using Price Series Resolution: {0}.
-        /// </summary>
-        internal static string PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution {
-            get {
-                return ResourceManager.GetString("PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Given duration represents an unknown PriceSeriesResolution..
-        /// </summary>
-        internal static string PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSeriesResolution_ {
-            get {
-                return ResourceManager.GetString("PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSerie" +
-                        "sResolution_", resourceCulture);
             }
         }
         

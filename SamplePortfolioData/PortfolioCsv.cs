@@ -1,4 +1,4 @@
-﻿namespace SamplePortfolioData
+﻿namespace Sonneville.PriceTools.SamplePortfolioData
 {
     public static class PortfolioCsv
     {

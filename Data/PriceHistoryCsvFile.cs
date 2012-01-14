@@ -315,7 +315,7 @@ namespace Sonneville.PriceTools.Data
             var result = text.Trim();
             if (string.IsNullOrWhiteSpace(result))
             {
-                throw new ArgumentNullException("text", Strings.ParseError_Parsed_date_was_returned_as_null_or_whitespace);
+                throw new ArgumentNullException("text", Strings.PriceHistoryCsvFile_ParseDateColumn_Parsed_date_was_returned_as_null_or_whitespace_);
             }
             return DateTime.Parse(result, CultureInfo.InvariantCulture);
         }

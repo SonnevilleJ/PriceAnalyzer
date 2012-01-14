@@ -8,7 +8,7 @@
     <ProjectGuid>{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SamplePortfolioData</RootNamespace>
+    <RootNamespace>Sonneville.PriceTools.SamplePortfolioData</RootNamespace>
     <AssemblyName>SamplePortfolioData</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -61,6 +61,10 @@
     <ProjectReference Include="..\Data.Fidelity\Data.Fidelity.csproj">
       <Project>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</Project>
       <Name>Data.Fidelity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
+      <Name>Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>

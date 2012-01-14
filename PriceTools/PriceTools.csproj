@@ -54,13 +54,13 @@
     <Compile Include="BuyToCover.cs" />
     <Compile Include="CashAccount.cs" />
     <Compile Include="CashTransaction.cs" />
+    <Compile Include="Data\ITransactionHistory.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Deposit.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="DividendReinvestment.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="MeasurableSecurityBasketExtensions.cs" />
-    <Compile Include="Data\CsvPriceDataProvider.cs" />
     <Compile Include="Data\IPriceDataProvider.cs" />
     <Compile Include="TimeSeriesExtensions.cs" />
     <Compile Include="HighLow.cs" />
@@ -84,11 +84,6 @@
     <Compile Include="PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
     <Compile Include="RelativeStrengthIndex.cs" />
-    <Compile Include="Data\PriceColumn.cs" />
-    <Compile Include="Data\PriceHistoryCsvFile.cs" />
-    <Compile Include="Data\PriceDataProvider.cs" />
-    <Compile Include="Data\TransactionColumn.cs" />
-    <Compile Include="Data\TransactionHistoryCsvFile.cs" />
     <Compile Include="StaticPricePeriod.cs" />
     <Compile Include="PriceQuote.cs" />
     <Compile Include="QuotedPricePeriod.cs" />

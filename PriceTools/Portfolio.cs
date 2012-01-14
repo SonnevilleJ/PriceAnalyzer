@@ -64,7 +64,7 @@ namespace Sonneville.PriceTools
         /// Constructs a Portfolio from a <see cref="TransactionHistoryCsvFile"/>.
         /// </summary>
         /// <param name="csvFile">The <see cref="TransactionHistoryCsvFile"/> containing transaction data.</param>
-        public Portfolio(TransactionHistoryCsvFile csvFile)
+        public Portfolio(ITransactionHistory csvFile)
             : this(csvFile, DefaultCashTicker)
         {
         }
@@ -74,7 +74,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="csvFile">The <see cref="TransactionHistoryCsvFile"/> containing transaction data.</param>
         /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
-        public Portfolio(TransactionHistoryCsvFile csvFile, string ticker)
+        public Portfolio(ITransactionHistory csvFile, string ticker)
             : this(ticker)
         {
             AddTransactionHistory(csvFile);
@@ -365,12 +365,12 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Adds transaction history from a CSV file to the Portfolio.
+        /// Adds historical transactions to the Portfolio.
         /// </summary>
-        /// <param name="csvFile">The CSV file containing the transactions to add.</param>
-        public void AddTransactionHistory(TransactionHistoryCsvFile csvFile)
+        /// <param name="transactionHistory">The historical transactions to add.</param>
+        public void AddTransactionHistory(ITransactionHistory transactionHistory)
         {
-            foreach (var transaction in csvFile.Transactions)
+            foreach (var transaction in transactionHistory.Transactions)
             {
                 AddTransaction(transaction);
             }

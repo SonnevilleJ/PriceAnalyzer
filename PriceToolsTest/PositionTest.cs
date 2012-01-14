@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using Data.Yahoo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Data.Yahoo;
 
 namespace Sonneville.PriceToolsTest
 {
@@ -17,15 +16,15 @@ namespace Sonneville.PriceToolsTest
         public void CalculateValueReturnsCorrectWithoutCommissionsAfterGain()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime oDate = new DateTime(2000, 1, 1);
+            var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const double oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
             target.Buy(oDate, oShares, oPrice, oCommission);
 
-            DateTime cDate = new DateTime(2001, 1, 1);
+            var cDate = new DateTime(2001, 1, 1);
             const decimal cPrice = 110.00m;     // sold at $110.00 per share
             const double cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
@@ -33,7 +32,7 @@ namespace Sonneville.PriceToolsTest
 
             // No longer hold these shares, so CalculateValue should return total value without any commissions.
             const decimal expected = 550.00m;   // sold all shares for $550.00
-            decimal actual = target.CalculateValue(cDate);
+            var actual = target.CalculateValue(cDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -41,15 +40,15 @@ namespace Sonneville.PriceToolsTest
         public void CalculateValueReturnsCorrectWithoutCommissionsAfterLoss()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime oDate = new DateTime(2000, 1, 1);
+            var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const double oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
             target.Buy(oDate, oShares, oPrice, oCommission);
 
-            DateTime cDate = new DateTime(2001, 1, 1);
+            var cDate = new DateTime(2001, 1, 1);
             const decimal cPrice = 90.00m;      // sold at $90.00 per share - $10 per share loss
             const double cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
@@ -57,7 +56,7 @@ namespace Sonneville.PriceToolsTest
 
             // No longer hold these shares, so CalculateValue should return total value without any commissions.
             const decimal expected = 450.00m;   // sold all shares for $450.00
-            decimal actual = target.CalculateValue(cDate);
+            var actual = target.CalculateValue(cDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -65,15 +64,15 @@ namespace Sonneville.PriceToolsTest
         public void CalculateTotalValueReturnsCorrectWithCommissionsAfterGain()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime oDate = new DateTime(2000, 1, 1);
+            var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const double oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
             target.Buy(oDate, oShares, oPrice, oCommission);
 
-            DateTime cDate = new DateTime(2001, 1, 1);
+            var cDate = new DateTime(2001, 1, 1);
             const decimal cPrice = 110.00m;     // sold at $110.00 per share
             const double cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
@@ -81,7 +80,7 @@ namespace Sonneville.PriceToolsTest
 
             // No longer hold these shares, so CalculateTotalValue should return total value minus any commissions.
             const decimal expected = 534.10m;   // sold all shares for $550.00
-            decimal actual = target.CalculateTotalValue(new YahooPriceDataProvider(), cDate);
+            var actual = target.CalculateTotalValue(new YahooPriceDataProvider(), cDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -89,15 +88,15 @@ namespace Sonneville.PriceToolsTest
         public void CalculateTotalValueReturnsCorrectWithCommissionsAfterLoss()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime oDate = new DateTime(2000, 1, 1);
+            var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const double oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
             target.Buy(oDate, oShares, oPrice, oCommission);
 
-            DateTime cDate = new DateTime(2001, 1, 1);
+            var cDate = new DateTime(2001, 1, 1);
             const decimal cPrice = 90.00m;      // sold at $90.00 per share - $10 per share loss
             const double cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
@@ -105,7 +104,7 @@ namespace Sonneville.PriceToolsTest
 
             // No longer hold these shares, so CalculateTotalValue should return total value minus any commissions.
             const decimal expected = 434.10m;   // sold all shares for $450.00
-            decimal actual = target.CalculateTotalValue(new YahooPriceDataProvider(), cDate);
+            var actual = target.CalculateTotalValue(new YahooPriceDataProvider(), cDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -113,15 +112,15 @@ namespace Sonneville.PriceToolsTest
         public void IndexerReturnsCalculateValue()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime oDate = new DateTime(2000, 1, 1);
+            var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const double oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
             target.Buy(oDate, oShares, oPrice, oCommission);
 
-            decimal expected = target.CalculateValue(oDate);
+            var expected = target.CalculateValue(oDate);
             decimal? actual = target[oDate];
             Assert.AreEqual(expected, actual);
         }
@@ -137,9 +136,9 @@ namespace Sonneville.PriceToolsTest
         public void CalculateInvestedValueTestBuy()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2000, 12, 29);
+            var buyDate = new DateTime(2000, 12, 29);
             const decimal price = 100.00m;      // $100.00 per share
             const double shares = 5;            // 5 shares
             const decimal commission = 7.95m;   // with $7.95 commission
@@ -149,7 +148,7 @@ namespace Sonneville.PriceToolsTest
             // DE price @ 29 Dec 2000 = $45.81
             // invested value should be $45.81 * 5 shares = $229.05
             const decimal expected = 229.05m;
-            decimal actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), buyDate);
+            var actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), buyDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -157,10 +156,10 @@ namespace Sonneville.PriceToolsTest
         public void CalculateInvestedValueTestSellHalf()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = new DateTime(2001, 1, 2);
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = new DateTime(2001, 1, 2);
             const decimal price = 100.00m;      // $100.00 per share
             const double shares = 10;           // 10 shares
             const decimal commission = 7.95m;   // with $7.95 commission
@@ -171,7 +170,7 @@ namespace Sonneville.PriceToolsTest
             // DE price @ 29 Dec 2000 = $44.81
             // invested value should be $44.81 * 5 shares = $224.05
             const decimal expected = 224.05m;
-            decimal actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), sellDate);
+            var actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -179,10 +178,10 @@ namespace Sonneville.PriceToolsTest
         public void CalculateInvestedValueTestSellAll()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = buyDate.AddDays(1);
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = buyDate.AddDays(1);
             const decimal price = 100.00m;      // $100.00 per share
             const double shares = 10;           // 10 shares
             const decimal commission = 7.95m;   // with $7.95 commission
@@ -191,7 +190,7 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, shares, price + 10m, commission);
 
             const decimal expected = 0.00m;     // $0.00 currently invested
-            decimal actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), sellDate);
+            var actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -200,10 +199,10 @@ namespace Sonneville.PriceToolsTest
         public void SellTooManySharesTest()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = buyDate.AddDays(1);
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = buyDate.AddDays(1);
             const decimal price = 100.00m;      // $100.00 per share
             const double shares = 10;           // 10 shares
             const decimal commission = 7.95m;   // with $7.95 commission
@@ -216,10 +215,10 @@ namespace Sonneville.PriceToolsTest
         public void CalculateRawReturnTest()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = buyDate.AddDays(1);
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = buyDate.AddDays(1);
             const decimal price = 100.00m;      // $100.00 per share
             const double shares = 5;            // 5 shares
             const decimal commission = 7.95m;   // with $7.95 commission
@@ -228,7 +227,7 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, shares, price + 10m, commission);
 
             const decimal expected = 0.1m;      // 10% raw return on investment
-            decimal? actual = target.CalculateRawReturn(sellDate);
+            var actual = target.CalculateRawReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -236,10 +235,10 @@ namespace Sonneville.PriceToolsTest
         public void CalculateRawReturnWithoutProceedsTest()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = buyDate.AddDays(1);
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = buyDate.AddDays(1);
             const decimal price = 100.00m;      // $100.00 per share
             const double shares = 5;            // 5 shares
             const decimal commission = 7.95m;   // with $7.95 commission
@@ -253,10 +252,10 @@ namespace Sonneville.PriceToolsTest
         public void CalculateTotalReturnTest()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = buyDate.AddDays(1);
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = buyDate.AddDays(1);
             const decimal price = 100.00m;       // $100.00 per share
             const double shares = 5;             // 5 shares
             const decimal commission = 5.00m;    // with $5 commission
@@ -265,7 +264,7 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, shares, price + 2.00m, commission);
             
             const decimal expected = 0.00m;      // 0% return; 100% of original investment
-            decimal? actual = target.CalculateTotalReturn(sellDate);
+            var actual = target.CalculateTotalReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -273,10 +272,10 @@ namespace Sonneville.PriceToolsTest
         public void CalculateTotalReturnTest2()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = buyDate.AddDays(1);
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = buyDate.AddDays(1);
             const decimal price = 100.00m;       // $100.00 per share
             const double shares = 5;             // 5 shares
             const decimal commission = 0.00m;    // with $0 commission
@@ -285,7 +284,7 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, shares, price * 2m, commission);
 
             const decimal expected = 1.00m;      // 100% return; 200% of original investment
-            decimal? actual = target.CalculateTotalReturn(sellDate);
+            var actual = target.CalculateTotalReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -293,10 +292,10 @@ namespace Sonneville.PriceToolsTest
         public void CalculateTotalReturnWithoutProceedsTest()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = buyDate.AddDays(1);
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = buyDate.AddDays(1);
             const decimal price = 100.00m;       // $100.00 per share
             const double shares = 5;             // 5 shares
             const decimal commission = 5.00m;    // with $5 commission
@@ -310,10 +309,10 @@ namespace Sonneville.PriceToolsTest
         public void CalculateAverageAnnualReturnTest()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
             const decimal buyPrice = 100.00m;       // $100.00 per share
             const decimal sellPrice = 112.00m;      // $112.00 per share
             const double shares = 5;                // 5 shares
@@ -323,11 +322,11 @@ namespace Sonneville.PriceToolsTest
             target.Sell(sellDate, shares, sellPrice, commission);
 
             const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
-            decimal? actualReturn = target.CalculateTotalReturn(sellDate);
+            var actualReturn = target.CalculateTotalReturn(sellDate);
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = 0.5m;          // 50% annual rate return
-            decimal? actual = target.CalculateAverageAnnualReturn(sellDate);
+            var actual = target.CalculateAverageAnnualReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -335,10 +334,10 @@ namespace Sonneville.PriceToolsTest
         public void CalculateAverageAnnualReturnWithoutProceedsTest()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
             const decimal price = 100.00m;          // $100.00 per share
             const double shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
@@ -354,11 +353,11 @@ namespace Sonneville.PriceToolsTest
             const string longTicker = "DE";
             const string shortTicker = "GM";
             // Must create different positions because all transactions must use same ticker
-            IPosition longPosition = PositionFactory.CreatePosition(longTicker);
-            IPosition shortPosition = PositionFactory.CreatePosition(shortTicker);
+            var longPosition = PositionFactory.CreatePosition(longTicker);
+            var shortPosition = PositionFactory.CreatePosition(shortTicker);
 
-            DateTime buyDate = new DateTime(2001, 1, 1);
-            DateTime sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
             const decimal buyPrice = 100.00m;   // $100.00 per share
             const decimal sellPrice = 120.00m;  // $110.00 per share
             const double shares = 5;            // 5 shares
@@ -370,8 +369,8 @@ namespace Sonneville.PriceToolsTest
             shortPosition.BuyToCover(sellDate, shares, sellPrice, commission);
 
             const int expected = 2;
-            int longActual = longPosition.Transactions.Count;
-            int shortActual = shortPosition.Transactions.Count;
+            var longActual = longPosition.Transactions.Count;
+            var shortActual = shortPosition.Transactions.Count;
             Assert.AreEqual(expected, longActual);
             Assert.AreEqual(expected, shortActual);
         }
@@ -380,10 +379,10 @@ namespace Sonneville.PriceToolsTest
         public void HasValueTest()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime purchaseDate = testDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var purchaseDate = testDate.AddDays(1);
             const decimal buyPrice = 100.00m;   // $100.00 per share
             const double shares = 5;            // 5 shares
             const decimal commission = 5.00m;   // with $5 commission
@@ -400,20 +399,20 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime buyDate = testDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
-            decimal expectedAverageCost = 50.00m;   // 10 shares at $50.00
-            decimal actualAverageCost = target.CalculateAverageCost(buyDate);
+            var expectedAverageCost = 50.00m;   // 10 shares at $50.00
+            var actualAverageCost = target.CalculateAverageCost(buyDate);
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
 
-            DateTime sellDate = testDate.AddDays(2);
+            var sellDate = testDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
@@ -423,7 +422,7 @@ namespace Sonneville.PriceToolsTest
             actualAverageCost = target.CalculateAverageCost(sellDate);
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
 
-            DateTime buyDate2 = testDate.AddDays(3);
+            var buyDate2 = testDate.AddDays(3);
             const decimal buyPrice2 = 100.00m;  // $100.00 per share
             const double sharesBought2 = 5;     // 5 shares
 
@@ -441,10 +440,10 @@ namespace Sonneville.PriceToolsTest
         public void TickerTest()
         {
             const string ticker = "DE";
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
             const string expectedTicker = ticker;
-            string actualTicker = target.Ticker;
+            var actualTicker = target.Ticker;
             Assert.AreEqual(expectedTicker, actualTicker);
         }
 
@@ -456,17 +455,17 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime buyDate = testDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
             const decimal expectedCosts = 500.00m;
-            decimal actualCosts = target.CalculateCost(buyDate);
+            var actualCosts = target.CalculateCost(buyDate);
             Assert.AreEqual(expectedCosts, actualCosts);
         }
 
@@ -478,23 +477,23 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime buyDate = testDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
-            DateTime sellDate = testDate.AddDays(2);
+            var sellDate = testDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
             const decimal expectedCosts = 500.00m;
-            decimal actualCosts = target.CalculateCost(sellDate);
+            var actualCosts = target.CalculateCost(sellDate);
             Assert.AreEqual(expectedCosts, actualCosts);
         }
 
@@ -506,17 +505,17 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime buyDate = testDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
             const decimal expectedProceeds = 0.00m;
-            decimal actualProceeds = target.CalculateProceeds(buyDate);
+            var actualProceeds = target.CalculateProceeds(buyDate);
             Assert.AreEqual(expectedProceeds, actualProceeds);
         }
 
@@ -528,23 +527,23 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime buyDate = testDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
-            DateTime sellDate = testDate.AddDays(2);
+            var sellDate = testDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
             const decimal expectedProceeds = 375.00m;
-            decimal actualProceeds = target.CalculateProceeds(sellDate);
+            var actualProceeds = target.CalculateProceeds(sellDate);
             Assert.AreEqual(expectedProceeds, actualProceeds);
         }
 
@@ -556,17 +555,17 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime buyDate = testDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
             const decimal expectedCommissions = 5.00m;
-            decimal actualCommissions = target.CalculateCommissions(buyDate);
+            var actualCommissions = target.CalculateCommissions(buyDate);
             Assert.AreEqual(expectedCommissions, actualCommissions);
         }
 
@@ -578,23 +577,23 @@ namespace Sonneville.PriceToolsTest
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            IPosition target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime buyDate = testDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
-            DateTime sellDate = testDate.AddDays(2);
+            var sellDate = testDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
             const decimal expectedCommissions = 10.00m;
-            decimal actualCommissions = target.CalculateCommissions(sellDate);
+            var actualCommissions = target.CalculateCommissions(sellDate);
             Assert.AreEqual(expectedCommissions, actualCommissions);
         }
 
@@ -605,20 +604,20 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime buyDate = testDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
-            DateTime sellDate = buyDate.AddDays(2);
+            var sellDate = buyDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(sellDate);
+            var holdings = target.CalculateHoldings(sellDate);
 
             Assert.AreEqual(1, holdings.Count);
 
@@ -642,22 +641,22 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime firstBuyDate = testDate.AddDays(1);
-            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var firstBuyDate = testDate.AddDays(1);
+            var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 3;      // 3 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
 
-            DateTime sellDate = secondBuyDate.AddDays(2);
+            var sellDate = secondBuyDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 6;        // 6 shares
 
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(sellDate);
+            var holdings = target.CalculateHoldings(sellDate);
 
             Assert.AreEqual(2, holdings.Count);
         }
@@ -669,22 +668,22 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime firstBuyDate = testDate.AddDays(1);
-            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var firstBuyDate = testDate.AddDays(1);
+            var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 3;      // 3 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
 
-            DateTime sellDate = secondBuyDate.AddDays(2);
+            var sellDate = secondBuyDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 6;        // 6 shares
 
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(sellDate);
+            var holdings = target.CalculateHoldings(sellDate);
 
             var expected1 = new Holding
             {
@@ -716,22 +715,22 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime buyDate = testDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
-            DateTime firstSellDate = buyDate.AddDays(2);
-            DateTime secondSellDate = firstSellDate.AddDays(1);
+            var firstSellDate = buyDate.AddDays(2);
+            var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = target.CalculateHoldings(secondSellDate);
 
             Assert.AreEqual(2, holdings.Count);
         }
@@ -743,22 +742,22 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime buyDate = testDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
-            DateTime firstSellDate = buyDate.AddDays(2);
-            DateTime secondSellDate = firstSellDate.AddDays(1);
+            var firstSellDate = buyDate.AddDays(2);
+            var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = target.CalculateHoldings(secondSellDate);
 
             const double sharesInHolding = sharesSold;
 
@@ -792,24 +791,24 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime firstBuyDate = testDate.AddDays(1);
-            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var firstBuyDate = testDate.AddDays(1);
+            var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 5;      // 5 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
 
-            DateTime firstSellDate = secondBuyDate.AddDays(2);
-            DateTime secondSellDate = firstSellDate.AddDays(1);
+            var firstSellDate = secondBuyDate.AddDays(2);
+            var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = target.CalculateHoldings(secondSellDate);
 
             Assert.AreEqual(2, holdings.Count);
         }
@@ -821,24 +820,24 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime firstBuyDate = testDate.AddDays(1);
-            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var firstBuyDate = testDate.AddDays(1);
+            var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 5;      // 5 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
 
-            DateTime firstSellDate = secondBuyDate.AddDays(2);
-            DateTime secondSellDate = firstSellDate.AddDays(1);
+            var firstSellDate = secondBuyDate.AddDays(2);
+            var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = target.CalculateHoldings(secondSellDate);
 
             const double sharesInHolding = sharesSold;
             var expected1 = new Holding
@@ -871,24 +870,24 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime firstBuyDate = testDate.AddDays(1);
-            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var firstBuyDate = testDate.AddDays(1);
+            var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 5;      // 5 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
 
-            DateTime firstSellDate = secondBuyDate;
-            DateTime secondSellDate = firstSellDate.AddDays(1);
+            var firstSellDate = secondBuyDate;
+            var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = target.CalculateHoldings(secondSellDate);
 
             Assert.AreEqual(2, holdings.Count);
         }
@@ -900,24 +899,24 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime firstBuyDate = testDate.AddDays(1);
-            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var firstBuyDate = testDate.AddDays(1);
+            var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double sharesBought = 5;      // 5 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
 
-            DateTime firstSellDate = secondBuyDate;
-            DateTime secondSellDate = firstSellDate.AddDays(1);
+            var firstSellDate = secondBuyDate;
+            var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = target.CalculateHoldings(secondSellDate);
 
             const double sharesInHolding = sharesSold;
             var expected1 = new Holding
@@ -950,9 +949,9 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime firstBuyDate = testDate.AddDays(1);
-            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var firstBuyDate = testDate.AddDays(1);
+            var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double firstSharesBought = 9;
             const double secondSharesBought = 1;
@@ -960,15 +959,15 @@ namespace Sonneville.PriceToolsTest
             target.Buy(firstBuyDate, firstSharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, secondSharesBought, buyPrice, commission);
 
-            DateTime firstSellDate = secondBuyDate;
-            DateTime secondSellDate = firstSellDate.AddDays(1);
+            var firstSellDate = secondBuyDate;
+            var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = target.CalculateHoldings(secondSellDate);
 
             Assert.AreEqual(3, holdings.Count);
         }
@@ -980,9 +979,9 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime firstBuyDate = testDate.AddDays(1);
-            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var firstBuyDate = testDate.AddDays(1);
+            var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double firstSharesBought = 9;
             const double secondSharesBought = 1;
@@ -990,15 +989,15 @@ namespace Sonneville.PriceToolsTest
             target.Buy(firstBuyDate, firstSharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, secondSharesBought, buyPrice, commission);
 
-            DateTime firstSellDate = secondBuyDate;
-            DateTime secondSellDate = firstSellDate.AddDays(1);
+            var firstSellDate = secondBuyDate;
+            var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = target.CalculateHoldings(secondSellDate);
 
             var expected1 = new Holding
             {
@@ -1041,9 +1040,9 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime firstBuyDate = testDate.AddDays(1);
-            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var firstBuyDate = testDate.AddDays(1);
+            var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double firstSharesBought = 9;
             const double secondSharesBought = 1;
@@ -1051,15 +1050,15 @@ namespace Sonneville.PriceToolsTest
             target.Buy(firstBuyDate, firstSharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, secondSharesBought, buyPrice, commission);
 
-            DateTime firstSellDate = secondBuyDate;
-            DateTime secondSellDate = firstSellDate.AddDays(1);
+            var firstSellDate = secondBuyDate;
+            var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = target.CalculateHoldings(secondSellDate);
 
             Assert.AreEqual(3, holdings.Count);
         }
@@ -1071,9 +1070,9 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime testDate = new DateTime(2001, 1, 1);
-            DateTime firstBuyDate = testDate.AddDays(1);
-            DateTime secondBuyDate = firstBuyDate.AddDays(1);
+            var testDate = new DateTime(2001, 1, 1);
+            var firstBuyDate = testDate.AddDays(1);
+            var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double firstSharesBought = 9;
             const double secondSharesBought = 1;
@@ -1081,15 +1080,15 @@ namespace Sonneville.PriceToolsTest
             target.Buy(firstBuyDate, firstSharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, secondSharesBought, buyPrice, commission);
 
-            DateTime firstSellDate = secondBuyDate;
-            DateTime secondSellDate = firstSellDate.AddDays(1);
+            var firstSellDate = secondBuyDate;
+            var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
-            IList<IHolding> holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = target.CalculateHoldings(secondSellDate);
 
             var expected1 = new Holding
             {
@@ -1155,7 +1154,7 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2011, 12, 25);
+            var buyDate = new DateTime(2011, 12, 25);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double shares = 9;
 
@@ -1171,7 +1170,7 @@ namespace Sonneville.PriceToolsTest
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            DateTime buyDate = new DateTime(2011, 12, 25);
+            var buyDate = new DateTime(2011, 12, 25);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double shares = 9;
 

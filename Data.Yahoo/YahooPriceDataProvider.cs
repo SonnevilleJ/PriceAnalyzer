@@ -2,10 +2,8 @@
 using System.Globalization;
 using System.IO;
 using System.Text;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.Data;
 
-namespace Data.Yahoo
+namespace Sonneville.PriceTools.Data.Yahoo
 {
     /// <summary>
     ///   Parses an <see cref = "IPriceSeries" /> from Yahoo! CSV files.

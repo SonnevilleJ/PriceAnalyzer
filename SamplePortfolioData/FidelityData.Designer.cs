@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SamplePortfolioData {
+namespace Sonneville.PriceTools.SamplePortfolioData {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SamplePortfolioData {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SamplePortfolioData.FidelityData", typeof(FidelityData).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sonneville.PriceTools.SamplePortfolioData.FidelityData", typeof(FidelityData).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

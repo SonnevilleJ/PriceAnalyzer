@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
-using Data.Yahoo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
-using Sonneville.PriceTools.Data;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Data.Yahoo.Test

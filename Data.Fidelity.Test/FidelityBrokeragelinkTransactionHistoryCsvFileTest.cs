@@ -1,11 +1,10 @@
 using System;
 using System.IO;
 using System.Linq;
-using Data.Yahoo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SamplePortfolioData;
+using Sonneville.PriceTools.Data.Yahoo;
+using Sonneville.PriceTools.SamplePortfolioData;
 using Sonneville.PriceTools.SamplePriceData;
-using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.Data.Fidelity.Test
 {
@@ -29,52 +28,52 @@ namespace Sonneville.PriceTools.Data.Fidelity.Test
                 var settlementDate = new DateTime(2009, 7, 23);
                 IPriceDataProvider provider = new YahooPriceDataProvider();
 
-                var FCNTX = portfolio.Positions.Where(p => p.Ticker == "FCNTX").First();
-                decimal investedValue = FCNTX.CalculateInvestedValue(provider, settlementDate);
+                var fcntx = portfolio.Positions.Where(p => p.Ticker == "FCNTX").First();
+                var investedValue = fcntx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(530.24044m, investedValue);
 
-                var FDLSX = portfolio.Positions.Where(p => p.Ticker == "FDLSX").First();
-                investedValue = FDLSX.CalculateInvestedValue(provider, settlementDate);
+                var fdlsx = portfolio.Positions.Where(p => p.Ticker == "FDLSX").First();
+                investedValue = fdlsx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(1780.07445m, investedValue);
 
-                var FEMEX = portfolio.Positions.Where(p => p.Ticker == "FEMEX").First();
-                investedValue = FEMEX.CalculateInvestedValue(provider, settlementDate);
+                var femex = portfolio.Positions.Where(p => p.Ticker == "FEMEX").First();
+                investedValue = femex.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(800.00325m, investedValue);
 
-                var FEMKX = portfolio.Positions.Where(p => p.Ticker == "FEMKX").First();
-                investedValue = FEMKX.CalculateInvestedValue(provider, settlementDate);
+                var femkx = portfolio.Positions.Where(p => p.Ticker == "FEMKX").First();
+                investedValue = femkx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(543.33666m, investedValue);
 
-                var FHKCX = portfolio.Positions.Where(p => p.Ticker == "FHKCX").First();
-                investedValue = FHKCX.CalculateInvestedValue(provider, settlementDate);
+                var fhkcx = portfolio.Positions.Where(p => p.Ticker == "FHKCX").First();
+                investedValue = fhkcx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(558.50175m, investedValue);
 
-                var FICDX = portfolio.Positions.Where(p => p.Ticker == "FICDX").First();
-                investedValue = FICDX.CalculateInvestedValue(provider, settlementDate);
+                var ficdx = portfolio.Positions.Where(p => p.Ticker == "FICDX").First();
+                investedValue = ficdx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(919.53195m, investedValue);
 
-                var FLATX = portfolio.Positions.Where(p => p.Ticker == "FLATX").First();
-                investedValue = FLATX.CalculateInvestedValue(provider, settlementDate);
+                var flatx = portfolio.Positions.Where(p => p.Ticker == "FLATX").First();
+                investedValue = flatx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(1379.28336m, investedValue);
 
-                var FSAGX = portfolio.Positions.Where(p => p.Ticker == "FSAGX").First();
-                investedValue = FSAGX.CalculateInvestedValue(provider, settlementDate);
+                var fsagx = portfolio.Positions.Where(p => p.Ticker == "FSAGX").First();
+                investedValue = fsagx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(0m, investedValue);
 
-                var FSCHX = portfolio.Positions.Where(p => p.Ticker == "FSCHX").First();
-                investedValue = FSCHX.CalculateInvestedValue(provider, settlementDate);
+                var fschx = portfolio.Positions.Where(p => p.Ticker == "FSCHX").First();
+                investedValue = fschx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(792.87264m, investedValue);
 
-                var FSLBX = portfolio.Positions.Where(p => p.Ticker == "FSLBX").First();
-                investedValue = FSLBX.CalculateInvestedValue(provider, settlementDate);
+                var fslbx = portfolio.Positions.Where(p => p.Ticker == "FSLBX").First();
+                investedValue = fslbx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(3376.71644m, investedValue);
 
-                var FSNGX = portfolio.Positions.Where(p => p.Ticker == "FSNGX").First();
-                investedValue = FSNGX.CalculateInvestedValue(provider, settlementDate);
+                var fsngx = portfolio.Positions.Where(p => p.Ticker == "FSNGX").First();
+                investedValue = fsngx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(1966.2302m, investedValue);
 
-                var FTRNX = portfolio.Positions.Where(p => p.Ticker == "FTRNX").First();
-                investedValue = FTRNX.CalculateInvestedValue(provider, settlementDate);
+                var ftrnx = portfolio.Positions.Where(p => p.Ticker == "FTRNX").First();
+                investedValue = ftrnx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(597.02433m, investedValue);
 
                 const decimal expectedAvailableCash = 1050.00m;

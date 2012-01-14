@@ -50,6 +50,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Yahoo.Test", "Data.Yah
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamplePortfolioData", "SamplePortfolioData\SamplePortfolioData.csproj", "{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{157B3FCE-E233-436A-B982-98A8BB693082}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = PriceAnalyzer.vsmdi
@@ -203,6 +205,12 @@ Global
 		{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}.Release|x86.ActiveCfg = Release|Any CPU
+		{157B3FCE-E233-436A-B982-98A8BB693082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{157B3FCE-E233-436A-B982-98A8BB693082}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{157B3FCE-E233-436A-B982-98A8BB693082}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{157B3FCE-E233-436A-B982-98A8BB693082}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{157B3FCE-E233-436A-B982-98A8BB693082}.Release|Any CPU.Build.0 = Release|Any CPU
+		{157B3FCE-E233-436A-B982-98A8BB693082}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

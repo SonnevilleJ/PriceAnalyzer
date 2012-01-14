@@ -62,10 +62,10 @@ namespace Sonneville.PriceTools
         void Withdraw(Withdrawal withdrawal);
 
         /// <summary>
-        /// Adds transaction history from a CSV file to the IPortfolio.
+        /// Adds historical transactions to the Portfolio.
         /// </summary>
-        /// <param name="csvFile">The CSV file containing the transactions to add.</param>
-        void AddTransactionHistory(TransactionHistoryCsvFile csvFile);
+        /// <param name="transactionHistory">The historical transactions to add.</param>
+        void AddTransactionHistory(ITransactionHistory transactionHistory);
 
         /// <summary>
         /// Gets an <see cref="IList{IHolding}"/> from the transactions in the IPortfolio.
