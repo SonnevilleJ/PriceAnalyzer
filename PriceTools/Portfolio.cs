@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sonneville.PriceTools.Services;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools
 {

@@ -60,8 +60,8 @@
     <Compile Include="DividendReinvestment.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="MeasurableSecurityBasketExtensions.cs" />
-    <Compile Include="Services\CsvPriceDataProvider.cs" />
-    <Compile Include="Services\IPriceDataProvider.cs" />
+    <Compile Include="Data\CsvPriceDataProvider.cs" />
+    <Compile Include="Data\IPriceDataProvider.cs" />
     <Compile Include="TimeSeriesExtensions.cs" />
     <Compile Include="HighLow.cs" />
     <Compile Include="Holding.cs" />
@@ -84,11 +84,11 @@
     <Compile Include="PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
     <Compile Include="RelativeStrengthIndex.cs" />
-    <Compile Include="Services\PriceColumn.cs" />
-    <Compile Include="Services\PriceHistoryCsvFile.cs" />
-    <Compile Include="Services\PriceDataProvider.cs" />
-    <Compile Include="Services\TransactionColumn.cs" />
-    <Compile Include="Services\TransactionHistoryCsvFile.cs" />
+    <Compile Include="Data\PriceColumn.cs" />
+    <Compile Include="Data\PriceHistoryCsvFile.cs" />
+    <Compile Include="Data\PriceDataProvider.cs" />
+    <Compile Include="Data\TransactionColumn.cs" />
+    <Compile Include="Data\TransactionHistoryCsvFile.cs" />
     <Compile Include="StaticPricePeriod.cs" />
     <Compile Include="PriceQuote.cs" />
     <Compile Include="QuotedPricePeriod.cs" />

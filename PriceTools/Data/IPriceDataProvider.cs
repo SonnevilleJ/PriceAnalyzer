@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sonneville.PriceTools.Services
+namespace Sonneville.PriceTools.Data
 {
     /// <summary>
     ///   Provides price data.

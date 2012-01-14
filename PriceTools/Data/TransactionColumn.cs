@@ -1,4 +1,4 @@
-﻿namespace Sonneville.PriceTools.Services
+﻿namespace Sonneville.PriceTools.Data
 {
     /// <summary>
     /// Columns used in a Transaction CSV file.

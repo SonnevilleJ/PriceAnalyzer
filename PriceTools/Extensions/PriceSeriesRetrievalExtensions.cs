@@ -1,5 +1,5 @@
 ﻿using System;
-using Sonneville.PriceTools.Services;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.Extensions
 {

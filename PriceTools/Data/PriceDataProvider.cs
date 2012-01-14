@@ -4,7 +4,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Sonneville.PriceTools.Extensions;
 
-namespace Sonneville.PriceTools.Services
+namespace Sonneville.PriceTools.Data
 {
     /// <summary>
     ///   Provides price data for <see cref="IPriceSeries"/>.

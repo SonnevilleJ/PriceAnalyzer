@@ -6,7 +6,7 @@ using System.Linq;
 using LumenWorks.Framework.IO.Csv;
 using Sonneville.PriceTools.Extensions;
 
-namespace Sonneville.PriceTools.Services
+namespace Sonneville.PriceTools.Data
 {
     /// <summary>
     /// Represents a file store containing historical price data.

@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.SamplePriceData;
-using Sonneville.PriceTools.Services;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.Data.Google.Test
 {

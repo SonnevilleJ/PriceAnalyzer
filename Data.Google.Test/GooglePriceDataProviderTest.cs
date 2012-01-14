@@ -4,7 +4,7 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
-using Sonneville.PriceTools.Services;
+using Sonneville.PriceTools.Data;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Data.Google.Test

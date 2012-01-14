@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using Sonneville.PriceTools.Services;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.Data.Fidelity
 {

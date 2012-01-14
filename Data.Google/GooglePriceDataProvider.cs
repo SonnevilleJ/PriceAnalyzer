@@ -1,6 +1,6 @@
 ﻿using System;
 using System.IO;
-using Sonneville.PriceTools.Services;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.Data.Google
 {

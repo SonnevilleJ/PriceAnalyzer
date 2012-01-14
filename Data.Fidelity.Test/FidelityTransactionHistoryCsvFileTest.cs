@@ -5,7 +5,7 @@ using Data.Yahoo;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SamplePortfolioData;
 using Sonneville.PriceTools.SamplePriceData;
-using Sonneville.PriceTools.Services;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.Data.Fidelity.Test
 {

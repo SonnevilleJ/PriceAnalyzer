@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Services;
+using Sonneville.PriceTools.Data;
 
 namespace Data.Yahoo
 {

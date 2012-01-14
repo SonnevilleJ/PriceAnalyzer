@@ -1,6 +1,6 @@
 ﻿using Sonneville.PriceTools.Data.Fidelity;
 using Sonneville.PriceTools.SamplePriceData;
-using Sonneville.PriceTools.Services;
+using Sonneville.PriceTools.Data;
 
 namespace SamplePortfolioData
 {
