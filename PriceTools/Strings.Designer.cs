@@ -61,15 +61,6 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Argument index must be a date within the span of this Indicator..
-        /// </summary>
-        internal static string IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator {
-            get {
-                return ResourceManager.GetString("IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cannot create an Order with an expiration date before the issue date..
         /// </summary>
         internal static string Order_Order_Cannot_create_an_Order_with_an_expiration_date_before_the_issue_date_ {

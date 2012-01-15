@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceAnalyzer;
 using Sonneville.PriceTools;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceAnalyzerTest
 {
     [TestClass]
     public class SimpleMovingAverageTest

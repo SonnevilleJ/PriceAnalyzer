@@ -70,9 +70,7 @@
     <Compile Include="ICashAccount.cs" />
     <Compile Include="ICashTransaction.cs" />
     <Compile Include="IHolding.cs" />
-    <Compile Include="IIndicator.cs" />
     <Compile Include="IMeasurableSecurityBasket.cs" />
-    <Compile Include="Indicator.cs" />
     <Compile Include="IPortfolio.cs" />
     <Compile Include="IPricePeriod.cs" />
     <Compile Include="IPriceQuote.cs" />
@@ -85,11 +83,9 @@
     <Compile Include="PriceSeries.cs" />
     <Compile Include="PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
-    <Compile Include="RelativeStrengthIndex.cs" />
     <Compile Include="StaticPricePeriod.cs" />
     <Compile Include="PriceQuote.cs" />
     <Compile Include="QuotedPricePeriod.cs" />
-    <Compile Include="SimpleMovingAverage.cs" />
     <Compile Include="IPosition.cs" />
     <Compile Include="ITimeSeries.cs" />
     <Compile Include="IShareTransaction.cs" />

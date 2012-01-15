@@ -59,8 +59,11 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CommonIndicatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AnalyzerTest.cs" />
+    <Compile Include="RelativeStrengthIndexTest.cs" />
+    <Compile Include="SimpleMovingAverageTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CsvReader\CsvReader.csproj">

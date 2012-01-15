@@ -49,12 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BuyToCoverTest.cs" />
-    <Compile Include="CommonIndicatorTests.cs" />
     <Compile Include="DateTimeExtensionsTest.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />
-    <Compile Include="RelativeStrengthIndexTest.cs" />
     <Compile Include="ShareTransactionTest.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="WithdrawalTest.cs" />
@@ -63,7 +61,6 @@
     <Compile Include="DividendReceiptTest.cs" />
     <Compile Include="SellShortTest.cs" />
     <Compile Include="CashAccountTest.cs" />
-    <Compile Include="SimpleMovingAverageTest.cs" />
     <Compile Include="PortfolioTest.cs" />
     <Compile Include="PositionTest.cs" />
     <Compile Include="QuotedPricePeriodTest.cs" />

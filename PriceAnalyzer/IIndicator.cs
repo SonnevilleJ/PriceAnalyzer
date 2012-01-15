@@ -1,4 +1,6 @@
-namespace Sonneville.PriceTools
+using Sonneville.PriceTools;
+
+namespace Sonneville.PriceAnalyzer
 {
     /// <summary>
     /// A statistical indicator used to transform <see cref="ITimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying ITimeSeries data.
