@@ -10,7 +10,7 @@ namespace Sonneville.Utilities
     {
         #region Price Period tools
 
-        public static PricePeriod CreatePeriod1()
+        public static IPricePeriod CreatePeriod1()
         {
             var head = new DateTime(2011, 3, 14);
             var tail = head.GetFollowingClose();
@@ -23,7 +23,7 @@ namespace Sonneville.Utilities
             return PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
         }
 
-        public static PricePeriod CreatePeriod2()
+        public static IPricePeriod CreatePeriod2()
         {
             var head = new DateTime(2011, 3, 15);
             var tail = head.GetFollowingClose();
@@ -35,7 +35,7 @@ namespace Sonneville.Utilities
             return PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
         }
 
-        public static PricePeriod CreatePeriod3()
+        public static IPricePeriod CreatePeriod3()
         {
             var head = new DateTime(2011, 3, 16);
             var tail = head.GetFollowingClose();

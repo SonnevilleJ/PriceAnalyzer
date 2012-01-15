@@ -138,7 +138,7 @@ namespace Sonneville.PriceTools.Data
 
         #region Static parsing methods
 
-        private static PriceSeries BuildPriceSeries(string ticker, IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail)
+        private static IPriceSeries BuildPriceSeries(string ticker, IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail)
         {
             stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
             var resolution = SetResolution(stagedPeriods);

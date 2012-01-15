@@ -94,7 +94,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public static IShareTransaction CreateShareTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares, decimal commission)
         {
-            return (ShareTransaction) CreateTransaction(settlementDate, type, ticker, price, shares, commission);
+            return (IShareTransaction) CreateTransaction(settlementDate, type, ticker, price, shares, commission);
         }
     }
 }

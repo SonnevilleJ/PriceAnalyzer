@@ -10,7 +10,7 @@
         /// </summary>
         /// <param name="ticker">The ticker symbol of the <see cref="IPriceSeries"/>.</param>
         /// <returns>The <see cref="IPriceSeries"/> for the given ticker.</returns>
-        public static PriceSeries CreatePriceSeries(string ticker)
+        public static IPriceSeries CreatePriceSeries(string ticker)
         {
             return new PriceSeries { Ticker = ticker };
         }
@@ -21,7 +21,7 @@
         /// <param name="ticker">The ticker symbol of the <see cref="IPriceSeries"/>.</param>
         /// <param name="resolution">The <see cref="Resolution"/> of the <see cref="IPricePeriod"/>s contained in the <see cref="IPriceSeries"/>.</param>
         /// <returns>The <see cref="IPriceSeries"/> for the given ticker.</returns>
-        public static PriceSeries CreatePriceSeries(string ticker, Resolution resolution)
+        public static IPriceSeries CreatePriceSeries(string ticker, Resolution resolution)
         {
             return new PriceSeries(resolution) {Ticker = ticker};
         }
