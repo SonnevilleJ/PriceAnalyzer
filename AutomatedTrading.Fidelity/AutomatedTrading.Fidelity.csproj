@@ -5,15 +5,13 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</ProjectGuid>
+    <ProjectGuid>{779392F7-58E2-494F-837A-0F49588B42D1}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.Utilities</RootNamespace>
-    <AssemblyName>Utilities</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.AutomatedTrading.Fidelity</RootNamespace>
+    <AssemblyName>AutomatedTrading.Fidelity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,38 +31,24 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Data.Entity" />
-    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
-    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DailyProvider.cs" />
-    <Compile Include="Environment.cs" />
-    <Compile Include="HourlyProvider.cs" />
-    <Compile Include="MockProvider.cs" />
-    <Compile Include="SecondsProvider.cs" />
-    <Compile Include="TestUtilities.cs" />
+    <Compile Include="FidelityBrokerage.cs" />
+    <Compile Include="FidelityCommissionSchedule.cs" />
+    <Compile Include="FidelityTradingAccount.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WeeklyProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutomatedTrading\AutomatedTrading.csproj">
       <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
       <Name>AutomatedTrading</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Data\Data.csproj">
-      <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
-      <Name>Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
