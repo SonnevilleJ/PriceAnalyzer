@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sonneville.PriceTools.Trading
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Specifies the type of order for a transaction.

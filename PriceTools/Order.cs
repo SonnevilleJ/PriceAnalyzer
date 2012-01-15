@@ -1,13 +1,23 @@
 ﻿using System;
 using System.Linq;
 
-namespace Sonneville.PriceTools.Trading
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// An order to take a position on a financial security.
     /// </summary>
     public sealed class Order
     {
+        /// <summary>
+        /// Constructs an Order.
+        /// </summary>
+        /// <param name="issued"></param>
+        /// <param name="expiration"></param>
+        /// <param name="orderType"></param>
+        /// <param name="ticker"></param>
+        /// <param name="shares"></param>
+        /// <param name="price"></param>
+        /// <param name="pricingType"></param>
         public Order(DateTime issued, DateTime expiration, OrderType orderType, string ticker, double shares, decimal price, PricingType pricingType = PricingType.Market)
         {
             if (issued >= expiration)

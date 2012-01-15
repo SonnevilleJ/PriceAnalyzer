@@ -70,6 +70,61 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot create an Order with an expiration date before the issue date..
+        /// </summary>
+        internal static string Order_Order_Cannot_create_an_Order_with_an_expiration_date_before_the_issue_date_ {
+            get {
+                return ResourceManager.GetString("Order_Order_Cannot_create_an_Order_with_an_expiration_date_before_the_issue_date_" +
+                        "", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid OrderType..
+        /// </summary>
+        internal static string Order_Order_Invalid_OrderType_ {
+            get {
+                return ResourceManager.GetString("Order_Order_Invalid_OrderType_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Invalid PricingType..
+        /// </summary>
+        internal static string Order_Order_Invalid_PricingType_ {
+            get {
+                return ResourceManager.GetString("Order_Order_Invalid_PricingType_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to OrderType must be Buy, Sell, SellShort, or BuyToClose..
+        /// </summary>
+        internal static string Order_Order_OrderType_must_be_Buy__Sell__SellShort__or_BuyToClose_ {
+            get {
+                return ResourceManager.GetString("Order_Order_OrderType_must_be_Buy__Sell__SellShort__or_BuyToClose_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Price must be a positive number..
+        /// </summary>
+        internal static string Order_Validate_Price_must_be_a_positive_number_ {
+            get {
+                return ResourceManager.GetString("Order_Validate_Price_must_be_a_positive_number_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shares must be a positive number..
+        /// </summary>
+        internal static string Order_Validate_Shares_must_be_a_positive_number_ {
+            get {
+                return ResourceManager.GetString("Order_Validate_Shares_must_be_a_positive_number_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot add this transaction to the position..
         /// </summary>
         internal static string Position_AddTransaction_Cannot_add_this_transaction_to_the_position_ {

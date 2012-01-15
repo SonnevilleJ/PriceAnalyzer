@@ -62,6 +62,8 @@
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="MeasurableSecurityBasketExtensions.cs" />
     <Compile Include="Data\IPriceDataProvider.cs" />
+    <Compile Include="Order.cs" />
+    <Compile Include="PricingType.cs" />
     <Compile Include="TimeSeriesExtensions.cs" />
     <Compile Include="HighLow.cs" />
     <Compile Include="Holding.cs" />

@@ -8,7 +8,7 @@ namespace Sonneville.TradingTest
     [TestClass]
     public class OrderExecutedEventArgsTest
     {
-        private static void GetObjects(out DateTime executed, out Order order, out ShareTransaction transaction, out OrderExecutedEventArgs target)
+        private static void GetObjects(out DateTime executed, out Order order, out IShareTransaction transaction, out OrderExecutedEventArgs target)
         {
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
@@ -29,7 +29,7 @@ namespace Sonneville.TradingTest
         {
             DateTime executed;
             Order order;
-            ShareTransaction transaction;
+            IShareTransaction transaction;
             OrderExecutedEventArgs target;
             GetObjects(out executed, out order, out transaction, out target);
 
@@ -43,7 +43,7 @@ namespace Sonneville.TradingTest
         {
             DateTime executed;
             Order order;
-            ShareTransaction transaction;
+            IShareTransaction transaction;
             OrderExecutedEventArgs target;
             GetObjects(out executed, out order, out transaction, out target);
 
@@ -57,7 +57,7 @@ namespace Sonneville.TradingTest
         {
             DateTime executed;
             Order order;
-            ShareTransaction transaction;
+            IShareTransaction transaction;
             OrderExecutedEventArgs target;
             GetObjects(out executed, out order, out transaction, out target);
 
