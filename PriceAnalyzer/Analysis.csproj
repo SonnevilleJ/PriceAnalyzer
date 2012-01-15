@@ -8,8 +8,8 @@
     <ProjectGuid>{459025C7-F4B6-40D6-B94C-D927950D076E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceAnalyzer</RootNamespace>
-    <AssemblyName>PriceAnalyzer</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.Analysis</RootNamespace>
+    <AssemblyName>Analysis</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>

@@ -1,4 +1,4 @@
-﻿namespace Sonneville.PriceAnalyzer
+﻿namespace Sonneville.PriceTools.Analysis
 {
     public enum OHLC
     {

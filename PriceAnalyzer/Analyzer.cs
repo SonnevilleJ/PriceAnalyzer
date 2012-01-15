@@ -1,8 +1,7 @@
 using System;
 using System.Collections.Generic;
-using Sonneville.PriceTools;
 
-namespace Sonneville.PriceAnalyzer
+namespace Sonneville.PriceTools.Analysis
 {
     public abstract class Analyzer
     {

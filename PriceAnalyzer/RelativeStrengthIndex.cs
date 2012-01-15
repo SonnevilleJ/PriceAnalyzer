@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Linq;
 using System.Collections.Generic;
-using Sonneville.PriceTools;
 
-namespace Sonneville.PriceAnalyzer
+namespace Sonneville.PriceTools.Analysis
 {
     /// <summary>
     /// A momentum oscillator which measures the speed of changes in price movements.

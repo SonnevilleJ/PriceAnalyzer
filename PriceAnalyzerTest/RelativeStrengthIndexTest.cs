@@ -1,10 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceAnalyzer;
+using Sonneville.PriceTools.Analysis;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
 
-namespace Sonneville.PriceAnalyzerTest
+namespace Sonneville.PriceTools.AnalysisTest
 {
     /// <summary>
     /// Summary description for RelativeStrengthIndexTest

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Sonneville.PriceAnalyzer
+namespace Sonneville.PriceTools.Analysis
 {
     public class HigherThanYesterdayAnalyzer : PriceSeriesAnalyzer
     {

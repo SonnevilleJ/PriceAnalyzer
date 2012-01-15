@@ -128,9 +128,9 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PriceAnalyzer\PriceAnalyzer.csproj">
+    <ProjectReference Include="..\PriceAnalyzer\Analysis.csproj">
       <Project>{459025C7-F4B6-40D6-B94C-D927950D076E}</Project>
-      <Name>PriceAnalyzer</Name>
+      <Name>Analysis</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriceChartTools\PriceChartTools.csproj">
       <Project>{CA835214-9E28-4CB2-95BF-37D5D2927DB7}</Project>

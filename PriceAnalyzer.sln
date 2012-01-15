@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceTools", "PriceTools\PriceTools.csproj", "{FBE4A744-CACD-4CCC-9746-1692AB3B606B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAnalyzer", "PriceAnalyzer\PriceAnalyzer.csproj", "{459025C7-F4B6-40D6-B94C-D927950D076E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Analysis", "PriceAnalyzer\Analysis.csproj", "{459025C7-F4B6-40D6-B94C-D927950D076E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceToolsTest", "PriceToolsTest\PriceToolsTest.csproj", "{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}"
 EndProject
@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvReader", "CsvReader\CsvR
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utilities", "Utilities\Utilities.csproj", "{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAnalyzerTest", "PriceAnalyzerTest\PriceAnalyzerTest.csproj", "{24780FA7-F5DA-48DC-AE74-918C03268E75}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AnalysisTest", "PriceAnalyzerTest\AnalysisTest.csproj", "{24780FA7-F5DA-48DC-AE74-918C03268E75}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.csproj", "{54683842-8486-43F9-B180-CEE8B2D8557E}"
 EndProject

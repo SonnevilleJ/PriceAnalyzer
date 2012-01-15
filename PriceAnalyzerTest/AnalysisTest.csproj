@@ -9,8 +9,8 @@
     <ProjectGuid>{24780FA7-F5DA-48DC-AE74-918C03268E75}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceAnalyzerTest</RootNamespace>
-    <AssemblyName>PriceAnalyzerTest</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.AnalysisTest</RootNamespace>
+    <AssemblyName>AnalysisTest</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -70,9 +70,9 @@
       <Project>{9E171B34-27C7-4017-B624-803250B399D2}</Project>
       <Name>CsvReader</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PriceAnalyzer\PriceAnalyzer.csproj">
+    <ProjectReference Include="..\PriceAnalyzer\Analysis.csproj">
       <Project>{459025C7-F4B6-40D6-B94C-D927950D076E}</Project>
-      <Name>PriceAnalyzer</Name>
+      <Name>Analysis</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriceChartTools\PriceChartTools.csproj">
       <Project>{CA835214-9E28-4CB2-95BF-37D5D2927DB7}</Project>

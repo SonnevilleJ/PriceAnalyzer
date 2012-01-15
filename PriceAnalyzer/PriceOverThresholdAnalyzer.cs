@@ -1,6 +1,4 @@
-﻿using Sonneville.PriceTools;
-
-namespace Sonneville.PriceAnalyzer
+﻿namespace Sonneville.PriceTools.Analysis
 {
     public class PriceOverThresholdAnalyzer : PriceThresholdAnalyzer
     {

@@ -1,6 +1,4 @@
-﻿using Sonneville.PriceTools;
-
-namespace Sonneville.PriceAnalyzer
+﻿namespace Sonneville.PriceTools.Analysis
 {
     /// <summary>
     ///   A moving average indicator using the simple moving average method.
