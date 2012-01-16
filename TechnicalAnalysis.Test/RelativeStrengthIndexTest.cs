@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
 
-namespace Sonneville.PriceTools.SecurityAnalysis.Test
+namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
     /// <summary>
     /// Summary description for RelativeStrengthIndexTest

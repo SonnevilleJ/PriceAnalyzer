@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Sonneville.PriceTools.SecurityAnalysis {
+namespace Sonneville.PriceTools.TechnicalAnalysis {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Sonneville.PriceTools.SecurityAnalysis {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sonneville.PriceTools.SecurityAnalysis.Strings", typeof(Strings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sonneville.PriceTools.TechnicalAnalysis.Strings", typeof(Strings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

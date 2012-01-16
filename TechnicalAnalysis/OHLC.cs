@@ -1,4 +1,4 @@
-﻿namespace Sonneville.PriceTools.SecurityAnalysis
+﻿namespace Sonneville.PriceTools.TechnicalAnalysis
 {
     public enum OHLC
     {

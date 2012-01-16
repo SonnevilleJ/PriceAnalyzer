@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sonneville.PriceTools.SecurityAnalysis
+namespace Sonneville.PriceTools.TechnicalAnalysis
 {
     /// <summary>
     /// A generic indicator used to transform <see cref="ITimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying ITimeSeries data.

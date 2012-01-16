@@ -1,4 +1,4 @@
-﻿namespace Sonneville.PriceTools.SecurityAnalysis
+﻿namespace Sonneville.PriceTools.TechnicalAnalysis
 {
     /// <summary>
     ///   A moving average indicator using the simple moving average method.
