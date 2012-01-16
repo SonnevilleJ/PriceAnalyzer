@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sonneville.PriceTools.Analysis
+namespace Sonneville.PriceTools.SecurityAnalysis
 {
     public class AnalyzerEventArgs : EventArgs
     {

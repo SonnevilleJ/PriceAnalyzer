@@ -1,8 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.Analysis;
 
-namespace Sonneville.PriceTools.AnalysisTest
+namespace Sonneville.PriceTools.SecurityAnalysis.Test
 {
     [TestClass]
     public class CommonIndicatorTests

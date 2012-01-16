@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Sonneville.PriceTools.Analysis
+namespace Sonneville.PriceTools.SecurityAnalysis
 {
-    public class HigherThanYesterdayAnalyzer : PriceSeriesAnalyzer
+    public class LowerThanYesterdayAnalyzer : PriceSeriesAnalyzer
     {
         protected override IEnumerable<AnalyzerEventArgs> GetTriggerPeriodsArgs()
         {
@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools.Analysis
             for (int i = 1; i < periods.Length; i++)
             {
                 var currentClose = TimeSeries[periods[i].Head];
-                if(currentClose >= previousClose)
+                if (currentClose < previousClose)
                 {
                     args.Add(CreateEventArgs(periods[i].Head));
                 }

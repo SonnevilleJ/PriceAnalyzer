@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Sonneville.PriceTools.Analysis
+namespace Sonneville.PriceTools.SecurityAnalysis
 {
     public abstract class SinglePeriodAnalyzer : PriceSeriesAnalyzer
     {

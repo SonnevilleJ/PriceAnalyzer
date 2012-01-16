@@ -1,4 +1,4 @@
-﻿namespace Sonneville.PriceTools.Analysis
+﻿namespace Sonneville.PriceTools.SecurityAnalysis
 {
     public class PriceOverThresholdAnalyzer : PriceThresholdAnalyzer
     {

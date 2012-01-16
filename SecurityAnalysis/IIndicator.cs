@@ -1,4 +1,4 @@
-namespace Sonneville.PriceTools.Analysis
+namespace Sonneville.PriceTools.SecurityAnalysis
 {
     /// <summary>
     /// A statistical indicator used to transform <see cref="ITimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying ITimeSeries data.

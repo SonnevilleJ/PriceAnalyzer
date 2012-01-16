@@ -9,8 +9,8 @@
     <ProjectGuid>{24780FA7-F5DA-48DC-AE74-918C03268E75}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.AnalysisTest</RootNamespace>
-    <AssemblyName>AnalysisTest</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.SecurityAnalysis.Test</RootNamespace>
+    <AssemblyName>SecurityAnalysis.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -70,10 +70,6 @@
       <Project>{9E171B34-27C7-4017-B624-803250B399D2}</Project>
       <Name>CsvReader</Name>
     </ProjectReference>
-    <ProjectReference Include="..\PriceAnalyzer\Analysis.csproj">
-      <Project>{459025C7-F4B6-40D6-B94C-D927950D076E}</Project>
-      <Name>Analysis</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PriceChartTools\PriceChartTools.csproj">
       <Project>{CA835214-9E28-4CB2-95BF-37D5D2927DB7}</Project>
       <Name>PriceChartTools</Name>
@@ -85,6 +81,10 @@
     <ProjectReference Include="..\SamplePriceData\SamplePriceData.csproj">
       <Project>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</Project>
       <Name>SamplePriceData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecurityAnalysis\SecurityAnalysis.csproj">
+      <Project>{459025C7-F4B6-40D6-B94C-D927950D076E}</Project>
+      <Name>SecurityAnalysis</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
