@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             var shares = 5;
             var price = 100.00m;
 
-            return new Order(issued, expiration, orderType, ticker, shares, price);
+            return Order.Factory.ConstructOrder(issued, expiration, orderType, ticker, shares, price);
         }
     }
 }
