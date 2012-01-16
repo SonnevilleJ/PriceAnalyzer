@@ -4,7 +4,7 @@ using System.Linq;
 using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
-using Sonneville.PriceTools.Data.Yahoo;
+using Sonneville.PriceTools.Yahoo;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.Utilities;
@@ -61,7 +61,7 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void HasValue1Test()
         {
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries("test");
+            var target = PriceSeriesFactory.CreatePriceSeries("test");
             Assert.IsFalse(target.HasValueInRange(DateTime.Now));
         }
 
@@ -449,7 +449,7 @@ namespace Sonneville.PriceToolsTest
         public void TickerTest()
         {
             const string ticker = "test";
-            IPriceSeries target = PriceSeriesFactory.CreatePriceSeries(ticker);
+            var target = PriceSeriesFactory.CreatePriceSeries(ticker);
 
             const string expected = ticker;
             var actual = target.Ticker;

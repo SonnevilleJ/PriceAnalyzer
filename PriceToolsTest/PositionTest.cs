@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Data.Yahoo;
+using Sonneville.PriceTools.Yahoo;
 
 namespace Sonneville.PriceToolsTest
 {

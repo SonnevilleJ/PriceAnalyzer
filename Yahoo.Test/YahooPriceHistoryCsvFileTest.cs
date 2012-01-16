@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
 
-namespace Sonneville.PriceTools.Data.Yahoo.Test
+namespace Sonneville.PriceTools.Yahoo.Test
 {
     [TestClass]
     public class YahooPriceHistoryCsvFileTest

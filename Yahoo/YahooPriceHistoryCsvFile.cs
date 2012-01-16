@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using Sonneville.PriceTools.Data;
 
-namespace Sonneville.PriceTools.Data.Yahoo
+namespace Sonneville.PriceTools.Yahoo
 {
     /// <summary>
     /// Represents a file store containing historical price data from Yahoo! Finance.

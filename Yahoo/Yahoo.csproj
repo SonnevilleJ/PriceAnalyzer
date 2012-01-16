@@ -8,8 +8,8 @@
     <ProjectGuid>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.Data.Yahoo</RootNamespace>
-    <AssemblyName>Data.Yahoo</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.Yahoo</RootNamespace>
+    <AssemblyName>Yahoo</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

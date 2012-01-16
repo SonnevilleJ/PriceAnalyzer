@@ -9,8 +9,8 @@
     <ProjectGuid>{58C38958-6898-4174-864D-7A3FC6B43339}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.Data.Yahoo.Test</RootNamespace>
-    <AssemblyName>Data.Yahoo.Test</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.Yahoo.Test</RootNamespace>
+    <AssemblyName>Yahoo.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,10 +50,6 @@
     <Compile Include="YahooPriceHistoryCsvFileTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data.Yahoo\Data.Yahoo.csproj">
-      <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
-      <Name>Data.Yahoo</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
       <Name>Data</Name>
@@ -69,6 +65,10 @@
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</Project>
       <Name>Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yahoo\Yahoo.csproj">
+      <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
+      <Name>Yahoo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
