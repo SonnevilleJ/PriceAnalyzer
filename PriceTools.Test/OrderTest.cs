@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Test
 {
     [TestClass]
     public class OrderTest

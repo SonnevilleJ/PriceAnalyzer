@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.Utilities;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Test
 {
     [TestClass]
     public class SellShortTest
@@ -16,7 +14,7 @@ namespace Sonneville.PriceToolsTest
         public void SellShortWithNegativeSharesTest()
         {
             const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
             const OrderType type = OrderType.SellShort;
             const decimal price = 100.00m;      // sold at $100.00 per share
             const double shares = -5;           // sold 5 shares
@@ -31,7 +29,7 @@ namespace Sonneville.PriceToolsTest
         public void SellShortWithNegativePriceTest()
         {
             const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
             const OrderType type = OrderType.SellShort;
             const decimal price = -100.00m;     // sold at $-100.00 per share - error
             const double shares = 5;            // sold 5 shares
@@ -47,7 +45,7 @@ namespace Sonneville.PriceToolsTest
         public void SellShortWithNegativeCommissionTest()
         {
             const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
             const OrderType type = OrderType.SellShort;
             const decimal price = 100.00m;      // sold at $100.00 per share
             const double shares = 5;            // sold 5 shares
@@ -62,16 +60,16 @@ namespace Sonneville.PriceToolsTest
         public void SellShortTickerTest()
         {
             const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
             const OrderType type = OrderType.SellShort;
             const decimal price = 100.00m;       // bought at $100.00 per share
             const double shares = 5;            // bought 5 shares
             const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            var target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
             const string expected = ticker;
-            string actual = target.Ticker;
+            var actual = target.Ticker;
             Assert.AreEqual(expected, actual);
         }
 
@@ -82,16 +80,16 @@ namespace Sonneville.PriceToolsTest
         public void SellShortSettlementDateTest()
         {
             const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
             const OrderType type = OrderType.SellShort;
             const decimal price = 100.00m;       // bought at $100.00 per share
             const double shares = 5;            // bought 5 shares
             const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            var target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
-            DateTime expected = date;
-            DateTime actual = target.SettlementDate;
+            var expected = date;
+            var actual = target.SettlementDate;
             Assert.AreEqual(expected, actual);
         }
 
@@ -102,16 +100,16 @@ namespace Sonneville.PriceToolsTest
         public void SellShortOrderTypeTest()
         {
             const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
             const OrderType type = OrderType.SellShort;
             const decimal price = 100.00m;       // bought at $100.00 per share
             const double shares = 5;            // bought 5 shares
             const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            var target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
             const OrderType expected = type;
-            OrderType actual = target.OrderType;
+            var actual = target.OrderType;
             Assert.AreEqual(expected, actual);
         }
 
@@ -122,16 +120,16 @@ namespace Sonneville.PriceToolsTest
         public void SellShortPriceTest()
         {
             const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
             const OrderType type = OrderType.SellShort;
             const decimal price = 100.00m;      // bought at $100.00 per share
             const double shares = 5;            // bought 5 shares
             const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            var target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
             const decimal expected = 100.00m;
-            decimal actual = target.Price;
+            var actual = target.Price;
             Assert.AreEqual(expected, actual);
         }
 
@@ -142,16 +140,16 @@ namespace Sonneville.PriceToolsTest
         public void SellShortSharesTest()
         {
             const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
             const OrderType type = OrderType.SellShort;
             const decimal price = 100.00m;       // bought at $100.00 per share
             const double shares = 5;            // bought 5 shares
             const decimal commission = 7.95m;   // bought with $7.95 commission
 
-            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            var target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
             const double expected = shares;
-            double actual = target.Shares;
+            var actual = target.Shares;
             Assert.AreEqual(expected, actual);
         }
 
@@ -162,16 +160,16 @@ namespace Sonneville.PriceToolsTest
         public void SellShortCommissionTest()
         {
             const string ticker = "DE";
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
             const OrderType type = OrderType.SellShort;
             const decimal price = 100.00m;       // cover at $100.00 per share
             const double shares = 5;            // cover 5 shares
             const decimal commission = 7.95m;   // $7.95 trading commission
 
-            IShareTransaction target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
+            var target = TransactionFactory.CreateShareTransaction(date, type, ticker, price, shares, commission);
 
             const decimal expected = commission;
-            decimal actual = target.Commission;
+            var actual = target.Commission;
             Assert.AreEqual(expected, actual);
         }
     }

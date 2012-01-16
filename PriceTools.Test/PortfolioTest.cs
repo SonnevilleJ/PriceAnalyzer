@@ -1,10 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.PriceTools.SamplePortfolioData;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Test
 {
     /// <summary>
     ///This is a test class for Portfolio and is intended

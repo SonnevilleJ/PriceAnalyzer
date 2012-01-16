@@ -1,15 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
-using Sonneville.PriceTools.Yahoo;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
+using Sonneville.PriceTools.Yahoo;
 using Sonneville.Utilities;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Test
 {
     /// <summary>
     ///This is a test class for PriceSeriesTest and is intended

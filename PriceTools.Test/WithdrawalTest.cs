@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.Utilities;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Test
 {
     [TestClass]
     public class WithdrawalTest
@@ -14,15 +12,15 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void WithdrawalSettlementDateTest()
         {
-            DateTime date = new DateTime(2011, 1, 9);
+            var date = new DateTime(2011, 1, 9);
 
             ICashTransaction target = new Withdrawal
                                           {
                                               SettlementDate = date,
                                           };
 
-            DateTime expected = date;
-            DateTime actual = target.SettlementDate;
+            var expected = date;
+            var actual = target.SettlementDate;
             Assert.AreEqual(expected, actual);
         }
 
@@ -35,7 +33,7 @@ namespace Sonneville.PriceToolsTest
             ICashTransaction target = new Withdrawal();
 
             const OrderType expected = OrderType.Withdrawal;
-            OrderType actual = target.OrderType;
+            var actual = target.OrderType;
             Assert.AreEqual(expected, actual);
         }
 
@@ -53,7 +51,7 @@ namespace Sonneville.PriceToolsTest
                                           };
 
             const decimal expected = -1000.00m;
-            decimal actual = target.Amount;
+            var actual = target.Amount;
             Assert.AreEqual(expected, actual);
         }
 
@@ -71,7 +69,7 @@ namespace Sonneville.PriceToolsTest
             };
 
             const decimal expected = -1000.00m;
-            decimal actual = target.Amount;
+            var actual = target.Amount;
             Assert.AreEqual(expected, actual);
         }
     }

@@ -1,8 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Test
 {
     [TestClass]
     public class PricePeriodFactoryTest
@@ -10,8 +9,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CreateStaticPricePeriodHeadAndWeeklyResolution()
         {
-            DateTime head = new DateTime(2011, 7, 4);
-            DateTime tail = new DateTime(2011, 7, 8, 23, 59, 59, 999);
+            var head = new DateTime(2011, 7, 4);
+            var tail = new DateTime(2011, 7, 8, 23, 59, 59, 999);
             const decimal open = 50.00m;
             const decimal high = 65.00m;
             const decimal low = 45.00m;
@@ -35,8 +34,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CreateStaticPricePeriodTest1()
         {
-            DateTime head = new DateTime(2011, 7, 4);
-            DateTime tail = new DateTime(2011, 7, 4, 23, 59, 59, 999);
+            var head = new DateTime(2011, 7, 4);
+            var tail = new DateTime(2011, 7, 4, 23, 59, 59, 999);
             const decimal open = 50.00m;
             const decimal high = 65.00m;
             const decimal low = 45.00m;
@@ -60,8 +59,8 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void CreateStaticPricePeriodTest2()
         {
-            DateTime head = new DateTime(2011, 7, 4);
-            DateTime tail = new DateTime(2011, 7, 4, 23, 59, 59, 999);
+            var head = new DateTime(2011, 7, 4);
+            var tail = new DateTime(2011, 7, 4, 23, 59, 59, 999);
             const decimal close = 60.00m;
 
             var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, null, null, null, close);

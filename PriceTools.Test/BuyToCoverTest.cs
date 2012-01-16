@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.Utilities;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Test
 {
     [TestClass]
     public class BuyToCoverTest
@@ -37,7 +35,7 @@ namespace Sonneville.PriceToolsTest
             };
 
             const decimal expected = -100.00m;
-            decimal actual = target.Price;
+            var actual = target.Price;
             Assert.AreEqual(expected, actual);
         }
 
@@ -70,7 +68,7 @@ namespace Sonneville.PriceToolsTest
                                            };
 
             const string expected = ticker;
-            string actual = target.Ticker;
+            var actual = target.Ticker;
             Assert.AreEqual(expected, actual);
         }
 
@@ -80,15 +78,15 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void BuyToCoverSettlementDateTest()
         {
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
 
             IShareTransaction target = new BuyToCover
                                            {
                                                SettlementDate = date,
                                            };
 
-            DateTime expected = date;
-            DateTime actual = target.SettlementDate;
+            var expected = date;
+            var actual = target.SettlementDate;
             Assert.AreEqual(expected, actual);
         }
 
@@ -101,7 +99,7 @@ namespace Sonneville.PriceToolsTest
             IShareTransaction target = new BuyToCover();
 
             const OrderType expected = OrderType.BuyToCover;
-            OrderType actual = target.OrderType;
+            var actual = target.OrderType;
             Assert.AreEqual(expected, actual);
         }
 
@@ -119,7 +117,7 @@ namespace Sonneville.PriceToolsTest
                                            };
 
             const decimal expected = -100.00m;
-            decimal actual = target.Price;
+            var actual = target.Price;
             Assert.AreEqual(expected, actual);
         }
 
@@ -137,7 +135,7 @@ namespace Sonneville.PriceToolsTest
                                            };
 
             const double expected = shares;
-            double actual = target.Shares;
+            var actual = target.Shares;
             Assert.AreEqual(expected, actual);
         }
 
@@ -155,7 +153,7 @@ namespace Sonneville.PriceToolsTest
                                            };
 
             const decimal expected = commission;
-            decimal actual = target.Commission;
+            var actual = target.Commission;
             Assert.AreEqual(expected, actual);
         }
     }

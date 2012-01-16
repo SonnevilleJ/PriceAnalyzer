@@ -1,22 +1,27 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Test
 {
+
+
+    /// <summary>
+    ///This is a test class for Buy and is intended
+    ///to contain all Buy Unit Tests
+    ///</summary>
     [TestClass]
-    public class SellTest
+    public class BuyTest
     {
         /// <summary>
         ///A test for Shares
         ///</summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SellWithNegativeSharesTest()
+        public void BuyWithNegativeSharesTest()
         {
-            const double shares = -5;           // sold 5 shares
+            const double shares = -5;           // bought -5 shares - error
 
-            new Sell
+            new Buy
                 {
                     Shares = shares,
                 };
@@ -26,17 +31,17 @@ namespace Sonneville.PriceToolsTest
         ///A test for Price
         ///</summary>
         [TestMethod]
-        public void SellPricePositiveTest()
+        public void BuyPriceNegativeTest()
         {
-            const decimal price = 100.00m;      // sold at $100.00 per share
+            const decimal price = -100.00m;     // bought at $100.00 per share
 
-            IShareTransaction target = new Sell
+            IShareTransaction target = new Buy
             {
                 Price = price,
             };
 
-            const decimal expected = -100.00m;
-            decimal actual = target.Price;
+            const decimal expected = 100.00m;
+            var actual = target.Price;
             Assert.AreEqual(expected, actual);
         }
 
@@ -45,11 +50,11 @@ namespace Sonneville.PriceToolsTest
         ///</summary>
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void SellWithNegativeCommissionTest()
+        public void BuyWithNegativeCommissionTest()
         {
-            const decimal commission = -7.95m;  // sold with $7.95 commission
+            const decimal commission = -7.95m;  // bought with $-7.95 commission - error
 
-            new Sell
+            new Buy
                 {
                     Commission = commission
                 };
@@ -59,17 +64,17 @@ namespace Sonneville.PriceToolsTest
         ///A test for Ticker
         ///</summary>
         [TestMethod]
-        public void SellTickerTest()
+        public void BuyTickerTest()
         {
             const string ticker = "DE";
 
-            IShareTransaction target = new Sell
+            IShareTransaction target = new Buy
                                            {
                                                Ticker = ticker,
                                            };
 
             const string expected = ticker;
-            string actual = target.Ticker;
+            var actual = target.Ticker;
             Assert.AreEqual(expected, actual);
         }
 
@@ -77,17 +82,17 @@ namespace Sonneville.PriceToolsTest
         ///A test for SettlementDate
         ///</summary>
         [TestMethod]
-        public void SellSettlementDateTest()
+        public void BuySettlementDateTest()
         {
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
 
-            IShareTransaction target = new Sell
+            IShareTransaction target = new Buy
                                            {
                                                SettlementDate = date,
                                            };
 
-            DateTime expected = date;
-            DateTime actual = target.SettlementDate;
+            var expected = date;
+            var actual = target.SettlementDate;
             Assert.AreEqual(expected, actual);
         }
 
@@ -95,12 +100,12 @@ namespace Sonneville.PriceToolsTest
         ///A test for OrderType
         ///</summary>
         [TestMethod]
-        public void SellOrderTypeTest()
+        public void BuyOrderTypeTest()
         {
-            IShareTransaction target = new Sell();
+            IShareTransaction target = new Buy();
 
-            const OrderType expected = OrderType.Sell;
-            OrderType actual = target.OrderType;
+            const OrderType expected = OrderType.Buy;
+            var actual = target.OrderType;
             Assert.AreEqual(expected, actual);
         }
 
@@ -108,17 +113,17 @@ namespace Sonneville.PriceToolsTest
         ///A test for Price
         ///</summary>
         [TestMethod]
-        public void SellPriceNegativeTest()
+        public void BuyPricePositiveTest()
         {
-            const decimal price = -100.00m;      // sold at $100.00 per share
+            const decimal price = 100.00m;      // bought at $100.00 per share
 
-            IShareTransaction target = new Sell
+            IShareTransaction target = new Buy
                                            {
                                                Price = price,
                                            };
 
-            const decimal expected = -100.00m;
-            decimal actual = target.Price;
+            const decimal expected = 100.00m;
+            var actual = target.Price;
             Assert.AreEqual(expected, actual);
         }
 
@@ -126,17 +131,17 @@ namespace Sonneville.PriceToolsTest
         ///A test for Shares
         ///</summary>
         [TestMethod]
-        public void SellSharesTest()
+        public void BuySharesTest()
         {
-            const double shares = 5;            // sold 5 shares
+            const double shares = 5;            // bought 5 shares
 
-            IShareTransaction target = new Sell
+            IShareTransaction target = new Buy
                                            {
                                                Shares = shares,
                                            };
 
             const double expected = shares;
-            double actual = target.Shares;
+            var actual = target.Shares;
             Assert.AreEqual(expected, actual);
         }
 
@@ -144,17 +149,17 @@ namespace Sonneville.PriceToolsTest
         ///A test for Commission
         ///</summary>
         [TestMethod]
-        public void SellCommissionTest()
+        public void BuyCommissionTest()
         {
             const decimal commission = 7.95m;   // $7.95 trading commission
 
-            IShareTransaction target = new Sell
+            IShareTransaction target = new Buy
                                            {
                                                Commission = commission
                                            };
 
             const decimal expected = commission;
-            decimal actual = target.Commission;
+            var actual = target.Commission;
             Assert.AreEqual(expected, actual);
         }
     }

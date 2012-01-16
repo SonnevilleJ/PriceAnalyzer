@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.Utilities;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Test
 {
     [TestClass]
     public class DepositTest
@@ -14,15 +12,15 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void DepositSettlementDateTest()
         {
-            DateTime date = new DateTime(2011, 1, 9);
+            var date = new DateTime(2011, 1, 9);
 
-            ICashTransaction target = new Deposit
-                                          {
-                                              SettlementDate = date,
-                                          };
+            var target = new Deposit
+                             {
+                                 SettlementDate = date,
+                             };
 
-            DateTime expected = date;
-            DateTime actual = target.SettlementDate;
+            var expected = date;
+            var actual = target.SettlementDate;
             Assert.AreEqual(expected, actual);
         }
 
@@ -32,10 +30,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void DepositOrderTypeTest()
         {
-            ICashTransaction target = new Deposit();
+            var target = new Deposit();
 
             const OrderType expected = OrderType.Deposit;
-            OrderType actual = target.OrderType;
+            var actual = target.OrderType;
             Assert.AreEqual(expected, actual);
         }
 
@@ -47,13 +45,13 @@ namespace Sonneville.PriceToolsTest
         {
             const decimal amount = 1000.00m;
 
-            ICashTransaction target = new Deposit
-                                          {
-                                              Amount = amount
-                                          };
+            var target = new Deposit
+                             {
+                                 Amount = amount
+                             };
 
             const decimal expected = 1000.00m;
-            decimal actual = target.Amount;
+            var actual = target.Amount;
             Assert.AreEqual(expected, actual);
         }
 
@@ -65,13 +63,13 @@ namespace Sonneville.PriceToolsTest
         {
             const decimal amount = -1000.00m;
 
-            ICashTransaction target = new Deposit
-            {
-                Amount = amount
-            };
+            var target = new Deposit
+                             {
+                                 Amount = amount
+                             };
 
             const decimal expected = 1000.00m;
-            decimal actual = target.Amount;
+            var actual = target.Amount;
             Assert.AreEqual(expected, actual);
         }
     }

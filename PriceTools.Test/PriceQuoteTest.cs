@@ -1,8 +1,7 @@
-﻿using Sonneville.PriceTools;
+﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Test
 {
     /// <summary>
     ///This is a test class for PriceQuoteTest and is intended

@@ -9,8 +9,8 @@
     <ProjectGuid>{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceToolsTest</RootNamespace>
-    <AssemblyName>PriceToolsTest</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.Test</RootNamespace>
+    <AssemblyName>PriceTools.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

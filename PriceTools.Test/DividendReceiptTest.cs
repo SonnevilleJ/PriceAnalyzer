@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.Utilities;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.PriceTools.Test
 {
     [TestClass]
     public class DividendReceiptTest
@@ -28,15 +26,15 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void DividendReceiptSettlementDateTest()
         {
-            DateTime date = new DateTime(2000, 1, 1);
+            var date = new DateTime(2000, 1, 1);
 
-            DividendReceipt target = new DividendReceipt
-                                           {
-                                               SettlementDate = date,
-                                           };
+            var target = new DividendReceipt
+                             {
+                                 SettlementDate = date,
+                             };
 
-            DateTime expected = date;
-            DateTime actual = target.SettlementDate;
+            var expected = date;
+            var actual = target.SettlementDate;
             Assert.AreEqual(expected, actual);
         }
 
@@ -46,10 +44,10 @@ namespace Sonneville.PriceToolsTest
         [TestMethod]
         public void DividendReceiptOrderTypeTest()
         {
-            DividendReceipt target = new DividendReceipt();
+            var target = new DividendReceipt();
 
             const OrderType expected = OrderType.DividendReceipt;
-            OrderType actual = target.OrderType;
+            var actual = target.OrderType;
             Assert.AreEqual(expected, actual);
         }
 
@@ -61,13 +59,13 @@ namespace Sonneville.PriceToolsTest
         {
             const decimal price = 2.00m;        // received $2.00 per share
 
-            DividendReceipt target = new DividendReceipt
-                                           {
-                                               Amount = price,
-                                           };
+            var target = new DividendReceipt
+                             {
+                                 Amount = price,
+                             };
 
             const decimal expected = price;
-            decimal actual = target.Amount;
+            var actual = target.Amount;
             Assert.AreEqual(expected, actual);
         }
     }
