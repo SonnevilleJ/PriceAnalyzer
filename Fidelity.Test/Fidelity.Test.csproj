@@ -9,8 +9,8 @@
     <ProjectGuid>{B7035D8C-D693-4BE2-B531-A5D58EE301AE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.Data.Fidelity.Test</RootNamespace>
-    <AssemblyName>Data.Fidelity.Test</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.Fidelity.Test</RootNamespace>
+    <AssemblyName>Fidelity.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -50,9 +50,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data.Fidelity\Data.Fidelity.csproj">
+    <ProjectReference Include="..\Fidelity\Fidelity.csproj">
       <Project>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</Project>
-      <Name>Data.Fidelity</Name>
+      <Name>Fidelity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>

@@ -2,11 +2,12 @@ using System;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.PriceTools.SamplePortfolioData;
 using Sonneville.PriceTools.SamplePriceData;
 
-namespace Sonneville.PriceTools.Data.Fidelity.Test
+namespace Sonneville.PriceTools.Fidelity.Test
 {
     /// <summary>
     ///This is a test class for FidelityTransactionHistoryCsvFileTest and is intended

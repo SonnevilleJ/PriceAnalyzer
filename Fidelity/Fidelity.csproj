@@ -8,8 +8,8 @@
     <ProjectGuid>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.Data.Fidelity</RootNamespace>
-    <AssemblyName>Data.Fidelity</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.Fidelity</RootNamespace>
+    <AssemblyName>Fidelity</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
