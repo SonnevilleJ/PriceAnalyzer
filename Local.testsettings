@@ -29,8 +29,13 @@
                 <CodeCoverageItem binaryFile="PriceChartTools\bin\Debug\PriceChartTools.dll" pdbFile="PriceChartTools\bin\Debug\PriceChartTools.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="PriceTools\bin\Debug\PriceTools.dll" pdbFile="PriceTools\bin\Debug\PriceTools.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="PriceAnalyzer\bin\Debug\PriceAnalyzer.dll" pdbFile="PriceAnalyzer\bin\Debug\PriceAnalyzer.pdb" instrumentInPlace="true" />
-                <CodeCoverageItem binaryFile="Trading\bin\Debug\Trading.dll" pdbFile="Trading\bin\Debug\Trading.pdb" instrumentInPlace="true" />
                 <CodeCoverageItem binaryFile="BackTesting\bin\Debug\BackTesting.dll" pdbFile="BackTesting\bin\Debug\BackTesting.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="AutomatedTrading\bin\Debug\AutomatedTrading.dll" pdbFile="AutomatedTrading\bin\Debug\AutomatedTrading.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="PriceAnalyzer\bin\Debug\Analysis.dll" pdbFile="PriceAnalyzer\bin\Debug\Analysis.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="Data\bin\Debug\Data.dll" pdbFile="Data\bin\Debug\Data.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="Fidelity\bin\Debug\Fidelity.dll" pdbFile="Fidelity\bin\Debug\Fidelity.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="Google\bin\Debug\Google.dll" pdbFile="Google\bin\Debug\Google.pdb" instrumentInPlace="true" />
+                <CodeCoverageItem binaryFile="Yahoo\bin\Debug\Yahoo.dll" pdbFile="Yahoo\bin\Debug\Yahoo.pdb" instrumentInPlace="true" />
               </Regular>
             </CodeCoverage>
           </Configuration>
