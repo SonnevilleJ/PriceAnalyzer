@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 
-namespace Sonneville.PriceToolsTest
+namespace Sonneville.AutomatedTradingTest
 {
     [TestClass]
     public class OrderTest

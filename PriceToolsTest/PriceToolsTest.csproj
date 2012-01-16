@@ -50,7 +50,6 @@
   <ItemGroup>
     <Compile Include="BuyToCoverTest.cs" />
     <Compile Include="DateTimeExtensionsTest.cs" />
-    <Compile Include="OrderTest.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />

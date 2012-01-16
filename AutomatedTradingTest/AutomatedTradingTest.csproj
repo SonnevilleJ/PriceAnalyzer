@@ -49,6 +49,7 @@
     <Compile Include="OrderCancelledEventArgsTest.cs" />
     <Compile Include="OrderExecutedEventArgsTest.cs" />
     <Compile Include="OrderExpiredEventArgsTest.cs" />
+    <Compile Include="OrderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimulatedTradingAccountTest.cs" />
     <Compile Include="TradingAccountFeaturesTest.cs">
