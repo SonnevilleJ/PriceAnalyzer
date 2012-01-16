@@ -123,27 +123,29 @@ namespace Sonneville.PriceToolsTest
             const decimal amount = 500.00m;
             const int iterations = 10000;     // $0.05 transactions
 
-            for (var i = 0; i < iterations; i++)
+            for (int i = 0; i < iterations; i++)
             {
-                // workaround for bug with Entity Framework
-                // EF will call GetHashCode, which returns a random number (I think).
-                // Occasionally, two Transaction objects will return the same result for GetHashCode.
-                // This results in EF getting confused and thinking the new object is already in the collection
-                // and EF will not add the new object to the collection, thus changing the final count.
                 var settlementDate = dateTime.AddTicks(i);
-
-                var dividend = new Deposit { Amount = amount / iterations, SettlementDate = settlementDate };
+                var dividend = new Deposit
+                                   {
+                                       Amount = amount/iterations,
+                                       SettlementDate = settlementDate
+                                   };
                 target.Deposit(dividend);
             }
 
-            for (var j = 0; j < iterations; j++)
-            {
-                // see comment above about bug with Entity Framework
-                var settlementDate = dateTime.AddTicks(j);
+            Parallel.For(0, iterations, (j) =>
+                                            {
+                                                // see comment above about bug with Entity Framework
+                                                var settlementDate = dateTime.AddTicks(j);
 
-                var withdrawal = new Withdrawal { Amount = amount / iterations, SettlementDate = settlementDate };
-                target.Withdraw(withdrawal);
-            }
+                                                var withdrawal = new Withdrawal
+                                                                     {
+                                                                         Amount = amount/iterations,
+                                                                         SettlementDate = settlementDate
+                                                                     };
+                                                target.Withdraw(withdrawal);
+                                            });
 
             const decimal expected = 0.00m;
             var actual = target.GetCashBalance(dateTime);

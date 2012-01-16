@@ -99,12 +99,14 @@ namespace Sonneville.PriceTools
         /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetCashBalance(DateTime asOfDate)
         {
+            ICollection<ICashTransaction> transactions;
             lock (_padlock)
             {
-                return _transactions.AsParallel()
-                    .Where(transaction => transaction.SettlementDate <= asOfDate)
-                    .Sum(transaction => transaction.Amount);
+                transactions = Transactions;
             }
+            return transactions.AsParallel()
+                .Where(transaction => transaction.SettlementDate <= asOfDate)
+                .Sum(transaction => transaction.Amount);
         }
 
         /// <summary>
