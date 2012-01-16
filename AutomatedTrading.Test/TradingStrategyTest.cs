@@ -1,9 +1,7 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.Utilities;
 
-namespace Sonneville.AutomatedTradingTest
+namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
     [TestClass]
     public class TradingStrategyTest

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Sonneville.PriceTools.SecurityAnalysis
+namespace Sonneville.PriceTools.AutomatedTrading
 {
     public abstract class Analyzer
     {

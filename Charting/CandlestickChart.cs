@@ -1,15 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Media;
 
-namespace Sonneville.PriceChartTools
+namespace Sonneville.PriceTools.Charting
 {
-    public class LineChart : ChartCanvas
+    public class CandlestickChart : ChartCanvas
     {
-        public LineChart()
-            : base(true)
-        {
-        }
-
         /// <summary>
         /// Gets the polyline points to chart for a period.
         /// </summary>
@@ -23,7 +18,20 @@ namespace Sonneville.PriceChartTools
         /// <returns>A <see cref="PointCollection"/> containing the points to be charted for the period.</returns>
         protected override PointCollection GetPolylinePoints(double left, double center, double right, double open, double high, double low, double close)
         {
-            return new PointCollection {new Point(center, close)};
+            return new PointCollection
+                       {
+                           new Point(center, close),
+                           new Point(center, high),
+                           new Point(center, close),
+                           new Point(right, close),
+                           new Point(right, open),
+                           new Point(center, open),
+                           new Point(center, low),
+                           new Point(center, open),
+                           new Point(left, open),
+                           new Point(left, close),
+                           new Point(center, close)
+                       };
         }
     }
 }

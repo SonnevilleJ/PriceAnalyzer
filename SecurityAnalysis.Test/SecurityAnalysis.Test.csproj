@@ -6,11 +6,11 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3C9D8671-15C6-4521-A886-C192AED54121}</ProjectGuid>
+    <ProjectGuid>{24780FA7-F5DA-48DC-AE74-918C03268E75}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.AutomatedTradingTest</RootNamespace>
-    <AssemblyName>AutomatedTradingTest</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.SecurityAnalysis.Test</RootNamespace>
+    <AssemblyName>SecurityAnalysis.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -33,12 +33,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -46,34 +59,27 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="OrderCancelledEventArgsTest.cs" />
-    <Compile Include="OrderExecutedEventArgsTest.cs" />
-    <Compile Include="OrderExpiredEventArgsTest.cs" />
+    <Compile Include="CommonIndicatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulatedTradingAccountTest.cs" />
-    <Compile Include="TradingAccountFeaturesTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="TradingStrategyTest.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="RelativeStrengthIndexTest.cs" />
+    <Compile Include="SimpleMovingAverageTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\AutomatedTrading\AutomatedTrading.csproj">
-      <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
-      <Name>AutomatedTrading</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\BackTesting\BackTesting.csproj">
-      <Project>{6E980D3F-F8EA-412D-9A0D-CC12FDF08965}</Project>
-      <Name>BackTesting</Name>
+    <ProjectReference Include="..\CsvReader\CsvReader.csproj">
+      <Project>{9E171B34-27C7-4017-B624-803250B399D2}</Project>
+      <Name>CsvReader</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
-      <Project>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</Project>
-      <Name>Utilities</Name>
+    <ProjectReference Include="..\SamplePriceData\SamplePriceData.csproj">
+      <Project>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</Project>
+      <Name>SamplePriceData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SecurityAnalysis\SecurityAnalysis.csproj">
+      <Project>{459025C7-F4B6-40D6-B94C-D927950D076E}</Project>
+      <Name>SecurityAnalysis</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

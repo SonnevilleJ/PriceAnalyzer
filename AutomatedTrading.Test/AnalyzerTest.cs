@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.SamplePriceData;
 
-namespace Sonneville.PriceTools.SecurityAnalysis.Test
+namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
     /// <summary>
     ///This is a test class for PriceOverThresholdAnalyzerTest and is intended

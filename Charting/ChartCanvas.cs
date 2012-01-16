@@ -4,9 +4,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Sonneville.PriceTools;
 
-namespace Sonneville.PriceChartTools
+namespace Sonneville.PriceTools.Charting
 {
     public class ChartCanvas : Canvas, IChart
     {

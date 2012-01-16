@@ -89,21 +89,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analyzer.cs" />
-    <Compile Include="HigherThanYesterdayAnalyzer.cs" />
     <Compile Include="IIndicator.cs" />
     <Compile Include="Indicator.cs" />
-    <Compile Include="LowerThanYesterdayAnalyzer.cs" />
     <Compile Include="OHLC.cs" />
-    <Compile Include="PriceOverThresholdAnalyzer.cs" />
-    <Compile Include="PriceUnderThresholdAnalyzer.cs" />
     <Compile Include="RelativeStrengthIndex.cs" />
     <Compile Include="SimpleMovingAverage.cs" />
-    <Compile Include="SinglePeriodAnalyzer.cs" />
-    <Compile Include="PriceThresholdAnalyzer.cs" />
-    <Compile Include="AnalyzerTriggerDelegate.cs" />
-    <Compile Include="PriceSeriesAnalyzer.cs" />
-    <Compile Include="AnalyzerEventArgs.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -117,10 +107,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PriceChartTools\PriceChartTools.csproj">
-      <Project>{CA835214-9E28-4CB2-95BF-37D5D2927DB7}</Project>
-      <Name>PriceChartTools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>

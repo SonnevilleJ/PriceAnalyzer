@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows.Media;
-using Sonneville.PriceTools;
 
-namespace Sonneville.PriceChartTools
+namespace Sonneville.PriceTools.Charting
 {
     public interface IChart
     {
