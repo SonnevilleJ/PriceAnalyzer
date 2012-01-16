@@ -46,10 +46,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FidelityBrokeragelinkTransactionHistoryCsvFileTest.cs" />
+    <Compile Include="FidelityCommissionScheduleTest.cs" />
     <Compile Include="FidelityTransactionHistoryCsvFileTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutomatedTrading\AutomatedTrading.csproj">
+      <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
+      <Name>AutomatedTrading</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Fidelity\Fidelity.csproj">
       <Project>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</Project>
       <Name>Fidelity</Name>

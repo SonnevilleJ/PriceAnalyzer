@@ -1,9 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.AutomatedTrading.Fidelity;
 
-namespace Sonneville.AutomatedTradingTest.Fidelity
+namespace Sonneville.PriceTools.Fidelity.Test
 {
     [TestClass]
     public class FidelityCommissionScheduleTest

@@ -1,4 +1,4 @@
-﻿using Sonneville.PriceTools.Data.Fidelity;
+﻿using Sonneville.PriceTools.Fidelity;
 using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.PriceTools.Data;
 

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sonneville.PriceTools.AutomatedTrading;
 
-namespace Sonneville.PriceTools.AutomatedTrading.Fidelity
+namespace Sonneville.PriceTools.Fidelity
 {
     public class FidelityCommissionSchedule : FlatCommissionSchedule
     {

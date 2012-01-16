@@ -1,6 +1,7 @@
 ﻿using System;
+using Sonneville.PriceTools.AutomatedTrading;
 
-namespace Sonneville.PriceTools.AutomatedTrading.Fidelity
+namespace Sonneville.PriceTools.Fidelity
 {
     public class FidelityBrokerage : IBrokerage
     {
