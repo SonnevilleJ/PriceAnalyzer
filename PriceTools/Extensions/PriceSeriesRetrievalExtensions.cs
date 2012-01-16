@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.Extensions
         /// Retrieves price data from the given date until <see cref="DateTime.Now"/>.
         /// </summary>
         /// <param name="priceSeries"></param>
-        /// <param name="provider">The <see cref="PriceDataProvider"/> to use for retrieving price data.</param>
+        /// <param name="provider">The <see cref="IPriceDataProvider"/> to use for retrieving price data.</param>
         /// <param name="head">The first date to retrieve price data for.</param>
         public static void RetrievePriceData(this IPriceSeries priceSeries, IPriceDataProvider provider, DateTime head)
         {
@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools.Extensions
         /// Retrieves price data for the period between the given dates.
         /// </summary>
         /// <param name="priceSeries"></param>
-        /// <param name="provider">The <see cref="PriceDataProvider"/> to use for retrieving price data.</param>
+        /// <param name="provider">The <see cref="IPriceDataProvider"/> to use for retrieving price data.</param>
         /// <param name="head">The first date to retrieve price data for.</param>
         /// <param name="tail">The last date to retrieve price data for.</param>
         public static void RetrievePriceData(this IPriceSeries priceSeries, IPriceDataProvider provider, DateTime head, DateTime tail)

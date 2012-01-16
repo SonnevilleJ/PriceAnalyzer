@@ -7,7 +7,7 @@ using Sonneville.PriceTools.SamplePriceData;
 using Sonneville.PriceTools.Data;
 using Sonneville.Utilities;
 
-namespace Sonneville.PriceTools.Data.Google.Test
+namespace Sonneville.PriceTools.Google.Test
 {
     [TestClass]
     public class GooglePriceDataProviderTest

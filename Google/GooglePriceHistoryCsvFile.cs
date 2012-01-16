@@ -2,7 +2,7 @@
 using System.IO;
 using Sonneville.PriceTools.Data;
 
-namespace Sonneville.PriceTools.Data.Google
+namespace Sonneville.PriceTools.Google
 {
     /// <summary>
     /// Represents a file store containing historical price data from Google Finance.

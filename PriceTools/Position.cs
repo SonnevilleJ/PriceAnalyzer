@@ -37,6 +37,25 @@ namespace Sonneville.PriceTools
         #region IPosition Members
 
         /// <summary>
+        ///   Gets the ticker symbol held by this IPosition.
+        /// </summary>
+        public string Ticker
+        {
+            get
+            {
+                return _ticker;
+            }
+            private set
+            {
+                if (string.IsNullOrWhiteSpace(value))
+                {
+                    throw new ArgumentNullException("value", Strings.Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_);
+                }
+                _ticker = value;
+            }
+        }
+
+        /// <summary>
         ///   Gets the average cost of all held shares in this Position as of a given date.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
@@ -403,22 +422,6 @@ namespace Sonneville.PriceTools
         private IPriceSeries PriceSeries
         {
             get { return _priceSeries ?? (_priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker)); }
-        }
-
-        public string Ticker
-        {
-            get
-            {
-                return _ticker;
-            }
-            private set
-            {
-                if (string.IsNullOrWhiteSpace(value))
-                {
-                    throw new ArgumentNullException("value", Strings.Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_);
-                }
-                _ticker = value;
-            }
         }
 
         #endregion

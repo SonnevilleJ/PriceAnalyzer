@@ -61,18 +61,18 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a Portfolio from a <see cref="TransactionHistoryCsvFile"/>.
+        /// Constructs a Portfolio from a <see cref="ITransactionHistory"/>.
         /// </summary>
-        /// <param name="csvFile">The <see cref="TransactionHistoryCsvFile"/> containing transaction data.</param>
+        /// <param name="csvFile">The <see cref="ITransactionHistory"/> containing transaction data.</param>
         public Portfolio(ITransactionHistory csvFile)
             : this(csvFile, DefaultCashTicker)
         {
         }
 
         /// <summary>
-        /// Constructs a Portfolio from a <see cref="TransactionHistoryCsvFile"/>.
+        /// Constructs a Portfolio from a <see cref="ITransactionHistory"/>.
         /// </summary>
-        /// <param name="csvFile">The <see cref="TransactionHistoryCsvFile"/> containing transaction data.</param>
+        /// <param name="csvFile">The <see cref="ITransactionHistory"/> containing transaction data.</param>
         /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
         public Portfolio(ITransactionHistory csvFile, string ticker)
             : this(ticker)

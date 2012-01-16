@@ -1,7 +1,8 @@
 ﻿using System;
 using System.IO;
+using Sonneville.PriceTools.Data;
 
-namespace Sonneville.PriceTools.Data.Google
+namespace Sonneville.PriceTools.Google
 {
     /// <summary>
     /// Parses an <see cref = "IPriceSeries" /> from Google Finance CSV files.

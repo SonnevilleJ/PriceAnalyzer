@@ -1,4 +1,4 @@
-﻿using Sonneville.PriceTools.Data.Google;
+﻿using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.Data.Yahoo;
 
 namespace Sonneville.PriceTools.SamplePriceData

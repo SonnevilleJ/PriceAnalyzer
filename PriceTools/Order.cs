@@ -77,6 +77,13 @@ namespace Sonneville.PriceTools
         /// </summary>
         public double Shares { get; private set; }
 
+        /// <summary>
+        /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// A <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
             return String.Format("{0}: {1} {2} shares of {3} at {4}", Issued, OrderType, Shares, Ticker, Price);
