@@ -13,11 +13,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the factory for this object.
-        /// </summary>
-        public static OrderFactory Factory { get { return OrderFactory.Instance; } }
-
-        /// <summary>
         /// The DateTime this order was issued.
         /// </summary>
         public DateTime Issued { get; set; }

@@ -4,7 +4,7 @@ using System.Linq;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Constructs <see cref="ConstructOrder"/> objects.
+    /// Constructs <see cref="IOrder"/> objects.
     /// </summary>
     public class OrderFactory
     {
