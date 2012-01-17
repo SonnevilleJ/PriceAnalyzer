@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        public virtual void Submit(Order order)
+        public virtual void Submit(IOrder order)
         {
             if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, Strings.TradingAccount_Submit_Cannot_execute_this_order_);
 
@@ -31,7 +31,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Attempts to cancel an <see cref="Order"/> before it is filled.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
-        public abstract void TryCancelOrder(Order order);
+        public abstract void TryCancelOrder(IOrder order);
 
         /// <summary>
         /// Blocks the calling thread until all submitted orders are filled, cancelled, or expired.
@@ -83,13 +83,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        protected abstract void ProcessOrder(Order order);
+        protected abstract void ProcessOrder(IOrder order);
 
         #endregion
 
         #region Private Methods
 
-        private bool ValidateOrder(Order order)
+        private bool ValidateOrder(IOrder order)
         {
             var commission = Features.CommissionSchedule.PriceCheck(order);
             var expectedTransaction = TransactionFactory.CreateShareTransaction(DateTime.Now, order.OrderType, order.Ticker, order.Price, order.Shares, commission);

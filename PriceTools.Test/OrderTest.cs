@@ -2,12 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.Data;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Test
 {
     [TestClass]
     public class OrderTest
     {
+        [TestMethod]
+        public void SerializeTest()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.Buy;
+            const string ticker = "DE";
+            const double shares = 5.0;
+            const decimal price = 100.00m;
+
+            var target = Order.Factory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+
+            var xml = Serializer.SerializeToXml(target);
+            var result = Serializer.DeserializeFromXml<IOrder>(xml);
+
+            TestUtilities.AssertSameState(target, result);
+        }
+
         [TestMethod]
         public void IssuedTest()
         {

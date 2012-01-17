@@ -18,13 +18,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        void Submit(Order order);
+        void Submit(IOrder order);
 
         /// <summary>
         /// Attempts to cancel an <see cref="Order"/> before it is filled.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
-        void TryCancelOrder(Order order);
+        void TryCancelOrder(IOrder order);
 
         /// <summary>
         /// Triggered when an order has been filled.

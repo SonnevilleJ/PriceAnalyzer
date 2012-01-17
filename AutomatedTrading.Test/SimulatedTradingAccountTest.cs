@@ -194,7 +194,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             }
         }
 
-        private static void VerifyOrderFillsCorrectly(ITradingAccount target, Order order)
+        private static void VerifyOrderFillsCorrectly(ITradingAccount target, IOrder order)
         {
             IShareTransaction expected = null;
             IShareTransaction actual = null;

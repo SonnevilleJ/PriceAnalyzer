@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 {
     public class DailyTriggerTradingStrategy : TradingStrategy
     {
-        protected override Order CreateOrder(DateTime issued)
+        protected override IOrder CreateOrder(DateTime issued)
         {
             var expiration = issued.GetFollowingClose();
             var orderType = OrderType.Buy;

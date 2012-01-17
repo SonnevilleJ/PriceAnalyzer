@@ -60,6 +60,7 @@
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="DividendReinvestment.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
+    <Compile Include="IOrder.cs" />
     <Compile Include="MeasurableSecurityBasketExtensions.cs" />
     <Compile Include="Data\IPriceDataProvider.cs" />
     <Compile Include="Order.cs" />

@@ -174,11 +174,28 @@ namespace Sonneville.Utilities
         /// <param name="order">The <see cref="Order"/> which should define the parameters for the resulting <see cref="IShareTransaction"/>.</param>
         /// <param name="commission">The commission that should be charged for the resulting <see cref="IShareTransaction"/>.</param>
         /// <returns></returns>
-        public static IShareTransaction CreateShareTransaction(DateTime settlementDate, Order order, decimal commission)
+        public static IShareTransaction CreateShareTransaction(DateTime settlementDate, IOrder order, decimal commission)
         {
             return TransactionFactory.CreateShareTransaction(settlementDate, order.OrderType, order.Ticker, order.Price, order.Shares, commission);
         }
 
         #endregion
+
+        /// <summary>
+        /// Asserts that each property is identical for the two instances of T.
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="expected"></param>
+        /// <param name="actual"></param>
+        public static void AssertSameState<T>(T expected, T actual)
+        {
+            var properties = expected.GetType().GetProperties();
+            foreach (var propertyInfo in properties)
+            {
+                if (propertyInfo.GetIndexParameters().Length != 0) continue;
+
+                Assert.AreEqual(propertyInfo.GetValue(expected, null), propertyInfo.GetValue(actual, null));
+            }
+        }
     }
 }

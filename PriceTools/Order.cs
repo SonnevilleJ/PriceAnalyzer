@@ -5,7 +5,8 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// An order to take a position on a financial security.
     /// </summary>
-    public sealed class Order
+    [Serializable]
+    public sealed class Order : IOrder
     {
         internal Order()
         {
@@ -19,37 +20,37 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The DateTime this order was issued.
         /// </summary>
-        public DateTime Issued { get; internal set; }
+        public DateTime Issued { get; set; }
 
         /// <summary>
         /// The DateTime this order expires.
         /// </summary>
-        public DateTime Expiration { get; internal set; }
+        public DateTime Expiration { get; set; }
 
         /// <summary>
         /// The ticker symbol for this order.
         /// </summary>
-        public string Ticker { get; internal set; }
+        public string Ticker { get; set; }
 
         /// <summary>
         /// The price at which the order should be executed.
         /// </summary>
-        public decimal Price { get; internal set; }
+        public decimal Price { get; set; }
 
         /// <summary>
         /// Specifies the type of order.
         /// </summary>
-        public OrderType OrderType { get; internal set; }
+        public OrderType OrderType { get; set; }
 
         /// <summary>
         /// The <see cref="PricingType"/> (market or limit) which should be used when submitting this order.
         /// </summary>
-        public PricingType PricingType { get; internal set; }
+        public PricingType PricingType { get; set; }
 
         /// <summary>
         /// The number of shares for this order.
         /// </summary>
-        public double Shares { get; internal set; }
+        public double Shares { get; set; }
 
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

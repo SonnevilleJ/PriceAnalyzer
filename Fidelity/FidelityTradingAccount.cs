@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.Fidelity
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        protected override void ProcessOrder(Order order)
+        protected override void ProcessOrder(IOrder order)
         {
             throw new NotImplementedException();
         }
