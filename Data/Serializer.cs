@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
-using System.Xml.Serialization;
 
 namespace Sonneville.PriceTools.Data
 {
@@ -39,21 +38,15 @@ namespace Sonneville.PriceTools.Data
         /// <returns></returns>
         public static T DeserializeFromXml<T>(string xml)
         {
-            if (!typeof (T).IsInterface) return TryDeserialize<T>(typeof (T), xml);
+            var result = default(T);
 
-            var matchingClasses = GetMatchingClasses(typeof (T));
-            foreach (var matchingClass in matchingClasses)
-            {
-                try
-                {
-                    return TryDeserialize<T>(matchingClass, xml);
-                }
-                catch (NotSupportedException)
-                {
-                }
-            }
-            throw new TypeLoadException(string.Format(Strings.Serializer_DeserializeFromXml_Could_not_find_a_compatible_type_to_implement_interface___0__,
-                                                      typeof (T).FullName));
+            // try deserializing to exact type, as long as it isn't an interface
+            if (!typeof (T).IsInterface && TryDeserialize(typeof (T), xml, out result)) return result;
+
+            // try deserializing to compatible types
+            if (GetMatchingClasses(typeof (T)).Any(matchingClass => TryDeserialize(matchingClass, xml, out result))) return result;
+
+            throw new TypeLoadException(string.Format(Strings.Serializer_DeserializeFromXml_Could_not_find_a_compatible_type_to_implement_interface___0__, typeof (T).FullName));
         }
 
         /// <summary>
@@ -62,19 +55,29 @@ namespace Sonneville.PriceTools.Data
         /// <typeparam name="T">The type of object to return. Can be an interface.</typeparam>
         /// <param name="type">The type to attempt to construct.</param>
         /// <param name="xml">The serialized XML.</param>
+        /// <param name="result">The deserialized object.</param>
         /// <returns></returns>
         /// <exception cref="NotSupportedException">Thrown when deserialization fails.</exception>
-        private static T TryDeserialize<T>(Type type, string xml)
+        private static bool TryDeserialize<T>(Type type, string xml, out T result)
         {
             using (var stream = new MemoryStream())
             {
                 using (var textWriter = new StreamWriter(stream))
                 {
-                    var deserializer = new DataContractSerializer(type);
-                    textWriter.Write(xml);
-                    textWriter.Flush();
-                    stream.Position = 0;
-                    return (T) deserializer.ReadObject(stream);
+                    try
+                    {
+                        var deserializer = new DataContractSerializer(type);
+                        textWriter.Write(xml);
+                        textWriter.Flush();
+                        stream.Position = 0;
+                        result = (T)deserializer.ReadObject(stream);
+                        return true;
+                    }
+                    catch
+                    {
+                        result = default(T);
+                        return false;
+                    }
                 }
             }
         }
