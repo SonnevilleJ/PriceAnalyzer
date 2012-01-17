@@ -144,4 +144,7 @@
 	<data name="PriceHistoryCsvFile_ParseDateColumn_Parsed_date_was_returned_as_null_or_whitespace_">
 		<value xml:space="preserve">Parsed date was returned as null or whitespace.</value>
 	</data>
+	<data name="Serializer_DeserializeFromXml_Could_not_find_a_compatible_type_to_implement_interface___0__">
+		<value xml:space="preserve">Could not find a compatible type to implement interface: {0}.</value>
+	</data>
 </root>

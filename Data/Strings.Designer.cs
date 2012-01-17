@@ -127,6 +127,16 @@ namespace Sonneville.PriceTools.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Could not find a compatible type to implement interface: {0}..
+        /// </summary>
+        internal static string Serializer_DeserializeFromXml_Could_not_find_a_compatible_type_to_implement_interface___0__ {
+            get {
+                return ResourceManager.GetString("Serializer_DeserializeFromXml_Could_not_find_a_compatible_type_to_implement_inter" +
+                        "face___0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parsed date was returned as null or whitespace..
         /// </summary>
         internal static string TransactionHistoryCsvFile_ParseDateColumn_Parsed_date_was_returned_as_null_or_whitespace_ {

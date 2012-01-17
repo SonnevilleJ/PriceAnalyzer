@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
@@ -29,19 +30,39 @@ namespace Sonneville.PriceTools.Data
             {
                 using (var textWriter = new StreamWriter(stream))
                 {
-                    var type = typeof (T).IsInterface ? GetMatchingClass(typeof (T)) : typeof (T);
-                    var deserializer = new XmlSerializer(type);
-                    textWriter.Write(xml);
-                    textWriter.Flush();
-                    stream.Position = 0;
-                    return (T) deserializer.Deserialize(stream);
+                    if (!typeof (T).IsInterface) return TryDeserialize<T>(stream, typeof (T), textWriter, xml);
+                    
+                    var matchingClasses = GetMatchingClasses(typeof (T));
+                    foreach (var matchingClass in matchingClasses)
+                    {
+                        try
+                        {
+                            return TryDeserialize<T>(stream, matchingClass, textWriter, xml);
+                        }
+                        catch (NotSupportedException)
+                        {
+                            continue;
+                        }
+                    }
+                    throw new TypeLoadException(string.Format(Strings.Serializer_DeserializeFromXml_Could_not_find_a_compatible_type_to_implement_interface___0__, typeof(T).FullName));
                 }
             }
         }
 
-        private static Type GetMatchingClass(Type type)
+        private static T TryDeserialize<T>(Stream stream, Type type, TextWriter textWriter, string xml)
         {
-            return type.Assembly.GetExportedTypes().Where(type.IsAssignableFrom).FirstOrDefault(exportedType => !exportedType.IsInterface);
+            var deserializer = new XmlSerializer(type);
+            textWriter.Write(xml);
+            textWriter.Flush();
+            stream.Position = 0;
+            return (T) deserializer.Deserialize(stream);
+        }
+
+        private static IEnumerable<Type> GetMatchingClasses(Type type)
+        {
+            var assembly = type.Assembly;
+            var exportedTypes = assembly.GetExportedTypes();
+            return exportedTypes.Where(type.IsAssignableFrom).Where(exportedType => !exportedType.IsInterface);
         }
     }
 }
