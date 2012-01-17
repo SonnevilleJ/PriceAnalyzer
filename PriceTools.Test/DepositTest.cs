@@ -1,11 +1,27 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.Data;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Test
 {
     [TestClass]
     public class DepositTest
     {
+        [TestMethod]
+        public void SerializeTest()
+        {
+            var date = new DateTime(2012, 1, 17);
+            const decimal amount = 10000.00m;
+
+            var target = new Deposit {SettlementDate = date, Amount = amount};
+
+            var xml = Serializer.SerializeToXml(target);
+            var result = Serializer.DeserializeFromXml<ICashTransaction>(xml);
+
+            TestUtilities.AssertSameState(target, result);
+        }
+
         /// <summary>
         ///A test for Date
         ///</summary>

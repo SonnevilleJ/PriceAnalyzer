@@ -9,6 +9,61 @@ namespace Sonneville.PriceTools
     public static class TransactionFactory
     {
         /// <summary>
+        /// Constructs a deposit-type transaction.
+        /// </summary>
+        /// <param name="settlementDate">The settlement date of the transaction.</param>
+        /// <param name="amount">The amount of funds deposited.</param>
+        /// <returns></returns>
+        public static ICashTransaction ConstructDeposit(DateTime settlementDate, decimal amount)
+        {
+            return new Deposit {SettlementDate = settlementDate, Amount = amount};
+        }
+
+        /// <summary>
+        /// Constructs a withdrawal-type transaction.
+        /// </summary>
+        /// <param name="settlementDate">The settlement date of the transaction.</param>
+        /// <param name="amount">The amount of funds withdrawn.</param>
+        /// <returns></returns>
+        public static ICashTransaction ConstructWithdrawal(DateTime settlementDate, decimal amount)
+        {
+            return new Withdrawal {SettlementDate = settlementDate, Amount = amount};
+        }
+
+        /// <summary>
+        /// Constructs a dividend-type transaction where funds were received.
+        /// </summary>
+        /// <param name="settlementDate">The settlement date of the transaction.</param>
+        /// <param name="amount">The amount of funds received.</param>
+        /// <returns></returns>
+        public static ICashTransaction ConstructDividendReceipt(DateTime settlementDate, decimal amount)
+        {
+            return new DividendReceipt {SettlementDate = settlementDate, Amount = amount};
+        }
+
+        /// <summary>
+        /// Constructs a transaction where cash is exchanged.
+        /// </summary>
+        /// <param name="transactionType">The type of <see cref="ICashTransaction"/> to construct.</param>
+        /// <param name="settlementDate">The settlement date of the transaction.</param>
+        /// <param name="amount">The amount of funds in the transaction.</param>
+        /// <returns></returns>
+        public static ICashTransaction ConstructCashTransaction(OrderType transactionType, DateTime settlementDate, decimal amount)
+        {
+            switch (transactionType)
+            {
+                case OrderType.Deposit:
+                    return ConstructDeposit(settlementDate, amount);
+                case OrderType.Withdrawal:
+                    return ConstructWithdrawal(settlementDate, amount);
+                case OrderType.DividendReceipt:
+                    return ConstructDividendReceipt(settlementDate, amount);
+                default:
+                    throw new ArgumentOutOfRangeException("transactionType", transactionType, string.Format(Strings.TransactionFactory_ConstructCashTransaction_Cannot_create_a_ICashTransaction_for_an_OrderType_of__0__, transactionType));
+            }
+        }
+
+        /// <summary>
         /// Constructs a Transaction.
         /// </summary>
         /// <param name="date">The date and time this ShareTransaction took place.</param>

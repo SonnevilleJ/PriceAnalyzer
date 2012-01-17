@@ -159,5 +159,15 @@ namespace Sonneville.PriceTools {
                 return ResourceManager.GetString("ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot create a ICashTransaction for an OrderType of {0}..
+        /// </summary>
+        internal static string TransactionFactory_ConstructCashTransaction_Cannot_create_a_ICashTransaction_for_an_OrderType_of__0__ {
+            get {
+                return ResourceManager.GetString("TransactionFactory_ConstructCashTransaction_Cannot_create_a_ICashTransaction_for_" +
+                        "an_OrderType_of__0__", resourceCulture);
+            }
+        }
     }
 }
