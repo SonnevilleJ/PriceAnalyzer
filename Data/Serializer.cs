@@ -41,7 +41,6 @@ namespace Sonneville.PriceTools.Data
                         }
                         catch (NotSupportedException)
                         {
-                            continue;
                         }
                     }
                     throw new TypeLoadException(string.Format(Strings.Serializer_DeserializeFromXml_Could_not_find_a_compatible_type_to_implement_interface___0__, typeof(T).FullName));

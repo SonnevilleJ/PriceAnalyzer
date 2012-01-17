@@ -10,36 +10,36 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The DateTime this order was issued.
         /// </summary>
-        DateTime Issued { get; set; }
+        DateTime Issued { get; }
 
         /// <summary>
         /// The DateTime this order expires.
         /// </summary>
-        DateTime Expiration { get; set; }
+        DateTime Expiration { get; }
 
         /// <summary>
         /// The ticker symbol for this order.
         /// </summary>
-        string Ticker { get; set; }
+        string Ticker { get; }
 
         /// <summary>
         /// The price at which the order should be executed.
         /// </summary>
-        decimal Price { get; set; }
+        decimal Price { get; }
 
         /// <summary>
         /// Specifies the type of order.
         /// </summary>
-        OrderType OrderType { get; set; }
+        OrderType OrderType { get; }
 
         /// <summary>
         /// The <see cref="PricingType"/> (market or limit) which should be used when submitting this order.
         /// </summary>
-        PricingType PricingType { get; set; }
+        PricingType PricingType { get; }
 
         /// <summary>
         /// The number of shares for this order.
         /// </summary>
-        double Shares { get; set; }
+        double Shares { get; }
     }
 }
