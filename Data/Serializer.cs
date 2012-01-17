@@ -91,7 +91,7 @@ namespace Sonneville.PriceTools.Data
         private static IEnumerable<Type> GetMatchingClasses(Type baseType)
         {
             var assembly = baseType.Assembly;
-            var exportedTypes = assembly.GetExportedTypes();
+            var exportedTypes = assembly.GetTypes();
             return exportedTypes.Where(exportedType => baseType.IsAssignableFrom(exportedType) && !exportedType.IsInterface);
         }
     }
