@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -20,7 +21,7 @@ namespace Sonneville.PriceTools
         public static OrderFactory Instance { get { return Singleton; } }
 
         /// <summary>
-        /// Constructs a new <see cref="Order"/> object from parameters.
+        /// Constructs a new <see cref="IOrder"/> object from parameters.
         /// </summary>
         /// <param name="issued"></param>
         /// <param name="expiration"></param>
@@ -45,7 +46,7 @@ namespace Sonneville.PriceTools
             if (!Enum.GetValues(typeof(PricingType)).Cast<PricingType>().Contains(pricingType))
                 throw new ArgumentOutOfRangeException("pricingType", pricingType, Strings.Order_Order_Invalid_PricingType_);
 
-            return new Order
+            return new OrderImpl
                        {
                            Issued = issued,
                            Expiration = expiration,

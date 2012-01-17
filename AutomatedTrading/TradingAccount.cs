@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// Submits an order for execution by the brokerage.
         /// </summary>
-        /// <param name="order">The <see cref="Order"/> to execute.</param>
+        /// <param name="order">The <see cref="IOrder"/> to execute.</param>
         public virtual void Submit(IOrder order)
         {
             if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, Strings.TradingAccount_Submit_Cannot_execute_this_order_);
@@ -28,9 +28,9 @@ namespace Sonneville.PriceTools.AutomatedTrading
         }
 
         /// <summary>
-        /// Attempts to cancel an <see cref="Order"/> before it is filled.
+        /// Attempts to cancel an <see cref="IOrder"/> before it is filled.
         /// </summary>
-        /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
+        /// <param name="order">The <see cref="IOrder"/> to attempt to cancel.</param>
         public abstract void TryCancelOrder(IOrder order);
 
         /// <summary>
@@ -82,7 +82,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// Submits an order for execution by the brokerage.
         /// </summary>
-        /// <param name="order">The <see cref="Order"/> to execute.</param>
+        /// <param name="order">The <see cref="IOrder"/> to execute.</param>
         protected abstract void ProcessOrder(IOrder order);
 
         #endregion

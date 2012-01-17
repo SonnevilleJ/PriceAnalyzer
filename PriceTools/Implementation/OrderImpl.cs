@@ -1,14 +1,14 @@
 ﻿using System;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
-    /// An order to take a position on a financial security.
+    /// An order to take a position on a financial security. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    public sealed class Order : IOrder
+    public sealed class OrderImpl : IOrder
     {
-        internal Order()
+        internal OrderImpl()
         {
         }
 
