@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools.Test
             var target = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             var xml = Serializer.SerializeToXml(target);
-            var result = Serializer.DeserializeFromXml<IOrder>(xml);
+            var result = Serializer.DeserializeFromXml<Order>(xml);
 
             TestUtilities.AssertSameState(target, result);
         }

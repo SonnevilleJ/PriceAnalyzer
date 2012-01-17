@@ -12,8 +12,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// Submits an order for execution by the brokerage.
         /// </summary>
-        /// <param name="order">The <see cref="IOrder"/> to execute.</param>
-        protected override void ProcessOrder(IOrder order)
+        /// <param name="order">The <see cref="Order"/> to execute.</param>
+        protected override void ProcessOrder(Order order)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();

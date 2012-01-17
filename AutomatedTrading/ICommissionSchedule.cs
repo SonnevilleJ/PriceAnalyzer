@@ -5,6 +5,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
     /// </summary>
     public interface ICommissionSchedule
     {
-        decimal PriceCheck(IOrder order);
+        decimal PriceCheck(Order order);
     }
 }

@@ -69,7 +69,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             }
         }
 
-        protected abstract IOrder CreateOrder(DateTime issued);
+        protected abstract Order CreateOrder(DateTime issued);
 
         private void Execute(CancellationToken token)
         {
