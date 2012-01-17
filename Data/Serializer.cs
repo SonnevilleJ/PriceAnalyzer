@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace Sonneville.PriceTools.Data
@@ -19,10 +20,11 @@ namespace Sonneville.PriceTools.Data
             {
                 using (var reader = new StreamReader(stream))
                 {
-                    // cannot create an XmlSerializer of an interface type
+                    // cannot create an DataContractSerializer of an interface type
                     var type = obj.GetType();
-                    var serializer = new XmlSerializer(type);
-                    serializer.Serialize(stream, obj);
+                    var serializer = new DataContractSerializer(type);
+                    serializer.WriteObject(stream, obj);
+                    stream.Flush();
                     stream.Position = 0;
                     return reader.ReadToEnd();
                 }
@@ -68,11 +70,11 @@ namespace Sonneville.PriceTools.Data
             {
                 using (var textWriter = new StreamWriter(stream))
                 {
-                    var deserializer = new XmlSerializer(type);
+                    var deserializer = new DataContractSerializer(type);
                     textWriter.Write(xml);
                     textWriter.Flush();
                     stream.Position = 0;
-                    return (T) deserializer.Deserialize(stream);
+                    return (T) deserializer.ReadObject(stream);
                 }
             }
         }
