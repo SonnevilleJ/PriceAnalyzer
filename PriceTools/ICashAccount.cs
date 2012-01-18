@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Withdraws cash from the ICashAccount.
         /// </summary>
-        void Withdraw(IWithdrawal withdrawal);
+        void Withdraw(Withdrawal withdrawal);
 
         /// <summary>
         /// Gets a <see cref="List{T}"/> of <see cref="ICashTransaction"/>s in this ICashAccount.

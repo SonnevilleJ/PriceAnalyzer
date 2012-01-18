@@ -66,7 +66,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Withdraws cash from the ICashAccount.
         /// </summary>
-        public void Withdraw(IWithdrawal withdrawal)
+        public void Withdraw(Withdrawal withdrawal)
         {
             lock (_padlock)
             {
@@ -121,7 +121,7 @@ namespace Sonneville.PriceTools
             }
         }
 
-        private void VerifySufficientFunds(IWithdrawal withdrawal)
+        private void VerifySufficientFunds(Withdrawal withdrawal)
         {
             if (!TransactionIsValid(withdrawal))
             {

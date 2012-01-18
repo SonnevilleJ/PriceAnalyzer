@@ -62,7 +62,7 @@
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
-    <Compile Include="IWithdrawal.cs" />
+    <Compile Include="Withdrawal.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="MeasurableSecurityBasketExtensions.cs" />
     <Compile Include="Data\IPriceDataProvider.cs" />
@@ -108,7 +108,7 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="TransactionFactory.cs" />
-    <Compile Include="Withdrawal.cs" />
+    <Compile Include="WithdrawalImpl.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
