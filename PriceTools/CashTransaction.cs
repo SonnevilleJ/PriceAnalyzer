@@ -5,10 +5,10 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a transaction for an <see cref="ICashAccount"/>.
     /// </summary>
-    public interface ICashTransaction : ITransaction
+    public interface CashTransaction : ITransaction
     {
         /// <summary>
-        ///   Gets the amount of cash in this ICashTransaction.
+        ///   Gets the amount of cash in this CashTransaction.
         /// </summary>
         decimal Amount { get; }
     }

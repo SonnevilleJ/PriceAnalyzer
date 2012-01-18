@@ -404,7 +404,7 @@ namespace Sonneville.PriceTools
                 case OrderType.DividendReceipt:
                 case OrderType.Deposit:
                 case OrderType.Withdrawal:
-                    var cashTransaction = (ICashTransaction) transaction;
+                    var cashTransaction = (CashTransaction) transaction;
                     return _cashAccount.TransactionIsValid(cashTransaction);
                 case OrderType.DividendReinvestment:
                 case OrderType.Buy:

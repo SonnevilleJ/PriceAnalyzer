@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction for an <see cref="ICashAccount"/>.
     /// </summary>
     [Serializable]
-    internal abstract class CashTransactionImpl : ICashTransaction
+    internal abstract class CashTransactionImpl : CashTransaction
     {
         #region Constructors
 
@@ -33,12 +33,12 @@ namespace Sonneville.PriceTools.Implementation
 
         #endregion
 
-        #region Implementation of ICashTransaction
+        #region Implementation of CashTransaction
 
         private decimal _amount;
 
         /// <summary>
-        ///   Gets the amount of cash in this ICashTransaction.
+        ///   Gets the amount of cash in this CashTransaction.
         /// </summary>
         public decimal Amount
         {

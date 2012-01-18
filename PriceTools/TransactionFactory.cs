@@ -45,11 +45,11 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a transaction where cash is exchanged.
         /// </summary>
-        /// <param name="transactionType">The type of <see cref="ICashTransaction"/> to construct.</param>
+        /// <param name="transactionType">The type of <see cref="CashTransaction"/> to construct.</param>
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds in the transaction.</param>
         /// <returns></returns>
-        public static ICashTransaction ConstructCashTransaction(OrderType transactionType, DateTime settlementDate, decimal amount)
+        public static CashTransaction ConstructCashTransaction(OrderType transactionType, DateTime settlementDate, decimal amount)
         {
             switch (transactionType)
             {
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools
                 case OrderType.DividendReceipt:
                     return ConstructDividendReceipt(settlementDate, amount);
                 default:
-                    throw new ArgumentOutOfRangeException("transactionType", transactionType, string.Format(Strings.TransactionFactory_ConstructCashTransaction_Cannot_create_a_ICashTransaction_for_an_OrderType_of__0__, transactionType));
+                    throw new ArgumentOutOfRangeException("transactionType", transactionType, string.Format(Strings.TransactionFactory_ConstructCashTransaction_Cannot_create_a_CashTransaction_for_an_OrderType_of__0__, transactionType));
             }
         }
 

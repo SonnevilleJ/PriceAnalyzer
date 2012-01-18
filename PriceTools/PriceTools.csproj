@@ -74,7 +74,7 @@
     <Compile Include="HighLow.cs" />
     <Compile Include="Holding.cs" />
     <Compile Include="ICashAccount.cs" />
-    <Compile Include="ICashTransaction.cs" />
+    <Compile Include="CashTransaction.cs" />
     <Compile Include="IHolding.cs" />
     <Compile Include="IMeasurableSecurityBasket.cs" />
     <Compile Include="IPortfolio.cs" />

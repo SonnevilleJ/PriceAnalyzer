@@ -150,7 +150,7 @@
   <data name="Order_Validate_Shares_must_be_a_positive_number_" xml:space="preserve">
     <value>Shares must be a positive number.</value>
   </data>
-	<data name="TransactionFactory_ConstructCashTransaction_Cannot_create_a_ICashTransaction_for_an_OrderType_of__0__">
-		<value xml:space="preserve">Cannot create a ICashTransaction for an OrderType of {0}.</value>
+	<data name="TransactionFactory_ConstructCashTransaction_Cannot_create_a_CashTransaction_for_an_OrderType_of__0__">
+		<value xml:space="preserve">Cannot create a CashTransaction for an OrderType of {0}.</value>
 	</data>
 </root>

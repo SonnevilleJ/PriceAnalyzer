@@ -161,12 +161,12 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot create a ICashTransaction for an OrderType of {0}..
+        ///   Looks up a localized string similar to Cannot create a CashTransaction for an OrderType of {0}..
         /// </summary>
-        internal static string TransactionFactory_ConstructCashTransaction_Cannot_create_a_ICashTransaction_for_an_OrderType_of__0__ {
+        internal static string TransactionFactory_ConstructCashTransaction_Cannot_create_a_CashTransaction_for_an_OrderType_of__0__ {
             get {
-                return ResourceManager.GetString("TransactionFactory_ConstructCashTransaction_Cannot_create_a_ICashTransaction_for_" +
-                        "an_OrderType_of__0__", resourceCulture);
+                return ResourceManager.GetString("TransactionFactory_ConstructCashTransaction_Cannot_create_a_CashTransaction_for_a" +
+                        "n_OrderType_of__0__", resourceCulture);
             }
         }
     }

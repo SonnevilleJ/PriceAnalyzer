@@ -238,7 +238,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsFalse(target.TransactionIsValid(fakeTransaction));
         }
 
-        private class UnknownOrderType : ICashTransaction
+        private class UnknownOrderType : CashTransaction
         {
             /// <summary>
             ///   Gets the DateTime that the ITransaction occurred.
@@ -251,7 +251,7 @@ namespace Sonneville.PriceTools.Test
             public OrderType OrderType { get; set; }
 
             /// <summary>
-            ///   Gets the amount of cash in this ICashTransaction.
+            ///   Gets the amount of cash in this CashTransaction.
             /// </summary>
             public decimal Amount { get; set; }
         }
