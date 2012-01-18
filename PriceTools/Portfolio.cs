@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -285,7 +286,7 @@ namespace Sonneville.PriceTools
                     _cashAccount.Deposit((DividendReceipt)transaction);
                     break;
                 case OrderType.Deposit:
-                    Deposit((IDeposit)transaction);
+                    Deposit((Deposit)transaction);
                     break;
                 case OrderType.Withdrawal:
                     Withdraw((Withdrawal)transaction);
@@ -339,8 +340,8 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Deposits cash to this Portfolio.
         /// </summary>
-        /// <param name="deposit">The <see cref="Implementation.Deposit"/> to deposit.</param>
-        public void Deposit(IDeposit deposit)
+        /// <param name="deposit">The <see cref="PriceTools.Deposit"/> to deposit.</param>
+        public void Deposit(Deposit deposit)
         {
             _cashAccount.Deposit(deposit);
         }

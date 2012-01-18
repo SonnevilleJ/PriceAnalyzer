@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Deposits cash into the CashAccount.
         /// </summary>
-        public void Deposit(IDeposit deposit)
+        public void Deposit(Deposit deposit)
         {
             lock(_padlock)
             {

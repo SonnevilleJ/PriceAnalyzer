@@ -15,9 +15,9 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds deposited.</param>
         /// <returns></returns>
-        public static IDeposit ConstructDeposit(DateTime settlementDate, decimal amount)
+        public static Deposit ConstructDeposit(DateTime settlementDate, decimal amount)
         {
-            return new Deposit {SettlementDate = settlementDate, Amount = amount};
+            return new DepositImpl {SettlementDate = settlementDate, Amount = amount};
         }
 
         /// <summary>

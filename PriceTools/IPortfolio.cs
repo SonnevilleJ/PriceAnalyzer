@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Deposits cash to this IPortfolio.
         /// </summary>
-        void Deposit(IDeposit deposit);
+        void Deposit(Deposit deposit);
 
         /// <summary>
         /// Withdraws cash from this IPortfolio. AvailableCash must be greater than or equal to the withdrawn amount.
