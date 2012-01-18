@@ -48,7 +48,6 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BuyToCoverTest.cs" />
     <Compile Include="DateTimeExtensionsTest.cs" />
     <Compile Include="OrderFactoryTest.cs" />
     <Compile Include="OrderTest.cs" />
@@ -58,15 +57,11 @@
     <Compile Include="ShareTransactionTest.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="TransactionFactoryTest.cs" />
-    <Compile Include="DividendReinvestmentTest.cs" />
-    <Compile Include="SellShortTest.cs" />
     <Compile Include="CashAccountTest.cs" />
     <Compile Include="PortfolioTest.cs" />
     <Compile Include="PositionTest.cs" />
     <Compile Include="QuotedPricePeriodTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SellTest.cs" />
-    <Compile Include="BuyTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CsvReader\CsvReader.csproj">

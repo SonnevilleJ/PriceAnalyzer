@@ -10,12 +10,15 @@ namespace Sonneville.PriceTools.Test
     {
         public abstract class CashTransactionTestsBase
         {
+            /// <summary>
+            /// A test for serialization
+            /// </summary>
             public abstract void SerializeTest();
 
             /// <summary>
             ///A test for Amount
             ///</summary>
-            public abstract void AmountInvertedTest();
+            public abstract void AmountInvalidTest();
 
             /// <summary>
             ///A test for SettlementDate
@@ -30,7 +33,7 @@ namespace Sonneville.PriceTools.Test
             /// <summary>
             ///A test for Amount
             ///</summary>
-            public abstract void AmountCorrectTest();
+            public abstract void AmountValidTest();
 
             protected static void CashTransactionSerializeTest(OrderType transactionType)
             {
@@ -69,31 +72,31 @@ namespace Sonneville.PriceTools.Test
                 Assert.AreEqual(expected, actual);
             }
 
-            protected static void CashTransactionAmountInvertedTest(OrderType transactionType)
+            protected static void CashTransactionAmountInvalidTest(OrderType transactionType)
             {
                 var date = new DateTime(2000, 1, 1);
                 var price = GetInversePrice(transactionType);
 
                 var target = TransactionFactory.ConstructCashTransaction(transactionType, date, price);
 
-                var expected = GetCorrectPrice(transactionType);
+                var expected = GetValidPrice(transactionType);
                 var actual = target.Amount;
                 Assert.AreEqual(expected, actual);
             }
 
-            protected static void CashTransactionAmountCorrectTest(OrderType transactionType)
+            protected static void CashTransactionAmountValidTest(OrderType transactionType)
             {
                 var date = new DateTime(2000, 1, 1);
-                var price = GetCorrectPrice(transactionType);
+                var price = GetValidPrice(transactionType);
 
                 var target = TransactionFactory.ConstructCashTransaction(transactionType, date, price);
 
-                var expected = GetCorrectPrice(transactionType);
+                var expected = GetValidPrice(transactionType);
                 var actual = target.Amount;
                 Assert.AreEqual(expected, actual);
             }
 
-            private static decimal GetCorrectPrice(OrderType transactionType)
+            private static decimal GetValidPrice(OrderType transactionType)
             {
                 switch (transactionType)
                 {
@@ -103,13 +106,13 @@ namespace Sonneville.PriceTools.Test
                     case OrderType.Withdrawal:
                         return -2.00m;
                     default:
-                        return 0.00m;
+                        throw new ArgumentOutOfRangeException("transactionType", transactionType, @"Unknown OrderType.");
                 }
             }
 
             private static decimal GetInversePrice(OrderType transactionType)
             {
-                return -GetCorrectPrice(transactionType);
+                return -GetValidPrice(transactionType);
             }
         }
 
@@ -128,9 +131,9 @@ namespace Sonneville.PriceTools.Test
             ///A test for Amount
             ///</summary>
             [TestMethod]
-            public override void AmountInvertedTest()
+            public override void AmountInvalidTest()
             {
-                CashTransactionAmountInvertedTest(TransactionType);
+                CashTransactionAmountInvalidTest(TransactionType);
             }
 
             /// <summary>
@@ -155,9 +158,9 @@ namespace Sonneville.PriceTools.Test
             ///A test for Amount
             ///</summary>
             [TestMethod]
-            public override void AmountCorrectTest()
+            public override void AmountValidTest()
             {
-                CashTransactionAmountCorrectTest(TransactionType);
+                CashTransactionAmountValidTest(TransactionType);
             }
         }
 
@@ -176,9 +179,9 @@ namespace Sonneville.PriceTools.Test
             ///A test for Amount
             ///</summary>
             [TestMethod]
-            public override void AmountInvertedTest()
+            public override void AmountInvalidTest()
             {
-                CashTransactionAmountInvertedTest(TransactionType);
+                CashTransactionAmountInvalidTest(TransactionType);
             }
 
             /// <summary>
@@ -203,9 +206,9 @@ namespace Sonneville.PriceTools.Test
             ///A test for Amount
             ///</summary>
             [TestMethod]
-            public override void AmountCorrectTest()
+            public override void AmountValidTest()
             {
-                CashTransactionAmountCorrectTest(TransactionType);
+                CashTransactionAmountValidTest(TransactionType);
             }
         }
 
@@ -224,9 +227,9 @@ namespace Sonneville.PriceTools.Test
             ///A test for Amount
             ///</summary>
             [TestMethod]
-            public override void AmountInvertedTest()
+            public override void AmountInvalidTest()
             {
-                CashTransactionAmountInvertedTest(TransactionType);
+                CashTransactionAmountInvalidTest(TransactionType);
             }
 
             /// <summary>
@@ -251,9 +254,736 @@ namespace Sonneville.PriceTools.Test
             ///A test for Amount
             ///</summary>
             [TestMethod]
-            public override void AmountCorrectTest()
+            public override void AmountValidTest()
             {
-                CashTransactionAmountCorrectTest(TransactionType);
+                CashTransactionAmountValidTest(TransactionType);
+            }
+        }
+
+        public abstract class ShareTransactionTestsBase
+        {
+            /// <summary>
+            /// A test for serialization
+            /// </summary>
+            public abstract void SerializeTest();
+
+            /// <summary>
+            /// A test for SettlementDate
+            /// </summary>
+            public abstract void SettlementDateTest();
+
+            /// <summary>
+            /// A test for OrderType
+            /// </summary>
+            public abstract void OrderTypeTest();
+
+            /// <summary>
+            /// A test for Ticker
+            /// </summary>
+            public abstract void TickerTest();
+
+            /// <summary>
+            /// A test for Price
+            /// </summary>
+            public abstract void PriceValidTest();
+
+            /// <summary>
+            /// A test for Price
+            /// </summary>
+            public abstract void PriceInvalidTest();
+
+            /// <summary>
+            /// A test for Shares
+            /// </summary>
+            public abstract void SharesValidTest();
+
+            /// <summary>
+            /// A test for Shares
+            /// </summary>
+            public abstract void SharesInvalidTest();
+
+            /// <summary>
+            /// A test for Commission
+            /// </summary>
+            public abstract void CommissionValidTest();
+
+            /// <summary>
+            /// A test for Commission
+            /// </summary>
+            public abstract void CommissionInvalidTest();
+
+            protected static void ShareTransactionSerializeTest(OrderType transactionType)
+            {
+                var settlementDate = new DateTime(2012, 1, 18);
+                var ticker = GetValidTicker();
+                var price = GetValidPrice(transactionType);
+                var shares = GetValidShares();
+                var commission = GetValidCommission(transactionType);
+
+                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+
+                var xml = Serializer.SerializeToXml(target);
+                var result = Serializer.DeserializeFromXml<IShareTransaction>(xml);
+
+                TestUtilities.AssertSameState(target, result);
+            }
+
+            protected static void ShareTransactionSettlementDateTest(OrderType transactionType)
+            {
+                var settlementDate = new DateTime(2012, 1, 18);
+                var ticker = GetValidTicker();
+                var price = GetValidPrice(transactionType);
+                var shares = GetValidShares();
+                var commission = GetValidCommission(transactionType);
+
+                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+
+                var expected = settlementDate;
+                var actual = target.SettlementDate;
+                Assert.AreEqual(expected, actual);
+            }
+
+            protected static void ShareTransactionOrderTypeTest(OrderType transactionType)
+            {
+                var settlementDate = new DateTime(2012, 1, 18);
+                var ticker = GetValidTicker();
+                var price = GetValidPrice(transactionType);
+                var shares = GetValidShares();
+                var commission = GetValidCommission(transactionType);
+
+                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+
+                var expected = transactionType;
+                var actual = target.OrderType;
+                Assert.AreEqual(expected, actual);
+            }
+
+            protected static void ShareTransactionTickerTest(OrderType transactionType)
+            {
+                var settlementDate = new DateTime(2012, 1, 18);
+                var ticker = GetValidTicker();
+                var price = GetValidPrice(transactionType);
+                var shares = GetValidShares();
+                var commission = GetValidCommission(transactionType);
+
+                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+
+                var expected = ticker;
+                var actual = target.Ticker;
+                Assert.AreEqual(expected, actual);
+            }
+
+            protected static void ShareTransactionPriceValidTest(OrderType transactionType)
+            {
+                var settlementDate = new DateTime(2012, 1, 18);
+                var ticker = GetValidTicker();
+                var price = GetValidPrice(transactionType);
+                var shares = GetValidShares();
+                var commission = GetValidCommission(transactionType);
+
+                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+
+                var expected = GetValidPrice(transactionType);
+                var actual = target.Price;
+                Assert.AreEqual(expected, actual);
+            }
+
+            protected static void ShareTransactionPriceInvalidTest(OrderType transactionType)
+            {
+                var settlementDate = new DateTime(2012, 1, 18);
+                var ticker = GetValidTicker();
+                var price = GetInvalidPrice(transactionType);
+                var shares = GetValidShares();
+                var commission = GetValidCommission(transactionType);
+
+                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+
+                var expected = GetValidPrice(transactionType);
+                var actual = target.Price;
+                Assert.AreEqual(expected, actual);
+            }
+
+            protected static void ShareTransactionSharesValidTest(OrderType transactionType)
+            {
+                var settlementDate = new DateTime(2012, 1, 18);
+                var ticker = GetValidTicker();
+                var price = GetValidPrice(transactionType);
+                var shares = GetValidShares();
+                var commission = GetValidCommission(transactionType);
+
+                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+
+                var expected = GetValidShares();
+                var actual = target.Shares;
+                Assert.AreEqual(expected, actual);
+            }
+
+            protected static void ShareTransactionSharesInvalidTest(OrderType transactionType)
+            {
+                var settlementDate = new DateTime(2012, 1, 18);
+                var ticker = GetValidTicker();
+                var price = GetValidPrice(transactionType);
+                var shares = GetInvalidShares();
+                var commission = GetValidCommission(transactionType);
+
+                TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+            }
+
+            protected static void ShareTransactionCommissionValidTest(OrderType transactionType)
+            {
+                var settlementDate = new DateTime(2012, 1, 18);
+                var ticker = GetValidTicker();
+                var price = GetValidPrice(transactionType);
+                var shares = GetValidShares();
+                var commission = GetValidCommission(transactionType);
+
+                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+
+                var expected = GetValidCommission(transactionType);
+                var actual = target.Commission;
+                Assert.AreEqual(expected, actual);
+            }
+
+            protected static void ShareTransactionCommissionInvalidTest(OrderType transactionType)
+            {
+                var settlementDate = new DateTime(2012, 1, 18);
+                var ticker = GetValidTicker();
+                var price = GetValidPrice(transactionType);
+                var shares = GetValidShares();
+                var commission = GetInvalidCommission(transactionType);
+
+                TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+            }
+
+            private static string GetValidTicker()
+            {
+                return "DE";
+            }
+
+            private static decimal GetValidPrice(OrderType transactionType)
+            {
+                switch (transactionType)
+                {
+                    case OrderType.DividendReinvestment:
+                    case OrderType.Buy:
+                    case OrderType.SellShort:
+                        return 100.00m;
+                    case OrderType.BuyToCover:
+                    case OrderType.Sell:
+                        return -100.00m;
+                    default:
+                        throw new ArgumentOutOfRangeException("transactionType", transactionType, @"Unknown OrderType.");
+                }
+            }
+
+            private static decimal GetInvalidPrice(OrderType transactionType)
+            {
+                return -GetValidPrice(transactionType);
+            }
+
+            private static double GetValidShares()
+            {
+                return 50.00;
+            }
+
+            private static double GetInvalidShares()
+            {
+                return -GetValidShares();
+            }
+
+            private static decimal GetValidCommission(OrderType transactionType)
+            {
+                switch (transactionType)
+                {
+                    case OrderType.Buy:
+                    case OrderType.BuyToCover:
+                    case OrderType.Sell:
+                    case OrderType.SellShort:
+                        return 7.95m;
+                    case OrderType.DividendReinvestment:
+                        return 0.00m;
+                    default:
+                        throw new ArgumentOutOfRangeException("transactionType", transactionType, @"Unknown OrderType.");
+                }
+            }
+
+            private static decimal GetInvalidCommission(OrderType transactionType)
+            {
+                return -GetValidCommission(transactionType);
+            }
+        }
+
+        [TestClass]
+        public class DividendReinvestmentTests : ShareTransactionTestsBase
+        {
+            private const OrderType TransactionType = OrderType.DividendReinvestment;
+
+            [TestMethod]
+            public override void SerializeTest()
+            {
+                ShareTransactionSerializeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for SettlementDate
+            ///</summary>
+            [TestMethod]
+            public override void SettlementDateTest()
+            {
+                ShareTransactionSettlementDateTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for OrderType
+            ///</summary>
+            [TestMethod]
+            public override void OrderTypeTest()
+            {
+                ShareTransactionOrderTypeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Ticker
+            ///</summary>
+            [TestMethod]
+            public override void TickerTest()
+            {
+                ShareTransactionTickerTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Price
+            ///</summary>
+            [TestMethod]
+            public override void PriceValidTest()
+            {
+                ShareTransactionPriceValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Price
+            ///</summary>
+            [TestMethod]
+            public override void PriceInvalidTest()
+            {
+                ShareTransactionPriceInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Shares
+            ///</summary>
+            [TestMethod]
+            public override void SharesValidTest()
+            {
+                ShareTransactionSharesValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Shares
+            ///</summary>
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void SharesInvalidTest()
+            {
+                ShareTransactionSharesInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Commission
+            ///</summary>
+            [TestMethod]
+            public override void CommissionValidTest()
+            {
+                ShareTransactionCommissionValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Commission
+            ///</summary>
+            [TestMethod]
+            public override void CommissionInvalidTest()
+            {
+                // For DividendReinvestment types, the only valid commission is zero.
+            }
+        }
+
+        [TestClass]
+        public class BuyTests : ShareTransactionTestsBase
+        {
+            private const OrderType TransactionType = OrderType.Buy;
+
+            [TestMethod]
+            public override void SerializeTest()
+            {
+                ShareTransactionSerializeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for SettlementDate
+            ///</summary>
+            [TestMethod]
+            public override void SettlementDateTest()
+            {
+                ShareTransactionSettlementDateTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for OrderType
+            ///</summary>
+            [TestMethod]
+            public override void OrderTypeTest()
+            {
+                ShareTransactionOrderTypeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Ticker
+            ///</summary>
+            [TestMethod]
+            public override void TickerTest()
+            {
+                ShareTransactionTickerTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Price
+            ///</summary>
+            [TestMethod]
+            public override void PriceValidTest()
+            {
+                ShareTransactionPriceValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Price
+            ///</summary>
+            [TestMethod]
+            public override void PriceInvalidTest()
+            {
+                ShareTransactionPriceInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Shares
+            ///</summary>
+            [TestMethod]
+            public override void SharesValidTest()
+            {
+                ShareTransactionSharesValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Shares
+            ///</summary>
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void SharesInvalidTest()
+            {
+                ShareTransactionSharesInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Commission
+            ///</summary>
+            [TestMethod]
+            public override void CommissionValidTest()
+            {
+                ShareTransactionCommissionValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Commission
+            ///</summary>
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void CommissionInvalidTest()
+            {
+                ShareTransactionCommissionInvalidTest(TransactionType);
+            }
+        }
+
+        [TestClass]
+        public class BuyToCoverTests : ShareTransactionTestsBase
+        {
+            private const OrderType TransactionType = OrderType.BuyToCover;
+
+            [TestMethod]
+            public override void SerializeTest()
+            {
+                ShareTransactionSerializeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for SettlementDate
+            ///</summary>
+            [TestMethod]
+            public override void SettlementDateTest()
+            {
+                ShareTransactionSettlementDateTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for OrderType
+            ///</summary>
+            [TestMethod]
+            public override void OrderTypeTest()
+            {
+                ShareTransactionOrderTypeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Ticker
+            ///</summary>
+            [TestMethod]
+            public override void TickerTest()
+            {
+                ShareTransactionTickerTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Price
+            ///</summary>
+            [TestMethod]
+            public override void PriceValidTest()
+            {
+                ShareTransactionPriceValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Price
+            ///</summary>
+            [TestMethod]
+            public override void PriceInvalidTest()
+            {
+                ShareTransactionPriceInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Shares
+            ///</summary>
+            [TestMethod]
+            public override void SharesValidTest()
+            {
+                ShareTransactionSharesValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Shares
+            ///</summary>
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void SharesInvalidTest()
+            {
+                ShareTransactionSharesInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Commission
+            ///</summary>
+            [TestMethod]
+            public override void CommissionValidTest()
+            {
+                ShareTransactionCommissionValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Commission
+            ///</summary>
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void CommissionInvalidTest()
+            {
+                ShareTransactionCommissionInvalidTest(TransactionType);
+            }
+        }
+
+        [TestClass]
+        public class SellTests : ShareTransactionTestsBase
+        {
+            private const OrderType TransactionType = OrderType.Sell;
+
+            [TestMethod]
+            public override void SerializeTest()
+            {
+                ShareTransactionSerializeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for SettlementDate
+            ///</summary>
+            [TestMethod]
+            public override void SettlementDateTest()
+            {
+                ShareTransactionSettlementDateTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for OrderType
+            ///</summary>
+            [TestMethod]
+            public override void OrderTypeTest()
+            {
+                ShareTransactionOrderTypeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Ticker
+            ///</summary>
+            [TestMethod]
+            public override void TickerTest()
+            {
+                ShareTransactionTickerTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Price
+            ///</summary>
+            [TestMethod]
+            public override void PriceValidTest()
+            {
+                ShareTransactionPriceValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Price
+            ///</summary>
+            [TestMethod]
+            public override void PriceInvalidTest()
+            {
+                ShareTransactionPriceInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Shares
+            ///</summary>
+            [TestMethod]
+            public override void SharesValidTest()
+            {
+                ShareTransactionSharesValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Shares
+            ///</summary>
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void SharesInvalidTest()
+            {
+                ShareTransactionSharesInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Commission
+            ///</summary>
+            [TestMethod]
+            public override void CommissionValidTest()
+            {
+                ShareTransactionCommissionValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Commission
+            ///</summary>
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void CommissionInvalidTest()
+            {
+                ShareTransactionCommissionInvalidTest(TransactionType);
+            }
+        }
+
+        [TestClass]
+        public class SellShortTests : ShareTransactionTestsBase
+        {
+            private const OrderType TransactionType = OrderType.SellShort;
+
+            [TestMethod]
+            public override void SerializeTest()
+            {
+                ShareTransactionSerializeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for SettlementDate
+            ///</summary>
+            [TestMethod]
+            public override void SettlementDateTest()
+            {
+                ShareTransactionSettlementDateTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for OrderType
+            ///</summary>
+            [TestMethod]
+            public override void OrderTypeTest()
+            {
+                ShareTransactionOrderTypeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Ticker
+            ///</summary>
+            [TestMethod]
+            public override void TickerTest()
+            {
+                ShareTransactionTickerTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Price
+            ///</summary>
+            [TestMethod]
+            public override void PriceValidTest()
+            {
+                ShareTransactionPriceValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Price
+            ///</summary>
+            [TestMethod]
+            public override void PriceInvalidTest()
+            {
+                ShareTransactionPriceInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Shares
+            ///</summary>
+            [TestMethod]
+            public override void SharesValidTest()
+            {
+                ShareTransactionSharesValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Shares
+            ///</summary>
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void SharesInvalidTest()
+            {
+                ShareTransactionSharesInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Commission
+            ///</summary>
+            [TestMethod]
+            public override void CommissionValidTest()
+            {
+                ShareTransactionCommissionValidTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Commission
+            ///</summary>
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void CommissionInvalidTest()
+            {
+                ShareTransactionCommissionInvalidTest(TransactionType);
             }
         }
     }
