@@ -64,6 +64,7 @@
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
+    <Compile Include="ISell.cs" />
     <Compile Include="Withdrawal.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="MeasurableSecurityBasketExtensions.cs" />
@@ -100,7 +101,7 @@
     <Compile Include="Position.cs" />
     <Compile Include="Resolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sell.cs" />
+    <Compile Include="Implementation\SellImpl.cs" />
     <Compile Include="SellShort.cs" />
     <Compile Include="StockIndex.cs" />
     <Compile Include="ShareTransaction.cs" />

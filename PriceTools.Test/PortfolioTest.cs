@@ -230,7 +230,7 @@ namespace Sonneville.PriceTools.Test
             const decimal sellValue = (shares*sellPrice);
 
             target.AddTransaction(TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission));
-            target.AddTransaction(new Sell {Ticker = ticker, SettlementDate = sellDate, Shares = shares, Price = sellPrice, Commission = commission});
+            target.AddTransaction(TransactionFactory.ConstructSell(sellDate, ticker, sellPrice, shares, commission));
 
             const decimal expected = amount - buyValue + sellValue;
             var actual = target.CalculateValue(calculateDate);
@@ -256,7 +256,7 @@ namespace Sonneville.PriceTools.Test
             const decimal sellValue = (shares*sellPrice) - commission;
 
             target.AddTransaction(TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission));
-            target.AddTransaction(new Sell {Ticker = ticker, SettlementDate = sellDate, Shares = shares, Price = sellPrice, Commission = commission});
+            target.AddTransaction(TransactionFactory.ConstructSell(sellDate, ticker, sellPrice, shares, commission));
 
             const decimal expected = amount - buyValue + sellValue;
             var actual = target.CalculateTotalValue(new YahooPriceDataProvider(), calculateDate);
@@ -297,14 +297,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5;            // 5 shares
             const decimal commission = 7.95m;   // with $7.95 commission
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, price, shares, commission);
-            var sell = new Sell
-            {
-                SettlementDate = sellDate,
-                Ticker = ticker,
-                Price = price,
-                Shares = shares,
-                Commission = commission
-            };
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, price, shares, commission);
 
             target.AddTransaction(buy);
             target.AddTransaction(sell);
@@ -348,14 +341,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5;             // 5 shares
             const decimal commission = 5.00m;    // with $5 commission
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, price, shares, commission);
-            var sell = new Sell
-            {
-                SettlementDate = sellDate,
-                Ticker = ticker,
-                Price = price,
-                Shares = shares,
-                Commission = commission
-            };
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, price, shares, commission);
 
             target.AddTransaction(buy);
             target.AddTransaction(sell);
@@ -400,14 +386,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission);
-            var sell = new Sell
-            {
-                SettlementDate = sellDate,
-                Ticker = ticker,
-                Price = sellPrice,
-                Shares = shares,
-                Commission = commission
-            };
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, sellPrice, shares, commission);
 
             target.AddTransaction(buy);
             target.AddTransaction(sell);
@@ -468,14 +447,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 2;
             const decimal commission = 7.95m;
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, price, shares, commission);
-            var sell = new Sell
-            {
-                SettlementDate = sellDate,
-                Ticker = ticker,
-                Price = price,
-                Shares = shares,
-                Commission = commission
-            };
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, price, shares, commission);
 
             target.AddTransaction(buy);
             target.AddTransaction(sell);
@@ -506,14 +478,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 2;
             const decimal commission = 7.95m;
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, price, shares, commission);
-            var sell = new Sell
-            {
-                SettlementDate = sellDate,
-                Ticker = ticker,
-                Price = price,
-                Shares = shares,
-                Commission = commission
-            };
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, price, shares, commission);
 
             target.AddTransaction(buy);
             target.AddTransaction(sell);
@@ -544,14 +509,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 2;
             const decimal commission = 7.95m;
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, price, shares, commission);
-            var sell = new Sell
-            {
-                SettlementDate = sellDate,
-                Ticker = ticker,
-                Price = price,
-                Shares = shares,
-                Commission = commission
-            };
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, price, shares, commission);
 
             target.AddTransaction(buy);
             target.AddTransaction(sell);
@@ -582,14 +540,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 2;
             const decimal commission = 7.95m;
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, price, shares, commission);
-            var sell = new Sell
-            {
-                SettlementDate = sellDate,
-                Ticker = ticker,
-                Price = price,
-                Shares = shares,
-                Commission = commission
-            };
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, price, shares, commission);
 
             target.AddTransaction(buy);
             target.AddTransaction(sell);
@@ -689,13 +640,7 @@ namespace Sonneville.PriceTools.Test
             const decimal price = 50.00m;
             const double shares = 2;
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, price, shares);
-            var sell = new Sell
-                            {
-                                SettlementDate = buyDate.AddDays(1),
-                                Ticker = ticker,
-                                Price = price,
-                                Shares = shares
-                            };
+            var sell = TransactionFactory.ConstructSell(buyDate.AddDays(1), ticker, price, shares);
 
             target.AddTransaction(buy);
             target.AddTransaction(sell);
@@ -1043,7 +988,7 @@ namespace Sonneville.PriceTools.Test
 
             var sellDate = new DateTime(2011, 9, 26);
             const decimal sellPrice = 75.00m;
-            var sell = new Sell {SettlementDate = sellDate, Ticker = ticker, Price = sellPrice, Shares = shares};
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, sellPrice, shares);
             target.AddTransaction(sell);
 
             var holdings = target.CalculateHoldings(sellDate);
@@ -1084,8 +1029,8 @@ namespace Sonneville.PriceTools.Test
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
-            target.AddTransaction(new Sell {SettlementDate = firstSellDate, Ticker = ticker, Shares = sharesSold, Price = sellPrice, Commission = commission});
-            target.AddTransaction(new Sell {SettlementDate = secondSellDate, Ticker = ticker, Shares = sharesSold, Price = sellPrice, Commission = commission});
+            target.AddTransaction(TransactionFactory.ConstructSell(firstSellDate, ticker, sellPrice, sharesSold, commission));
+            target.AddTransaction(TransactionFactory.ConstructSell(secondSellDate, ticker, sellPrice, sharesSold, commission));
 
             var holdings = target.CalculateHoldings(secondSellDate);
 
@@ -1138,8 +1083,8 @@ namespace Sonneville.PriceTools.Test
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
-            target.AddTransaction(new Sell { SettlementDate = firstSellDate, Ticker = firstTicker, Shares = sharesSold, Price = sellPrice, Commission = commission });
-            target.AddTransaction(new Sell { SettlementDate = secondSellDate, Ticker = secondTicker, Shares = sharesSold, Price = sellPrice, Commission = commission });
+            target.AddTransaction(TransactionFactory.ConstructSell(firstSellDate, firstTicker, sellPrice, sharesSold, commission));
+            target.AddTransaction(TransactionFactory.ConstructSell(secondSellDate, secondTicker, sellPrice, sharesSold, commission));
 
             var holdings = target.CalculateHoldings(secondSellDate);
 
@@ -1192,8 +1137,8 @@ namespace Sonneville.PriceTools.Test
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
-            target.AddTransaction(new Sell { SettlementDate = firstSellDate, Ticker = firstTicker, Shares = sharesSold, Price = sellPrice, Commission = commission });
-            target.AddTransaction(new Sell { SettlementDate = secondSellDate, Ticker = secondTicker, Shares = sharesSold, Price = sellPrice, Commission = commission });
+            target.AddTransaction(TransactionFactory.ConstructSell(firstSellDate, firstTicker, sellPrice, sharesSold, commission));
+            target.AddTransaction(TransactionFactory.ConstructSell(secondSellDate, secondTicker, sellPrice, sharesSold, commission));
 
             var holdings = target.CalculateHoldings(secondSellDate);
 

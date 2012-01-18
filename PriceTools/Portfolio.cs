@@ -314,7 +314,7 @@ namespace Sonneville.PriceTools
                     AddToPosition(sellShort);
                     break;
                 case OrderType.Sell:
-                    var sell = ((Sell)transaction);
+                    var sell = ((ISell)transaction);
                     AddToPosition(sell);
                     Deposit(sell.SettlementDate, sell.TotalValue);
                     break;

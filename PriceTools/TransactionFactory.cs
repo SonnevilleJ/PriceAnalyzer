@@ -79,6 +79,20 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Constructs a Sell.
+        /// </summary>
+        /// <param name="settlementDate"></param>
+        /// <param name="ticker"></param>
+        /// <param name="price"></param>
+        /// <param name="shares"></param>
+        /// <param name="commission"></param>
+        /// <returns></returns>
+        public static ISell ConstructSell(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        {
+            return new SellImpl {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
+        }
+
+        /// <summary>
         /// Constructs a ShareTransaction.
         /// </summary>
         public static IShareTransaction ConstructShareTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares, decimal commission)
@@ -104,14 +118,7 @@ namespace Sonneville.PriceTools
                 case OrderType.Withdrawal:
                     return ConstructWithdrawal(date, price);
                 case OrderType.Buy:
-                    return new BuyImpl
-                               {
-                                   SettlementDate = date,
-                                   Ticker = ticker,
-                                   Price = price,
-                                   Shares = shares,
-                                   Commission = commission
-                               };
+                    return ConstructBuy(date, ticker, price, shares, commission);
                 case OrderType.BuyToCover:
                     return new BuyToCover
                                {
@@ -133,14 +140,7 @@ namespace Sonneville.PriceTools
                                    Commission = commission
                                };
                 case OrderType.Sell:
-                    return new Sell
-                               {
-                                   SettlementDate = date,
-                                   Ticker = ticker,
-                                   Price = price,
-                                   Shares = shares,
-                                   Commission = commission
-                               };
+                    return ConstructSell(date, ticker, price, shares, commission);
                 case OrderType.SellShort:
                     return new SellShort
                                {
