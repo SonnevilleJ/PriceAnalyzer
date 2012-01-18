@@ -1,20 +1,19 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+
+namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Represents a cash withdrawal from an <see cref="IPortfolio"/>.
+    /// Represents a transaction for a cash withdrawal.
     /// </summary>
-    public sealed class Withdrawal : CashTransaction
+    [Serializable]
+    internal sealed class Withdrawal : CashTransaction, IWithdrawal
     {
-        #region Constructors
-
         /// <summary>
         /// Constructs a Withdrawal.
         /// </summary>
-        public Withdrawal()
+        internal Withdrawal()
         {
             OrderType = OrderType.Withdrawal;
         }
-
-        #endregion
     }
 }

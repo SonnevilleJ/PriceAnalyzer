@@ -59,7 +59,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Withdraws cash from this IPortfolio. Available cash must be greater than or equal to the withdrawn amount.
         /// </summary>
-        void Withdraw(Withdrawal withdrawal);
+        void Withdraw(IWithdrawal withdrawal);
 
         /// <summary>
         /// Adds historical transactions to the Portfolio.

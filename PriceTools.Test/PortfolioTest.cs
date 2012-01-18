@@ -111,11 +111,8 @@ namespace Sonneville.PriceTools.Test
                                       SettlementDate = openDate,
                                       Amount = amount
                                   };
-            var withdrawal = new Withdrawal
-                                        {
-                                            SettlementDate = openDate,
-                                            Amount = amount
-                                        };
+            var withdrawal = TransactionFactory.ConstructWithdrawal(openDate, amount);
+
             target.Deposit(deposit);
             target.Withdraw(withdrawal);
 

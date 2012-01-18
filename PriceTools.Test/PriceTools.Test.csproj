@@ -58,7 +58,6 @@
     <Compile Include="ShareTransactionTest.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="TransactionFactoryTest.cs" />
-    <Compile Include="WithdrawalTest.cs" />
     <Compile Include="DepositTest.cs" />
     <Compile Include="DividendReinvestmentTest.cs" />
     <Compile Include="SellShortTest.cs" />

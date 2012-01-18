@@ -62,6 +62,7 @@
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
+    <Compile Include="IWithdrawal.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="MeasurableSecurityBasketExtensions.cs" />
     <Compile Include="Data\IPriceDataProvider.cs" />

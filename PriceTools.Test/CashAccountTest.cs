@@ -108,7 +108,7 @@ namespace Sonneville.PriceTools.Test
                 // see comment above about bug with Entity Framework
                 var settlementDate = dateTime.AddTicks(j);
 
-                var withdrawal = new Withdrawal { Amount = amount / iterations, SettlementDate = settlementDate };
+                var withdrawal = TransactionFactory.ConstructWithdrawal(settlementDate, amount / iterations);
                 target.Withdraw(withdrawal);
             }
             Assert.AreEqual(iterations * 2, target.Transactions.Count);
@@ -140,7 +140,7 @@ namespace Sonneville.PriceTools.Test
                 // see comment above about bug with Entity Framework
                 var settlementDate = dateTime.AddTicks(j);
 
-                var withdrawal = new Withdrawal { Amount = amount / iterations, SettlementDate = settlementDate };
+                var withdrawal = TransactionFactory.ConstructWithdrawal(settlementDate, amount / iterations);
                 target.Withdraw(withdrawal);
             }
 
@@ -206,7 +206,7 @@ namespace Sonneville.PriceTools.Test
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
-            var withdrawal = new Withdrawal { SettlementDate = dateTime, Amount = amount };
+            var withdrawal = TransactionFactory.ConstructWithdrawal(dateTime, amount);
 
             Assert.IsFalse(target.TransactionIsValid(withdrawal));
         }
@@ -222,7 +222,7 @@ namespace Sonneville.PriceTools.Test
             const decimal amount = 500.00m;
 
             var deposit = new Deposit { SettlementDate = dateTime, Amount = amount };
-            var withdrawal = new Withdrawal { SettlementDate = dateTime, Amount = amount };
+            var withdrawal = TransactionFactory.ConstructWithdrawal(dateTime, amount);
             target.Deposit(deposit);
             
             Assert.IsTrue(target.TransactionIsValid(withdrawal));

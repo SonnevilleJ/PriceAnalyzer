@@ -60,17 +60,13 @@ namespace Sonneville.PriceTools
         /// <param name="amount">The amount of cash withdrawn from the CashAccount.</param>
         public void Withdraw(DateTime dateTime, decimal amount)
         {
-            Withdraw(new Withdrawal
-                         {
-                             SettlementDate = dateTime,
-                             Amount = amount
-                         });
+            Withdraw(TransactionFactory.ConstructWithdrawal(dateTime, amount));
         }
 
         /// <summary>
         /// Withdraws cash from the ICashAccount.
         /// </summary>
-        public void Withdraw(Withdrawal withdrawal)
+        public void Withdraw(IWithdrawal withdrawal)
         {
             lock (_padlock)
             {
@@ -125,7 +121,7 @@ namespace Sonneville.PriceTools
             }
         }
 
-        private void VerifySufficientFunds(Withdrawal withdrawal)
+        private void VerifySufficientFunds(IWithdrawal withdrawal)
         {
             if (!TransactionIsValid(withdrawal))
             {
