@@ -23,17 +23,13 @@ namespace Sonneville.PriceTools
         /// <param name="amount">The amount of cash deposited into the CashAccount.</param>
         public void Deposit(DateTime dateTime, decimal amount)
         {
-            Deposit(new Deposit
-                        {
-                            SettlementDate = dateTime,
-                            Amount = amount
-                        });
+            Deposit(TransactionFactory.ConstructDeposit(dateTime, amount));
         }
 
         /// <summary>
         /// Deposits cash into the CashAccount.
         /// </summary>
-        public void Deposit(Deposit deposit)
+        public void Deposit(IDeposit deposit)
         {
             lock(_padlock)
             {

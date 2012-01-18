@@ -97,6 +97,7 @@ namespace Sonneville.PriceTools.Test
             {
                 switch (transactionType)
                 {
+                    case OrderType.Deposit:
                     case OrderType.DividendReceipt:
                         return 2.00m;
                     case OrderType.Withdrawal:
@@ -109,6 +110,54 @@ namespace Sonneville.PriceTools.Test
             private static decimal GetInversePrice(OrderType transactionType)
             {
                 return -GetCorrectPrice(transactionType);
+            }
+        }
+
+        [TestClass]
+        public class DepositTests : CashTransactionTestsBase
+        {
+            private const OrderType TransactionType = OrderType.Deposit;
+
+            [TestMethod]
+            public override void SerializeTest()
+            {
+                CashTransactionSerializeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Amount
+            ///</summary>
+            [TestMethod]
+            public override void AmountInvertedTest()
+            {
+                CashTransactionAmountInvertedTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for SettlementDate
+            ///</summary>
+            [TestMethod]
+            public override void SettlementDateTest()
+            {
+                CashTransactionSettlementDateTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for OrderType
+            ///</summary>
+            [TestMethod]
+            public override void OrderTypeTest()
+            {
+                CashTransactionOrderTypeTest(TransactionType);
+            }
+
+            /// <summary>
+            ///A test for Amount
+            ///</summary>
+            [TestMethod]
+            public override void AmountCorrectTest()
+            {
+                CashTransactionAmountCorrectTest(TransactionType);
             }
         }
 

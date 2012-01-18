@@ -285,7 +285,7 @@ namespace Sonneville.PriceTools
                     _cashAccount.Deposit((DividendReceipt)transaction);
                     break;
                 case OrderType.Deposit:
-                    Deposit((Deposit)transaction);
+                    Deposit((IDeposit)transaction);
                     break;
                 case OrderType.Withdrawal:
                     Withdraw((Withdrawal)transaction);
@@ -339,8 +339,8 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Deposits cash to this Portfolio.
         /// </summary>
-        /// <param name="deposit">The <see cref="PriceTools.Deposit"/> to deposit.</param>
-        public void Deposit(Deposit deposit)
+        /// <param name="deposit">The <see cref="Implementation.Deposit"/> to deposit.</param>
+        public void Deposit(IDeposit deposit)
         {
             _cashAccount.Deposit(deposit);
         }
@@ -358,7 +358,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Withdraws cash from this Portfolio. Available cash must be greater than or equal to the withdrawn amount.
         /// </summary>
-        /// <param name="withdrawal">The <see cref="WithdrawalImpl"/> to withdraw.</param>
+        /// <param name="withdrawal">The <see cref="Withdrawal"/> to withdraw.</param>
         public void Withdraw(Withdrawal withdrawal)
         {
             _cashAccount.Withdraw(withdrawal);

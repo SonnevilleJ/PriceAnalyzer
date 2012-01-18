@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Deposits cash into the ICashAccount.
         /// </summary>
-        void Deposit(Deposit deposit);
+        void Deposit(IDeposit deposit);
 
         /// <summary>
         /// Deposits a cash dividend into the ICashAccount.

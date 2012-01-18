@@ -76,11 +76,7 @@ namespace Sonneville.PriceTools.Test
             const decimal amount = 10000m;
             IPortfolio target = new Portfolio();
 
-            var deposit = new Deposit
-                                  {
-                                      SettlementDate = openDate,
-                                      Amount = amount
-                                  };
+            var deposit = TransactionFactory.ConstructDeposit(openDate, amount);
             target.Deposit(deposit);
 
             Assert.AreEqual(amount, target.GetAvailableCash(openDate));
@@ -106,11 +102,7 @@ namespace Sonneville.PriceTools.Test
             const decimal amount = 10000m;
             IPortfolio target = new Portfolio();
 
-            var deposit = new Deposit
-                                  {
-                                      SettlementDate = openDate,
-                                      Amount = amount
-                                  };
+            var deposit = TransactionFactory.ConstructDeposit(openDate, amount);
             var withdrawal = TransactionFactory.ConstructWithdrawal(openDate, amount);
 
             target.Deposit(deposit);
@@ -726,11 +718,7 @@ namespace Sonneville.PriceTools.Test
             const decimal amount = 10000m;
             IPortfolio target = new Portfolio();
 
-            var deposit = new Deposit
-                                  {
-                                      SettlementDate = date,
-                                      Amount = amount
-                                  };
+            var deposit = TransactionFactory.ConstructDeposit(date, amount);
             target.AddTransaction(deposit);
 
             Assert.IsTrue(target.Transactions.Contains(deposit));
@@ -743,11 +731,7 @@ namespace Sonneville.PriceTools.Test
             const decimal amount = 10000m;
             IPortfolio target = new Portfolio();
 
-            var deposit = new Deposit
-                                  {
-                                      SettlementDate = date,
-                                      Amount = amount
-                                  };
+            var deposit = TransactionFactory.ConstructDeposit(date, amount);
             target.AddTransaction(deposit);
 
             Assert.IsTrue(target.Transactions.Contains(deposit));

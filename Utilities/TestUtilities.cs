@@ -137,7 +137,7 @@ namespace Sonneville.Utilities
         public static ITradingAccount CreateSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
         {
             // default deposit of $1,000,000
-            var deposit = new Deposit {SettlementDate = new DateTime(1900, 1, 1), Amount = 1000000.00m};
+            var deposit = TransactionFactory.ConstructDeposit(new DateTime(1900, 1, 1), 1000000.00m);
             return CreateSimulatedTradingAccount(orderTypes, commissionSchedule, marginSchedule, deposit);
         }
 
@@ -149,7 +149,7 @@ namespace Sonneville.Utilities
         /// <param name="marginSchedule">The <see cref="IMarginSchedule"/> which should be used by the <see cref="ITradingAccount"/>.</param>
         /// <param name="openingDeposit">The opening deposit to place in the <see cref="IPortfolio"/> used by the <see cref="ITradingAccount"/>.</param>
         /// <returns></returns>
-        public static ITradingAccount CreateSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, Deposit openingDeposit)
+        public static ITradingAccount CreateSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, IDeposit openingDeposit)
         {
             var tradingAccountFeatures = TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
             var portfolio = new Portfolio();

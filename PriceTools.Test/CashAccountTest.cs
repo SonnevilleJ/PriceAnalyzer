@@ -76,7 +76,7 @@ namespace Sonneville.PriceTools.Test
                 // and EF will not add the new object to the collection, thus changing the final count.
                 var settlementDate = dateTime.AddTicks(i);
 
-                var dividend = new Deposit { Amount = amount / iterations, SettlementDate = settlementDate };
+                var dividend = TransactionFactory.ConstructDeposit(settlementDate, amount / iterations);
                 target.Deposit(dividend);
             }
             Assert.AreEqual(iterations, target.Transactions.Count);
@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools.Test
                 // and EF will not add the new object to the collection, thus changing the final count.
                 var settlementDate = dateTime.AddTicks(i);
 
-                var dividend = new Deposit { Amount = amount / iterations, SettlementDate = settlementDate };
+                var dividend = TransactionFactory.ConstructDeposit(settlementDate, amount / iterations);
                 target.Deposit(dividend);
             }
 
@@ -131,7 +131,7 @@ namespace Sonneville.PriceTools.Test
                 // and EF will not add the new object to the collection, thus changing the final count.
                 var settlementDate = dateTime.AddTicks(i);
 
-                var dividend = new Deposit { Amount = amount / iterations, SettlementDate = settlementDate };
+                var dividend = TransactionFactory.ConstructDeposit(settlementDate, amount / iterations);
                 target.Deposit(dividend);
             }
 
@@ -191,7 +191,7 @@ namespace Sonneville.PriceTools.Test
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
-            var deposit = new Deposit {SettlementDate = dateTime, Amount = amount};
+            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
 
             Assert.IsTrue(target.TransactionIsValid(deposit));
         }
@@ -221,7 +221,7 @@ namespace Sonneville.PriceTools.Test
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
-            var deposit = new Deposit { SettlementDate = dateTime, Amount = amount };
+            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
             var withdrawal = TransactionFactory.ConstructWithdrawal(dateTime, amount);
             target.Deposit(deposit);
             
@@ -267,8 +267,8 @@ namespace Sonneville.PriceTools.Test
             const decimal amount = 500.00m;
             target.Deposit(dateTime, amount);
             target.Withdraw(dateTime, amount);
-            
-            var deposit = new Deposit {SettlementDate = dateTime, Amount = amount};
+
+            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
             target.Transactions.Add(deposit);
 
             const int expectedTransactions = 2;
@@ -284,7 +284,7 @@ namespace Sonneville.PriceTools.Test
             const decimal amount = 50000.00m;
             const int iterations = 100000;     // $0.05 transactions
 
-            Parallel.For(0, iterations, i => target.Deposit(new Deposit {Amount = amount/iterations, SettlementDate = dateTime.AddTicks(i)}));
+            Parallel.For(0, iterations, i => target.Deposit(TransactionFactory.ConstructDeposit(dateTime.AddTicks(i), amount / iterations)));
 
             Assert.AreEqual(iterations, target.Transactions.Count);
         }
