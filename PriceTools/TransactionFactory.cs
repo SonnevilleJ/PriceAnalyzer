@@ -65,6 +65,28 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Constructs a Buy.
+        /// </summary>
+        /// <param name="settlementDate"></param>
+        /// <param name="ticker"></param>
+        /// <param name="price"></param>
+        /// <param name="shares"></param>
+        /// <param name="commission"></param>
+        /// <returns></returns>
+        public static IBuy ConstructBuy(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        {
+            return new BuyImpl {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
+        }
+
+        /// <summary>
+        /// Constructs a ShareTransaction.
+        /// </summary>
+        public static IShareTransaction ConstructShareTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares, decimal commission)
+        {
+            return (IShareTransaction) CreateTransaction(settlementDate, type, ticker, price, shares, commission);
+        }
+
+        /// <summary>
         /// Constructs a Transaction.
         /// </summary>
         /// <param name="date">The date and time this ShareTransaction took place.</param>
@@ -82,7 +104,7 @@ namespace Sonneville.PriceTools
                 case OrderType.Withdrawal:
                     return ConstructWithdrawal(date, price);
                 case OrderType.Buy:
-                    return new Buy
+                    return new BuyImpl
                                {
                                    SettlementDate = date,
                                    Ticker = ticker,
@@ -131,14 +153,6 @@ namespace Sonneville.PriceTools
                 default:
                     throw new ArgumentOutOfRangeException("type", String.Format(CultureInfo.CurrentCulture, "Unknown OrderType: {0}", type));
             }
-        }
-
-        /// <summary>
-        /// Constructs a ShareTransaction.
-        /// </summary>
-        public static IShareTransaction CreateShareTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares, decimal commission)
-        {
-            return (IShareTransaction) CreateTransaction(settlementDate, type, ticker, price, shares, commission);
         }
     }
 }

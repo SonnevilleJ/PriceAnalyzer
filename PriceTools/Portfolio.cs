@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -305,7 +304,7 @@ namespace Sonneville.PriceTools
                     }
                     break;
                 case OrderType.Buy:
-                    var buy = ((Buy)transaction);
+                    var buy = ((IBuy)transaction);
                     Withdraw(buy.SettlementDate, buy.TotalValue);
                     AddToPosition(buy);
                     break;

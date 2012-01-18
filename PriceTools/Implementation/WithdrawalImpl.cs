@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction for a cash withdrawal.
     /// </summary>
     [Serializable]
-    internal sealed class WithdrawalImpl : CashTransaction, Withdrawal
+    internal sealed class WithdrawalImpl : CashTransactionImpl, Withdrawal
     {
         /// <summary>
         /// Constructs a Withdrawal.

@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction for the receipt of a dividend.
     /// </summary>
     [Serializable]
-    internal sealed class DividendReceiptImpl : CashTransaction, DividendReceipt
+    internal sealed class DividendReceiptImpl : CashTransactionImpl, DividendReceipt
     {
         /// <summary>
         /// Constructs a DividendReceipt Transaction.

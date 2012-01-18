@@ -5,6 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   Represents a transaction (or order) for a financial security.
     /// </summary>
+    [Serializable]
     public abstract class ShareTransaction : IShareTransaction
     {
         #region Private Members

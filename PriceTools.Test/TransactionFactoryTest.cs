@@ -37,8 +37,8 @@ namespace Sonneville.PriceTools.Test
 
             protected static void CashTransactionSerializeTest(OrderType transactionType)
             {
-                var date = new DateTime(2012, 1, 17);
-                const decimal amount = 10000.00m;
+                var date = GetSettlementDate();
+                var amount = GetValidAmount(transactionType);
 
                 var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
 
@@ -50,10 +50,10 @@ namespace Sonneville.PriceTools.Test
 
             protected static void CashTransactionSettlementDateTest(OrderType transactionType)
             {
-                var date = new DateTime(2000, 1, 1);
-                const decimal price = 2.00m;
+                var date = GetSettlementDate();
+                var amount = GetValidAmount(transactionType);
 
-                var target = TransactionFactory.ConstructCashTransaction(transactionType, date, price);
+                var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
 
                 var expected = date;
                 var actual = target.SettlementDate;
@@ -62,10 +62,10 @@ namespace Sonneville.PriceTools.Test
 
             protected static void CashTransactionOrderTypeTest(OrderType transactionType)
             {
-                var date = new DateTime(2000, 1, 1);
-                const decimal price = 2.00m;
+                var date = GetSettlementDate();
+                var amount = GetValidAmount(transactionType);
 
-                var target = TransactionFactory.ConstructCashTransaction(transactionType, date, price);
+                var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
 
                 var expected = transactionType;
                 var actual = target.OrderType;
@@ -74,29 +74,34 @@ namespace Sonneville.PriceTools.Test
 
             protected static void CashTransactionAmountInvalidTest(OrderType transactionType)
             {
-                var date = new DateTime(2000, 1, 1);
-                var price = GetInversePrice(transactionType);
+                var date = GetSettlementDate();
+                var amount = GetInversePrice(transactionType);
 
-                var target = TransactionFactory.ConstructCashTransaction(transactionType, date, price);
+                var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
 
-                var expected = GetValidPrice(transactionType);
+                var expected = GetValidAmount(transactionType);
                 var actual = target.Amount;
                 Assert.AreEqual(expected, actual);
             }
 
             protected static void CashTransactionAmountValidTest(OrderType transactionType)
             {
-                var date = new DateTime(2000, 1, 1);
-                var price = GetValidPrice(transactionType);
+                var date = GetSettlementDate();
+                var amount = GetValidAmount(transactionType);
 
-                var target = TransactionFactory.ConstructCashTransaction(transactionType, date, price);
+                var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
 
-                var expected = GetValidPrice(transactionType);
+                var expected = GetValidAmount(transactionType);
                 var actual = target.Amount;
                 Assert.AreEqual(expected, actual);
             }
 
-            private static decimal GetValidPrice(OrderType transactionType)
+            private static DateTime GetSettlementDate()
+            {
+                return new DateTime(2000, 1, 1);
+            }
+
+            private static decimal GetValidAmount(OrderType transactionType)
             {
                 switch (transactionType)
                 {
@@ -112,7 +117,7 @@ namespace Sonneville.PriceTools.Test
 
             private static decimal GetInversePrice(OrderType transactionType)
             {
-                return -GetValidPrice(transactionType);
+                return -GetValidAmount(transactionType);
             }
         }
 
@@ -312,6 +317,11 @@ namespace Sonneville.PriceTools.Test
             /// </summary>
             public abstract void CommissionInvalidTest();
 
+            /// <summary>
+            /// A test for TotalValue
+            /// </summary>
+            public abstract void TotalValueTest();
+
             protected static void ShareTransactionSerializeTest(OrderType transactionType)
             {
                 var settlementDate = new DateTime(2012, 1, 18);
@@ -320,7 +330,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
 
                 var xml = Serializer.SerializeToXml(target);
                 var result = Serializer.DeserializeFromXml<IShareTransaction>(xml);
@@ -336,7 +346,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
 
                 var expected = settlementDate;
                 var actual = target.SettlementDate;
@@ -351,7 +361,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
 
                 var expected = transactionType;
                 var actual = target.OrderType;
@@ -366,7 +376,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
 
                 var expected = ticker;
                 var actual = target.Ticker;
@@ -381,7 +391,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
 
                 var expected = GetValidPrice(transactionType);
                 var actual = target.Price;
@@ -396,7 +406,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
 
                 var expected = GetValidPrice(transactionType);
                 var actual = target.Price;
@@ -411,7 +421,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
 
                 var expected = GetValidShares();
                 var actual = target.Shares;
@@ -426,7 +436,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetInvalidShares();
                 var commission = GetValidCommission(transactionType);
 
-                TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
             }
 
             protected static void ShareTransactionCommissionValidTest(OrderType transactionType)
@@ -437,7 +447,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
 
                 var expected = GetValidCommission(transactionType);
                 var actual = target.Commission;
@@ -452,7 +462,22 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetInvalidCommission(transactionType);
 
-                TransactionFactory.CreateShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+            }
+
+            protected static void ShareTransactionTotalValueTest(OrderType transactionType)
+            {
+                var settlementDate = new DateTime(2012, 1, 18);
+                var ticker = GetValidTicker();
+                var price = GetValidPrice(transactionType);
+                var shares = GetValidShares();
+                var commission = GetValidCommission(transactionType);
+
+                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+
+                var expected = Math.Round(price * (decimal) shares, 2) + commission;
+                var actual = target.TotalValue;
+                Assert.AreEqual(expected, actual);
             }
 
             private static string GetValidTicker()
@@ -605,6 +630,15 @@ namespace Sonneville.PriceTools.Test
             {
                 // For DividendReinvestment types, the only valid commission is zero.
             }
+
+            /// <summary>
+            /// A test for TotalValue
+            /// </summary>
+            [TestMethod]
+            public override void TotalValueTest()
+            {
+                ShareTransactionTotalValueTest(TransactionType);
+            }
         }
 
         [TestClass]
@@ -699,6 +733,15 @@ namespace Sonneville.PriceTools.Test
             public override void CommissionInvalidTest()
             {
                 ShareTransactionCommissionInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            /// A test for TotalValue
+            /// </summary>
+            [TestMethod]
+            public override void TotalValueTest()
+            {
+                ShareTransactionTotalValueTest(TransactionType);
             }
         }
 
@@ -795,6 +838,15 @@ namespace Sonneville.PriceTools.Test
             {
                 ShareTransactionCommissionInvalidTest(TransactionType);
             }
+
+            /// <summary>
+            /// A test for TotalValue
+            /// </summary>
+            [TestMethod]
+            public override void TotalValueTest()
+            {
+                ShareTransactionTotalValueTest(TransactionType);
+            }
         }
 
         [TestClass]
@@ -890,6 +942,15 @@ namespace Sonneville.PriceTools.Test
             {
                 ShareTransactionCommissionInvalidTest(TransactionType);
             }
+
+            /// <summary>
+            /// A test for TotalValue
+            /// </summary>
+            [TestMethod]
+            public override void TotalValueTest()
+            {
+                ShareTransactionTotalValueTest(TransactionType);
+            }
         }
 
         [TestClass]
@@ -984,6 +1045,15 @@ namespace Sonneville.PriceTools.Test
             public override void CommissionInvalidTest()
             {
                 ShareTransactionCommissionInvalidTest(TransactionType);
+            }
+
+            /// <summary>
+            /// A test for TotalValue
+            /// </summary>
+            [TestMethod]
+            public override void TotalValueTest()
+            {
+                ShareTransactionTotalValueTest(TransactionType);
             }
         }
     }

@@ -1,19 +1,19 @@
 ﻿using System;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a transaction for an <see cref="ICashAccount"/>.
     /// </summary>
     [Serializable]
-    public abstract class CashTransaction : ICashTransaction
+    internal abstract class CashTransactionImpl : ICashTransaction
     {
         #region Constructors
 
         /// <summary>
         /// Constructs a CashTransaction.
         /// </summary>
-        protected internal CashTransaction()
+        protected internal CashTransactionImpl()
         {
         }
 

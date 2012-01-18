@@ -1157,7 +1157,7 @@ namespace Sonneville.PriceTools.Test
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double shares = 9;
 
-            var buy = new Buy {SettlementDate = buyDate, Ticker = ticker, Price = buyPrice, Shares = shares, Commission = commission};
+            var buy = TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission);
 
             Assert.IsTrue(target.TransactionIsValid(buy));
         }

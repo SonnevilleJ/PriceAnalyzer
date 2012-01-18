@@ -54,7 +54,6 @@
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />
-    <Compile Include="ShareTransactionTest.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="TransactionFactoryTest.cs" />
     <Compile Include="CashAccountTest.cs" />

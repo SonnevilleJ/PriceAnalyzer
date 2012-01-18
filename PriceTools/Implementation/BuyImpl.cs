@@ -1,14 +1,17 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a transaction to buy shares.
     /// </summary>
-    public sealed class Buy : ShareTransaction
+    [Serializable]
+    internal sealed class BuyImpl : ShareTransaction, IBuy
     {
         /// <summary>
         /// Constructs a Buy Transaction.
         /// </summary>
-        public Buy()
+        internal BuyImpl()
         {
             OrderType = OrderType.Buy;
         }
