@@ -40,15 +40,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public void SerializeTest()
             {
-                var date = new DateTime(2012, 1, 17);
-                const decimal amount = 10000.00m;
-
-                var target = TransactionFactory.ConstructDividendReceipt(date, amount);
-
-                var xml = Serializer.SerializeToXml(target);
-                var result = Serializer.DeserializeFromXml<ICashTransaction>(xml);
-
-                TestUtilities.AssertSameState(target, result);
+                CashTransactionSerializeTest(OrderType.DividendReceipt);
             }
 
             /// <summary>
@@ -57,14 +49,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public void DividendReceiptAmountNegativeTest()
             {
-                var date = new DateTime(2000, 1, 1);
-                const decimal price = -2.0m;        // bought at $-2.00 per share - error
-
-                var target = TransactionFactory.ConstructDividendReceipt(date, price);
-
-                var expected = Math.Abs(price);
-                var actual = target.Amount;
-                Assert.AreEqual(expected, actual);
+                CashTransactionAmountInvertedTest(OrderType.DividendReceipt);
             }
 
             /// <summary>
@@ -73,14 +58,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public void DividendReceiptSettlementDateTest()
             {
-                var date = new DateTime(2000, 1, 1);
-                const decimal price = 2.00m;
-
-                var target = TransactionFactory.ConstructDividendReceipt(date, price);
-
-                var expected = date;
-                var actual = target.SettlementDate;
-                Assert.AreEqual(expected, actual);
+                CashTransactionSettlementDateTest(OrderType.DividendReceipt);
             }
 
             /// <summary>
@@ -89,14 +67,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public void DividendReceiptOrderTypeTest()
             {
-                var date = new DateTime(2000, 1, 1);
-                const decimal price = 2.00m;
-
-                var target = TransactionFactory.ConstructDividendReceipt(date, price);
-
-                const OrderType expected = OrderType.DividendReceipt;
-                var actual = target.OrderType;
-                Assert.AreEqual(expected, actual);
+                CashTransactionOrderTypeTest(OrderType.DividendReceipt);
             }
 
             /// <summary>
@@ -105,16 +76,90 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public void DividendReceiptAmountPositiveTest()
             {
-                var date = new DateTime(2000, 1, 1);
-                const decimal price = 2.00m;        // received $2.00 per share
-
-                var target = TransactionFactory.ConstructDividendReceipt(date, price);
-
-                const decimal expected = price;
-                var actual = target.Amount;
-                Assert.AreEqual(expected, actual);
+                CashTransactionAmountCorrectTest(OrderType.DividendReceipt);
             }
         }
+
+        #region Test runners
+
+        private static void CashTransactionSerializeTest(OrderType transactionType)
+        {
+            var date = new DateTime(2012, 1, 17);
+            const decimal amount = 10000.00m;
+
+            var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
+
+            var xml = Serializer.SerializeToXml(target);
+            var result = Serializer.DeserializeFromXml<ICashTransaction>(xml);
+
+            TestUtilities.AssertSameState(target, result);
+        }
+
+        private static void CashTransactionSettlementDateTest(OrderType transactionType)
+        {
+            var date = new DateTime(2000, 1, 1);
+            const decimal price = 2.00m;
+
+            var target = TransactionFactory.ConstructCashTransaction(transactionType, date, price);
+
+            var expected = date;
+            var actual = target.SettlementDate;
+            Assert.AreEqual(expected, actual);
+        }
+
+        private static void CashTransactionOrderTypeTest(OrderType transactionType)
+        {
+            var date = new DateTime(2000, 1, 1);
+            const decimal price = 2.00m;
+
+            var target = TransactionFactory.ConstructCashTransaction(transactionType, date, price);
+
+            var expected = transactionType;
+            var actual = target.OrderType;
+            Assert.AreEqual(expected, actual);
+        }
+
+        private static void CashTransactionAmountInvertedTest(OrderType transactionType)
+        {
+            var date = new DateTime(2000, 1, 1);
+            var price = GetInversePrice(transactionType);
+
+            var target = TransactionFactory.ConstructCashTransaction(transactionType, date, price);
+
+            var expected = GetCorrectPrice(transactionType);
+            var actual = target.Amount;
+            Assert.AreEqual(expected, actual);
+        }
+
+        private static void CashTransactionAmountCorrectTest(OrderType transactionType)
+        {
+            var date = new DateTime(2000, 1, 1);
+            var price = GetCorrectPrice(transactionType);
+
+            var target = TransactionFactory.ConstructCashTransaction(transactionType, date, price);
+
+            var expected = GetCorrectPrice(transactionType);
+            var actual = target.Amount;
+            Assert.AreEqual(expected, actual);
+        }
+
+        private static decimal GetCorrectPrice(OrderType transactionType)
+        {
+            switch (transactionType)
+            {
+                case OrderType.DividendReceipt:
+                    return 2.00m;
+                default:
+                    return 0.00m;
+            }
+        }
+
+        private static decimal GetInversePrice(OrderType transactionType)
+        {
+            return -GetCorrectPrice(transactionType);
+        }
+
+        #endregion
 
         [TestMethod]
         public void ConstructCashTransactionDepositTest()
