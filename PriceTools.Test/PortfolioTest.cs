@@ -874,11 +874,7 @@ namespace Sonneville.PriceTools.Test
                               Price = price,
                               Shares = shares
                           };
-            var dividendReceipt = new DividendReceipt
-                                                  {
-                                                      SettlementDate = buyDate.AddDays(1),
-                                                      Amount = 1 * (decimal)shares
-                                                  };
+            var dividendReceipt = TransactionFactory.ConstructDividendReceipt(buyDate.AddDays(1), (decimal) shares);
 
             target.AddTransaction(buy);
             target.AddTransaction(dividendReceipt);

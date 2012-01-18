@@ -155,7 +155,7 @@ namespace Sonneville.PriceTools.Test
             ICashAccount target = new CashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
-            var dividendReceipt = new DividendReceipt {Amount = amount, SettlementDate = dateTime};
+            var dividendReceipt = TransactionFactory.ConstructDividendReceipt(dateTime, amount);
             target.Deposit(dividendReceipt);
             target.Withdraw(dateTime, amount);
 

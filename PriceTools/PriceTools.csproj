@@ -57,9 +57,10 @@
     <Compile Include="Data\ITransactionHistory.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Deposit.cs" />
-    <Compile Include="DividendReceipt.cs" />
+    <Compile Include="Implementation\DividendReceiptImpl.cs" />
     <Compile Include="DividendReinvestment.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
+    <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="MeasurableSecurityBasketExtensions.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -36,9 +37,9 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds received.</param>
         /// <returns></returns>
-        public static ICashTransaction ConstructDividendReceipt(DateTime settlementDate, decimal amount)
+        public static DividendReceipt ConstructDividendReceipt(DateTime settlementDate, decimal amount)
         {
-            return new DividendReceipt {SettlementDate = settlementDate, Amount = amount};
+            return new DividendReceiptImpl {SettlementDate = settlementDate, Amount = amount};
         }
 
         /// <summary>
@@ -77,17 +78,9 @@ namespace Sonneville.PriceTools
             switch (type)
             {
                 case OrderType.Deposit:
-                    return new Deposit
-                               {
-                                   SettlementDate = date,
-                                   Amount = price,
-                               };
+                    return ConstructDeposit(date, price);
                 case OrderType.Withdrawal:
-                    return new Withdrawal
-                               {
-                                   SettlementDate = date,
-                                   Amount = price,
-                               };
+                    return ConstructWithdrawal(date, price);
                 case OrderType.Buy:
                     return new Buy
                                {
@@ -107,11 +100,7 @@ namespace Sonneville.PriceTools
                                    Commission = commission
                                };
                 case OrderType.DividendReceipt:
-                    return new DividendReceipt
-                               {
-                                   SettlementDate = date,
-                                   Amount = price
-                               };
+                    return ConstructDividendReceipt(date, price);
                 case OrderType.DividendReinvestment:
                     return new DividendReinvestment
                                {

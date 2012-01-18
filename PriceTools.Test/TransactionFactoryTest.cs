@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.Data;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Test
@@ -33,17 +34,86 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(Math.Abs(amount), Math.Abs(target.Amount));
         }
 
-        [TestMethod]
-        public void ConstructDividendReceiptTest()
+        [TestClass]
+        public class DividendReceiptTests
         {
-            var date = new DateTime(2012, 1, 17);
-            const decimal amount = 10000.00m;
+            [TestMethod]
+            public void SerializeTest()
+            {
+                var date = new DateTime(2012, 1, 17);
+                const decimal amount = 10000.00m;
 
-            var target = TransactionFactory.ConstructDividendReceipt(date, amount);
+                var target = TransactionFactory.ConstructDividendReceipt(date, amount);
 
-            Assert.AreEqual(OrderType.DividendReceipt, target.OrderType);
-            Assert.AreEqual(date, target.SettlementDate);
-            Assert.AreEqual(Math.Abs(amount), Math.Abs(target.Amount));
+                var xml = Serializer.SerializeToXml(target);
+                var result = Serializer.DeserializeFromXml<ICashTransaction>(xml);
+
+                TestUtilities.AssertSameState(target, result);
+            }
+
+            /// <summary>
+            ///A test for Amount
+            ///</summary>
+            [TestMethod]
+            public void DividendReceiptAmountNegativeTest()
+            {
+                var date = new DateTime(2000, 1, 1);
+                const decimal price = -2.0m;        // bought at $-2.00 per share - error
+
+                var target = TransactionFactory.ConstructDividendReceipt(date, price);
+
+                var expected = Math.Abs(price);
+                var actual = target.Amount;
+                Assert.AreEqual(expected, actual);
+            }
+
+            /// <summary>
+            ///A test for SettlementDate
+            ///</summary>
+            [TestMethod]
+            public void DividendReceiptSettlementDateTest()
+            {
+                var date = new DateTime(2000, 1, 1);
+                const decimal price = 2.00m;
+
+                var target = TransactionFactory.ConstructDividendReceipt(date, price);
+
+                var expected = date;
+                var actual = target.SettlementDate;
+                Assert.AreEqual(expected, actual);
+            }
+
+            /// <summary>
+            ///A test for OrderType
+            ///</summary>
+            [TestMethod]
+            public void DividendReceiptOrderTypeTest()
+            {
+                var date = new DateTime(2000, 1, 1);
+                const decimal price = 2.00m;
+
+                var target = TransactionFactory.ConstructDividendReceipt(date, price);
+
+                const OrderType expected = OrderType.DividendReceipt;
+                var actual = target.OrderType;
+                Assert.AreEqual(expected, actual);
+            }
+
+            /// <summary>
+            ///A test for Amount
+            ///</summary>
+            [TestMethod]
+            public void DividendReceiptAmountPositiveTest()
+            {
+                var date = new DateTime(2000, 1, 1);
+                const decimal price = 2.00m;        // received $2.00 per share
+
+                var target = TransactionFactory.ConstructDividendReceipt(date, price);
+
+                const decimal expected = price;
+                var actual = target.Amount;
+                Assert.AreEqual(expected, actual);
+            }
         }
 
         [TestMethod]

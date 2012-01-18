@@ -61,7 +61,6 @@
     <Compile Include="WithdrawalTest.cs" />
     <Compile Include="DepositTest.cs" />
     <Compile Include="DividendReinvestmentTest.cs" />
-    <Compile Include="DividendReceiptTest.cs" />
     <Compile Include="SellShortTest.cs" />
     <Compile Include="CashAccountTest.cs" />
     <Compile Include="PortfolioTest.cs" />
