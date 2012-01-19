@@ -129,7 +129,7 @@ namespace Sonneville.PriceTools
         /// <param name="shares"></param>
         /// <param name="commission"></param>
         /// <returns></returns>
-        public static ISellShort ConstructSellShort(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        public static SellShort ConstructSellShort(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
         {
             return new SellShortImpl {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
         }

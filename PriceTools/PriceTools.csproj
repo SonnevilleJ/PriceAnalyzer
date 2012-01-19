@@ -66,7 +66,7 @@
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
-    <Compile Include="ISellShort.cs" />
+    <Compile Include="SellShort.cs" />
     <Compile Include="Sell.cs" />
     <Compile Include="Withdrawal.cs" />
     <Compile Include="Order.cs" />
@@ -107,7 +107,7 @@
     <Compile Include="Implementation\SellImpl.cs" />
     <Compile Include="Implementation\SellShortImpl.cs" />
     <Compile Include="StockIndex.cs" />
-    <Compile Include="ShareTransaction.cs" />
+    <Compile Include="Implementation\ShareTransactionImpl.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

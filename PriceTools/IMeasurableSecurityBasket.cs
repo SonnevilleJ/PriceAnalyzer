@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools
     public interface IMeasurableSecurityBasket : ITimeSeries
     {
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IMeasurableSecurityBasket.
+        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this IMeasurableSecurityBasket.
         /// </summary>
         IList<ITransaction> Transactions { get; }
 

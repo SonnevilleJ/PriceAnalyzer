@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction to short-sell shares.
     /// </summary>
-    public interface ISellShort : IShareTransaction
+    public interface SellShort : IShareTransaction
     {
     }
 }

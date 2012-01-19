@@ -212,7 +212,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
+        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this Position.
         /// </summary>
         public IList<ITransaction> Transactions
         {

@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction to sell shares.
     /// </summary>
     [Serializable]
-    internal sealed class SellImpl : ShareTransaction, Sell
+    internal sealed class SellImpl : ShareTransactionImpl, Sell
     {
         /// <summary>
         /// Constructs a Sell Transaction.

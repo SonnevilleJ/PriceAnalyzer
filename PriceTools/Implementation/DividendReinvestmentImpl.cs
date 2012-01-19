@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction to reinvest dividends.
     /// </summary>
     [Serializable]
-    internal sealed class DividendReinvestmentImpl : ShareTransaction, DividendReinvestment
+    internal sealed class DividendReinvestmentImpl : ShareTransactionImpl, DividendReinvestment
     {
         /// <summary>
         /// Constructs a DividendReinvestment Transaction.

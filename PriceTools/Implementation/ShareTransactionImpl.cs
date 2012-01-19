@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     ///   Represents a transaction (or order) for a financial security.
     /// </summary>
     [Serializable]
-    public abstract class ShareTransaction : IShareTransaction
+    public abstract class ShareTransactionImpl : IShareTransaction
     {
         #region Private Members
 
