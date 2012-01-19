@@ -98,7 +98,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
                 const decimal expected = 500.00m;
-                var actual = ((IShareTransaction)target.Transactions.First()).TotalValue;
+                var actual = ((ShareTransaction)target.Transactions.First()).TotalValue;
                 Assert.AreEqual(expected, actual);
             }
         }

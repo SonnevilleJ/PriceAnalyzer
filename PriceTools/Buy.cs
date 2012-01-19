@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction to buy shares.
     /// </summary>
-    public interface Buy : IShareTransaction
+    public interface Buy : ShareTransaction
     {
     }
 }

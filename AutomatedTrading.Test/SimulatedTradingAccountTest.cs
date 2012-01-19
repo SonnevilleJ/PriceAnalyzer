@@ -196,8 +196,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
         private static void VerifyOrderFillsCorrectly(ITradingAccount target, Order order)
         {
-            IShareTransaction expected = null;
-            IShareTransaction actual = null;
+            ShareTransaction expected = null;
+            ShareTransaction actual = null;
             
             bool filledRaised;
             EventHandler<OrderExecutedEventArgs> filledHandler =
@@ -227,18 +227,18 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             }
         }
 
-        private static void AssertSameTransaction(IShareTransaction expected, IShareTransaction actual)
+        private static void AssertSameTransaction(ShareTransaction expected, ShareTransaction actual)
         {
-            var expectedList = new List<IShareTransaction> {expected};
-            var actualList = new List<IShareTransaction> {actual};
+            var expectedList = new List<ShareTransaction> {expected};
+            var actualList = new List<ShareTransaction> {actual};
             AssertSameTransactions(expectedList, actualList);
         }
 
-        private static void AssertSameTransactions(IEnumerable<IShareTransaction> expected, IEnumerable<IShareTransaction> actual)
+        private static void AssertSameTransactions(IEnumerable<ShareTransaction> expected, IEnumerable<ShareTransaction> actual)
         {
             foreach (var transaction in expected)
             {
-                Func<IShareTransaction, bool> predicate = t => t.SettlementDate == transaction.SettlementDate &&
+                Func<ShareTransaction, bool> predicate = t => t.SettlementDate == transaction.SettlementDate &&
                                                                t.Ticker == transaction.Ticker &&
                                                                // we may simulate price fluctuations, so ignore price
                                                                //t.Price == transaction.Price &&
@@ -351,8 +351,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = TestUtilities.CreateSimulatedTradingAccount();
 
             const string ticker = "DE";
-            IShareTransaction expected = null;
-            IShareTransaction actual = null;
+            ShareTransaction expected = null;
+            ShareTransaction actual = null;
 
             var filledRaised = false;
             EventHandler<OrderExecutedEventArgs> filledHandler =
@@ -407,7 +407,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = TestUtilities.CreateSimulatedTradingAccount();
 
             const string ticker = "DE";
-            IShareTransaction expected = null;
+            ShareTransaction expected = null;
 
             EventHandler<OrderExecutedEventArgs> filledHandler =
                 (sender, e) =>
@@ -435,11 +435,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             }
         }
 
-        private static bool TargetContainsTransaction(ITradingAccount target, IShareTransaction transaction)
+        private static bool TargetContainsTransaction(ITradingAccount target, ShareTransaction transaction)
         {
             var positions = target.Portfolio.Positions;
             var position = positions.First(p => p.Ticker == transaction.Ticker);
-            var transactions = position.Transactions.Cast<IShareTransaction>();
+            var transactions = position.Transactions.Cast<ShareTransaction>();
 
             return transactions.Select(
                 trans => (

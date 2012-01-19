@@ -3,13 +3,13 @@ using System.Collections.Generic;
 namespace Sonneville.PriceTools.Data
 {
     /// <summary>
-    /// A collection of historical <see cref="ITransaction"/>s.
+    /// A collection of historical <see cref="Transaction"/>s.
     /// </summary>
     public interface ITransactionHistory
     {
         /// <summary>
-        /// Gets a list of all <see cref="ITransaction"/>s in the file.
+        /// Gets a list of all <see cref="Transaction"/>s in the file.
         /// </summary>
-        IEnumerable<ITransaction> Transactions { get; }
+        IEnumerable<Transaction> Transactions { get; }
     }
 }

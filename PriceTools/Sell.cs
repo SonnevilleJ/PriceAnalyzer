@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction to sell shares.
     /// </summary>
-    public interface Sell : IShareTransaction
+    public interface Sell : ShareTransaction
     {
     }
 }

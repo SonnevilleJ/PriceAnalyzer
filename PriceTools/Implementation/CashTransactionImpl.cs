@@ -19,10 +19,10 @@ namespace Sonneville.PriceTools.Implementation
 
         #endregion
 
-        #region Implementation of ITransaction
+        #region Implementation of Transaction
 
         /// <summary>
-        ///   Gets the DateTime that the ITransaction occurred.
+        ///   Gets the DateTime that the Transaction occurred.
         /// </summary>
         public DateTime SettlementDate { get; set; }
 

@@ -33,9 +33,9 @@ namespace Sonneville.PriceTools
         string CashTicker { get; }
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        ///   Adds an <see cref="Transaction"/> to this IPortfolio.
         /// </summary>
-        void AddTransaction(ITransaction transaction);
+        void AddTransaction(Transaction transaction);
 
         /// <summary>
         /// Deposits cash to this IPortfolio.
@@ -75,10 +75,10 @@ namespace Sonneville.PriceTools
         IList<IHolding> CalculateHoldings(DateTime settlementDate);
 
         /// <summary>
-        /// Validates an <see cref="ITransaction"/> without adding it to the IPortfolio.
+        /// Validates an <see cref="Transaction"/> without adding it to the IPortfolio.
         /// </summary>
-        /// <param name="transaction">The <see cref="ITransaction"/> to validate.</param>
+        /// <param name="transaction">The <see cref="Transaction"/> to validate.</param>
         /// <returns></returns>
-        bool TransactionIsValid(ITransaction transaction);
+        bool TransactionIsValid(Transaction transaction);
     }
 }

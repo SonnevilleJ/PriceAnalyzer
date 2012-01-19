@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction to reinvest dividends.
     /// </summary>
-    public interface DividendReinvestment : IShareTransaction
+    public interface DividendReinvestment : ShareTransaction
     {
     }
 }

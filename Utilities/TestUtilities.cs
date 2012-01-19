@@ -168,13 +168,13 @@ namespace Sonneville.Utilities
         }
 
         /// <summary>
-        /// Creates an <see cref="IShareTransaction"/> which would result from the perfect execution of <paramref name="order"/>.
+        /// Creates an <see cref="ShareTransaction"/> which would result from the perfect execution of <paramref name="order"/>.
         /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> to use as the SettlementDate for the resulting <see cref="IShareTransaction"/>.</param>
-        /// <param name="order">The <see cref="Order"/> which should define the parameters for the resulting <see cref="IShareTransaction"/>.</param>
-        /// <param name="commission">The commission that should be charged for the resulting <see cref="IShareTransaction"/>.</param>
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use as the SettlementDate for the resulting <see cref="ShareTransaction"/>.</param>
+        /// <param name="order">The <see cref="Order"/> which should define the parameters for the resulting <see cref="ShareTransaction"/>.</param>
+        /// <param name="commission">The commission that should be charged for the resulting <see cref="ShareTransaction"/>.</param>
         /// <returns></returns>
-        public static IShareTransaction CreateShareTransaction(DateTime settlementDate, Order order, decimal commission)
+        public static ShareTransaction CreateShareTransaction(DateTime settlementDate, Order order, decimal commission)
         {
             return TransactionFactory.ConstructShareTransaction(order.OrderType, settlementDate, order.Ticker, order.Price, order.Shares, commission);
         }

@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     ///   Represents a transaction (or order) for a financial security.
     /// </summary>
     [Serializable]
-    public abstract class ShareTransactionImpl : IShareTransaction
+    public abstract class ShareTransactionImpl : ShareTransaction
     {
         #region Private Members
 
@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools.Implementation
         #region Accessors
 
         /// <summary>
-        ///   Gets the DateTime that the ITransaction occurred.
+        ///   Gets the DateTime that the Transaction occurred.
         /// </summary>
         public DateTime SettlementDate { get; set; }
 
@@ -29,12 +29,12 @@ namespace Sonneville.PriceTools.Implementation
         public OrderType OrderType { get; protected set; }
 
         /// <summary>
-        ///   Gets the ticker symbol of the security traded in this IShareTransaction.
+        ///   Gets the ticker symbol of the security traded in this ShareTransaction.
         /// </summary>
         public string Ticker { get; set; }
 
         /// <summary>
-        ///   Gets the amount of securities traded in this IShareTransaction.
+        ///   Gets the amount of securities traded in this ShareTransaction.
         /// </summary>
         public double Shares
         {
@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the value of all securities traded in this IShareTransaction.
+        ///   Gets the value of all securities traded in this ShareTransaction.
         /// </summary>
         public decimal Price
         {
@@ -68,7 +68,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the commission charged for this IShareTransaction.
+        ///   Gets the commission charged for this ShareTransaction.
         /// </summary>
         public decimal Commission
         {

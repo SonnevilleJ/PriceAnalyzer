@@ -333,7 +333,7 @@ namespace Sonneville.PriceTools.Test
                 var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
 
                 var xml = Serializer.SerializeToXml(target);
-                var result = Serializer.DeserializeFromXml<IShareTransaction>(xml);
+                var result = Serializer.DeserializeFromXml<ShareTransaction>(xml);
 
                 TestUtilities.AssertSameState(target, result);
             }

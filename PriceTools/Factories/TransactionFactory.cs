@@ -5,7 +5,7 @@ using Sonneville.PriceTools.Implementation;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Factory object which creates IShareTransaction objects.
+    /// Factory object which creates ShareTransaction objects.
     /// </summary>
     public static class TransactionFactory
     {
@@ -51,17 +51,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static CashTransaction ConstructCashTransaction(OrderType transactionType, DateTime settlementDate, decimal amount)
         {
-            switch (transactionType)
-            {
-                case OrderType.Deposit:
-                    return ConstructDeposit(settlementDate, amount);
-                case OrderType.Withdrawal:
-                    return ConstructWithdrawal(settlementDate, amount);
-                case OrderType.DividendReceipt:
-                    return ConstructDividendReceipt(settlementDate, amount);
-                default:
-                    throw new ArgumentOutOfRangeException("transactionType", transactionType, string.Format(Strings.TransactionFactory_ConstructCashTransaction_Cannot_create_a_CashTransaction_for_an_OrderType_of__0__, transactionType));
-            }
+            return (CashTransaction) ConstructTransaction(transactionType, settlementDate, String.Empty, amount, 0, 0);
         }
 
         /// <summary>
@@ -137,21 +127,21 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a ShareTransaction.
         /// </summary>
-        public static IShareTransaction ConstructShareTransaction(OrderType type, DateTime settlementDate, string ticker, decimal price, double shares, decimal commission)
+        public static ShareTransaction ConstructShareTransaction(OrderType type, DateTime settlementDate, string ticker, decimal price, double shares, decimal commission)
         {
-            return (IShareTransaction) CreateTransaction(settlementDate, type, ticker, price, shares, commission);
+            return (ShareTransaction) ConstructTransaction(type, settlementDate, ticker, price, shares, commission);
         }
 
         /// <summary>
         /// Constructs a Transaction.
         /// </summary>
-        /// <param name="date">The date and time this ShareTransaction took place.</param>
         /// <param name="type">The <see cref="OrderType"/> of this ShareTransaction.</param>
+        /// <param name="date">The date and time this ShareTransaction took place.</param>
         /// <param name="ticker">The ticker of the security bought or sold.</param>
         /// <param name="price">The price at which the ShareTransaction took place.</param>
         /// <param name="shares">The optional number of shares which were traded. Default = 1</param>
         /// <param name="commission">The optional commission paid for this ShareTransaction. Default = $0.00</param>
-        public static ITransaction CreateTransaction(DateTime date, OrderType type, string ticker, decimal price, double shares, decimal commission)
+        public static Transaction ConstructTransaction(OrderType type, DateTime date, string ticker, decimal price, double shares, decimal commission)
         {
             switch (type)
             {

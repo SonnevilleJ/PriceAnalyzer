@@ -72,7 +72,7 @@
     <Compile Include="Order.cs" />
     <Compile Include="MeasurableSecurityBasketExtensions.cs" />
     <Compile Include="Data\IPriceDataProvider.cs" />
-    <Compile Include="OrderFactory.cs" />
+    <Compile Include="Factories\OrderFactory.cs" />
     <Compile Include="PricingType.cs" />
     <Compile Include="TimeSeriesExtensions.cs" />
     <Compile Include="HighLow.cs" />
@@ -85,20 +85,20 @@
     <Compile Include="IPricePeriod.cs" />
     <Compile Include="IPriceQuote.cs" />
     <Compile Include="IPriceSeries.cs" />
-    <Compile Include="ITransaction.cs" />
+    <Compile Include="Transaction.cs" />
     <Compile Include="NewPriceDataAvailableEventArgs.cs" />
-    <Compile Include="PositionFactory.cs" />
+    <Compile Include="Factories\PositionFactory.cs" />
     <Compile Include="PricePeriod.cs" />
-    <Compile Include="PricePeriodFactory.cs" />
+    <Compile Include="Factories\PricePeriodFactory.cs" />
     <Compile Include="PriceSeries.cs" />
-    <Compile Include="PriceSeriesFactory.cs" />
+    <Compile Include="Factories\PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
     <Compile Include="StaticPricePeriod.cs" />
     <Compile Include="PriceQuote.cs" />
     <Compile Include="QuotedPricePeriod.cs" />
     <Compile Include="IPosition.cs" />
     <Compile Include="ITimeSeries.cs" />
-    <Compile Include="IShareTransaction.cs" />
+    <Compile Include="ShareTransaction.cs" />
     <Compile Include="Portfolio.cs" />
     <Compile Include="OrderType.cs" />
     <Compile Include="Position.cs" />
@@ -113,7 +113,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="TransactionFactory.cs" />
+    <Compile Include="Factories\TransactionFactory.cs" />
     <Compile Include="Implementation\WithdrawalImpl.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools
 
         private IPriceSeries _priceSeries;
         private string _ticker;
-        private readonly ICollection<IShareTransaction> _transactions = new List<IShareTransaction>();
+        private readonly ICollection<ShareTransaction> _transactions = new List<ShareTransaction>();
 
         #endregion
 
@@ -212,11 +212,11 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this Position.
+        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
         /// </summary>
-        public IList<ITransaction> Transactions
+        public IList<Transaction> Transactions
         {
-            get { return new List<ITransaction>(_transactions); }
+            get { return new List<Transaction>(_transactions); }
         }
 
         /// <summary>
@@ -280,7 +280,7 @@ namespace Sonneville.PriceTools
         ///   Gets the total commissions paid as of a given date.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s as a negative number.</returns>
+        /// <returns>The total amount of commissions from <see cref = "ShareTransaction" />s as a negative number.</returns>
         public decimal CalculateCommissions(DateTime settlementDate)
         {
             return
@@ -289,10 +289,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Adds an IShareTransaction to the Position.
+        /// Adds an ShareTransaction to the Position.
         /// </summary>
         /// <param name="shareTransaction"></param>
-        public void AddTransaction(IShareTransaction shareTransaction)
+        public void AddTransaction(ShareTransaction shareTransaction)
         {
             // verify shareTransaction is apporpriate for this Position.
             Validate(shareTransaction);
@@ -311,7 +311,7 @@ namespace Sonneville.PriceTools
             var buys = AdditiveTransactions.Where(t => t.SettlementDate < settlementDate).OrderByDescending(t => t.SettlementDate);
             var buysUsed = 0;
             var unusedSharesInCurrentBuy = 0.0;
-            IShareTransaction buy = null;
+            ShareTransaction buy = null;
 
             foreach (var sell in SubtractiveTransactions.Where(t => t.SettlementDate <= settlementDate).OrderByDescending(t => t.SettlementDate))
             {
@@ -364,7 +364,7 @@ namespace Sonneville.PriceTools
         /// Validates a transaction without adding it to the Position.
         /// </summary>
         /// <param name="shareTransaction"></param>
-        public bool TransactionIsValid(IShareTransaction shareTransaction)
+        public bool TransactionIsValid(ShareTransaction shareTransaction)
         {
             try
             {
@@ -392,29 +392,29 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets a list of <see cref = "IShareTransaction" />s which added to this Position.
-        ///   Typically <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" /> <see cref = "IShareTransaction" />s.
+        ///   Gets a list of <see cref = "ShareTransaction" />s which added to this Position.
+        ///   Typically <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" /> <see cref = "ShareTransaction" />s.
         /// </summary>
-        private IEnumerable<IShareTransaction> AdditiveTransactions
+        private IEnumerable<ShareTransaction> AdditiveTransactions
         {
             get { return _transactions.Where(t => Additive.Contains(t.OrderType)); }
         }
 
         /// <summary>
-        ///   Gets a list of <see cref = "IShareTransaction" />s which subtracted from this Position.
-        ///   Typically <see cref = "OrderType.Sell" /> or <see cref = "OrderType.BuyToCover" /> <see cref = "IShareTransaction" />s.
+        ///   Gets a list of <see cref = "ShareTransaction" />s which subtracted from this Position.
+        ///   Typically <see cref = "OrderType.Sell" /> or <see cref = "OrderType.BuyToCover" /> <see cref = "ShareTransaction" />s.
         /// </summary>
-        private IEnumerable<IShareTransaction> SubtractiveTransactions
+        private IEnumerable<ShareTransaction> SubtractiveTransactions
         {
             get { return _transactions.Where(t => Subtractive.Contains(t.OrderType)); }
         }
 
-        private IShareTransaction Last
+        private ShareTransaction Last
         {
             get { return _transactions.OrderBy(t => t.SettlementDate).Last(); }
         }
 
-        private IShareTransaction First
+        private ShareTransaction First
         {
             get { return _transactions.OrderBy(t => t.SettlementDate).First(); }
         }
@@ -434,7 +434,7 @@ namespace Sonneville.PriceTools
             AddTransaction(shareTransaction);
         }
 
-        private void Validate(IShareTransaction shareTransaction)
+        private void Validate(ShareTransaction shareTransaction)
         {
             // Validate OrderType
             switch (shareTransaction.OrderType)

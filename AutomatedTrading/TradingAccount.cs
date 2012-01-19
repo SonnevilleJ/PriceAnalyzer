@@ -96,7 +96,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             return Portfolio.TransactionIsValid(expectedTransaction);
         }
 
-        private void ProcessFill(IShareTransaction transaction)
+        private void ProcessFill(ShareTransaction transaction)
         {
             Portfolio.AddTransaction(transaction);
         }

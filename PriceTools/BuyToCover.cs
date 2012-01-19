@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction to buy shares to cover a previous short sell.
     /// </summary>
-    public interface BuyToCover : IShareTransaction
+    public interface BuyToCover : ShareTransaction
     {
     }
 }

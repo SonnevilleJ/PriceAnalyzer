@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   Represents a IPosition taken using one or more <see cref = "IShareTransaction" />s.
+    ///   Represents a IPosition taken using one or more <see cref = "ShareTransaction" />s.
     /// </summary>
     public interface IPosition : IMeasurableSecurityBasket
     {
@@ -57,10 +57,10 @@ namespace Sonneville.PriceTools
         void SellShort(DateTime settlementDate, double shares, decimal price, decimal commission);
 
         /// <summary>
-        ///   Adds an IShareTransaction to the IPosition.
+        ///   Adds an ShareTransaction to the IPosition.
         /// </summary>
         /// <param name = "shareTransaction"></param>
-        void AddTransaction(IShareTransaction shareTransaction);
+        void AddTransaction(ShareTransaction shareTransaction);
 
         /// <summary>
         /// Gets an <see cref="IList{IHolding}"/> from the transactions in the IPosition.
@@ -73,6 +73,6 @@ namespace Sonneville.PriceTools
         /// Validates a transaction without adding it to the Position.
         /// </summary>
         /// <param name="shareTransaction"></param>
-        bool TransactionIsValid(IShareTransaction shareTransaction);
+        bool TransactionIsValid(ShareTransaction shareTransaction);
     }
 }

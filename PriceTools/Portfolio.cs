@@ -113,7 +113,7 @@ namespace Sonneville.PriceTools
                 //
                 //if (Positions.Count > 0)
                 //{
-                //    IShareTransaction first = Positions.OrderBy(position => position.Head).First().Transactions.OrderBy(trans => trans.SettlementDate).First();
+                //    ShareTransaction first = Positions.OrderBy(position => position.Head).First().Transactions.OrderBy(trans => trans.SettlementDate).First();
 
                 //    earliest = first.SettlementDate;
                 //}
@@ -239,20 +239,20 @@ namespace Sonneville.PriceTools
         ///   Gets the total commissions paid as of a given date.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s.</returns>
+        /// <returns>The total amount of commissions from <see cref = "ShareTransaction" />s.</returns>
         public decimal CalculateCommissions(DateTime settlementDate)
         {
             return Positions.Sum(p => p.CalculateCommissions(settlementDate));
         }
 
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this IPosition.
+        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IPosition.
         /// </summary>
-        public IList<ITransaction> Transactions
+        public IList<Transaction> Transactions
         {
             get
             {
-                var list = new List<ITransaction>();
+                var list = new List<Transaction>();
                 foreach (var p in Positions)
                 {
                     list.AddRange(p.Transactions);
@@ -275,9 +275,9 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this Portfolio.
+        ///   Adds an <see cref="Transaction"/> to this Portfolio.
         /// </summary>
-        public void AddTransaction(ITransaction transaction)
+        public void AddTransaction(Transaction transaction)
         {
             switch (transaction.OrderType)
             {
@@ -392,11 +392,11 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Validates an <see cref="ITransaction"/> without adding it to the IPortfolio.
+        /// Validates an <see cref="Transaction"/> without adding it to the IPortfolio.
         /// </summary>
-        /// <param name="transaction">The <see cref="IShareTransaction"/> to validate.</param>
+        /// <param name="transaction">The <see cref="ShareTransaction"/> to validate.</param>
         /// <returns></returns>
-        public bool TransactionIsValid(ITransaction transaction)
+        public bool TransactionIsValid(Transaction transaction)
         {
             bool sufficientCash;
             switch (transaction.OrderType)
@@ -408,17 +408,17 @@ namespace Sonneville.PriceTools
                     return _cashAccount.TransactionIsValid(cashTransaction);
                 case OrderType.DividendReinvestment:
                 case OrderType.Buy:
-                    var buy = ((IShareTransaction)transaction);
+                    var buy = ((ShareTransaction)transaction);
                     sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
                     return sufficientCash && GetPosition(buy.Ticker, false).TransactionIsValid(buy);
                 case OrderType.SellShort:
                     var sellShort = ((SellShort)transaction);
                     return GetPosition(sellShort.Ticker, false).TransactionIsValid(sellShort);
                 case OrderType.Sell:
-                    var sell = ((IShareTransaction)transaction);
+                    var sell = ((ShareTransaction)transaction);
                     return GetPosition(sell.Ticker, false).TransactionIsValid(sell);
                 case OrderType.BuyToCover:
-                    var buyToCover = ((IShareTransaction)transaction);
+                    var buyToCover = ((ShareTransaction)transaction);
                     sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
                     return sufficientCash && GetPosition(buyToCover.Ticker, false).TransactionIsValid(buyToCover);
                 default:
@@ -455,7 +455,7 @@ namespace Sonneville.PriceTools
             return firstOrDefault == null && !nullAcceptable ? PositionFactory.CreatePosition(ticker) : firstOrDefault;
         }
 
-        private void AddToPosition(IShareTransaction transaction)
+        private void AddToPosition(ShareTransaction transaction)
         {
             var ticker = transaction.Ticker;
             var position = GetPosition(ticker, true);

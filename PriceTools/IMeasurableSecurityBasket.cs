@@ -10,9 +10,9 @@ namespace Sonneville.PriceTools
     public interface IMeasurableSecurityBasket : ITimeSeries
     {
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this IMeasurableSecurityBasket.
+        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IMeasurableSecurityBasket.
         /// </summary>
-        IList<ITransaction> Transactions { get; }
+        IList<Transaction> Transactions { get; }
 
         /// <summary>
         ///   Gets the value of the IMeasurableSecurityBasket, excluding any commissions, as of a given date.
@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools
         ///   Gets the total commissions paid as of a given date.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s.</returns>
+        /// <returns>The total amount of commissions from <see cref = "ShareTransaction" />s.</returns>
         decimal CalculateCommissions(DateTime settlementDate);
 
         /// <summary>

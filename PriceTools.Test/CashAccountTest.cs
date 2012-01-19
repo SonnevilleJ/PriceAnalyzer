@@ -241,12 +241,12 @@ namespace Sonneville.PriceTools.Test
         private class UnknownOrderType : CashTransaction
         {
             /// <summary>
-            ///   Gets the DateTime that the ITransaction occurred.
+            ///   Gets the DateTime that the Transaction occurred.
             /// </summary>
             public DateTime SettlementDate { get; set; }
 
             /// <summary>
-            ///   Gets the <see cref = "PriceTools.OrderType" /> of this ITransaction.
+            ///   Gets the <see cref = "PriceTools.OrderType" /> of this Transaction.
             /// </summary>
             public OrderType OrderType { get; set; }
 

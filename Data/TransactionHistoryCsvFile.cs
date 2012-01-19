@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.Data
         private readonly IDictionary<TransactionColumn, int> _map = new Dictionary<TransactionColumn, int>(5);
         private readonly bool _useTotalBasis;
         private bool _tableParsed;
-        private readonly List<ITransaction> _transactions = new List<ITransaction>();
+        private readonly List<Transaction> _transactions = new List<Transaction>();
 
         #endregion
 
@@ -45,9 +45,9 @@ namespace Sonneville.PriceTools.Data
         #region Public Properties
 
         /// <summary>
-        /// Gets a list of all <see cref="ITransaction"/>s in the file.
+        /// Gets a list of all <see cref="Transaction"/>s in the file.
         /// </summary>
-        public IEnumerable<ITransaction> Transactions
+        public IEnumerable<Transaction> Transactions
         {
             get { return _transactions.OrderBy(t => t.SettlementDate).ThenBy(t => t.OrderType); }
         }
@@ -127,9 +127,9 @@ namespace Sonneville.PriceTools.Data
                         default:
                             throw new NotSupportedException();
                     }
-                    _transactions.Add(TransactionFactory.CreateTransaction(
-                        settlementDate,
+                    _transactions.Add(TransactionFactory.ConstructTransaction(
                         orderType,
+                        settlementDate,
                         ticker,
                         price,
                         shares,
