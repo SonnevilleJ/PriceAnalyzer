@@ -732,13 +732,7 @@ namespace Sonneville.PriceTools.Test
             const decimal price = 50.00m;
             const double shares = 2;
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, price, shares);
-            var dividendReinvestment = new DividendReinvestment
-                                                            {
-                                                                SettlementDate = buyDate.AddDays(1),
-                                                                Ticker = ticker,
-                                                                Price = 1,
-                                                                Shares = shares
-                                                            };
+            var dividendReinvestment = TransactionFactory.ConstructDividendReinvestment(buyDate.AddDays(1), ticker, 1, shares);
 
             target.AddTransaction(buy);
             target.AddTransaction(dividendReinvestment);

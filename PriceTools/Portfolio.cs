@@ -291,7 +291,7 @@ namespace Sonneville.PriceTools
                     Withdraw((Withdrawal)transaction);
                     break;
                 case OrderType.DividendReinvestment:
-                    var dr = ((DividendReinvestment)transaction);
+                    var dr = ((IDividendReinvestment)transaction);
                     if (dr.Ticker == CashTicker)
                     {
                         // DividendReceipt already deposited into cash account,
@@ -304,7 +304,7 @@ namespace Sonneville.PriceTools
                     }
                     break;
                 case OrderType.Buy:
-                    var buy = ((IBuy)transaction);
+                    var buy = ((Buy)transaction);
                     Withdraw(buy.SettlementDate, buy.TotalValue);
                     AddToPosition(buy);
                     break;
@@ -314,7 +314,7 @@ namespace Sonneville.PriceTools
                     AddToPosition(sellShort);
                     break;
                 case OrderType.Sell:
-                    var sell = ((ISell)transaction);
+                    var sell = ((Sell)transaction);
                     AddToPosition(sell);
                     Deposit(sell.SettlementDate, sell.TotalValue);
                     break;

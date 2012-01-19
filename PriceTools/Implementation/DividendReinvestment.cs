@@ -1,14 +1,17 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a transaction to reinvest dividends.
     /// </summary>
-    public sealed class DividendReinvestment : ShareTransaction
+    [Serializable]
+    internal sealed class DividendReinvestment : ShareTransaction, IDividendReinvestment
     {
         /// <summary>
         /// Constructs a DividendReinvestment Transaction.
         /// </summary>
-        public DividendReinvestment()
+        internal DividendReinvestment()
         {
             OrderType = OrderType.DividendReinvestment;
         }

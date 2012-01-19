@@ -430,7 +430,7 @@ namespace Sonneville.PriceTools
 
         private void AddTransaction(double shares, OrderType type, DateTime settlementDate, decimal price, decimal commission)
         {
-            var shareTransaction = TransactionFactory.ConstructShareTransaction(settlementDate, type, Ticker, price, shares, commission);
+            var shareTransaction = TransactionFactory.ConstructShareTransaction(type, settlementDate, Ticker, price, shares, commission);
             AddTransaction(shareTransaction);
         }
 

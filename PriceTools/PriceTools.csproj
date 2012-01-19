@@ -50,21 +50,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IDividendReinvestment.cs" />
     <Compile Include="Implementation\BuyImpl.cs" />
     <Compile Include="BuyToCover.cs" />
     <Compile Include="CashAccount.cs" />
     <Compile Include="Implementation\CashTransactionImpl.cs" />
     <Compile Include="Data\ITransactionHistory.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="IBuy.cs" />
+    <Compile Include="Buy.cs" />
     <Compile Include="Implementation\DepositImpl.cs" />
     <Compile Include="Deposit.cs" />
     <Compile Include="Implementation\DividendReceiptImpl.cs" />
-    <Compile Include="DividendReinvestment.cs" />
+    <Compile Include="Implementation\DividendReinvestment.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
-    <Compile Include="ISell.cs" />
+    <Compile Include="Sell.cs" />
     <Compile Include="Withdrawal.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="MeasurableSecurityBasketExtensions.cs" />

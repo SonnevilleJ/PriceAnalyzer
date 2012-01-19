@@ -65,6 +65,20 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Constructs a DividendReinvestment.
+        /// </summary>
+        /// <param name="settlementDate"></param>
+        /// <param name="ticker"></param>
+        /// <param name="price"></param>
+        /// <param name="shares"></param>
+        /// <param name="commission"></param>
+        /// <returns></returns>
+        public static IDividendReinvestment ConstructDividendReinvestment(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        {
+            return new DividendReinvestment {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
+        }
+
+        /// <summary>
         /// Constructs a Buy.
         /// </summary>
         /// <param name="settlementDate"></param>
@@ -73,7 +87,7 @@ namespace Sonneville.PriceTools
         /// <param name="shares"></param>
         /// <param name="commission"></param>
         /// <returns></returns>
-        public static IBuy ConstructBuy(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        public static Buy ConstructBuy(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
         {
             return new BuyImpl {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
         }
@@ -87,15 +101,43 @@ namespace Sonneville.PriceTools
         /// <param name="shares"></param>
         /// <param name="commission"></param>
         /// <returns></returns>
-        public static ISell ConstructSell(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        public static Sell ConstructSell(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
         {
             return new SellImpl {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
         }
 
         /// <summary>
+        /// Constructs a BuyToCover.
+        /// </summary>
+        /// <param name="settlementDate"></param>
+        /// <param name="ticker"></param>
+        /// <param name="price"></param>
+        /// <param name="shares"></param>
+        /// <param name="commission"></param>
+        /// <returns></returns>
+        public static BuyToCover ConstructBuyToCover(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        {
+            return new BuyToCover {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
+        }
+
+        /// <summary>
+        /// Constructs a SellShort.
+        /// </summary>
+        /// <param name="settlementDate"></param>
+        /// <param name="ticker"></param>
+        /// <param name="price"></param>
+        /// <param name="shares"></param>
+        /// <param name="commission"></param>
+        /// <returns></returns>
+        public static SellShort ConstructSellShort(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        {
+            return new SellShort {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
+        }
+
+        /// <summary>
         /// Constructs a ShareTransaction.
         /// </summary>
-        public static IShareTransaction ConstructShareTransaction(DateTime settlementDate, OrderType type, string ticker, decimal price, double shares, decimal commission)
+        public static IShareTransaction ConstructShareTransaction(OrderType type, DateTime settlementDate, string ticker, decimal price, double shares, decimal commission)
         {
             return (IShareTransaction) CreateTransaction(settlementDate, type, ticker, price, shares, commission);
         }
@@ -131,14 +173,7 @@ namespace Sonneville.PriceTools
                 case OrderType.DividendReceipt:
                     return ConstructDividendReceipt(date, price);
                 case OrderType.DividendReinvestment:
-                    return new DividendReinvestment
-                               {
-                                   SettlementDate = date,
-                                   Ticker = ticker,
-                                   Price = price,
-                                   Shares = shares,
-                                   Commission = commission
-                               };
+                    return ConstructDividendReinvestment(date, ticker, price, shares, commission);
                 case OrderType.Sell:
                     return ConstructSell(date, ticker, price, shares, commission);
                 case OrderType.SellShort:
@@ -151,7 +186,7 @@ namespace Sonneville.PriceTools
                                    Commission = commission
                                };
                 default:
-                    throw new ArgumentOutOfRangeException("type", String.Format(CultureInfo.CurrentCulture, "Unknown OrderType: {0}", type));
+                    throw new ArgumentOutOfRangeException("type", String.Format(CultureInfo.CurrentCulture, Strings.TransactionFactory_CreateTransaction_Unknown_OrderType___0_, type));
             }
         }
     }

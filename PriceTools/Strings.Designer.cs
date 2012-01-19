@@ -169,5 +169,14 @@ namespace Sonneville.PriceTools {
                         "n_OrderType_of__0__", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown OrderType: {0}.
+        /// </summary>
+        internal static string TransactionFactory_CreateTransaction_Unknown_OrderType___0_ {
+            get {
+                return ResourceManager.GetString("TransactionFactory_CreateTransaction_Unknown_OrderType___0_", resourceCulture);
+            }
+        }
     }
 }

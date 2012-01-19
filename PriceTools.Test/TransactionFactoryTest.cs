@@ -330,7 +330,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
 
                 var xml = Serializer.SerializeToXml(target);
                 var result = Serializer.DeserializeFromXml<IShareTransaction>(xml);
@@ -346,7 +346,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
 
                 var expected = settlementDate;
                 var actual = target.SettlementDate;
@@ -361,7 +361,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
 
                 var expected = transactionType;
                 var actual = target.OrderType;
@@ -376,7 +376,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
 
                 var expected = ticker;
                 var actual = target.Ticker;
@@ -391,7 +391,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
 
                 var expected = GetValidPrice(transactionType);
                 var actual = target.Price;
@@ -406,7 +406,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
 
                 var expected = GetValidPrice(transactionType);
                 var actual = target.Price;
@@ -421,7 +421,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
 
                 var expected = GetValidShares();
                 var actual = target.Shares;
@@ -436,7 +436,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetInvalidShares();
                 var commission = GetValidCommission(transactionType);
 
-                TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
             }
 
             protected static void ShareTransactionCommissionValidTest(OrderType transactionType)
@@ -447,7 +447,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
 
                 var expected = GetValidCommission(transactionType);
                 var actual = target.Commission;
@@ -462,7 +462,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetInvalidCommission(transactionType);
 
-                TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
             }
 
             protected static void ShareTransactionTotalValueTest(OrderType transactionType)
@@ -473,7 +473,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(settlementDate, transactionType, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
 
                 var expected = Math.Round(price * (decimal) shares, 2) + commission;
                 var actual = target.TotalValue;

@@ -153,4 +153,7 @@
 	<data name="TransactionFactory_ConstructCashTransaction_Cannot_create_a_CashTransaction_for_an_OrderType_of__0__">
 		<value xml:space="preserve">Cannot create a CashTransaction for an OrderType of {0}.</value>
 	</data>
+	<data name="TransactionFactory_CreateTransaction_Unknown_OrderType___0_">
+		<value xml:space="preserve">Unknown OrderType: {0}</value>
+	</data>
 </root>
