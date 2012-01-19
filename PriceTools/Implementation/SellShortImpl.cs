@@ -1,14 +1,17 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a transaction to short-sell shares.
     /// </summary>
-    public sealed class SellShort : ShareTransaction
+    [Serializable]
+    internal sealed class SellShortImpl : ShareTransaction, ISellShort
     {
         /// <summary>
         /// Constructs a SellShort Transaction.
         /// </summary>
-        public SellShort()
+        internal SellShortImpl()
         {
             OrderType = OrderType.SellShort;
         }

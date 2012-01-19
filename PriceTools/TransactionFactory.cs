@@ -129,9 +129,9 @@ namespace Sonneville.PriceTools
         /// <param name="shares"></param>
         /// <param name="commission"></param>
         /// <returns></returns>
-        public static SellShort ConstructSellShort(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        public static ISellShort ConstructSellShort(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
         {
-            return new SellShort {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
+            return new SellShortImpl {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
         }
 
         /// <summary>
@@ -170,14 +170,7 @@ namespace Sonneville.PriceTools
                 case OrderType.Sell:
                     return ConstructSell(date, ticker, price, shares, commission);
                 case OrderType.SellShort:
-                    return new SellShort
-                               {
-                                   SettlementDate = date,
-                                   Ticker = ticker,
-                                   Price = price,
-                                   Shares = shares,
-                                   Commission = commission
-                               };
+                    return ConstructSellShort(date, ticker, price, shares, commission);
                 default:
                     throw new ArgumentOutOfRangeException("type", String.Format(CultureInfo.CurrentCulture, Strings.TransactionFactory_CreateTransaction_Unknown_OrderType___0_, type));
             }

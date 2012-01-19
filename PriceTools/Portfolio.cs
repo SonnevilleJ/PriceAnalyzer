@@ -309,7 +309,7 @@ namespace Sonneville.PriceTools
                     AddToPosition(buy);
                     break;
                 case OrderType.SellShort:
-                    var sellShort = ((SellShort)transaction);
+                    var sellShort = ((ISellShort)transaction);
                     Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
                     AddToPosition(sellShort);
                     break;
@@ -412,7 +412,7 @@ namespace Sonneville.PriceTools
                     sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
                     return sufficientCash && GetPosition(buy.Ticker, false).TransactionIsValid(buy);
                 case OrderType.SellShort:
-                    var sellShort = ((SellShort)transaction);
+                    var sellShort = ((ISellShort)transaction);
                     return GetPosition(sellShort.Ticker, false).TransactionIsValid(sellShort);
                 case OrderType.Sell:
                     var sell = ((IShareTransaction)transaction);

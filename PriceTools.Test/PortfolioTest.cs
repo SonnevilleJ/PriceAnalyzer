@@ -660,13 +660,7 @@ namespace Sonneville.PriceTools.Test
             const string ticker = "DE";
             const decimal price = 50.00m;
             const double shares = 2;
-            var sellShort = new SellShort
-                                      {
-                                          SettlementDate = buyDate,
-                                          Ticker = ticker,
-                                          Price = price,
-                                          Shares = shares
-                                      };
+            var sellShort = TransactionFactory.ConstructSellShort(buyDate, ticker, price, shares);
             var buyToCover = TransactionFactory.ConstructBuyToCover(buyDate.AddDays(1), ticker, price, shares);
 
             target.AddTransaction(sellShort);
@@ -687,7 +681,7 @@ namespace Sonneville.PriceTools.Test
             const string ticker = "DE";
             const decimal price = 50.00m;
             const double shares = 2;
-            var sellShort = new SellShort { SettlementDate = date, Ticker = ticker, Price = price, Shares = shares };
+            var sellShort = TransactionFactory.ConstructSellShort(date, ticker, price, shares);
             target.AddTransaction(sellShort);
 
             Assert.IsTrue(target.Transactions.Contains(sellShort));
