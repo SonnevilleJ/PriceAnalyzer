@@ -373,5 +373,38 @@ namespace Sonneville.PriceTools.Test
             var actual = target.GetMostRecentWeeklyClose();
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void AddPeriodHourTest()
+        {
+            var target = new DateTime(2012, 1, 19);
+            const Resolution resolution = Resolution.Hours;
+
+            var expected = target.AddHours(1);
+            var actual = target.AddPeriod(resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void AddPeriodDayTest()
+        {
+            var target = new DateTime(2012, 1, 19);
+            const Resolution resolution = Resolution.Days;
+
+            var expected = target.GetFollowingOpen();
+            var actual = target.AddPeriod(resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void AddPeriodWeekTest()
+        {
+            var target = new DateTime(2012, 1, 19);
+            const Resolution resolution = Resolution.Weeks;
+
+            var expected = new DateTime(2012, 1, 26);
+            var actual = target.AddPeriod(resolution);
+            Assert.AreEqual(expected, actual);
+        }
     }
 }

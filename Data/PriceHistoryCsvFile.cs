@@ -179,7 +179,7 @@ namespace Sonneville.PriceTools.Data
                     }
 
                     // find the latest possible tail
-                    var lastLogicalTail = pricePeriods[pricePeriods.Count - 1].Tail.AddTicks((long) resolution);
+                    var lastLogicalTail = pricePeriods[pricePeriods.Count - 1].Tail.AddPeriod(resolution);
 
                     // assign appropriate tail
                     tail = impliedTail.Value > lastLogicalTail ? lastLogicalTail : impliedTail.Value;

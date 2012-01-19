@@ -159,6 +159,22 @@ namespace Sonneville.PriceTools.Extensions
             return firstDayOfMonth.TodaysOpen();
         }
 
+        /// <summary>
+        /// Adds a single period's duration to the given date, while accounting for non-trading days.
+        /// </summary>
+        /// <param name="date"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
+        public static DateTime AddPeriod (this DateTime date, Resolution resolution)
+        {
+            var ticks = (long) resolution;
+            do
+            {
+                date = date.AddTicks(ticks);
+            } while (!date.IsTradingDay());
+            return date;
+        }
+
         #region Private Methods
 
         private static DateTime TodaysClose(this DateTime dateTime)
@@ -169,6 +185,15 @@ namespace Sonneville.PriceTools.Extensions
         private static DateTime TodaysOpen(this DateTime dateTime)
         {
             return dateTime.Date;
+        }
+
+        private static bool IsTradingDay(this DateTime dateTime)
+        {
+            return dateTime.DayOfWeek == DayOfWeek.Monday ||
+                   dateTime.DayOfWeek == DayOfWeek.Tuesday ||
+                   dateTime.DayOfWeek == DayOfWeek.Wednesday ||
+                   dateTime.DayOfWeek == DayOfWeek.Thursday ||
+                   dateTime.DayOfWeek == DayOfWeek.Friday;
         }
 
         #endregion

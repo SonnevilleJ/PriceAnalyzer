@@ -113,7 +113,7 @@ namespace Sonneville.PriceTools.Google.Test
             }
             provider.StopAutoUpdate(priceSeries);
 
-            Assert.AreEqual(1, updateCount);
+            Assert.IsTrue(updateCount >= 1);
         }
 
         [TestMethod]
@@ -138,7 +138,7 @@ namespace Sonneville.PriceTools.Google.Test
             }
             provider.StopAutoUpdate(priceSeries);
 
-            Assert.AreEqual(1, updateCount);
+            Assert.IsTrue(updateCount >= 1);
         }
 
         [TestMethod]
@@ -170,7 +170,7 @@ namespace Sonneville.PriceTools.Google.Test
             provider.StopAutoUpdate(deere);
             provider.StopAutoUpdate(microsoft);
 
-            Assert.IsTrue(deereUpdates == 1 && microsoftUpdates == 1);
+            Assert.IsTrue(deereUpdates >= 1 && microsoftUpdates >= 1);
         }
 
         [TestMethod]
@@ -237,16 +237,12 @@ namespace Sonneville.PriceTools.Google.Test
 
                 provider.StopAutoUpdate(priceSeries);
 
-                const int expected = 1;
-                var actual = updateCount;
-                Assert.AreEqual(expected, actual);
+                Assert.IsTrue(updateCount >= 1);
             }
             finally
             {
                 priceSeries.NewPriceDataAvailable -= handler;
             }
-
-            Assert.IsTrue(updateCount > 0);
         }
 
         private static IPriceDataProvider GetProvider(Func<string, DateTime, DateTime, Resolution, IEnumerable<IPricePeriod>> action = null)
