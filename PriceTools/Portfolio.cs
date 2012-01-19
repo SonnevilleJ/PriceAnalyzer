@@ -319,7 +319,7 @@ namespace Sonneville.PriceTools
                     Deposit(sell.SettlementDate, sell.TotalValue);
                     break;
                 case OrderType.BuyToCover:
-                    var buyToCover = ((IBuyToCover)transaction);
+                    var buyToCover = ((BuyToCover)transaction);
                     AddToPosition(buyToCover);
                     Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
                     break;

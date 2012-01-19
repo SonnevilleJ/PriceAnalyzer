@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DividendReinvestment.cs" />
-    <Compile Include="IBuyToCover.cs" />
+    <Compile Include="BuyToCover.cs" />
     <Compile Include="Implementation\BuyImpl.cs" />
     <Compile Include="Implementation\BuyToCoverImpl.cs" />
     <Compile Include="CashAccount.cs" />

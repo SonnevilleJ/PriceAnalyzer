@@ -115,7 +115,7 @@ namespace Sonneville.PriceTools
         /// <param name="shares"></param>
         /// <param name="commission"></param>
         /// <returns></returns>
-        public static IBuyToCover ConstructBuyToCover(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        public static BuyToCover ConstructBuyToCover(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
         {
             return new BuyToCoverImpl {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
         }
