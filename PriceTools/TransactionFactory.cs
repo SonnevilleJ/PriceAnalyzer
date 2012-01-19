@@ -73,9 +73,9 @@ namespace Sonneville.PriceTools
         /// <param name="shares"></param>
         /// <param name="commission"></param>
         /// <returns></returns>
-        public static IDividendReinvestment ConstructDividendReinvestment(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        public static DividendReinvestment ConstructDividendReinvestment(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
         {
-            return new Implementation.DividendReinvestmentImpl {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
+            return new DividendReinvestmentImpl {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
         }
 
         /// <summary>
@@ -115,9 +115,9 @@ namespace Sonneville.PriceTools
         /// <param name="shares"></param>
         /// <param name="commission"></param>
         /// <returns></returns>
-        public static BuyToCover ConstructBuyToCover(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
+        public static IBuyToCover ConstructBuyToCover(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
         {
-            return new BuyToCover {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
+            return new BuyToCoverImpl {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
         }
 
         /// <summary>
@@ -162,14 +162,7 @@ namespace Sonneville.PriceTools
                 case OrderType.Buy:
                     return ConstructBuy(date, ticker, price, shares, commission);
                 case OrderType.BuyToCover:
-                    return new BuyToCover
-                               {
-                                   SettlementDate = date,
-                                   Ticker = ticker,
-                                   Price = price,
-                                   Shares = shares,
-                                   Commission = commission
-                               };
+                    return ConstructBuyToCover(date, ticker, price, shares, commission);
                 case OrderType.DividendReceipt:
                     return ConstructDividendReceipt(date, price);
                 case OrderType.DividendReinvestment:

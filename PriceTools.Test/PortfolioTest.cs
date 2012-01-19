@@ -667,13 +667,7 @@ namespace Sonneville.PriceTools.Test
                                           Price = price,
                                           Shares = shares
                                       };
-            var buyToCover = new BuyToCover
-                                        {
-                                            SettlementDate = buyDate.AddDays(1),
-                                            Ticker = ticker,
-                                            Price = price,
-                                            Shares = shares
-                                        };
+            var buyToCover = TransactionFactory.ConstructBuyToCover(buyDate.AddDays(1), ticker, price, shares);
 
             target.AddTransaction(sellShort);
             target.AddTransaction(buyToCover);

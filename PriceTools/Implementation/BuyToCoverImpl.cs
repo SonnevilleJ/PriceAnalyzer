@@ -1,14 +1,17 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a transaction to buy shares to cover a previous short sell.
     /// </summary>
-    public sealed class BuyToCover : ShareTransaction
+    [Serializable]
+    internal sealed class BuyToCoverImpl : ShareTransaction, IBuyToCover
     {
         /// <summary>
         /// Constructs a BuyToCover Transaction.
         /// </summary>
-        public BuyToCover()
+        internal BuyToCoverImpl()
         {
             OrderType = OrderType.BuyToCover;
         }
