@@ -1,0 +1,5 @@
+<Configuration>
+  <NamespaceFolders>
+    <SkipFolder>FBE4A744-CACD-4CCC-9746-1692AB3B606B/d:Factories</SkipFolder>
+  </NamespaceFolders>
+</Configuration>
