@@ -17,7 +17,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void DepositTest()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
             target.Deposit(dateTime, amount);
@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools.Test
         [ExpectedException(typeof(InvalidOperationException))]
         public void WithdrawBeforeDepositTest()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void WithdrawAfterDepositTest()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
@@ -62,7 +62,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void RoundingCountTest1()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2011, 9, 16);
             const decimal amount = 500.00m;
             const int iterations = 10000;     // $0.05 transactions
@@ -85,7 +85,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void RoundingCountTest2()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2011, 9, 16);
             const decimal amount = 500.00m;
             const int iterations = 10000;     // $0.05 transactions
@@ -117,7 +117,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void RoundingBalanceTest()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2011, 9, 16);
             const decimal amount = 500.00m;
             const int iterations = 10000;     // $0.05 transactions
@@ -152,7 +152,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void CanWithdrawDividendsTest()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
             var dividendReceipt = TransactionFactory.ConstructDividendReceipt(dateTime, amount);
@@ -170,7 +170,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void DepositWithdrawalTest()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
             target.Deposit(dateTime, amount);
@@ -187,7 +187,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void DepositIsValidTest()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
@@ -202,7 +202,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void WithdrawalIsValidBeforeDepositTest()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
@@ -217,7 +217,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void WithdrawalIsValidAfterDepositTest()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
@@ -231,7 +231,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void UnknownIsNotValid()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
 
             var fakeTransaction = new UnknownOrderType {OrderType = (OrderType) (-1)};
 
@@ -262,7 +262,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void ModifyingTransactionsListDoesNotAffectCashAccountTest()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
             target.Deposit(dateTime, amount);
@@ -279,7 +279,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void ParallelAddTest()
         {
-            ICashAccount target = new CashAccount();
+            var target = CashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2011, 9, 16);
             const decimal amount = 50000.00m;
             const int iterations = 100000;     // $0.05 transactions

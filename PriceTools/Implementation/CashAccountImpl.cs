@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a single account used to hold cash.
     /// </summary>
-    public class CashAccount : ICashAccount
+    [Serializable]
+    internal class CashAccountImpl : ICashAccount
     {
         #region Private Members
 
