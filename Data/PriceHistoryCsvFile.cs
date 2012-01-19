@@ -151,16 +151,17 @@ namespace Sonneville.PriceTools.Data
                 DateTime head;
                 DateTime tail;
 
+                // first head
                 if (i == 0 && impliedHead.HasValue)
                 {
-                    var dateTime = impliedHead.Value;
-                    if (dateTime.DayOfWeek == DayOfWeek.Sunday || dateTime.DayOfWeek == DayOfWeek.Saturday)
+                    // correct weekend
+                    if (impliedHead.Value.DayOfWeek == DayOfWeek.Sunday || impliedHead.Value.DayOfWeek == DayOfWeek.Saturday)
                     {
-                        head = dateTime.GetFollowingOpen();
+                        head = impliedHead.Value.GetFollowingOpen();
                     }
                     else
                     {
-                        head = dateTime.GetMostRecentOpen();
+                        head = impliedHead.Value;
                     }
                 }
                 else
@@ -168,9 +169,20 @@ namespace Sonneville.PriceTools.Data
                     head = GetHead(stagedPeriod.Date, resolution);
                 }
 
+                // last tail
                 if (i == stagedPeriods.Count - 1 && impliedTail.HasValue)
                 {
-                    tail = impliedTail.Value.AddSeconds(1).GetMostRecentClose();
+                    //correct weekend
+                    if (impliedTail.Value.DayOfWeek == DayOfWeek.Sunday || impliedTail.Value.DayOfWeek == DayOfWeek.Saturday)
+                    {
+                        impliedTail = impliedTail.Value.GetMostRecentClose();
+                    }
+
+                    // find the latest possible tail
+                    var lastLogicalTail = pricePeriods[pricePeriods.Count - 1].Tail.AddTicks((long) resolution);
+
+                    // assign appropriate tail
+                    tail = impliedTail.Value > lastLogicalTail ? lastLogicalTail : impliedTail.Value;
                 }
                 else
                 {

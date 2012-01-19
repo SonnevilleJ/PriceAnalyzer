@@ -80,7 +80,7 @@ namespace Sonneville.PriceTools.Google.Test
         }
 
         [TestMethod]
-        public void GoogleDownloadWeeklyTestDates()
+        public void GoogleDownloadWeeklyDoesNotReturnAfterImplied()
         {
             var provider = new GooglePriceDataProvider();
             var head = new DateTime(2011, 1, 3);
