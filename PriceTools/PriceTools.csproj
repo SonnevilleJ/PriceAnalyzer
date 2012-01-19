@@ -61,7 +61,7 @@
     <Compile Include="Implementation\DepositImpl.cs" />
     <Compile Include="Deposit.cs" />
     <Compile Include="Implementation\DividendReceiptImpl.cs" />
-    <Compile Include="Implementation\DividendReinvestment.cs" />
+    <Compile Include="Implementation\DividendReinvestmentImpl.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />

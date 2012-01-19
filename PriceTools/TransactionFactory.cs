@@ -75,7 +75,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static IDividendReinvestment ConstructDividendReinvestment(DateTime settlementDate, string ticker, decimal price, double shares, decimal commission = 0.00m)
         {
-            return new DividendReinvestment {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
+            return new Implementation.DividendReinvestmentImpl {SettlementDate = settlementDate, Ticker = ticker, Price = price, Shares = shares, Commission = commission};
         }
 
         /// <summary>
