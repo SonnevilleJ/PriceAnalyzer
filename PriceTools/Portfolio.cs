@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools
         #region Private Members
 
         private static readonly string DefaultCashTicker = String.Empty;
-        private readonly ICashAccount _iCashAccount = CashAccountFactory.ConstructCashAccount();
+        private readonly CashAccount _cashAccount = CashAccountFactory.ConstructCashAccount();
         private readonly IList<IPosition> _positions = new List<IPosition>();
 
         #endregion
@@ -29,13 +29,13 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a Portfolio and assigns a ticker symbol to use as the Portfolio's <see cref="ICashAccount"/>.
+        /// Constructs a Portfolio and assigns a ticker symbol to use as the Portfolio's <see cref="CashAccount"/>.
         /// </summary>
-        /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
+        /// <param name="ticker">The ticker symbol which is used as the <see cref="CashAccount"/>.</param>
         public Portfolio(string ticker)
         {
             CashTicker = ticker;
-            _iCashAccount = CashAccountFactory.ConstructCashAccount();
+            _cashAccount = CashAccountFactory.ConstructCashAccount();
         }
 
         /// <summary>
@@ -73,7 +73,7 @@ namespace Sonneville.PriceTools
         /// Constructs a Portfolio from a <see cref="ITransactionHistory"/>.
         /// </summary>
         /// <param name="csvFile">The <see cref="ITransactionHistory"/> containing transaction data.</param>
-        /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
+        /// <param name="ticker">The ticker symbol which is used as the <see cref="CashAccount"/>.</param>
         public Portfolio(ITransactionHistory csvFile, string ticker)
             : this(ticker)
         {
@@ -102,9 +102,9 @@ namespace Sonneville.PriceTools
             get
             {
                 var earliest = DateTime.Now;
-                if (_iCashAccount.Transactions.Count > 0)
+                if (_cashAccount.Transactions.Count > 0)
                 {
-                    var first = _iCashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).First();
+                    var first = _cashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).First();
 
                     earliest = first.SettlementDate;
                 }
@@ -132,7 +132,7 @@ namespace Sonneville.PriceTools
                 DateTime? latest = null;
                 if (Positions.Count > 0)
                     latest = Positions.OrderBy(position => position.Tail).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last().SettlementDate;
-                var cashTransactions = _iCashAccount.Transactions.Where(transaction => transaction.SettlementDate > (latest ?? DateTime.MinValue));
+                var cashTransactions = _cashAccount.Transactions.Where(transaction => transaction.SettlementDate > (latest ?? DateTime.MinValue));
                 if (cashTransactions.Count() > 0)
                     latest = cashTransactions.Max(t=>t.SettlementDate);
 
@@ -181,7 +181,7 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetAvailableCash(DateTime settlementDate)
         {
-            return _iCashAccount.GetCashBalance(settlementDate);
+            return _cashAccount.GetCashBalance(settlementDate);
         }
 
         /// <summary>
@@ -257,7 +257,7 @@ namespace Sonneville.PriceTools
                 {
                     list.AddRange(p.Transactions);
                 }
-                list.AddRange(_iCashAccount.Transactions);
+                list.AddRange(_cashAccount.Transactions);
 
                 return list.OrderBy(t => t.SettlementDate).ToList();
             }
@@ -282,7 +282,7 @@ namespace Sonneville.PriceTools
             switch (transaction.OrderType)
             {
                 case OrderType.DividendReceipt:
-                    _iCashAccount.Deposit((DividendReceipt)transaction);
+                    _cashAccount.Deposit((DividendReceipt)transaction);
                     break;
                 case OrderType.Deposit:
                     Deposit((Deposit)transaction);
@@ -333,7 +333,7 @@ namespace Sonneville.PriceTools
         /// <param name="cashAmount">The amount of cash deposited.</param>
         public void Deposit(DateTime settlementDate, decimal cashAmount)
         {
-            _iCashAccount.Deposit(settlementDate, cashAmount);
+            _cashAccount.Deposit(settlementDate, cashAmount);
         }
 
         /// <summary>
@@ -342,7 +342,7 @@ namespace Sonneville.PriceTools
         /// <param name="deposit">The <see cref="PriceTools.Deposit"/> to deposit.</param>
         public void Deposit(Deposit deposit)
         {
-            _iCashAccount.Deposit(deposit);
+            _cashAccount.Deposit(deposit);
         }
 
         /// <summary>
@@ -352,7 +352,7 @@ namespace Sonneville.PriceTools
         /// <param name="cashAmount">The amount of cash withdrawn.</param>
         public void Withdraw(DateTime settlementDate, decimal cashAmount)
         {
-            _iCashAccount.Withdraw(settlementDate, cashAmount);
+            _cashAccount.Withdraw(settlementDate, cashAmount);
         }
 
         /// <summary>
@@ -361,7 +361,7 @@ namespace Sonneville.PriceTools
         /// <param name="withdrawal">The <see cref="Withdrawal"/> to withdraw.</param>
         public void Withdraw(Withdrawal withdrawal)
         {
-            _iCashAccount.Withdraw(withdrawal);
+            _cashAccount.Withdraw(withdrawal);
         }
 
         /// <summary>
@@ -405,7 +405,7 @@ namespace Sonneville.PriceTools
                 case OrderType.Deposit:
                 case OrderType.Withdrawal:
                     var cashTransaction = (CashTransaction) transaction;
-                    return _iCashAccount.TransactionIsValid(cashTransaction);
+                    return _cashAccount.TransactionIsValid(cashTransaction);
                 case OrderType.DividendReinvestment:
                 case OrderType.Buy:
                     var buy = ((ShareTransaction)transaction);

@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a single account used to hold cash.
     /// </summary>
     [Serializable]
-    internal class CashAccountImpl : ICashAccount
+    internal class CashAccountImpl : CashAccount
     {
         #region Private Members
 
@@ -51,7 +51,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Withdraws cash from the ICashAccount.
+        /// Withdraws cash from the CashAccount.
         /// </summary>
         /// <param name="dateTime">The <see cref="DateTime"/> cash is withdrawn from the CashAccount.</param>
         /// <param name="amount">The amount of cash withdrawn from the CashAccount.</param>
@@ -61,7 +61,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Withdraws cash from the ICashAccount.
+        /// Withdraws cash from the CashAccount.
         /// </summary>
         public void Withdraw(Withdrawal withdrawal)
         {
@@ -103,7 +103,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Validates an <see cref="CashTransaction"/> without adding it to the CashAccount.
         /// </summary>
-        /// <param name="cashTransaction">The <see cref="ICashAccount"/> to validate.</param>
+        /// <param name="cashTransaction">The <see cref="CashAccount"/> to validate.</param>
         /// <returns></returns>
         public bool TransactionIsValid(CashTransaction cashTransaction)
         {

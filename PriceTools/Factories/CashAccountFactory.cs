@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools
         /// Constructs a new CashAccount.
         /// </summary>
         /// <returns></returns>
-        public static ICashAccount ConstructCashAccount()
+        public static CashAccount ConstructCashAccount()
         {
             return new CashAccountImpl();
         }

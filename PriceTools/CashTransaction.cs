@@ -3,7 +3,7 @@
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Represents a transaction for an <see cref="ICashAccount"/>.
+    /// Represents a transaction for an <see cref="CashAccount"/>.
     /// </summary>
     public interface CashTransaction : Transaction
     {
