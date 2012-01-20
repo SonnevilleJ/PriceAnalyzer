@@ -27,12 +27,12 @@ namespace Sonneville.PriceTools
     /// </summary>
     internal class QuotedPricePeriodImpl : PricePeriod, IQuotedPricePeriod
     {
-        private readonly IList<PriceQuote> _priceQuotes = new List<PriceQuote>();
+        private readonly List<PriceQuote> _priceQuotes = new List<PriceQuote>();
         
         /// <summary>
         /// The <see cref="PriceQuoteImpl"/>s contained within this QuotedPricePeriod.
         /// </summary>
-        public IList<PriceQuote> PriceQuotes { get { return _priceQuotes; } }
+        public IList<PriceQuote> PriceQuotes { get { return _priceQuotes.AsReadOnly(); } }
 
         #region Overrides of IPricePeriod
 
@@ -77,17 +77,14 @@ namespace Sonneville.PriceTools
         /// <param name = "priceQuotes">The <see cref = "PriceQuote" />s to add.</param>
         public void AddPriceQuotes(params PriceQuote[] priceQuotes)
         {
-            var dates = new DateTime[priceQuotes.Count()];
-            for (var i = 0; i < priceQuotes.Length; i++)
+            foreach (var quote in priceQuotes)
             {
-                var quote = priceQuotes[i];
-                PriceQuotes.Add(quote);
-                dates[i] = quote.SettlementDate;
+                _priceQuotes.Add(quote);
             }
             var args = new NewPriceDataAvailableEventArgs
                            {
-                               Head = dates.Min(dateTime => dateTime),
-                               Tail = dates.Max(dateTime => dateTime)
+                               Head = priceQuotes.Min(quote => quote.SettlementDate),
+                               Tail = priceQuotes.Max(quote => quote.SettlementDate)
                            };
             InvokeNewPriceDataAvailable(args);
         }

@@ -238,6 +238,21 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(3, target.PriceQuotes.Count);
         }
 
+        /// <summary>
+        ///A test for PriceQuotes
+        ///</summary>
+        [TestMethod]
+        [ExpectedException(typeof(NotSupportedException))]
+        public void PriceQuotesChangedTest()
+        {
+            var q1 = TestUtilities.CreateQuote1();
+
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
+            target.PriceQuotes.Add(q1);
+
+            Assert.AreEqual(0, target.PriceQuotes.Count);
+        }
+
         [TestMethod]
         public void NewPriceDataAvailableEventTest()
         {
