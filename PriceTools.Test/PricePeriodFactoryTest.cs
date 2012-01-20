@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Test
 {
@@ -72,6 +75,206 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(close, target.Low);
             Assert.AreEqual(close, target.Close);
             Assert.AreEqual(null, target.Volume);
+        }
+
+        public abstract class QuotedPricePeriodFactoryTestsBase
+        {
+            public abstract void ConstructQuotedPricePeriodQuotesCountTest();
+
+            public abstract void ConstructQuotedPricePeriodHeadTest();
+
+            public abstract void ConstructQuotedPricePeriodTailTest();
+
+            public abstract void ConstructQuotedPricePeriodOpenTest();
+
+            public abstract void ConstructQuotedPricePeriodHighTest();
+
+            public abstract void ConstructQuotedPricePeriodLowTest();
+
+            public abstract void ConstructQuotedPricePeriodCloseTest();
+
+            public abstract void ConstructQuotedPricePeriodVolumeTest();
+
+            public abstract QuotedPricePeriod CallFactoryMethod();
+        }
+
+        [TestClass]
+        public class QuotedPricePeriodFactoryConstructor1Tests : QuotedPricePeriodFactoryTestsBase
+        {
+            [TestMethod]
+            public override void ConstructQuotedPricePeriodQuotesCountTest()
+            {
+                var target = CallFactoryMethod();
+
+                Assert.AreEqual(0, target.PriceQuotes.Count);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public override void ConstructQuotedPricePeriodHeadTest()
+            {
+                var target = CallFactoryMethod();
+
+                var head = target.Head;
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public override void ConstructQuotedPricePeriodTailTest()
+            {
+                var target = CallFactoryMethod();
+
+                var tail = target.Tail;
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public override void ConstructQuotedPricePeriodOpenTest()
+            {
+                var target = CallFactoryMethod();
+
+                var open = target.Open;
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public override void ConstructQuotedPricePeriodHighTest()
+            {
+                var target = CallFactoryMethod();
+
+                var high = target.High;
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public override void ConstructQuotedPricePeriodLowTest()
+            {
+                var target = CallFactoryMethod();
+
+                var low = target.Low;
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public override void ConstructQuotedPricePeriodCloseTest()
+            {
+                var target = CallFactoryMethod();
+
+                var close = target.Close;
+            }
+
+            [TestMethod]
+            public override void ConstructQuotedPricePeriodVolumeTest()
+            {
+                var target = CallFactoryMethod();
+
+                const long expected = 0;
+                var actual = target.Volume;
+                Assert.AreEqual(expected, actual);
+            }
+
+            public override QuotedPricePeriod CallFactoryMethod()
+            {
+                return PricePeriodFactory.ConstructQuotedPricePeriod();
+            }
+        }
+
+        [TestClass]
+        public class QuotedPricePeriodFactoryConstructor2Tests : QuotedPricePeriodFactoryTestsBase
+        {
+            [TestMethod]
+            public override void ConstructQuotedPricePeriodQuotesCountTest()
+            {
+                var target = CallFactoryMethod();
+
+                Assert.AreEqual(PriceQuotes.Count(), target.PriceQuotes.Count);
+            }
+
+            [TestMethod]
+            public override void ConstructQuotedPricePeriodHeadTest()
+            {
+                var target = CallFactoryMethod();
+
+                var expected = PriceQuotes.Min(pq => pq.SettlementDate);
+                var actual = target.Head;
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
+            public override void ConstructQuotedPricePeriodTailTest()
+            {
+                var target = CallFactoryMethod();
+
+                var expected = PriceQuotes.Max(pq => pq.SettlementDate);
+                var actual = target.Tail;
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
+            public override void ConstructQuotedPricePeriodOpenTest()
+            {
+                var target = CallFactoryMethod();
+
+                var expected = PriceQuotes.First().Price;
+                var actual = target.Open;
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
+            public override void ConstructQuotedPricePeriodHighTest()
+            {
+                var target = CallFactoryMethod();
+
+                var expected = PriceQuotes.Max(pq => pq.Price);
+                var actual = target.High;
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
+            public override void ConstructQuotedPricePeriodLowTest()
+            {
+                var target = CallFactoryMethod();
+
+                var expected = PriceQuotes.Min(pq => pq.Price);
+                var actual = target.Low;
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
+            public override void ConstructQuotedPricePeriodCloseTest()
+            {
+                var target = CallFactoryMethod();
+
+                var expected = PriceQuotes.Last().Price;
+                var actual = target.Close;
+                Assert.AreEqual(expected, actual);
+            }
+
+            [TestMethod]
+            public override void ConstructQuotedPricePeriodVolumeTest()
+            {
+                var target = CallFactoryMethod();
+
+                var expected = PriceQuotes.Sum(pq => pq.Volume);
+                var actual = target.Volume;
+                Assert.AreEqual(expected, actual);
+            }
+
+            public override QuotedPricePeriod CallFactoryMethod()
+            {
+                return PricePeriodFactory.ConstructQuotedPricePeriod(PriceQuotes);
+            }
+
+            private static IEnumerable<PriceQuote> PriceQuotes
+            {
+                get
+                {
+                    var quote1 = TestUtilities.CreateQuote1();
+                    var quote2 = TestUtilities.CreateQuote2();
+                    var quote3 = TestUtilities.CreateQuote3();
+                    return new[] {quote1, quote2, quote3};
+                }
+            }
         }
     }
 }
