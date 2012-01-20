@@ -1,4 +1,5 @@
 ﻿using System;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -8,7 +9,7 @@ namespace Sonneville.PriceTools
     public static class PricePeriodFactory
     {
         /// <summary>
-        /// Constructs a StaticPricePeriod object.
+        /// Constructs a PricePeriod with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="tail">The last DateTime of the period.</param>
@@ -21,7 +22,20 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a StaticPricePeriod object.
+        /// Constructs a PricePeriod with static data.
+        /// </summary>
+        /// <param name="head">The first DateTime of the period.</param>
+        /// <param name="resolution">The resolution of the period.</param>
+        /// <param name="close">The per-share price of the last transaction in the period.</param>
+        /// <param name="volume">The total number of shares traded during the period.</param>
+        /// <returns>A PricePeriod object with only a close.</returns>
+        public static IPricePeriod CreateStaticPricePeriod(DateTime head, Resolution resolution, decimal close, long? volume = null)
+        {
+            return CreateStaticPricePeriod(head, resolution, null, null, null, close, volume);
+        }
+
+        /// <summary>
+        /// Constructs a PricePeriod with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="tail">The last DateTime of the period.</param>
@@ -33,11 +47,11 @@ namespace Sonneville.PriceTools
         /// <returns>A PricePeriod object with only a close.</returns>
         public static IPricePeriod CreateStaticPricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
         {
-            return new StaticPricePeriod(head, tail, open, high, low, close, volume);
+            return new StaticPricePeriodImpl(head, tail, open, high, low, close, volume);
         }
 
         /// <summary>
-        /// Constructs a StaticPricePeriod object.
+        /// Constructs a PricePeriod with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="resolution">The resolution of the period.</param>
@@ -47,9 +61,9 @@ namespace Sonneville.PriceTools
         /// <param name="close">The per-share price of the last transaction in the period.</param>
         /// <param name="volume">The total number of shares traded during the period.</param>
         /// <returns>A PricePeriod object with only a close.</returns>
-        public static IPricePeriod CreateStaticPricePeriod(DateTime head, Resolution resolution, decimal open, decimal high, decimal low, decimal close, long volume)
+        public static IPricePeriod CreateStaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
         {
-            return new StaticPricePeriod(head, resolution, open, high, low, close, volume);
+            return new StaticPricePeriodImpl(head, resolution, open, high, low, close, volume);
         }
     }
 }
