@@ -17,7 +17,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         protected DateTime StartDateTime { get; set; }
 
-        public IPriceSeries PriceSeries { get; set; }
+        public PriceSeries PriceSeries { get; set; }
 
         public ITradingAccount TradingAccount { get; set; }
 

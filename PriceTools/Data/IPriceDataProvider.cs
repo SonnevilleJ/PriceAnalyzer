@@ -28,14 +28,14 @@ namespace Sonneville.PriceTools.Data
         IEnumerable<IPricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
-        /// Gets an <see cref="IPriceSeries"/> containing price data for the requested DateTime range.
+        /// Gets an <see cref="PriceSeries"/> containing price data for the requested DateTime range.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
         /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
-        IPriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail, Resolution resolution);
+        PriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
         /// Gets the ticker symbol for a given stock index.
@@ -52,13 +52,13 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         /// Instructs the IPriceDataProvider to periodically update the price data in the <paramref name="priceSeries"/>.
         /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to update.</param>
-        void StartAutoUpdate(IPriceSeries priceSeries);
+        /// <param name="priceSeries">The <see cref="PriceSeries"/> to update.</param>
+        void StartAutoUpdate(PriceSeries priceSeries);
 
         /// <summary>
         /// Instructs the IPriceDataProvider to stop periodically updating the price data in <paramref name="priceSeries"/>.
         /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to stop updating.</param>
-        void StopAutoUpdate(IPriceSeries priceSeries);
+        /// <param name="priceSeries">The <see cref="PriceSeries"/> to stop updating.</param>
+        void StopAutoUpdate(PriceSeries priceSeries);
     }
 }

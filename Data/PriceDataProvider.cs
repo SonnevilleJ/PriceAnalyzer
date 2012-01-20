@@ -7,14 +7,14 @@ using Sonneville.PriceTools.Extensions;
 namespace Sonneville.PriceTools.Data
 {
     /// <summary>
-    ///   Provides price data for <see cref="IPriceSeries"/>.
+    ///   Provides price data for <see cref="PriceSeries"/>.
     /// </summary>
     public abstract class PriceDataProvider : IPriceDataProvider
     {
         #region Private Members
 
-        private readonly IDictionary<IPriceSeries, CancellationTokenSource> _tokens = new Dictionary<IPriceSeries, CancellationTokenSource>();
-        private readonly IDictionary<IPriceSeries, Task> _tasks = new Dictionary<IPriceSeries, Task>();
+        private readonly IDictionary<PriceSeries, CancellationTokenSource> _tokens = new Dictionary<PriceSeries, CancellationTokenSource>();
+        private readonly IDictionary<PriceSeries, Task> _tasks = new Dictionary<PriceSeries, Task>();
 
         #endregion
 
@@ -37,14 +37,14 @@ namespace Sonneville.PriceTools.Data
         }
 
         /// <summary>
-        /// Gets a <see cref="IPriceSeries"/> containing price history.
+        /// Gets a <see cref="PriceSeries"/> containing price history.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
         /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
-        public IPriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail, Resolution resolution)
+        public PriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker, resolution);
             var pricePeriods = GetPricePeriods(ticker, head, tail, resolution);
@@ -56,12 +56,12 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         /// Instructs the IPriceDataProvider to periodically update the price data in the <paramref name="priceSeries"/>.
         /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to update.</param>
-        public void StartAutoUpdate(IPriceSeries priceSeries)
+        /// <param name="priceSeries">The <see cref="PriceSeries"/> to update.</param>
+        public void StartAutoUpdate(PriceSeries priceSeries)
         {
             if (_tasks.ContainsKey(priceSeries))
             {
-                throw new InvalidOperationException("Cannot execute duplicate tasks to update the same IPriceSeries.");
+                throw new InvalidOperationException("Cannot execute duplicate tasks to update the same PriceSeries.");
             }
             var cts = new CancellationTokenSource();
             var token = cts.Token;
@@ -78,8 +78,8 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         /// Instructs the IPriceDataProvider to stop periodically updating the price data in <paramref name="priceSeries"/>.
         /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to stop updating.</param>
-        public void StopAutoUpdate(IPriceSeries priceSeries)
+        /// <param name="priceSeries">The <see cref="PriceSeries"/> to stop updating.</param>
+        public void StopAutoUpdate(PriceSeries priceSeries)
         {
             CancellationTokenSource cts;
             if (_tokens.TryGetValue(priceSeries, out cts))
@@ -112,7 +112,7 @@ namespace Sonneville.PriceTools.Data
         /// </summary>
         /// <param name="priceSeries"></param>
         /// <param name="token"></param>
-        private void UpdateLoop(IPriceSeries priceSeries, CancellationToken token)
+        private void UpdateLoop(PriceSeries priceSeries, CancellationToken token)
         {
             var timeout = new TimeSpan((long) BestResolution);
             while (!token.IsCancellationRequested)
@@ -129,7 +129,7 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         /// Updates the <paramref name="priceSeries"/> with any missing price data.
         /// </summary>
-        private void UpdatePriceSeries(IPriceSeries priceSeries)
+        private void UpdatePriceSeries(PriceSeries priceSeries)
         {
             var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.GetFollowingOpen() : DateTime.Now.GetMostRecentOpen();
             var tail = DateTime.Now.GetMostRecentClose();

@@ -55,7 +55,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Adds one or more <see cref = "PriceQuote" />s to the IPriceSeries.
+        ///   Adds one or more <see cref = "PriceQuote" />s to the PriceSeries.
         /// </summary>
         /// <param name = "priceQuotes">The <see cref = "PriceQuote" />s to add.</param>
         public void AddPriceQuotes(params PriceQuote[] priceQuotes)

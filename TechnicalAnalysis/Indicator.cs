@@ -12,9 +12,9 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         #region Constructors
 
         /// <summary>
-        /// Constructs an Indicator for a given <see cref="IPriceSeries"/>.
+        /// Constructs an Indicator for a given <see cref="PriceSeries"/>.
         /// </summary>
-        /// <param name="timeSeries">The <see cref="IPriceSeries"/> to measure.</param>
+        /// <param name="timeSeries">The <see cref="PriceSeries"/> to measure.</param>
         /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
         protected Indicator(ITimeSeries timeSeries, int lookback)
         {
@@ -133,7 +133,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Determines if the Indicator has a valid value for a given date.
         /// </summary>
-        /// <remarks>Assumes the Indicator has a valid value for every date of the underlying IPriceSeries.</remarks>
+        /// <remarks>Assumes the Indicator has a valid value for every date of the underlying PriceSeries.</remarks>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the Indicator has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)

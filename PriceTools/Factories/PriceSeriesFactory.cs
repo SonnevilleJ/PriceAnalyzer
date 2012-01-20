@@ -3,27 +3,27 @@
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Constructs an <see cref="IPriceSeries"/> object.
+    /// Constructs a <see cref="PriceSeries"/> object.
     /// </summary>
     public static class PriceSeriesFactory
     {
         /// <summary>
-        /// Constructs an <see cref="IPriceSeries"/> for the given ticker.
+        /// Constructs a <see cref="PriceSeries"/> for the given ticker.
         /// </summary>
-        /// <param name="ticker">The ticker symbol of the <see cref="IPriceSeries"/>.</param>
-        /// <returns>The <see cref="IPriceSeries"/> for the given ticker.</returns>
-        public static IPriceSeries CreatePriceSeries(string ticker)
+        /// <param name="ticker">The ticker symbol of the <see cref="PriceSeries"/>.</param>
+        /// <returns>The <see cref="PriceSeries"/> for the given ticker.</returns>
+        public static PriceSeries CreatePriceSeries(string ticker)
         {
             return new PriceSeriesImpl { Ticker = ticker };
         }
 
         /// <summary>
-        /// Constructs an <see cref="IPriceSeries"/> for the given ticker.
+        /// Constructs a <see cref="PriceSeries"/> for the given ticker and resolution.
         /// </summary>
-        /// <param name="ticker">The ticker symbol of the <see cref="IPriceSeries"/>.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of the <see cref="IPricePeriod"/>s contained in the <see cref="IPriceSeries"/>.</param>
-        /// <returns>The <see cref="IPriceSeries"/> for the given ticker.</returns>
-        public static IPriceSeries CreatePriceSeries(string ticker, Resolution resolution)
+        /// <param name="ticker">The ticker symbol of the <see cref="PriceSeries"/>.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of the <see cref="IPricePeriod"/>s contained in the <see cref="PriceSeries"/>.</param>
+        /// <returns>The <see cref="PriceSeries"/> for the given ticker.</returns>
+        public static PriceSeries CreatePriceSeries(string ticker, Resolution resolution)
         {
             return new PriceSeriesImpl(resolution) {Ticker = ticker};
         }

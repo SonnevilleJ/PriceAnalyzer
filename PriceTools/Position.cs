@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools
     {
         #region Private Members
 
-        private IPriceSeries _priceSeries;
+        private PriceSeries _priceSeries;
         private string _ticker;
         private readonly ICollection<ShareTransaction> _transactions = new List<ShareTransaction>();
 
@@ -419,7 +419,7 @@ namespace Sonneville.PriceTools
             get { return _transactions.OrderBy(t => t.SettlementDate).First(); }
         }
 
-        private IPriceSeries PriceSeries
+        private PriceSeries PriceSeries
         {
             get { return _priceSeries ?? (_priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker)); }
         }

@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.Charting
     {
         #region Private Members
 
-        private IPriceSeries _priceSeries;
+        private PriceSeries _priceSeries;
 
         #endregion
 
@@ -102,9 +102,9 @@ namespace Sonneville.PriceTools.Charting
         public DateTime LastDisplayedPeriod { get; private set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="IPriceSeries"/> containing the price data to be charted.
+        /// Gets or sets the <see cref="PriceTools.PriceSeries"/> containing the price data to be charted.
         /// </summary>
-        public IPriceSeries PriceSeries
+        public PriceSeries PriceSeries
         {
             get { return _priceSeries; }
             set

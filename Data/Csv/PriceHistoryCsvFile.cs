@@ -33,7 +33,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <summary>
         /// Constructs a PriceHistoryCsvFile.
         /// </summary>
-        /// <param name="ticker">The ticker which should be assigned to the <see cref="IPriceSeries"/>.</param>
+        /// <param name="ticker">The ticker which should be assigned to the <see cref="PriceTools.PriceSeries"/>.</param>
         /// <param name="stream">The CSV data stream to parse.</param>
         /// <param name="head">The head of the price data contained in the CSV data.</param>
         /// <param name="tail">The tail of the price data contained in the CSV data.</param>
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <summary>
         /// Constructs a PriceHistoryCsvFile.
         /// </summary>
-        /// <param name="ticker">The ticker which should be assigned to the <see cref="IPriceSeries"/>.</param>
+        /// <param name="ticker">The ticker which should be assigned to the <see cref="PriceTools.PriceSeries"/>.</param>
         /// <param name="csvText">The raw CSV data to parse.</param>
         /// <param name="head">The head of the price data contained in the CSV data.</param>
         /// <param name="tail">The tail of the price data contained in the CSV data.</param>
@@ -69,9 +69,9 @@ namespace Sonneville.PriceTools.Data.Csv
         }
 
         /// <summary>
-        /// Gets an <see cref="IPriceSeries"/> containing the price data in the file.
+        /// Gets an <see cref="PriceTools.PriceSeries"/> containing the price data in the file.
         /// </summary>
-        public IPriceSeries PriceSeries { get; private set; }
+        public PriceSeries PriceSeries { get; private set; }
 
         #endregion
 
@@ -138,7 +138,7 @@ namespace Sonneville.PriceTools.Data.Csv
 
         #region Static parsing methods
 
-        private static IPriceSeries BuildPriceSeries(string ticker, IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail)
+        private static PriceSeries BuildPriceSeries(string ticker, IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail)
         {
             stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
             var resolution = SetResolution(stagedPeriods);

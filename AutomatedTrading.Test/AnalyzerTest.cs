@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class AnalyzerTest
     {
-        private static IPriceSeries _priceSeries;
+        private static PriceSeries _priceSeries;
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)

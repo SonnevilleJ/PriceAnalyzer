@@ -3,7 +3,7 @@
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   Specifies the resolution of an IPriceSeries.
+    ///   Specifies the resolution of a PriceSeries.
     /// </summary>
     public enum Resolution : long
     {

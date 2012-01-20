@@ -6,63 +6,63 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    public interface IPriceSeries : IPricePeriod
+    public interface PriceSeries : IPricePeriod
     {
         /// <summary>
-        /// Gets the ticker symbol priced by this IPriceSeries.
+        /// Gets the ticker symbol priced by this PriceSeries.
         /// </summary>
         string Ticker { get; }
 
         /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries.
         /// </summary>
         IList<IPricePeriod> PricePeriods { get; }
 
         /// <summary>
-        /// Gets a collection of reaction moves observed in the IPriceSeries.
+        /// Gets a collection of reaction moves observed in the PriceSeries.
         /// </summary>
         IEnumerable<ReactionMove> ReactionMoves { get; }
 
         /// <summary>
-        /// Gets a collection of reaction highs observed in the IPriceSeries.
+        /// Gets a collection of reaction highs observed in the PriceSeries.
         /// </summary>
         IEnumerable<ReactionMove> ReactionHighs { get; }
 
         /// <summary>
-        /// Gets a collection of reaction lows observed in the IPriceSeries.
+        /// Gets a collection of reaction lows observed in the PriceSeries.
         /// </summary>
         IEnumerable<ReactionMove> ReactionLows { get; }
 
         /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries.
         /// </summary>
-        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this IPriceSeries.</returns>
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         IList<IPricePeriod> GetPricePeriods();
 
         /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
-        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this IPriceSeries.</returns>
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         IList<IPricePeriod> GetPricePeriods(Resolution resolution);
 
         /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
         /// <param name="head">The head of the periods to retrieve.</param>
         /// <param name="tail">The tail of the periods to retrieve.</param>
-        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this IPriceSeries.</returns>
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         IList<IPricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail);
 
         /// <summary>
-        /// Adds price data to the IPriceSeries.
+        /// Adds price data to the PriceSeries.
         /// </summary>
         /// <param name="pricePeriod"></param>
         void AddPriceData(IPricePeriod pricePeriod);
 
         /// <summary>
-        /// Adds price data to the IPriceSeries.
+        /// Adds price data to the PriceSeries.
         /// </summary>
         /// <param name="pricePeriods"></param>
         void AddPriceData(IEnumerable<IPricePeriod> pricePeriods);

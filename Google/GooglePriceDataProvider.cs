@@ -5,7 +5,7 @@ using Sonneville.PriceTools.Data.Csv;
 namespace Sonneville.PriceTools.Google
 {
     /// <summary>
-    /// Parses an <see cref = "IPriceSeries" /> from Google Finance CSV files.
+    /// Parses an <see cref = "PriceSeries" /> from Google Finance CSV files.
     /// </summary>
     public sealed class GooglePriceDataProvider : CsvPriceDataProvider
     {

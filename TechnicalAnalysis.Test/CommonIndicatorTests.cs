@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             Assert.AreEqual(expected, actual);
         }
 
-        private static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
+        private static PriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
         {
             var series = PriceSeriesFactory.CreatePriceSeries("test");
             for (var i = 0; i < count; i++)

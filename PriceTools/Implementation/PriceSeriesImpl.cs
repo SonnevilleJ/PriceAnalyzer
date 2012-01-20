@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    internal class PriceSeriesImpl : PricePeriod, IPriceSeries
+    internal class PriceSeriesImpl : PricePeriod, PriceSeries
     {
         /// <summary>
         /// The default <see cref="Resolution"/> of a PriceSeries.
@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools.Implementation
 
         #endregion
 
-        #region Overrides of IPriceSeries
+        #region Overrides of PriceSeries
 
         /// <summary>
         /// Gets the closing price for the PriceSeries.
@@ -144,7 +144,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the ticker symbol priced by this IPriceSeries.
+        /// Gets the ticker symbol priced by this PriceSeries.
         /// </summary>
         public string Ticker { get; set; }
 
@@ -154,7 +154,7 @@ namespace Sonneville.PriceTools.Implementation
         public IList<IPricePeriod> PricePeriods { get { return GetPricePeriods(); } }
 
         /// <summary>
-        /// Gets a collection of reaction moves observed in the IPriceSeries.
+        /// Gets a collection of reaction moves observed in the PriceSeries.
         /// </summary>
         public IEnumerable<ReactionMove> ReactionMoves
         {
@@ -271,7 +271,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Adds price data to the IPriceSeries.
+        /// Adds price data to the PriceSeries.
         /// </summary>
         /// <param name="pricePeriod"></param>
         public void AddPriceData(IPricePeriod pricePeriod)
@@ -280,7 +280,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Adds price data to the IPriceSeries.
+        /// Adds price data to the PriceSeries.
         /// </summary>
         /// <param name="pricePeriods"></param>
         public void AddPriceData(IEnumerable<IPricePeriod> pricePeriods)

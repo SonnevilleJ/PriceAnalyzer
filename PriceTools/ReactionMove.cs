@@ -3,7 +3,7 @@
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// A intermediate price peak (high) or trough (low) observed within an <see cref="IPriceSeries"/>.
+    /// A intermediate price peak (high) or trough (low) observed within an <see cref="PriceSeries"/>.
     /// </summary>
     public struct ReactionMove
     {
