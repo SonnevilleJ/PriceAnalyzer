@@ -68,6 +68,7 @@
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
+    <Compile Include="QuotedPricePeriod.cs" />
     <Compile Include="SellShort.cs" />
     <Compile Include="Sell.cs" />
     <Compile Include="Withdrawal.cs" />

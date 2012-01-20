@@ -72,7 +72,7 @@ namespace Sonneville.PriceTools
         /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceQuote"/>s.
         /// </summary>
         /// <returns></returns>
-        public static IQuotedPricePeriod ConstructQuotedPricePeriod()
+        public static QuotedPricePeriod ConstructQuotedPricePeriod()
         {
             return new QuotedPricePeriodImpl();
         }
@@ -82,7 +82,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="priceQuotes"></param>
         /// <returns></returns>
-        public static IQuotedPricePeriod ConstructQuotedPricePeriod(IEnumerable<PriceQuote> priceQuotes)
+        public static QuotedPricePeriod ConstructQuotedPricePeriod(IEnumerable<PriceQuote> priceQuotes)
         {
             var period = new QuotedPricePeriodImpl();
             period.AddPriceQuotes(priceQuotes.ToArray());
