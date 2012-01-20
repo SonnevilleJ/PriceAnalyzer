@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.Test
             var target = PriceQuoteFactory.ConstructPriceQuote(settlementDate, price, volume);
 
             var xml = Serializer.SerializeToXml(target);
-            var result = Serializer.DeserializeFromXml<IPriceQuote>(xml);
+            var result = Serializer.DeserializeFromXml<PriceQuote>(xml);
 
             TestUtilities.AssertSameState(target, result);
         }

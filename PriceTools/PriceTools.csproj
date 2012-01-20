@@ -85,7 +85,7 @@
     <Compile Include="MeasurableSecurityBasket.cs" />
     <Compile Include="IPortfolio.cs" />
     <Compile Include="IPricePeriod.cs" />
-    <Compile Include="IPriceQuote.cs" />
+    <Compile Include="PriceQuote.cs" />
     <Compile Include="IPriceSeries.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="NewPriceDataAvailableEventArgs.cs" />

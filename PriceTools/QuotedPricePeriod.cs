@@ -10,12 +10,12 @@ namespace Sonneville.PriceTools
     /// </summary>
     public class QuotedPricePeriod : PricePeriod
     {
-        private readonly IList<IPriceQuote> _priceQuotes = new List<IPriceQuote>();
+        private readonly IList<PriceQuote> _priceQuotes = new List<PriceQuote>();
 
         /// <summary>
         /// The <see cref="PriceQuoteImpl"/>s contained within this QuotedPricePeriod.
         /// </summary>
-        public IList<IPriceQuote> PriceQuotes { get { return _priceQuotes; } }
+        public IList<PriceQuote> PriceQuotes { get { return _priceQuotes; } }
 
         #region Overrides of IPricePeriod
 
@@ -55,10 +55,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Adds one or more <see cref = "IPriceQuote" />s to the IPriceSeries.
+        ///   Adds one or more <see cref = "PriceQuote" />s to the IPriceSeries.
         /// </summary>
-        /// <param name = "priceQuotes">The <see cref = "IPriceQuote" />s to add.</param>
-        public void AddPriceQuotes(params IPriceQuote[] priceQuotes)
+        /// <param name = "priceQuotes">The <see cref = "PriceQuote" />s to add.</param>
+        public void AddPriceQuotes(params PriceQuote[] priceQuotes)
         {
             var dates = new DateTime[priceQuotes.Count()];
             for (var i = 0; i < priceQuotes.Length; i++)

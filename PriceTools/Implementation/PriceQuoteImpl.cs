@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a price quote for a financial security.
     /// </summary>
     [Serializable]
-    internal class PriceQuoteImpl : IPriceQuote
+    internal class PriceQuoteImpl : PriceQuote
     {
         /// <summary>
         /// Constructs a PriceQuote.
@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools.Implementation
             return string.Format("{0}: {1} shares @ {2:c}", SettlementDate, Volume, Price);
         }
 
-        #region Implementation of IPriceQuote
+        #region Implementation of PriceQuote
 
         /// <summary>
         /// The <see cref="DateTime"/> which the price quote is made.

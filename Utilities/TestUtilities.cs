@@ -52,22 +52,22 @@ namespace Sonneville.Utilities
 
         #region Price Quote tools
 
-        public static IPriceQuote CreateQuote1()
+        public static PriceQuote CreateQuote1()
         {
             return PriceQuoteFactory.ConstructPriceQuote(DateTime.Parse("2/28/2011 9:30 AM"), 10, 50);
         }
 
-        public static IPriceQuote CreateQuote2()
+        public static PriceQuote CreateQuote2()
         {
             return PriceQuoteFactory.ConstructPriceQuote(DateTime.Parse("3/1/2011 10:00 AM"), 9, 60);
         }
 
-        public static IPriceQuote CreateQuote3()
+        public static PriceQuote CreateQuote3()
         {
             return PriceQuoteFactory.ConstructPriceQuote(DateTime.Parse("3/2/2011 2:00 PM"), 14, 50);
         }
 
-        public static IPriceQuote CreateQuote4()
+        public static PriceQuote CreateQuote4()
         {
             return PriceQuoteFactory.ConstructPriceQuote(DateTime.Parse("3/2/2011 4:00 PM"), 11, 30);
         }
