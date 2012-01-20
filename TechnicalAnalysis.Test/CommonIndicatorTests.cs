@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             var series = PriceSeriesFactory.CreatePriceSeries("test");
             for (var i = 0; i < count; i++)
             {
-                var period = new QuotedPricePeriod();
+                var period = PricePeriodFactory.ConstructQuotedPricePeriod();
                 period.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(startDate.AddDays(i), price));
                 series.AddPriceData(period);
             }

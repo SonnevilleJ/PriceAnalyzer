@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             target.AddPriceQuotes(q1, q2, q3);
 
             Assert.AreEqual(new TimeSpan(2, 4, 30, 0), target.TimeSpan());
@@ -31,7 +31,7 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             target.AddPriceQuotes(q1, q2, q3);
 
             Assert.AreEqual(q1.Price, target.Open);
@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             target.AddPriceQuotes(q1, q2, q3);
 
             Assert.AreEqual(q3.Price, target.High);
@@ -57,7 +57,7 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             target.AddPriceQuotes(q1, q2, q3);
 
             Assert.AreEqual(q2.Price, target.Low);
@@ -70,7 +70,7 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             target.AddPriceQuotes(q1, q2, q3);
 
             Assert.AreEqual(q3.Price, target.Close);
@@ -83,7 +83,7 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             target.AddPriceQuotes(q1, q2, q3);
 
             Assert.AreEqual(q1.Volume + q2.Volume + q3.Volume, target.Volume);
@@ -97,7 +97,7 @@ namespace Sonneville.PriceTools.Test
             var q3 = TestUtilities.CreateQuote3();
             var q4 = TestUtilities.CreateQuote4();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
 
             target.AddPriceQuotes(q1, q2, q3);
             Assert.AreEqual(new TimeSpan(2, 4, 30, 0), target.TimeSpan());
@@ -114,7 +114,7 @@ namespace Sonneville.PriceTools.Test
             var q3 = TestUtilities.CreateQuote3();
             var q4 = TestUtilities.CreateQuote4();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
 
             target.AddPriceQuotes(q1, q2, q3);
             Assert.AreEqual(q1.Price, target.Open);
@@ -131,7 +131,7 @@ namespace Sonneville.PriceTools.Test
             var q3 = TestUtilities.CreateQuote3();
             var q4 = TestUtilities.CreateQuote4();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
 
             target.AddPriceQuotes(q1, q2, q3);
             Assert.AreEqual(q3.Price, target.High);
@@ -148,7 +148,7 @@ namespace Sonneville.PriceTools.Test
             var q3 = TestUtilities.CreateQuote3();
             var q4 = TestUtilities.CreateQuote4();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
 
             target.AddPriceQuotes(q1, q2, q3);
             Assert.AreEqual(q2.Price, target.Low);
@@ -165,7 +165,7 @@ namespace Sonneville.PriceTools.Test
             var q3 = TestUtilities.CreateQuote3();
             var q4 = TestUtilities.CreateQuote4();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
 
             target.AddPriceQuotes(q1, q2, q3);
             Assert.AreEqual(q3.Price, target.Close);
@@ -182,7 +182,7 @@ namespace Sonneville.PriceTools.Test
             var q3 = TestUtilities.CreateQuote3();
             var q4 = TestUtilities.CreateQuote4();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
 
             target.AddPriceQuotes(q1, q2, q3);
             Assert.AreEqual(q1.Volume + q2.Volume + q3.Volume, target.Volume);
@@ -198,7 +198,7 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             
             target.AddPriceQuotes(q2, q3);
             Assert.AreEqual(q2.Price, target.Open);
@@ -214,7 +214,7 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             target.AddPriceQuotes(q1, q2, q3);
 
             Assert.AreEqual(q2.Price, target[q2.SettlementDate]);
@@ -232,7 +232,7 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             target.AddPriceQuotes(q1, q2, q3);
 
             Assert.AreEqual(3, target.PriceQuotes.Count);
@@ -245,13 +245,13 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             var count = 0;
             target.NewPriceDataAvailable += delegate { count++; };
             target.AddPriceQuotes(q1, q2, q3);
             Assert.AreEqual(1, count);
 
-            target = new QuotedPricePeriod();
+            target = PricePeriodFactory.ConstructQuotedPricePeriod();
             count = 0;
             target.NewPriceDataAvailable += delegate { count++; };
             target.AddPriceQuotes(q1);
@@ -268,7 +268,7 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             target.AddPriceQuotes(q1, q2, q3);
 
             IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> { { q1.SettlementDate, q1.Price }, { q2.SettlementDate, q2.Price }, { q3.SettlementDate, q3.Price } };
@@ -284,7 +284,7 @@ namespace Sonneville.PriceTools.Test
             var q2 = TestUtilities.CreateQuote2();
             var q3 = TestUtilities.CreateQuote3();
 
-            var target = new QuotedPricePeriod();
+            var target = PricePeriodFactory.ConstructQuotedPricePeriod();
             target.AddPriceQuotes(q1, q2, q3);
 
             IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> {{q1.SettlementDate, q1.Price}, {q2.SettlementDate, q2.Price}, {q3.SettlementDate, q3.Price}};

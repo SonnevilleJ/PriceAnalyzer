@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Constructs PricePeriod objects.
+    /// Constructs <see cref="IPricePeriod"/> objects.
     /// </summary>
     public static class PricePeriodFactory
     {
         /// <summary>
-        /// Constructs a PricePeriod with static data.
+        /// Constructs a <see cref="PricePeriod"/> with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="tail">The last DateTime of the period.</param>
@@ -22,7 +24,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a PricePeriod with static data.
+        /// Constructs a <see cref="IPricePeriod"/> with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="resolution">The resolution of the period.</param>
@@ -35,7 +37,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a PricePeriod with static data.
+        /// Constructs a <see cref="IPricePeriod"/> with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="tail">The last DateTime of the period.</param>
@@ -51,7 +53,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a PricePeriod with static data.
+        /// Constructs a <see cref="IPricePeriod"/> with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="resolution">The resolution of the period.</param>
@@ -64,6 +66,27 @@ namespace Sonneville.PriceTools
         public static IPricePeriod CreateStaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
         {
             return new StaticPricePeriodImpl(head, resolution, open, high, low, close, volume);
+        }
+
+        /// <summary>
+        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceQuote"/>s.
+        /// </summary>
+        /// <returns></returns>
+        public static IQuotedPricePeriod ConstructQuotedPricePeriod()
+        {
+            return new QuotedPricePeriodImpl();
+        }
+
+        /// <summary>
+        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceQuote"/>s.
+        /// </summary>
+        /// <param name="priceQuotes"></param>
+        /// <returns></returns>
+        public static IQuotedPricePeriod ConstructQuotedPricePeriod(IEnumerable<PriceQuote> priceQuotes)
+        {
+            var period = new QuotedPricePeriodImpl();
+            period.AddPriceQuotes(priceQuotes.ToArray());
+            return period;
         }
     }
 }
