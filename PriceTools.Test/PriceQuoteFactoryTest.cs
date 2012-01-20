@@ -59,6 +59,17 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
+        public void VolumeDefaultTest()
+        {
+            var settlementDate = GetSettlementDate();
+            var price = GetValidPrice();
+
+            var target = PriceQuoteFactory.ConstructPriceQuote(settlementDate, price);
+
+            Assert.IsNull(target.Volume);
+        }
+
+        [TestMethod]
         public void VolumeValidTest()
         {
             var settlementDate = GetSettlementDate();
