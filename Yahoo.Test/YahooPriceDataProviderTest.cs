@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             var target = provider.GetPriceSeries("DE", head, tail, Resolution.Days);
 
             Assert.AreEqual(Resolution.Days, target.Resolution);
-            foreach (var period in ((PriceSeries)target).PricePeriods)
+            foreach (var period in target.PricePeriods)
             {
                 Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
             }

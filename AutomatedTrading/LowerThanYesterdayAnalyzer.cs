@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             var previousClose = TimeSeries[periods[0].Head];
 
             var args = new List<AnalyzerEventArgs>();
-            for (int i = 1; i < periods.Length; i++)
+            for (var i = 1; i < periods.Length; i++)
             {
                 var currentClose = TimeSeries[periods[i].Head];
                 if (currentClose < previousClose)

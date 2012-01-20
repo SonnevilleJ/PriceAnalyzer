@@ -1140,7 +1140,7 @@ namespace Sonneville.PriceTools.Test
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
 
-            const Resolution expected = PriceSeries.DefaultResolution;
+            var expected = PriceSeriesFactory.CreatePriceSeries(ticker).Resolution;
             var actual = target.Resolution;
 
             Assert.AreEqual(expected, actual);

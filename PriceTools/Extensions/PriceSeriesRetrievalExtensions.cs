@@ -4,7 +4,7 @@ using Sonneville.PriceTools.Data;
 namespace Sonneville.PriceTools.Extensions
 {
     /// <summary>
-    /// A class which holds extension methods for the <see cref="PriceSeries"/> class.
+    /// A class which holds extension methods for <see cref="IPriceSeries"/> classes.
     /// </summary>
     public static class PriceSeriesRetrievalExtensions
     {

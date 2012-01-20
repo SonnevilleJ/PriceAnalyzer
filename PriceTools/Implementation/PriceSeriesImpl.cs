@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.Extensions;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    public class PriceSeries : PricePeriod, IPriceSeries
+    internal class PriceSeriesImpl : PricePeriod, IPriceSeries
     {
         /// <summary>
         /// The default <see cref="Resolution"/> of a PriceSeries.
         /// </summary>
-        public const Resolution DefaultResolution = Resolution.Days;
+        private const Resolution DefaultResolution = Resolution.Days;
 
         #region Private Members
 
@@ -25,12 +25,12 @@ namespace Sonneville.PriceTools
 
         #region Constructors
 
-        internal PriceSeries()
+        internal PriceSeriesImpl()
             : this(DefaultResolution)
         {
         }
 
-        internal PriceSeries(Resolution resolution)
+        internal PriceSeriesImpl(Resolution resolution)
         {
             _resolution = resolution;
         }
@@ -267,7 +267,7 @@ namespace Sonneville.PriceTools
                     let low = periodsInRange.Min(p => p.Low)
                     let close = periodsInRange.Last().Close
                     let volume = periodsInRange.Sum(p => p.Volume)
-                    select PricePeriodFactory.CreateStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).Cast<IPricePeriod>().ToList();
+                    select PricePeriodFactory.CreateStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).ToList();
         }
 
         /// <summary>

@@ -206,7 +206,7 @@ namespace Sonneville.PriceTools
             var heldShares = (decimal) GetHeldShares(settlementDate);
             if (heldShares == 0) return 0;
 
-            if (!PriceSeries.HasValueInRange(settlementDate)) (PriceSeries as PriceSeries).RetrievePriceData(provider, settlementDate);
+            if (!PriceSeries.HasValueInRange(settlementDate)) PriceSeries.RetrievePriceData(provider, settlementDate);
             var price = PriceSeries[settlementDate];
             return heldShares*price;
         }
