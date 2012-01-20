@@ -3,6 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Text;
 using Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Data.Csv;
 
 namespace Sonneville.PriceTools.Yahoo
 {

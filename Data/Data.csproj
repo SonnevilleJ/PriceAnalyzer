@@ -41,10 +41,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CsvPriceDataProvider.cs" />
-    <Compile Include="PriceColumn.cs" />
+    <Compile Include="Csv\CsvPriceDataProvider.cs" />
+    <Compile Include="Csv\PriceColumn.cs" />
     <Compile Include="PriceDataProvider.cs" />
-    <Compile Include="PriceHistoryCsvFile.cs" />
+    <Compile Include="Csv\PriceHistoryCsvFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Serializer.cs" />
     <Compile Include="Strings.Designer.cs">
@@ -52,8 +52,8 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="TransactionColumn.cs" />
-    <Compile Include="TransactionHistoryCsvFile.cs" />
+    <Compile Include="Csv\TransactionColumn.cs" />
+    <Compile Include="Csv\TransactionHistoryCsvFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CsvReader\CsvReader.csproj">

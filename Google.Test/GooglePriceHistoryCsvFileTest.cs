@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.SamplePriceData;
 
 namespace Sonneville.PriceTools.Google.Test

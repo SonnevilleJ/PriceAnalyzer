@@ -6,7 +6,7 @@ using System.IO;
 using System.Linq;
 using LumenWorks.Framework.IO.Csv;
 
-namespace Sonneville.PriceTools.Data
+namespace Sonneville.PriceTools.Data.Csv
 {
     /// <summary>
     ///   Parses a single <see cref = "IPortfolio" /> from CSV data for an investment portfolio.

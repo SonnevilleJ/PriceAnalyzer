@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace Sonneville.PriceTools.Data
+namespace Sonneville.PriceTools.Data.Csv
 {
     /// <summary>
     /// Provides price data from Comma Separated Values (CSV) data sources.

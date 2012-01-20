@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools.Data
         }
 
         /// <summary>
-        /// Gets a <see cref="PriceHistoryCsvFile"/> containing price history.
+        /// Gets a <see cref="IPriceSeries"/> containing price history.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
