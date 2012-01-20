@@ -81,7 +81,7 @@
     <Compile Include="CashAccount.cs" />
     <Compile Include="CashTransaction.cs" />
     <Compile Include="IHolding.cs" />
-    <Compile Include="IMeasurableSecurityBasket.cs" />
+    <Compile Include="MeasurableSecurityBasket.cs" />
     <Compile Include="IPortfolio.cs" />
     <Compile Include="IPricePeriod.cs" />
     <Compile Include="IPriceQuote.cs" />

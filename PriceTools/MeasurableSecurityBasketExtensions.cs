@@ -3,19 +3,19 @@
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// A class which holds extension methods for <see cref="IMeasurableSecurityBasket"/>.
+    /// A class which holds extension methods for <see cref="MeasurableSecurityBasket"/>.
     /// </summary>
     public static class MeasurableSecurityBasketExtensions
     {
         /// <summary>
-        ///   Gets the total rate of return on an annual basis for this IMeasurableSecurityBasket.
+        ///   Gets the total rate of return on an annual basis for this MeasurableSecurityBasket.
         /// </summary>
         /// <param name="basket"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        public static decimal? CalculateAverageAnnualReturn(this IMeasurableSecurityBasket basket, DateTime settlementDate)
+        public static decimal? CalculateAverageAnnualReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
             var totalReturn = basket.CalculateTotalReturn(settlementDate);
             if (totalReturn == null) return null;
@@ -25,12 +25,12 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the total rate of return for this IMeasurableSecurityBasket, after commissions.
+        ///   Gets the total rate of return for this MeasurableSecurityBasket, after commissions.
         /// </summary>
         /// <param name="basket"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>Returns the total rate of return, after commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
-        public static decimal? CalculateTotalReturn(this IMeasurableSecurityBasket basket, DateTime settlementDate)
+        public static decimal? CalculateTotalReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
             var proceeds = basket.CalculateProceeds(settlementDate);
             if (proceeds == 0) return null;
@@ -42,12 +42,12 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the raw rate of return for this IMeasurableSecurityBasket, not accounting for commissions.
+        ///   Gets the raw rate of return for this MeasurableSecurityBasket, not accounting for commissions.
         /// </summary>
         /// <param name="basket"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>Returns the raw rate of return, before commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
-        public static decimal? CalculateRawReturn(this IMeasurableSecurityBasket basket, DateTime settlementDate)
+        public static decimal? CalculateRawReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
             var proceeds = basket.CalculateProceeds(settlementDate);
             if (proceeds == 0) return null;

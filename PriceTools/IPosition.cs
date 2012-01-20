@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   Represents a IPosition taken using one or more <see cref = "ShareTransaction" />s.
     /// </summary>
-    public interface IPosition : IMeasurableSecurityBasket
+    public interface IPosition : MeasurableSecurityBasket
     {
         /// <summary>
         ///   Gets the ticker symbol held by this IPosition.
