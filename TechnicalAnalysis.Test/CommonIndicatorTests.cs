@@ -50,7 +50,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             for (var i = 0; i < count; i++)
             {
                 var period = new QuotedPricePeriod();
-                period.AddPriceQuotes(new PriceQuote { SettlementDate = startDate.AddDays(i), Price = price });
+                period.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(startDate.AddDays(i), price));
                 series.AddPriceData(period);
             }
             return series;

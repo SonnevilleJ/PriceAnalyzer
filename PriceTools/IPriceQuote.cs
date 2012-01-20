@@ -10,16 +10,16 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The <see cref="DateTime"/> which the price quote is made.
         /// </summary>
-        DateTime SettlementDate { get; set; }
+        DateTime SettlementDate { get; }
 
         /// <summary>
         /// The price at which the security is available.
         /// </summary>
-        decimal Price { get; set; }
+        decimal Price { get; }
 
         /// <summary>
         /// The number of shares traded.
         /// </summary>
-        long? Volume { get; set; }
+        long? Volume { get; }
     }
 }

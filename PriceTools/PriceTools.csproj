@@ -53,6 +53,7 @@
     <Compile Include="DividendReinvestment.cs" />
     <Compile Include="BuyToCover.cs" />
     <Compile Include="Factories\CashAccountFactory.cs" />
+    <Compile Include="Factories\PriceQuoteFactory.cs" />
     <Compile Include="Implementation\BuyImpl.cs" />
     <Compile Include="Implementation\BuyToCoverImpl.cs" />
     <Compile Include="Implementation\CashAccountImpl.cs" />
@@ -95,7 +96,7 @@
     <Compile Include="Factories\PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
     <Compile Include="StaticPricePeriod.cs" />
-    <Compile Include="PriceQuote.cs" />
+    <Compile Include="Implementation\PriceQuoteImpl.cs" />
     <Compile Include="QuotedPricePeriod.cs" />
     <Compile Include="IPosition.cs" />
     <Compile Include="ITimeSeries.cs" />

@@ -156,4 +156,10 @@
 	<data name="TransactionFactory_CreateTransaction_Unknown_OrderType___0_">
 		<value xml:space="preserve">Unknown OrderType: {0}</value>
 	</data>
+	<data name="PriceQuoteImpl_PriceQuoteImpl_Quoted_price_must_be_greater_than_zero_">
+		<value xml:space="preserve">Quoted price must be greater than zero.</value>
+	</data>
+	<data name="PriceQuoteImpl_PriceQuoteImpl_Quoted_volume__if_specified__must_be_greater_than_zero_">
+		<value xml:space="preserve">Quoted volume, if specified, must be greater than zero.</value>
+	</data>
 </root>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -12,7 +13,7 @@ namespace Sonneville.PriceTools
         private readonly IList<IPriceQuote> _priceQuotes = new List<IPriceQuote>();
 
         /// <summary>
-        /// The <see cref="PriceQuote"/>s contained within this QuotedPricePeriod.
+        /// The <see cref="PriceQuoteImpl"/>s contained within this QuotedPricePeriod.
         /// </summary>
         public IList<IPriceQuote> PriceQuotes { get { return _priceQuotes; } }
 

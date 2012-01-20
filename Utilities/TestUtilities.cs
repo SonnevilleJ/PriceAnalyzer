@@ -52,44 +52,24 @@ namespace Sonneville.Utilities
 
         #region Price Quote tools
 
-        public static PriceQuote CreateQuote1()
+        public static IPriceQuote CreateQuote1()
         {
-            return new PriceQuote
-            {
-                SettlementDate = DateTime.Parse("2/28/2011 9:30 AM"),
-                Price = 10,
-                Volume = 50
-            };
+            return PriceQuoteFactory.ConstructPriceQuote(DateTime.Parse("2/28/2011 9:30 AM"), 10, 50);
         }
 
-        public static PriceQuote CreateQuote2()
+        public static IPriceQuote CreateQuote2()
         {
-            return new PriceQuote
-            {
-                SettlementDate = DateTime.Parse("3/1/2011 10:00 AM"),
-                Price = 9,
-                Volume = 60
-            };
+            return PriceQuoteFactory.ConstructPriceQuote(DateTime.Parse("3/1/2011 10:00 AM"), 9, 60);
         }
 
-        public static PriceQuote CreateQuote3()
+        public static IPriceQuote CreateQuote3()
         {
-            return new PriceQuote
-            {
-                SettlementDate = DateTime.Parse("3/2/2011 2:00 PM"),
-                Price = 14,
-                Volume = 50
-            };
+            return PriceQuoteFactory.ConstructPriceQuote(DateTime.Parse("3/2/2011 2:00 PM"), 14, 50);
         }
 
-        public static PriceQuote CreateQuote4()
+        public static IPriceQuote CreateQuote4()
         {
-            return new PriceQuote
-            {
-                SettlementDate = DateTime.Parse("3/2/2011 4:00 PM"),
-                Price = 11,
-                Volume = 30
-            };
+            return PriceQuoteFactory.ConstructPriceQuote(DateTime.Parse("3/2/2011 4:00 PM"), 11, 30);
         }
 
         #endregion

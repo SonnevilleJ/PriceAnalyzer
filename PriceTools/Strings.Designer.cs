@@ -134,6 +134,25 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Quoted price must be greater than zero..
+        /// </summary>
+        internal static string PriceQuoteImpl_PriceQuoteImpl_Quoted_price_must_be_greater_than_zero_ {
+            get {
+                return ResourceManager.GetString("PriceQuoteImpl_PriceQuoteImpl_Quoted_price_must_be_greater_than_zero_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quoted volume, if specified, must be greater than zero..
+        /// </summary>
+        internal static string PriceQuoteImpl_PriceQuoteImpl_Quoted_volume__if_specified__must_be_greater_than_zero_ {
+            get {
+                return ResourceManager.GetString("PriceQuoteImpl_PriceQuoteImpl_Quoted_volume__if_specified__must_be_greater_than_z" +
+                        "ero_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Commission for {0} transactions must be 0..
         /// </summary>
         internal static string ShareTransaction_Commission_Commission_for__0__transactions_must_be_0_ {
