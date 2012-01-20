@@ -180,6 +180,105 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Closing price cannot be higher than High price..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_higher_than_High_price_ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_higher_than_H" +
+                        "igh_price_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closing price cannot be lower than Low price..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_lower_than_Low_price_ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_lower_than_Lo" +
+                        "w_price_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Closing price must be greater than or equal to zero..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_must_be_greater_than_or_equal_to_zero_ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_must_be_greater_than_or" +
+                        "_equal_to_zero_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Head must come before Tail..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_StaticPricePeriodImpl_Head_must_come_before_Tail_ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_StaticPricePeriodImpl_Head_must_come_before_Tail_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to High price must be greater than or equal to zero..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_StaticPricePeriodImpl_High_price_must_be_greater_than_or_equal_to_zero_ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_StaticPricePeriodImpl_High_price_must_be_greater_than_or_eq" +
+                        "ual_to_zero_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Low price must be greater than or equal to zero..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_StaticPricePeriodImpl_Low_price_must_be_greater_than_or_equal_to_zero_ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_StaticPricePeriodImpl_Low_price_must_be_greater_than_or_equ" +
+                        "al_to_zero_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opening price cannot be higher than High price..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_cannot_be_higher_than_High_price_ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_cannot_be_higher_than_H" +
+                        "igh_price_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opening price cannot be lower than Low price..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_cannot_be_lower_than_Low_price_ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_cannot_be_lower_than_Lo" +
+                        "w_price_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Opening price must be greater than or equal to zero..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_must_be_greater_than_or_equal_to_zero_ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_must_be_greater_than_or" +
+                        "_equal_to_zero_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Volume must be greater than or equal to zero..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_StaticPricePeriodImpl_Volume_must_be_greater_than_or_equal_to_zero_ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_StaticPricePeriodImpl_Volume_must_be_greater_than_or_equal_" +
+                        "to_zero_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot create a CashTransaction for an OrderType of {0}..
         /// </summary>
         internal static string TransactionFactory_ConstructCashTransaction_Cannot_create_a_CashTransaction_for_an_OrderType_of__0__ {

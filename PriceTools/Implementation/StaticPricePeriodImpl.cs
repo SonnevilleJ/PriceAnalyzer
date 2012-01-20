@@ -30,16 +30,26 @@ namespace Sonneville.PriceTools.Implementation
         internal StaticPricePeriodImpl(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
         {
             // validate first
+            if (open.HasValue && open.Value < 0)
+                throw new ArgumentOutOfRangeException("open", open, Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_must_be_greater_than_or_equal_to_zero_);
+            if (high.HasValue && high.Value < 0)
+                throw new ArgumentOutOfRangeException("high", high, Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_High_price_must_be_greater_than_or_equal_to_zero_);
+            if (low.HasValue && low.Value < 0)
+                throw new ArgumentOutOfRangeException("low", low, Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Low_price_must_be_greater_than_or_equal_to_zero_);
+            if (close < 0)
+                throw new ArgumentOutOfRangeException("close", close, Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_must_be_greater_than_or_equal_to_zero_);
+            if (volume.HasValue && volume.Value <0)
+                throw new ArgumentOutOfRangeException("volume", volume, Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Volume_must_be_greater_than_or_equal_to_zero_);
             if(head > tail) 
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Head_must_come_before_Tail_);
             if(high < open) 
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_cannot_be_higher_than_High_price_);
             if(high < close) 
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_higher_than_High_price_);
             if(low > open) 
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_cannot_be_lower_than_Low_price_);
             if(low > close) 
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_lower_than_Low_price_);
 
             _head = head;
             _tail = tail;
