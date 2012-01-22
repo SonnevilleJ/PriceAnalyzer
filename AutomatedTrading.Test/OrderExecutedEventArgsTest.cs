@@ -17,7 +17,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const decimal commission = 5.00m;
 
             executed = issued.AddSeconds(3);
-            order = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            order = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
             transaction = TransactionFactory.ConstructShareTransaction(orderType, executed, ticker, price, shares, commission);
             target = new OrderExecutedEventArgs(executed, order, transaction);
         }
@@ -77,7 +77,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const decimal commission = 5.00m;
 
             var executed = expired.AddTicks(1);
-            var order = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var order = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
             var transaction = TransactionFactory.ConstructShareTransaction(orderType, executed, ticker, price, shares, commission);
             
             new OrderExecutedEventArgs(executed, order, transaction);

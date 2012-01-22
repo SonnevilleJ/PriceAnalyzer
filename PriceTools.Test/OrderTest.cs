@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            var target = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             var xml = Serializer.SerializeToXml(target);
             var result = Serializer.DeserializeFromXml<Order>(xml);
@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            var target = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             var expected = issued;
             var actual = target.Issued;
@@ -55,7 +55,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            var target = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             var expected = expired;
             var actual = target.Expiration;
@@ -73,7 +73,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            var target = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             const string expected = ticker;
             var actual = target.Ticker;
@@ -103,7 +103,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            var target = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             const decimal expected = price;
             var actual = target.Price;
@@ -120,7 +120,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            var target = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             const OrderType expected = orderType;
             var actual = target.OrderType;
@@ -138,7 +138,7 @@ namespace Sonneville.PriceTools.Test
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.Limit;
 
-            var target = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
             const PricingType expected = pricingType;
             var actual = target.PricingType;
@@ -155,7 +155,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            var target = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             const double expected = shares;
             var actual = target.Shares;
@@ -172,7 +172,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            var target = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             const PricingType expected = PricingType.Market;
             var actual = target.PricingType;
@@ -190,7 +190,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = -100.00m;
 
-            OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
         [TestMethod]
@@ -204,7 +204,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = -5.0;
             const decimal price = 100.00m;
 
-            OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
         [TestMethod]
@@ -218,7 +218,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
         [TestMethod]
@@ -232,7 +232,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
         [TestMethod]
@@ -246,7 +246,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
         [TestMethod]
@@ -260,7 +260,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
         /// <summary>
@@ -285,7 +285,7 @@ namespace Sonneville.PriceTools.Test
                 var orderType = (OrderType) i;
                 try
                 {
-                    OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+                    OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
                     // Order class did not validate appropriately
                     errors.Add(i);
@@ -324,7 +324,7 @@ namespace Sonneville.PriceTools.Test
                 var pricingType = (PricingType)i;
                 try
                 {
-                    OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+                    OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
                     // Order class did not validate appropriately
                     errors.Add(i);
@@ -355,7 +355,7 @@ namespace Sonneville.PriceTools.Test
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.Market | PricingType.Limit;
 
-            OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
         }
 
         /// <summary>
@@ -372,7 +372,7 @@ namespace Sonneville.PriceTools.Test
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.StopMarket;
 
-            var order = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            var order = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
             const PricingType expected = PricingType.StopMarket;
             var actual = order.PricingType;
@@ -393,7 +393,7 @@ namespace Sonneville.PriceTools.Test
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.Stop | PricingType.Limit;
 
-            var order = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            var order = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
             const PricingType expected = PricingType.StopLimit;
             var actual = order.PricingType;
@@ -414,7 +414,7 @@ namespace Sonneville.PriceTools.Test
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.Stop;
 
-            var order = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            var order = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
             const PricingType expected = PricingType.StopMarket;
             var actual = order.PricingType;
@@ -431,7 +431,7 @@ namespace Sonneville.PriceTools.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
 
-            var target = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             var actual = target.ToString();
 

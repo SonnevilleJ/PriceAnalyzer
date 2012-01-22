@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const double shares = 5.0;
             const decimal price = 100.00m;
             
-            order = OrderFactory.Instance.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            order = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
             target = new OrderExpiredEventArgs(order);
         }
 
