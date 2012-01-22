@@ -231,6 +231,18 @@ namespace Sonneville.PriceTools.Implementation
             InvokeNewPriceDataAvailable(eventArgs);
         }
 
+        /// <summary>
+        /// Gets or sets the resolution of PricePeriods to retrieve.
+        /// </summary>
+        public override Resolution Resolution
+        {
+            get { return _resolution; }
+        }
+
+        #endregion
+
+        #region Private Methods
+
         private delegate DateTime GetDateTime(DateTime date);
 
         private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetPairs(Resolution resolution, DateTime head, DateTime tail)
@@ -275,18 +287,6 @@ namespace Sonneville.PriceTools.Implementation
                     throw new NotSupportedException(String.Format("Resolution {0} not supported.", resolution));
             }
         }
-
-        /// <summary>
-        /// Gets or sets the resolution of PricePeriods to retrieve.
-        /// </summary>
-        public override Resolution Resolution
-        {
-            get { return _resolution; }
-        }
-
-        #endregion
-
-        #region Private Methods
 
         /// <summary>
         /// Gets the most recent price at or before <paramref name="settlementDate"/>.

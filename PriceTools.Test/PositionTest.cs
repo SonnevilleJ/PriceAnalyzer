@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools.Test
             target.Sell(cDate, cShares, cPrice, cCommission);
 
             // No longer hold these shares, so CalculateValue should return total value without any commissions.
-            const decimal expected = 550.00m;   // sold all shares for $550.00
+            var expected = GetExpectedValue(oShares, oPrice, cShares, cPrice);
             var actual = target.CalculateValue(cDate);
             Assert.AreEqual(expected, actual);
         }
@@ -54,7 +54,7 @@ namespace Sonneville.PriceTools.Test
             target.Sell(cDate, cShares, cPrice, cCommission);
 
             // No longer hold these shares, so CalculateValue should return total value without any commissions.
-            const decimal expected = 450.00m;   // sold all shares for $450.00
+            var expected = GetExpectedValue(oShares, oPrice, cShares, cPrice);
             var actual = target.CalculateValue(cDate);
             Assert.AreEqual(expected, actual);
         }
@@ -78,7 +78,7 @@ namespace Sonneville.PriceTools.Test
             target.Sell(cDate, cShares, cPrice, cCommission);
 
             // No longer hold these shares, so CalculateTotalValue should return total value minus any commissions.
-            const decimal expected = 534.10m;   // sold all shares for $550.00
+            var expected = GetExpectedTotalValue(cPrice, cShares, cCommission, oPrice, oShares, oCommission);
             var actual = target.CalculateTotalValue(new YahooPriceDataProvider(), cDate);
             Assert.AreEqual(expected, actual);
         }
@@ -102,9 +102,19 @@ namespace Sonneville.PriceTools.Test
             target.Sell(cDate, cShares, cPrice, cCommission);
 
             // No longer hold these shares, so CalculateTotalValue should return total value minus any commissions.
-            const decimal expected = 434.10m;   // sold all shares for $450.00
+            var expected = GetExpectedTotalValue(cPrice, cShares, cCommission, oPrice, oShares, oCommission);
             var actual = target.CalculateTotalValue(new YahooPriceDataProvider(), cDate);
             Assert.AreEqual(expected, actual);
+        }
+
+        private static decimal GetExpectedValue(double openingShares, decimal openingPrice, double closingShares, decimal closingPrice)
+        {
+            return GetExpectedTotalValue(closingPrice, closingShares, 0.00m, openingPrice, openingShares, 0.00m);
+        }
+
+        private static decimal GetExpectedTotalValue(decimal closingPrice, double closingShares, decimal closingCommission, decimal openingPrice, double openingShares, decimal openingCommission)
+        {
+            return ((closingPrice * (decimal)closingShares) - closingCommission) - ((openingPrice * (decimal)openingShares) + openingCommission);
         }
 
         [TestMethod]
@@ -208,142 +218,6 @@ namespace Sonneville.PriceTools.Test
 
             target.Buy(buyDate, shares, price, commission);
             target.Sell(sellDate, shares + 1, price + 10m, commission);
-        }
-
-        [TestMethod]
-        public void CalculateRawReturnTest()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var buyDate = new DateTime(2001, 1, 1);
-            var sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;      // $100.00 per share
-            const double shares = 5;            // 5 shares
-            const decimal commission = 7.95m;   // with $7.95 commission
-
-            target.Buy(buyDate, shares, price, commission);
-            target.Sell(sellDate, shares, price + 10m, commission);
-
-            const decimal expected = 0.1m;      // 10% raw return on investment
-            var actual = target.CalculateRawReturn(sellDate);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void CalculateRawReturnWithoutProceedsTest()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var buyDate = new DateTime(2001, 1, 1);
-            var sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;      // $100.00 per share
-            const double shares = 5;            // 5 shares
-            const decimal commission = 7.95m;   // with $7.95 commission
-
-            target.Buy(buyDate, shares, price, commission);
-
-            Assert.IsNull(target.CalculateRawReturn(sellDate));
-        }
-
-        [TestMethod]
-        public void CalculateTotalReturnTest()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var buyDate = new DateTime(2001, 1, 1);
-            var sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;       // $100.00 per share
-            const double shares = 5;             // 5 shares
-            const decimal commission = 5.00m;    // with $5 commission
-
-            target.Buy(buyDate, shares, price, commission);
-            target.Sell(sellDate, shares, price + 2.00m, commission);
-            
-            const decimal expected = 0.00m;      // 0% return; 100% of original investment
-            var actual = target.CalculateTotalReturn(sellDate);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void CalculateTotalReturnTest2()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var buyDate = new DateTime(2001, 1, 1);
-            var sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;       // $100.00 per share
-            const double shares = 5;             // 5 shares
-            const decimal commission = 0.00m;    // with $0 commission
-
-            target.Buy(buyDate, shares, price, commission);
-            target.Sell(sellDate, shares, price * 2m, commission);
-
-            const decimal expected = 1.00m;      // 100% return; 200% of original investment
-            var actual = target.CalculateTotalReturn(sellDate);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void CalculateTotalReturnWithoutProceedsTest()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var buyDate = new DateTime(2001, 1, 1);
-            var sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;       // $100.00 per share
-            const double shares = 5;             // 5 shares
-            const decimal commission = 5.00m;    // with $5 commission
-
-            target.Buy(buyDate, shares, price, commission);
-            
-            Assert.IsNull(target.CalculateTotalReturn(sellDate));
-        }
-
-        [TestMethod]
-        public void CalculateAverageAnnualReturnTest()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var buyDate = new DateTime(2001, 1, 1);
-            var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
-            const decimal buyPrice = 100.00m;       // $100.00 per share
-            const decimal sellPrice = 112.00m;      // $112.00 per share
-            const double shares = 5;                // 5 shares
-            const decimal commission = 5.00m;       // with $5 commission
-
-            target.Buy(buyDate, shares, buyPrice, commission);
-            target.Sell(sellDate, shares, sellPrice, commission);
-
-            const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
-            var actualReturn = target.CalculateTotalReturn(sellDate);
-            Assert.AreEqual(expectedReturn, actualReturn);
-
-            const decimal expected = 0.5m;          // 50% annual rate return
-            var actual = target.CalculateAverageAnnualReturn(sellDate);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void CalculateAverageAnnualReturnWithoutProceedsTest()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var buyDate = new DateTime(2001, 1, 1);
-            var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
-            const decimal price = 100.00m;          // $100.00 per share
-            const double shares = 5;                // 5 shares
-            const decimal commission = 5.00m;       // with $5 commission
-
-            target.Buy(buyDate, shares, price, commission);
-
-            Assert.IsNull(target.CalculateAverageAnnualReturn(sellDate));
         }
 
         [TestMethod]

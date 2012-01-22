@@ -203,7 +203,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the total value of the Portfolio, including any commissions, as of a given date.
+        ///   Gets the total value of the Portfolio, after any commissions, as of a given date.
         /// </summary>
         /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
@@ -281,53 +281,53 @@ namespace Sonneville.PriceTools
         {
             if (transaction is DividendReceipt)
             {
-                _cashAccount.Deposit((DividendReceipt) transaction);
+                    _cashAccount.Deposit((DividendReceipt)transaction);
             }
             else if (transaction is Deposit)
             {
-                Deposit((Deposit) transaction);
+                    Deposit((Deposit)transaction);
             }
             else if (transaction is Withdrawal)
             {
-                Withdraw((Withdrawal) transaction);
+                    Withdraw((Withdrawal)transaction);
             }
             else if (transaction is DividendReinvestment)
             {
-                var dr = ((DividendReinvestment) transaction);
-                if (dr.Ticker == CashTicker)
-                {
-                    // DividendReceipt already deposited into cash account,
-                    // so no need to "buy" the CashTicker. Do nothing.
-                }
-                else
-                {
-                    Withdraw(dr.SettlementDate, dr.TotalValue);
-                    AddToPosition(dr);
-                }
+                    var dr = ((DividendReinvestment)transaction);
+                    if (dr.Ticker == CashTicker)
+                    {
+                        // DividendReceipt already deposited into cash account,
+                        // so no need to "buy" the CashTicker. Do nothing.
+                    }
+                    else
+                    {
+                        Withdraw(dr.SettlementDate, dr.TotalValue);
+                        AddToPosition(dr);
+                    }
             }
             else if (transaction is Buy)
             {
-                var buy = ((Buy) transaction);
-                Withdraw(buy.SettlementDate, buy.TotalValue);
-                AddToPosition(buy);
+                    var buy = ((Buy)transaction);
+                    Withdraw(buy.SettlementDate, buy.TotalValue);
+                    AddToPosition(buy);
             }
             else if (transaction is SellShort)
             {
-                var sellShort = ((SellShort) transaction);
-                Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
-                AddToPosition(sellShort);
+                    var sellShort = ((SellShort)transaction);
+                    Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
+                    AddToPosition(sellShort);
             }
             else if (transaction is Sell)
             {
-                var sell = ((Sell) transaction);
-                AddToPosition(sell);
-                Deposit(sell.SettlementDate, sell.TotalValue);
+                    var sell = ((Sell)transaction);
+                    AddToPosition(sell);
+                    Deposit(sell.SettlementDate, sell.TotalValue);
             }
             else if (transaction is BuyToCover)
             {
-                var buyToCover = ((BuyToCover) transaction);
-                AddToPosition(buyToCover);
-                Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
+                    var buyToCover = ((BuyToCover)transaction);
+                    AddToPosition(buyToCover);
+                    Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
             }
         }
 
@@ -375,8 +375,7 @@ namespace Sonneville.PriceTools
         /// <param name="transactionHistory">The historical transactions to add.</param>
         public void AddTransactionHistory(ITransactionHistory transactionHistory)
         {
-            var transactions = transactionHistory.Transactions;
-            foreach (var transaction in transactions)
+            foreach (var transaction in transactionHistory.Transactions)
             {
                 AddTransaction(transaction);
             }
@@ -407,34 +406,34 @@ namespace Sonneville.PriceTools
             bool sufficientCash;
             if (transaction is DividendReceipt || transaction is Deposit || transaction is Withdrawal)
             {
-                var cashTransaction = (CashTransaction) transaction;
-                return _cashAccount.TransactionIsValid(cashTransaction);
+                    var cashTransaction = (CashTransaction) transaction;
+                    return _cashAccount.TransactionIsValid(cashTransaction);
             }
             if (transaction is DividendReinvestment || transaction is Buy)
             {
-                var buy = ((ShareTransaction) transaction);
-                sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
-                return sufficientCash && GetPosition(buy.Ticker, false).TransactionIsValid(buy);
+                    var buy = ((ShareTransaction)transaction);
+                    sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
+                    return sufficientCash && GetPosition(buy.Ticker, false).TransactionIsValid(buy);
             }
             if (transaction is SellShort)
             {
-                var sellShort = ((SellShort) transaction);
-                return GetPosition(sellShort.Ticker, false).TransactionIsValid(sellShort);
+                    var sellShort = ((SellShort)transaction);
+                    return GetPosition(sellShort.Ticker, false).TransactionIsValid(sellShort);
             }
             if (transaction is Sell)
             {
-                var sell = ((ShareTransaction) transaction);
-                return GetPosition(sell.Ticker, false).TransactionIsValid(sell);
+                    var sell = ((ShareTransaction)transaction);
+                    return GetPosition(sell.Ticker, false).TransactionIsValid(sell);
             }
             if (transaction is BuyToCover)
             {
-                var buyToCover = ((ShareTransaction) transaction);
-                sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
-                return sufficientCash && GetPosition(buyToCover.Ticker, false).TransactionIsValid(buyToCover);
+                    var buyToCover = ((ShareTransaction)transaction);
+                    sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
+                    return sufficientCash && GetPosition(buyToCover.Ticker, false).TransactionIsValid(buyToCover);
             }
-            // unknown order type
-            return false;
-        }
+                    // unknown order type
+                    return false;
+            }
 
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.

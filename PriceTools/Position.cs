@@ -56,40 +56,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the average cost of all held shares in this Position as of a given date.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The average cost of all shares held at <paramref name = "settlementDate" />.</returns>
-        public decimal CalculateAverageCost(DateTime settlementDate)
-        {
-            var transactions = _transactions
-                .Where(transaction => transaction.SettlementDate <= settlementDate)
-                .OrderBy(transaction => transaction.SettlementDate).ToList();
-            var count = transactions.Count();
-
-            var totalCost = 0.00m;
-            var shares = 0.0;
-
-            for (var i = 0; i < count; i++)
-            {
-                var transaction = transactions[i];
-                if (transaction is Buy || transaction is SellShort ||
-                    transaction is DividendReinvestment)
-                {
-                    totalCost += (transaction.Price*(decimal) transaction.Shares);
-                    shares += transaction.Shares;
-                }
-                else if (transaction is Sell || transaction is BuyToCover)
-                {
-                    totalCost -= ((totalCost/(decimal) shares)*(decimal) transaction.Shares);
-                    shares -= transaction.Shares;
-                }
-            }
-
-            return totalCost/(decimal) shares;
-        }
-
-        /// <summary>
         ///   Buys shares of the ticker held by this IPosition.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
@@ -220,8 +186,7 @@ namespace Sonneville.PriceTools
         public decimal CalculateValue(DateTime settlementDate)
         {
             var proceeds = CalculateProceeds(settlementDate); // positive proceeds = gain, negative proceeds = loss
-            var totalCosts = CalculateCost(settlementDate);
-                // positive totalCosts = revenue, negative totalCosts = expense
+            var totalCosts = CalculateCost(settlementDate);     // positive totalCosts = revenue, negative totalCosts = expense
 
             var heldShares = GetHeldShares(settlementDate);
             var totalShares = GetOpenedShares(settlementDate);
@@ -231,11 +196,11 @@ namespace Sonneville.PriceTools
             {
                 costOfUnsoldShares = totalCosts*(decimal) (heldShares/totalShares);
             }
-            return proceeds + costOfUnsoldShares;
+            return proceeds - totalCosts - costOfUnsoldShares;
         }
 
         /// <summary>
-        ///   Gets the total value of the Position, including any commissions, as of a given date.
+        ///   Gets the total value of the Position, after any commissions, as of a given date.
         /// </summary>
         /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
@@ -428,19 +393,19 @@ namespace Sonneville.PriceTools
             // Validate OrderType
             if (shareTransaction is Buy || shareTransaction is SellShort)
             {
-                // new holdings are OK
+                    // new holdings are OK
             }
             else if (shareTransaction is BuyToCover || shareTransaction is Sell)
             {
-                var date = shareTransaction.SettlementDate;
-                var heldShares = GetHeldShares(date);
-                if (shareTransaction.Shares > heldShares)
-                {
-                    throw new InvalidOperationException(
-                        String.Format(CultureInfo.CurrentCulture,
-                                      "This Transaction requires {0} shares, but only {1} shares are held by this Position as of {2}.",
-                                      shareTransaction.Shares, heldShares, date));
-                }
+                    var date = shareTransaction.SettlementDate;
+                    var heldShares = GetHeldShares(date);
+                    if (shareTransaction.Shares > heldShares)
+                    {
+                        throw new InvalidOperationException(
+                            String.Format(CultureInfo.CurrentCulture,
+                                          "This Transaction requires {0} shares, but only {1} shares are held by this Position as of {2}.",
+                                          shareTransaction.Shares, heldShares, date));
+                    }
             }
         }
 
@@ -450,9 +415,7 @@ namespace Sonneville.PriceTools
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         private double GetHeldShares(DateTime date)
         {
-            var openedShares = GetOpenedShares(date);
-            var closedShares = GetClosedShares(date);
-            return openedShares - closedShares;
+            return GetOpenedShares(date) - GetClosedShares(date);
         }
 
         /// <summary>
