@@ -19,27 +19,6 @@ namespace Sonneville.PriceTools
         IList<IPricePeriod> PricePeriods { get; }
 
         /// <summary>
-        /// Gets a collection of reaction moves observed in the PriceSeries.
-        /// </summary>
-        IEnumerable<ReactionMove> ReactionMoves { get; }
-
-        /// <summary>
-        /// Gets a collection of reaction highs observed in the PriceSeries.
-        /// </summary>
-        IEnumerable<ReactionMove> ReactionHighs { get; }
-
-        /// <summary>
-        /// Gets a collection of reaction lows observed in the PriceSeries.
-        /// </summary>
-        IEnumerable<ReactionMove> ReactionLows { get; }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries.
-        /// </summary>
-        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
-        IList<IPricePeriod> GetPricePeriods();
-
-        /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
