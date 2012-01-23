@@ -13,7 +13,6 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         internal DividendReceiptImpl()
         {
-            OrderType = OrderType.DividendReceipt;
         }
     }
 }

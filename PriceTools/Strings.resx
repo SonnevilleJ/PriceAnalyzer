@@ -123,10 +123,7 @@
   <data name="ShareTransaction_Commission_Commission_must_be_greater_than_or_equal_to_0_" xml:space="preserve">
     <value>Commission must be greater than or equal to 0.</value>
   </data>
-  <data name="ShareTransaction_Commission_Commission_for__0__transactions_must_be_0_" xml:space="preserve">
-    <value>Commission for {0} transactions must be 0.</value>
-  </data>
-  <data name="ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_" xml:space="preserve">
+	<data name="ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_" xml:space="preserve">
     <value>Shares must be greater than or equal to 0.</value>
   </data>
   <data name="Position_AddTransaction_Cannot_add_this_transaction_to_the_position_" xml:space="preserve">
@@ -191,5 +188,8 @@
 	</data>
 	<data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_lower_than_Low_price_">
 		<value xml:space="preserve">Closing price cannot be lower than Low price.</value>
+	</data>
+	<data name="ShareTransactionImpl_Commission_Commission_for_dividend_receipts_must_be_0_">
+		<value xml:space="preserve">Commission for dividend receipts must be 0.</value>
 	</data>
 </root>

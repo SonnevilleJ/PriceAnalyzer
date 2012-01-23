@@ -153,15 +153,6 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Commission for {0} transactions must be 0..
-        /// </summary>
-        internal static string ShareTransaction_Commission_Commission_for__0__transactions_must_be_0_ {
-            get {
-                return ResourceManager.GetString("ShareTransaction_Commission_Commission_for__0__transactions_must_be_0_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Commission must be greater than or equal to 0..
         /// </summary>
         internal static string ShareTransaction_Commission_Commission_must_be_greater_than_or_equal_to_0_ {
@@ -176,6 +167,15 @@ namespace Sonneville.PriceTools {
         internal static string ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_ {
             get {
                 return ResourceManager.GetString("ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Commission for dividend receipts must be 0..
+        /// </summary>
+        internal static string ShareTransactionImpl_Commission_Commission_for_dividend_receipts_must_be_0_ {
+            get {
+                return ResourceManager.GetString("ShareTransactionImpl_Commission_Commission_for_dividend_receipts_must_be_0_", resourceCulture);
             }
         }
         

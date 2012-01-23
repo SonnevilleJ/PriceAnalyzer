@@ -13,7 +13,6 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         internal WithdrawalImpl()
         {
-            OrderType = OrderType.Withdrawal;
         }
     }
 }

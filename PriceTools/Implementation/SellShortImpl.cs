@@ -8,12 +8,5 @@ namespace Sonneville.PriceTools.Implementation
     [Serializable]
     internal sealed class SellShortImpl : ShareTransactionImpl, SellShort
     {
-        /// <summary>
-        /// Constructs a SellShort Transaction.
-        /// </summary>
-        internal SellShortImpl()
-        {
-            OrderType = OrderType.SellShort;
-        }
     }
 }

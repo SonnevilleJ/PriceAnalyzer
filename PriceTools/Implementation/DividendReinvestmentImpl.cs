@@ -8,12 +8,5 @@ namespace Sonneville.PriceTools.Implementation
     [Serializable]
     internal sealed class DividendReinvestmentImpl : ShareTransactionImpl, DividendReinvestment
     {
-        /// <summary>
-        /// Constructs a DividendReinvestment Transaction.
-        /// </summary>
-        internal DividendReinvestmentImpl()
-        {
-            OrderType = OrderType.DividendReinvestment;
-        }
     }
 }

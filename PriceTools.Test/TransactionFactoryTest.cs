@@ -26,11 +26,6 @@ namespace Sonneville.PriceTools.Test
             public abstract void SettlementDateTest();
 
             /// <summary>
-            ///A test for OrderType
-            ///</summary>
-            public abstract void OrderTypeTest();
-
-            /// <summary>
             ///A test for Amount
             ///</summary>
             public abstract void AmountValidTest();
@@ -57,18 +52,6 @@ namespace Sonneville.PriceTools.Test
 
                 var expected = date;
                 var actual = target.SettlementDate;
-                Assert.AreEqual(expected, actual);
-            }
-
-            protected static void CashTransactionOrderTypeTest(OrderType transactionType)
-            {
-                var date = GetSettlementDate();
-                var amount = GetValidAmount(transactionType);
-
-                var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
-
-                var expected = transactionType;
-                var actual = target.OrderType;
                 Assert.AreEqual(expected, actual);
             }
 
@@ -151,15 +134,6 @@ namespace Sonneville.PriceTools.Test
             }
 
             /// <summary>
-            ///A test for OrderType
-            ///</summary>
-            [TestMethod]
-            public override void OrderTypeTest()
-            {
-                CashTransactionOrderTypeTest(TransactionType);
-            }
-
-            /// <summary>
             ///A test for Amount
             ///</summary>
             [TestMethod]
@@ -196,15 +170,6 @@ namespace Sonneville.PriceTools.Test
             public override void SettlementDateTest()
             {
                 CashTransactionSettlementDateTest(TransactionType);
-            }
-
-            /// <summary>
-            ///A test for OrderType
-            ///</summary>
-            [TestMethod]
-            public override void OrderTypeTest()
-            {
-                CashTransactionOrderTypeTest(TransactionType);
             }
 
             /// <summary>
@@ -247,15 +212,6 @@ namespace Sonneville.PriceTools.Test
             }
 
             /// <summary>
-            ///A test for OrderType
-            ///</summary>
-            [TestMethod]
-            public override void OrderTypeTest()
-            {
-                CashTransactionOrderTypeTest(TransactionType);
-            }
-
-            /// <summary>
             ///A test for Amount
             ///</summary>
             [TestMethod]
@@ -276,11 +232,6 @@ namespace Sonneville.PriceTools.Test
             /// A test for SettlementDate
             /// </summary>
             public abstract void SettlementDateTest();
-
-            /// <summary>
-            /// A test for OrderType
-            /// </summary>
-            public abstract void OrderTypeTest();
 
             /// <summary>
             /// A test for Ticker
@@ -350,21 +301,6 @@ namespace Sonneville.PriceTools.Test
 
                 var expected = settlementDate;
                 var actual = target.SettlementDate;
-                Assert.AreEqual(expected, actual);
-            }
-
-            protected static void ShareTransactionOrderTypeTest(OrderType transactionType)
-            {
-                var settlementDate = new DateTime(2012, 1, 18);
-                var ticker = GetValidTicker();
-                var price = GetValidPrice(transactionType);
-                var shares = GetValidShares();
-                var commission = GetValidCommission(transactionType);
-
-                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
-
-                var expected = transactionType;
-                var actual = target.OrderType;
                 Assert.AreEqual(expected, actual);
             }
 
@@ -559,15 +495,6 @@ namespace Sonneville.PriceTools.Test
             }
 
             /// <summary>
-            ///A test for OrderType
-            ///</summary>
-            [TestMethod]
-            public override void OrderTypeTest()
-            {
-                ShareTransactionOrderTypeTest(TransactionType);
-            }
-
-            /// <summary>
             ///A test for Ticker
             ///</summary>
             [TestMethod]
@@ -659,15 +586,6 @@ namespace Sonneville.PriceTools.Test
             public override void SettlementDateTest()
             {
                 ShareTransactionSettlementDateTest(TransactionType);
-            }
-
-            /// <summary>
-            ///A test for OrderType
-            ///</summary>
-            [TestMethod]
-            public override void OrderTypeTest()
-            {
-                ShareTransactionOrderTypeTest(TransactionType);
             }
 
             /// <summary>
@@ -766,15 +684,6 @@ namespace Sonneville.PriceTools.Test
             }
 
             /// <summary>
-            ///A test for OrderType
-            ///</summary>
-            [TestMethod]
-            public override void OrderTypeTest()
-            {
-                ShareTransactionOrderTypeTest(TransactionType);
-            }
-
-            /// <summary>
             ///A test for Ticker
             ///</summary>
             [TestMethod]
@@ -870,15 +779,6 @@ namespace Sonneville.PriceTools.Test
             }
 
             /// <summary>
-            ///A test for OrderType
-            ///</summary>
-            [TestMethod]
-            public override void OrderTypeTest()
-            {
-                ShareTransactionOrderTypeTest(TransactionType);
-            }
-
-            /// <summary>
             ///A test for Ticker
             ///</summary>
             [TestMethod]
@@ -971,15 +871,6 @@ namespace Sonneville.PriceTools.Test
             public override void SettlementDateTest()
             {
                 ShareTransactionSettlementDateTest(TransactionType);
-            }
-
-            /// <summary>
-            ///A test for OrderType
-            ///</summary>
-            [TestMethod]
-            public override void OrderTypeTest()
-            {
-                ShareTransactionOrderTypeTest(TransactionType);
             }
 
             /// <summary>

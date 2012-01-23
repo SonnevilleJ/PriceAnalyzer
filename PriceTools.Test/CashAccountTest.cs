@@ -228,34 +228,6 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(target.TransactionIsValid(withdrawal));
         }
 
-        [TestMethod]
-        public void UnknownIsNotValid()
-        {
-            var target = CashAccountFactory.ConstructCashAccount();
-
-            var fakeTransaction = new UnknownOrderType {OrderType = (OrderType) (-1)};
-
-            Assert.IsFalse(target.TransactionIsValid(fakeTransaction));
-        }
-
-        private class UnknownOrderType : CashTransaction
-        {
-            /// <summary>
-            ///   Gets the DateTime that the Transaction occurred.
-            /// </summary>
-            public DateTime SettlementDate { get; set; }
-
-            /// <summary>
-            ///   Gets the <see cref = "PriceTools.OrderType" /> of this Transaction.
-            /// </summary>
-            public OrderType OrderType { get; set; }
-
-            /// <summary>
-            ///   Gets the amount of cash in this CashTransaction.
-            /// </summary>
-            public decimal Amount { get; set; }
-        }
-
         /// <summary>
         ///A test for Transactions
         ///</summary>

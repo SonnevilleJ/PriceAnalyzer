@@ -443,7 +443,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             return transactions.Select(
                 trans => (
-                             trans.OrderType == transaction.OrderType &&
+                             trans.GetType() == transaction.GetType() &&
                              trans.Commission == transaction.Commission &&
                              trans.SettlementDate == transaction.SettlementDate &&
                              // price may fluctuate

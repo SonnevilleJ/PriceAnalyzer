@@ -8,12 +8,5 @@ namespace Sonneville.PriceTools.Implementation
     [Serializable]
     internal sealed class BuyImpl : ShareTransactionImpl, Buy
     {
-        /// <summary>
-        /// Constructs a Buy Transaction.
-        /// </summary>
-        internal BuyImpl()
-        {
-            OrderType = OrderType.Buy;
-        }
     }
 }

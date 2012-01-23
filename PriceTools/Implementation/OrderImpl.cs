@@ -8,10 +8,6 @@ namespace Sonneville.PriceTools.Implementation
     [Serializable]
     internal sealed class OrderImpl : Order
     {
-        internal OrderImpl()
-        {
-        }
-
         /// <summary>
         /// The DateTime this order was issued.
         /// </summary>

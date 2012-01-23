@@ -8,12 +8,5 @@ namespace Sonneville.PriceTools.Implementation
     [Serializable]
     internal sealed class BuyToCoverImpl : ShareTransactionImpl, BuyToCover
     {
-        /// <summary>
-        /// Constructs a BuyToCover Transaction.
-        /// </summary>
-        internal BuyToCoverImpl()
-        {
-            OrderType = OrderType.BuyToCover;
-        }
     }
 }

@@ -279,50 +279,55 @@ namespace Sonneville.PriceTools
         /// </summary>
         public void AddTransaction(Transaction transaction)
         {
-            switch (transaction.OrderType)
+            if (transaction is DividendReceipt)
             {
-                case OrderType.DividendReceipt:
-                    _cashAccount.Deposit((DividendReceipt)transaction);
-                    break;
-                case OrderType.Deposit:
-                    Deposit((Deposit)transaction);
-                    break;
-                case OrderType.Withdrawal:
-                    Withdraw((Withdrawal)transaction);
-                    break;
-                case OrderType.DividendReinvestment:
-                    var dr = ((DividendReinvestment)transaction);
-                    if (dr.Ticker == CashTicker)
-                    {
-                        // DividendReceipt already deposited into cash account,
-                        // so no need to "buy" the CashTicker. Do nothing.
-                    }
-                    else
-                    {
-                        Withdraw(dr.SettlementDate, dr.TotalValue);
-                        AddToPosition(dr);
-                    }
-                    break;
-                case OrderType.Buy:
-                    var buy = ((Buy)transaction);
-                    Withdraw(buy.SettlementDate, buy.TotalValue);
-                    AddToPosition(buy);
-                    break;
-                case OrderType.SellShort:
-                    var sellShort = ((SellShort)transaction);
-                    Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
-                    AddToPosition(sellShort);
-                    break;
-                case OrderType.Sell:
-                    var sell = ((Sell)transaction);
-                    AddToPosition(sell);
-                    Deposit(sell.SettlementDate, sell.TotalValue);
-                    break;
-                case OrderType.BuyToCover:
-                    var buyToCover = ((BuyToCover)transaction);
-                    AddToPosition(buyToCover);
-                    Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
-                    break;
+                _cashAccount.Deposit((DividendReceipt) transaction);
+            }
+            else if (transaction is Deposit)
+            {
+                Deposit((Deposit) transaction);
+            }
+            else if (transaction is Withdrawal)
+            {
+                Withdraw((Withdrawal) transaction);
+            }
+            else if (transaction is DividendReinvestment)
+            {
+                var dr = ((DividendReinvestment) transaction);
+                if (dr.Ticker == CashTicker)
+                {
+                    // DividendReceipt already deposited into cash account,
+                    // so no need to "buy" the CashTicker. Do nothing.
+                }
+                else
+                {
+                    Withdraw(dr.SettlementDate, dr.TotalValue);
+                    AddToPosition(dr);
+                }
+            }
+            else if (transaction is Buy)
+            {
+                var buy = ((Buy) transaction);
+                Withdraw(buy.SettlementDate, buy.TotalValue);
+                AddToPosition(buy);
+            }
+            else if (transaction is SellShort)
+            {
+                var sellShort = ((SellShort) transaction);
+                Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
+                AddToPosition(sellShort);
+            }
+            else if (transaction is Sell)
+            {
+                var sell = ((Sell) transaction);
+                AddToPosition(sell);
+                Deposit(sell.SettlementDate, sell.TotalValue);
+            }
+            else if (transaction is BuyToCover)
+            {
+                var buyToCover = ((BuyToCover) transaction);
+                AddToPosition(buyToCover);
+                Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
             }
         }
 
@@ -370,7 +375,8 @@ namespace Sonneville.PriceTools
         /// <param name="transactionHistory">The historical transactions to add.</param>
         public void AddTransactionHistory(ITransactionHistory transactionHistory)
         {
-            foreach (var transaction in transactionHistory.Transactions)
+            var transactions = transactionHistory.Transactions;
+            foreach (var transaction in transactions)
             {
                 AddTransaction(transaction);
             }
@@ -399,32 +405,35 @@ namespace Sonneville.PriceTools
         public bool TransactionIsValid(Transaction transaction)
         {
             bool sufficientCash;
-            switch (transaction.OrderType)
+            if (transaction is DividendReceipt || transaction is Deposit || transaction is Withdrawal)
             {
-                case OrderType.DividendReceipt:
-                case OrderType.Deposit:
-                case OrderType.Withdrawal:
-                    var cashTransaction = (CashTransaction) transaction;
-                    return _cashAccount.TransactionIsValid(cashTransaction);
-                case OrderType.DividendReinvestment:
-                case OrderType.Buy:
-                    var buy = ((ShareTransaction)transaction);
-                    sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
-                    return sufficientCash && GetPosition(buy.Ticker, false).TransactionIsValid(buy);
-                case OrderType.SellShort:
-                    var sellShort = ((SellShort)transaction);
-                    return GetPosition(sellShort.Ticker, false).TransactionIsValid(sellShort);
-                case OrderType.Sell:
-                    var sell = ((ShareTransaction)transaction);
-                    return GetPosition(sell.Ticker, false).TransactionIsValid(sell);
-                case OrderType.BuyToCover:
-                    var buyToCover = ((ShareTransaction)transaction);
-                    sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
-                    return sufficientCash && GetPosition(buyToCover.Ticker, false).TransactionIsValid(buyToCover);
-                default:
-                    // unknown order type
-                    return false;
+                var cashTransaction = (CashTransaction) transaction;
+                return _cashAccount.TransactionIsValid(cashTransaction);
             }
+            if (transaction is DividendReinvestment || transaction is Buy)
+            {
+                var buy = ((ShareTransaction) transaction);
+                sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
+                return sufficientCash && GetPosition(buy.Ticker, false).TransactionIsValid(buy);
+            }
+            if (transaction is SellShort)
+            {
+                var sellShort = ((SellShort) transaction);
+                return GetPosition(sellShort.Ticker, false).TransactionIsValid(sellShort);
+            }
+            if (transaction is Sell)
+            {
+                var sell = ((ShareTransaction) transaction);
+                return GetPosition(sell.Ticker, false).TransactionIsValid(sell);
+            }
+            if (transaction is BuyToCover)
+            {
+                var buyToCover = ((ShareTransaction) transaction);
+                sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
+                return sufficientCash && GetPosition(buyToCover.Ticker, false).TransactionIsValid(buyToCover);
+            }
+            // unknown order type
+            return false;
         }
 
         /// <summary>

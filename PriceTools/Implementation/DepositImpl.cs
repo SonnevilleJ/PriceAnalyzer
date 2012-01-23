@@ -13,7 +13,6 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         internal DepositImpl()
         {
-            OrderType = OrderType.Deposit;
         }
     }
 }

@@ -49,7 +49,25 @@ namespace Sonneville.PriceTools.Data.Csv
         /// </summary>
         public IEnumerable<Transaction> Transactions
         {
-            get { return _transactions.OrderBy(t => t.SettlementDate).ThenBy(t => t.OrderType); }
+            get { return _transactions.OrderBy(t => t.SettlementDate).ThenBy(GetSortIndex); }
+        }
+
+        private static int GetSortIndex(Transaction transaction)
+        {
+            // must sort transactions in order
+            // First, any transactions which yield proceeds
+            // Second, any transactions which use funds
+            // This appropriately ensures funds are available for use
+
+            if (transaction is Deposit) return 0;
+            if (transaction is DividendReceipt) return 1;
+            if (transaction is DividendReinvestment) return 2;
+            if (transaction is Sell) return 3;
+            if (transaction is BuyToCover) return 4;
+            if (transaction is Buy) return 5;
+            if (transaction is SellShort) return 6;
+            if (transaction is Withdrawal) return 7;
+            return int.MaxValue;
         }
 
         #endregion

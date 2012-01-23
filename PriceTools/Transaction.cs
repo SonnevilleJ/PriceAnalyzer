@@ -11,10 +11,5 @@ namespace Sonneville.PriceTools
         ///   Gets the DateTime that the Transaction occurred.
         /// </summary>
         DateTime SettlementDate { get; }
-
-        /// <summary>
-        ///   Gets the <see cref = "PriceTools.OrderType" /> of this Transaction.
-        /// </summary>
-        OrderType OrderType { get; }
     }
 }

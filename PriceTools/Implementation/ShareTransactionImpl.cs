@@ -24,11 +24,6 @@ namespace Sonneville.PriceTools.Implementation
         public DateTime SettlementDate { get; set; }
 
         /// <summary>
-        ///   Gets the <see cref="OrderType"/> of this ShareTransaction.
-        /// </summary>
-        public OrderType OrderType { get; protected set; }
-
-        /// <summary>
         ///   Gets the ticker symbol of the security traded in this ShareTransaction.
         /// </summary>
         public string Ticker { get; set; }
@@ -75,19 +70,15 @@ namespace Sonneville.PriceTools.Implementation
             get { return _commission; }
             set
             {
-                switch (OrderType)
+                if (this is DividendReinvestment)
                 {
-                    case OrderType.DividendReceipt:
-                    case OrderType.DividendReinvestment:
-                    case OrderType.Deposit:
-                    case OrderType.Withdrawal:
-                        if (value != 0)
-                            throw new ArgumentOutOfRangeException("value", value, String.Format(Strings.ShareTransaction_Commission_Commission_for__0__transactions_must_be_0_, OrderType));
-                        break;
-                    default:
-                        if (value < 0)
-                            throw new ArgumentOutOfRangeException("value", value, Strings.ShareTransaction_Commission_Commission_must_be_greater_than_or_equal_to_0_);
-                        break;
+                    if (value != 0)
+                        throw new ArgumentOutOfRangeException("value", value, Strings.ShareTransactionImpl_Commission_Commission_for_dividend_receipts_must_be_0_);
+                }
+                else
+                {
+                    if (value < 0)
+                        throw new ArgumentOutOfRangeException("value", value, Strings.ShareTransaction_Commission_Commission_must_be_greater_than_or_equal_to_0_);
                 }
                 _commission = value;
             }
@@ -109,21 +100,15 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                switch (OrderType)
+                if (this is Buy || this is SellShort || this is DividendReinvestment)
                 {
-                    case OrderType.Buy:
-                    case OrderType.SellShort:
-                    case OrderType.DividendReceipt:
-                    case OrderType.DividendReinvestment:
-                    case OrderType.Deposit:
-                    case OrderType.Withdrawal:
-                        return 1;
-                    case OrderType.BuyToCover:
-                    case OrderType.Sell:
-                        return -1;
-                    default:
-                        throw new NotSupportedException(String.Format("OrderType {0} is unknown.", OrderType));
+                    return 1;
                 }
+                if (this is BuyToCover || this is Sell)
+                {
+                    return -1;
+                }
+                throw new NotSupportedException("Unknown transaction type.");
             }
         }
 

@@ -107,15 +107,15 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns></returns>
         public bool TransactionIsValid(CashTransaction cashTransaction)
         {
-            switch (cashTransaction.OrderType)
+            if (cashTransaction is Deposit)
             {
-                case OrderType.Deposit:
-                    return true;
-                case OrderType.Withdrawal:
-                    return GetCashBalance(cashTransaction.SettlementDate) >= Math.Abs(cashTransaction.Amount);
-                default:
-                    return false;
+                return true;
             }
+            if (cashTransaction is Withdrawal)
+            {
+                return GetCashBalance(cashTransaction.SettlementDate) >= Math.Abs(cashTransaction.Amount);
+            }
+            return false;
         }
 
         private void VerifySufficientFunds(Withdrawal withdrawal)

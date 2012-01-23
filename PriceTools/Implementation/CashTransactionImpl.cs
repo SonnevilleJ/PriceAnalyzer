@@ -26,11 +26,6 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public DateTime SettlementDate { get; set; }
 
-        /// <summary>
-        ///   Gets the <see cref = "PriceTools.OrderType" /> of this CashTransaction.
-        /// </summary>
-        public OrderType OrderType { get; protected set; }
-
         #endregion
 
         #region Implementation of CashTransaction
@@ -47,14 +42,13 @@ namespace Sonneville.PriceTools.Implementation
             {
                 // ensure Amount is negative for Withdrawal
                 var amount = Math.Abs(value);
-                switch (OrderType)
+                if (this is Withdrawal)
                 {
-                    case OrderType.Withdrawal:
-                        _amount = -amount;
-                        break;
-                    default:
-                        _amount = amount;
-                        break;
+                    _amount = -amount;
+                }
+                else
+                {
+                    _amount = amount;
                 }
             }
         }
