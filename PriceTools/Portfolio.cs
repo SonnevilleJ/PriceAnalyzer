@@ -190,16 +190,20 @@ namespace Sonneville.PriceTools
         public string CashTicker { get; private set; }
 
         /// <summary>
-        ///   Gets the value of this Portfolio, excluding any commissions, as of a given date..
+        ///   Gets the value of this Portfolio, excluding any commissions, as of a given date.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal CalculateValue(DateTime settlementDate)
         {
-            var availableCash = GetAvailableCash(settlementDate);
-            var proceeds = Positions.Sum(position => position.CalculateProceeds(settlementDate));
+            var deposits = Transactions.Where(t => t is Deposit && t.SettlementDate <= settlementDate).Cast<Deposit>().Sum(t => t.Amount);
+            var proceeds = CalculateProceeds(settlementDate);
+            var investments = CalculateCost(settlementDate);
             var commissionsPaid = Positions.Sum(position => position.CalculateCommissions(settlementDate));
             var value = Positions.Sum(position => position.CalculateValue(settlementDate));
-            return availableCash - proceeds + commissionsPaid + value;
+            var withdrawals = Transactions.Where(t => t is Withdrawal && t.SettlementDate <= settlementDate).Cast<Withdrawal>().Sum(t => t.Amount);
+            var userWithdrawals = (withdrawals + investments + commissionsPaid);
+            var userDeposits = (deposits - proceeds);
+            return userDeposits + userWithdrawals + value;// +value - commissionsPaid;
         }
 
         /// <summary>

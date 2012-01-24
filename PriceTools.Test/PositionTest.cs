@@ -12,6 +12,24 @@ namespace Sonneville.PriceTools.Test
     public class PositionTest
     {
         [TestMethod]
+        public void CalculateValueReturnsCorrectWithoutCommissionsOpenPosition()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var oDate = new DateTime(2000, 1, 1);
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
+            const double oShares = 5;           // bought 5 shares
+            const decimal oCommission = 7.95m;  // bought with $7.95 commission
+            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            // Shares are still held, so net value (excluding commissions) is not changed.
+            const decimal expected = 0.00m;
+            var actual = target.CalculateValue(oDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public void CalculateValueReturnsCorrectWithoutCommissionsAfterGain()
         {
             const string ticker = "DE";

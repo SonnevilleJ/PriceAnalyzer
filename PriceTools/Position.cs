@@ -186,6 +186,10 @@ namespace Sonneville.PriceTools
         public decimal CalculateValue(DateTime settlementDate)
         {
             var proceeds = CalculateProceeds(settlementDate); // positive proceeds = gain, negative proceeds = loss
+            if (proceeds == 0.00m)
+            {
+                return 0.00m;
+            }
             var totalCosts = CalculateCost(settlementDate);     // positive totalCosts = revenue, negative totalCosts = expense
 
             var heldShares = GetHeldShares(settlementDate);
@@ -229,9 +233,9 @@ namespace Sonneville.PriceTools
         /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
         public decimal CalculateProceeds(DateTime settlementDate)
         {
-            return -1*SubtractiveTransactions.AsParallel()
-                          .Where(transaction => transaction.SettlementDate <= settlementDate)
-                          .Sum(transaction => transaction.Price*(decimal) transaction.Shares);
+            return -1 * SubtractiveTransactions.AsParallel()
+                   .Where(transaction => transaction.SettlementDate <= settlementDate)
+                   .Sum(transaction => transaction.Price*(decimal) transaction.Shares);
         }
 
         /// <summary>
