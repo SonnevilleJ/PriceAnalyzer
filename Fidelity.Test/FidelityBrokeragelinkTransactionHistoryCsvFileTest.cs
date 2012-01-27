@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.PriceTools.SamplePortfolioData;
 using Sonneville.PriceTools.SamplePriceData;
@@ -20,70 +19,245 @@ namespace Sonneville.PriceTools.Fidelity.Test
         ///A test for ParsePortfolio
         ///</summary>
         [TestMethod]
-        public void ParsePortfolioTest()
+        public void ParsePortfolioFcntxTest()
         {
             using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
-                IPortfolio portfolio = new Portfolio(target, "FDRXX");
+                var portfolio = new Portfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
-                IPriceDataProvider provider = new YahooPriceDataProvider();
+                var provider = new YahooPriceDataProvider();
 
                 var fcntx = portfolio.Positions.Where(p => p.Ticker == "FCNTX").First();
                 var investedValue = fcntx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(530.24044m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioFdlsxTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
+                var provider = new YahooPriceDataProvider();
 
                 var fdlsx = portfolio.Positions.Where(p => p.Ticker == "FDLSX").First();
-                investedValue = fdlsx.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = fdlsx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(1780.07445m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioFemexTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
+                var provider = new YahooPriceDataProvider();
 
                 var femex = portfolio.Positions.Where(p => p.Ticker == "FEMEX").First();
-                investedValue = femex.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = femex.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(800.00325m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioFemkxTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
+                var provider = new YahooPriceDataProvider();
 
                 var femkx = portfolio.Positions.Where(p => p.Ticker == "FEMKX").First();
-                investedValue = femkx.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = femkx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(543.33666m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioFhkcxTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
+                var provider = new YahooPriceDataProvider();
 
                 var fhkcx = portfolio.Positions.Where(p => p.Ticker == "FHKCX").First();
-                investedValue = fhkcx.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = fhkcx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(558.50175m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioFicdxTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
+                var provider = new YahooPriceDataProvider();
 
                 var ficdx = portfolio.Positions.Where(p => p.Ticker == "FICDX").First();
-                investedValue = ficdx.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = ficdx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(919.53195m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioFlatxTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
+                var provider = new YahooPriceDataProvider();
 
                 var flatx = portfolio.Positions.Where(p => p.Ticker == "FLATX").First();
-                investedValue = flatx.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = flatx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(1379.28336m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioFsagxTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
+                var provider = new YahooPriceDataProvider();
 
                 var fsagx = portfolio.Positions.Where(p => p.Ticker == "FSAGX").First();
-                investedValue = fsagx.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = fsagx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(0m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioFschxTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
+                var provider = new YahooPriceDataProvider();
 
                 var fschx = portfolio.Positions.Where(p => p.Ticker == "FSCHX").First();
-                investedValue = fschx.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = fschx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(792.87264m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioFslbxTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
+                var provider = new YahooPriceDataProvider();
 
                 var fslbx = portfolio.Positions.Where(p => p.Ticker == "FSLBX").First();
-                investedValue = fslbx.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = fslbx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(3376.71644m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioFsngxTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
+                var provider = new YahooPriceDataProvider();
 
                 var fsngx = portfolio.Positions.Where(p => p.Ticker == "FSNGX").First();
-                investedValue = fsngx.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = fsngx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(1966.2302m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioFtrnxTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
+                var provider = new YahooPriceDataProvider();
 
                 var ftrnx = portfolio.Positions.Where(p => p.Ticker == "FTRNX").First();
-                investedValue = ftrnx.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = ftrnx.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(597.02433m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioAvailableCashTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            {
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FDRXX");
+                var settlementDate = new DateTime(2009, 7, 23);
 
                 const decimal expectedAvailableCash = 1050.00m;
                 var availableCash = portfolio.GetAvailableCash(settlementDate);
                 Assert.AreEqual(expectedAvailableCash, availableCash);
-
-                const decimal expectedValue = 14293.81547m;
-                var actualValue = portfolio.CalculateTotalValue(provider, settlementDate);
-                Assert.AreEqual(expectedValue, actualValue);
             }
         }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.PriceTools.SamplePortfolioData;
 
@@ -122,16 +123,6 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void CalculateValueNoTransactions()
-        {
-            var target = new Portfolio();
-
-            const decimal expectedValue = 0;
-            var actualValue = target.CalculateValue(DateTime.Now);
-            Assert.AreEqual(expectedValue, actualValue);
-        }
-
-        [TestMethod]
         public void GetAvailableCashOfDeposit()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -141,18 +132,6 @@ namespace Sonneville.PriceTools.Test
             const decimal expectedCash = openingDeposit;
             var availableCash = target.GetAvailableCash(dateTime);
             Assert.AreEqual(expectedCash, availableCash);
-        }
-
-        [TestMethod]
-        public void CalculateValueOfDeposit()
-        {
-            var dateTime = new DateTime(2011, 1, 8);
-            const decimal openingDeposit = 10000m;
-            var target = new Portfolio(dateTime, openingDeposit);
-
-            const decimal expectedValue = openingDeposit;
-            var actualValue = target.CalculateValue(dateTime);
-            Assert.AreEqual(expectedValue, actualValue);
         }
 
         [TestMethod]
@@ -168,99 +147,6 @@ namespace Sonneville.PriceTools.Test
             const decimal expectedCash = 0;
             var availableCash = target.GetAvailableCash(withdrawalDate);
             Assert.AreEqual(expectedCash, availableCash);
-        }
-
-        [TestMethod]
-        public void CalculateValueAfterFullWithdrawal()
-        {
-            var dateTime = new DateTime(2011, 1, 8);
-            const decimal amount = 10000m;
-            var target = new Portfolio(dateTime, amount);
-
-            var withdrawalDate = dateTime.AddDays(1);
-            target.Withdraw(withdrawalDate, amount);
-
-            const decimal expectedValue = 0;
-            var actualValue = target.CalculateValue(withdrawalDate);
-            Assert.AreEqual(expectedValue, actualValue);
-        }
-
-        [TestMethod]
-        public void CalculateValueWithOpenPosition()
-        {
-            var dateTime = new DateTime(2011, 11, 21);
-            const decimal openingDeposit = 10000m;
-            var target = new Portfolio(dateTime, openingDeposit);
-
-            var buyDate = dateTime.AddDays(1);
-            var calculateDate = buyDate.AddDays(1);
-            const string ticker = "DE";
-            const decimal buyPrice = 50.00m;
-            const int shares = 5;
-            const decimal commission = 7.95m;
-            const decimal buyValue = (shares * buyPrice);
-            
-            // Because CalculateValue cannot get price data, it must calculate based on the buy prices and any sell prices
-            const decimal currentValue = buyPrice*shares;
-
-            var buy = TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission);
-            target.AddTransaction(buy);
-
-            const decimal expected = openingDeposit - buyValue + currentValue;
-            var actual = target.CalculateValue(calculateDate);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void CalculateValueWithClosedPosition()
-        {
-            var dateTime = new DateTime(2011, 11, 21);
-            const decimal openingDeposit = 10000m;
-            var target = new Portfolio(dateTime, openingDeposit);
-
-            var buyDate = dateTime.AddDays(1);
-            var sellDate = buyDate.AddDays(1);
-            var calculateDate = sellDate.AddDays(1);
-            const string ticker = "DE";
-            const decimal buyPrice = 50.00m;
-            const decimal sellPrice = 75.00m;
-            const int shares = 5;
-            const decimal commission = 7.95m;
-            const decimal buyValue = (shares*buyPrice);
-            const decimal sellValue = (shares*sellPrice);
-
-            target.AddTransaction(TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission));
-            target.AddTransaction(TransactionFactory.ConstructSell(sellDate, ticker, sellPrice, shares, commission));
-
-            const decimal expected = openingDeposit - buyValue + sellValue;
-            var actual = target.CalculateValue(calculateDate);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void CalculateTotalValueWithClosedPosition()
-        {
-            var dateTime = new DateTime(2011, 11, 21);
-            const decimal amount = 10000m;
-            var target = new Portfolio(dateTime, amount);
-
-            var buyDate = dateTime.AddDays(1);
-            var sellDate = buyDate.AddDays(1);
-            var calculateDate = sellDate.AddDays(1);
-            const string ticker = "DE";
-            const decimal buyPrice = 50.00m;
-            const decimal sellPrice = 75.00m;
-            const int shares = 5;
-            const decimal commission = 7.95m;
-            const decimal buyValue = (shares*buyPrice) + commission;
-            const decimal sellValue = (shares*sellPrice) - commission;
-
-            target.AddTransaction(TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission));
-            target.AddTransaction(TransactionFactory.ConstructSell(sellDate, ticker, sellPrice, shares, commission));
-
-            const decimal expected = amount - buyValue + sellValue;
-            var actual = target.CalculateTotalValue(new YahooPriceDataProvider(), calculateDate);
-            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
@@ -575,18 +461,6 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void IndexerTest()
-        {
-            var dateTime = new DateTime(2011, 1, 8);
-            const decimal amount = 10000m;
-            var target = new Portfolio(dateTime, amount);
-
-            var expectedValue = target.CalculateValue(dateTime);
-            decimal? actualValue = target[dateTime];
-            Assert.AreEqual(expectedValue, actualValue);
-        }
-
-        [TestMethod]
         public void AddTransactionDepositTest()
         {
             var date = new DateTime(2011, 1, 8);
@@ -728,40 +602,6 @@ namespace Sonneville.PriceTools.Test
 
             Assert.IsTrue(target.Transactions.Contains(buy));
             Assert.IsTrue(target.Transactions.Contains(dividendReinvestment));
-        }
-
-        [TestMethod]
-        public void PositionTest_OnePosition_TwoCashTransactions()
-        {
-            var dateTime = new DateTime(2011, 1, 6);
-            const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
-
-            var buyDate = new DateTime(2011, 1, 7);
-            const string ticker = "DE";
-            const decimal price = 50.00m;
-            const double shares = 2;
-            var buy = TransactionFactory.ConstructBuy(buyDate, ticker, price, shares);
-            target.AddTransaction(buy);
-
-            const decimal withdrawal = 5000m;
-            var withdrawalDate = dateTime.AddDays(1);
-            target.Withdraw(withdrawalDate, withdrawal);
-
-            const int expectedTransactions = 1;
-            var actualTransactions = target.Positions.Count;
-            Assert.AreEqual(expectedTransactions, actualTransactions);
-
-            // DE price @ 7 Jan 2011 = $84.34
-            // invested value should be $84.34 * 2 shares = $168.68
-            // starting cash = 10,000
-            // purchase cost = 50.00 * 2 shares = 100.00
-            // withdrawal = 5,000
-            // total value should be = 10,000 - 100.00 - 5,000 + 168.68 = 5068.68
-            
-            const decimal expectedValue = 5068.68m;
-            var actualValue = target.CalculateTotalValue(new YahooPriceDataProvider(), buyDate);
-            Assert.AreEqual(expectedValue, actualValue);
         }
 
         [TestMethod]

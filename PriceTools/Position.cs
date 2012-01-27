@@ -206,10 +206,9 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the total value of the Position, after any commissions, as of a given date.
         /// </summary>
-        /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total value of the Position as of the given date.</returns>
-        public decimal CalculateTotalValue(IPriceDataProvider provider, DateTime settlementDate)
+        public decimal CalculateTotalValue(DateTime settlementDate)
         {
             return CalculateValue(settlementDate) - CalculateCommissions(settlementDate);
         }

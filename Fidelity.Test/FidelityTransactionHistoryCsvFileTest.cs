@@ -2,7 +2,6 @@
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.PriceTools.SamplePortfolioData;
 using Sonneville.PriceTools.SamplePriceData;
@@ -20,38 +19,93 @@ namespace Sonneville.PriceTools.Fidelity.Test
         ///A test for ParsePortfolio
         ///</summary>
         [TestMethod]
-        public void ParsePortfolioTest()
+        public void ParsePortfolioAltrTest()
         {
             using (Stream csvStream = new ResourceStream(PortfolioCsv.FidelityTransactions))
             {
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
-                IPortfolio portfolio = new Portfolio(target, "FTEXX");
+                var portfolio = new Portfolio(target, "FTEXX");
                 var settlementDate = new DateTime(2010, 11, 16);
-                IPriceDataProvider provider = new YahooPriceDataProvider();
+                var provider = new YahooPriceDataProvider();
 
                 var altr = portfolio.Positions.Where(p => p.Ticker == "ALTR").First();
                 var investedValue = altr.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioNtapTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.FidelityTransactions))
+            {
+                var target = new FidelityTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FTEXX");
+                var settlementDate = new DateTime(2010, 11, 16);
+                var provider = new YahooPriceDataProvider();
 
                 var ntap = portfolio.Positions.Where(p => p.Ticker == "NTAP").First();
-                investedValue = ntap.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = ntap.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioNtctTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.FidelityTransactions))
+            {
+                var target = new FidelityTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FTEXX");
+                var settlementDate = new DateTime(2010, 11, 16);
+                var provider = new YahooPriceDataProvider();
 
                 var ntct = portfolio.Positions.Where(p => p.Ticker == "NTCT").First();
-                investedValue = ntct.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = ntct.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioPgTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.FidelityTransactions))
+            {
+                var target = new FidelityTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FTEXX");
+                var settlementDate = new DateTime(2010, 11, 16);
+                var provider = new YahooPriceDataProvider();
 
                 var pg = portfolio.Positions.Where(p => p.Ticker == "PG").First();
-                investedValue = pg.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = pg.CalculateInvestedValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
+            }
+        }
+
+        /// <summary>
+        ///A test for ParsePortfolio
+        ///</summary>
+        [TestMethod]
+        public void ParsePortfolioAvailableCashTest()
+        {
+            using (Stream csvStream = new ResourceStream(PortfolioCsv.FidelityTransactions))
+            {
+                var target = new FidelityTransactionHistoryCsvFile(csvStream);
+                var portfolio = new Portfolio(target, "FTEXX");
+                var settlementDate = new DateTime(2010, 11, 16);
 
                 const decimal expectedAvailableCash = 2848.43m;
                 var availableCash = portfolio.GetAvailableCash(settlementDate);
                 Assert.AreEqual(expectedAvailableCash, availableCash);
-
-                const decimal expectedValue = 2848.43m;
-                var actualValue = portfolio.CalculateTotalValue(provider, new DateTime(2010, 11, 16));
-                Assert.AreEqual(expectedValue, actualValue);
             }
         }
 

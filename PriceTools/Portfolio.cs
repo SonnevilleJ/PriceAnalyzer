@@ -207,19 +207,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the total value of the Portfolio, after any commissions, as of a given date.
-        /// </summary>
-        /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total value of the Portfolio as of the given date.</returns>
-        public decimal CalculateTotalValue(IPriceDataProvider provider, DateTime settlementDate)
-        {
-            var cash = GetAvailableCash(settlementDate);
-            var invested = Positions.Sum(position => position.CalculateInvestedValue(provider, settlementDate));
-            return cash + invested;
-        }
-
-        /// <summary>
         ///   Gets the gross investment of this Portfolio, ignoring any proceeds and commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>

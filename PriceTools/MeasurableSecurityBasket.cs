@@ -22,14 +22,6 @@ namespace Sonneville.PriceTools
         decimal CalculateValue(DateTime settlementDate);
 
         /// <summary>
-        ///   Gets the total value of the MeasurableSecurityBasket, after any commissions, as of a given date.
-        /// </summary>
-        /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total value of the MeasurableSecurityBasket as of the given date.</returns>
-        decimal CalculateTotalValue(IPriceDataProvider provider, DateTime settlementDate);
-
-        /// <summary>
         ///   Gets the gross investment of this MeasurableSecurityBasket, ignoring any proceeds and commissions.
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
