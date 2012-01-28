@@ -122,12 +122,12 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void CalculateValueNoTransactions()
+        public void CalculateGrossProfitNoTransactions()
         {
             var target = new Portfolio();
 
             const decimal expectedValue = 0;
-            var actualValue = target.CalculateValue(DateTime.Now);
+            var actualValue = target.CalculateGrossProfit(DateTime.Now);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
@@ -144,14 +144,14 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void CalculateValueOfDeposit()
+        public void CalculateGrossProfitOfDeposit()
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal openingDeposit = 10000m;
             var target = new Portfolio(dateTime, openingDeposit);
 
             const decimal expectedValue = openingDeposit;
-            var actualValue = target.CalculateValue(dateTime);
+            var actualValue = target.CalculateGrossProfit(dateTime);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
@@ -171,7 +171,7 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void CalculateValueAfterFullWithdrawal()
+        public void CalculateGrossProfitAfterFullWithdrawal()
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
@@ -181,12 +181,12 @@ namespace Sonneville.PriceTools.Test
             target.Withdraw(withdrawalDate, amount);
 
             const decimal expectedValue = 0;
-            var actualValue = target.CalculateValue(withdrawalDate);
+            var actualValue = target.CalculateGrossProfit(withdrawalDate);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
         [TestMethod]
-        public void CalculateValueWithOpenPosition()
+        public void CalculateGrossProfitWithOpenPosition()
         {
             var dateTime = new DateTime(2011, 11, 21);
             const decimal openingDeposit = 10000m;
@@ -200,19 +200,19 @@ namespace Sonneville.PriceTools.Test
             const decimal commission = 7.95m;
             const decimal buyValue = (shares * buyPrice);
             
-            // Because CalculateValue cannot get price data, it must calculate based on the buy prices and any sell prices
+            // Because CalculateGrossProfit cannot get price data, it must calculate based on the buy prices and any sell prices
             const decimal currentValue = buyPrice*shares;
 
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission);
             target.AddTransaction(buy);
 
             const decimal expected = openingDeposit - buyValue + currentValue;
-            var actual = target.CalculateValue(calculateDate);
+            var actual = target.CalculateGrossProfit(calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void CalculateValueWithClosedPosition()
+        public void CalculateGrossProfitWithClosedPosition()
         {
             var dateTime = new DateTime(2011, 11, 21);
             const decimal openingDeposit = 10000m;
@@ -233,7 +233,7 @@ namespace Sonneville.PriceTools.Test
             target.AddTransaction(TransactionFactory.ConstructSell(sellDate, ticker, sellPrice, shares, commission));
 
             const decimal expected = openingDeposit - buyValue + sellValue;
-            var actual = target.CalculateValue(calculateDate);
+            var actual = target.CalculateGrossProfit(calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -555,7 +555,7 @@ namespace Sonneville.PriceTools.Test
             const decimal amount = 10000m;
             var target = new Portfolio(dateTime, amount);
 
-            var expectedValue = target.CalculateValue(dateTime);
+            var expectedValue = target.CalculateGrossProfit(dateTime);
             decimal? actualValue = target[dateTime];
             Assert.AreEqual(expectedValue, actualValue);
         }

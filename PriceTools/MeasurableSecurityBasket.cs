@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the MeasurableSecurityBasket as of the given date.</returns>
-        decimal CalculateValue(DateTime settlementDate);
+        decimal CalculateGrossProfit(DateTime settlementDate);
 
         /// <summary>
         ///   Gets the gross investment of this MeasurableSecurityBasket, ignoring any proceeds and commissions.

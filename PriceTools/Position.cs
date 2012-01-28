@@ -109,7 +109,7 @@ namespace Sonneville.PriceTools
         /// <param name = "index">The <see cref = "DateTime" /> to use.</param>
         public decimal this[DateTime index]
         {
-            get { return CalculateValue(index); }
+            get { return CalculateGrossProfit(index); }
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The value of the Position as of the given date.</returns>
-        public decimal CalculateValue(DateTime settlementDate)
+        public decimal CalculateGrossProfit(DateTime settlementDate)
         {
             var proceeds = CalculateProceeds(settlementDate); // positive proceeds = gain, negative proceeds = loss
             if (proceeds == 0.00m)
@@ -210,7 +210,7 @@ namespace Sonneville.PriceTools
         /// <returns>The total value of the Position as of the given date.</returns>
         public decimal CalculateTotalValue(DateTime settlementDate)
         {
-            return CalculateValue(settlementDate) - CalculateCommissions(settlementDate);
+            return CalculateGrossProfit(settlementDate) - CalculateCommissions(settlementDate);
         }
 
         /// <summary>

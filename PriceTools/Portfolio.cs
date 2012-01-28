@@ -91,7 +91,7 @@ namespace Sonneville.PriceTools
         /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
         public decimal this[DateTime index]
         {
-            get { return CalculateValue(index); }
+            get { return CalculateGrossProfit(index); }
         }
 
         /// <summary>
@@ -164,7 +164,7 @@ namespace Sonneville.PriceTools
         public bool HasValueInRange(DateTime settlementDate)
         {
             var end = Tail;
-            if (CalculateValue(settlementDate) != 0)
+            if (CalculateGrossProfit(settlementDate) != 0)
             {
                 end = settlementDate;
             }
@@ -193,13 +193,13 @@ namespace Sonneville.PriceTools
         ///   Gets the value of this Portfolio, excluding any commissions, as of a given date.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
-        public decimal CalculateValue(DateTime settlementDate)
+        public decimal CalculateGrossProfit(DateTime settlementDate)
         {
             var deposits = Transactions.Where(t => t is Deposit && t.SettlementDate <= settlementDate).Cast<Deposit>().Sum(t => t.Amount);
             var proceeds = CalculateProceeds(settlementDate);
             var investments = CalculateCost(settlementDate);
             var commissionsPaid = Positions.Sum(position => position.CalculateCommissions(settlementDate));
-            var value = Positions.Sum(position => position.CalculateValue(settlementDate));
+            var value = Positions.Sum(position => position.CalculateGrossProfit(settlementDate));
             var withdrawals = Transactions.Where(t => t is Withdrawal && t.SettlementDate <= settlementDate).Cast<Withdrawal>().Sum(t => t.Amount);
             var userWithdrawals = (withdrawals + investments + commissionsPaid);
             var userDeposits = (deposits - proceeds);

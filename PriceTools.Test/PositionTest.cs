@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.Test
     public class PositionTest
     {
         [TestMethod]
-        public void CalculateValueReturnsCorrectWithoutCommissionsOpenPosition()
+        public void CalculateGrossProfitReturnsCorrectWithoutCommissionsOpenPosition()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -25,12 +25,12 @@ namespace Sonneville.PriceTools.Test
 
             // Shares are still held, so net value (excluding commissions) is not changed.
             const decimal expected = 0.00m;
-            var actual = target.CalculateValue(oDate);
+            var actual = target.CalculateGrossProfit(oDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void CalculateValueReturnsCorrectWithoutCommissionsAfterGain()
+        public void CalculateGrossProfitReturnsCorrectWithoutCommissionsAfterGain()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -47,14 +47,14 @@ namespace Sonneville.PriceTools.Test
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
             target.Sell(cDate, cShares, cPrice, cCommission);
 
-            // No longer hold these shares, so CalculateValue should return total value without any commissions.
-            var expected = GetExpectedValue(oShares, oPrice, cShares, cPrice);
-            var actual = target.CalculateValue(cDate);
+            // No longer hold these shares, so CalculateGrossProfit should return total value without any commissions.
+            var expected = GetExpectedGrossProfit(oShares, oPrice, cShares, cPrice);
+            var actual = target.CalculateGrossProfit(cDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void CalculateValueReturnsCorrectWithoutCommissionsAfterLoss()
+        public void CalculateGrossProfitReturnsCorrectWithoutCommissionsAfterLoss()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -71,19 +71,19 @@ namespace Sonneville.PriceTools.Test
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
             target.Sell(cDate, cShares, cPrice, cCommission);
 
-            // No longer hold these shares, so CalculateValue should return total value without any commissions.
-            var expected = GetExpectedValue(oShares, oPrice, cShares, cPrice);
-            var actual = target.CalculateValue(cDate);
+            // No longer hold these shares, so CalculateGrossProfit should return total value without any commissions.
+            var expected = GetExpectedGrossProfit(oShares, oPrice, cShares, cPrice);
+            var actual = target.CalculateGrossProfit(cDate);
             Assert.AreEqual(expected, actual);
         }
 
-        private static decimal GetExpectedValue(double openingShares, decimal openingPrice, double closingShares, decimal closingPrice)
+        private static decimal GetExpectedGrossProfit(double openingShares, decimal openingPrice, double closingShares, decimal closingPrice)
         {
             return (closingPrice * (decimal)closingShares) - (openingPrice * (decimal)openingShares);
         }
 
         [TestMethod]
-        public void IndexerReturnsCalculateValue()
+        public void IndexerReturnsCalculateGrossProfit()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -94,7 +94,7 @@ namespace Sonneville.PriceTools.Test
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
             target.Buy(oDate, oShares, oPrice, oCommission);
 
-            var expected = target.CalculateValue(oDate);
+            var expected = target.CalculateGrossProfit(oDate);
             decimal? actual = target[oDate];
             Assert.AreEqual(expected, actual);
         }
