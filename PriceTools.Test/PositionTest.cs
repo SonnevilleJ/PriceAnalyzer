@@ -121,7 +121,8 @@ namespace Sonneville.PriceTools.Test
 
             // DE price @ 29 Dec 2000 = $45.81
             // invested value should be $45.81 * 5 shares = $229.05
-            const decimal expected = 229.05m;
+            const decimal currentPrice = 45.81m;
+            const decimal expected = (currentPrice * (decimal) shares);
             var actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), buyDate);
             Assert.AreEqual(expected, actual);
         }
@@ -143,7 +144,8 @@ namespace Sonneville.PriceTools.Test
 
             // DE price @ 29 Dec 2000 = $44.81
             // invested value should be $44.81 * 5 shares = $224.05
-            const decimal expected = 224.05m;
+            const decimal currentPrice = 44.81m;
+            const decimal expected = (currentPrice * (decimal)shares);
             var actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), sellDate);
             Assert.AreEqual(expected, actual);
         }
