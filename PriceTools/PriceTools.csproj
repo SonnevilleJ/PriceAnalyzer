@@ -105,7 +105,7 @@
     <Compile Include="ShareTransaction.cs" />
     <Compile Include="Portfolio.cs" />
     <Compile Include="OrderType.cs" />
-    <Compile Include="Position.cs" />
+    <Compile Include="Implementation\PositionImpl.cs" />
     <Compile Include="Resolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Implementation\SellImpl.cs" />

@@ -1,4 +1,6 @@
-﻿namespace Sonneville.PriceTools
+﻿using Sonneville.PriceTools.Implementation;
+
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Constructs <see cref="IPosition"/> objects.
@@ -11,7 +13,7 @@
         /// <param name="ticker"></param>
         public static IPosition CreatePosition(string ticker)
         {
-            return new Position(ticker);
+            return new PositionImpl(ticker);
         }
     }
 }

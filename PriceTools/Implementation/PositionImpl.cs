@@ -5,12 +5,12 @@ using System.Linq;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.Data;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     ///   A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.
     /// </summary>
-    public class Position : IPosition
+    internal class PositionImpl : IPosition
     {
         #region Private Members
 
@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools
         ///   Constructs a new Position that will handle transactions for a given ticker symbol.
         /// </summary>
         /// <param name = "ticker">The ticker symbol that this Position will hold. All transactions will use this ticker symbol.</param>
-        internal Position(string ticker)
+        internal PositionImpl(string ticker)
         {
             Ticker = ticker;
             _priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker);
@@ -201,16 +201,6 @@ namespace Sonneville.PriceTools
                 costOfUnsoldShares = totalCosts*(decimal) (heldShares/totalShares);
             }
             return proceeds - totalCosts - costOfUnsoldShares;
-        }
-
-        /// <summary>
-        ///   Gets the total value of the Position, after any commissions, as of a given date.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total value of the Position as of the given date.</returns>
-        public decimal CalculateTotalValue(DateTime settlementDate)
-        {
-            return CalculateGrossProfit(settlementDate) - CalculateCommissions(settlementDate);
         }
 
         /// <summary>
