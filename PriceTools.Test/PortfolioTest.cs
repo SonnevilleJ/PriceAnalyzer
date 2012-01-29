@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void ConstructorTest1()
         {
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             Assert.AreEqual(string.Empty, target.CashTicker);
             Assert.AreEqual(0, target.GetAvailableCash(DateTime.Now));
@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools.Test
         public void ConstructorTest2()
         {
             const string ticker = "FDRXX";  // Fidelity Cash Reserves
-            var target = new Portfolio(ticker);
+            var target = PortfolioFactory.ConstructPortfolio(ticker);
 
             Assert.AreEqual(ticker, target.CashTicker);
             Assert.AreEqual(0, target.GetAvailableCash(DateTime.Now));
@@ -39,7 +39,7 @@ namespace Sonneville.PriceTools.Test
             var openDate = new DateTime(2011, 2, 20);
             const decimal amount = 10000m;
             const string ticker = "FDRXX";  // Fidelity Cash Reserves
-            var target = new Portfolio(openDate, amount, ticker);
+            var target = PortfolioFactory.ConstructPortfolio(openDate, amount, ticker);
 
             Assert.AreEqual(ticker, target.CashTicker);
             Assert.AreEqual(amount, target.GetAvailableCash(openDate));
@@ -52,7 +52,7 @@ namespace Sonneville.PriceTools.Test
             var csvFile = PortfolioTransactionHistoryCsvFiles.FidelityTransactions;
             var ticker = String.Empty;
 
-            var target = new Portfolio(csvFile);
+            var target = PortfolioFactory.ConstructPortfolio(csvFile);
 
             Assert.AreEqual(ticker, target.CashTicker);
         }
@@ -62,7 +62,7 @@ namespace Sonneville.PriceTools.Test
         {
             var openDate = new DateTime(2011, 2, 20);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             target.Deposit(openDate, amount);
 
@@ -74,7 +74,7 @@ namespace Sonneville.PriceTools.Test
         {
             var openDate = new DateTime(2011, 2, 20);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             var deposit = TransactionFactory.ConstructDeposit(openDate, amount);
             target.Deposit(deposit);
@@ -87,7 +87,7 @@ namespace Sonneville.PriceTools.Test
         {
             var openDate = new DateTime(2011, 2, 20);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             target.Deposit(openDate, amount);
             target.Withdraw(openDate, amount);
@@ -100,7 +100,7 @@ namespace Sonneville.PriceTools.Test
         {
             var openDate = new DateTime(2011, 2, 20);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             var deposit = TransactionFactory.ConstructDeposit(openDate, amount);
             var withdrawal = TransactionFactory.ConstructWithdrawal(openDate, amount);
@@ -114,7 +114,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetAvailableCashNoTransactions()
         {
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             const decimal expectedCash = 0;
             var availableCash = target.GetAvailableCash(DateTime.Now);
@@ -124,7 +124,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void CalculateGrossProfitNoTransactions()
         {
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             const decimal expectedValue = 0;
             var actualValue = target.CalculateGrossProfit(DateTime.Now);
@@ -136,7 +136,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal openingDeposit = 10000m;
-            var target = new Portfolio(dateTime, openingDeposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
 
             const decimal expectedCash = openingDeposit;
             var availableCash = target.GetAvailableCash(dateTime);
@@ -148,7 +148,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal openingDeposit = 10000m;
-            var target = new Portfolio(dateTime, openingDeposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
 
             const decimal expectedValue = openingDeposit;
             var actualValue = target.CalculateGrossProfit(dateTime);
@@ -160,7 +160,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio(dateTime, amount);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
             target.Withdraw(dateTime.AddDays(1), amount);
@@ -175,7 +175,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio(dateTime, amount);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
             target.Withdraw(withdrawalDate, amount);
@@ -190,7 +190,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 11, 21);
             const decimal openingDeposit = 10000m;
-            var target = new Portfolio(dateTime, openingDeposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
 
             var buyDate = dateTime.AddDays(1);
             var calculateDate = buyDate.AddDays(1);
@@ -216,7 +216,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 11, 21);
             const decimal openingDeposit = 10000m;
-            var target = new Portfolio(dateTime, openingDeposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
 
             var buyDate = dateTime.AddDays(1);
             var sellDate = buyDate.AddDays(1);
@@ -242,7 +242,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -262,7 +262,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -286,7 +286,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2001, 1, 1);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
@@ -306,7 +306,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2001, 1, 1);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
@@ -330,7 +330,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2001, 1, 1);
             const decimal deposit = 505.00m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
@@ -350,7 +350,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2001, 1, 1);
             const decimal deposit = 505.00m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
@@ -377,7 +377,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetInvestedValueFromEmptyPortfolio()
         {
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
             Assert.AreEqual(0.0m, target.CalculateInvestedValue(new YahooPriceDataProvider(), DateTime.Now));
         }
 
@@ -386,7 +386,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 4, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 4, 25);
             const string ticker = "DE";
@@ -412,7 +412,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 4, 25);
             var sellDate = buyDate.AddDays(1);
@@ -434,7 +434,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetCostFromEmptyPortfolio()
         {
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             Assert.AreEqual(0.0m, target.CalculateCost(DateTime.Now));
         }
@@ -444,7 +444,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 4, 25);
             var sellDate = buyDate.AddDays(1);
@@ -466,7 +466,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetProceedsFromEmptyPortfolio()
         {
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
             Assert.AreEqual(0.0m, target.CalculateProceeds(DateTime.Now));
         }
 
@@ -475,7 +475,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 4, 25);
             var sellDate = buyDate.AddDays(1);
@@ -497,7 +497,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetCommissionsFromEmptyPortfolio()
         {
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
             Assert.AreEqual(0.0m, target.CalculateCommissions(DateTime.Now));
         }
 
@@ -506,7 +506,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 4, 25);
             var sellDate = buyDate.AddDays(1);
@@ -530,7 +530,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
             
             const string ticker = "DE";
             var buy = TransactionFactory.ConstructBuy(dateTime, ticker, 0.00m, 5);
@@ -544,7 +544,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetPositionTestMissing()
         {
-            var target = new Portfolio("FTEXX");
+            var target = PortfolioFactory.ConstructPortfolio("FTEXX");
             Assert.IsNull(target.GetPosition("ASDF"));
         }
 
@@ -553,7 +553,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio(dateTime, amount);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
 
             var expectedValue = target.CalculateGrossProfit(dateTime);
             decimal? actualValue = target[dateTime];
@@ -565,7 +565,7 @@ namespace Sonneville.PriceTools.Test
         {
             var date = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             var deposit = TransactionFactory.ConstructDeposit(date, amount);
             target.AddTransaction(deposit);
@@ -578,7 +578,7 @@ namespace Sonneville.PriceTools.Test
         {
             var date = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             var deposit = TransactionFactory.ConstructDeposit(date, amount);
             target.AddTransaction(deposit);
@@ -591,7 +591,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var date = new DateTime(2011, 1, 9);
             const string ticker = "DE";
@@ -608,7 +608,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 1, 9);
             const string ticker = "DE";
@@ -629,7 +629,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 1, 9);
             const string ticker = "DE";
@@ -650,7 +650,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var date = new DateTime(2011, 1, 9);
             const string ticker = "DE";
@@ -667,7 +667,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 1, 9);
             const string ticker = "DE";
@@ -688,7 +688,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 1, 9);
             const string ticker = "DE";
@@ -709,7 +709,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);   // first transaction: deposit
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);   // first transaction: deposit
 
             var buyDate = new DateTime(2011, 1, 9);
             const string de = "DE";
@@ -740,7 +740,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio(dateTime, amount);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
 
             var buyDate = new DateTime(2011, 1, 9);
             const string ticker = "DE";
@@ -756,7 +756,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void HeadTestWhenEmpty()
         {
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             // measure DayOfYear because ticks will be slightly different between calls
             var expected = DateTime.Now.DayOfYear;
@@ -769,7 +769,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             target.Deposit(dateTime, amount);
 
@@ -787,7 +787,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             target.Deposit(dateTime, amount);
             
@@ -801,7 +801,7 @@ namespace Sonneville.PriceTools.Test
         {
             var originalDate = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             target.Deposit(originalDate, amount);
             target.Deposit(originalDate.AddDays(10), amount);
@@ -814,7 +814,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void TailTestWhenEmpty()
         {
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             // measure DayOfYear because ticks will be slightly different between calls
             var expected = DateTime.Now.DayOfYear;
@@ -827,7 +827,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             target.Deposit(dateTime, amount);
 
@@ -845,7 +845,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             target.Deposit(dateTime, amount);
 
@@ -859,7 +859,7 @@ namespace Sonneville.PriceTools.Test
         {
             var originalDate = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = new Portfolio();
+            var target = PortfolioFactory.ConstructPortfolio();
 
             target.Deposit(originalDate, amount);
             var nextDate = originalDate.AddDays(10);
@@ -874,7 +874,7 @@ namespace Sonneville.PriceTools.Test
         public void CashTickerSetCorrectly()
         {
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            var target = new Portfolio(ticker);
+            var target = PortfolioFactory.ConstructPortfolio(ticker);
 
             const string expected = ticker;
             var actual = target.CashTicker;
@@ -888,7 +888,7 @@ namespace Sonneville.PriceTools.Test
             var purchaseDate = testDate.AddDays(1);
             const decimal amount = 10000m;
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            var target = new Portfolio(purchaseDate, amount, ticker);
+            var target = PortfolioFactory.ConstructPortfolio(purchaseDate, amount, ticker);
 
             Assert.AreEqual(false, target.HasValueInRange(testDate));
             Assert.AreEqual(true, target.HasValueInRange(purchaseDate));
@@ -900,7 +900,7 @@ namespace Sonneville.PriceTools.Test
         {
             var dateTime = new DateTime(2011, 7, 26);
             const decimal deposit = 10000m;
-            var target = new Portfolio(dateTime, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 7, 26);
             const string ticker = "DE";
@@ -942,7 +942,7 @@ namespace Sonneville.PriceTools.Test
             const decimal commission = 5.00m;   // with $5 commission
 
             const decimal deposit = 10000m;
-            var target = new Portfolio(testDate, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(testDate, deposit);
 
             target.AddTransaction(TransactionFactory.ConstructBuy(firstBuyDate, ticker, buyPrice, sharesBought, commission));
             target.AddTransaction(TransactionFactory.ConstructBuy(secondBuyDate, ticker, buyPrice, sharesBought, commission));
@@ -996,7 +996,7 @@ namespace Sonneville.PriceTools.Test
             const decimal commission = 5.00m;   // with $5 commission
 
             const decimal deposit = 10000m;
-            var target = new Portfolio(testDate, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(testDate, deposit);
 
             target.AddTransaction(TransactionFactory.ConstructBuy(firstBuyDate, firstTicker, buyPrice, sharesBought, commission));
             target.AddTransaction(TransactionFactory.ConstructBuy(secondBuyDate, secondTicker, buyPrice, sharesBought, commission));
@@ -1050,7 +1050,7 @@ namespace Sonneville.PriceTools.Test
             const decimal commission = 5.00m;   // with $5 commission
 
             const decimal deposit = 10000m;
-            var target = new Portfolio(testDate, deposit);
+            var target = PortfolioFactory.ConstructPortfolio(testDate, deposit);
 
             target.AddTransaction(TransactionFactory.ConstructBuy(firstBuyDate, firstTicker, buyPrice, sharesBought, commission));
             target.AddTransaction(TransactionFactory.ConstructBuy(secondBuyDate, secondTicker, buyPrice, sharesBought, commission));
@@ -1097,7 +1097,7 @@ namespace Sonneville.PriceTools.Test
         public void ValuesTest()
         {
             const string ticker = "DE";
-            var target = new Portfolio(ticker);
+            var target = PortfolioFactory.ConstructPortfolio(ticker);
 
             var values = target.Values;
         }

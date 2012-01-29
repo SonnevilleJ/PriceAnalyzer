@@ -132,7 +132,7 @@ namespace Sonneville.Utilities
         public static ITradingAccount CreateSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, Deposit openingDeposit)
         {
             var tradingAccountFeatures = TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
-            var portfolio = new Portfolio();
+            var portfolio = PortfolioFactory.ConstructPortfolio();
             portfolio.Deposit(openingDeposit);
             return new SimulatedTradingAccount {Features = tradingAccountFeatures, Portfolio = portfolio};
         }

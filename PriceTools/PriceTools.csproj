@@ -54,6 +54,7 @@
     <Compile Include="BuyToCover.cs" />
     <Compile Include="Extensions\PriceSeriesReactionMovesExtensions.cs" />
     <Compile Include="Factories\CashAccountFactory.cs" />
+    <Compile Include="Factories\PortfolioFactory.cs" />
     <Compile Include="Factories\PriceQuoteFactory.cs" />
     <Compile Include="Implementation\BuyImpl.cs" />
     <Compile Include="Implementation\BuyToCoverImpl.cs" />
@@ -103,7 +104,7 @@
     <Compile Include="Position.cs" />
     <Compile Include="ITimeSeries.cs" />
     <Compile Include="ShareTransaction.cs" />
-    <Compile Include="Portfolio.cs" />
+    <Compile Include="PortfolioImpl.cs" />
     <Compile Include="OrderType.cs" />
     <Compile Include="Implementation\PositionImpl.cs" />
     <Compile Include="Resolution.cs" />

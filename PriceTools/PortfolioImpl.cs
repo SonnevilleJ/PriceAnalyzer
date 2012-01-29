@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a portfolio of investments.
     /// </summary>
-    public class Portfolio : IPortfolio
+    internal class PortfolioImpl : IPortfolio
     {
         #region Private Members
 
@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a Portfolio.
         /// </summary>
-        public Portfolio()
+        internal PortfolioImpl()
             : this(DefaultCashTicker)
         {
         }
@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools
         /// Constructs a Portfolio and assigns a ticker symbol to use as the Portfolio's <see cref="CashAccount"/>.
         /// </summary>
         /// <param name="ticker">The ticker symbol which is used as the <see cref="CashAccount"/>.</param>
-        public Portfolio(string ticker)
+        internal PortfolioImpl(string ticker)
         {
             CashTicker = ticker;
             _cashAccount = CashAccountFactory.ConstructCashAccount();
@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime">The <see cref="DateTime"/> cash is deposit in the Portfolio.</param>
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
-        public Portfolio(DateTime dateTime, decimal openingDeposit)
+        internal PortfolioImpl(DateTime dateTime, decimal openingDeposit)
             : this(dateTime, openingDeposit, DefaultCashTicker)
         {
         }
@@ -54,7 +54,7 @@ namespace Sonneville.PriceTools
         /// <param name="dateTime">The <see cref="DateTime"/> cash is deposit in the Portfolio.</param>
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
         /// <param name="ticker">The ticker symbol the deposit is invested in.</param>
-        public Portfolio(DateTime dateTime, decimal openingDeposit, string ticker)
+        internal PortfolioImpl(DateTime dateTime, decimal openingDeposit, string ticker)
             : this(ticker)
         {
             Deposit(dateTime, openingDeposit);
@@ -64,7 +64,7 @@ namespace Sonneville.PriceTools
         /// Constructs a Portfolio from a <see cref="ITransactionHistory"/>.
         /// </summary>
         /// <param name="csvFile">The <see cref="ITransactionHistory"/> containing transaction data.</param>
-        public Portfolio(ITransactionHistory csvFile)
+        internal PortfolioImpl(ITransactionHistory csvFile)
             : this(csvFile, DefaultCashTicker)
         {
         }
@@ -74,7 +74,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="csvFile">The <see cref="ITransactionHistory"/> containing transaction data.</param>
         /// <param name="ticker">The ticker symbol which is used as the <see cref="CashAccount"/>.</param>
-        public Portfolio(ITransactionHistory csvFile, string ticker)
+        internal PortfolioImpl(ITransactionHistory csvFile, string ticker)
             : this(ticker)
         {
             AddTransactionHistory(csvFile);
