@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the first DateTime in the ITimeSeries.
+        ///   Gets the first DateTime in the TimeSeries.
         /// </summary>
         public override DateTime Head
         {
@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the last DateTime in the ITimeSeries.
+        ///   Gets the last DateTime in the TimeSeries.
         /// </summary>
         public override DateTime Tail
         {
@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the values stored within the ITimeSeries.
+        /// Gets the values stored within the TimeSeries.
         /// </summary>
         public override IDictionary<DateTime, decimal> Values
         {
@@ -108,7 +108,7 @@ namespace Sonneville.PriceTools
         ///   Gets a value stored at a given DateTime index of the PricePeriod.
         /// </summary>
         /// <param name = "index">The DateTime of the desired value.</param>
-        /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
+        /// <returns>The value of the TimeSeries as of the given DateTime.</returns>
         public override decimal this[DateTime index]
         {
             get { return PriceQuotes.Where(q => q.SettlementDate <= index).Last().Price; }

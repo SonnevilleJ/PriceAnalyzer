@@ -5,8 +5,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
 {
     public abstract class Analyzer
     {
-        private ITimeSeries _timeSeries;
-        public ITimeSeries TimeSeries
+        private TimeSeries _timeSeries;
+        public TimeSeries TimeSeries
         {
             get { return _timeSeries; }
             set

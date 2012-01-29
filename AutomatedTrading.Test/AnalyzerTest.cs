@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var head = new DateTime(2011, 7, 1);
             var tail = head;
             const decimal close = 5.0m;
-            ITimeSeries period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+            TimeSeries period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
 
             new HigherThanYesterdayAnalyzer {TimeSeries = period};
         }

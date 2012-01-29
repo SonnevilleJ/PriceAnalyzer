@@ -102,7 +102,7 @@
     <Compile Include="Implementation\PriceQuoteImpl.cs" />
     <Compile Include="QuotedPricePeriodImpl.cs" />
     <Compile Include="Position.cs" />
-    <Compile Include="ITimeSeries.cs" />
+    <Compile Include="TimeSeries.cs" />
     <Compile Include="ShareTransaction.cs" />
     <Compile Include="Implementation\PortfolioImpl.cs" />
     <Compile Include="OrderType.cs" />

@@ -113,7 +113,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the first DateTime in the ITimeSeries.
+        ///   Gets the first DateTime in the TimeSeries.
         /// </summary>
         public DateTime Head
         {
@@ -121,7 +121,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the last DateTime in the ITimeSeries.
+        ///   Gets the last DateTime in the TimeSeries.
         /// </summary>
         public DateTime Tail
         {
@@ -129,7 +129,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the <see cref="ITimeSeries.Resolution"/> of price data stored within the ITimeSeries.
+        /// Gets the <see cref="TimeSeries.Resolution"/> of price data stored within the TimeSeries.
         /// </summary>
         public Resolution Resolution
         {
@@ -137,7 +137,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the values stored within the ITimeSeries.
+        /// Gets the values stored within the TimeSeries.
         /// </summary>
         public IDictionary<DateTime, decimal> Values
         {
@@ -145,10 +145,10 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Determines if the ITimeSeries has a valid value for a given date.
+        ///   Determines if the TimeSeries has a valid value for a given date.
         /// </summary>
         /// <param name = "settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the ITimeSeries has a valid value for the given date.</returns>
+        /// <returns>A value indicating if the TimeSeries has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
             return settlementDate >= Head;

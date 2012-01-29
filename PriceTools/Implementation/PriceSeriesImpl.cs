@@ -117,7 +117,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the values stored within the ITimeSeries.
+        /// Gets the values stored within the TimeSeries.
         /// </summary>
         public override IDictionary<DateTime, decimal> Values
         {

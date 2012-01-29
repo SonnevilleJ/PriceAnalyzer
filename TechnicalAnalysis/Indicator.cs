@@ -5,7 +5,7 @@ using System.Linq;
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
     /// <summary>
-    /// A generic indicator used to transform <see cref="ITimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying ITimeSeries data.
+    /// A generic indicator used to transform <see cref="PriceTools.TimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying TimeSeries data.
     /// </summary>
     public abstract class Indicator : IIndicator
     {
@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         /// <param name="timeSeries">The <see cref="PriceSeries"/> to measure.</param>
         /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
-        protected Indicator(ITimeSeries timeSeries, int lookback)
+        protected Indicator(TimeSeries timeSeries, int lookback)
         {
             if (timeSeries == null)
             {
@@ -86,7 +86,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// Gets the value stored at a given index of this Indicator.
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
-        /// <returns>THe value of the ITimeSeries as of the given DateTime.</returns>
+        /// <returns>THe value of the TimeSeries as of the given DateTime.</returns>
         public virtual decimal this[DateTime index]
         {
             get
@@ -106,7 +106,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
         /// </summary>
-        public ITimeSeries TimeSeries { get; private set; }
+        public TimeSeries TimeSeries { get; private set; }
 
         /// <summary>
         /// The Resolution of this Indicator.

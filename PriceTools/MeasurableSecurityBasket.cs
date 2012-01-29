@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   Represents a measurable basket of securities whose value changes over time.
     /// </summary>
-    public interface MeasurableSecurityBasket : ITimeSeries
+    public interface MeasurableSecurityBasket : TimeSeries
     {
         /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this MeasurableSecurityBasket.

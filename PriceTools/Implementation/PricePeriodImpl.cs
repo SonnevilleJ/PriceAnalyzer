@@ -42,24 +42,24 @@ namespace Sonneville.PriceTools.Implementation
         public event EventHandler<NewPriceDataAvailableEventArgs> NewPriceDataAvailable;
 
         /// <summary>
-        /// Gets a value stored at a given DateTime index of the ITimeSeries.
+        /// Gets a value stored at a given DateTime index of the TimeSeries.
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
-        /// <returns>The value of the ITimeSeries as of the given DateTime.</returns>
+        /// <returns>The value of the TimeSeries as of the given DateTime.</returns>
         public abstract decimal this[DateTime index] { get; }
 
         /// <summary>
-        /// Gets the first DateTime in the ITimeSeries.
+        /// Gets the first DateTime in the TimeSeries.
         /// </summary>
         public abstract DateTime Head { get; }
 
         /// <summary>
-        /// Gets the last DateTime in the ITimeSeries.
+        /// Gets the last DateTime in the TimeSeries.
         /// </summary>
         public abstract DateTime Tail { get; }
 
         /// <summary>
-        /// Gets the <see cref="ITimeSeries.Resolution"/> of price data stored within the ITimeSeries.
+        /// Gets the <see cref="TimeSeries.Resolution"/> of price data stored within the TimeSeries.
         /// </summary>
         public virtual Resolution Resolution
         {
@@ -76,7 +76,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the values stored within the ITimeSeries.
+        /// Gets the values stored within the TimeSeries.
         /// </summary>
         public abstract IDictionary<DateTime, decimal> Values { get; }
 
