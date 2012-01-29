@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     ///   A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.
     /// </summary>
-    internal class PositionImpl : IPosition
+    internal class PositionImpl : Position
     {
         #region Private Members
 
@@ -34,10 +34,10 @@ namespace Sonneville.PriceTools.Implementation
 
         #endregion
 
-        #region IPosition Members
+        #region Position Members
 
         /// <summary>
-        ///   Gets the ticker symbol held by this IPosition.
+        ///   Gets the ticker symbol held by this Position.
         /// </summary>
         public string Ticker
         {
@@ -56,7 +56,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Buys shares of the ticker held by this IPosition.
+        ///   Buys shares of the ticker held by this Position.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
         /// <param name = "shares">The number of shares in this shareTransaction.</param>
@@ -68,7 +68,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Buys shares of the ticker held by this IPosition to cover a previous ShortSell.
+        ///   Buys shares of the ticker held by this Position to cover a previous ShortSell.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
         /// <param name = "shares">The number of shares in this shareTransaction. Shares cannot exceed currently shorted shares.</param>
@@ -80,7 +80,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Sells shares of the ticker held by this IPosition.
+        ///   Sells shares of the ticker held by this Position.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
         /// <param name = "shares">The number of shares in this shareTransaction. Shares connot exceed currently held shares.</param>
@@ -92,7 +92,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Sell short shares of the ticker held by this IPosition.
+        ///   Sell short shares of the ticker held by this Position.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
         /// <param name = "shares">The number of shares in this shareTransaction.</param>

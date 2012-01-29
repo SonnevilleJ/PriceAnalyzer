@@ -4,17 +4,17 @@ using System.Collections.Generic;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   Represents a IPosition taken using one or more <see cref = "ShareTransaction" />s.
+    ///   Represents a Position taken using one or more <see cref = "ShareTransaction" />s.
     /// </summary>
-    public interface IPosition : MeasurableSecurityBasket
+    public interface Position : MeasurableSecurityBasket
     {
         /// <summary>
-        ///   Gets the ticker symbol held by this IPosition.
+        ///   Gets the ticker symbol held by this Position.
         /// </summary>
         string Ticker { get; }
 
         /// <summary>
-        ///   Buys shares of the ticker held by this IPosition.
+        ///   Buys shares of the ticker held by this Position.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
         /// <param name = "shares">The number of shares in this shareTransaction.</param>
@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools
         void Buy(DateTime settlementDate, double shares, decimal price, decimal commission);
 
         /// <summary>
-        ///   Buys shares of the ticker held by this IPosition to cover a previous ShortSell.
+        ///   Buys shares of the ticker held by this Position to cover a previous ShortSell.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
         /// <param name = "shares">The number of shares in this shareTransaction. Shares cannot exceed currently shorted shares.</param>
@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools
         void BuyToCover(DateTime settlementDate, double shares, decimal price, decimal commission);
 
         /// <summary>
-        ///   Sells shares of the ticker held by this IPosition.
+        ///   Sells shares of the ticker held by this Position.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
         /// <param name = "shares">The number of shares in this shareTransaction. Shares connot exceed currently held shares.</param>
@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools
         void Sell(DateTime settlementDate, double shares, decimal price, decimal commission);
 
         /// <summary>
-        ///   Sell short shares of the ticker held by this IPosition.
+        ///   Sell short shares of the ticker held by this Position.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
         /// <param name = "shares">The number of shares in this shareTransaction.</param>
@@ -50,16 +50,16 @@ namespace Sonneville.PriceTools
         void SellShort(DateTime settlementDate, double shares, decimal price, decimal commission);
 
         /// <summary>
-        ///   Adds an ShareTransaction to the IPosition.
+        ///   Adds an ShareTransaction to the Position.
         /// </summary>
         /// <param name = "shareTransaction"></param>
         void AddTransaction(ShareTransaction shareTransaction);
 
         /// <summary>
-        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the IPosition.
+        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Position.
         /// </summary>
         /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
-        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the IPosition.</returns>
+        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Position.</returns>
         IList<IHolding> CalculateHoldings(DateTime settlementDate);
 
         /// <summary>

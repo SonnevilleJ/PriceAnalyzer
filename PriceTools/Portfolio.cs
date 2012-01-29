@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools
 
         private static readonly string DefaultCashTicker = String.Empty;
         private readonly CashAccount _cashAccount = CashAccountFactory.ConstructCashAccount();
-        private readonly IList<IPosition> _positions = new List<IPosition>();
+        private readonly IList<Position> _positions = new List<Position>();
 
         #endregion
 
@@ -237,7 +237,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IPosition.
+        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
         /// </summary>
         public IList<Transaction> Transactions
         {
@@ -429,17 +429,17 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
         /// </summary>
-        public IList<IPosition> Positions
+        public IList<Position> Positions
         {
             get { return _positions; }
         }
 
         /// <summary>
-        ///   Retrieves the <see cref="IPosition"/> with Ticker <paramref name="ticker"/>.
+        ///   Retrieves the <see cref="Position"/> with Ticker <paramref name="ticker"/>.
         /// </summary>
         /// <param name="ticker">The Ticker symbol of the position to retrieve.</param>
-        /// <returns>The <see cref="IPosition"/> with the requested Ticker. Returns null if no <see cref="IPosition"/> is found with the requested Ticker.</returns>
-        public IPosition GetPosition(string ticker)
+        /// <returns>The <see cref="Position"/> with the requested Ticker. Returns null if no <see cref="Position"/> is found with the requested Ticker.</returns>
+        public Position GetPosition(string ticker)
         {
             return GetPosition(ticker, true);
         }
@@ -448,7 +448,7 @@ namespace Sonneville.PriceTools
 
         #region Private Methods
 
-        private IPosition GetPosition(string ticker, bool nullAcceptable)
+        private Position GetPosition(string ticker, bool nullAcceptable)
         {
             var firstOrDefault = Positions.Where(p => p.Ticker == ticker).FirstOrDefault();
             return firstOrDefault == null && !nullAcceptable ? PositionFactory.CreatePosition(ticker) : firstOrDefault;
