@@ -9,13 +9,15 @@ namespace Sonneville.PriceTools
     /// </summary>
     public static class PortfolioFactory
     {
+        private static readonly string DefaultCashTicker = String.Empty;
+
         /// <summary>
         /// Constructs a Portfolio.
         /// </summary>
         /// <returns></returns>
         public static Portfolio ConstructPortfolio()
         {
-            return new PortfolioImpl();
+            return ConstructPortfolio(DefaultCashTicker);
         }
 
         /// <summary>
@@ -34,7 +36,7 @@ namespace Sonneville.PriceTools
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
         public static Portfolio ConstructPortfolio(DateTime dateTime, decimal openingDeposit)
         {
-            return new PortfolioImpl(dateTime, openingDeposit);
+            return ConstructPortfolio(dateTime, openingDeposit, DefaultCashTicker);
         }
 
         /// <summary>
@@ -45,7 +47,9 @@ namespace Sonneville.PriceTools
         /// <param name="ticker">The ticker symbol the deposit is invested in.</param>
         public static Portfolio ConstructPortfolio(DateTime dateTime, decimal openingDeposit, string ticker)
         {
-            return new PortfolioImpl(dateTime, openingDeposit, ticker);
+            var portfolio = ConstructPortfolio(ticker);
+            portfolio.Deposit(dateTime, openingDeposit);
+            return portfolio;
         }
 
         /// <summary>
@@ -54,7 +58,7 @@ namespace Sonneville.PriceTools
         /// <param name="csvFile">The <see cref="ITransactionHistory"/> containing transaction data.</param>
         public static Portfolio ConstructPortfolio(ITransactionHistory csvFile)
         {
-            return new PortfolioImpl(csvFile);
+            return ConstructPortfolio(csvFile, DefaultCashTicker);
         }
 
         /// <summary>
@@ -64,7 +68,9 @@ namespace Sonneville.PriceTools
         /// <param name="ticker">The ticker symbol which is used as the <see cref="CashAccount"/>.</param>
         public static Portfolio ConstructPortfolio(ITransactionHistory csvFile, string ticker)
         {
-            return new PortfolioImpl(csvFile, ticker);
+            var portfolio = ConstructPortfolio(ticker);
+            portfolio.AddTransactionHistory(csvFile);
+            return portfolio;
         }
     }
 }

@@ -12,7 +12,6 @@ namespace Sonneville.PriceTools.Implementation
     {
         #region Private Members
 
-        private static readonly string DefaultCashTicker = String.Empty;
         private readonly CashAccount _cashAccount = CashAccountFactory.ConstructCashAccount();
         private readonly IList<Position> _positions = new List<Position>();
 
@@ -21,63 +20,12 @@ namespace Sonneville.PriceTools.Implementation
         #region Constructors
 
         /// <summary>
-        /// Constructs a Portfolio.
-        /// </summary>
-        internal PortfolioImpl()
-            : this(DefaultCashTicker)
-        {
-        }
-
-        /// <summary>
         /// Constructs a Portfolio and assigns a ticker symbol to use as the Portfolio's <see cref="CashAccount"/>.
         /// </summary>
         /// <param name="ticker">The ticker symbol which is used as the <see cref="CashAccount"/>.</param>
         internal PortfolioImpl(string ticker)
         {
             CashTicker = ticker;
-            _cashAccount = CashAccountFactory.ConstructCashAccount();
-        }
-
-        /// <summary>
-        /// Constructs a Portfolio with an opening deposit.
-        /// </summary>
-        /// <param name="dateTime">The <see cref="DateTime"/> cash is deposit in the Portfolio.</param>
-        /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
-        internal PortfolioImpl(DateTime dateTime, decimal openingDeposit)
-            : this(dateTime, openingDeposit, DefaultCashTicker)
-        {
-        }
-
-        /// <summary>
-        /// Constructs a Portfolio with an opening deposit invested in a given ticker symbol.
-        /// </summary>
-        /// <param name="dateTime">The <see cref="DateTime"/> cash is deposit in the Portfolio.</param>
-        /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
-        /// <param name="ticker">The ticker symbol the deposit is invested in.</param>
-        internal PortfolioImpl(DateTime dateTime, decimal openingDeposit, string ticker)
-            : this(ticker)
-        {
-            Deposit(dateTime, openingDeposit);
-        }
-
-        /// <summary>
-        /// Constructs a Portfolio from a <see cref="ITransactionHistory"/>.
-        /// </summary>
-        /// <param name="csvFile">The <see cref="ITransactionHistory"/> containing transaction data.</param>
-        internal PortfolioImpl(ITransactionHistory csvFile)
-            : this(csvFile, DefaultCashTicker)
-        {
-        }
-
-        /// <summary>
-        /// Constructs a Portfolio from a <see cref="ITransactionHistory"/>.
-        /// </summary>
-        /// <param name="csvFile">The <see cref="ITransactionHistory"/> containing transaction data.</param>
-        /// <param name="ticker">The ticker symbol which is used as the <see cref="CashAccount"/>.</param>
-        internal PortfolioImpl(ITransactionHistory csvFile, string ticker)
-            : this(ticker)
-        {
-            AddTransactionHistory(csvFile);
         }
 
         #endregion
