@@ -4,7 +4,7 @@ using Sonneville.PriceTools.Implementation;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   A <see cref="PricePeriod"/> made from <see cref="PriceQuotes"/>.
+    ///   A <see cref="PricePeriodImpl"/> made from <see cref="PriceQuotes"/>.
     /// </summary>
     public interface QuotedPricePeriod : IPricePeriod
     {

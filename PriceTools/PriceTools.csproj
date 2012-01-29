@@ -92,7 +92,7 @@
     <Compile Include="Transaction.cs" />
     <Compile Include="NewPriceDataAvailableEventArgs.cs" />
     <Compile Include="Factories\PositionFactory.cs" />
-    <Compile Include="PricePeriod.cs" />
+    <Compile Include="Implementation\PricePeriodImpl.cs" />
     <Compile Include="Factories\PricePeriodFactory.cs" />
     <Compile Include="Implementation\PriceSeriesImpl.cs" />
     <Compile Include="Factories\PriceSeriesFactory.cs" />

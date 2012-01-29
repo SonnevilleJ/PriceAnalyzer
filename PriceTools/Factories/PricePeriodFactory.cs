@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools
     public static class PricePeriodFactory
     {
         /// <summary>
-        /// Constructs a <see cref="PricePeriod"/> with static data.
+        /// Constructs a <see cref="PricePeriodImpl"/> with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="tail">The last DateTime of the period.</param>

@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    public abstract class PricePeriod : IPricePeriod
+    internal abstract class PricePeriodImpl : IPricePeriod
     {
         #region Implementation of IPricePeriod
 
