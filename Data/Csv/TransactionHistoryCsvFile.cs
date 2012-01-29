@@ -9,7 +9,7 @@ using LumenWorks.Framework.IO.Csv;
 namespace Sonneville.PriceTools.Data.Csv
 {
     /// <summary>
-    ///   Parses a single <see cref = "IPortfolio" /> from CSV data for an investment portfolio.
+    ///   Parses a single <see cref = "Portfolio" /> from CSV data for an investment portfolio.
     /// </summary>
     public abstract class TransactionHistoryCsvFile : ITransactionHistory
     {

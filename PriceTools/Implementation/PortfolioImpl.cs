@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.Data;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a portfolio of investments.
     /// </summary>
-    internal class PortfolioImpl : IPortfolio
+    internal class PortfolioImpl : Portfolio
     {
         #region Private Members
 
@@ -173,7 +173,7 @@ namespace Sonneville.PriceTools
 
         #endregion
 
-        #region Implementation of IPortfolio
+        #region Implementation of Portfolio
 
         /// <summary>
         ///   Gets the amount of uninvested cash in this Portfolio.
@@ -185,7 +185,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets or sets the ticker to use for the holding of cash in this IPortfolio.
+        /// Gets or sets the ticker to use for the holding of cash in this Portfolio.
         /// </summary>
         public string CashTicker { get; private set; }
 
@@ -388,7 +388,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Validates an <see cref="Transaction"/> without adding it to the IPortfolio.
+        /// Validates an <see cref="Transaction"/> without adding it to the Portfolio.
         /// </summary>
         /// <param name="transaction">The <see cref="ShareTransaction"/> to validate.</param>
         /// <returns></returns>
@@ -427,7 +427,7 @@ namespace Sonneville.PriceTools
             }
 
         /// <summary>
-        ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
+        ///   Gets an <see cref = "IList{T}" /> of positions held in this Portfolio.
         /// </summary>
         public IList<Position> Positions
         {

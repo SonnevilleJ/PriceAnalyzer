@@ -284,7 +284,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
-                IPortfolio portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
+                Portfolio portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
 
                 Assert.AreEqual("FDRXX", portfolio.CashTicker);
             }
@@ -297,7 +297,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
-                IPortfolio portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
+                Portfolio portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
 
                 Assert.AreEqual(12, portfolio.Positions.Count);
             }
@@ -310,7 +310,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
-                IPortfolio portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
+                Portfolio portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
 
                 Assert.AreEqual(1050.00m, portfolio.GetAvailableCash(new DateTime(2009, 7, 23)));
             }

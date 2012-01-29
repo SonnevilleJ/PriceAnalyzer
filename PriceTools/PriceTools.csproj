@@ -86,7 +86,7 @@
     <Compile Include="CashTransaction.cs" />
     <Compile Include="IHolding.cs" />
     <Compile Include="MeasurableSecurityBasket.cs" />
-    <Compile Include="IPortfolio.cs" />
+    <Compile Include="Portfolio.cs" />
     <Compile Include="PricePeriod.cs" />
     <Compile Include="PriceQuote.cs" />
     <Compile Include="PriceSeries.cs" />
@@ -104,7 +104,7 @@
     <Compile Include="Position.cs" />
     <Compile Include="ITimeSeries.cs" />
     <Compile Include="ShareTransaction.cs" />
-    <Compile Include="PortfolioImpl.cs" />
+    <Compile Include="Implementation\PortfolioImpl.cs" />
     <Compile Include="OrderType.cs" />
     <Compile Include="Implementation\PositionImpl.cs" />
     <Compile Include="Resolution.cs" />

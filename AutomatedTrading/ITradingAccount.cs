@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.
         /// </summary>
-        IPortfolio Portfolio { get; set; }
+        Portfolio Portfolio { get; set; }
 
         /// <summary>
         /// Gets the list of features supported by this TradingAccount.
