@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.Data.Csv
     /// <summary>
     ///   Parses a single <see cref = "Portfolio" /> from CSV data for an investment portfolio.
     /// </summary>
-    public abstract class TransactionHistoryCsvFile : ITransactionHistory
+    public abstract class TransactionHistoryCsvFile : TransactionHistory
     {
         #region Private Members
 

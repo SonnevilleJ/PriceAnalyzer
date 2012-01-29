@@ -312,7 +312,7 @@ namespace Sonneville.PriceTools.Implementation
         /// Adds historical transactions to the Portfolio.
         /// </summary>
         /// <param name="transactionHistory">The historical transactions to add.</param>
-        public void AddTransactionHistory(ITransactionHistory transactionHistory)
+        public void AddTransactionHistory(TransactionHistory transactionHistory)
         {
             foreach (var transaction in transactionHistory.Transactions)
             {

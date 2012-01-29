@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools.Data
     /// <summary>
     /// A collection of historical <see cref="Transaction"/>s.
     /// </summary>
-    public interface ITransactionHistory
+    public interface TransactionHistory
     {
         /// <summary>
         /// Gets a list of all <see cref="Transaction"/>s in the file.

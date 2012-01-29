@@ -65,7 +65,7 @@ namespace Sonneville.PriceTools
         /// Adds historical transactions to the Portfolio.
         /// </summary>
         /// <param name="transactionHistory">The historical transactions to add.</param>
-        void AddTransactionHistory(ITransactionHistory transactionHistory);
+        void AddTransactionHistory(TransactionHistory transactionHistory);
 
         /// <summary>
         /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Portfolio.

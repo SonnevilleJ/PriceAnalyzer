@@ -60,7 +60,7 @@
     <Compile Include="Implementation\BuyToCoverImpl.cs" />
     <Compile Include="Implementation\CashAccountImpl.cs" />
     <Compile Include="Implementation\CashTransactionImpl.cs" />
-    <Compile Include="Data\ITransactionHistory.cs" />
+    <Compile Include="Data\TransactionHistory.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Buy.cs" />
     <Compile Include="Implementation\DepositImpl.cs" />
