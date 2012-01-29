@@ -25,13 +25,13 @@ namespace Sonneville.PriceTools.Data
         #region Public Methods
 
         /// <summary>
-        /// Gets a list of <see cref="IPricePeriod"/>s containing price data for the requested DateTime range.
+        /// Gets a list of <see cref="PricePeriod"/>s containing price data for the requested DateTime range.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
         /// <returns></returns>
-        public IEnumerable<IPricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail)
+        public IEnumerable<PricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail)
         {
             return GetPricePeriods(ticker, head, tail, BestResolution);
         }
@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.Data
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
         public PriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
@@ -147,14 +147,14 @@ namespace Sonneville.PriceTools.Data
         public abstract Resolution BestResolution { get; }
 
         /// <summary>
-        /// Gets a list of <see cref="IPricePeriod"/>s containing price data for the requested DateTime range.
+        /// Gets a list of <see cref="PricePeriod"/>s containing price data for the requested DateTime range.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
-        public abstract IEnumerable<IPricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution);
+        public abstract IEnumerable<PricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
         /// Gets the ticker symbol for a given stock index.

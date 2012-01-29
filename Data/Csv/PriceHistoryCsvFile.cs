@@ -61,9 +61,9 @@ namespace Sonneville.PriceTools.Data.Csv
         #region Public Properties
 
         /// <summary>
-        /// Gets a list of all <see cref="IPricePeriod"/>s in the file.
+        /// Gets a list of all <see cref="PricePeriod"/>s in the file.
         /// </summary>
-        public IList<IPricePeriod> PricePeriods
+        public IList<PricePeriod> PricePeriods
         {
             get { return PriceSeries.PricePeriods; }
         }
@@ -143,7 +143,7 @@ namespace Sonneville.PriceTools.Data.Csv
             stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
             var resolution = SetResolution(stagedPeriods);
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker, resolution);
-            var pricePeriods = new List<IPricePeriod>();
+            var pricePeriods = new List<PricePeriod>();
 
             for (var i = 0; i < stagedPeriods.Count; i++)
             {

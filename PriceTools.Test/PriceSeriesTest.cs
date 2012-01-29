@@ -641,7 +641,7 @@ namespace Sonneville.PriceTools.Test
             var p1 = TestUtilities.CreatePeriod1();
             var p2 = TestUtilities.CreatePeriod2();
             var p3 = TestUtilities.CreatePeriod3();
-            var pricePeriods = new List<IPricePeriod> {p1, p2, p3};
+            var pricePeriods = new List<PricePeriod> {p1, p2, p3};
             var head = p1.Head;
             var tail = p3.Tail;
 

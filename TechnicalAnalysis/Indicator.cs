@@ -183,10 +183,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Converts a DateTime to the index of the corresponding <see cref="IPricePeriod"/>.
+        /// Converts a DateTime to the index of the corresponding <see cref="PricePeriod"/>.
         /// </summary>
-        /// <param name="dateTime">The <see cref="DateTime"/> corresponding to the <see cref="IPricePeriod"/> to index.</param>
-        /// <returns>The index of the corresponding <see cref="IPricePeriod"/>.</returns>
+        /// <param name="dateTime">The <see cref="DateTime"/> corresponding to the <see cref="PricePeriod"/> to index.</param>
+        /// <returns>The index of the corresponding <see cref="PricePeriod"/>.</returns>
         private int ConvertDateTimeToIndex(DateTime dateTime)
         {
             var values = TimeSeries.Values.ToList();
@@ -197,7 +197,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Converts the index of the corresponding <see cref="IPricePeriod"/> to a DateTime.
+        /// Converts the index of the corresponding <see cref="PricePeriod"/> to a DateTime.
         /// </summary>
         /// <param name="index">The index to convert.</param>
         /// <returns>The DateTime of the corresponding <paramref name="index"/>.</returns>

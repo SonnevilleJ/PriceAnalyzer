@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
     public abstract class TradingStrategy
     {
         private bool _isRunning;
-        private IList<IPricePeriod> _pricePeriods;
+        private IList<PricePeriod> _pricePeriods;
         private Task _task;
         private CancellationTokenSource _tokenSource;
 

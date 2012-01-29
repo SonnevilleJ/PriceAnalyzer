@@ -7,37 +7,37 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    internal abstract class PricePeriodImpl : IPricePeriod
+    internal abstract class PricePeriodImpl : PricePeriod
     {
-        #region Implementation of IPricePeriod
+        #region Implementation of PricePeriod
 
         /// <summary>
-        /// Gets the closing price for the IPricePeriod.
+        /// Gets the closing price for the PricePeriod.
         /// </summary>
         public abstract decimal Close { get; }
 
         /// <summary>
-        /// Gets the highest price that occurred during the IPricePeriod.
+        /// Gets the highest price that occurred during the PricePeriod.
         /// </summary>
         public abstract decimal High { get; }
 
         /// <summary>
-        /// Gets the lowest price that occurred during the IPricePeriod.
+        /// Gets the lowest price that occurred during the PricePeriod.
         /// </summary>
         public abstract decimal Low { get; }
 
         /// <summary>
-        /// Gets the opening price for the IPricePeriod.
+        /// Gets the opening price for the PricePeriod.
         /// </summary>
         public abstract decimal Open { get; }
 
         /// <summary>
-        /// Gets the total volume of trades during the IPricePeriod.
+        /// Gets the total volume of trades during the PricePeriod.
         /// </summary>
         public abstract long? Volume { get; }
         
         /// <summary>
-        ///   Event which is invoked when new price data is available for the IPricePeriod.
+        ///   Event which is invoked when new price data is available for the PricePeriod.
         /// </summary>
         public event EventHandler<NewPriceDataAvailableEventArgs> NewPriceDataAvailable;
 

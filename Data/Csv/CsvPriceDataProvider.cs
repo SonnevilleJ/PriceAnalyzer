@@ -14,14 +14,14 @@ namespace Sonneville.PriceTools.Data.Csv
         #region Overrides of PriceDataProvider
 
         /// <summary>
-        /// Gets a list of <see cref="IPricePeriod"/>s containing price data for the requested DateTime range.
+        /// Gets a list of <see cref="PricePeriod"/>s containing price data for the requested DateTime range.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
-        public override IEnumerable<IPricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution)
+        public override IEnumerable<PricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             return GetPriceHistoryCsvFile(ticker, head, tail, resolution).PricePeriods;
         }
@@ -121,7 +121,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
         private PriceHistoryCsvFile GetPriceHistoryCsvFile(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
@@ -137,7 +137,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name = "ticker">The ticker symbol of the security to price.</param>
         /// <param name = "head">The beginning of the date range to price.</param>
         /// <param name = "tail">The end of the date range to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
         /// <exception cref="WebException">Thrown when accessing the Internet fails.</exception>
         /// <returns>A <see cref = "Stream" /> containing the price data in CSV format.</returns>
         private Stream DownloadPricesToCsv(string ticker, DateTime head, DateTime tail, Resolution resolution)

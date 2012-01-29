@@ -101,7 +101,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             var updateCount = 0;
             var locker = new object();
 
-            Func<string, DateTime, DateTime, Resolution, IEnumerable<IPricePeriod>> action = delegate
+            Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = delegate
                                                                                                  {
                                                                                                      Interlocked.Increment(ref updateCount);
                                                                                                      lock(locker) Monitor.Pulse(locker);
@@ -126,7 +126,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             var updateCount = 0;
             var locker = new object();
 
-            Func<string, DateTime, DateTime, Resolution, IEnumerable<IPricePeriod>> action = delegate
+            Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = delegate
                                                                                                  {
                                                                                                      Interlocked.Increment(ref updateCount);
                                                                                                      lock (locker) Monitor.Pulse(locker);
@@ -153,7 +153,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             var microsoftUpdates = 0;
             var locker = new object();
 
-            Func<string, DateTime, DateTime, Resolution, IEnumerable<IPricePeriod>> action = (ticker, head, tail, resolution) =>
+            Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = (ticker, head, tail, resolution) =>
                                               {
                                                   if (ticker == deere.Ticker)
                                                       Interlocked.Increment(ref deereUpdates);
@@ -183,7 +183,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             var priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
             var updateCount = 0;
 
-            Func<string, DateTime, DateTime, Resolution, IEnumerable<IPricePeriod>> action = delegate
+            Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = delegate
                                                                                                  {
                                                                                                      Interlocked.Increment(ref updateCount);
                                                                                                      return GetPricePeriods();
@@ -201,9 +201,9 @@ namespace Sonneville.PriceTools.Yahoo.Test
             }
         }
 
-        private static IEnumerable<IPricePeriod> GetPricePeriods()
+        private static IEnumerable<PricePeriod> GetPricePeriods()
         {
-            return new List<IPricePeriod>
+            return new List<PricePeriod>
                        {
                            PricePeriodFactory.CreateStaticPricePeriod(
                                new DateTime(2011, 12, 27),
@@ -212,7 +212,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
                        };
         }
 
-        private static IPriceDataProvider GetProvider(Func<string, DateTime, DateTime, Resolution, IEnumerable<IPricePeriod>> action = null)
+        private static IPriceDataProvider GetProvider(Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = null)
         {
             return new SecondsProvider {UpdateAction = action};
         }

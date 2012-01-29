@@ -101,11 +101,11 @@ namespace Sonneville.PriceTools.Implementation
 
         #endregion
 
-        #region Implementation of IPricePeriod
+        #region Implementation of PricePeriod
 
 
         /// <summary>
-        /// Gets the closing price for the IPricePeriod.
+        /// Gets the closing price for the PricePeriod.
         /// </summary>
         public override decimal Close
         {
@@ -113,7 +113,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the highest price that occurred during the IPricePeriod.
+        /// Gets the highest price that occurred during the PricePeriod.
         /// </summary>
         public override decimal High
         {
@@ -121,7 +121,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the lowest price that occurred during  the IPricePeriod.
+        /// Gets the lowest price that occurred during  the PricePeriod.
         /// </summary>
         public override decimal Low
         {
@@ -129,7 +129,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the opening price for the IPricePeriod.
+        /// Gets the opening price for the PricePeriod.
         /// </summary>
         public override decimal Open
         {
@@ -137,7 +137,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the total volume of trades during the IPricePeriod.
+        /// Gets the total volume of trades during the PricePeriod.
         /// </summary>
         public override long? Volume
         {

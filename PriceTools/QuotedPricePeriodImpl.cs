@@ -17,10 +17,10 @@ namespace Sonneville.PriceTools
         /// </summary>
         public IList<PriceQuote> PriceQuotes { get { return _priceQuotes.AsReadOnly(); } }
 
-        #region Overrides of IPricePeriod
+        #region Overrides of PricePeriod
 
         /// <summary>
-        ///   Gets the total volume of trades during the IPricePeriod.
+        ///   Gets the total volume of trades during the PricePeriod.
         /// </summary>
         public override long? Volume
         {
@@ -73,7 +73,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the closing price for the IPricePeriod.
+        ///   Gets the closing price for the PricePeriod.
         /// </summary>
         public override decimal Close
         {
@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the highest price that occurred during the IPricePeriod.
+        ///   Gets the highest price that occurred during the PricePeriod.
         /// </summary>
         public override decimal High
         {
@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the lowest price that occurred during the IPricePeriod.
+        ///   Gets the lowest price that occurred during the PricePeriod.
         /// </summary>
         public override decimal Low
         {
@@ -97,7 +97,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the opening price for the IPricePeriod.
+        ///   Gets the opening price for the PricePeriod.
         /// </summary>
         public override decimal Open
         {

@@ -2,7 +2,7 @@
 {
     public class PriceUnderThresholdAnalyzer : PriceThresholdAnalyzer
     {
-        protected override bool EvaluatePricePeriod(IPricePeriod pricePeriod)
+        protected override bool EvaluatePricePeriod(PricePeriod pricePeriod)
         {
             return pricePeriod.Low <= Threshold;
         }

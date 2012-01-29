@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   A <see cref="PricePeriodImpl"/> made from <see cref="PriceQuotes"/>.
     /// </summary>
-    public interface QuotedPricePeriod : IPricePeriod
+    public interface QuotedPricePeriod : PricePeriod
     {
         /// <summary>
         /// The <see cref="PriceQuoteImpl"/>s contained within this QuotedPricePeriod.
