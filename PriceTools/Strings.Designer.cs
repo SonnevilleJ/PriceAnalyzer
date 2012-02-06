@@ -136,19 +136,19 @@ namespace Sonneville.PriceTools {
         /// <summary>
         ///   Looks up a localized string similar to Quoted price must be greater than zero..
         /// </summary>
-        internal static string PriceQuoteImpl_PriceQuoteImpl_Quoted_price_must_be_greater_than_zero_ {
+        internal static string PriceTickImpl_PriceTickImpl_Quoted_price_must_be_greater_than_zero_ {
             get {
-                return ResourceManager.GetString("PriceQuoteImpl_PriceQuoteImpl_Quoted_price_must_be_greater_than_zero_", resourceCulture);
+                return ResourceManager.GetString("PriceTickImpl_PriceTickImpl_Quoted_price_must_be_greater_than_zero_", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Quoted volume, if specified, must be greater than zero..
         /// </summary>
-        internal static string PriceQuoteImpl_PriceQuoteImpl_Quoted_volume__if_specified__must_be_greater_than_zero_ {
+        internal static string PriceTickImpl_PriceTickImpl_Quoted_volume__if_specified__must_be_greater_than_zero_ {
             get {
-                return ResourceManager.GetString("PriceQuoteImpl_PriceQuoteImpl_Quoted_volume__if_specified__must_be_greater_than_z" +
-                        "ero_", resourceCulture);
+                return ResourceManager.GetString("PriceTickImpl_PriceTickImpl_Quoted_volume__if_specified__must_be_greater_than_zer" +
+                        "o_", resourceCulture);
             }
         }
         

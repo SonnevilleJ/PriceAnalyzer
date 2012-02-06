@@ -28,26 +28,26 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [TestMethod]
         public void RisingAndFallingMovingAverageReturnsCorrectValues()
         {
-            var p1 = PricePeriodFactory.ConstructQuotedPricePeriod();
-            var p2 = PricePeriodFactory.ConstructQuotedPricePeriod();
-            var p3 = PricePeriodFactory.ConstructQuotedPricePeriod();
-            var p4 = PricePeriodFactory.ConstructQuotedPricePeriod();
-            var p5 = PricePeriodFactory.ConstructQuotedPricePeriod();
-            var p6 = PricePeriodFactory.ConstructQuotedPricePeriod();
-            var p7 = PricePeriodFactory.ConstructQuotedPricePeriod();
-            var p8 = PricePeriodFactory.ConstructQuotedPricePeriod();
-            var p9 = PricePeriodFactory.ConstructQuotedPricePeriod();
+            var p1 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p2 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p3 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p4 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p5 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p6 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p7 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p8 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p9 = PricePeriodFactory.ConstructTickedPricePeriod();
 
             var date = new DateTime(2000, 1, 1);
-            p1.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(date, 1));
-            p2.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(date.AddDays(1), 2));
-            p3.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(date.AddDays(2), 3));
-            p4.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(date.AddDays(3), 4));
-            p5.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(date.AddDays(4), 5));
-            p6.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(date.AddDays(5), 4));
-            p7.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(date.AddDays(6), 3));
-            p8.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(date.AddDays(7), 2));
-            p9.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(date.AddDays(8), 1));
+            p1.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date, 1));
+            p2.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(1), 2));
+            p3.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(2), 3));
+            p4.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(3), 4));
+            p5.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(4), 5));
+            p6.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(5), 4));
+            p7.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(6), 3));
+            p8.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(7), 2));
+            p9.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(8), 1));
 
             var series = PriceSeriesFactory.CreatePriceSeries("test");
             series.AddPriceData(p1);
@@ -78,8 +78,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             var series = PriceSeriesFactory.CreatePriceSeries("test");
             for (var i = 0; i < count; i++)
             {
-                var period = PricePeriodFactory.ConstructQuotedPricePeriod();
-                period.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(startDate.AddDays(i), price));
+                var period = PricePeriodFactory.ConstructTickedPricePeriod();
+                period.AddPriceTicks(PriceTickFactory.ConstructPriceTick(startDate.AddDays(i), price));
                 series.AddPriceData(period);
             }
             return series;

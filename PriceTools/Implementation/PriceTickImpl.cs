@@ -6,20 +6,20 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a price quote for a financial security.
     /// </summary>
     [Serializable]
-    internal class PriceQuoteImpl : PriceQuote
+    internal class PriceTickImpl : PriceTick
     {
         /// <summary>
-        /// Constructs a PriceQuote.
+        /// Constructs a PriceTick.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> for which the quote is valid.</param>
         /// <param name="price">The quoted price.</param>
         /// <param name="volume">The number of shares for which the quote is valid.</param>
-        internal PriceQuoteImpl(DateTime settlementDate, decimal price, long? volume = null)
+        internal PriceTickImpl(DateTime settlementDate, decimal price, long? volume = null)
         {
             if (price <= 0)
-                throw new ArgumentOutOfRangeException("price", price, Strings.PriceQuoteImpl_PriceQuoteImpl_Quoted_price_must_be_greater_than_zero_);
+                throw new ArgumentOutOfRangeException("price", price, Strings.PriceTickImpl_PriceTickImpl_Quoted_price_must_be_greater_than_zero_);
             if (volume.HasValue && volume <= 0)
-                throw new ArgumentOutOfRangeException("volume", volume, Strings.PriceQuoteImpl_PriceQuoteImpl_Quoted_volume__if_specified__must_be_greater_than_zero_);
+                throw new ArgumentOutOfRangeException("volume", volume, Strings.PriceTickImpl_PriceTickImpl_Quoted_volume__if_specified__must_be_greater_than_zero_);
 
             SettlementDate = settlementDate;
             Price = price;
@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools.Implementation
             return string.Format("{0}: {1} shares @ {2:c}", SettlementDate, Volume, Price);
         }
 
-        #region Implementation of PriceQuote
+        #region Implementation of PriceTick
 
         /// <summary>
         /// The <see cref="DateTime"/> which the price quote is made.

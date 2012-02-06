@@ -682,7 +682,7 @@ namespace Sonneville.PriceTools.Test
 
             public abstract void ConstructQuotedPricePeriodVolumeTest();
 
-            public abstract QuotedPricePeriod CallFactoryMethod();
+            public abstract TickedPricePeriod CallFactoryMethod();
         }
 
         [TestClass]
@@ -693,7 +693,7 @@ namespace Sonneville.PriceTools.Test
             {
                 var target = CallFactoryMethod();
 
-                Assert.AreEqual(0, target.PriceQuotes.Count);
+                Assert.AreEqual(0, target.PriceTicks.Count);
             }
 
             [TestMethod]
@@ -760,9 +760,9 @@ namespace Sonneville.PriceTools.Test
                 Assert.AreEqual(expected, actual);
             }
 
-            public override QuotedPricePeriod CallFactoryMethod()
+            public override TickedPricePeriod CallFactoryMethod()
             {
-                return PricePeriodFactory.ConstructQuotedPricePeriod();
+                return PricePeriodFactory.ConstructTickedPricePeriod();
             }
         }
 
@@ -774,7 +774,7 @@ namespace Sonneville.PriceTools.Test
             {
                 var target = CallFactoryMethod();
 
-                Assert.AreEqual(PriceQuotes.Count(), target.PriceQuotes.Count);
+                Assert.AreEqual(PriceTicks.Count(), target.PriceTicks.Count);
             }
 
             [TestMethod]
@@ -782,7 +782,7 @@ namespace Sonneville.PriceTools.Test
             {
                 var target = CallFactoryMethod();
 
-                var expected = PriceQuotes.Min(pq => pq.SettlementDate);
+                var expected = PriceTicks.Min(pq => pq.SettlementDate);
                 var actual = target.Head;
                 Assert.AreEqual(expected, actual);
             }
@@ -792,7 +792,7 @@ namespace Sonneville.PriceTools.Test
             {
                 var target = CallFactoryMethod();
 
-                var expected = PriceQuotes.Max(pq => pq.SettlementDate);
+                var expected = PriceTicks.Max(pq => pq.SettlementDate);
                 var actual = target.Tail;
                 Assert.AreEqual(expected, actual);
             }
@@ -802,7 +802,7 @@ namespace Sonneville.PriceTools.Test
             {
                 var target = CallFactoryMethod();
 
-                var expected = PriceQuotes.First().Price;
+                var expected = PriceTicks.First().Price;
                 var actual = target.Open;
                 Assert.AreEqual(expected, actual);
             }
@@ -812,7 +812,7 @@ namespace Sonneville.PriceTools.Test
             {
                 var target = CallFactoryMethod();
 
-                var expected = PriceQuotes.Max(pq => pq.Price);
+                var expected = PriceTicks.Max(pq => pq.Price);
                 var actual = target.High;
                 Assert.AreEqual(expected, actual);
             }
@@ -822,7 +822,7 @@ namespace Sonneville.PriceTools.Test
             {
                 var target = CallFactoryMethod();
 
-                var expected = PriceQuotes.Min(pq => pq.Price);
+                var expected = PriceTicks.Min(pq => pq.Price);
                 var actual = target.Low;
                 Assert.AreEqual(expected, actual);
             }
@@ -832,7 +832,7 @@ namespace Sonneville.PriceTools.Test
             {
                 var target = CallFactoryMethod();
 
-                var expected = PriceQuotes.Last().Price;
+                var expected = PriceTicks.Last().Price;
                 var actual = target.Close;
                 Assert.AreEqual(expected, actual);
             }
@@ -842,23 +842,23 @@ namespace Sonneville.PriceTools.Test
             {
                 var target = CallFactoryMethod();
 
-                var expected = PriceQuotes.Sum(pq => pq.Volume);
+                var expected = PriceTicks.Sum(pq => pq.Volume);
                 var actual = target.Volume;
                 Assert.AreEqual(expected, actual);
             }
 
-            public override QuotedPricePeriod CallFactoryMethod()
+            public override TickedPricePeriod CallFactoryMethod()
             {
-                return PricePeriodFactory.ConstructQuotedPricePeriod(PriceQuotes);
+                return PricePeriodFactory.ConstructTickedPricePeriod(PriceTicks);
             }
 
-            private static IEnumerable<PriceQuote> PriceQuotes
+            private static IEnumerable<PriceTick> PriceTicks
             {
                 get
                 {
-                    var quote1 = TestUtilities.CreateQuote1();
-                    var quote2 = TestUtilities.CreateQuote2();
-                    var quote3 = TestUtilities.CreateQuote3();
+                    var quote1 = TestUtilities.CreateTick1();
+                    var quote2 = TestUtilities.CreateTick2();
+                    var quote3 = TestUtilities.CreateTick3();
                     return new[] {quote1, quote2, quote3};
                 }
             }

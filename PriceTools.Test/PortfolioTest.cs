@@ -200,12 +200,10 @@ namespace Sonneville.PriceTools.Test
             const decimal commission = 7.95m;
             const decimal buyValue = (shares * buyPrice);
             
-            // Because CalculateGrossProfit cannot get price data, it must calculate based on the buy prices and any sell prices
-            const decimal currentValue = buyPrice*shares;
-
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission);
             target.AddTransaction(buy);
 
+            // CalculateGrossProfit does not consider open positions - it can only account for transactions
             const decimal expected = 0 - buyValue;
             var actual = target.CalculateGrossProfit(calculateDate);
             Assert.AreEqual(expected, actual);
@@ -890,8 +888,8 @@ namespace Sonneville.PriceTools.Test
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
             var target = PortfolioFactory.ConstructPortfolio(purchaseDate, amount, ticker);
 
-            Assert.AreEqual(false, target.HasValueInRange(testDate));
             Assert.AreEqual(true, target.HasValueInRange(purchaseDate));
+            Assert.AreEqual(false, target.HasValueInRange(testDate));
             Assert.AreEqual(true, target.HasValueInRange(purchaseDate.AddDays(1)));
         }
 

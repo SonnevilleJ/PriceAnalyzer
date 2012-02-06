@@ -6,7 +6,7 @@ using Sonneville.Utilities;
 namespace Sonneville.PriceTools.Test
 {
     [TestClass]
-    public class PriceQuoteFactoryTest
+    public class PriceTickFactoryTest
     {
         [TestMethod]
         public void SerializeTest()
@@ -15,10 +15,10 @@ namespace Sonneville.PriceTools.Test
             var price = GetValidPrice();
             var volume = GetValidVolume();
 
-            var target = PriceQuoteFactory.ConstructPriceQuote(settlementDate, price, volume);
+            var target = PriceTickFactory.ConstructPriceTick(settlementDate, price, volume);
 
             var xml = Serializer.SerializeToXml(target);
-            var result = Serializer.DeserializeFromXml<PriceQuote>(xml);
+            var result = Serializer.DeserializeFromXml<PriceTick>(xml);
 
             TestUtilities.AssertSameState(target, result);
         }
@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools.Test
             var price = GetValidPrice();
             var volume = GetValidVolume();
 
-            var target = PriceQuoteFactory.ConstructPriceQuote(settlementDate, price, volume);
+            var target = PriceTickFactory.ConstructPriceTick(settlementDate, price, volume);
 
             Assert.AreEqual(settlementDate, target.SettlementDate);
         }
@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.Test
             var price = GetValidPrice();
             var volume = GetValidVolume();
 
-            var target = PriceQuoteFactory.ConstructPriceQuote(settlementDate, price, volume);
+            var target = PriceTickFactory.ConstructPriceTick(settlementDate, price, volume);
 
             Assert.AreEqual(price, target.Price);
         }
@@ -55,7 +55,7 @@ namespace Sonneville.PriceTools.Test
             var price = GetInvalidPrice();
             var volume = GetValidVolume();
 
-            PriceQuoteFactory.ConstructPriceQuote(settlementDate, price, volume);
+            PriceTickFactory.ConstructPriceTick(settlementDate, price, volume);
         }
 
         [TestMethod]
@@ -64,7 +64,7 @@ namespace Sonneville.PriceTools.Test
             var settlementDate = GetSettlementDate();
             var price = GetValidPrice();
 
-            var target = PriceQuoteFactory.ConstructPriceQuote(settlementDate, price);
+            var target = PriceTickFactory.ConstructPriceTick(settlementDate, price);
 
             Assert.IsNull(target.Volume);
         }
@@ -76,7 +76,7 @@ namespace Sonneville.PriceTools.Test
             var price = GetValidPrice();
             var volume = GetValidVolume();
 
-            var target = PriceQuoteFactory.ConstructPriceQuote(settlementDate, price, volume);
+            var target = PriceTickFactory.ConstructPriceTick(settlementDate, price, volume);
 
             Assert.AreEqual(volume, target.Volume);
         }
@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools.Test
             var price = GetValidPrice();
             var volume = GetInvalidVolume();
 
-            PriceQuoteFactory.ConstructPriceQuote(settlementDate, price, volume);
+            PriceTickFactory.ConstructPriceTick(settlementDate, price, volume);
         }
 
         [TestMethod]
@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools.Test
             const decimal price = 10.00m;
             const long volume = 300;
 
-            var target = PriceQuoteFactory.ConstructPriceQuote(settlementDate, price, volume);
+            var target = PriceTickFactory.ConstructPriceTick(settlementDate, price, volume);
 
             var actual = target.ToString();
 

@@ -69,23 +69,23 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a <see cref="PricePeriod"/> which aggregates price data from <see cref="PriceQuote"/>s.
+        /// Constructs a <see cref="PricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
         /// </summary>
         /// <returns></returns>
-        public static QuotedPricePeriod ConstructQuotedPricePeriod()
+        public static TickedPricePeriod ConstructTickedPricePeriod()
         {
-            return new QuotedPricePeriodImpl();
+            return new TickedPricePeriodImpl();
         }
 
         /// <summary>
-        /// Constructs a <see cref="PricePeriod"/> which aggregates price data from <see cref="PriceQuote"/>s.
+        /// Constructs a <see cref="PricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
         /// </summary>
-        /// <param name="priceQuotes"></param>
+        /// <param name="priceTicks"></param>
         /// <returns></returns>
-        public static QuotedPricePeriod ConstructQuotedPricePeriod(IEnumerable<PriceQuote> priceQuotes)
+        public static TickedPricePeriod ConstructTickedPricePeriod(IEnumerable<PriceTick> priceTicks)
         {
-            var period = new QuotedPricePeriodImpl();
-            period.AddPriceQuotes(priceQuotes.ToArray());
+            var period = new TickedPricePeriodImpl();
+            period.AddPriceTicks(priceTicks.ToArray());
             return period;
         }
     }

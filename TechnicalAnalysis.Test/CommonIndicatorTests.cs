@@ -49,8 +49,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             var series = PriceSeriesFactory.CreatePriceSeries("test");
             for (var i = 0; i < count; i++)
             {
-                var period = PricePeriodFactory.ConstructQuotedPricePeriod();
-                period.AddPriceQuotes(PriceQuoteFactory.ConstructPriceQuote(startDate.AddDays(i), price));
+                var period = PricePeriodFactory.ConstructTickedPricePeriod();
+                period.AddPriceTicks(PriceTickFactory.ConstructPriceTick(startDate.AddDays(i), price));
                 series.AddPriceData(period);
             }
             return series;

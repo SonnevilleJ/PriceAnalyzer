@@ -55,7 +55,7 @@
     <Compile Include="Extensions\PriceSeriesReactionMovesExtensions.cs" />
     <Compile Include="Factories\CashAccountFactory.cs" />
     <Compile Include="Factories\PortfolioFactory.cs" />
-    <Compile Include="Factories\PriceQuoteFactory.cs" />
+    <Compile Include="Factories\PriceTickFactory.cs" />
     <Compile Include="Implementation\BuyImpl.cs" />
     <Compile Include="Implementation\BuyToCoverImpl.cs" />
     <Compile Include="Implementation\CashAccountImpl.cs" />
@@ -70,7 +70,7 @@
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
-    <Compile Include="QuotedPricePeriod.cs" />
+    <Compile Include="TickedPricePeriod.cs" />
     <Compile Include="SellShort.cs" />
     <Compile Include="Sell.cs" />
     <Compile Include="Withdrawal.cs" />
@@ -88,7 +88,7 @@
     <Compile Include="MeasurableSecurityBasket.cs" />
     <Compile Include="Portfolio.cs" />
     <Compile Include="PricePeriod.cs" />
-    <Compile Include="PriceQuote.cs" />
+    <Compile Include="PriceTick.cs" />
     <Compile Include="PriceSeries.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="NewPriceDataAvailableEventArgs.cs" />
@@ -99,8 +99,8 @@
     <Compile Include="Factories\PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
     <Compile Include="Implementation\StaticPricePeriodImpl.cs" />
-    <Compile Include="Implementation\PriceQuoteImpl.cs" />
-    <Compile Include="QuotedPricePeriodImpl.cs" />
+    <Compile Include="Implementation\PriceTickImpl.cs" />
+    <Compile Include="TickedPricePeriodImpl.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="TimeSeries.cs" />
     <Compile Include="ShareTransaction.cs" />

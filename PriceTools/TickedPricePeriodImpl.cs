@@ -6,16 +6,16 @@ using Sonneville.PriceTools.Implementation;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   A <see cref="PricePeriodImpl"/> made from <see cref="PriceQuotes"/>.
+    ///   A <see cref="PricePeriodImpl"/> made from <see cref="PriceTicks"/>.
     /// </summary>
-    internal class QuotedPricePeriodImpl : PricePeriodImpl, QuotedPricePeriod
+    internal class TickedPricePeriodImpl : PricePeriodImpl, TickedPricePeriod
     {
-        private readonly List<PriceQuote> _priceQuotes = new List<PriceQuote>();
+        private readonly List<PriceTick> _priceTicks = new List<PriceTick>();
         
         /// <summary>
-        /// The <see cref="PriceQuoteImpl"/>s contained within this QuotedPricePeriod.
+        /// The <see cref="PriceTickImpl"/>s contained within this TickedPricePeriod.
         /// </summary>
-        public IList<PriceQuote> PriceQuotes { get { return _priceQuotes.AsReadOnly(); } }
+        public IList<PriceTick> PriceTicks { get { return _priceTicks.AsReadOnly(); } }
 
         #region Overrides of PricePeriod
 
@@ -24,7 +24,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override long? Volume
         {
-            get { return PriceQuotes.Sum(q => q.Volume); }
+            get { return PriceTicks.Sum(q => q.Volume); }
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override DateTime Head
         {
-            get { return PriceQuotes.Min(q => q.SettlementDate); }
+            get { return PriceTicks.Min(q => q.SettlementDate); }
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override DateTime Tail
         {
-            get { return PriceQuotes.Max(q => q.SettlementDate); }
+            get { return PriceTicks.Max(q => q.SettlementDate); }
         }
 
         /// <summary>
@@ -50,24 +50,24 @@ namespace Sonneville.PriceTools
         {
             get
             {
-                return PriceQuotes.ToDictionary(priceQuote => priceQuote.SettlementDate, priceQuote => priceQuote.Price);
+                return PriceTicks.ToDictionary(tick => tick.SettlementDate, tick => tick.Price);
             }
         }
 
         /// <summary>
-        ///   Adds one or more <see cref = "PriceQuote" />s to the PriceSeries.
+        ///   Adds one or more <see cref = "PriceTick" />s to the PriceSeries.
         /// </summary>
-        /// <param name = "priceQuotes">The <see cref = "PriceQuote" />s to add.</param>
-        public void AddPriceQuotes(params PriceQuote[] priceQuotes)
+        /// <param name = "priceTicks">The <see cref = "PriceTick" />s to add.</param>
+        public void AddPriceTicks(params PriceTick[] priceTicks)
         {
-            foreach (var quote in priceQuotes)
+            foreach (var quote in priceTicks)
             {
-                _priceQuotes.Add(quote);
+                _priceTicks.Add(quote);
             }
             var args = new NewPriceDataAvailableEventArgs
                            {
-                               Head = priceQuotes.Min(quote => quote.SettlementDate),
-                               Tail = priceQuotes.Max(quote => quote.SettlementDate)
+                               Head = priceTicks.Min(quote => quote.SettlementDate),
+                               Tail = priceTicks.Max(quote => quote.SettlementDate)
                            };
             InvokeNewPriceDataAvailable(args);
         }
@@ -77,7 +77,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal Close
         {
-            get { return PriceQuotes.OrderBy(q => q.SettlementDate).Last().Price; }
+            get { return PriceTicks.OrderBy(q => q.SettlementDate).Last().Price; }
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal High
         {
-            get { return PriceQuotes.Max(q => q.Price); }
+            get { return PriceTicks.Max(q => q.Price); }
         }
 
         /// <summary>
@@ -93,7 +93,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal Low
         {
-            get { return PriceQuotes.Min(q => q.Price); }
+            get { return PriceTicks.Min(q => q.Price); }
         }
 
         /// <summary>
@@ -101,7 +101,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public override decimal Open
         {
-            get { return PriceQuotes.OrderBy(q => q.SettlementDate).First().Price; }
+            get { return PriceTicks.OrderBy(q => q.SettlementDate).First().Price; }
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Sonneville.PriceTools
         /// <returns>The value of the TimeSeries as of the given DateTime.</returns>
         public override decimal this[DateTime index]
         {
-            get { return PriceQuotes.Where(q => q.SettlementDate <= index).Last().Price; }
+            get { return PriceTicks.Where(q => q.SettlementDate <= index).Last().Price; }
         }
 
         #endregion
