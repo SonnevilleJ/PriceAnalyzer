@@ -664,7 +664,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(null, target.Volume);
         }
 
-        public abstract class QuotedPricePeriodFactoryTestsBase
+        public abstract class TickedPricePeriodFactoryTestsBase
         {
             public abstract void ConstructQuotedPricePeriodQuotesCountTest();
 
@@ -686,7 +686,7 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestClass]
-        public class QuotedPricePeriodFactoryConstructor1Tests : QuotedPricePeriodFactoryTestsBase
+        public class TickedPricePeriodFactoryConstructor1Tests : TickedPricePeriodFactoryTestsBase
         {
             [TestMethod]
             public override void ConstructQuotedPricePeriodQuotesCountTest()
@@ -767,7 +767,7 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestClass]
-        public class QuotedPricePeriodFactoryConstructor2Tests : QuotedPricePeriodFactoryTestsBase
+        public class TickedPricePeriodFactoryConstructor2Tests : TickedPricePeriodFactoryTestsBase
         {
             [TestMethod]
             public override void ConstructQuotedPricePeriodQuotesCountTest()

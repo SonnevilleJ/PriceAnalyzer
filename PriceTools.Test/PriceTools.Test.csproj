@@ -61,7 +61,7 @@
     <Compile Include="CashAccountTest.cs" />
     <Compile Include="PortfolioTest.cs" />
     <Compile Include="PositionTest.cs" />
-    <Compile Include="QuotedPricePeriodTest.cs" />
+    <Compile Include="TickedPricePeriodTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

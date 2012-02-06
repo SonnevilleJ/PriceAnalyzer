@@ -6,10 +6,10 @@ using Sonneville.Utilities;
 namespace Sonneville.PriceTools.Test
 {
     /// <summary>
-    /// Summary description for QuotedPricePeriodTest
+    /// Summary description for TickedPricePeriodTest
     /// </summary>
     [TestClass]
-    public class QuotedPricePeriodTest
+    public class TickedPricePeriodTest
     {
         [TestMethod]
         public void TimeSpanTest()
