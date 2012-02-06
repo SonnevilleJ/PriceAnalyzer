@@ -50,6 +50,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccumulationTransaction.cs" />
+    <Compile Include="ClosingTransaction.cs" />
+    <Compile Include="DistributionTransaction.cs" />
     <Compile Include="DividendReinvestment.cs" />
     <Compile Include="BuyToCover.cs" />
     <Compile Include="Extensions\PriceSeriesReactionMovesExtensions.cs" />
@@ -70,6 +73,9 @@
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
+    <Compile Include="LongTransaction.cs" />
+    <Compile Include="OpeningTransaction.cs" />
+    <Compile Include="ShortTransaction.cs" />
     <Compile Include="TickedPricePeriod.cs" />
     <Compile Include="SellShort.cs" />
     <Compile Include="Sell.cs" />

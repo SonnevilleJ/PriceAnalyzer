@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction to buy shares.
     /// </summary>
-    public interface Buy : ShareTransaction
+    public interface Buy : LongTransaction, AccumulationTransaction, OpeningTransaction
     {
     }
 }

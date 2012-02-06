@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Data;
 using Sonneville.Utilities;
@@ -273,6 +274,21 @@ namespace Sonneville.PriceTools.Test
             /// </summary>
             public abstract void TotalValueTest();
 
+            /// <summary>
+            /// A test for long/short transaction type
+            /// </summary>
+            public abstract void LongShortTest();
+
+            /// <summary>
+            /// A test for accumulation/distribution transaction type
+            /// </summary>
+            public abstract void AccumulationDistributionTest();
+
+            /// <summary>
+            /// A test for opening/closing transaction type
+            /// </summary>
+            public abstract void OpeningClosingTest();
+
             protected static void ShareTransactionSerializeTest(OrderType transactionType)
             {
                 var settlementDate = new DateTime(2012, 1, 18);
@@ -472,6 +488,11 @@ namespace Sonneville.PriceTools.Test
             {
                 return -GetValidCommission(transactionType);
             }
+
+            protected static bool ShareTransactionInheritanceTest(ShareTransaction transaction, Type expected)
+            {
+                return transaction.GetType().GetInterfaces().Any(type => type == expected);
+            }
         }
 
         [TestClass]
@@ -565,6 +586,36 @@ namespace Sonneville.PriceTools.Test
             public override void TotalValueTest()
             {
                 ShareTransactionTotalValueTest(TransactionType);
+            }
+
+            /// <summary>
+            /// A test for long/short transaction type
+            /// </summary>
+            [TestMethod]
+            public override void LongShortTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(LongTransaction)));
+            }
+
+            /// <summary>
+            /// A test for accumulation/distribution transaction type
+            /// </summary>
+            [TestMethod]
+            public override void AccumulationDistributionTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(AccumulationTransaction)));
+            }
+
+            /// <summary>
+            /// A test for opening/closing transaction type
+            /// </summary>
+            [TestMethod]
+            public override void OpeningClosingTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(OpeningTransaction)));
             }
         }
 
@@ -661,6 +712,36 @@ namespace Sonneville.PriceTools.Test
             {
                 ShareTransactionTotalValueTest(TransactionType);
             }
+
+            /// <summary>
+            /// A test for long/short transaction type
+            /// </summary>
+            [TestMethod]
+            public override void LongShortTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(LongTransaction)));
+            }
+
+            /// <summary>
+            /// A test for accumulation/distribution transaction type
+            /// </summary>
+            [TestMethod]
+            public override void AccumulationDistributionTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(AccumulationTransaction)));
+            }
+
+            /// <summary>
+            /// A test for opening/closing transaction type
+            /// </summary>
+            [TestMethod]
+            public override void OpeningClosingTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(OpeningTransaction)));
+            }
         }
 
         [TestClass]
@@ -755,6 +836,36 @@ namespace Sonneville.PriceTools.Test
             public override void TotalValueTest()
             {
                 ShareTransactionTotalValueTest(TransactionType);
+            }
+
+            /// <summary>
+            /// A test for long/short transaction type
+            /// </summary>
+            [TestMethod]
+            public override void LongShortTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(ShortTransaction)));
+            }
+
+            /// <summary>
+            /// A test for accumulation/distribution transaction type
+            /// </summary>
+            [TestMethod]
+            public override void AccumulationDistributionTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(AccumulationTransaction)));
+            }
+
+            /// <summary>
+            /// A test for opening/closing transaction type
+            /// </summary>
+            [TestMethod]
+            public override void OpeningClosingTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(ClosingTransaction)));
             }
         }
 
@@ -851,6 +962,36 @@ namespace Sonneville.PriceTools.Test
             {
                 ShareTransactionTotalValueTest(TransactionType);
             }
+
+            /// <summary>
+            /// A test for long/short transaction type
+            /// </summary>
+            [TestMethod]
+            public override void LongShortTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(LongTransaction)));
+            }
+
+            /// <summary>
+            /// A test for accumulation/distribution transaction type
+            /// </summary>
+            [TestMethod]
+            public override void AccumulationDistributionTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(DistributionTransaction)));
+            }
+
+            /// <summary>
+            /// A test for opening/closing transaction type
+            /// </summary>
+            [TestMethod]
+            public override void OpeningClosingTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(ClosingTransaction)));
+            }
         }
 
         [TestClass]
@@ -945,6 +1086,36 @@ namespace Sonneville.PriceTools.Test
             public override void TotalValueTest()
             {
                 ShareTransactionTotalValueTest(TransactionType);
+            }
+
+            /// <summary>
+            /// A test for long/short transaction type
+            /// </summary>
+            [TestMethod]
+            public override void LongShortTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(ShortTransaction)));
+            }
+
+            /// <summary>
+            /// A test for accumulation/distribution transaction type
+            /// </summary>
+            [TestMethod]
+            public override void AccumulationDistributionTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(DistributionTransaction)));
+            }
+
+            /// <summary>
+            /// A test for opening/closing transaction type
+            /// </summary>
+            [TestMethod]
+            public override void OpeningClosingTest()
+            {
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(OpeningTransaction)));
             }
         }
     }
