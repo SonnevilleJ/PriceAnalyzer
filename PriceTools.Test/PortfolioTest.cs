@@ -236,7 +236,7 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void CalculateRawReturnTest()
+        public void CalculateGrossReturnNoProceedsTest()
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
@@ -252,11 +252,11 @@ namespace Sonneville.PriceTools.Test
 
             target.AddTransaction(buy);
 
-            Assert.IsNull(target.CalculateRawReturn(sellDate));
+            Assert.IsNull(target.CalculateGrossReturn(sellDate));
         }
 
         [TestMethod]
-        public void CalculateRawReturnFromClosedPortfolioTest()
+        public void CalculateGrossReturnFromClosedPortfolioTest()
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
@@ -275,12 +275,12 @@ namespace Sonneville.PriceTools.Test
             target.AddTransaction(sell);
 
             const decimal expected = 0.0m;      // 0% raw return on investment
-            var actual = target.CalculateRawReturn(sellDate);
+            var actual = target.CalculateGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void CalculateTotalReturnTest()
+        public void CalculateNetReturnTest()
         {
             var dateTime = new DateTime(2001, 1, 1);
             const decimal deposit = 10000m;
@@ -296,11 +296,11 @@ namespace Sonneville.PriceTools.Test
 
             target.AddTransaction(buy);
 
-            Assert.IsNull(target.CalculateTotalReturn(sellDate));
+            Assert.IsNull(target.CalculateNetReturn(sellDate));
         }
 
         [TestMethod]
-        public void CalculateTotalReturnFromClosedPortfolioTest()
+        public void CalculateNetReturnFromClosedPortfolioTest()
         {
             var dateTime = new DateTime(2001, 1, 1);
             const decimal deposit = 10000m;
@@ -319,7 +319,7 @@ namespace Sonneville.PriceTools.Test
             target.AddTransaction(sell);
 
             const decimal expected = -0.02m;      // negative 2% return; 98% of original investment
-            var actual = target.CalculateTotalReturn(sellDate);
+            var actual = target.CalculateNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -364,7 +364,7 @@ namespace Sonneville.PriceTools.Test
             target.AddTransaction(sell);
 
             const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
-            var actualReturn = target.CalculateTotalReturn(sellDate);
+            var actualReturn = target.CalculateNetReturn(sellDate);
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = 0.5m;          // 50% annual rate return

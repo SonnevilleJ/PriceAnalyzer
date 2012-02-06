@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools.Test
             target.Sell(sellDate, shares, sellPrice, commission);
 
             const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
-            var actualReturn = target.CalculateTotalReturn(sellDate);
+            var actualReturn = target.CalculateNetReturn(sellDate);
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = 0.5m;          // 50% annual rate return
@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void PositionCalculateRawReturnTest()
+        public void PositionCalculateGrossReturnTest()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -64,12 +64,12 @@ namespace Sonneville.PriceTools.Test
             target.Sell(sellDate, shares, price + 10m, commission);
 
             const decimal expected = 0.1m;      // 10% raw return on investment
-            var actual = target.CalculateRawReturn(sellDate);
+            var actual = target.CalculateGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void PositionCalculateRawReturnWithoutProceedsTest()
+        public void PositionCalculateGrossReturnWithoutProceedsTest()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -82,11 +82,11 @@ namespace Sonneville.PriceTools.Test
 
             target.Buy(buyDate, shares, price, commission);
 
-            Assert.IsNull(target.CalculateRawReturn(sellDate));
+            Assert.IsNull(target.CalculateGrossReturn(sellDate));
         }
 
         [TestMethod]
-        public void PositionCalculateTotalReturnTest()
+        public void PositionCalculateNetReturnTest()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -101,12 +101,12 @@ namespace Sonneville.PriceTools.Test
             target.Sell(sellDate, shares, price + 2.00m, commission);
 
             const decimal expected = 0.00m;      // 0% return; 100% of original investment
-            var actual = target.CalculateTotalReturn(sellDate);
+            var actual = target.CalculateNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void PositionCalculateTotalReturnTest2()
+        public void PositionCalculateNetReturnTest2()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -121,12 +121,12 @@ namespace Sonneville.PriceTools.Test
             target.Sell(sellDate, shares, price * 2m, commission);
 
             const decimal expected = 1.00m;      // 100% return; 200% of original investment
-            var actual = target.CalculateTotalReturn(sellDate);
+            var actual = target.CalculateNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void PositionCalculateTotalReturnWithoutProceedsTest()
+        public void PositionCalculateNetReturnWithoutProceedsTest()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -139,7 +139,7 @@ namespace Sonneville.PriceTools.Test
 
             target.Buy(buyDate, shares, price, commission);
 
-            Assert.IsNull(target.CalculateTotalReturn(sellDate));
+            Assert.IsNull(target.CalculateNetReturn(sellDate));
         }
     }
 }
