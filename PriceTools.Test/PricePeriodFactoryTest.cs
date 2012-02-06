@@ -9,12 +9,6 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class PricePeriodFactoryTest
     {
-        [TestMethod]
-        public void CreateStaticPricePeriodHeadTailReversedTest()
-        {
-            // Not valid for this factory constructor
-        }
-
         public abstract class StaticPricePeriodFactoryConstructorTestsBase
         {
             public abstract void CreateStaticPricePeriodHeadTest();
@@ -618,52 +612,449 @@ namespace Sonneville.PriceTools.Test
             }
         }
 
-        /// <summary>
-        ///A test for CreateStaticPricePeriod
-        ///</summary>
-        [TestMethod]
-        public void CreateStaticPricePeriodTest1()
+        [TestClass]
+        public class StaticPricePeriodFactoryConstructor2Tests : StaticPricePeriodFactoryConstructorTestsBase
         {
-            var head = new DateTime(2011, 7, 4);
-            var tail = new DateTime(2011, 7, 4, 23, 59, 59, 999);
-            var open = 50.00m;
-            var high = 65.00m;
-            var low = 45.00m;
-            var close = 60.00m;
-            const long volume = 100;
+            [TestMethod]
+            public override void CreateStaticPricePeriodHeadTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
 
-            Assert.AreEqual(head, target.Head);
-            Assert.AreEqual(tail, target.Tail);
-            Assert.AreEqual(open, target.Open);
-            Assert.AreEqual(high, target.High);
-            Assert.AreEqual(low, target.Low);
-            Assert.AreEqual(close, target.Close);
-            Assert.AreEqual(volume, target.Volume);
+                Assert.AreEqual(head, target.Head);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodTailTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+                Assert.AreEqual(tail, target.Tail);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodValidOpenTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+                Assert.AreEqual(open, target.Open);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void CreateStaticPricePeriodInvalidOpenTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetInvalidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public override void CreateStaticPricePeriodInvalidOpenAboveHighTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetInvalidOpenAboveHigh();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public override void CreateStaticPricePeriodInvalidOpenBelowLowTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetInvalidOpenBelowLow();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodValidHighTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+                Assert.AreEqual(high, target.High);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void CreateStaticPricePeriodInvalidHighTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetInvalidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodValidLowTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+                Assert.AreEqual(low, target.Low);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void CreateStaticPricePeriodInvalidLowTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetInvalidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public override void CreateStaticPricePeriodHighLowReversedTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidLow();
+                var low = GetValidHigh();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodValidCloseTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+                Assert.AreEqual(close, target.Close);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void CreateStaticPricePeriodInvalidCloseTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetInvalidClose();
+                var volume = GetValidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public override void CreateStaticPricePeriodInvalidCloseAboveHighTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetInvalidCloseAboveHigh();
+                var volume = GetValidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(InvalidOperationException))]
+            public override void CreateStaticPricePeriodInvalidCloseBelowLowTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetInvalidCloseBelowLow();
+                var volume = GetValidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodDefaultVolumeTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
+
+                Assert.IsNull(target.Volume);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodValidVolumeTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+                Assert.AreEqual(volume, target.Volume);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void CreateStaticPricePeriodInvalidVolumeTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetInvalidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodResolutionTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var open = GetValidOpen();
+                var high = GetValidHigh();
+                var low = GetValidLow();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+                var resolution = GetResolution();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+
+                Assert.AreEqual(resolution, target.Resolution);
+            }
         }
 
-        /// <summary>
-        ///A test for CreateStaticPricePeriod
-        ///</summary>
-        [TestMethod]
-        public void CreateStaticPricePeriodTest2()
+        [TestClass]
+        public class StaticPricePeriodFactoryConstructor1Tests : StaticPricePeriodFactoryConstructorTestsBase
         {
-            var head = new DateTime(2011, 7, 4);
-            var tail = new DateTime(2011, 7, 4, 23, 59, 59, 999);
-            var close = 60.00m;
+            [TestMethod]
+            public override void CreateStaticPricePeriodHeadTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, null, null, null, close);
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
 
-            Assert.AreEqual(head, target.Head);
-            Assert.AreEqual(tail, target.Tail);
-            Assert.AreEqual(close, target.Open);
-            Assert.AreEqual(close, target.High);
-            Assert.AreEqual(close, target.Low);
-            Assert.AreEqual(close, target.Close);
-            Assert.AreEqual(null, target.Volume);
+                Assert.AreEqual(head, target.Head);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodTailTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+
+                Assert.AreEqual(tail, target.Tail);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodValidOpenTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+
+                Assert.AreEqual(close, target.Open);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodValidHighTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+
+                Assert.AreEqual(close, target.High);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodValidLowTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+
+                Assert.AreEqual(close, target.Low);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodValidCloseTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+
+                Assert.AreEqual(close, target.Close);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void CreateStaticPricePeriodInvalidCloseTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var close = GetInvalidClose();
+                var volume = GetValidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+            }
+
+            public override void CreateStaticPricePeriodDefaultVolumeTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+
+                Assert.IsNull(target.Volume);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodValidVolumeTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+
+                Assert.AreEqual(volume, target.Volume);
+            }
+
+            [TestMethod]
+            [ExpectedException(typeof(ArgumentOutOfRangeException))]
+            public override void CreateStaticPricePeriodInvalidVolumeTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var close = GetValidClose();
+                var volume = GetInvalidVolume();
+
+                PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+            }
+
+            [TestMethod]
+            public override void CreateStaticPricePeriodResolutionTest()
+            {
+                var head = GetHead();
+                var tail = GetTail();
+                var close = GetValidClose();
+                var volume = GetValidVolume();
+                var resolution = GetResolution();
+
+                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+
+                Assert.AreEqual(resolution, target.Resolution);
+            }
         }
-
+        
         public abstract class TickedPricePeriodFactoryTestsBase
         {
             public abstract void ConstructQuotedPricePeriodQuotesCountTest();
