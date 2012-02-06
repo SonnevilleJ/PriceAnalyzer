@@ -185,7 +185,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>The total amount spent on share purchases as a negative number.</returns>
         public decimal CalculateCost(DateTime settlementDate)
         {
-            return AdditiveTransactions.AsParallel()
+            return _transactions.AsParallel().Where(t => t is OpeningTransaction)
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .Sum(transaction => transaction.Price*(decimal) transaction.Shares);
         }
@@ -197,7 +197,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
         public decimal CalculateProceeds(DateTime settlementDate)
         {
-            return -1 * SubtractiveTransactions.AsParallel()
+            return -1 * _transactions.AsParallel().Where(t => t is ClosingTransaction)
                    .Where(transaction => transaction.SettlementDate <= settlementDate)
                    .Sum(transaction => transaction.Price*(decimal) transaction.Shares);
         }
@@ -209,9 +209,9 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>The total amount of commissions from <see cref = "ShareTransaction" />s as a negative number.</returns>
         public decimal CalculateCommissions(DateTime settlementDate)
         {
-            return
-                _transactions.AsParallel().Where(transaction => transaction.SettlementDate <= settlementDate).Sum(
-                    transaction => transaction.Commission);
+            return _transactions.AsParallel()
+                .Where(transaction => transaction.SettlementDate <= settlementDate)
+                .Sum(transaction => transaction.Commission);
         }
 
         /// <summary>
@@ -234,12 +234,12 @@ namespace Sonneville.PriceTools.Implementation
         public IList<IHolding> CalculateHoldings(DateTime settlementDate)
         {
             var holdings = new List<IHolding>();
-            var buys = AdditiveTransactions.Where(t => t.SettlementDate < settlementDate).OrderByDescending(t => t.SettlementDate);
+            var buys = _transactions.Where(t => t is OpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderByDescending(t => t.SettlementDate);
             var buysUsed = 0;
             var unusedSharesInCurrentBuy = 0.0;
             ShareTransaction buy = null;
 
-            foreach (var sell in SubtractiveTransactions.Where(t => t.SettlementDate <= settlementDate).OrderByDescending(t => t.SettlementDate))
+            foreach (var sell in _transactions.Where(t => t is ClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderByDescending(t => t.SettlementDate))
             {
                 // collect shares from most recent buy
                 var sharesToMatch = sell.Shares;
@@ -307,30 +307,6 @@ namespace Sonneville.PriceTools.Implementation
 
         #region Helper Properties
 
-        /// <summary>
-        ///   Gets a list of <see cref = "ShareTransaction" />s which added to this Position.
-        ///   Typically <see cref = "OrderType.Buy" /> or <see cref = "OrderType.SellShort" /> <see cref = "ShareTransaction" />s.
-        /// </summary>
-        private IEnumerable<ShareTransaction> AdditiveTransactions
-        {
-            get
-            {
-                return _transactions.Where(t => t is Buy || t is SellShort || t is DividendReinvestment);
-            }
-        }
-
-        /// <summary>
-        ///   Gets a list of <see cref = "ShareTransaction" />s which subtracted from this Position.
-        ///   Typically <see cref = "OrderType.Sell" /> or <see cref = "OrderType.BuyToCover" /> <see cref = "ShareTransaction" />s.
-        /// </summary>
-        private IEnumerable<ShareTransaction> SubtractiveTransactions
-        {
-            get
-            {
-                return _transactions.Where(t => t is Sell || t is BuyToCover);
-            }
-        }
-
         private ShareTransaction Last
         {
             get { return _transactions.OrderBy(t => t.SettlementDate).Last(); }
@@ -359,11 +335,11 @@ namespace Sonneville.PriceTools.Implementation
         private void Validate(ShareTransaction shareTransaction)
         {
             // Validate OrderType
-            if (shareTransaction is Buy || shareTransaction is SellShort)
+            if (shareTransaction is OpeningTransaction)
             {
                     // new holdings are OK
             }
-            else if (shareTransaction is BuyToCover || shareTransaction is Sell)
+            else if (shareTransaction is ClosingTransaction)
             {
                     var date = shareTransaction.SettlementDate;
                     var heldShares = _transactions.GetHeldShares(date);

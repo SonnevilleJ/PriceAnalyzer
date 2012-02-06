@@ -321,12 +321,12 @@ namespace Sonneville.PriceTools.Implementation
         public bool TransactionIsValid(Transaction transaction)
         {
             bool sufficientCash;
-            if (transaction is DividendReceipt || transaction is Deposit || transaction is Withdrawal)
+            if (transaction is CashTransaction)
             {
                     var cashTransaction = (CashTransaction) transaction;
                     return _cashAccount.TransactionIsValid(cashTransaction);
             }
-            if (transaction is DividendReinvestment || transaction is Buy)
+            if (transaction is OpeningTransaction && transaction is LongTransaction)
             {
                     var buy = ((ShareTransaction)transaction);
                     sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;

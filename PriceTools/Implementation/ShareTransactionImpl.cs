@@ -100,11 +100,11 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                if (this is Buy || this is SellShort || this is DividendReinvestment)
+                if (this is OpeningTransaction)
                 {
                     return 1;
                 }
-                if (this is BuyToCover || this is Sell)
+                if (this is ClosingTransaction)
                 {
                     return -1;
                 }

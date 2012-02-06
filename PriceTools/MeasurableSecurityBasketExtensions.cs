@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         private static double GetOpenedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
         {
-            var transactions = shareTransactions.Where(t => t is Buy || t is SellShort || t is DividendReinvestment);
+            var transactions = shareTransactions.Where(t => t is OpeningTransaction);
             return transactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Shares);
         }
 
@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         private static double GetClosedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
         {
-            var transactions = shareTransactions.Where(t => t is Sell || t is BuyToCover);
+            var transactions = shareTransactions.Where(t => t is ClosingTransaction);
             return transactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Shares);
         }
 
@@ -59,13 +59,12 @@ namespace Sonneville.PriceTools
 
             for (var i = 0; i < count; i++)
             {
-                if (transactions[i] is Buy || transactions[i] is SellShort ||
-                    transactions[i] is DividendReinvestment)
+                if (transactions[i] is OpeningTransaction)
                 {
                     totalCost += (transactions[i].Price*(decimal) transactions[i].Shares);
                     shares += transactions[i].Shares;
                 }
-                else if (transactions[i] is Sell || transactions[i] is BuyToCover)
+                else if (transactions[i] is ClosingTransaction)
                 {
                     totalCost -= ((totalCost/(decimal) shares)*(decimal) transactions[i].Shares);
                     shares -= transactions[i].Shares;
