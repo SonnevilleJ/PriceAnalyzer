@@ -109,7 +109,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name = "index">The <see cref = "DateTime" /> to use.</param>
         public decimal this[DateTime index]
         {
-            get { return CalculateGrossProfit(index); }
+            get { return this.CalculateGrossProfit(index); }
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>The value of the shares held in the Position as of the given date.</returns>
         public decimal CalculateInvestedValue(IPriceDataProvider provider, DateTime settlementDate)
         {
-            var heldShares = (decimal) GetHeldShares(settlementDate);
+            var heldShares = (decimal) _transactions.GetHeldShares(settlementDate);
             if (heldShares == 0) return 0;
 
             if (!PriceSeries.HasValueInRange(settlementDate)) PriceSeries.RetrievePriceData(provider, settlementDate);
@@ -176,31 +176,6 @@ namespace Sonneville.PriceTools.Implementation
         public IList<Transaction> Transactions
         {
             get { return new List<Transaction>(_transactions); }
-        }
-
-        /// <summary>
-        ///   Gets the value of the Position, excluding all commissions, as of a given date.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The value of the Position as of the given date.</returns>
-        public decimal CalculateGrossProfit(DateTime settlementDate)
-        {
-            var proceeds = CalculateProceeds(settlementDate); // positive proceeds = gain, negative proceeds = loss
-            if (proceeds == 0.00m)
-            {
-                return 0.00m;
-            }
-            var totalCosts = CalculateCost(settlementDate);     // positive totalCosts = revenue, negative totalCosts = expense
-
-            var heldShares = GetHeldShares(settlementDate);
-            var totalShares = GetOpenedShares(settlementDate);
-
-            var costOfUnsoldShares = 0.00m;
-            if (totalShares != 0)
-            {
-                costOfUnsoldShares = totalCosts*(decimal) (heldShares/totalShares);
-            }
-            return proceeds - totalCosts - costOfUnsoldShares;
         }
 
         /// <summary>
@@ -391,7 +366,7 @@ namespace Sonneville.PriceTools.Implementation
             else if (shareTransaction is BuyToCover || shareTransaction is Sell)
             {
                     var date = shareTransaction.SettlementDate;
-                    var heldShares = GetHeldShares(date);
+                    var heldShares = _transactions.GetHeldShares(date);
                     if (shareTransaction.Shares > heldShares)
                     {
                         throw new InvalidOperationException(
@@ -400,33 +375,6 @@ namespace Sonneville.PriceTools.Implementation
                                           shareTransaction.Shares, heldShares, date));
                     }
             }
-        }
-
-        /// <summary>
-        ///   Gets the net shares held at a given date.
-        /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        private double GetHeldShares(DateTime date)
-        {
-            return GetOpenedShares(date) - GetClosedShares(date);
-        }
-
-        /// <summary>
-        ///   Gets the cumulative number of shares that have ever been owned before a given date.
-        /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        private double GetOpenedShares(DateTime date)
-        {
-            return AdditiveTransactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Shares);
-        }
-
-        /// <summary>
-        ///   Gets the total number of shares that were owned but are no longer owned.
-        /// </summary>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        private double GetClosedShares(DateTime date)
-        {
-            return SubtractiveTransactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Shares);
         }
 
         #endregion

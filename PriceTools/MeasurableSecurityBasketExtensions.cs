@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Sonneville.PriceTools
@@ -8,6 +9,38 @@ namespace Sonneville.PriceTools
     /// </summary>
     public static class MeasurableSecurityBasketExtensions
     {
+        /// <summary>
+        ///   Gets the net shares held at a given date.
+        /// </summary>
+        /// <param name="shareTransactions"></param>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        public static double GetHeldShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
+        {
+            return shareTransactions.GetOpenedShares(date) - shareTransactions.GetClosedShares(date);
+        }
+
+        /// <summary>
+        ///   Gets the cumulative number of shares that have ever been owned before a given date.
+        /// </summary>
+        /// <param name="shareTransactions"></param>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        private static double GetOpenedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
+        {
+            var transactions = shareTransactions.Where(t => t is Buy || t is SellShort || t is DividendReinvestment);
+            return transactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Shares);
+        }
+
+        /// <summary>
+        ///   Gets the total number of shares that were owned but are no longer owned.
+        /// </summary>
+        /// <param name="shareTransactions"></param>
+        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
+        private static double GetClosedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
+        {
+            var transactions = shareTransactions.Where(t => t is Sell || t is BuyToCover);
+            return transactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Shares);
+        }
+
         /// <summary>
         ///   Gets the average cost of all held shares in a <see cref="Position"/> as of a given date.
         /// </summary>
@@ -43,7 +76,24 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the total rate of return on an annual basis for this MeasurableSecurityBasket.
+        ///   Gets the value of this Portfolio, excluding any commissions, as of a given date.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
+        public static decimal CalculateGrossProfit(this MeasurableSecurityBasket basket, DateTime settlementDate)
+        {
+            //var deposits = basket.Transactions.Where(t => t is Deposit && t.SettlementDate <= settlementDate).Cast<Deposit>().Sum(t => t.Amount);
+            var proceeds = basket.CalculateProceeds(settlementDate);
+            var investments = basket.CalculateCost(settlementDate);
+            //var commissionsPaid = basket.CalculateCommissions(settlementDate);
+            //var withdrawals = basket.Transactions.Where(t => t is Withdrawal && t.SettlementDate <= settlementDate).Cast<Withdrawal>().Sum(t => t.Amount);
+            //var userWithdrawals = (withdrawals + investments + commissionsPaid);
+            //var userDeposits = (deposits - proceeds);
+            return proceeds - investments;
+        }
+
+        /// <summary>
+        ///   Gets the total rate of return on an annual basis for this MeasurableSecurityBasket, after commissions.
         /// </summary>
         /// <param name="basket"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>

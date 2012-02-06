@@ -39,7 +39,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>The value of the TimeSeries as of the given DateTime.</returns>
         public decimal this[DateTime index]
         {
-            get { return CalculateGrossProfit(index); }
+            get { return this.CalculateGrossProfit(index); }
         }
 
         /// <summary>
@@ -111,12 +111,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>A value indicating if the TimeSeries has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
-            var end = Tail;
-            if (CalculateGrossProfit(settlementDate) != 0)
-            {
-                end = settlementDate;
-            }
-            return settlementDate >= Head && settlementDate <= end;
+            return settlementDate >= Head;
         }
 
         #endregion
@@ -136,23 +131,6 @@ namespace Sonneville.PriceTools.Implementation
         /// Gets or sets the ticker to use for the holding of cash in this Portfolio.
         /// </summary>
         public string CashTicker { get; private set; }
-
-        /// <summary>
-        ///   Gets the value of this Portfolio, excluding any commissions, as of a given date.
-        /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
-        public decimal CalculateGrossProfit(DateTime settlementDate)
-        {
-            var deposits = Transactions.Where(t => t is Deposit && t.SettlementDate <= settlementDate).Cast<Deposit>().Sum(t => t.Amount);
-            var proceeds = CalculateProceeds(settlementDate);
-            var investments = CalculateCost(settlementDate);
-            var commissionsPaid = Positions.Sum(position => position.CalculateCommissions(settlementDate));
-            var value = Positions.Sum(position => position.CalculateGrossProfit(settlementDate));
-            var withdrawals = Transactions.Where(t => t is Withdrawal && t.SettlementDate <= settlementDate).Cast<Withdrawal>().Sum(t => t.Amount);
-            var userWithdrawals = (withdrawals + investments + commissionsPaid);
-            var userDeposits = (deposits - proceeds);
-            return userDeposits + userWithdrawals + value;// +value - commissionsPaid;
-        }
 
         /// <summary>
         ///   Gets the gross investment of this Portfolio, ignoring any proceeds and commissions.

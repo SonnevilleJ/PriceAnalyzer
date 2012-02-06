@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.Test
     public class PositionTest
     {
         [TestMethod]
-        public void CalculateGrossProfitReturnsCorrectWithoutCommissionsOpenPosition()
+        public void CalculateGrossProfitReturnsCorrectOpenPosition()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -24,13 +24,13 @@ namespace Sonneville.PriceTools.Test
             target.Buy(oDate, oShares, oPrice, oCommission);
 
             // Shares are still held, so net value (excluding commissions) is not changed.
-            const decimal expected = 0.00m;
+            const decimal expected = oPrice * (decimal) -oShares;
             var actual = target.CalculateGrossProfit(oDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void CalculateGrossProfitReturnsCorrectWithoutCommissionsAfterGain()
+        public void CalculateGrossProfitReturnsCorrectAfterGain()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -54,7 +54,7 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void CalculateGrossProfitReturnsCorrectWithoutCommissionsAfterLoss()
+        public void CalculateGrossProfitReturnsCorrectAfterLoss()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);

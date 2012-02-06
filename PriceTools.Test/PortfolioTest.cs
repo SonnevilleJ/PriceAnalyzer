@@ -150,7 +150,7 @@ namespace Sonneville.PriceTools.Test
             const decimal openingDeposit = 10000m;
             var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
 
-            const decimal expectedValue = openingDeposit;
+            const decimal expectedValue = 0.00m;
             var actualValue = target.CalculateGrossProfit(dateTime);
             Assert.AreEqual(expectedValue, actualValue);
         }
@@ -206,7 +206,7 @@ namespace Sonneville.PriceTools.Test
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission);
             target.AddTransaction(buy);
 
-            const decimal expected = openingDeposit - buyValue + currentValue;
+            const decimal expected = 0 - buyValue;
             var actual = target.CalculateGrossProfit(calculateDate);
             Assert.AreEqual(expected, actual);
         }
@@ -232,7 +232,7 @@ namespace Sonneville.PriceTools.Test
             target.AddTransaction(TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission));
             target.AddTransaction(TransactionFactory.ConstructSell(sellDate, ticker, sellPrice, shares, commission));
 
-            const decimal expected = openingDeposit - buyValue + sellValue;
+            const decimal expected = sellValue - buyValue;
             var actual = target.CalculateGrossProfit(calculateDate);
             Assert.AreEqual(expected, actual);
         }
