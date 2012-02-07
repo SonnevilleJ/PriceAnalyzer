@@ -980,8 +980,8 @@ namespace Sonneville.PriceTools.Test
                 Head = buyDate,
                 Tail = sellDate,
                 Shares = shares,
-                OpenPrice = buyPrice * (decimal)shares,
-                ClosePrice = sellPrice * (decimal)shares
+                OpenPrice = buyPrice,
+                ClosePrice = sellPrice
             };
 
             Assert.IsTrue(holdings.Contains(expected));
@@ -1023,8 +1023,8 @@ namespace Sonneville.PriceTools.Test
                 Head = secondBuyDate,
                 Tail = secondSellDate,
                 Shares = sharesInHolding,
-                OpenPrice = buyPrice * (decimal)sharesInHolding,
-                ClosePrice = sellPrice * (decimal)sharesInHolding
+                OpenPrice = buyPrice,
+                ClosePrice = sellPrice
             };
             var expected2 = new Holding
             {
@@ -1032,8 +1032,8 @@ namespace Sonneville.PriceTools.Test
                 Head = firstBuyDate,
                 Tail = firstSellDate,
                 Shares = sharesInHolding,
-                OpenPrice = buyPrice * (decimal)sharesInHolding,
-                ClosePrice = sellPrice * (decimal)sharesInHolding
+                OpenPrice = buyPrice,
+                ClosePrice = sellPrice
             };
 
             Assert.IsTrue(holdings.Contains(expected1));
@@ -1077,8 +1077,8 @@ namespace Sonneville.PriceTools.Test
                 Head = secondBuyDate,
                 Tail = secondSellDate,
                 Shares = sharesInHolding,
-                OpenPrice = buyPrice * (decimal)sharesInHolding,
-                ClosePrice = sellPrice * (decimal)sharesInHolding
+                OpenPrice = buyPrice,
+                ClosePrice = sellPrice
             };
             var expected2 = new Holding
             {
@@ -1086,8 +1086,8 @@ namespace Sonneville.PriceTools.Test
                 Head = firstBuyDate,
                 Tail = firstSellDate,
                 Shares = sharesInHolding,
-                OpenPrice = buyPrice * (decimal)sharesInHolding,
-                ClosePrice = sellPrice * (decimal)sharesInHolding
+                OpenPrice = buyPrice,
+                ClosePrice = sellPrice
             };
             
             Assert.IsTrue(holdings.Contains(expected1));
@@ -1131,8 +1131,8 @@ namespace Sonneville.PriceTools.Test
                 Head = secondBuyDate,
                 Tail = secondSellDate,
                 Shares = sharesInHolding,
-                OpenPrice = buyPrice * (decimal)sharesInHolding,
-                ClosePrice = sellPrice * (decimal)sharesInHolding
+                OpenPrice = buyPrice,
+                ClosePrice = sellPrice
             };
             var expected2 = new Holding
             {
@@ -1140,8 +1140,8 @@ namespace Sonneville.PriceTools.Test
                 Head = firstBuyDate,
                 Tail = firstSellDate,
                 Shares = sharesInHolding,
-                OpenPrice = buyPrice * (decimal)sharesInHolding,
-                ClosePrice = sellPrice * (decimal)sharesInHolding
+                OpenPrice = buyPrice,
+                ClosePrice = sellPrice
             };
             var holding1 = holdings[0];
             var holding2 = holdings[1];

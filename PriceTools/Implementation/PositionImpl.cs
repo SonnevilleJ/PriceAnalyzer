@@ -275,8 +275,8 @@ namespace Sonneville.PriceTools.Implementation
                                           Head = buy.SettlementDate,
                                           Tail = sell.SettlementDate,
                                           Shares = shares,
-                                          OpenPrice = buy.Price*(decimal) shares,
-                                          ClosePrice = -1*sell.Price*(decimal) shares
+                                          OpenPrice = buy.Price,
+                                          ClosePrice = -1*sell.Price
                                       };
                     holdings.Add(holding);
 

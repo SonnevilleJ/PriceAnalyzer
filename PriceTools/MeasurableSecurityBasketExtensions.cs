@@ -95,7 +95,7 @@ namespace Sonneville.PriceTools
                     var close = holding.ClosePrice;
                     var profit = close - open;
                     var shares = (decimal) holding.Shares;
-                    sum += profit;
+                    sum += profit * shares;
                 }
             }
             return sum;
