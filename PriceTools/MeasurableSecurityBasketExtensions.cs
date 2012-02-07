@@ -10,6 +10,72 @@ namespace Sonneville.PriceTools
     public static class MeasurableSecurityBasketExtensions
     {
         /// <summary>
+        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Position.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
+        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Position.</returns>
+        public static IList<IHolding> CalculateHoldings(this MeasurableSecurityBasket basket, DateTime settlementDate)
+        {
+            var result = new List<IHolding>();
+            var groups = basket.Transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().GroupBy(t => t.Ticker);
+            foreach (var transactions in groups)
+            {
+                var buys = transactions.Where(t => t is OpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderByDescending(t => t.SettlementDate);
+                var buysUsed = 0;
+                var unusedSharesInCurrentBuy = 0.0;
+                ShareTransaction buy = null;
+
+                var sells = transactions.Where(t => t is ClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderByDescending(t => t.SettlementDate);
+                foreach (var sell in sells)
+                {
+                    // collect shares from most recent buy
+                    var sharesToMatch = sell.Shares;
+                    while (sharesToMatch > 0)
+                    {
+                        // find a matching purchase and record a new holding
+                        // must keep track of remaining shares in corresponding purchase
+                        if (unusedSharesInCurrentBuy == 0) buy = buys.Skip(buysUsed).First();
+
+                        if (buy != null)
+                        {
+                            var availableShares = unusedSharesInCurrentBuy > 0 ? unusedSharesInCurrentBuy : buy.Shares;
+                            var neededShares = sharesToMatch;
+                            double shares;
+                            if (availableShares >= neededShares)
+                            {
+                                shares = neededShares;
+                                unusedSharesInCurrentBuy = availableShares - shares;
+                                if (unusedSharesInCurrentBuy == 0) buysUsed++;
+                            }
+                            else
+                            {
+                                shares = availableShares;
+                                buysUsed++;
+                            }
+                            var holding = new Holding
+                                              {
+                                                  Ticker = sell.Ticker,
+                                                  Head = buy.SettlementDate,
+                                                  Tail = sell.SettlementDate,
+                                                  Shares = shares,
+                                                  OpenPrice = buy.Price,
+                                                  OpenCommission = buy.Commission,
+                                                  ClosePrice = -1 * sell.Price,
+                                                  CloseCommission = sell.Commission
+                                              };
+                            result.Add(holding);
+
+                            sharesToMatch -= shares;
+                        }
+                    }
+                }
+            }
+            return result.OrderByDescending(h => h.Tail).ToList();
+        }
+
+
+        /// <summary>
         ///   Gets the net shares held at a given date.
         /// </summary>
         /// <param name="shareTransactions"></param>

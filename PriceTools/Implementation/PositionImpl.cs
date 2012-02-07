@@ -227,68 +227,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Position.
-        /// </summary>
-        /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
-        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Position.</returns>
-        public IList<IHolding> CalculateHoldings(DateTime settlementDate)
-        {
-            var holdings = new List<IHolding>();
-            var buys = _transactions.Where(t => t is OpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderByDescending(t => t.SettlementDate);
-            var buysUsed = 0;
-            var unusedSharesInCurrentBuy = 0.0;
-            ShareTransaction buy = null;
-
-            foreach (var sell in _transactions.Where(t => t is ClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderByDescending(t => t.SettlementDate))
-            {
-                // collect shares from most recent buy
-                var sharesToMatch = sell.Shares;
-                while (sharesToMatch > 0)
-                {
-                    // find a matching purchase and record a new holding
-                    // must keep track of remaining shares in corresponding purchase
-                    if (unusedSharesInCurrentBuy == 0)
-                    {
-                        buy = buys.Skip(buysUsed).First();
-                    }
-
-                    var availableShares = unusedSharesInCurrentBuy > 0 ? unusedSharesInCurrentBuy : buy.Shares;
-                    var neededShares = sharesToMatch;
-                    double shares;
-                    if (availableShares >= neededShares)
-                    {
-                        shares = neededShares;
-                        unusedSharesInCurrentBuy = availableShares - shares;
-                        if (unusedSharesInCurrentBuy == 0)
-                        {
-                            buysUsed++;
-                        }
-                    }
-                    else
-                    {
-                        shares = availableShares;
-                        buysUsed++;
-                    }
-                    var holding = new Holding
-                                      {
-                                          Ticker = Ticker,
-                                          Head = buy.SettlementDate,
-                                          Tail = sell.SettlementDate,
-                                          Shares = shares,
-                                          OpenPrice = buy.Price,
-                                          OpenCommission = buy.Commission,
-                                          ClosePrice = -1*sell.Price,
-                                          CloseCommission = sell.Commission
-                                      };
-                    holdings.Add(holding);
-
-                    sharesToMatch -= shares;
-                }
-            }
-            return holdings;
-        }
-
-        /// <summary>
         /// Validates a transaction without adding it to the Position.
         /// </summary>
         /// <param name="shareTransaction"></param>
