@@ -90,6 +90,120 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNull(target.CalculateGrossReturn(sellDate));
         }
 
+        #region Average Cost
+
+        [TestMethod]
+        public void CalculateAverageCostBuy()
+        {
+            const string ticker = "DE";
+            const decimal commission = 5.00m;   // with $5 commission
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double sharesBought = 10;     // 10 shares
+
+            target.Buy(buyDate, sharesBought, buyPrice, commission);
+
+            const decimal expectedAverageCost = buyPrice;
+            var actualAverageCost = target.CalculateAverageCost(buyDate);
+            Assert.AreEqual(expectedAverageCost, actualAverageCost);
+        }
+
+        [TestMethod]
+        public void CalculateAverageCostBuySell()
+        {
+            const string ticker = "DE";
+            const decimal commission = 5.00m;   // with $5 commission
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double sharesBought = 10;     // 10 shares
+
+            target.Buy(buyDate, sharesBought, buyPrice, commission);
+
+            var sellDate = testDate.AddDays(2);
+            const decimal sellPrice = 75.00m;   // $75.00 per share
+            const double sharesSold = 5;        // 5 shares
+
+            target.Sell(sellDate, sharesSold, sellPrice, commission);
+
+            const decimal expectedAverageCost = buyPrice;
+            var actualAverageCost = target.CalculateAverageCost(buyDate);
+            Assert.AreEqual(expectedAverageCost, actualAverageCost);
+        }
+
+        [TestMethod]
+        public void CalculateAverageCostBuySellBuyHigher()
+        {
+            const string ticker = "DE";
+            const decimal commission = 5.00m;   // with $5 commission
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double sharesBought = 10;     // 10 shares
+
+            target.Buy(buyDate, sharesBought, buyPrice, commission);
+
+            var sellDate = testDate.AddDays(2);
+            const decimal sellPrice = 75.00m;   // $75.00 per share
+            const double sharesSold = 5;        // 5 shares
+
+            target.Sell(sellDate, sharesSold, sellPrice, commission);
+
+            var buyDate2 = testDate.AddDays(3);
+            const decimal buyPrice2 = 100.00m;  // $100.00 per share
+            const double sharesBought2 = 5;     // 5 shares
+
+            target.Buy(buyDate2, sharesBought2, buyPrice2, commission);
+
+            const double originalShares = sharesBought - sharesSold;
+            const double newShares = sharesBought2;
+            const decimal expectedAverageCost = (((decimal)originalShares * buyPrice) + (decimal)newShares * buyPrice2) / (decimal)(originalShares + newShares);
+            var actualAverageCost = target.CalculateAverageCost(buyDate2);
+            Assert.AreEqual(expectedAverageCost, actualAverageCost);
+        }
+
+        [TestMethod]
+        public void CalculateAverageCostBuySellBuyLower()
+        {
+            const string ticker = "DE";
+            const decimal commission = 5.00m;   // with $5 commission
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var testDate = new DateTime(2001, 1, 1);
+            var buyDate = testDate.AddDays(1);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double sharesBought = 10;     // 10 shares
+
+            target.Buy(buyDate, sharesBought, buyPrice, commission);
+
+            var sellDate = testDate.AddDays(2);
+            const decimal sellPrice = 25.00m;   // $75.00 per share
+            const double sharesSold = 5;        // 5 shares
+
+            target.Sell(sellDate, sharesSold, sellPrice, commission);
+
+            var buyDate2 = testDate.AddDays(3);
+            const decimal buyPrice2 = 20.00m;  // $100.00 per share
+            const double sharesBought2 = 10;     // 5 shares
+
+            target.Buy(buyDate2, sharesBought2, buyPrice2, commission);
+
+            const double originalShares = sharesBought - sharesSold;
+            const double newShares = sharesBought2;
+            const decimal expectedAverageCost = (((decimal)originalShares * buyPrice) + (decimal)newShares * buyPrice2) / (decimal) (originalShares + newShares);
+            var actualAverageCost = target.CalculateAverageCost(buyDate2);
+            Assert.AreEqual(expectedAverageCost, actualAverageCost);
+        }
+
+        #endregion
+
         #region Net Return
 
         [TestMethod]

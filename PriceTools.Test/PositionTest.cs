@@ -163,45 +163,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(true, target.HasValueInRange(purchaseDate.AddDays(1)));
         }
 
-        [TestMethod]
-        public void CalculateAverageCostTest()
-        {
-            const string ticker = "DE";
-            const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var testDate = new DateTime(2001, 1, 1);
-            var buyDate = testDate.AddDays(1);
-            const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 10;     // 10 shares
-
-            target.Buy(buyDate, sharesBought, buyPrice, commission);
-
-            var expectedAverageCost = 50.00m;   // 10 shares at $50.00
-            var actualAverageCost = target.CalculateAverageCost(buyDate);
-            Assert.AreEqual(expectedAverageCost, actualAverageCost);
-
-            var sellDate = testDate.AddDays(2);
-            const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
-
-            target.Sell(sellDate, sharesSold, sellPrice, commission);
-
-            expectedAverageCost = 50.00m;       // 5 shares at $50.00
-            actualAverageCost = target.CalculateAverageCost(sellDate);
-            Assert.AreEqual(expectedAverageCost, actualAverageCost);
-
-            var buyDate2 = testDate.AddDays(3);
-            const decimal buyPrice2 = 100.00m;  // $100.00 per share
-            const double sharesBought2 = 5;     // 5 shares
-
-            target.Buy(buyDate2, sharesBought2, buyPrice2, commission);
-
-            expectedAverageCost = 75.00m;       // 5 shares at $50.00 and 5 shares at $100.00 = $75.00 average cost
-            actualAverageCost = target.CalculateAverageCost(buyDate2);
-            Assert.AreEqual(expectedAverageCost, actualAverageCost);
-        }
-
         /// <summary>
         ///A test for Ticker
         ///</summary>
