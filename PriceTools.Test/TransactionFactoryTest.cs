@@ -297,7 +297,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
 
                 var xml = Serializer.SerializeToXml(target);
                 var result = Serializer.DeserializeFromXml<ShareTransaction>(xml);
@@ -313,7 +313,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
 
                 var expected = settlementDate;
                 var actual = target.SettlementDate;
@@ -328,7 +328,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
 
                 var expected = ticker;
                 var actual = target.Ticker;
@@ -343,7 +343,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
 
                 var expected = GetValidPrice(transactionType);
                 var actual = target.Price;
@@ -358,7 +358,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
 
                 var expected = GetValidPrice(transactionType);
                 var actual = target.Price;
@@ -373,7 +373,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
 
                 var expected = GetValidShares();
                 var actual = target.Shares;
@@ -388,7 +388,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetInvalidShares();
                 var commission = GetValidCommission(transactionType);
 
-                TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
+                TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
             }
 
             protected static void ShareTransactionCommissionValidTest(OrderType transactionType)
@@ -399,7 +399,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
 
                 var expected = GetValidCommission(transactionType);
                 var actual = target.Commission;
@@ -414,7 +414,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetInvalidCommission(transactionType);
 
-                TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
+                TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
             }
 
             protected static void ShareTransactionTotalValueTest(OrderType transactionType)
@@ -425,7 +425,7 @@ namespace Sonneville.PriceTools.Test
                 var shares = GetValidShares();
                 var commission = GetValidCommission(transactionType);
 
-                var target = TransactionFactory.ConstructShareTransaction(transactionType, settlementDate, ticker, price, shares, commission);
+                var target = TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
 
                 var expected = Math.Round(price * (decimal) shares, 2) + commission;
                 var actual = target.TotalValue;
@@ -594,7 +594,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void LongShortTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(LongTransaction)));
             }
 
@@ -604,7 +604,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void AccumulationDistributionTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(AccumulationTransaction)));
             }
 
@@ -614,7 +614,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void OpeningClosingTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(OpeningTransaction)));
             }
         }
@@ -719,7 +719,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void LongShortTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(LongTransaction)));
             }
 
@@ -729,7 +729,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void AccumulationDistributionTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(AccumulationTransaction)));
             }
 
@@ -739,7 +739,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void OpeningClosingTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(OpeningTransaction)));
             }
         }
@@ -844,7 +844,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void LongShortTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(ShortTransaction)));
             }
 
@@ -854,7 +854,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void AccumulationDistributionTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(AccumulationTransaction)));
             }
 
@@ -864,7 +864,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void OpeningClosingTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(ClosingTransaction)));
             }
         }
@@ -969,7 +969,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void LongShortTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(LongTransaction)));
             }
 
@@ -979,7 +979,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void AccumulationDistributionTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(DistributionTransaction)));
             }
 
@@ -989,7 +989,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void OpeningClosingTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(ClosingTransaction)));
             }
         }
@@ -1094,7 +1094,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void LongShortTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(ShortTransaction)));
             }
 
@@ -1104,7 +1104,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void AccumulationDistributionTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(DistributionTransaction)));
             }
 
@@ -1114,7 +1114,7 @@ namespace Sonneville.PriceTools.Test
             [TestMethod]
             public override void OpeningClosingTest()
             {
-                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, new DateTime(2012, 2, 6), "DE", 100.00m, 5.0, 0.00m);
+                var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5.0, 100.00m, 0.00m);
                 Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof(OpeningTransaction)));
             }
         }

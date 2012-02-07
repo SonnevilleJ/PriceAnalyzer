@@ -278,8 +278,8 @@ namespace Sonneville.PriceTools.Test
             const decimal decrease = -0.10m;        // 10% price decrease when sold
             const decimal priceSold = priceBought * (1 + decrease);
             const double sharesSold = sharesBought - 2;
-            var buy = TransactionFactory.ConstructBuy(buyDate, ticker, priceBought, sharesBought, commission);
-            var sell = TransactionFactory.ConstructSell(sellDate, ticker, priceSold, sharesSold, commission);
+            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, priceBought, commission);
+            var sell = TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, priceSold, commission);
 
             target.AddTransaction(buy);
             target.AddTransaction(sell);
@@ -303,8 +303,8 @@ namespace Sonneville.PriceTools.Test
             const decimal increase = 0.10m;         // 10% price increase when sold
             const decimal priceSold = priceBought * (1 + increase);
             const double sharesSold = sharesBought - 2;
-            var buy = TransactionFactory.ConstructBuy(buyDate, ticker, priceBought, sharesBought, commission);
-            var sell = TransactionFactory.ConstructSell(sellDate, ticker, priceSold, sharesSold, commission);
+            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, priceBought, commission);
+            var sell = TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, priceSold, commission);
 
             target.AddTransaction(buy);
             target.AddTransaction(sell);

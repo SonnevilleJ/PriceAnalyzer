@@ -156,7 +156,7 @@ namespace Sonneville.Utilities
         /// <returns></returns>
         public static ShareTransaction CreateShareTransaction(DateTime settlementDate, Order order, decimal commission)
         {
-            return TransactionFactory.ConstructShareTransaction(order.OrderType, settlementDate, order.Ticker, order.Price, order.Shares, commission);
+            return TransactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, settlementDate, order.Shares, order.Price, commission);
         }
 
         #endregion

@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 // fill the order at 1% higher price
                 var price = Math.Round(order.Price*1.01m, 2);
                 var commission = Features.CommissionSchedule.PriceCheck(order);
-                var transaction = TransactionFactory.ConstructShareTransaction(order.OrderType, now, order.Ticker, price, order.Shares, commission);
+                var transaction = TransactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, now, order.Shares, price, commission);
 
                 // signal the order has been filled
                 InvokeOrderFilled(new OrderExecutedEventArgs(now, order, transaction));

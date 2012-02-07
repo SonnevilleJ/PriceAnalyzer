@@ -360,7 +360,7 @@ namespace Sonneville.PriceTools.Test
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double shares = 9;
 
-            var buy = TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission);
+            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
 
             Assert.IsTrue(target.TransactionIsValid(buy));
         }
@@ -376,7 +376,7 @@ namespace Sonneville.PriceTools.Test
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const double shares = 9;
 
-            var sell = TransactionFactory.ConstructSell(buyDate, ticker, buyPrice, shares, commission);
+            var sell = TransactionFactory.ConstructSell(ticker, buyDate, shares, buyPrice, commission);
 
             Assert.IsFalse(target.TransactionIsValid(sell));
         }

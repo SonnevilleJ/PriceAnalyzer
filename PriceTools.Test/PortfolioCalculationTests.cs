@@ -24,10 +24,10 @@ namespace Sonneville.PriceTools.Test
             const double sharesBought = 10;
             const decimal commission = 7.95m;
             const double sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(buyDate, de, dePriceBought, sharesBought, commission);
-            var deSell = TransactionFactory.ConstructSell(sellDate, de, dePriceSold, sharesSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(buyDate, msft, msftPriceBought, sharesBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(sellDate, msft, msftPriceSold, sharesSold, commission);
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             target.AddTransaction(deBuy);
             target.AddTransaction(deSell);
