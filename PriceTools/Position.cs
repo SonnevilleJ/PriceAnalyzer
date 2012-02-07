@@ -56,13 +56,6 @@ namespace Sonneville.PriceTools
         void AddTransaction(ShareTransaction shareTransaction);
 
         /// <summary>
-        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Position.
-        /// </summary>
-        /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
-        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Position.</returns>
-        IList<IHolding> CalculateHoldings(DateTime settlementDate);
-
-        /// <summary>
         /// Validates a transaction without adding it to the Position.
         /// </summary>
         /// <param name="shareTransaction"></param>

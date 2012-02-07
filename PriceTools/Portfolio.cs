@@ -68,13 +68,6 @@ namespace Sonneville.PriceTools
         void AddTransactionHistory(TransactionHistory transactionHistory);
 
         /// <summary>
-        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Portfolio.
-        /// </summary>
-        /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
-        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Portfolio.</returns>
-        IList<IHolding> CalculateHoldings(DateTime settlementDate);
-
-        /// <summary>
         /// Validates an <see cref="Transaction"/> without adding it to the Portfolio.
         /// </summary>
         /// <param name="transaction">The <see cref="Transaction"/> to validate.</param>
