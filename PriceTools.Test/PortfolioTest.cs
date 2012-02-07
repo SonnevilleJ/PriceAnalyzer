@@ -576,7 +576,7 @@ namespace Sonneville.PriceTools.Test
         public void GetInvestedValueFromEmptyPortfolio()
         {
             var target = PortfolioFactory.ConstructPortfolio();
-            Assert.AreEqual(0.0m, target.CalculateInvestedValue(new YahooPriceDataProvider(), DateTime.Now));
+            Assert.AreEqual(0.0m, target.CalculateMarketValue(new YahooPriceDataProvider(), DateTime.Now));
         }
 
         [TestMethod]
@@ -595,13 +595,13 @@ namespace Sonneville.PriceTools.Test
 
             target.AddTransaction(buy);
 
-            // If the price date falls within a period, CalculateInvestedValue will use price data from that period.
+            // If the price date falls within a period, CalculateMarketValue will use price data from that period.
             // Because of this, I changed the price date to 11:59 pm rather than the next day (default of midnight).
             // Todo: adding a "market open/close times" feature would be a better fix; more convenient for the client.
             var priceDate = new DateTime(2011, 4, 25, 23, 59, 59);
             
             const decimal expected = 189.44m; // closing price 25 April 2011 = $94.72 * 2 shares = 189.44
-            var actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), priceDate);
+            var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), priceDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -625,7 +625,7 @@ namespace Sonneville.PriceTools.Test
             target.AddTransaction(sell);
 
             const decimal expected = 0.00m; // all shares sold = no value
-            var actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), sellDate);
+            var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), sellDate);
             Assert.AreEqual(expected, actual);
         }
 

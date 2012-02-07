@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = new YahooPriceDataProvider();
 
                 var altr = portfolio.Positions.Where(p => p.Ticker == "ALTR").First();
-                var investedValue = altr.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = altr.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
             }
         }
@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = new YahooPriceDataProvider();
 
                 var ntap = portfolio.Positions.Where(p => p.Ticker == "NTAP").First();
-                var investedValue = ntap.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = ntap.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
             }
         }
@@ -67,7 +67,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = new YahooPriceDataProvider();
 
                 var ntct = portfolio.Positions.Where(p => p.Ticker == "NTCT").First();
-                var investedValue = ntct.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = ntct.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
             }
         }
@@ -86,7 +86,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = new YahooPriceDataProvider();
 
                 var pg = portfolio.Positions.Where(p => p.Ticker == "PG").First();
-                var investedValue = pg.CalculateInvestedValue(provider, settlementDate);
+                var investedValue = pg.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(0.00m, investedValue);
             }
         }

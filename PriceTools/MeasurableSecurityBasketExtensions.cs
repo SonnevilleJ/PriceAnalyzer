@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Extensions;
 
 namespace Sonneville.PriceTools
 {
@@ -111,6 +113,32 @@ namespace Sonneville.PriceTools
             return basket.Transactions.Where(t=>t is ShareTransaction).Cast<ShareTransaction>().AsParallel()
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .Sum(transaction => transaction.Commission);
+        }
+
+        /// <summary>
+        ///   Gets the value of any shares held the Position as of a given date.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The value of the shares held in the Position as of the given date.</returns>
+        public static decimal CalculateMarketValue(this MeasurableSecurityBasket basket, IPriceDataProvider provider, DateTime settlementDate)
+        {
+            var allTransactions = basket.Transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>();
+            var groups = allTransactions.GroupBy(t => t.Ticker);
+
+            var total = 0.00m;
+            foreach (var transactions in groups)
+            {
+                var heldShares = (decimal) transactions.GetHeldShares(settlementDate);
+                if (heldShares == 0) continue;
+
+                var priceSeries = PriceSeriesFactory.CreatePriceSeries(transactions.First().Ticker);
+                if (!priceSeries.HasValueInRange(settlementDate)) priceSeries.RetrievePriceData(provider, settlementDate);
+                var price = priceSeries[settlementDate];
+                total += heldShares * price;
+            }
+            return total;
         }
 
         /// <summary>

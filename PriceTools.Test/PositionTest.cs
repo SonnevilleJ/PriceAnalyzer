@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void CalculateInvestedValueTestBuy()
+        public void CalculateMarketValueTestBuy()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -52,12 +52,12 @@ namespace Sonneville.PriceTools.Test
             // invested value should be $45.81 * 5 shares = $229.05
             const decimal currentPrice = 45.81m;
             const decimal expected = (currentPrice * (decimal) shares);
-            var actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), buyDate);
+            var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), buyDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void CalculateInvestedValueTestSellHalf()
+        public void CalculateMarketValueTestSellHalf()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -75,12 +75,12 @@ namespace Sonneville.PriceTools.Test
             // invested value should be $44.81 * 5 shares = $224.05
             const decimal currentPrice = 44.81m;
             const decimal expected = (currentPrice*(decimal) (shares/2));
-            var actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), sellDate);
+            var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), sellDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void CalculateInvestedValueTestSellAll()
+        public void CalculateMarketValueTestSellAll()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -95,7 +95,7 @@ namespace Sonneville.PriceTools.Test
             target.Sell(sellDate, shares, price + 10m, commission);
 
             const decimal expected = 0.00m;     // $0.00 currently invested
-            var actual = target.CalculateInvestedValue(new YahooPriceDataProvider(), sellDate);
+            var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), sellDate);
             Assert.AreEqual(expected, actual);
         }
 

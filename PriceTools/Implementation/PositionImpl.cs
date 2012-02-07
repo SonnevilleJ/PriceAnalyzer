@@ -155,22 +155,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the value of any shares held the Position as of a given date.
-        /// </summary>
-        /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The value of the shares held in the Position as of the given date.</returns>
-        public decimal CalculateInvestedValue(IPriceDataProvider provider, DateTime settlementDate)
-        {
-            var heldShares = (decimal) _transactions.GetHeldShares(settlementDate);
-            if (heldShares == 0) return 0;
-
-            if (!PriceSeries.HasValueInRange(settlementDate)) PriceSeries.RetrievePriceData(provider, settlementDate);
-            var price = PriceSeries[settlementDate];
-            return heldShares*price;
-        }
-
-        /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
         /// </summary>
         public IList<Transaction> Transactions

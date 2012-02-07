@@ -151,17 +151,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the value of all shares held the Portfolio as of a given date.
-        /// </summary>
-        /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The value of the shares held in the Portfolio as of the given date.</returns>
-        public decimal CalculateInvestedValue(IPriceDataProvider provider, DateTime settlementDate)
-        {
-            return Positions.Sum(p => p.CalculateInvestedValue(provider, settlementDate));
-        }
-
-        /// <summary>
         ///   Adds an <see cref="Transaction"/> to this Portfolio.
         /// </summary>
         public void AddTransaction(Transaction transaction)
