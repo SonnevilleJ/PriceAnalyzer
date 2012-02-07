@@ -119,13 +119,19 @@ namespace Sonneville.PriceTools
         /// <returns>Returns the net rate of return, after commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
         public static decimal? CalculateNetReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
-            var proceeds = basket.CalculateProceeds(settlementDate);
-            if (proceeds == 0) return null;
+            var allHoldings = basket.CalculateHoldings(settlementDate);
+            if (allHoldings.Count == 0) return null;
 
-            var costs = basket.CalculateCost(settlementDate);
-            var commissions = basket.CalculateCommissions(settlementDate);
-            var profit = proceeds - costs - commissions;
-            return profit/costs;
+            var totalShares = allHoldings.Sum(h => h.Shares);
+            var positionGroups = allHoldings.GroupBy(h => h.Ticker);
+            return (from holdings in positionGroups
+                    let positionShares = holdings.Sum(h => h.Shares)
+                    from holding in holdings
+                    let open = holding.OpenPrice
+                    let close = holding.ClosePrice
+                    let profit = close - open - ((holding.OpenCommission + holding.CloseCommission)/(decimal) holding.Shares)
+                    let increase = profit/open
+                    select increase*(decimal) ((holding.Shares/positionShares)*(positionShares/totalShares))).Sum();
         }
 
         /// <summary>
