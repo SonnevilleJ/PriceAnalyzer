@@ -133,12 +133,32 @@ namespace Sonneville.PriceTools
         /// <returns>Returns the gross rate of return, before commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
         public static decimal? CalculateGrossReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
-            var proceeds = basket.CalculateProceeds(settlementDate);
-            if (proceeds == 0) return null;
+            var sum = 0.00m;
 
-            var costs = basket.CalculateCost(settlementDate);
-            var profit = proceeds - costs;
-            return profit/costs;
+            var allHoldings = basket.CalculateHoldings(settlementDate);
+            if (allHoldings.Count == 0) return null;
+
+            var totalShares = allHoldings.Sum(h => h.Shares);
+            var positionGroups = allHoldings.GroupBy(h => h.Ticker);
+            foreach (var holdings in positionGroups)
+            {
+                var positionShares = holdings.Sum(h => h.Shares);
+                foreach (var holding in holdings)
+                {
+                    var open = holding.OpenPrice;
+                    var close = holding.ClosePrice;
+                    var profit = close - open;
+                    var increase = profit/open;
+                    sum += increase * (decimal) ((holding.Shares / positionShares) * (positionShares / totalShares));
+                }
+            }
+            return sum;
+            //var proceeds = basket.CalculateProceeds(settlementDate);
+            //if (proceeds == 0) return null;
+
+            //var costs = basket.CalculateCost(settlementDate);
+            //var profit = proceeds - costs;
+            //return profit/costs;
         }
 
     }
