@@ -146,5 +146,161 @@ namespace Sonneville.PriceTools.Test
 
             Assert.IsNull(target.CalculateNetReturn(sellDate));
         }
+
+        #region Gross Profit
+
+        [TestMethod]
+        public void CalculateGrossProfitOpenPosition()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var oDate = new DateTime(2000, 1, 1);
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
+            const double oShares = 5;           // bought 5 shares
+            const decimal oCommission = 7.95m;  // bought with $7.95 commission
+            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            // CalculateGrossProfit does not consider open positions - it can only account for closed holdings
+            const decimal expected = 0;
+            var actual = target.CalculateGrossProfit(oDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateGrossProfitAfterGain()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var oDate = new DateTime(2000, 1, 1);
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
+            const double oShares = 5;           // bought 5 shares
+            const decimal oCommission = 7.95m;  // bought with $7.95 commission
+            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            var cDate = new DateTime(2001, 1, 1);
+            const decimal cPrice = 110.00m;     // sold at $110.00 per share
+            const double cShares = 5;           // sold 5 shares
+            const decimal cCommission = 7.95m;  // sold with $7.95 commission
+            target.Sell(cDate, cShares, cPrice, cCommission);
+
+            // No longer hold these shares, so CalculateGrossProfit should return total value without any commissions.
+            var expected = GetExpectedGrossProfit(oShares, oPrice, cShares, cPrice);
+            var actual = target.CalculateGrossProfit(cDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateGrossProfitAfterLoss()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var oDate = new DateTime(2000, 1, 1);
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
+            const double oShares = 5;           // bought 5 shares
+            const decimal oCommission = 7.95m;  // bought with $7.95 commission
+            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            var cDate = new DateTime(2001, 1, 1);
+            const decimal cPrice = 90.00m;      // sold at $90.00 per share - $10 per share loss
+            const double cShares = 5;           // sold 5 shares
+            const decimal cCommission = 7.95m;  // sold with $7.95 commission
+            target.Sell(cDate, cShares, cPrice, cCommission);
+
+            // No longer hold these shares, so CalculateGrossProfit should return total value without any commissions.
+            var expected = GetExpectedGrossProfit(oShares, oPrice, cShares, cPrice);
+            var actual = target.CalculateGrossProfit(cDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region Net Profit
+
+        [TestMethod]
+        public void CalculateNetProfitOpenPosition()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var oDate = new DateTime(2000, 1, 1);
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
+            const double oShares = 5;           // bought 5 shares
+            const decimal oCommission = 7.95m;  // bought with $7.95 commission
+            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            // CalculateGrossProfit does not consider open positions - it can only account for closed holdings
+            const decimal expected = 0;
+            var actual = target.CalculateNetProfit(oDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateNetProfitAfterGain()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var oDate = new DateTime(2000, 1, 1);
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
+            const double oShares = 5;           // bought 5 shares
+            const decimal oCommission = 7.95m;  // bought with $7.95 commission
+            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            var cDate = new DateTime(2001, 1, 1);
+            const decimal cPrice = 110.00m;     // sold at $110.00 per share
+            const double cShares = 5;           // sold 5 shares
+            const decimal cCommission = 7.95m;  // sold with $7.95 commission
+            target.Sell(cDate, cShares, cPrice, cCommission);
+
+            // No longer hold these shares, so CalculateNetProfit should return total profit with all commissions.
+            var expected = GetExpectedNetProfit(oShares, oPrice, oCommission, cShares, cPrice, oCommission);
+            var actual = target.CalculateNetProfit(cDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateNetProfitAfterLoss()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var oDate = new DateTime(2000, 1, 1);
+            const decimal oPrice = 100.00m;     // bought at $100.00 per share
+            const double oShares = 5;           // bought 5 shares
+            const decimal oCommission = 7.95m;  // bought with $7.95 commission
+            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            var cDate = new DateTime(2001, 1, 1);
+            const decimal cPrice = 90.00m;      // sold at $90.00 per share - $10 per share loss
+            const double cShares = 5;           // sold 5 shares
+            const decimal cCommission = 7.95m;  // sold with $7.95 commission
+            target.Sell(cDate, cShares, cPrice, cCommission);
+
+            // No longer hold these shares, so CalculateNetProfit should return total profit with all commissions.
+            var expected = GetExpectedNetProfit(oShares, oPrice, oCommission, cShares, cPrice, oCommission);
+            var actual = target.CalculateNetProfit(cDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        /// <summary>
+        /// Calculates the expected result of a call to CalculateNetProfit on a single Position.
+        /// </summary>
+        private static decimal GetExpectedNetProfit(double openingShares, decimal openingPrice, decimal openingCommission, double closingShares, decimal closingPrice, decimal closingCommission)
+        {
+            return ((closingPrice * (decimal)closingShares) - closingCommission) - ((openingPrice * (decimal)openingShares) + openingCommission);
+        }
+
+        /// <summary>
+        /// Calculates the expected result of a call to CalculateGrossProfit on a single Position.
+        /// </summary>
+        private static decimal GetExpectedGrossProfit(double openingShares, decimal openingPrice, double closingShares, decimal closingPrice)
+        {
+            return (closingPrice * (decimal)closingShares) - (openingPrice * (decimal)openingShares);
+        }
     }
 }
