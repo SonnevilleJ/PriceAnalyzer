@@ -122,6 +122,23 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
+        public static decimal? CalculateAnnualGrossReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
+        {
+            var totalReturn = basket.CalculateGrossReturn(settlementDate);
+            if (totalReturn == null) return null;
+
+            var time = ((basket.Tail - basket.Head).Days / 365.0m);
+            return totalReturn/time;
+        }
+
+        /// <summary>
+        ///   Gets the net rate of return on an annual basis for this MeasurableSecurityBasket, after commissions.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <remarks>
+        ///   Assumes a year has 365 days.
+        /// </remarks>
         public static decimal? CalculateAnnualNetReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
             var totalReturn = basket.CalculateNetReturn(settlementDate);

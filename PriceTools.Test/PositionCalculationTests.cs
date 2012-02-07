@@ -6,7 +6,78 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class PositionCalculationTests
     {
-        #region AnnualNetReturn
+        #region Annual Gross Return
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnAfterLoss()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
+            const decimal buyPrice = 100.00m;       // $100.00 per share
+            const decimal sellPrice = 90.00m;       // $90.00 per share
+            const double shares = 5;                // 5 shares
+            const decimal commission = 5.00m;       // with $5 commission
+
+            target.Buy(buyDate, shares, buyPrice, commission);
+            target.Sell(sellDate, shares, sellPrice, commission);
+
+            const decimal expectedReturn = -0.1m;    // -10% return; loss = $50 after commissions; initial investment = $500
+            var actualReturn = target.CalculateGrossReturn(sellDate);
+            Assert.AreEqual(expectedReturn, actualReturn);
+
+            const decimal expected = -0.5m;          // -50% annual rate return
+            var actual = target.CalculateAnnualGrossReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnAfterGain()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
+            const decimal buyPrice = 100.00m;       // $100.00 per share
+            const decimal sellPrice = 110.00m;      // $110.00 per share
+            const double shares = 5;                // 5 shares
+            const decimal commission = 5.00m;       // with $5 commission
+
+            target.Buy(buyDate, shares, buyPrice, commission);
+            target.Sell(sellDate, shares, sellPrice, commission);
+
+            const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
+            var actualReturn = target.CalculateGrossReturn(sellDate);
+            Assert.AreEqual(expectedReturn, actualReturn);
+
+            const decimal expected = 0.5m;          // 50% annual rate return
+            var actual = target.CalculateAnnualGrossReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnOpenPosition()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
+            const decimal price = 100.00m;          // $100.00 per share
+            const double shares = 5;                // 5 shares
+            const decimal commission = 5.00m;       // with $5 commission
+
+            target.Buy(buyDate, shares, price, commission);
+
+            Assert.IsNull(target.CalculateAnnualGrossReturn(sellDate));
+        }
+
+        #endregion
+        
+        #region Annual Net Return
 
         [TestMethod]
         public void CalculateAnnualNetReturnAfterLoss()
