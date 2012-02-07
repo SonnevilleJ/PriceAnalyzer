@@ -278,11 +278,8 @@ namespace Sonneville.PriceTools.Test
             const decimal decrease = -0.10m;        // 10% price decrease when sold
             const decimal priceSold = priceBought * (1 + decrease);
             const double sharesSold = sharesBought - 2;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, priceBought, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, priceSold, commission);
-
-            target.AddTransaction(buy);
-            target.AddTransaction(sell);
+            target.Buy(buyDate, sharesBought, priceBought, commission);
+            target.Sell(sellDate, sharesSold, priceSold, commission);
 
             const decimal expected = decrease;
             var actual = target.CalculateGrossReturn(sellDate);
@@ -303,12 +300,9 @@ namespace Sonneville.PriceTools.Test
             const decimal increase = 0.10m;         // 10% price increase when sold
             const decimal priceSold = priceBought * (1 + increase);
             const double sharesSold = sharesBought - 2;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, priceBought, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, priceSold, commission);
-
-            target.AddTransaction(buy);
-            target.AddTransaction(sell);
-
+            target.Buy(buyDate, sharesBought, priceBought, commission);
+            target.Sell(sellDate, sharesSold, priceSold, commission);
+            
             const decimal expected = increase;
             var actual = target.CalculateGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
