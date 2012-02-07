@@ -6,8 +6,35 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class PositionCalculationTests
     {
+        #region AnnualNetReturn
+
         [TestMethod]
-        public void PositionCalculateAverageAnnualReturnTest()
+        public void CalculateAnnualNetReturnAfterLoss()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
+            const decimal buyPrice = 100.00m;       // $100.00 per share
+            const decimal sellPrice = 92.00m;       // $92.00 per share
+            const double shares = 5;                // 5 shares
+            const decimal commission = 5.00m;       // with $5 commission
+
+            target.Buy(buyDate, shares, buyPrice, commission);
+            target.Sell(sellDate, shares, sellPrice, commission);
+
+            const decimal expectedReturn = -0.1m;    // -10% return; loss = $50 after commissions; initial investment = $500
+            var actualReturn = target.CalculateNetReturn(sellDate);
+            Assert.AreEqual(expectedReturn, actualReturn);
+
+            const decimal expected = -0.5m;          // -50% annual rate return
+            var actual = target.CalculateAnnualNetReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualNetReturnAfterGain()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -27,12 +54,12 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = 0.5m;          // 50% annual rate return
-            var actual = target.CalculateAverageAnnualReturn(sellDate);
+            var actual = target.CalculateAnnualNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void PositionCalculateAverageAnnualReturnWithoutProceedsTest()
+        public void CalculateAnnualNetReturnOpenPosition()
         {
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
@@ -45,8 +72,10 @@ namespace Sonneville.PriceTools.Test
 
             target.Buy(buyDate, shares, price, commission);
 
-            Assert.IsNull(target.CalculateAverageAnnualReturn(sellDate));
+            Assert.IsNull(target.CalculateAnnualNetReturn(sellDate));
         }
+
+        #endregion
         
         #region Average Cost
 

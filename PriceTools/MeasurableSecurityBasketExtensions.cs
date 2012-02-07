@@ -122,7 +122,7 @@ namespace Sonneville.PriceTools
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        public static decimal? CalculateAverageAnnualReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
+        public static decimal? CalculateAnnualNetReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
             var totalReturn = basket.CalculateNetReturn(settlementDate);
             if (totalReturn == null) return null;

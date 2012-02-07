@@ -540,7 +540,7 @@ namespace Sonneville.PriceTools.Test
 
             target.AddTransaction(buy);
 
-            Assert.IsNull(target.CalculateAverageAnnualReturn(sellDate));
+            Assert.IsNull(target.CalculateAnnualNetReturn(sellDate));
         }
 
         [TestMethod]
@@ -568,7 +568,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = 0.5m;          // 50% annual rate return
-            var actual = target.CalculateAverageAnnualReturn(sellDate);
+            var actual = target.CalculateAnnualNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
 
