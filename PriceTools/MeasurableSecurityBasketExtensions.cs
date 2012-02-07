@@ -84,7 +84,7 @@ namespace Sonneville.PriceTools
         /// <returns>The total amount spent on share purchases as a negative number.</returns>
         public static decimal CalculateCost(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
-            return basket.Transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().AsParallel().Where(t => t is OpeningTransaction)
+            return basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t is OpeningTransaction)
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .Sum(transaction => transaction.Price * (decimal)transaction.Shares);
         }
@@ -97,7 +97,7 @@ namespace Sonneville.PriceTools
         /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
         public static decimal CalculateProceeds(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
-            return -1 * basket.Transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().AsParallel().Where(t => t is ClosingTransaction)
+            return -1 * basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t is ClosingTransaction)
                    .Where(transaction => transaction.SettlementDate <= settlementDate)
                    .Sum(transaction => transaction.Price * (decimal)transaction.Shares);
         }
@@ -110,7 +110,7 @@ namespace Sonneville.PriceTools
         /// <returns>The total amount of commissions from <see cref = "ShareTransaction" />s as a negative number.</returns>
         public static decimal CalculateCommissions(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
-            return basket.Transactions.Where(t=>t is ShareTransaction).Cast<ShareTransaction>().AsParallel()
+            return basket.Transactions.AsParallel().Where(t=>t is ShareTransaction).Cast<ShareTransaction>()
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .Sum(transaction => transaction.Commission);
         }
@@ -124,7 +124,7 @@ namespace Sonneville.PriceTools
         /// <returns>The value of the shares held in the Position as of the given date.</returns>
         public static decimal CalculateMarketValue(this MeasurableSecurityBasket basket, IPriceDataProvider provider, DateTime settlementDate)
         {
-            var allTransactions = basket.Transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>();
+            var allTransactions = basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>();
             var groups = allTransactions.GroupBy(t => t.Ticker);
 
             var total = 0.00m;
@@ -158,8 +158,7 @@ namespace Sonneville.PriceTools
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         private static double GetOpenedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
         {
-            var transactions = shareTransactions.Where(t => t is OpeningTransaction);
-            return transactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Shares);
+            return shareTransactions.AsParallel().Where(t => t is OpeningTransaction && t.SettlementDate <= date).Sum(t => t.Shares);
         }
 
         /// <summary>
@@ -169,8 +168,7 @@ namespace Sonneville.PriceTools
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         private static double GetClosedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
         {
-            var transactions = shareTransactions.Where(t => t is ClosingTransaction);
-            return transactions.Where(transaction => transaction.SettlementDate <= date).Sum(transaction => transaction.Shares);
+            return shareTransactions.AsParallel().Where(t => t is ClosingTransaction && t.SettlementDate <= date).Sum(t => t.Shares);
         }
 
         /// <summary>
