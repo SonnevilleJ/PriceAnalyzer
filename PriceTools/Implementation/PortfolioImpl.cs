@@ -133,26 +133,6 @@ namespace Sonneville.PriceTools.Implementation
         public string CashTicker { get; private set; }
 
         /// <summary>
-        ///   Gets the gross investment of this Portfolio, ignoring any proceeds and commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount spent on share purchases.</returns>
-        public decimal CalculateCost(DateTime settlementDate)
-        {
-            return Positions.Sum(p => p.CalculateCost(settlementDate));
-        }
-
-        /// <summary>
-        ///   Gets the gross proceeds of this Portfolio, ignoring all totalCosts and commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of proceeds from share sales.</returns>
-        public decimal CalculateProceeds(DateTime settlementDate)
-        {
-            return Positions.Sum(p => p.CalculateProceeds(settlementDate));
-        }
-
-        /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
         /// </summary>
         public IList<Transaction> Transactions

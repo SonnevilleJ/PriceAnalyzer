@@ -75,6 +75,32 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        ///   Gets the gross investment of this Position, ignoring any proceeds and commissions.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The total amount spent on share purchases as a negative number.</returns>
+        public static decimal CalculateCost(this MeasurableSecurityBasket basket, DateTime settlementDate)
+        {
+            return basket.Transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().AsParallel().Where(t => t is OpeningTransaction)
+                .Where(transaction => transaction.SettlementDate <= settlementDate)
+                .Sum(transaction => transaction.Price * (decimal)transaction.Shares);
+        }
+
+        /// <summary>
+        ///   Gets the gross proceeds of this Position, ignoring all totalCosts and commissions.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
+        public static decimal CalculateProceeds(this MeasurableSecurityBasket basket, DateTime settlementDate)
+        {
+            return -1 * basket.Transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().AsParallel().Where(t => t is ClosingTransaction)
+                   .Where(transaction => transaction.SettlementDate <= settlementDate)
+                   .Sum(transaction => transaction.Price * (decimal)transaction.Shares);
+        }
+
+        /// <summary>
         ///   Gets the total commissions paid as of a given date.
         /// </summary>
         /// <param name="basket"></param>

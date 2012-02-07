@@ -15,20 +15,6 @@ namespace Sonneville.PriceTools
         IList<Transaction> Transactions { get; }
 
         /// <summary>
-        ///   Gets the gross investment of this MeasurableSecurityBasket, ignoring any proceeds and commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount spent on share purchases.</returns>
-        decimal CalculateCost(DateTime settlementDate);
-
-        /// <summary>
-        ///   Gets the gross proceeds of this MeasurableSecurityBasket, ignoring all costs and commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of proceeds from share sales.</returns>
-        decimal CalculateProceeds(DateTime settlementDate);
-
-        /// <summary>
         ///   Gets the value of any shares held the MeasurableSecurityBasket as of a given date.
         /// </summary>
         /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>

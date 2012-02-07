@@ -179,30 +179,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the gross investment of this Position, ignoring any proceeds and commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount spent on share purchases as a negative number.</returns>
-        public decimal CalculateCost(DateTime settlementDate)
-        {
-            return _transactions.AsParallel().Where(t => t is OpeningTransaction)
-                .Where(transaction => transaction.SettlementDate <= settlementDate)
-                .Sum(transaction => transaction.Price*(decimal) transaction.Shares);
-        }
-
-        /// <summary>
-        ///   Gets the gross proceeds of this Position, ignoring all totalCosts and commissions.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
-        public decimal CalculateProceeds(DateTime settlementDate)
-        {
-            return -1 * _transactions.AsParallel().Where(t => t is ClosingTransaction)
-                   .Where(transaction => transaction.SettlementDate <= settlementDate)
-                   .Sum(transaction => transaction.Price*(decimal) transaction.Shares);
-        }
-
-        /// <summary>
         /// Adds an ShareTransaction to the Position.
         /// </summary>
         /// <param name="shareTransaction"></param>
