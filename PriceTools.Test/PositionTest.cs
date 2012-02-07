@@ -23,8 +23,8 @@ namespace Sonneville.PriceTools.Test
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
             target.Buy(oDate, oShares, oPrice, oCommission);
 
-            // Shares are still held, so net value (excluding commissions) is not changed.
-            const decimal expected = oPrice * (decimal) -oShares;
+            // CalculateGrossProfit does not consider open positions - it can only account for closed holdings
+            const decimal expected = 0;
             var actual = target.CalculateGrossProfit(oDate);
             Assert.AreEqual(expected, actual);
         }

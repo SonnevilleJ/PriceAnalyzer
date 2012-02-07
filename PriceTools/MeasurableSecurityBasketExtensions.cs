@@ -81,14 +81,24 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public static decimal CalculateGrossProfit(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
-            //var deposits = basket.Transactions.Where(t => t is Deposit && t.SettlementDate <= settlementDate).Cast<Deposit>().Sum(t => t.Amount);
-            var proceeds = basket.CalculateProceeds(settlementDate);
-            var investments = basket.CalculateCost(settlementDate);
-            //var commissionsPaid = basket.CalculateCommissions(settlementDate);
-            //var withdrawals = basket.Transactions.Where(t => t is Withdrawal && t.SettlementDate <= settlementDate).Cast<Withdrawal>().Sum(t => t.Amount);
-            //var userWithdrawals = (withdrawals + investments + commissionsPaid);
-            //var userDeposits = (deposits - proceeds);
-            return proceeds - investments;
+            var sum = 0.00m;
+
+            var allHoldings = basket.CalculateHoldings(settlementDate);
+            if (allHoldings.Count == 0) return 0;
+
+            var positionGroups = allHoldings.GroupBy(h => h.Ticker);
+            foreach (var holdings in positionGroups)
+            {
+                foreach (var holding in holdings)
+                {
+                    var open = holding.OpenPrice;
+                    var close = holding.ClosePrice;
+                    var profit = close - open;
+                    var shares = (decimal) holding.Shares;
+                    sum += profit;
+                }
+            }
+            return sum;
         }
 
         /// <summary>

@@ -198,13 +198,12 @@ namespace Sonneville.PriceTools.Test
             const decimal buyPrice = 50.00m;
             const int shares = 5;
             const decimal commission = 7.95m;
-            const decimal buyValue = (shares * buyPrice);
             
             var buy = TransactionFactory.ConstructBuy(buyDate, ticker, buyPrice, shares, commission);
             target.AddTransaction(buy);
 
-            // CalculateGrossProfit does not consider open positions - it can only account for transactions
-            const decimal expected = 0 - buyValue;
+            // CalculateGrossProfit does not consider open positions - it can only account for closed holdings
+            const decimal expected = 0;
             var actual = target.CalculateGrossProfit(calculateDate);
             Assert.AreEqual(expected, actual);
         }
@@ -275,6 +274,66 @@ namespace Sonneville.PriceTools.Test
             target.AddTransaction(sell);
 
             const decimal expected = 0.0m;      // 0% raw return on investment
+            var actual = target.CalculateGrossReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateGrossProfitFromClosedPortfolioTwoPositionsTest()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 110.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 60.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(buyDate, de, dePriceBought, sharesBought, commission);
+            var deSell = TransactionFactory.ConstructSell(sellDate, de, dePriceSold, sharesSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(buyDate, msft, msftPriceBought, sharesBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(sellDate, msft, msftPriceSold, sharesSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            const decimal expected = ((dePriceSold - dePriceBought) + (msftPriceSold - msftPriceBought)) * (decimal) sharesSold;
+            var actual = target.CalculateGrossProfit(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateGrossReturnFromPartiallyClosedPortfolioTest()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal priceBought = 100.00m;    // $100.00 per share
+            const double sharesBought = 10;         // 10 shares
+            const decimal commission = 7.95m;       // with $7.95 commission
+            const decimal increase = 0.10m;         // 10% price increase when sold
+            const decimal priceSold = priceBought * (1 + increase);
+            const double sharesSold = sharesBought - 2;
+            var buy = TransactionFactory.ConstructBuy(buyDate, ticker, priceBought, sharesBought, commission);
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, priceSold, sharesSold, commission);
+
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
+
+            const decimal expected = increase;
             var actual = target.CalculateGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
