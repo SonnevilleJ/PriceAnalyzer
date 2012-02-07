@@ -125,10 +125,7 @@ namespace Sonneville.PriceTools
         public static decimal? CalculateAnnualGrossReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
             var totalReturn = basket.CalculateGrossReturn(settlementDate);
-            if (totalReturn == null) return null;
-
-            var time = ((basket.Tail - basket.Head).Days / 365.0m);
-            return totalReturn/time;
+            return totalReturn == null ? null : Annualize(totalReturn.Value, basket.Tail, basket.Head);
         }
 
         /// <summary>
@@ -142,9 +139,12 @@ namespace Sonneville.PriceTools
         public static decimal? CalculateAnnualNetReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
             var totalReturn = basket.CalculateNetReturn(settlementDate);
-            if (totalReturn == null) return null;
+            return totalReturn == null ? null : Annualize(totalReturn.Value, basket.Tail, basket.Head);
+        }
 
-            var time = ((basket.Tail - basket.Head).Days / 365.0m);
+        private static decimal? Annualize(decimal totalReturn, DateTime tail, DateTime head)
+        {
+            var time = ((tail - head).Days / 365.0m);
             return totalReturn/time;
         }
 
