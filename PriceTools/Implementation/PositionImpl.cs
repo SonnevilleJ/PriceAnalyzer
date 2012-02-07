@@ -203,18 +203,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the total commissions paid as of a given date.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of commissions from <see cref = "ShareTransaction" />s as a negative number.</returns>
-        public decimal CalculateCommissions(DateTime settlementDate)
-        {
-            return _transactions.AsParallel()
-                .Where(transaction => transaction.SettlementDate <= settlementDate)
-                .Sum(transaction => transaction.Commission);
-        }
-
-        /// <summary>
         /// Adds an ShareTransaction to the Position.
         /// </summary>
         /// <param name="shareTransaction"></param>

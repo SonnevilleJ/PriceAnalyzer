@@ -74,6 +74,18 @@ namespace Sonneville.PriceTools
             return result.OrderByDescending(h => h.Tail).ToList();
         }
 
+        /// <summary>
+        ///   Gets the total commissions paid as of a given date.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>The total amount of commissions from <see cref = "ShareTransaction" />s as a negative number.</returns>
+        public static decimal CalculateCommissions(this MeasurableSecurityBasket basket, DateTime settlementDate)
+        {
+            return basket.Transactions.Where(t=>t is ShareTransaction).Cast<ShareTransaction>().AsParallel()
+                .Where(transaction => transaction.SettlementDate <= settlementDate)
+                .Sum(transaction => transaction.Commission);
+        }
 
         /// <summary>
         ///   Gets the net shares held at a given date.

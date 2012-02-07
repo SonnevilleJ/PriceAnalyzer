@@ -29,13 +29,6 @@ namespace Sonneville.PriceTools
         decimal CalculateProceeds(DateTime settlementDate);
 
         /// <summary>
-        ///   Gets the total commissions paid as of a given date.
-        /// </summary>
-        /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of commissions from <see cref = "ShareTransaction" />s.</returns>
-        decimal CalculateCommissions(DateTime settlementDate);
-
-        /// <summary>
         ///   Gets the value of any shares held the MeasurableSecurityBasket as of a given date.
         /// </summary>
         /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
