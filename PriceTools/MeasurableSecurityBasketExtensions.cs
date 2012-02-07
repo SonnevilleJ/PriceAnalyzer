@@ -75,7 +75,27 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the value of this Portfolio, excluding any commissions, as of a given date.
+        ///   Gets the net profit of this MeasurableSecurityBasket, including any commissions, as of a given date.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
+        public static decimal CalculateNetProfit(this MeasurableSecurityBasket basket, DateTime settlementDate)
+        {
+            var allHoldings = basket.CalculateHoldings(settlementDate);
+            if (allHoldings.Count == 0) return 0;
+
+            var positionGroups = allHoldings.GroupBy(h => h.Ticker);
+            return (from holdings in positionGroups
+                    from holding in holdings
+                    let open = holding.OpenPrice
+                    let close = holding.ClosePrice
+                    let profit = close - open
+                    let shares = (decimal) holding.Shares
+                    select (profit*shares) - holding.OpenCommission - holding.CloseCommission).Sum();
+        }
+
+        /// <summary>
+        ///   Gets the gross profit of this MeasurableSecurityBasket, excluding any commissions, as of a given date.
         /// </summary>
         /// <param name="basket"></param>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
@@ -95,7 +115,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the total rate of return on an annual basis for this MeasurableSecurityBasket, after commissions.
+        ///   Gets the net rate of return on an annual basis for this MeasurableSecurityBasket, after commissions.
         /// </summary>
         /// <param name="basket"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
