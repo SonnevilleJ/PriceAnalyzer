@@ -54,16 +54,21 @@ namespace Sonneville.PriceTools.Test
             const string ticker = "DE";
             var target = PositionFactory.CreatePosition(ticker);
 
-            var buyDate = new DateTime(2001, 1, 1);
+            var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;      // $100.00 per share
-            const double shares = 5;            // 5 shares
-            const decimal commission = 7.95m;   // with $7.95 commission
+            const decimal priceBought = 100.00m;    // $100.00 per share
+            const double sharesBought = 10;         // 10 shares
+            const decimal commission = 7.95m;       // with $7.95 commission
+            const decimal increase = 0.10m;         // 10% price increase when sold
+            const decimal priceSold = priceBought * (1 + increase);
+            const double sharesSold = sharesBought - 2;
+            var buy = TransactionFactory.ConstructBuy(buyDate, ticker, priceBought, sharesBought, commission);
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, priceSold, sharesSold, commission);
 
-            target.Buy(buyDate, shares, price, commission);
-            target.Sell(sellDate, shares, price + 10m, commission);
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
 
-            const decimal expected = 0.1m;      // 10% raw return on investment
+            const decimal expected = increase;
             var actual = target.CalculateGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }

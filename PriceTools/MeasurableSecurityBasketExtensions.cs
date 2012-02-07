@@ -153,12 +153,6 @@ namespace Sonneville.PriceTools
                 }
             }
             return sum;
-            //var proceeds = basket.CalculateProceeds(settlementDate);
-            //if (proceeds == 0) return null;
-
-            //var costs = basket.CalculateCost(settlementDate);
-            //var profit = proceeds - costs;
-            //return profit/costs;
         }
 
     }
