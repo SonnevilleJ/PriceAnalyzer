@@ -468,7 +468,9 @@ namespace Sonneville.PriceTools.Test
                                    Tail = sellDate,
                                    Shares = sharesSold,
                                    OpenPrice = buyPrice,
-                                   ClosePrice = sellPrice
+                                   OpenCommission = commission,
+                                   ClosePrice = sellPrice,
+                                   CloseCommission = commission
                                };
 
             Assert.IsTrue(holdings.Contains(expected));
@@ -532,7 +534,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = sellDate,
                 Shares = sharesBought,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
             var expected2 = new Holding
             {
@@ -541,7 +545,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = sellDate,
                 Shares = sharesBought,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
 
             Assert.IsTrue(holdings.Contains(expected1));
@@ -608,7 +614,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = secondSellDate,
                 Shares = sharesInHolding,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
             var expected2 = new Holding
             {
@@ -617,7 +625,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = firstSellDate,
                 Shares = sharesInHolding,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
 
             Assert.IsTrue(holdings.Contains(expected1));
@@ -687,7 +697,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = secondSellDate,
                 Shares = sharesInHolding,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
             var expected2 = new Holding
             {
@@ -696,7 +708,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = firstSellDate,
                 Shares = sharesInHolding,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
 
             Assert.IsTrue(holdings.Contains(expected1));
@@ -766,7 +780,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = secondSellDate,
                 Shares = sharesInHolding,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
             var expected2 = new Holding
             {
@@ -775,7 +791,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = firstSellDate,
                 Shares = sharesInHolding,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
 
             Assert.IsTrue(holdings.Contains(expected1));
@@ -846,7 +864,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = secondSellDate,
                 Shares = 1,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
             var expected2 = new Holding
             {
@@ -855,7 +875,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = secondSellDate,
                 Shares = 4,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
             var expected3 = new Holding
             {
@@ -864,7 +886,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = firstSellDate,
                 Shares = 5,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
 
 
@@ -937,7 +961,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = secondSellDate,
                 Shares = 1,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
             var expected2 = new Holding
             {
@@ -946,7 +972,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = secondSellDate,
                 Shares = 4,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
             var expected3 = new Holding
             {
@@ -955,7 +983,9 @@ namespace Sonneville.PriceTools.Test
                 Tail = firstSellDate,
                 Shares = 5,
                 OpenPrice = buyPrice,
-                ClosePrice = sellPrice
+                OpenCommission = commission,
+                ClosePrice = sellPrice,
+                CloseCommission = commission
             };
             var holding1 = holdings[0];
             var holding2 = holdings[1];

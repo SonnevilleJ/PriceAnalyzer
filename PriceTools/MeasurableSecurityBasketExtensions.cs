@@ -81,24 +81,17 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public static decimal CalculateGrossProfit(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
-            var sum = 0.00m;
-
             var allHoldings = basket.CalculateHoldings(settlementDate);
             if (allHoldings.Count == 0) return 0;
 
             var positionGroups = allHoldings.GroupBy(h => h.Ticker);
-            foreach (var holdings in positionGroups)
-            {
-                foreach (var holding in holdings)
-                {
-                    var open = holding.OpenPrice;
-                    var close = holding.ClosePrice;
-                    var profit = close - open;
-                    var shares = (decimal) holding.Shares;
-                    sum += profit * shares;
-                }
-            }
-            return sum;
+            return (from holdings in positionGroups
+                    from holding in holdings
+                    let open = holding.OpenPrice
+                    let close = holding.ClosePrice
+                    let profit = close - open
+                    let shares = (decimal) holding.Shares
+                    select profit*shares).Sum();
         }
 
         /// <summary>
@@ -143,26 +136,19 @@ namespace Sonneville.PriceTools
         /// <returns>Returns the gross rate of return, before commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
         public static decimal? CalculateGrossReturn(this MeasurableSecurityBasket basket, DateTime settlementDate)
         {
-            var sum = 0.00m;
-
             var allHoldings = basket.CalculateHoldings(settlementDate);
             if (allHoldings.Count == 0) return null;
 
             var totalShares = allHoldings.Sum(h => h.Shares);
             var positionGroups = allHoldings.GroupBy(h => h.Ticker);
-            foreach (var holdings in positionGroups)
-            {
-                var positionShares = holdings.Sum(h => h.Shares);
-                foreach (var holding in holdings)
-                {
-                    var open = holding.OpenPrice;
-                    var close = holding.ClosePrice;
-                    var profit = close - open;
-                    var increase = profit/open;
-                    sum += increase * (decimal) ((holding.Shares / positionShares) * (positionShares / totalShares));
-                }
-            }
-            return sum;
+            return (from holdings in positionGroups
+                    let positionShares = holdings.Sum(h => h.Shares)
+                    from holding in holdings
+                    let open = holding.OpenPrice
+                    let close = holding.ClosePrice
+                    let profit = close - open
+                    let increase = profit/open
+                    select increase*(decimal) ((holding.Shares/positionShares)*(positionShares/totalShares))).Sum();
         }
 
     }

@@ -30,14 +30,24 @@ namespace Sonneville.PriceTools
         public double Shares { get; set; }
 
         /// <summary>
-        /// The value of the holding at the <see cref="IHolding.Head"/>.
+        /// The per-share price of the opening transaction.
         /// </summary>
         public decimal OpenPrice { get; set; }
 
         /// <summary>
-        /// The value of the holding at the <see cref="IHolding.Tail"/>.
+        /// The commission paid for the opening transaction.
+        /// </summary>
+        public decimal OpenCommission { get; set; }
+
+        /// <summary>
+        /// The per-share price of the closing transaction.
         /// </summary>
         public decimal ClosePrice { get; set; }
+
+        /// <summary>
+        /// The commission paid for the closing transaction.
+        /// </summary>
+        public decimal CloseCommission { get; set; }
 
         #endregion
     }

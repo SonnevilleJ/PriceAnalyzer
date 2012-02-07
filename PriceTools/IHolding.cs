@@ -28,13 +28,23 @@ namespace Sonneville.PriceTools
         double Shares { get; }
 
         /// <summary>
-        /// The value of the holding at the <see cref="Head"/>.
+        /// The per-share price of the opening transaction.
         /// </summary>
         decimal OpenPrice { get; }
 
         /// <summary>
-        /// The value of the holding at the <see cref="Tail"/>.
+        /// The commission paid for the opening transaction.
+        /// </summary>
+        decimal OpenCommission { get; set; }
+
+        /// <summary>
+        /// The per-share price of the closing transaction.
         /// </summary>
         decimal ClosePrice { get; }
+
+        /// <summary>
+        /// The commission paid for the closing transaction.
+        /// </summary>
+        decimal CloseCommission { get; set; }
     }
 }

@@ -276,7 +276,9 @@ namespace Sonneville.PriceTools.Implementation
                                           Tail = sell.SettlementDate,
                                           Shares = shares,
                                           OpenPrice = buy.Price,
-                                          ClosePrice = -1*sell.Price
+                                          OpenCommission = buy.Commission,
+                                          ClosePrice = -1*sell.Price,
+                                          CloseCommission = sell.Commission
                                       };
                     holdings.Add(holding);
 
