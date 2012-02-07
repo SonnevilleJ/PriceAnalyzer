@@ -47,49 +47,7 @@ namespace Sonneville.PriceTools.Test
 
             Assert.IsNull(target.CalculateAverageAnnualReturn(sellDate));
         }
-
-        [TestMethod]
-        public void PositionCalculateGrossReturnTest()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var buyDate = new DateTime(2011, 1, 10);
-            var sellDate = buyDate.AddDays(1);
-            const decimal priceBought = 100.00m;    // $100.00 per share
-            const double sharesBought = 10;         // 10 shares
-            const decimal commission = 7.95m;       // with $7.95 commission
-            const decimal increase = 0.10m;         // 10% price increase when sold
-            const decimal priceSold = priceBought * (1 + increase);
-            const double sharesSold = sharesBought - 2;
-            var buy = TransactionFactory.ConstructBuy(buyDate, ticker, priceBought, sharesBought, commission);
-            var sell = TransactionFactory.ConstructSell(sellDate, ticker, priceSold, sharesSold, commission);
-
-            target.AddTransaction(buy);
-            target.AddTransaction(sell);
-
-            const decimal expected = increase;
-            var actual = target.CalculateGrossReturn(sellDate);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void PositionCalculateGrossReturnWithoutProceedsTest()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var buyDate = new DateTime(2001, 1, 1);
-            var sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;      // $100.00 per share
-            const double shares = 5;            // 5 shares
-            const decimal commission = 7.95m;   // with $7.95 commission
-
-            target.Buy(buyDate, shares, price, commission);
-
-            Assert.IsNull(target.CalculateGrossReturn(sellDate));
-        }
-
+        
         #region Average Cost
 
         [TestMethod]
@@ -200,6 +158,77 @@ namespace Sonneville.PriceTools.Test
             const decimal expectedAverageCost = (((decimal)originalShares * buyPrice) + (decimal)newShares * buyPrice2) / (decimal) (originalShares + newShares);
             var actualAverageCost = target.CalculateAverageCost(buyDate2);
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
+        }
+
+        #endregion
+
+        #region Gross Return
+
+        [TestMethod]
+        public void PositionCalculateGrossReturnAfterLoss()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const decimal priceBought = 100.00m;    // $100.00 per share
+            const double sharesBought = 10;         // 10 shares
+            const decimal commission = 7.95m;       // with $7.95 commission
+            const decimal decrease = -0.10m;        // 10% price decrease when sold
+            const decimal priceSold = priceBought * (1 + decrease);
+            const double sharesSold = sharesBought - 2;
+            var buy = TransactionFactory.ConstructBuy(buyDate, ticker, priceBought, sharesBought, commission);
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, priceSold, sharesSold, commission);
+
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
+
+            const decimal expected = decrease;
+            var actual = target.CalculateGrossReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void PositionCalculateGrossReturnAfterGain()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const decimal priceBought = 100.00m;    // $100.00 per share
+            const double sharesBought = 10;         // 10 shares
+            const decimal commission = 7.95m;       // with $7.95 commission
+            const decimal increase = 0.10m;         // 10% price increase when sold
+            const decimal priceSold = priceBought * (1 + increase);
+            const double sharesSold = sharesBought - 2;
+            var buy = TransactionFactory.ConstructBuy(buyDate, ticker, priceBought, sharesBought, commission);
+            var sell = TransactionFactory.ConstructSell(sellDate, ticker, priceSold, sharesSold, commission);
+
+            target.AddTransaction(buy);
+            target.AddTransaction(sell);
+
+            const decimal expected = increase;
+            var actual = target.CalculateGrossReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateGrossReturnOpenPosition()
+        {
+            const string ticker = "DE";
+            var target = PositionFactory.CreatePosition(ticker);
+
+            var buyDate = new DateTime(2001, 1, 1);
+            var sellDate = buyDate.AddDays(1);
+            const decimal price = 100.00m;      // $100.00 per share
+            const double shares = 5;            // 5 shares
+            const decimal commission = 7.95m;   // with $7.95 commission
+
+            target.Buy(buyDate, shares, price, commission);
+
+            Assert.IsNull(target.CalculateGrossReturn(sellDate));
         }
 
         #endregion
