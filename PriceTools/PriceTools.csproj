@@ -81,7 +81,7 @@
     <Compile Include="Sell.cs" />
     <Compile Include="Withdrawal.cs" />
     <Compile Include="Order.cs" />
-    <Compile Include="MeasurableSecurityBasketExtensions.cs" />
+    <Compile Include="SecurityBasketExtensions.cs" />
     <Compile Include="Data\IPriceDataProvider.cs" />
     <Compile Include="Factories\OrderFactory.cs" />
     <Compile Include="PricingType.cs" />
@@ -91,7 +91,7 @@
     <Compile Include="CashAccount.cs" />
     <Compile Include="CashTransaction.cs" />
     <Compile Include="IHolding.cs" />
-    <Compile Include="MeasurableSecurityBasket.cs" />
+    <Compile Include="SecurityBasket.cs" />
     <Compile Include="Portfolio.cs" />
     <Compile Include="PricePeriod.cs" />
     <Compile Include="PriceTick.cs" />

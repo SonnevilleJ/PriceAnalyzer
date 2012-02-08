@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools.Test
         #region Annual Net Return
         
         // Annualized return calculations are based on Head and Tail
-        // Comparing results from these methods on different MeasurableSecurityBasket requires the Head and Tail to be the same
+        // Comparing results from these methods on different SecurityBasket requires the Head and Tail to be the same
         
         [TestMethod]
         public void CalculateAnnualNetReturnOfDeposit()
@@ -255,7 +255,7 @@ namespace Sonneville.PriceTools.Test
         #region Annual Gross Return
 
         // Annualized return calculations are based on Head and Tail
-        // Comparing results from these methods on different MeasurableSecurityBasket requires the Head and Tail to be the same
+        // Comparing results from these methods on different SecurityBasket requires the Head and Tail to be the same
 
         [TestMethod]
         public void CalculateAnnualGrossReturnOfDeposit()

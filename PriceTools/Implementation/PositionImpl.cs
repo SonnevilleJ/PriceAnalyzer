@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Sonneville.PriceTools.Extensions;
-using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.Implementation
 {

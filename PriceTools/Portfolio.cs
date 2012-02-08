@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   Represents a portfolio of investments.
     /// </summary>
-    public interface Portfolio : MeasurableSecurityBasket
+    public interface Portfolio : SecurityBasket
     {
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this Portfolio.
