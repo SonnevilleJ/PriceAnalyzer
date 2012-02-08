@@ -149,55 +149,6 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void GetAverageAnnualReturnTest()
-        {
-            var dateTime = new DateTime(2001, 1, 1);
-            const decimal deposit = 505.00m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
-
-            var buyDate = new DateTime(2001, 1, 1);
-            var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
-            const string ticker = "DE";
-            const decimal buyPrice = 100.00m;       // $100.00 per share
-            const double shares = 5;                // 5 shares
-            const decimal commission = 5.00m;       // with $5 commission
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
-
-            target.AddTransaction(buy);
-
-            Assert.IsNull(target.CalculateAnnualNetReturn(sellDate));
-        }
-
-        [TestMethod]
-        public void GetAverageAnnualReturnFromClosedPortfolioTest()
-        {
-            var dateTime = new DateTime(2001, 1, 1);
-            const decimal deposit = 505.00m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
-
-            var buyDate = new DateTime(2001, 1, 1);
-            var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
-            const string ticker = "DE";
-            const decimal buyPrice = 100.00m;       // $100.00 per share
-            const decimal sellPrice = 112.00m;      // $112.00 per share
-            const double shares = 5;                // 5 shares
-            const decimal commission = 5.00m;       // with $5 commission
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
-
-            target.AddTransaction(buy);
-            target.AddTransaction(sell);
-
-            const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
-            var actualReturn = target.CalculateNetReturn(sellDate);
-            Assert.AreEqual(expectedReturn, actualReturn);
-
-            const decimal expected = 0.5m;          // 50% annual rate return
-            var actual = target.CalculateAnnualNetReturn(sellDate);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
         public void GetInvestedValueFromEmptyPortfolio()
         {
             var target = PortfolioFactory.ConstructPortfolio();

@@ -6,6 +6,499 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class PortfolioCalculationTests
     {
+        #region Annual Net Return
+        
+        // Annualized return calculations are based on Head and Tail
+        // Comparing results from these methods on different MeasurableSecurityBasket requires the Head and Tail to be the same
+        
+        [TestMethod]
+        public void CalculateAnnualNetReturnOfDeposit()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal openingDeposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
+
+            Assert.IsNull(target.CalculateAnnualNetReturn(dateTime));
+        }
+
+        [TestMethod]
+        public void CalculateAnnualNetReturnAfterFullWithdrawal()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
+
+            var withdrawalDate = dateTime.AddDays(1);
+            target.Withdraw(withdrawalDate, amount);
+
+            Assert.IsNull(target.CalculateAnnualNetReturn(dateTime));
+        }
+
+        [TestMethod]
+        public void CalculateAnnualNetReturnOpenPosition()
+        {
+            var dateTime = new DateTime(2011, 11, 21);
+            const decimal openingDeposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
+
+            var buyDate = dateTime.AddDays(1);
+            var calculateDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal buyPrice = 50.00m;
+            const int shares = 5;
+            const decimal commission = 7.95m;
+
+            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            target.AddTransaction(buy);
+
+            Assert.IsNull(target.CalculateAnnualNetReturn(calculateDate));
+        }
+
+        [TestMethod]
+        public void CalculateAnnualNetReturnAfterGain()
+        {
+            var dateTime = new DateTime(2011, 11, 21);
+            const decimal openingDeposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            var calculateDate = sellDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal buyPrice = 50.00m;
+            const decimal sellPrice = 75.00m;
+            const int shares = 5;
+            const decimal commission = 7.95m;
+
+            target.AddTransaction(TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission));
+            target.AddTransaction(TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
+
+            var expected = target.GetPosition(ticker).CalculateAnnualNetReturn(calculateDate);
+            var actual = target.CalculateAnnualNetReturn(calculateDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualNetReturnTwoGain()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 110.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 60.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var deReturn = target.GetPosition(de).CalculateAnnualNetReturn(sellDate);
+            var msftReturn = target.GetPosition(msft).CalculateAnnualNetReturn(sellDate);
+
+            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var actual = target.CalculateAnnualNetReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualNetReturnTwoLoss()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 00.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 40.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var deReturn = target.GetPosition(de).CalculateAnnualNetReturn(sellDate);
+            var msftReturn = target.GetPosition(msft).CalculateAnnualNetReturn(sellDate);
+
+            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var actual = target.CalculateAnnualNetReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualNetReturnOneGainOneLoss()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 110.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 40.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var deReturn = target.GetPosition(de).CalculateAnnualNetReturn(sellDate);
+            var msftReturn = target.GetPosition(msft).CalculateAnnualNetReturn(sellDate);
+
+            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var actual = target.CalculateAnnualNetReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualNetReturnOneGainOneOpen()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 110.00m;
+            const decimal msftPriceBought = 50.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+
+            var deReturn = target.GetPosition(de).CalculateAnnualNetReturn(sellDate);
+
+            var expected = deReturn;
+            var actual = target.CalculateAnnualNetReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualNetReturnOneLossOneOpen()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 40.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var msftReturn = target.GetPosition(msft).CalculateAnnualNetReturn(sellDate);
+
+            var expected = msftReturn;
+            var actual = target.CalculateAnnualNetReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region Annual Gross Return
+
+        // Annualized return calculations are based on Head and Tail
+        // Comparing results from these methods on different MeasurableSecurityBasket requires the Head and Tail to be the same
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnOfDeposit()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal openingDeposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
+
+            Assert.IsNull(target.CalculateAnnualGrossReturn(dateTime));
+        }
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnAfterFullWithdrawal()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
+
+            var withdrawalDate = dateTime.AddDays(1);
+            target.Withdraw(withdrawalDate, amount);
+
+            Assert.IsNull(target.CalculateAnnualGrossReturn(dateTime));
+        }
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnOpenPosition()
+        {
+            var dateTime = new DateTime(2011, 11, 21);
+            const decimal openingDeposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
+
+            var buyDate = dateTime.AddDays(1);
+            var calculateDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal buyPrice = 50.00m;
+            const int shares = 5;
+            const decimal commission = 7.95m;
+
+            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            target.AddTransaction(buy);
+
+            // CalculateAnnualGrossReturn does not consider open positions - it can only account for closed holdings
+            Assert.IsNull(target.CalculateAnnualGrossReturn(calculateDate));
+        }
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnAfterGain()
+        {
+            var dateTime = new DateTime(2011, 11, 21);
+            const decimal openingDeposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            var calculateDate = sellDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal buyPrice = 50.00m;
+            const decimal sellPrice = 75.00m;
+            const int shares = 5;
+            const decimal commission = 7.95m;
+
+            target.AddTransaction(TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission));
+            target.AddTransaction(TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
+
+            var expected = target.GetPosition(ticker).CalculateAnnualGrossReturn(calculateDate);
+            var actual = target.CalculateAnnualGrossReturn(calculateDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnTwoGain()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 110.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 60.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var deReturn = target.GetPosition(de).CalculateAnnualGrossReturn(sellDate);
+            var msftReturn = target.GetPosition(msft).CalculateAnnualGrossReturn(sellDate);
+
+            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var actual = target.CalculateAnnualGrossReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnTwoLoss()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 00.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 40.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var deReturn = target.GetPosition(de).CalculateAnnualGrossReturn(sellDate);
+            var msftReturn = target.GetPosition(msft).CalculateAnnualGrossReturn(sellDate);
+
+            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var actual = target.CalculateAnnualGrossReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnOneGainOneLoss()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 110.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 40.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var deReturn = target.GetPosition(de).CalculateAnnualGrossReturn(sellDate);
+            var msftReturn = target.GetPosition(msft).CalculateAnnualGrossReturn(sellDate);
+
+            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var actual = target.CalculateAnnualGrossReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnOneGainOneOpen()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 110.00m;
+            const decimal msftPriceBought = 50.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+
+            var deReturn = target.GetPosition(de).CalculateAnnualGrossReturn(sellDate);
+
+            var expected = deReturn;
+            var actual = target.CalculateAnnualGrossReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAnnualGrossReturnOneLossOneOpen()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = dateTime;
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 40.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var msftReturn = target.GetPosition(msft).CalculateAnnualGrossReturn(sellDate);
+
+            var expected = msftReturn;
+            var actual = target.CalculateAnnualGrossReturn(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
         #region Net Return
 
         [TestMethod]

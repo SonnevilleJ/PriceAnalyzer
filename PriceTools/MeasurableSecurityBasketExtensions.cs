@@ -274,8 +274,9 @@ namespace Sonneville.PriceTools
 
         private static decimal? Annualize(decimal totalReturn, DateTime tail, DateTime head)
         {
+            // decimal division is imperfect around 25 decimal places. Round to 20 decimal places to reduce errors.
             var time = ((tail - head).Days / 365.0m);
-            return totalReturn/time;
+            return Math.Round(totalReturn/time, 20);
         }
 
         /// <summary>
