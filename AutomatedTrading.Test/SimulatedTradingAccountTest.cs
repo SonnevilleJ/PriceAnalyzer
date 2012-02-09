@@ -153,7 +153,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [TestMethod]
         public void EventsTestCancelled()
         {
-            var target = TestUtilities.GetAsynchronousSimulatedTradingAccount();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
             var syncroot = new object();
 
             var expiredRaised = false;
@@ -273,17 +273,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             ShareTransaction actual = null;
             var syncroot = new object();
 
-            EventHandler<OrderExecutedEventArgs> filledHandler =
-                (sender, e) =>
-                    {
-                        lock (syncroot)
-                        {
-                            var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                            expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
-                            actual = e.Transaction;
-                            Monitor.Pulse(syncroot);
-                        }
-                    };
+            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
+                                                                     {
+                                                                         lock (syncroot)
+                                                                         {
+                                                                             var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                                                                             expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                                                                             actual = e.Transaction;
+                                                                             Monitor.Pulse(syncroot);
+                                                                         }
+                                                                     };
             try
             {
                 target.OrderFilled += filledHandler;
@@ -331,7 +330,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         {
             var target = TestUtilities.CreateSimulatedTradingAccount();
 
-            const string ticker = "DE";
             const int count = 5;
             var syncroot = new object();
             var filled = new bool[count];
@@ -349,7 +347,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, ticker, i, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, "DE", i, 100.00m);
                     target.Submit(order);
                     Thread.Sleep(50);
                 }
@@ -366,9 +364,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [TestMethod]
         public void MultipleEventsTestCancelled()
         {
-            var target = TestUtilities.GetAsynchronousSimulatedTradingAccount();
+            var target = TestUtilities.CreateSimulatedTradingAccount();
 
-            const string ticker = "DE";
             const int count = 5;
             var syncroot = new object();
             var cancelled = new bool[count];
@@ -386,7 +383,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, ticker, i, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, "DE", i, 100.00m);
                     target.Submit(order);
                     Thread.Sleep(50);
                     target.TryCancelOrder(order);
@@ -406,7 +403,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         {
             var target = TestUtilities.CreateSimulatedTradingAccount();
 
-            const string ticker = "DE";
             const int count = 5;
             var syncroot = new object();
             var expired = new bool[count];
@@ -424,7 +420,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddMilliseconds(1), OrderType.Buy, ticker, i, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddTicks(1), OrderType.Buy, "DE", i, 100.00m);
                     Thread.Sleep(50);
                     target.Submit(order);
                 }
@@ -443,29 +439,27 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         {
             var target = TestUtilities.CreateSimulatedTradingAccount();
 
-            const string ticker = "DE";
             ShareTransaction expected = null;
             ShareTransaction actual = null;
             var syncroot = new object();
 
-            EventHandler<OrderExecutedEventArgs> filledHandler =
-                (sender, e) =>
-                {
-                    lock (syncroot)
-                    {
-                        var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                        expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
-                        actual = e.Transaction;
-                        Monitor.Pulse(syncroot);
-                    }
-                };
+            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
+                                                                     {
+                                                                         lock (syncroot)
+                                                                         {
+                                                                             var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                                                                             expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                                                                             actual = e.Transaction;
+                                                                             Monitor.Pulse(syncroot);
+                                                                         }
+                                                                     };
             try
             {
                 target.OrderFilled += filledHandler;
 
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
-                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, "DE", 5, 100.00m);
 
                 lock (syncroot)
                 {
@@ -486,27 +480,25 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         {
             var target = TestUtilities.CreateSimulatedTradingAccount();
 
-            const string ticker = "DE";
             ShareTransaction expected = null;
             var syncroot = new object();
 
-            EventHandler<OrderExecutedEventArgs> filledHandler =
-                (sender, e) =>
-                {
-                    lock (syncroot)
-                    {
-                        var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                        expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
-                        Monitor.Pulse(syncroot);
-                    }
-                };
+            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
+                                                                     {
+                                                                         lock (syncroot)
+                                                                         {
+                                                                             var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                                                                             expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                                                                             Monitor.Pulse(syncroot);
+                                                                         }
+                                                                     };
             try
             {
                 target.OrderFilled += filledHandler;
 
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
-                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, "DE", 5, 100.00m);
 
                 lock (syncroot)
                 {
@@ -525,11 +517,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
         private static bool TargetContainsTransaction(ITradingAccount target, ShareTransaction transaction)
         {
-            var positions = target.Portfolio.Positions;
-            var position = positions.First(p => p.Ticker == transaction.Ticker);
-            var transactions = position.Transactions.Cast<ShareTransaction>();
-
-            return transactions.Select(
+            return target.Portfolio.Transactions.Where(t=>t is ShareTransaction).Cast<ShareTransaction>().Select(
                 trans => (
                              trans.GetType() == transaction.GetType() &&
                              trans.Commission == transaction.Commission &&

@@ -138,15 +138,6 @@ namespace Sonneville.Utilities
         }
 
         /// <summary>
-        /// Creates a simulated <see cref="ITradingAccount"/> which operates asynchronously.
-        /// </summary>
-        /// <returns></returns>
-        public static ITradingAccount GetAsynchronousSimulatedTradingAccount()
-        {
-            return CreateSimulatedTradingAccount();
-        }
-
-        /// <summary>
         /// Creates an <see cref="ShareTransaction"/> which would result from the perfect execution of <paramref name="order"/>.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use as the SettlementDate for the resulting <see cref="ShareTransaction"/>.</param>
