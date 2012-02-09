@@ -7,13 +7,14 @@ namespace Sonneville.PriceTools.AutomatedTrading
     /// <summary>
     /// A trading account which simulates the execution of orders.
     /// </summary>
-    public class SimulatedTradingAccount : SynchronousTradingAccount
+    public class SimulatedTradingAccount : AsynchronousTradingAccount
     {
         /// <summary>
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        protected override void ProcessOrder(Order order)
+        /// <param name="token"></param>
+        protected override void ProcessOrder(Order order, CancellationToken token)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -21,6 +22,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
             // simulate a delay in processing
             DelayProcessing();
             stopwatch.Stop();
+
+            if (token.IsCancellationRequested) InvokeOrderCancelled(new OrderCancelledEventArgs(DateTime.Now, order));
 
             var now = order.Issued.Add(stopwatch.Elapsed);
             if (now <= order.Expiration)

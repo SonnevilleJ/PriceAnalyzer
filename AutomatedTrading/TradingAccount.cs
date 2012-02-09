@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
@@ -20,25 +21,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        public virtual void Submit(Order order)
-        {
-            if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, Strings.TradingAccount_Submit_Cannot_execute_this_order_);
-
-            ProcessOrder(order);
-        }
+        public abstract void Submit(Order order);
 
         /// <summary>
         /// Attempts to cancel an <see cref="Order"/> before it is filled.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
         public abstract void TryCancelOrder(Order order);
-
-        /// <summary>
-        /// Blocks the calling thread until all submitted orders are filled, cancelled, or expired.
-        /// </summary>
-        public virtual void WaitAll()
-        {
-        }
 
         #endregion
 
@@ -83,13 +72,14 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
-        protected abstract void ProcessOrder(Order order);
+        /// <param name="token"></param>
+        protected abstract void ProcessOrder(Order order, CancellationToken token);
 
         #endregion
 
         #region Private Methods
 
-        private bool ValidateOrder(Order order)
+        protected bool ValidateOrder(Order order)
         {
             var commission = Features.CommissionSchedule.PriceCheck(order);
             var expectedTransaction = TransactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, DateTime.Now, order.Shares, order.Price, commission);

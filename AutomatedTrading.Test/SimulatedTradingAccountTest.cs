@@ -35,14 +35,35 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         public void EventsTestFilled()
         {
             var target = TestUtilities.CreateSimulatedTradingAccount();
+            var syncroot = new object();
 
-            const string ticker = "DE";
-            var filledRaised = false;
             var expiredRaised = false;
             var cancelRaised = false;
-            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
-            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => cancelRaised = true;
-            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) => filledRaised = true;
+            var filledRaised = false;
+            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) =>
+                                                                     {
+                                                                         lock (syncroot)
+                                                                         {
+                                                                             expiredRaised = true;
+                                                                             Monitor.Pulse(syncroot);
+                                                                         }
+                                                                     };
+            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) =>
+                                                                         {
+                                                                             lock (syncroot)
+                                                                             {
+                                                                                 cancelRaised = true;
+                                                                                 Monitor.Pulse(syncroot);
+                                                                             }
+                                                                         };
+            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
+                                                                     {
+                                                                         lock (syncroot)
+                                                                         {
+                                                                             filledRaised = true;
+                                                                             Monitor.Pulse(syncroot);
+                                                                         }
+                                                                     };
             try
             {
                 target.OrderCancelled += cancelledHandler;
@@ -50,14 +71,17 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 target.OrderExpired += expiredHandler;
 
                 var issued = DateTime.Now;
-                var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, ticker, 5, 100.00m);
-                target.Submit(order);
+                var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, "DE", 5, 100.00m);
 
-                target.WaitAll();
+                lock (syncroot)
+                {
+                    target.Submit(order);
 
-                Assert.IsTrue(filledRaised);
-                Assert.IsFalse(cancelRaised);
-                Assert.IsFalse(expiredRaised);
+                    Monitor.Wait(syncroot);
+                    Assert.IsTrue(filledRaised);
+                    Assert.IsFalse(cancelRaised);
+                    Assert.IsFalse(expiredRaised);
+                }
             }
             finally
             {
@@ -71,28 +95,52 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         public void EventsTestExpired()
         {
             var target = TestUtilities.CreateSimulatedTradingAccount();
+            var syncroot = new object();
 
             var expiredRaised = false;
             var cancelRaised = false;
             var filledRaised = false;
-            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
-            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => cancelRaised = true;
-            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) => filledRaised = true;
+            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) =>
+                                                                     {
+                                                                         lock (syncroot)
+                                                                         {
+                                                                             expiredRaised = true;
+                                                                             Monitor.Pulse(syncroot);
+                                                                         }
+                                                                     };
+            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) =>
+                                                                         {
+                                                                             lock (syncroot)
+                                                                             {
+                                                                                 cancelRaised = true;
+                                                                                 Monitor.Pulse(syncroot);
+                                                                             }
+                                                                         };
+            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
+                                                                     {
+                                                                         lock (syncroot)
+                                                                         {
+                                                                             filledRaised = true;
+                                                                             Monitor.Pulse(syncroot);
+                                                                         }
+                                                                     };
             try
             {
                 target.OrderCancelled += cancelledHandler;
                 target.OrderFilled += filledHandler;
                 target.OrderExpired += expiredHandler;
 
-                var issued = DateTime.Now;
-                var order = OrderFactory.ConstructOrder(issued, issued.AddMilliseconds(1), OrderType.Buy, "DE", 5, 100.00m);
-                target.Submit(order);
+                var expired = DateTime.Now;
+                var order = OrderFactory.ConstructOrder(expired.AddTicks(-1), expired, OrderType.Buy, "DE", 5, 100.00m);
+                lock (syncroot)
+                {
+                    target.Submit(order);
 
-                target.WaitAll();
-
-                Assert.IsTrue(expiredRaised);
-                Assert.IsFalse(cancelRaised);
-                Assert.IsFalse(filledRaised);
+                    Monitor.Wait(syncroot);
+                    Assert.IsTrue(expiredRaised);
+                    Assert.IsFalse(cancelRaised);
+                    Assert.IsFalse(filledRaised);
+                }
             }
             finally
             {
@@ -106,13 +154,35 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         public void EventsTestCancelled()
         {
             var target = TestUtilities.GetAsynchronousSimulatedTradingAccount();
+            var syncroot = new object();
 
-            var cancelRaised = false;
             var expiredRaised = false;
+            var cancelRaised = false;
             var filledRaised = false;
-            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => cancelRaised = true;
-            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) => filledRaised = true;
-            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => expiredRaised = true;
+            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) =>
+                                                                     {
+                                                                         lock (syncroot)
+                                                                         {
+                                                                             expiredRaised = true;
+                                                                             Monitor.Pulse(syncroot);
+                                                                         }
+                                                                     };
+            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) =>
+                                                                         {
+                                                                             lock (syncroot)
+                                                                             {
+                                                                                 cancelRaised = true;
+                                                                                 Monitor.Pulse(syncroot);
+                                                                             }
+                                                                         };
+            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
+                                                                     {
+                                                                         lock (syncroot)
+                                                                         {
+                                                                             filledRaised = true;
+                                                                             Monitor.Pulse(syncroot);
+                                                                         }
+                                                                     };
             try
             {
                 target.OrderCancelled += cancelledHandler;
@@ -121,14 +191,17 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
                 var issued = DateTime.Now;
                 var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, "DE", 5, 100.00m);
-                target.Submit(order);
-                target.TryCancelOrder(order);
 
-                target.WaitAll();
+                lock (syncroot)
+                {
+                    target.Submit(order);
+                    target.TryCancelOrder(order);
 
-                Assert.IsTrue(cancelRaised);
-                Assert.IsFalse(filledRaised);
-                Assert.IsFalse(expiredRaised);
+                    Monitor.Wait(syncroot);
+                    Assert.IsTrue(cancelRaised);
+                    Assert.IsFalse(filledRaised);
+                    Assert.IsFalse(expiredRaised);
+                }
             }
             finally
             {
@@ -198,27 +271,28 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         {
             ShareTransaction expected = null;
             ShareTransaction actual = null;
-            
-            bool filledRaised;
+            var syncroot = new object();
+
             EventHandler<OrderExecutedEventArgs> filledHandler =
                 (sender, e) =>
                     {
-                        var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                        expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
-                        actual = e.Transaction;
-                        filledRaised = true;
+                        lock (syncroot)
+                        {
+                            var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                            expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                            actual = e.Transaction;
+                            Monitor.Pulse(syncroot);
+                        }
                     };
             try
             {
-                filledRaised = false;
                 target.OrderFilled += filledHandler;
 
-                target.Submit(order);
-
-                target.WaitAll();
-
-                Assert.IsTrue(filledRaised);
-
+                lock (syncroot)
+                {
+                    target.Submit(order);
+                    Monitor.Wait(syncroot);
+                }
                 AssertSameTransaction(expected, actual);
             }
             finally
@@ -238,12 +312,13 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         {
             foreach (var transaction in expected)
             {
-                Func<ShareTransaction, bool> predicate = t => t.SettlementDate == transaction.SettlementDate &&
-                                                               t.Ticker == transaction.Ticker &&
+                var local = transaction;
+                Func<ShareTransaction, bool> predicate = t => t.SettlementDate == local.SettlementDate &&
+                                                               t.Ticker == local.Ticker &&
                                                                // we may simulate price fluctuations, so ignore price
-                                                               //t.Price == transaction.Price &&
-                                                               t.Shares == transaction.Shares &&
-                                                               t.Commission == transaction.Commission;
+                                                               //t.Price == local.Price &&
+                                                               t.Shares == local.Shares &&
+                                                               t.Commission == local.Commission;
                 var actualCount = actual.Where(predicate).Count();
                 var expectedCount = expected.Where(predicate).Count();
 
@@ -257,24 +332,30 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = TestUtilities.CreateSimulatedTradingAccount();
 
             const string ticker = "DE";
-            var fillCount = 0;
-            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) => Interlocked.Increment(ref fillCount);
+            const int count = 5;
+            var syncroot = new object();
+            var filled = new bool[count];
+            EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
+                                                                     {
+                                                                         lock (syncroot)
+                                                                         {
+                                                                             filled[(int) e.Order.Shares] = true;
+                                                                         }
+                                                                     };
             try
             {
                 target.OrderFilled += filledHandler;
 
-                const int count = 20;
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, ticker, 5, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, ticker, i, 100.00m);
                     target.Submit(order);
-                    Thread.Sleep(1);
+                    Thread.Sleep(50);
                 }
 
-                target.WaitAll();
-
-                Assert.AreEqual(count, fillCount);
+                Thread.Sleep(500);
+                lock (syncroot) Assert.AreEqual(count, filled.Count(b => b));
             }
             finally
             {
@@ -288,25 +369,31 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = TestUtilities.GetAsynchronousSimulatedTradingAccount();
 
             const string ticker = "DE";
-            var cancelCount = 0;
-            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) => Interlocked.Increment(ref cancelCount);
+            const int count = 5;
+            var syncroot = new object();
+            var cancelled = new bool[count];
+            EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) =>
+                                                                         {
+                                                                             lock (syncroot)
+                                                                             {
+                                                                                 cancelled[(int) e.Order.Shares] = true;
+                                                                             }
+                                                                         };
             try
             {
                 target.OrderCancelled += cancelledHandler;
 
-                const int count = 20;
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, ticker, 5, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, ticker, i, 100.00m);
                     target.Submit(order);
+                    Thread.Sleep(50);
                     target.TryCancelOrder(order);
-                    Thread.Sleep(1);
                 }
 
-                target.WaitAll();
-
-                Assert.AreEqual(count, cancelCount);
+                Thread.Sleep(500);
+                lock (syncroot) Assert.AreEqual(count, cancelled.Count(b => b));
             }
             finally
             {
@@ -320,24 +407,30 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = TestUtilities.CreateSimulatedTradingAccount();
 
             const string ticker = "DE";
-            var expiredCount = 0;
-            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) => Interlocked.Increment(ref expiredCount);
+            const int count = 5;
+            var syncroot = new object();
+            var expired = new bool[count];
+            EventHandler<OrderExpiredEventArgs> expiredHandler = (sender, e) =>
+                                                                     {
+                                                                         lock (syncroot)
+                                                                         {
+                                                                             expired[(int) e.Order.Shares] = true;
+                                                                         }
+                                                                     };
             try
             {
                 target.OrderExpired += expiredHandler;
 
-                const int count = 20;
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddMilliseconds(1), OrderType.Buy, ticker, 5, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddMilliseconds(1), OrderType.Buy, ticker, i, 100.00m);
+                    Thread.Sleep(50);
                     target.Submit(order);
-                    Thread.Sleep(1);
                 }
 
-                target.WaitAll();
-
-                Assert.AreEqual(count, expiredCount);
+                Thread.Sleep(500);
+                lock (syncroot) Assert.AreEqual(count, expired.Count(b => b));
             }
             finally
             {
@@ -353,15 +446,18 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const string ticker = "DE";
             ShareTransaction expected = null;
             ShareTransaction actual = null;
+            var syncroot = new object();
 
-            var filledRaised = false;
             EventHandler<OrderExecutedEventArgs> filledHandler =
                 (sender, e) =>
                 {
-                    var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                    expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
-                    actual = e.Transaction;
-                    filledRaised = true;
+                    lock (syncroot)
+                    {
+                        var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                        expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                        actual = e.Transaction;
+                        Monitor.Pulse(syncroot);
+                    }
                 };
             try
             {
@@ -370,35 +466,19 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
                 var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
-                target.Submit(order);
 
-                target.WaitAll();
+                lock (syncroot)
+                {
+                    target.Submit(order);
+                    Monitor.Wait(syncroot);
 
-                Assert.IsTrue(filledRaised);
-
-                AssertSameTransaction(expected, actual);
+                    AssertSameTransaction(expected, actual);
+                }
             }
             finally
             {
                 target.OrderFilled -= filledHandler;
             }
-        }
-
-        [TestMethod]
-        public void FilledAddsToPortfolio()
-        {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
-
-            const string ticker = "DE";
-            var issued = new DateTime(2010, 12, 20, 12, 0, 0);
-            var expiration = issued.AddDays(1);
-            var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
-
-            target.Submit(order);
-
-            target.WaitAll();
-            
-            Assert.AreEqual(1, target.Portfolio.Positions.Count);
         }
 
         [TestMethod]
@@ -408,12 +488,17 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             const string ticker = "DE";
             ShareTransaction expected = null;
+            var syncroot = new object();
 
             EventHandler<OrderExecutedEventArgs> filledHandler =
                 (sender, e) =>
                 {
-                    var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                    expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                    lock (syncroot)
+                    {
+                        var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                        expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                        Monitor.Pulse(syncroot);
+                    }
                 };
             try
             {
@@ -422,9 +507,12 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
                 var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, ticker, 5, 100.00m);
-                target.Submit(order);
 
-                target.WaitAll();
+                lock (syncroot)
+                {
+                    target.Submit(order);
+                    Monitor.Wait(syncroot);
+                }
 
                 var containsTransaction = TargetContainsTransaction(target, expected);
                 Assert.IsTrue(containsTransaction);

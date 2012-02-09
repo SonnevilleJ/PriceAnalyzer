@@ -143,8 +143,7 @@ namespace Sonneville.Utilities
         /// <returns></returns>
         public static ITradingAccount GetAsynchronousSimulatedTradingAccount()
         {
-            Assert.Inconclusive("No asynchronous TradingAccount is available.");
-            return null;
+            return CreateSimulatedTradingAccount();
         }
 
         /// <summary>

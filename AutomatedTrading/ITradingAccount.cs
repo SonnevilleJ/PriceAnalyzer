@@ -40,10 +40,5 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Triggered when an order has been cancelled.
         /// </summary>
         event EventHandler<OrderCancelledEventArgs> OrderCancelled;
-
-        /// <summary>
-        /// Blocks the calling thread until all submitted orders are filled, cancelled, or expired.
-        /// </summary>
-        void WaitAll();
     }
 }

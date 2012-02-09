@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -6,70 +7,71 @@ using System.Threading.Tasks;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
-    ///// <summary>
-    ///// A trading account which communicates with a brokerage to perform execution of orders.
-    ///// </summary>
-    //public abstract class AsynchronousTradingAccount : TradingAccount
-    //{
-    //    #region Private Members
+    /// <summary>
+    /// A trading account which communicates with a brokerage to perform execution of orders.
+    /// </summary>
+    public abstract class AsynchronousTradingAccount : TradingAccount
+    {
+        #region Private Members
 
-    //    private readonly IList<Tuple<Order, Task, CancellationTokenSource>> _items = new List<Tuple<Order, Task, CancellationTokenSource>>();
+        private readonly ConcurrentDictionary<Order, CancellationTokenSource> _tokenSources = new ConcurrentDictionary<Order, CancellationTokenSource>();
+        private readonly BlockingCollection<Order> _orders = new BlockingCollection<Order>();
+        private readonly CancellationTokenSource _consumer = new CancellationTokenSource();
 
-    //    #endregion
+        #endregion
 
-    //    #region Constructors
+        #region Constructors
 
-    //    protected AsynchronousTradingAccount(TradingAccountFeatures features)
-    //        : base(features)
-    //    {
-    //    }
+        protected AsynchronousTradingAccount()
+        {
+            Task.Factory.StartNew(() => Consumer(_consumer.Token));
+        }
 
-    //    #endregion
+        #endregion
 
-    //    #region Public Interface
+        #region Public Interface
 
-    //    /// <summary>
-    //    /// Submits an order for execution by the brokerage.
-    //    /// </summary>
-    //    /// <param name="order">The <see cref="Order"/> to execute.</param>
-    //    public override void Submit(Order order)
-    //    {
-    //        if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, Strings.TradingAccount_Submit_Cannot_execute_this_order_);
+        /// <summary>
+        /// Submits an order for execution by the brokerage.
+        /// </summary>
+        /// <param name="order">The <see cref="Order"/> to execute.</param>
+        public override void Submit(Order order)
+        {
+            if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, Strings.TradingAccount_Submit_Cannot_execute_this_order_);
+            _orders.Add(order);
+        }
 
-    //        var cts = new CancellationTokenSource();
-    //        var token = cts.Token;
-    //        var task = new Task(() => ProcessOrder(order, token), TaskCreationOptions.PreferFairness);
-    //        lock (_items) _items.Add(new Tuple<Order, Task, CancellationTokenSource>(order, task, cts));
-    //        task.Start();
-    //    }
+        /// <summary>
+        /// Attempts to cancel an <see cref="Order"/> before it is filled.
+        /// </summary>
+        /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
+        public override void TryCancelOrder(Order order)
+        {
+            CancellationTokenSource cts;
+            if (_tokenSources.TryRemove(order, out cts)) cts.Cancel();
+        }
 
-    //    /// <summary>
-    //    /// Attempts to cancel an <see cref="Order"/> before it is filled.
-    //    /// </summary>
-    //    /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
-    //    public override void TryCancelOrder(Order order)
-    //    {
-    //        Tuple<Order, Task, CancellationTokenSource> value;
-    //        lock (_items) value = _items.First(tuple => tuple.Item1 == order);
-    //        var cts = value.Item3;
+        /// <summary>
+        /// Blocks the calling thread until all submitted orders are filled, cancelled, or expired.
+        /// </summary>
+        public void Stop()
+        {
+            _consumer.Cancel();
+        }
 
-    //        cts.Cancel();
-    //    }
+        #endregion
 
-    //    /// <summary>
-    //    /// Blocks the calling thread until all submitted orders are filled, cancelled, or expired.
-    //    /// </summary>
-    //    public override void WaitAll()
-    //    {
-    //        do
-    //        {
-    //            int count;
-    //            lock (_items) count = _items.Count;
-    //            if (count == 0) break;
-    //            Thread.Sleep(5);
-    //        } while (true);
-    //    }
-
-    //    #endregion
-    //}
+        private void Consumer(CancellationToken cancellationToken)
+        {
+            while (true)
+            {
+                var order = _orders.Take(cancellationToken);
+                if (cancellationToken.IsCancellationRequested) return;
+                
+                var cts = new CancellationTokenSource();
+                _tokenSources.GetOrAdd(order, cts);
+                Task.Factory.StartNew(() => ProcessOrder(order, cts.Token));
+            }
+        }
+    }
 }
