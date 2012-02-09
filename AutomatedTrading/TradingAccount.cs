@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
-    public abstract class TradingAccount : ITradingAccount
+    public abstract class TradingAccount : ITradingAccount, IDisposable
     {
         #region Private Members
 
@@ -20,6 +20,33 @@ namespace Sonneville.PriceTools.AutomatedTrading
         protected TradingAccount()
         {
             Task.Factory.StartNew(() => Consumer(_consumer.Token));
+        }
+
+        ~TradingAccount()
+        {
+            Dispose(false);
+        }
+
+        #endregion
+
+        #region Implementation of IDisposable
+
+        /// <summary>
+        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
+        /// </summary>
+        /// <filterpriority>2</filterpriority>
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                Stop();
+            }
         }
 
         #endregion
@@ -57,7 +84,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         }
 
         /// <summary>
-        /// Blocks the calling thread until all submitted orders are filled, cancelled, or expired.
+        /// Cancels all orders and stops execution of the TradingAccount.
         /// </summary>
         public void Stop()
         {
@@ -127,7 +154,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             }
         }
 
-        protected bool ValidateOrder(Order order)
+        private bool ValidateOrder(Order order)
         {
             var commission = Features.CommissionSchedule.PriceCheck(order);
             var expectedTransaction = TransactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, DateTime.Now, order.Shares, order.Price, commission);
