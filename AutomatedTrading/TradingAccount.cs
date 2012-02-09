@@ -5,13 +5,12 @@ using System.Threading.Tasks;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
-    public abstract class TradingAccount : ITradingAccount, IDisposable
+    public abstract class TradingAccount : ITradingAccount
     {
         #region Private Members
 
         private readonly ConcurrentDictionary<Order, CancellationTokenSource> _tokenSources = new ConcurrentDictionary<Order, CancellationTokenSource>();
         private readonly BlockingCollection<Order> _orders = new BlockingCollection<Order>();
-        private readonly CancellationTokenSource _consumer = new CancellationTokenSource();
 
         #endregion
 
@@ -19,34 +18,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         protected TradingAccount()
         {
-            Task.Factory.StartNew(() => Consumer(_consumer.Token));
-        }
-
-        ~TradingAccount()
-        {
-            Dispose(false);
-        }
-
-        #endregion
-
-        #region Implementation of IDisposable
-
-        /// <summary>
-        /// Performs application-defined tasks associated with freeing, releasing, or resetting unmanaged resources.
-        /// </summary>
-        /// <filterpriority>2</filterpriority>
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if(disposing)
-            {
-                Stop();
-            }
+            Task.Factory.StartNew(Consumer);
         }
 
         #endregion
@@ -81,14 +53,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         {
             CancellationTokenSource cts;
             if (_tokenSources.TryRemove(order, out cts)) cts.Cancel();
-        }
-
-        /// <summary>
-        /// Cancels all orders and stops execution of the TradingAccount.
-        /// </summary>
-        public void Stop()
-        {
-            _consumer.Cancel();
         }
 
         #endregion
@@ -141,12 +105,11 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         #region Private Methods
 
-        private void Consumer(CancellationToken cancellationToken)
+        private void Consumer()
         {
             while (true)
             {
-                var order = _orders.Take(cancellationToken);
-                if (cancellationToken.IsCancellationRequested) return;
+                var order = _orders.Take();
 
                 var cts = new CancellationTokenSource();
                 _tokenSources.GetOrAdd(order, cts);

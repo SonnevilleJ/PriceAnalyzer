@@ -27,11 +27,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         void TryCancelOrder(Order order);
 
         /// <summary>
-        /// Cancels all orders and stops execution of the ITradingAccount.
-        /// </summary>
-        void Stop();
-
-        /// <summary>
         /// Triggered when an order has been filled.
         /// </summary>
         event EventHandler<OrderExecutedEventArgs> OrderFilled;
