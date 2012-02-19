@@ -49,10 +49,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DateTimeExtensionsTest.cs" />
+    <Compile Include="HoldingCalculationTests.cs" />
     <Compile Include="PortfolioCalculationTests.cs" />
+    <Compile Include="PortfolioHoldingTests.cs" />
     <Compile Include="PositionCalculationTests.cs" />
     <Compile Include="OrderFactoryTest.cs" />
     <Compile Include="OrderTest.cs" />
+    <Compile Include="PositionHoldingTests.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteFactoryTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />

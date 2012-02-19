@@ -59,6 +59,7 @@
     <Compile Include="Factories\CashAccountFactory.cs" />
     <Compile Include="Factories\PortfolioFactory.cs" />
     <Compile Include="Factories\PriceTickFactory.cs" />
+    <Compile Include="HoldingExtensions.cs" />
     <Compile Include="Implementation\BuyImpl.cs" />
     <Compile Include="Implementation\BuyToCoverImpl.cs" />
     <Compile Include="Implementation\CashAccountImpl.cs" />
