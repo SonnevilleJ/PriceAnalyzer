@@ -8,11 +8,5 @@ namespace Sonneville.PriceTools.Implementation
     [Serializable]
     internal sealed class DepositImpl : CashTransactionImpl, Deposit
     {
-        /// <summary>
-        /// Constructs a Deposit.
-        /// </summary>
-        internal DepositImpl()
-        {
-        }
     }
 }

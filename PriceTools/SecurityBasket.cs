@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Sonneville.PriceTools.Data;
+﻿using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
 {

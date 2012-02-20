@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a transaction for an <see cref="CashAccount"/>.
