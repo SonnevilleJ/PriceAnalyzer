@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Sonneville.PriceTools.Test
@@ -189,9 +190,9 @@ namespace Sonneville.PriceTools.Test
             const double sharesInHolding = sharesSold;
             var expected1 = new Holding
                                 {
-                                    Ticker = secondTicker,
-                                    Head = secondBuyDate,
-                                    Tail = secondSellDate,
+                                    Ticker = firstTicker,
+                                    Head = firstBuyDate,
+                                    Tail = firstSellDate,
                                     Shares = sharesInHolding,
                                     OpenPrice = buyPrice,
                                     OpenCommission = commission,
@@ -200,9 +201,9 @@ namespace Sonneville.PriceTools.Test
                                 };
             var expected2 = new Holding
                                 {
-                                    Ticker = firstTicker,
-                                    Head = firstBuyDate,
-                                    Tail = firstSellDate,
+                                    Ticker = secondTicker,
+                                    Head = secondBuyDate,
+                                    Tail = secondSellDate,
                                     Shares = sharesInHolding,
                                     OpenPrice = buyPrice,
                                     OpenCommission = commission,

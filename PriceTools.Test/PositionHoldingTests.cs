@@ -122,7 +122,7 @@ namespace Sonneville.PriceTools.Test
             var expected1 = new Holding
                                 {
                                     Ticker = ticker,
-                                    Head = secondBuyDate,
+                                    Head = firstBuyDate,
                                     Tail = sellDate,
                                     Shares = sharesBought,
                                     OpenPrice = buyPrice,
@@ -133,7 +133,7 @@ namespace Sonneville.PriceTools.Test
             var expected2 = new Holding
                                 {
                                     Ticker = ticker,
-                                    Head = firstBuyDate,
+                                    Head = secondBuyDate,
                                     Tail = sellDate,
                                     Shares = sharesBought,
                                     OpenPrice = buyPrice,
@@ -262,32 +262,28 @@ namespace Sonneville.PriceTools.Test
             const decimal commission = 5.00m;   // with $5 commission
             var target = PositionFactory.CreatePosition(ticker);
 
-            var testDate = new DateTime(2001, 1, 1);
-            var firstBuyDate = testDate.AddDays(1);
+            var firstBuyDate = new DateTime(2001, 1, 1);
             var secondBuyDate = firstBuyDate.AddDays(1);
-            const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 5;      // 5 shares
-
-            target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
-            target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
-
             var firstSellDate = secondBuyDate.AddDays(2);
             var secondSellDate = firstSellDate.AddDays(1);
+            const decimal buyPrice = 50.00m;    // $50.00 per share
+            const double sharesBought = 5;      // 5 shares
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const double sharesSold = 5;        // 5 shares
 
+            target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
+            target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
             var holdings = target.CalculateHoldings(secondSellDate);
 
-            const double sharesInHolding = sharesSold;
             var expected1 = new Holding
                                 {
                                     Ticker = ticker,
-                                    Head = secondBuyDate,
-                                    Tail = secondSellDate,
-                                    Shares = sharesInHolding,
+                                    Head = firstBuyDate,
+                                    Tail = firstSellDate,
+                                    Shares = sharesSold,
                                     OpenPrice = buyPrice,
                                     OpenCommission = commission,
                                     ClosePrice = sellPrice,
@@ -296,9 +292,9 @@ namespace Sonneville.PriceTools.Test
             var expected2 = new Holding
                                 {
                                     Ticker = ticker,
-                                    Head = firstBuyDate,
-                                    Tail = firstSellDate,
-                                    Shares = sharesInHolding,
+                                    Head = secondBuyDate,
+                                    Tail = secondSellDate,
+                                    Shares = sharesSold,
                                     OpenPrice = buyPrice,
                                     OpenCommission = commission,
                                     ClosePrice = sellPrice,
@@ -549,9 +545,9 @@ namespace Sonneville.PriceTools.Test
             var expected1 = new Holding
                                 {
                                     Ticker = ticker,
-                                    Head = secondBuyDate,
-                                    Tail = secondSellDate,
-                                    Shares = 1,
+                                    Head = firstBuyDate,
+                                    Tail = firstSellDate,
+                                    Shares = 5,
                                     OpenPrice = buyPrice,
                                     OpenCommission = commission,
                                     ClosePrice = sellPrice,
@@ -571,9 +567,9 @@ namespace Sonneville.PriceTools.Test
             var expected3 = new Holding
                                 {
                                     Ticker = ticker,
-                                    Head = firstBuyDate,
-                                    Tail = firstSellDate,
-                                    Shares = 5,
+                                    Head = secondBuyDate,
+                                    Tail = secondSellDate,
+                                    Shares = 1,
                                     OpenPrice = buyPrice,
                                     OpenCommission = commission,
                                     ClosePrice = sellPrice,

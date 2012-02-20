@@ -23,12 +23,12 @@ namespace Sonneville.PriceTools
             var groups = basket.Transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().GroupBy(t => t.Ticker);
             foreach (var transactions in groups)
             {
-                var buys = transactions.Where(t => t is OpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderByDescending(t => t.SettlementDate);
+                var buys = transactions.Where(t => t is OpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderBy(t => t.SettlementDate);
                 var buysUsed = 0;
                 var unusedSharesInCurrentBuy = 0.0;
                 ShareTransaction buy = null;
 
-                var sells = transactions.Where(t => t is ClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderByDescending(t => t.SettlementDate);
+                var sells = transactions.Where(t => t is ClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderBy(t => t.SettlementDate);
                 foreach (var sell in sells)
                 {
                     // collect shares from most recent buy
@@ -37,11 +37,15 @@ namespace Sonneville.PriceTools
                     {
                         // find a matching purchase and record a new holding
                         // must keep track of remaining shares in corresponding purchase
-                        if (unusedSharesInCurrentBuy == 0) buy = buys.Skip(buysUsed).First();
+                        if (unusedSharesInCurrentBuy == 0)
+                        {
+                            buy = buys.Skip(buysUsed).First();
+                            unusedSharesInCurrentBuy = buy.Shares;
+                        }
 
                         if (buy != null)
                         {
-                            var availableShares = unusedSharesInCurrentBuy > 0 ? unusedSharesInCurrentBuy : buy.Shares;
+                            var availableShares = unusedSharesInCurrentBuy;
                             var neededShares = sharesToMatch;
                             double shares;
                             if (availableShares >= neededShares)
@@ -53,6 +57,7 @@ namespace Sonneville.PriceTools
                             else
                             {
                                 shares = availableShares;
+                                unusedSharesInCurrentBuy -= shares;
                                 buysUsed++;
                             }
                             var holding = new Holding
@@ -73,7 +78,7 @@ namespace Sonneville.PriceTools
                     }
                 }
             }
-            return result.OrderByDescending(h => h.Tail).ToList();
+            return result.OrderBy(h => h.Tail).ToList();
         }
 
         /// <summary>
@@ -235,6 +240,7 @@ namespace Sonneville.PriceTools
             if (allHoldings.Count == 0) return 0;
 
             var positionGroups = allHoldings.GroupBy(h => h.Ticker);
+
             return (from holdings in positionGroups
                     from holding in holdings
                     let open = holding.OpenPrice
@@ -325,5 +331,12 @@ namespace Sonneville.PriceTools
                     select increase*(decimal) ((holding.Shares/positionShares)*(positionShares/totalShares))).Sum();
         }
 
+        public static decimal CalculateAverageProfit(this SecurityBasket basket, DateTime settlementDate)
+        {
+            var totalProfit = basket.CalculateGrossProfit(settlementDate);
+            var holdings = basket.CalculateHoldings(settlementDate);
+
+            return totalProfit/holdings.Count;
+        }
     }
 }

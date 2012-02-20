@@ -427,7 +427,7 @@ namespace Sonneville.PriceTools.Test
             target.Sell(cDate, cShares, cPrice, cCommission);
 
             // No longer hold these shares, so CalculateGrossProfit should return total value without any commissions.
-            var expected = GetExpectedGrossProfit(oShares, oPrice, cShares, cPrice);
+            var expected = GetExpectedGrossProfit(oPrice, cShares, cPrice);
             var actual = target.CalculateGrossProfit(cDate);
             Assert.AreEqual(expected, actual);
         }
@@ -451,8 +451,44 @@ namespace Sonneville.PriceTools.Test
             target.Sell(cDate, cShares, cPrice, cCommission);
 
             // No longer hold these shares, so CalculateGrossProfit should return total value without any commissions.
-            var expected = GetExpectedGrossProfit(oShares, oPrice, cShares, cPrice);
+            var expected = GetExpectedGrossProfit(oPrice, cShares, cPrice);
             var actual = target.CalculateGrossProfit(cDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateGrossProfitTwoLossesFIFO()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            var secondBuyDate = sellDate.AddDays(1);
+            var secondSellDate = secondBuyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 90.00m;
+            const decimal secondPriceBought = 50.00m;
+            const decimal secondPriceSold = 40.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+            var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
+            var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+            target.AddTransaction(secondBuy);
+            target.AddTransaction(secondSell);
+
+            var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
+            var secondProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, secondPriceSold);
+
+            var expected = firstProfit + secondProfit;
+            var actual = target.CalculateGrossProfit(secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -528,6 +564,208 @@ namespace Sonneville.PriceTools.Test
 
         #endregion
 
+        #region Average Profit
+
+        [TestMethod]
+        public void CalculateAverageProfitOneGain()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 110.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+
+            var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
+
+            var expected = (firstProfit) / 1;
+            var actual = target.CalculateAverageProfit(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAverageProfitOneLoss()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 90.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+
+            var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
+
+            var expected = (firstProfit) / 1;
+            var actual = target.CalculateAverageProfit(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAverageProfitTwoGains()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            var secondBuyDate = sellDate.AddDays(1);
+            var secondSellDate = secondBuyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 110.00m;
+            const decimal secondPriceBought = 50.00m;
+            const decimal secondPriceSold = 60.00m;
+            const double sharesBought = 5;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+            var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
+            var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+            target.AddTransaction(secondBuy);
+            target.AddTransaction(secondSell);
+
+            var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
+            var secondProfit = GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
+
+            var expected = (firstProfit + secondProfit) / 2;
+            var actual = target.CalculateAverageProfit(secondSellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAverageProfitOneGainOneLoss()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            var secondBuyDate = sellDate.AddDays(1);
+            var secondSellDate = secondBuyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 110.00m;
+            const decimal secondPriceBought = 50.00m;
+            const decimal secondPriceSold = 40.00m;
+            const double sharesBought = 5;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+            var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
+            var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+            target.AddTransaction(secondBuy);
+            target.AddTransaction(secondSell);
+
+            var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
+            var secondProfit = GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
+
+            var expected = (firstProfit + secondProfit) / 2;
+            var actual = target.CalculateAverageProfit(secondSellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAverageProfitTwoLosses()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            var secondBuyDate = sellDate.AddDays(1);
+            var secondSellDate = secondBuyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 90.00m;
+            const decimal secondPriceBought = 50.00m;
+            const decimal secondPriceSold = 40.00m;
+            const double sharesBought = 5;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+            var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
+            var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+            target.AddTransaction(secondBuy);
+            target.AddTransaction(secondSell);
+
+            var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
+            var secondProfit = GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
+            
+            var expected = (firstProfit + secondProfit) / 2;
+            var actual = target.CalculateAverageProfit(secondSellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateAverageProfitTwoLossesFIFO()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            var secondBuyDate = sellDate.AddDays(1);
+            var secondSellDate = secondBuyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 90.00m;
+            const decimal secondPriceBought = 50.00m;
+            const decimal secondPriceSold = 40.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+            var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
+            var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+            target.AddTransaction(secondBuy);
+            target.AddTransaction(secondSell);
+
+            var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
+            var secondProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, secondPriceSold);
+
+            var expected = (firstProfit + secondProfit) / 2;
+            var actual = target.CalculateAverageProfit(secondSellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
         /// <summary>
         /// Calculates the expected result of a call to CalculateNetProfit on a single Position.
         /// </summary>
@@ -539,9 +777,9 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         /// Calculates the expected result of a call to CalculateGrossProfit on a single Position.
         /// </summary>
-        private static decimal GetExpectedGrossProfit(double openingShares, decimal openingPrice, double closingShares, decimal closingPrice)
+        private static decimal GetExpectedGrossProfit(decimal openingPrice, double shares, decimal closingPrice)
         {
-            return (closingPrice * (decimal)closingShares) - (openingPrice * (decimal)openingShares);
+            return (closingPrice - openingPrice) * (decimal) shares;
         }
     }
 }
