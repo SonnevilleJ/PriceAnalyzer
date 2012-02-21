@@ -331,12 +331,51 @@ namespace Sonneville.PriceTools
                     select increase*(decimal) ((holding.Shares/positionShares)*(positionShares/totalShares))).Sum();
         }
 
+        /// <summary>
+        /// Calculates the mean gross profit of a basket's <see cref="IHolding"/>s.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name="settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>Returns the mean gross profit from a <see cref="SecurityBasket"/>.</returns>
         public static decimal CalculateAverageProfit(this SecurityBasket basket, DateTime settlementDate)
         {
             var totalProfit = basket.CalculateGrossProfit(settlementDate);
             var holdings = basket.CalculateHoldings(settlementDate);
 
             return totalProfit/holdings.Count;
+        }
+
+        /// <summary>
+        /// Calculates the median gross profit of a basket's <see cref="IHolding"/>s.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name="settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <returns>Returns the median gross profit from a <see cref="SecurityBasket"/>.</returns>
+        public static decimal CalculateMedianProfit(this SecurityBasket basket, DateTime settlementDate)
+        {
+            var holdings = basket.CalculateHoldings(settlementDate);
+            var midpoint = holdings.Count / 2;
+            if (holdings.Count % 2 == 0)
+            {
+                return (holdings[midpoint - 1].GrossProfit() + holdings[midpoint].GrossProfit())/2;
+            }
+            return holdings[midpoint].GrossProfit();
+        }
+
+        /// <summary>
+        /// Calculates the standard deviation of all profits in a <see cref="SecurityBasket"/>.
+        /// </summary>
+        /// <param name="basket"></param>
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
+        /// <returns>Returns the standard deviation of the profits from a <see cref="SecurityBasket"/>.</returns>
+        public static decimal CalculateStandardDeviation(this SecurityBasket basket, DateTime settlementDate)
+        {
+            var mean = basket.CalculateAverageProfit(settlementDate);
+            var holdings = basket.CalculateHoldings(settlementDate);
+
+            var squares = holdings.Select(holding => holding.GrossProfit() - mean).Select(deviation => deviation*deviation);
+            var sum = squares.Sum();
+            return sum / holdings.Count - 1;
         }
     }
 }
