@@ -354,6 +354,8 @@ namespace Sonneville.PriceTools
         public static decimal CalculateMedianProfit(this SecurityBasket basket, DateTime settlementDate)
         {
             var holdings = basket.CalculateHoldings(settlementDate);
+            if (holdings.Count == 0) return 0.00m;
+
             var midpoint = holdings.Count / 2;
             if (holdings.Count % 2 == 0)
             {

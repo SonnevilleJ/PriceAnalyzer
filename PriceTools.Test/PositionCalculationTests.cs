@@ -1221,6 +1221,8 @@ namespace Sonneville.PriceTools.Test
         /// <returns></returns>
         private static decimal GetExpectedMedianProfit(IList<IHolding> holdings)
         {
+            if (holdings.Count == 0) return 0.00m;
+
             var midpoint = (holdings.Count / 2);
             if (holdings.Count % 2 == 0)
             {

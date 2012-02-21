@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Sonneville.PriceTools.Test
@@ -1526,6 +1527,264 @@ namespace Sonneville.PriceTools.Test
             var expected = deProfit + msftProfit;
             var actual = target.CalculateAverageProfit(sellDate);
             Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region Median Profit
+
+        [TestMethod]
+        public void CalculateMedianProfitOfDeposit()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal openingDeposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
+
+            var expected = GetExpectedMedianProfit(target.CalculateHoldings(dateTime));
+            var actual = target.CalculateMedianProfit(dateTime);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateMedianProfitAfterFullWithdrawal()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal amount = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
+
+            var withdrawalDate = dateTime.AddDays(1);
+            target.Withdraw(withdrawalDate, amount);
+
+            var expected = GetExpectedMedianProfit(target.CalculateHoldings(withdrawalDate));
+            var actual = target.CalculateMedianProfit(withdrawalDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateMedianProfitOpenPosition()
+        {
+            var dateTime = new DateTime(2011, 11, 21);
+            const decimal openingDeposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
+
+            var buyDate = dateTime.AddDays(1);
+            var calculateDate = buyDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal buyPrice = 50.00m;
+            const int shares = 5;
+            const decimal commission = 7.95m;
+
+            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            target.AddTransaction(buy);
+
+            // CalculateMedianProfit does not consider open positions - it can only account for closed holdings
+            var expected = GetExpectedMedianProfit(target.CalculateHoldings(calculateDate));
+            var actual = target.CalculateMedianProfit(calculateDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateMedianProfitAfterGain()
+        {
+            var dateTime = new DateTime(2011, 11, 21);
+            const decimal openingDeposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
+
+            var buyDate = dateTime.AddDays(1);
+            var sellDate = buyDate.AddDays(1);
+            var calculateDate = sellDate.AddDays(1);
+            const string ticker = "DE";
+            const decimal buyPrice = 50.00m;
+            const decimal sellPrice = 75.00m;
+            const int shares = 5;
+            const decimal commission = 7.95m;
+            
+            target.AddTransaction(TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission));
+            target.AddTransaction(TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
+
+            var expected = GetExpectedMedianProfit(target.CalculateHoldings(sellDate));
+            var actual = target.CalculateMedianProfit(calculateDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateMedianProfitTwoGain()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 110.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 60.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var expected = GetExpectedMedianProfit(target.CalculateHoldings(sellDate));
+            var actual = target.CalculateMedianProfit(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateMedianProfitTwoLoss()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 00.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 40.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var expected = GetExpectedMedianProfit(target.CalculateHoldings(sellDate));
+            var actual = target.CalculateMedianProfit(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateMedianProfitOneGainOneLoss()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 110.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 40.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var expected = GetExpectedMedianProfit(target.CalculateHoldings(sellDate));
+            var actual = target.CalculateMedianProfit(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateMedianProfitOneGainOneOpen()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal dePriceSold = 110.00m;
+            const decimal msftPriceBought = 50.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(deSell);
+            target.AddTransaction(msftBuy);
+
+            var expected = GetExpectedMedianProfit(target.CalculateHoldings(sellDate));
+            var actual = target.CalculateMedianProfit(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateMedianProfitOneLossOneOpen()
+        {
+            var dateTime = new DateTime(2011, 1, 8);
+            const decimal deposit = 10000m;
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const string msft = "MSFT";
+            const decimal dePriceBought = 100.00m;
+            const decimal msftPriceBought = 50.00m;
+            const decimal msftPriceSold = 40.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = sharesBought - 2;
+            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+
+            target.AddTransaction(deBuy);
+            target.AddTransaction(msftBuy);
+            target.AddTransaction(msftSell);
+
+            var expected = GetExpectedMedianProfit(target.CalculateHoldings(sellDate));
+            var actual = target.CalculateMedianProfit(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region Helper methods
+
+        /// <summary>
+        /// Calculates the expected result of a call to CalculateMedianProfit on a single Position.
+        /// </summary>
+        /// <param name="holdings"></param>
+        /// <returns></returns>
+        private static decimal GetExpectedMedianProfit(IList<IHolding> holdings)
+        {
+            if (holdings.Count == 0) return 0.00m;
+
+            var midpoint = (holdings.Count / 2);
+            if (holdings.Count % 2 == 0)
+            {
+                return (holdings[midpoint - 1].GrossProfit() + holdings[midpoint].GrossProfit()) / 2;
+            }
+            return holdings[midpoint].GrossProfit();
         }
 
         #endregion
