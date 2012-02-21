@@ -339,10 +339,7 @@ namespace Sonneville.PriceTools
         /// <returns>Returns the mean gross profit from a <see cref="SecurityBasket"/>.</returns>
         public static decimal CalculateAverageProfit(this SecurityBasket basket, DateTime settlementDate)
         {
-            var totalProfit = basket.CalculateGrossProfit(settlementDate);
-            var holdings = basket.CalculateHoldings(settlementDate);
-
-            return totalProfit/holdings.Count;
+            return basket.CalculateHoldings(settlementDate).AsParallel().Average(holding => holding.GrossProfit());
         }
 
         /// <summary>
