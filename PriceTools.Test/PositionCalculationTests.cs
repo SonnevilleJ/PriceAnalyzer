@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Sonneville.PriceTools.Test
@@ -1210,25 +1211,269 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void CalculateMedianProfitThreeHoldings()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            var secondBuyDate = sellDate.AddDays(1);
+            var secondSellDate = secondBuyDate.AddDays(1);
+            var thirdSellDate = secondSellDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 110.00m;
+            const decimal secondPriceBought = 50.00m;
+            const decimal secondPriceSold = 60.00m;
+            const decimal thirdPriceSold = 90.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+            var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
+            var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
+            var thirdSell = TransactionFactory.ConstructSell(de, thirdSellDate, ((sharesBought*2) - (sharesSold*2)), thirdPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+            target.AddTransaction(secondBuy);
+            target.AddTransaction(secondSell);
+            target.AddTransaction(thirdSell);
+
+            var expected = GetExpectedMedianProfit(target.CalculateHoldings(thirdSellDate));
+            var actual = target.CalculateMedianProfit(thirdSellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region Standard Deviation
+
+        [TestMethod]
+        public void CalculateStandardDeviationOneGain()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 110.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+
+            var expected = GetExpectedStandardDeviation(target.CalculateHoldings(sellDate));
+            var actual = target.CalculateStandardDeviation(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateStandardDeviationOneLoss()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 90.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+
+            var expected = GetExpectedStandardDeviation(target.CalculateHoldings(sellDate));
+            var actual = target.CalculateStandardDeviation(sellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateStandardDeviationTwoGains()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            var secondBuyDate = sellDate.AddDays(1);
+            var secondSellDate = secondBuyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 110.00m;
+            const decimal secondPriceBought = 55.00m;
+            const decimal secondPriceSold = 60.00m;
+            const double sharesBought = 5;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+            var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
+            var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+            target.AddTransaction(secondBuy);
+            target.AddTransaction(secondSell);
+
+            var expected = GetExpectedStandardDeviation(target.CalculateHoldings(secondSellDate));
+            var actual = target.CalculateStandardDeviation(secondSellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateStandardDeviationOneGainOneLoss()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            var secondBuyDate = sellDate.AddDays(1);
+            var secondSellDate = secondBuyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 110.00m;
+            const decimal secondPriceBought = 50.00m;
+            const decimal secondPriceSold = 40.00m;
+            const double sharesBought = 5;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+            var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
+            var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+            target.AddTransaction(secondBuy);
+            target.AddTransaction(secondSell);
+
+            var expected = GetExpectedStandardDeviation(target.CalculateHoldings(secondSellDate));
+            var actual = target.CalculateStandardDeviation(secondSellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateStandardDeviationTwoLosses()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            var secondBuyDate = sellDate.AddDays(1);
+            var secondSellDate = secondBuyDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 90.00m;
+            const decimal secondPriceBought = 50.00m;
+            const decimal secondPriceSold = 40.00m;
+            const double sharesBought = 5;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+            var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
+            var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+            target.AddTransaction(secondBuy);
+            target.AddTransaction(secondSell);
+
+            var expected = GetExpectedStandardDeviation(target.CalculateHoldings(sellDate));
+            var actual = target.CalculateStandardDeviation(secondSellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateStandardDeviationThreeHoldings()
+        {
+            var target = PositionFactory.CreatePosition("DE");
+
+            var buyDate = new DateTime(2011, 1, 10);
+            var sellDate = buyDate.AddDays(1);
+            var secondBuyDate = sellDate.AddDays(1);
+            var secondSellDate = secondBuyDate.AddDays(1);
+            var thirdSellDate = secondSellDate.AddDays(1);
+            const string de = "DE";
+            const decimal firstPriceBought = 100.00m;
+            const decimal firstPriceSold = 110.00m;
+            const decimal secondPriceBought = 50.00m;
+            const decimal secondPriceSold = 60.00m;
+            const decimal thirdPriceSold = 90.00m;
+            const double sharesBought = 10;
+            const decimal commission = 7.95m;
+            const double sharesSold = 5;
+
+            var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
+            var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
+            var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
+            var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
+            var thirdSell = TransactionFactory.ConstructSell(de, thirdSellDate, ((sharesBought*2) - (sharesSold*2)), thirdPriceSold, commission);
+
+            target.AddTransaction(firstBuy);
+            target.AddTransaction(firstSell);
+            target.AddTransaction(secondBuy);
+            target.AddTransaction(secondSell);
+            target.AddTransaction(thirdSell);
+
+            var expected = GetExpectedStandardDeviation(target.CalculateHoldings(thirdSellDate));
+            var actual = target.CalculateStandardDeviation(thirdSellDate);
+            Assert.AreEqual(expected, actual);
+        }
+
         #endregion
 
         #region Helper methods
 
         /// <summary>
-        /// Calculates the expected result of a call to CalculateMedianProfit on a single Position.
+        /// Calculates the expected result of a call to CalculateStandardDeviation on a <see cref="SecurityBasket"/>.
         /// </summary>
         /// <param name="holdings"></param>
         /// <returns></returns>
-        private static decimal GetExpectedMedianProfit(IList<IHolding> holdings)
+        private static decimal GetExpectedStandardDeviation(IEnumerable<IHolding> holdings)
         {
-            if (holdings.Count == 0) return 0.00m;
+            var values = holdings.Select(h => h.GrossProfit());
+            if (values.Count() == 0) return 0;
 
-            var midpoint = (holdings.Count / 2);
-            if (holdings.Count % 2 == 0)
+            var average = values.Average();
+            var squares = values.Select(value => (value - average) * (value - average));
+            var sum = squares.Sum();
+            return sum / values.Count() - 1;
+        }
+
+        /// <summary>
+        /// Calculates the expected result of a call to CalculateMedianProfit on a <see cref="SecurityBasket"/>.
+        /// </summary>
+        /// <param name="holdings"></param>
+        /// <returns></returns>
+        private static decimal GetExpectedMedianProfit(IEnumerable<IHolding> holdings)
+        {
+            var list = holdings.OrderBy(holding => holding.GrossProfit()).ToList();
+            if (list.Count == 0) return 0.00m;
+
+            var midpoint = (list.Count / 2);
+            if (list.Count % 2 == 0)
             {
-                return (holdings[midpoint - 1].GrossProfit() + holdings[midpoint].GrossProfit()) / 2;
+                return (list[midpoint - 1].GrossProfit() + list[midpoint].GrossProfit()) / 2;
             }
-            return holdings[midpoint].GrossProfit();
+            return list[midpoint].GrossProfit();
         }
 
         /// <summary>

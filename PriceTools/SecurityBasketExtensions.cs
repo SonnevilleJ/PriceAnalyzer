@@ -350,15 +350,20 @@ namespace Sonneville.PriceTools
         /// <returns>Returns the median gross profit from a <see cref="SecurityBasket"/>.</returns>
         public static decimal CalculateMedianProfit(this SecurityBasket basket, DateTime settlementDate)
         {
-            var holdings = basket.CalculateHoldings(settlementDate);
-            if (holdings.Count == 0) return 0.00m;
+            return basket.CalculateHoldings(settlementDate).Select(h => h.GrossProfit()).Median();
+        }
 
-            var midpoint = holdings.Count / 2;
-            if (holdings.Count % 2 == 0)
+        private static decimal Median(this IEnumerable<decimal> decimals)
+        {
+            var list = decimals.OrderBy(d => d);
+            if (list.Count() == 0) return 0m;
+
+            var midpoint = list.Count() / 2;
+            if (list.Count() % 2 == 0)
             {
-                return (holdings[midpoint - 1].GrossProfit() + holdings[midpoint].GrossProfit())/2;
+                return (list.ElementAt(midpoint - 1) + list.ElementAt(midpoint)) / 2;
             }
-            return holdings[midpoint].GrossProfit();
+            return list.ElementAt(midpoint);
         }
 
         /// <summary>
@@ -369,12 +374,17 @@ namespace Sonneville.PriceTools
         /// <returns>Returns the standard deviation of the profits from a <see cref="SecurityBasket"/>.</returns>
         public static decimal CalculateStandardDeviation(this SecurityBasket basket, DateTime settlementDate)
         {
-            var mean = basket.CalculateAverageProfit(settlementDate);
-            var holdings = basket.CalculateHoldings(settlementDate);
+            return basket.CalculateHoldings(settlementDate).Select(h => h.GrossProfit()).StandardDeviation();
+        }
 
-            var squares = holdings.Select(holding => holding.GrossProfit() - mean).Select(deviation => deviation*deviation);
+        private static decimal StandardDeviation(this IEnumerable<decimal> decimals)
+        {
+            var parallel = decimals.AsParallel();
+
+            var mean = parallel.Average();
+            var squares = parallel.Select(holding => holding - mean).Select(deviation => deviation*deviation);
             var sum = squares.Sum();
-            return sum / holdings.Count - 1;
+            return sum / parallel.Count() - 1;
         }
     }
 }
