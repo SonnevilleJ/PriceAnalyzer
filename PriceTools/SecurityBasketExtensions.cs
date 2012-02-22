@@ -384,7 +384,7 @@ namespace Sonneville.PriceTools
             var mean = parallel.Average();
             var squares = parallel.Select(holding => holding - mean).Select(deviation => deviation*deviation);
             var sum = squares.Sum();
-            return sum / parallel.Count() - 1;
+            return (sum / parallel.Count() - 1).SquareRoot();
         }
     }
 }

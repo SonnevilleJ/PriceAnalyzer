@@ -75,6 +75,7 @@
     <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
     <Compile Include="LongTransaction.cs" />
+    <Compile Include="MathExtensions.cs" />
     <Compile Include="OpeningTransaction.cs" />
     <Compile Include="ShortTransaction.cs" />
     <Compile Include="TickedPricePeriod.cs" />

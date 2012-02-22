@@ -1455,7 +1455,7 @@ namespace Sonneville.PriceTools.Test
             var average = values.Average();
             var squares = values.Select(value => (value - average) * (value - average));
             var sum = squares.Sum();
-            return sum / values.Count() - 1;
+            return (sum / values.Count() - 1).SquareRoot();
         }
 
         /// <summary>
