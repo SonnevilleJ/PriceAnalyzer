@@ -1450,12 +1450,12 @@ namespace Sonneville.PriceTools.Test
         private static decimal GetExpectedStandardDeviation(IEnumerable<IHolding> holdings)
         {
             var values = holdings.Select(h => h.GrossProfit());
-            if (values.Count() == 0) return 0;
+            if (values.Count() <= 1) return 0;
 
             var average = values.Average();
             var squares = values.Select(value => (value - average) * (value - average));
             var sum = squares.Sum();
-            return (sum / values.Count() - 1).SquareRoot();
+            return ((sum / values.Count()) - 1).SquareRoot();
         }
 
         /// <summary>

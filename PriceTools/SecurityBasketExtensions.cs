@@ -379,12 +379,13 @@ namespace Sonneville.PriceTools
 
         private static decimal StandardDeviation(this IEnumerable<decimal> decimals)
         {
-            var parallel = decimals.AsParallel();
+            if (decimals.Count() <= 1) return 0;
 
+            var parallel = decimals.AsParallel();
             var mean = parallel.Average();
             var squares = parallel.Select(holding => holding - mean).Select(deviation => deviation*deviation);
             var sum = squares.Sum();
-            return (sum / parallel.Count() - 1).SquareRoot();
+            return ((sum / parallel.Count()) - 1).SquareRoot();
         }
     }
 }
