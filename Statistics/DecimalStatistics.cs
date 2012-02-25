@@ -9,6 +9,11 @@ namespace Statistics
     /// </summary>
     public static class DecimalStatistics
     {
+        /// <summary>
+        /// Returns the median value of a series.
+        /// </summary>
+        /// <param name="decimals"></param>
+        /// <returns></returns>
         public static decimal Median(this IEnumerable<decimal> decimals)
         {
             var list = decimals.OrderBy(d => d);
@@ -22,6 +27,11 @@ namespace Statistics
             return list.ElementAt(midpoint);
         }
 
+        /// <summary>
+        /// Returns the standard deviation of a series.
+        /// </summary>
+        /// <param name="decimals"></param>
+        /// <returns></returns>
         public static decimal StandardDeviation(this IEnumerable<decimal> decimals)
         {
             if (decimals.Count() <= 1) return 0;
@@ -39,9 +49,13 @@ namespace Statistics
         /// <param name="d">A number.</param>
         /// <param name="epsilon">The tolerance of the function. Must be greater than or equal to zero.</param>
         /// <returns></returns>
-        public static decimal SquareRoot(this decimal d, decimal epsilon = 0.0M)
+        public static decimal SquareRoot(this decimal d, decimal epsilon = 0M)
         {
-            if (d < 0) throw new OverflowException("Cannot calculate square root from a negative number");
+            if (d < 0)
+            {
+                // throw new OverflowException("Cannot calculate square root from a negative number");
+                return 0;   // imaginary number
+            }
             if (epsilon < 0m) throw new ArgumentOutOfRangeException("epsilon", epsilon, "Epsilon must be greater than or equal to zero.");
 
             decimal current = (decimal)Math.Sqrt((double)d), previous;
