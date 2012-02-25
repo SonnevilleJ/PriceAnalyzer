@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalAnalysis", "Techni
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalAnalysis.Test", "TechnicalAnalysis.Test\TechnicalAnalysis.Test.csproj", "{24780FA7-F5DA-48DC-AE74-918C03268E75}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statistics", "Statistics\Statistics.csproj", "{8767BC88-6AD0-4A71-BC34-81D3409C8643}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = PriceAnalyzer.vsmdi
@@ -179,6 +181,12 @@ Global
 		{24780FA7-F5DA-48DC-AE74-918C03268E75}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{24780FA7-F5DA-48DC-AE74-918C03268E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24780FA7-F5DA-48DC-AE74-918C03268E75}.Release|x86.ActiveCfg = Release|Any CPU
+		{8767BC88-6AD0-4A71-BC34-81D3409C8643}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8767BC88-6AD0-4A71-BC34-81D3409C8643}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8767BC88-6AD0-4A71-BC34-81D3409C8643}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8767BC88-6AD0-4A71-BC34-81D3409C8643}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8767BC88-6AD0-4A71-BC34-81D3409C8643}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8767BC88-6AD0-4A71-BC34-81D3409C8643}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

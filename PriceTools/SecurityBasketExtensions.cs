@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Extensions;
+using Statistics;
 
 namespace Sonneville.PriceTools
 {
@@ -353,19 +354,6 @@ namespace Sonneville.PriceTools
             return basket.CalculateHoldings(settlementDate).Select(h => h.GrossProfit()).Median();
         }
 
-        private static decimal Median(this IEnumerable<decimal> decimals)
-        {
-            var list = decimals.OrderBy(d => d);
-            if (list.Count() == 0) return 0m;
-
-            var midpoint = list.Count() / 2;
-            if (list.Count() % 2 == 0)
-            {
-                return (list.ElementAt(midpoint - 1) + list.ElementAt(midpoint)) / 2;
-            }
-            return list.ElementAt(midpoint);
-        }
-
         /// <summary>
         /// Calculates the standard deviation of all profits in a <see cref="SecurityBasket"/>.
         /// </summary>
@@ -375,17 +363,6 @@ namespace Sonneville.PriceTools
         public static decimal CalculateStandardDeviation(this SecurityBasket basket, DateTime settlementDate)
         {
             return basket.CalculateHoldings(settlementDate).Select(h => h.GrossProfit()).StandardDeviation();
-        }
-
-        private static decimal StandardDeviation(this IEnumerable<decimal> decimals)
-        {
-            if (decimals.Count() <= 1) return 0;
-
-            var parallel = decimals.AsParallel();
-            var mean = parallel.Average();
-            var squares = parallel.Select(holding => holding - mean).Select(deviation => deviation*deviation);
-            var sum = squares.Sum();
-            return ((sum / parallel.Count()) - 1).SquareRoot();
         }
     }
 }
