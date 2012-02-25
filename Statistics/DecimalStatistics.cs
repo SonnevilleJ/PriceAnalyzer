@@ -47,7 +47,7 @@ namespace Statistics
         /// <summary>
         /// Returns the square root of a specified number.
         /// </summary>
-        /// <param name="d">A number.</param>
+        /// <param name="d">A <see cref="decimal"/> number.</param>
         /// <param name="epsilon">The tolerance of the function. Must be greater than or equal to zero.</param>
         /// <returns></returns>
         public static decimal SquareRoot(this decimal d, decimal epsilon = 0M)
@@ -73,12 +73,23 @@ namespace Statistics
         /// <summary>
         /// Returns the square root of a specified number.
         /// </summary>
-        /// <param name="i">A number.</param>
+        /// <param name="i">A <see cref="int"/> number.</param>
         /// <param name="epsilon">The tolerance of the function. Must be greater than or equal to zero.</param>
         /// <returns></returns>
         public static decimal SquareRoot(this int i, decimal epsilon = 0m)
         {
             return ((decimal) i).SquareRoot(epsilon);
+        }
+
+        /// <summary>
+        /// Returns the square root of a specified number.
+        /// </summary>
+        /// <param name="l">A <see cref="long"/> number.</param>
+        /// <param name="epsilon">The tolerance of the function. Must be greater than or equal to zero.</param>
+        /// <returns></returns>
+        public static decimal SquareRoot(this long l, decimal epsilon = 0m)
+        {
+            return ((decimal) l).SquareRoot(epsilon);
         }
 
         /// <summary>
