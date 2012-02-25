@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Statistics
 {
@@ -67,6 +68,55 @@ namespace Statistics
             }
             while (Math.Abs(previous - current) > epsilon);
             return current;
+        }
+
+        /// <summary>
+        /// Returns the square root of a specified number.
+        /// </summary>
+        /// <param name="i">A number.</param>
+        /// <param name="epsilon">The tolerance of the function. Must be greater than or equal to zero.</param>
+        /// <returns></returns>
+        public static decimal SquareRoot(this int i, decimal epsilon = 0m)
+        {
+            return ((decimal) i).SquareRoot(epsilon);
+        }
+
+        /// <summary>
+        /// Returns the Student T-score of a set of values.
+        /// </summary>
+        /// <param name="decimals"></param>
+        /// <returns></returns>
+        public static decimal StudentTScore(this IEnumerable<decimal> decimals)
+        {
+            var size = decimals.Count();
+            var mean = decimals.Average();
+            var standardDeviation = decimals.StandardDeviation();
+            return (mean - 0)/(standardDeviation/size.SquareRoot());
+        }
+
+        /// <summary>
+        /// Returns the Student T-distribution of a set of values.
+        /// </summary>
+        /// <param name="decimals"></param>
+        /// <returns></returns>
+        public static decimal StudentTDistribution(this IEnumerable<decimal> decimals)
+        {
+            var tScore = decimals.StudentTScore();
+            var degreesOfFreedom = decimals.Count() - 1;
+            return StudentTDistribution(tScore, degreesOfFreedom);
+        }
+
+        /// <summary>
+        /// Returns the T-distribution of a set of values.
+        /// </summary>
+        /// <param name="tScore"></param>
+        /// <param name="degreesOfFreedom"></param>
+        /// <returns></returns>
+        public static decimal StudentTDistribution(decimal tScore, int degreesOfFreedom)
+        {
+            if(degreesOfFreedom <= 0) throw new ArgumentOutOfRangeException("degreesOfFreedom", degreesOfFreedom, "Degrees of freedom must be positive.");
+            
+            return (decimal)new Chart().DataManipulator.Statistics.TDistribution((double)tScore, degreesOfFreedom, true);
         }
     }
 }
