@@ -40,6 +40,13 @@ namespace Program
 
             var date = portfolio.Tail;
             grossProfit.Text = portfolio.CalculateGrossProfit(date).ToString("C");
+            netProfit.Text = portfolio.CalculateNetProfit(date).ToString("C");
+            var grossReturn = portfolio.CalculateAnnualGrossReturn(date);
+            if(grossReturn.HasValue) annualGrossReturn.Text = grossReturn.Value.ToString("P");
+            var netReturn = portfolio.CalculateAnnualNetReturn(date);
+            if(netReturn.HasValue) annualNetReturn.Text = netReturn.Value.ToString("P");
+            meanGrossProfit.Text = portfolio.CalculateAverageProfit(date).ToString("C");
+            medianNetProfit.Text = portfolio.CalculateMedianProfit(date).ToString("C");
         }
 
         private static Portfolio ImportPortfolio(string path, string ticker)

@@ -6,8 +6,9 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="50" />
-            <RowDefinition Height="253*" />
-            <RowDefinition Height="23" />
+            <RowDefinition Height="135" />
+            <RowDefinition Height="250*" />
+            <RowDefinition Height="24" />
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
@@ -36,11 +37,9 @@
             <Border Grid.Column="0" BorderBrush="Silver" BorderThickness="1" Margin="12" Name="border1">
                 <Grid Grid.Column="0">
                     <Grid.RowDefinitions>
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="45*" />
+                        <RowDefinition Height="45*" />
+                        <RowDefinition Height="45*" />
                     </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
@@ -63,7 +62,7 @@
                 </Grid>
             </Border>
         </Grid>
-        <DockPanel Grid.Row="3" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
+        <DockPanel Grid.Row="4" HorizontalAlignment="Stretch" VerticalAlignment="Bottom">
             <StatusBar DockPanel.Dock="Bottom" Height="23">
                 <TextBlock Name="statusText" />
             </StatusBar>
