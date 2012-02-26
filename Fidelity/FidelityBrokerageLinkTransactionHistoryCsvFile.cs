@@ -72,7 +72,8 @@ namespace Sonneville.PriceTools.Fidelity
             }
 
             var upperInvariant = trim.ToUpperInvariant();
-            if (upperInvariant.StartsWith("TRANSFERRED FROM") && upperInvariant.EndsWith("TO BROKERAGE OPTION"))
+            if ((upperInvariant.StartsWith("TRANSFERRED FROM") && upperInvariant.EndsWith("TO BROKERAGE OPTION")) ||
+                upperInvariant == "PURCHASE INTO CORE ACCOUNT")
             {
                 return OrderType.Deposit;
             }
@@ -95,6 +96,15 @@ namespace Sonneville.PriceTools.Fidelity
                 return OrderType.DividendReinvestment;
             }
             throw new ArgumentOutOfRangeException("text", trim, String.Format(CultureInfo.CurrentCulture, "Unknown order type: {0}.", trim));
+        }
+
+        protected override bool IsValidRow(string text)
+        {
+            if (text.Trim() == "REDEMPTION FROM CORE ACCOUNT")
+            {
+                return false;
+            }
+            return true;
         }
 
         #endregion

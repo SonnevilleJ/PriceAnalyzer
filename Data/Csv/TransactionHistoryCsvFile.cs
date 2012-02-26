@@ -102,6 +102,8 @@ namespace Sonneville.PriceTools.Data.Csv
                     var ticker = string.Empty;
                     decimal price;
 
+                    if(!IsValidRow(reader[_map[TransactionColumn.OrderType]])) continue;
+
                     var orderType = ParseOrderTypeColumn(reader[_map[TransactionColumn.OrderType]]);
                     var settlementDate = ParseDateColumn(reader[_map[TransactionColumn.Date]]);
                     var shares = ParseSharesColumn(reader[_map[TransactionColumn.Shares]]);
@@ -162,6 +164,16 @@ namespace Sonneville.PriceTools.Data.Csv
         #endregion
 
         #region Abstract/Virtual Methods
+
+        /// <summary>
+        /// Parses the OrderType column and returns a value indicating if the row contains valid data.
+        /// </summary>
+        /// <param name="text">The raw CSV data to parse.</param>
+        /// <returns></returns>
+        protected virtual bool IsValidRow(string text)
+        {
+            return true;
+        }
 
         /// <summary>
         /// Parses the column headers of a TransactionHistoryCsv file.

@@ -98,6 +98,9 @@
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="PortfolioStatistics.xaml.cs">
+      <DependentUpon>PortfolioStatistics.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -126,11 +129,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="PortfolioStatistics.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Charting\Charting.csproj">
       <Project>{CA835214-9E28-4CB2-95BF-37D5D2927DB7}</Project>
       <Name>Charting</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fidelity\Fidelity.csproj">
+      <Project>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</Project>
+      <Name>Fidelity</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
