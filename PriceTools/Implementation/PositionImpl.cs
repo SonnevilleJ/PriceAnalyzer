@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name = "shares">The number of shares in this shareTransaction.</param>
         /// <param name = "price">The per-share price of this shareTransaction.</param>
         /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        public void Buy(DateTime settlementDate, double shares, decimal price, decimal commission)
+        public void Buy(DateTime settlementDate, decimal shares, decimal price, decimal commission)
         {
             AddTransaction(shares, OrderType.Buy, settlementDate, price, commission);
         }
@@ -72,7 +72,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name = "shares">The number of shares in this shareTransaction. Shares cannot exceed currently shorted shares.</param>
         /// <param name = "price">The per-share price of this shareTransaction.</param>
         /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        public void BuyToCover(DateTime settlementDate, double shares, decimal price, decimal commission)
+        public void BuyToCover(DateTime settlementDate, decimal shares, decimal price, decimal commission)
         {
             AddTransaction(shares, OrderType.BuyToCover, settlementDate, price, commission);
         }
@@ -84,7 +84,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name = "shares">The number of shares in this shareTransaction. Shares connot exceed currently held shares.</param>
         /// <param name = "price">The per-share price of this shareTransaction.</param>
         /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        public void Sell(DateTime settlementDate, double shares, decimal price, decimal commission)
+        public void Sell(DateTime settlementDate, decimal shares, decimal price, decimal commission)
         {
             AddTransaction(shares, OrderType.Sell, settlementDate, price, commission);
         }
@@ -96,7 +96,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name = "shares">The number of shares in this shareTransaction.</param>
         /// <param name = "price">The per-share price of this shareTransaction.</param>
         /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        public void SellShort(DateTime settlementDate, double shares, decimal price, decimal commission)
+        public void SellShort(DateTime settlementDate, decimal shares, decimal price, decimal commission)
         {
             AddTransaction(shares, OrderType.SellShort, settlementDate, price, commission);
         }
@@ -212,7 +212,7 @@ namespace Sonneville.PriceTools.Implementation
 
         #region Helper Methods
 
-        private void AddTransaction(double shares, OrderType type, DateTime settlementDate, decimal price, decimal commission)
+        private void AddTransaction(decimal shares, OrderType type, DateTime settlementDate, decimal price, decimal commission)
         {
             var shareTransaction = TransactionFactory.ConstructShareTransaction(type, Ticker, settlementDate, shares, price, commission);
             AddTransaction(shareTransaction);

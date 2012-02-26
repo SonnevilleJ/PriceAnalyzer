@@ -13,7 +13,7 @@
         /// <summary>
         ///   Gets the amount of securities traded in this ShareTransaction.
         /// </summary>
-        double Shares { get; }
+        decimal Shares { get; }
 
         /// <summary>
         ///   Gets the value of all securities traded in this ShareTransaction.

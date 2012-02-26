@@ -198,12 +198,12 @@ namespace Sonneville.PriceTools.Test
             return "DE";
         }
 
-        private static double GetValidShares()
+        private static decimal GetValidShares()
         {
-            return 5.0;
+            return 5m;
         }
 
-        private static double GetInvalidShares()
+        private static decimal GetInvalidShares()
         {
             return -GetValidShares();
         }

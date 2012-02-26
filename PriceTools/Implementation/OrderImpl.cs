@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// The number of shares for this order.
         /// </summary>
-        public double Shares { get; internal set; }
+        public decimal Shares { get; internal set; }
 
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

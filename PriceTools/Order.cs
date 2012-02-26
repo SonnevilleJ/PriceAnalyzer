@@ -40,6 +40,6 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The number of shares for this order.
         /// </summary>
-        double Shares { get; }
+        decimal Shares { get; }
     }
 }

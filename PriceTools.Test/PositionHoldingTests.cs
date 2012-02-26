@@ -16,13 +16,13 @@ namespace Sonneville.PriceTools.Test
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 10;     // 10 shares
+            const decimal sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
             var sellDate = buyDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
@@ -41,13 +41,13 @@ namespace Sonneville.PriceTools.Test
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 10;     // 10 shares
+            const decimal sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
             var sellDate = buyDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
@@ -79,14 +79,14 @@ namespace Sonneville.PriceTools.Test
             var firstBuyDate = testDate.AddDays(1);
             var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 3;      // 3 shares
+            const decimal sharesBought = 3;      // 3 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
 
             var sellDate = secondBuyDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 6;        // 6 shares
+            const decimal sharesSold = 6;        // 6 shares
 
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
@@ -106,14 +106,14 @@ namespace Sonneville.PriceTools.Test
             var firstBuyDate = testDate.AddDays(1);
             var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 3;      // 3 shares
+            const decimal sharesBought = 3;      // 3 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
 
             var sellDate = secondBuyDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 6;        // 6 shares
+            const decimal sharesSold = 6;        // 6 shares
 
             target.Sell(sellDate, sharesSold, sellPrice, commission);
 
@@ -156,14 +156,14 @@ namespace Sonneville.PriceTools.Test
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 10;     // 10 shares
+            const decimal sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
             var firstSellDate = buyDate.AddDays(2);
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
@@ -183,21 +183,21 @@ namespace Sonneville.PriceTools.Test
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 10;     // 10 shares
+            const decimal sharesBought = 10;     // 10 shares
 
             target.Buy(buyDate, sharesBought, buyPrice, commission);
 
             var firstSellDate = buyDate.AddDays(2);
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
             var holdings = target.CalculateHoldings(secondSellDate);
 
-            const double sharesInHolding = sharesSold;
+            const decimal sharesInHolding = sharesSold;
 
             var expected1 = new Holding
                                 {
@@ -237,7 +237,7 @@ namespace Sonneville.PriceTools.Test
             var firstBuyDate = testDate.AddDays(1);
             var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 5;      // 5 shares
+            const decimal sharesBought = 5;      // 5 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
@@ -245,7 +245,7 @@ namespace Sonneville.PriceTools.Test
             var firstSellDate = secondBuyDate.AddDays(2);
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
@@ -267,9 +267,9 @@ namespace Sonneville.PriceTools.Test
             var firstSellDate = secondBuyDate.AddDays(2);
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 5;      // 5 shares
+            const decimal sharesBought = 5;      // 5 shares
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
@@ -316,7 +316,7 @@ namespace Sonneville.PriceTools.Test
             var firstBuyDate = testDate.AddDays(1);
             var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 5;      // 5 shares
+            const decimal sharesBought = 5;      // 5 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
@@ -324,7 +324,7 @@ namespace Sonneville.PriceTools.Test
             var firstSellDate = secondBuyDate;
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
@@ -345,7 +345,7 @@ namespace Sonneville.PriceTools.Test
             var firstBuyDate = testDate.AddDays(1);
             var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 5;      // 5 shares
+            const decimal sharesBought = 5;      // 5 shares
 
             target.Buy(firstBuyDate, sharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, sharesBought, buyPrice, commission);
@@ -353,14 +353,14 @@ namespace Sonneville.PriceTools.Test
             var firstSellDate = secondBuyDate;
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
 
             var holdings = target.CalculateHoldings(secondSellDate);
 
-            const double sharesInHolding = sharesSold;
+            const decimal sharesInHolding = sharesSold;
             var expected1 = new Holding
                                 {
                                     Ticker = ticker,
@@ -399,8 +399,8 @@ namespace Sonneville.PriceTools.Test
             var firstBuyDate = testDate.AddDays(1);
             var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double firstSharesBought = 9;
-            const double secondSharesBought = 1;
+            const decimal firstSharesBought = 9;
+            const decimal secondSharesBought = 1;
 
             target.Buy(firstBuyDate, firstSharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, secondSharesBought, buyPrice, commission);
@@ -408,7 +408,7 @@ namespace Sonneville.PriceTools.Test
             var firstSellDate = secondBuyDate;
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
@@ -429,8 +429,8 @@ namespace Sonneville.PriceTools.Test
             var firstBuyDate = testDate.AddDays(1);
             var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double firstSharesBought = 9;
-            const double secondSharesBought = 1;
+            const decimal firstSharesBought = 9;
+            const decimal secondSharesBought = 1;
 
             target.Buy(firstBuyDate, firstSharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, secondSharesBought, buyPrice, commission);
@@ -438,7 +438,7 @@ namespace Sonneville.PriceTools.Test
             var firstSellDate = secondBuyDate;
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
@@ -496,8 +496,8 @@ namespace Sonneville.PriceTools.Test
             var firstBuyDate = testDate.AddDays(1);
             var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double firstSharesBought = 9;
-            const double secondSharesBought = 1;
+            const decimal firstSharesBought = 9;
+            const decimal secondSharesBought = 1;
 
             target.Buy(firstBuyDate, firstSharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, secondSharesBought, buyPrice, commission);
@@ -505,7 +505,7 @@ namespace Sonneville.PriceTools.Test
             var firstSellDate = secondBuyDate;
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);
@@ -526,8 +526,8 @@ namespace Sonneville.PriceTools.Test
             var firstBuyDate = testDate.AddDays(1);
             var secondBuyDate = firstBuyDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double firstSharesBought = 9;
-            const double secondSharesBought = 1;
+            const decimal firstSharesBought = 9;
+            const decimal secondSharesBought = 1;
 
             target.Buy(firstBuyDate, firstSharesBought, buyPrice, commission);
             target.Buy(secondBuyDate, secondSharesBought, buyPrice, commission);
@@ -535,7 +535,7 @@ namespace Sonneville.PriceTools.Test
             var firstSellDate = secondBuyDate;
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.Sell(firstSellDate, sharesSold, sellPrice, commission);
             target.Sell(secondSellDate, sharesSold, sellPrice, commission);

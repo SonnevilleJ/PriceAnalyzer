@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools
             {
                 var buys = transactions.Where(t => t is OpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderBy(t => t.SettlementDate);
                 var buysUsed = 0;
-                var unusedSharesInCurrentBuy = 0.0;
+                var unusedSharesInCurrentBuy = 0.0m;
                 ShareTransaction buy = null;
 
                 var sells = transactions.Where(t => t is ClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderBy(t => t.SettlementDate);
@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools
                         {
                             var availableShares = unusedSharesInCurrentBuy;
                             var neededShares = sharesToMatch;
-                            double shares;
+                            decimal shares;
                             if (availableShares >= neededShares)
                             {
                                 shares = neededShares;
@@ -92,7 +92,7 @@ namespace Sonneville.PriceTools
         {
             return basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t is OpeningTransaction)
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
-                .Sum(transaction => transaction.Price * (decimal)transaction.Shares);
+                .Sum(transaction => transaction.Price * transaction.Shares);
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace Sonneville.PriceTools
         {
             return -1 * basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t is ClosingTransaction)
                    .Where(transaction => transaction.SettlementDate <= settlementDate)
-                   .Sum(transaction => transaction.Price * (decimal)transaction.Shares);
+                   .Sum(transaction => transaction.Price * transaction.Shares);
         }
 
         /// <summary>
@@ -136,7 +136,7 @@ namespace Sonneville.PriceTools
             var total = 0.00m;
             foreach (var transactions in groups)
             {
-                var heldShares = (decimal) transactions.GetHeldShares(settlementDate);
+                var heldShares = transactions.GetHeldShares(settlementDate);
                 if (heldShares == 0) continue;
 
                 var priceSeries = PriceSeriesFactory.CreatePriceSeries(transactions.First().Ticker);
@@ -152,7 +152,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="shareTransactions"></param>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        public static double GetHeldShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
+        public static decimal GetHeldShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
         {
             return shareTransactions.GetOpenedShares(date) - shareTransactions.GetClosedShares(date);
         }
@@ -162,7 +162,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="shareTransactions"></param>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        private static double GetOpenedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
+        private static decimal GetOpenedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
         {
             return shareTransactions.AsParallel().Where(t => t is OpeningTransaction && t.SettlementDate <= date).Sum(t => t.Shares);
         }
@@ -172,7 +172,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="shareTransactions"></param>
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        private static double GetClosedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
+        private static decimal GetClosedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
         {
             return shareTransactions.AsParallel().Where(t => t is ClosingTransaction && t.SettlementDate <= date).Sum(t => t.Shares);
         }
@@ -191,23 +191,23 @@ namespace Sonneville.PriceTools
             var count = transactions.Count();
 
             var totalCost = 0.00m;
-            var shares = 0.0;
+            var shares = 0.0m;
 
             for (var i = 0; i < count; i++)
             {
                 if (transactions[i] is OpeningTransaction)
                 {
-                    totalCost += (transactions[i].Price*(decimal) transactions[i].Shares);
+                    totalCost += (transactions[i].Price*transactions[i].Shares);
                     shares += transactions[i].Shares;
                 }
                 else if (transactions[i] is ClosingTransaction)
                 {
-                    totalCost -= ((totalCost/(decimal) shares)*(decimal) transactions[i].Shares);
+                    totalCost -= ((totalCost/shares)*transactions[i].Shares);
                     shares -= transactions[i].Shares;
                 }
             }
 
-            return totalCost / (decimal)shares;
+            return totalCost / shares;
         }
 
         /// <summary>
@@ -226,7 +226,7 @@ namespace Sonneville.PriceTools
                     let open = holding.OpenPrice
                     let close = holding.ClosePrice
                     let profit = close - open
-                    let shares = (decimal) holding.Shares
+                    let shares = holding.Shares
                     select (profit*shares) - holding.OpenCommission - holding.CloseCommission).Sum();
         }
 
@@ -247,7 +247,7 @@ namespace Sonneville.PriceTools
                     let open = holding.OpenPrice
                     let close = holding.ClosePrice
                     let profit = close - open
-                    let shares = (decimal) holding.Shares
+                    let shares = holding.Shares
                     select profit*shares).Sum();
         }
 
@@ -304,9 +304,9 @@ namespace Sonneville.PriceTools
                     from holding in holdings
                     let open = holding.OpenPrice
                     let close = holding.ClosePrice
-                    let profit = close - open - ((holding.OpenCommission + holding.CloseCommission)/(decimal) holding.Shares)
+                    let profit = close - open - ((holding.OpenCommission + holding.CloseCommission)/holding.Shares)
                     let increase = profit/open
-                    select increase*(decimal) ((holding.Shares/positionShares)*(positionShares/totalShares))).Sum();
+                    select increase*((holding.Shares/positionShares)*(positionShares/totalShares))).Sum();
         }
 
         /// <summary>
@@ -329,7 +329,7 @@ namespace Sonneville.PriceTools
                     let close = holding.ClosePrice
                     let profit = close - open
                     let increase = profit/open
-                    select increase*(decimal) ((holding.Shares/positionShares)*(positionShares/totalShares))).Sum();
+                    select increase*((holding.Shares/positionShares)*(positionShares/totalShares))).Sum();
         }
 
         /// <summary>

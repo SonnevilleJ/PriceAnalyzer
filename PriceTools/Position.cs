@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools
         /// <param name = "shares">The number of shares in this shareTransaction.</param>
         /// <param name = "price">The per-share price of this shareTransaction.</param>
         /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        void Buy(DateTime settlementDate, double shares, decimal price, decimal commission);
+        void Buy(DateTime settlementDate, decimal shares, decimal price, decimal commission);
 
         /// <summary>
         ///   Buys shares of the ticker held by this Position to cover a previous ShortSell.
@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools
         /// <param name = "shares">The number of shares in this shareTransaction. Shares cannot exceed currently shorted shares.</param>
         /// <param name = "price">The per-share price of this shareTransaction.</param>
         /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        void BuyToCover(DateTime settlementDate, double shares, decimal price, decimal commission);
+        void BuyToCover(DateTime settlementDate, decimal shares, decimal price, decimal commission);
 
         /// <summary>
         ///   Sells shares of the ticker held by this Position.
@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools
         /// <param name = "shares">The number of shares in this shareTransaction. Shares connot exceed currently held shares.</param>
         /// <param name = "price">The per-share price of this shareTransaction.</param>
         /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        void Sell(DateTime settlementDate, double shares, decimal price, decimal commission);
+        void Sell(DateTime settlementDate, decimal shares, decimal price, decimal commission);
 
         /// <summary>
         ///   Sell short shares of the ticker held by this Position.
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools
         /// <param name = "shares">The number of shares in this shareTransaction.</param>
         /// <param name = "price">The per-share price of this shareTransaction.</param>
         /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        void SellShort(DateTime settlementDate, double shares, decimal price, decimal commission);
+        void SellShort(DateTime settlementDate, decimal shares, decimal price, decimal commission);
 
         /// <summary>
         ///   Adds an ShareTransaction to the Position.

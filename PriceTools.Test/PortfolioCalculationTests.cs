@@ -94,9 +94,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 60.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -110,7 +110,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateAnnualNetReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateAnnualNetReturn(sellDate);
 
-            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateAnnualNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -130,9 +130,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 00.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -146,7 +146,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateAnnualNetReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateAnnualNetReturn(sellDate);
 
-            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateAnnualNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -166,9 +166,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -182,7 +182,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateAnnualNetReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateAnnualNetReturn(sellDate);
 
-            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateAnnualNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -201,9 +201,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -233,9 +233,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
             var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
@@ -341,9 +341,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 60.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -357,7 +357,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateAnnualGrossReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateAnnualGrossReturn(sellDate);
 
-            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateAnnualGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -377,9 +377,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 00.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -393,7 +393,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateAnnualGrossReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateAnnualGrossReturn(sellDate);
 
-            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var expected = ((deReturn * 8) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateAnnualGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -413,9 +413,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -429,7 +429,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateAnnualGrossReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateAnnualGrossReturn(sellDate);
 
-            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateAnnualGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -448,9 +448,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -480,9 +480,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
             var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
@@ -584,9 +584,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 60.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -600,7 +600,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateNetReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateNetReturn(sellDate);
 
-            var expected = ((deReturn * (decimal) sharesSold) + (msftReturn * (decimal) sharesSold)) / ((decimal) sharesSold * 2);
+            var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -620,9 +620,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 00.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -636,7 +636,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateNetReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateNetReturn(sellDate);
 
-            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -656,9 +656,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -672,7 +672,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateNetReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateNetReturn(sellDate);
 
-            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -691,9 +691,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -723,9 +723,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
             var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
@@ -828,9 +828,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 60.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -844,7 +844,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateGrossReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateGrossReturn(sellDate);
 
-            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -864,9 +864,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 00.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -880,7 +880,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateGrossReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateGrossReturn(sellDate);
 
-            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -900,9 +900,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -916,7 +916,7 @@ namespace Sonneville.PriceTools.Test
             var deReturn = target.GetPosition(de).CalculateGrossReturn(sellDate);
             var msftReturn = target.GetPosition(msft).CalculateGrossReturn(sellDate);
 
-            var expected = ((deReturn * (decimal)sharesSold) + (msftReturn * (decimal)sharesSold)) / ((decimal)sharesSold * 2);
+            var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
             var actual = target.CalculateGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -935,9 +935,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -967,9 +967,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
             var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
@@ -1078,9 +1078,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 60.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1114,9 +1114,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 00.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1150,9 +1150,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1185,9 +1185,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1218,9 +1218,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
             var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
@@ -1330,9 +1330,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 60.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1366,9 +1366,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 00.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1402,9 +1402,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1437,9 +1437,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1470,9 +1470,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
             var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
@@ -1508,9 +1508,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1622,9 +1622,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 60.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1655,9 +1655,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 00.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1688,9 +1688,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1720,9 +1720,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal dePriceSold = 110.00m;
             const decimal msftPriceBought = 50.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
@@ -1750,9 +1750,9 @@ namespace Sonneville.PriceTools.Test
             const decimal dePriceBought = 100.00m;
             const decimal msftPriceBought = 50.00m;
             const decimal msftPriceSold = 40.00m;
-            const double sharesBought = 10;
+            const decimal sharesBought = 10;
             const decimal commission = 7.95m;
-            const double sharesSold = sharesBought - 2;
+            const decimal sharesSold = sharesBought - 2;
             var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
             var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
             var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);

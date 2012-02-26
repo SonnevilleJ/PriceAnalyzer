@@ -120,12 +120,12 @@ namespace Sonneville.PriceTools.Data.Csv
                     {
                         case OrderType.Buy:
                             price = _useTotalBasis
-                                        ? (ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) - commission) / (decimal)(shares)
+                                        ? (ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) - commission) / shares
                                         : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
                             break;
                         case OrderType.Sell:
                             price = _useTotalBasis
-                                        ? (ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) + commission) / (decimal)(shares)
+                                        ? (ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) + commission) / shares
                                         : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
                             break;
                         case OrderType.DividendReceipt:
@@ -135,7 +135,7 @@ namespace Sonneville.PriceTools.Data.Csv
                             break;
                         case OrderType.DividendReinvestment:
                             price = _useTotalBasis
-                                        ? ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) / (decimal)shares
+                                        ? ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) / shares
                                         : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
                             break;
                         case OrderType.Deposit:
@@ -224,12 +224,12 @@ namespace Sonneville.PriceTools.Data.Csv
         /// </summary>
         /// <param name="text">The raw CSV data to parse.</param>
         /// <returns>The parsed number of shares.</returns>
-        protected virtual double ParseSharesColumn(string text)
+        protected virtual decimal ParseSharesColumn(string text)
         {
             var result = text.Trim();
             return string.IsNullOrWhiteSpace(result)
-                       ? 0.0
-                       : Math.Abs(double.Parse(text.Trim(), CultureInfo.InvariantCulture));
+                       ? 0m
+                       : Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture));
         }
 
         /// <summary>

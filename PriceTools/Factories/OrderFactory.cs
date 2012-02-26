@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools
         /// <param name="price"></param>
         /// <param name="pricingType"></param>
         /// <returns></returns>
-        public static Order ConstructOrder(DateTime issued, DateTime expiration, OrderType orderType, string ticker, double shares, decimal price, PricingType pricingType = PricingType.Market)
+        public static Order ConstructOrder(DateTime issued, DateTime expiration, OrderType orderType, string ticker, decimal shares, decimal price, PricingType pricingType = PricingType.Market)
         {
             if (issued >= expiration)
                 throw new ArgumentOutOfRangeException("expiration", expiration, Strings.Order_Order_Cannot_create_an_Order_with_an_expiration_date_before_the_issue_date_);

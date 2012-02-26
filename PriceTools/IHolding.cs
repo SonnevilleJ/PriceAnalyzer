@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The number of shares held.
         /// </summary>
-        double Shares { get; }
+        decimal Shares { get; }
 
         /// <summary>
         /// The per-share price of the opening transaction.

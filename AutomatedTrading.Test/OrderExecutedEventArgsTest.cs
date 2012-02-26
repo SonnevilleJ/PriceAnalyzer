@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
             const string ticker = "DE";
-            const double shares = 5.0;
+            const decimal shares = 5;
             const decimal price = 100.00m;
             const decimal commission = 5.00m;
 
@@ -72,7 +72,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
             const string ticker = "DE";
-            const double shares = 5.0;
+            const decimal shares = 5;
             const decimal price = 100.00m;
             const decimal commission = 5.00m;
 

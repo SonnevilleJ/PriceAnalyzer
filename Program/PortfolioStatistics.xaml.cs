@@ -1,9 +1,7 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Windows;
 using Microsoft.Win32;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Fidelity;
 
 namespace Program
@@ -11,7 +9,7 @@ namespace Program
     /// <summary>
     /// Interaction logic for PortfolioStatistics.xaml
     /// </summary>
-    public partial class PortfolioStatistics : Window
+    public partial class PortfolioStatistics
     {
         public PortfolioStatistics()
         {

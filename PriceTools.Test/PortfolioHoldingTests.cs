@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Sonneville.PriceTools.Test
@@ -17,7 +16,7 @@ namespace Sonneville.PriceTools.Test
             var buyDate = new DateTime(2011, 7, 26);
             const string ticker = "DE";
             const decimal buyPrice = 50.00m;
-            const double shares = 2;
+            const decimal shares = 2;
             var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice);
             target.AddTransaction(buy);
 
@@ -50,7 +49,7 @@ namespace Sonneville.PriceTools.Test
             var secondBuyDate = firstBuyDate.AddDays(1);
             const string ticker = "DE";
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 5;      // 5 shares
+            const decimal sharesBought = 5;      // 5 shares
             const decimal commission = 5.00m;   // with $5 commission
 
             const decimal deposit = 10000m;
@@ -62,7 +61,7 @@ namespace Sonneville.PriceTools.Test
             var firstSellDate = secondBuyDate.AddDays(2);
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.AddTransaction(TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission));
             target.AddTransaction(TransactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
@@ -71,7 +70,7 @@ namespace Sonneville.PriceTools.Test
 
             Assert.AreEqual(2, holdings.Count);
 
-            const double sharesInHolding = sharesSold;
+            const decimal sharesInHolding = sharesSold;
             var expected1 = new Holding
                                 {
                                     Ticker = ticker,
@@ -108,7 +107,7 @@ namespace Sonneville.PriceTools.Test
             const string firstTicker = "DE";
             const string secondTicker = "IBM";
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 5;      // 5 shares
+            const decimal sharesBought = 5;      // 5 shares
             const decimal commission = 5.00m;   // with $5 commission
 
             const decimal deposit = 10000m;
@@ -120,7 +119,7 @@ namespace Sonneville.PriceTools.Test
             var firstSellDate = secondBuyDate.AddDays(2);
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.AddTransaction(TransactionFactory.ConstructSell(firstTicker, firstSellDate, sharesSold, sellPrice, commission));
             target.AddTransaction(TransactionFactory.ConstructSell(secondTicker, secondSellDate, sharesSold, sellPrice, commission));
@@ -129,7 +128,7 @@ namespace Sonneville.PriceTools.Test
 
             Assert.AreEqual(2, holdings.Count);
 
-            const double sharesInHolding = sharesSold;
+            const decimal sharesInHolding = sharesSold;
             var expected1 = new Holding
                                 {
                                     Ticker = secondTicker,
@@ -166,7 +165,7 @@ namespace Sonneville.PriceTools.Test
             const string firstTicker = "DE";
             const string secondTicker = "IBM";
             const decimal buyPrice = 50.00m;    // $50.00 per share
-            const double sharesBought = 5;      // 5 shares
+            const decimal sharesBought = 5;      // 5 shares
             const decimal commission = 5.00m;   // with $5 commission
 
             const decimal deposit = 10000m;
@@ -178,7 +177,7 @@ namespace Sonneville.PriceTools.Test
             var firstSellDate = secondBuyDate.AddDays(2);
             var secondSellDate = firstSellDate.AddDays(1);
             const decimal sellPrice = 75.00m;   // $75.00 per share
-            const double sharesSold = 5;        // 5 shares
+            const decimal sharesSold = 5;        // 5 shares
 
             target.AddTransaction(TransactionFactory.ConstructSell(firstTicker, firstSellDate, sharesSold, sellPrice, commission));
             target.AddTransaction(TransactionFactory.ConstructSell(secondTicker, secondSellDate, sharesSold, sellPrice, commission));
@@ -187,7 +186,7 @@ namespace Sonneville.PriceTools.Test
 
             Assert.AreEqual(2, holdings.Count);
 
-            const double sharesInHolding = sharesSold;
+            const decimal sharesInHolding = sharesSold;
             var expected1 = new Holding
                                 {
                                     Ticker = firstTicker,

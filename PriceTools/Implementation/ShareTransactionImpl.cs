@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.Implementation
         #region Private Members
 
         private decimal _price;
-        private double _shares;
+        private decimal _shares;
         private decimal _commission;
 
         #endregion
@@ -31,7 +31,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         ///   Gets the amount of securities traded in this ShareTransaction.
         /// </summary>
-        public double Shares
+        public decimal Shares
         {
             get { return _shares; }
             set
@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public virtual decimal TotalValue
         {
-            get { return Math.Round(Price * (decimal)Shares, 2) + Commission; }
+            get { return Math.Round(Price * Shares, 2) + Commission; }
         }
 
         #endregion
