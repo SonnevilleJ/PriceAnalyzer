@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using Sonneville.PriceTools.Data.Csv;
 
 namespace Sonneville.PriceTools.Fidelity
@@ -41,7 +42,7 @@ namespace Sonneville.PriceTools.Fidelity
             {
                 case "TRADE DATE":
                     return TransactionColumn.Date;
-                case "ACTION":
+                case "DESCRIPTION":
                     return TransactionColumn.OrderType;
                 case "SYMBOL":
                     return TransactionColumn.Symbol;
@@ -70,21 +71,49 @@ namespace Sonneville.PriceTools.Fidelity
                 throw new ArgumentNullException("text");
             }
 
-            switch (text.ToUpperInvariant())
+            var s = text.Split(' ').Where(str => !String.IsNullOrWhiteSpace(str)).Aggregate(String.Empty, (current, str) => current + (" " + str)).Trim();
+            var upperInvariant = s.ToUpperInvariant();
+            if (upperInvariant.StartsWith("ELECTRONIC FUNDS TRANSFER RECEIVED") ||
+                upperInvariant.StartsWith("DIRECT DEPOSIT") ||
+                upperInvariant == "PURCHASE INTO CORE ACCOUNT")
             {
-                case "ELECTRONIC FUNDS TRANSFER RECEIVED":
-                    return OrderType.Deposit;
-                case "YOU BOUGHT":
-                    return OrderType.Buy;
-                case "YOU SOLD":
-                    return OrderType.Sell;
-                case "DIVIDEND RECEIVED":
-                    return OrderType.DividendReceipt;
-                case "REINVESTMENT":
-                    return OrderType.DividendReinvestment;
-                default:
-                    throw new ArgumentOutOfRangeException("text", text, String.Format(CultureInfo.CurrentCulture, "Unknown order type: {0}.", text));
+                return OrderType.Deposit;
             }
+            if (upperInvariant.StartsWith("ELECTRONIC FUNDS TRANSFER PAID") ||
+                upperInvariant.StartsWith("FEE CHARGED"))
+            {
+                return OrderType.Withdrawal;
+            }
+            if (upperInvariant.StartsWith("YOU BOUGHT"))
+            {
+                return OrderType.Buy;
+            }
+            if (upperInvariant.StartsWith("YOU SOLD"))
+            {
+                return OrderType.Sell;
+            }
+            if (upperInvariant == "DIVIDEND RECEIVED" ||
+                upperInvariant.StartsWith("SHORT-TERM CAP GAIN") ||
+                upperInvariant.StartsWith("LONG-TERM CAP GAIN"))
+            {
+                return OrderType.DividendReceipt;
+            }
+            if (upperInvariant == "REINVESTMENT")
+            {
+                return OrderType.DividendReinvestment;
+            }
+            throw new ArgumentOutOfRangeException("text", s, String.Format(CultureInfo.CurrentCulture, "Unknown order type: {0}.", s));
+        }
+
+        protected override bool IsValidRow(string text)
+        {
+            var trim = text.Trim().ToUpperInvariant();
+            if (trim == "REDEMPTION FROM CORE ACCOUNT" ||
+                trim.StartsWith("NAME CHANGED"))
+            {
+                return false;
+            }
+            return true;
         }
 
         #endregion

@@ -1,8 +1,13 @@
-﻿using System.IO;
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Fidelity;
+using Statistics;
 
 namespace Program
 {
@@ -11,9 +16,12 @@ namespace Program
     /// </summary>
     public partial class PortfolioStatistics
     {
+        private ObservableCollection<IHolding> _collection = new ObservableCollection<IHolding>();
+
         public PortfolioStatistics()
         {
             InitializeComponent();
+            dataGrid.ItemsSource = _collection;
         }
 
         private void BrowseClick(object sender, RoutedEventArgs e)
@@ -38,22 +46,33 @@ namespace Program
             }
             var portfolio = ImportPortfolio(path, ticker);
 
+            CalculateStatistics(portfolio);
+            PopulateHoldings(portfolio.CalculateHoldings(DateTime.Now));
+        }
+
+        private void PopulateHoldings(IEnumerable<IHolding> holdings)
+        {
+            _collection = new ObservableCollection<IHolding>(holdings);
+            dataGrid.UpdateLayout();
+        }
+
+        private void CalculateStatistics(SecurityBasket portfolio)
+        {
             var date = portfolio.Tail;
             grossProfit.Text = portfolio.CalculateGrossProfit(date).ToString("C");
             netProfit.Text = portfolio.CalculateNetProfit(date).ToString("C");
+            meanGrossProfit.Text = portfolio.CalculateAverageProfit(date).ToString("C");
             var grossReturn = portfolio.CalculateAnnualGrossReturn(date);
             if(grossReturn.HasValue) annualGrossReturn.Text = grossReturn.Value.ToString("P");
-            var netReturn = portfolio.CalculateAnnualNetReturn(date);
-            if(netReturn.HasValue) annualNetReturn.Text = netReturn.Value.ToString("P");
-            meanGrossProfit.Text = portfolio.CalculateAverageProfit(date).ToString("C");
-            medianNetProfit.Text = portfolio.CalculateMedianProfit(date).ToString("C");
+            standardDeviation.Text = portfolio.CalculateStandardDeviation(date).ToString("C");
+            tDistribution.Text = portfolio.CalculateHoldings(date).Select(h => h.GrossProfit()).StudentTDistribution().ToString("P");
         }
 
         private static Portfolio ImportPortfolio(string path, string ticker)
         {
             using (var reader = File.Open(path, FileMode.Open))
             {
-                var data = new FidelityBrokerageLinkTransactionHistoryCsvFile(reader);
+                var data = new FidelityTransactionHistoryCsvFile(reader);
                 return PortfolioFactory.ConstructPortfolio(data, ticker);
             }
         }

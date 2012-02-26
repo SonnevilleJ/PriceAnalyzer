@@ -155,6 +155,10 @@
       <Project>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</Project>
       <Name>SamplePriceData</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Statistics\Statistics.csproj">
+      <Project>{8767BC88-6AD0-4A71-BC34-81D3409C8643}</Project>
+      <Name>Statistics</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
