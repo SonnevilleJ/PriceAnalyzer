@@ -15,5 +15,26 @@ namespace Sonneville.PriceTools
         {
             return new CashAccountImpl();
         }
+
+        /// <summary>
+        /// Constructs a new CashAccount which supports borrowing on margin.
+        /// </summary>
+        /// <returns></returns>
+        public static MarginableCashAccount ConstructMarginableCashAccount()
+        {
+            return new MarginableCashAccountImpl();
+        }
+
+        /// <summary>
+        /// Constructs a new CashAccount which supports borrowing on margin.
+        /// </summary>
+        /// <param name="maximumMargin">The maximum amount of margin allowed on the account.</param>
+        /// <returns></returns>
+        public static MarginableCashAccount ConstructMarginableCashAccount(decimal maximumMargin)
+        {
+            var target = ConstructMarginableCashAccount();
+            target.MaximumMargin = maximumMargin;
+            return target;
+        }
     }
 }

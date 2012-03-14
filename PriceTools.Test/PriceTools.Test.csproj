@@ -48,8 +48,10 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CashAccountFactoryTest.cs" />
     <Compile Include="DateTimeExtensionsTest.cs" />
     <Compile Include="HoldingCalculationTests.cs" />
+    <Compile Include="MarginableCashAccountTest.cs" />
     <Compile Include="PortfolioCalculationTests.cs" />
     <Compile Include="PortfolioHoldingTests.cs" />
     <Compile Include="PositionCalculationTests.cs" />

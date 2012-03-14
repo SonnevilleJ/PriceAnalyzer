@@ -101,11 +101,11 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Validates an <see cref="CashTransaction"/> without adding it to the CashAccount.
+        /// Validates a <see cref="CashTransaction"/> without adding it to the CashAccount.
         /// </summary>
         /// <param name="cashTransaction">The <see cref="CashAccount"/> to validate.</param>
         /// <returns></returns>
-        public bool TransactionIsValid(CashTransaction cashTransaction)
+        public virtual bool TransactionIsValid(CashTransaction cashTransaction)
         {
             if (cashTransaction is Deposit)
             {
