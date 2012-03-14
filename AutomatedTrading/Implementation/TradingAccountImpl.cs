@@ -3,9 +3,9 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Sonneville.PriceTools.AutomatedTrading
+namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
-    public abstract class TradingAccount : ITradingAccount
+    public abstract class TradingAccountImpl : ITradingAccount
     {
         #region Private Members
 
@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         #region Constructors
 
-        protected TradingAccount()
+        protected TradingAccountImpl()
         {
             Task.Factory.StartNew(Consumer);
         }

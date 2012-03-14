@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Threading;
-using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
 namespace Sonneville.PriceTools.Fidelity
 {
     /// <summary>
     /// A trading account which communicates with Fidelity to perform execution of orders.
     /// </summary>
-    public class FidelityTradingAccount : TradingAccount
+    public class FidelityTradingAccount : TradingAccountImpl
     {
         /// <summary>
         /// Submits an order for execution by the brokerage.

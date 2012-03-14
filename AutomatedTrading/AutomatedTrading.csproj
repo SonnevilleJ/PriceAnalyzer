@@ -52,6 +52,7 @@
     <Compile Include="IBrokerage.cs" />
     <Compile Include="ICommissionSchedule.cs" />
     <Compile Include="IMarginSchedule.cs" />
+    <Compile Include="Implementation\TradingAccountImpl.cs" />
     <Compile Include="ITradingAccount.cs" />
     <Compile Include="LowerThanYesterdayAnalyzer.cs" />
     <Compile Include="MarginNotAllowed.cs" />
@@ -69,7 +70,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
-    <Compile Include="TradingAccount.cs" />
     <Compile Include="TradingAccountFeatures.cs" />
     <Compile Include="TradingAccountFeaturesFactory.cs" />
     <Compile Include="TradingStrategy.cs" />
@@ -88,6 +88,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
