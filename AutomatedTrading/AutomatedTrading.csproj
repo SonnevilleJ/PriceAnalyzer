@@ -45,7 +45,7 @@
     <Compile Include="Analyzer.cs" />
     <Compile Include="AnalyzerEventArgs.cs" />
     <Compile Include="AnalyzerTriggerDelegate.cs" />
-    <Compile Include="BacktestingTradingAccount.cs" />
+    <Compile Include="Implementation\BacktestingTradingAccountImpl.cs" />
     <Compile Include="DailyTriggerTradingStrategy.cs" />
     <Compile Include="FlatCommissionSchedule.cs" />
     <Compile Include="HigherThanYesterdayAnalyzer.cs" />
@@ -63,7 +63,7 @@
     <Compile Include="PriceSeriesAnalyzer.cs" />
     <Compile Include="PriceThresholdAnalyzer.cs" />
     <Compile Include="PriceUnderThresholdAnalyzer.cs" />
-    <Compile Include="SimulatedTradingAccount.cs" />
+    <Compile Include="Implementation\SimulatedTradingAccountImpl.cs" />
     <Compile Include="SinglePeriodAnalyzer.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>

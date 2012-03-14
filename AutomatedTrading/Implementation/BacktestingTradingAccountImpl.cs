@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading;
-using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
-namespace Sonneville.PriceTools.AutomatedTrading
+namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
     /// <summary>
     /// A trading account which simulates the execution of orders.
     /// </summary>
-    public class BacktestingTradingAccount : TradingAccountImpl
+    public class BacktestingTradingAccountImpl : TradingAccountImpl
     {
         /// <summary>
         /// Submits an order for execution by the brokerage.

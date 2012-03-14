@@ -20,6 +20,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Gets the <see cref="TradingAccountImpl"/> associated with the user's brokerage account.
         /// </summary>
         /// <returns>The <see cref="TradingAccountImpl"/> associated with the user's brokerage account.</returns>
-        TradingAccountImpl GetTradingAccount();
+        TradingAccount GetTradingAccount();
     }
 }

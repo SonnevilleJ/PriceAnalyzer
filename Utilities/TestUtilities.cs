@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Extensions;
 
 namespace Sonneville.Utilities
@@ -134,7 +135,7 @@ namespace Sonneville.Utilities
             var tradingAccountFeatures = TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
             var portfolio = PortfolioFactory.ConstructPortfolio();
             portfolio.Deposit(openingDeposit);
-            return new SimulatedTradingAccount {Features = tradingAccountFeatures, Portfolio = portfolio};
+            return new SimulatedTradingAccountImpl {Features = tradingAccountFeatures, Portfolio = portfolio};
         }
 
         /// <summary>

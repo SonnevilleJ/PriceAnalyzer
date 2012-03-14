@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools.Fidelity
         /// Gets the <see cref="TradingAccountImpl"/> associated with the user's brokerage account.
         /// </summary>
         /// <returns>The <see cref="TradingAccountImpl"/> associated with the user's brokerage account.</returns>
-        public TradingAccountImpl GetTradingAccount()
+        public TradingAccount GetTradingAccount()
         {
             var commissionSchedule = GetCommissionSchedule();
             var marginSchedule = GetMarginSchedule();

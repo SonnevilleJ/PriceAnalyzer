@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Threading;
 
-namespace Sonneville.PriceTools.AutomatedTrading
+namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
-    public class SimulatedTradingAccount : BacktestingTradingAccount
+    public class SimulatedTradingAccountImpl : BacktestingTradingAccountImpl
     {
         protected override void ProcessOrder(Order order, CancellationToken token)
         {
