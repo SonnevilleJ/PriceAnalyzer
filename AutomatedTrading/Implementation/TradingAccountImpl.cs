@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
-    public abstract class TradingAccountImpl : ITradingAccount
+    public abstract class TradingAccountImpl : TradingAccount
     {
         #region Private Members
 
@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         #endregion
 
-        #region Implementation of ITradingAccount
+        #region Implementation of TradingAccount
 
         /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.

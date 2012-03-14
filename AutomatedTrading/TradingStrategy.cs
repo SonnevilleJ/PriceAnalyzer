@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         public PriceSeries PriceSeries { get; set; }
 
-        public ITradingAccount TradingAccount { get; set; }
+        public TradingAccount TradingAccount { get; set; }
 
         /// <summary>
         /// Signlas the TradingStrategy to start processing.

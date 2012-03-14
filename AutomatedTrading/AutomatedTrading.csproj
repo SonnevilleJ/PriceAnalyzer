@@ -53,7 +53,7 @@
     <Compile Include="ICommissionSchedule.cs" />
     <Compile Include="IMarginSchedule.cs" />
     <Compile Include="Implementation\TradingAccountImpl.cs" />
-    <Compile Include="ITradingAccount.cs" />
+    <Compile Include="TradingAccount.cs" />
     <Compile Include="LowerThanYesterdayAnalyzer.cs" />
     <Compile Include="MarginNotAllowed.cs" />
     <Compile Include="OrderCancelledEventArgs.cs" />

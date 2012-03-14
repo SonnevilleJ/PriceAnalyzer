@@ -2,7 +2,7 @@
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
-    public interface ITradingAccount
+    public interface TradingAccount
     {
         /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.

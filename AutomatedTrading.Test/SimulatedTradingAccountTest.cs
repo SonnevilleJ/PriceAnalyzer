@@ -267,7 +267,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             }
         }
 
-        private static void VerifyOrderFillsCorrectly(ITradingAccount target, Order order)
+        private static void VerifyOrderFillsCorrectly(TradingAccount target, Order order)
         {
             ShareTransaction expected = null;
             ShareTransaction actual = null;
@@ -515,7 +515,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             }
         }
 
-        private static bool TargetContainsTransaction(ITradingAccount target, ShareTransaction transaction)
+        private static bool TargetContainsTransaction(TradingAccount target, ShareTransaction transaction)
         {
             return target.Portfolio.Transactions.Where(t=>t is ShareTransaction).Cast<ShareTransaction>().Select(
                 trans => (
