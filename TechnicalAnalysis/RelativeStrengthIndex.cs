@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// Calculates a single value of this Indicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
-        protected override void Calculate(int index)
+        protected override decimal? Calculate(int index)
         {
             // cannot do anything for the first period; we need to have a delta to even begin
             if (index > 0)
@@ -72,14 +72,12 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                     {
                         var relativeStrength = averageGain / -averageLoss;
                         var result = 100.0m - (100.0m/(1.0m + relativeStrength));
-                        Results[index] = result;
+                        return result;
                     }
-                    else
-                    {
-                        Results[index] = 100.0m;
-                    }
+                    return 100.0m;
                 }
             }
+            return null;
         }
 
         /// <summary>

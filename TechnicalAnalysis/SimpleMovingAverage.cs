@@ -24,7 +24,7 @@
         /// </summary>
         /// <param name = "index">The index of the value to calculate. The index of the current period is 0.</param>
         /// <returns>The value of this MovingAverage for the given period.</returns>
-        protected override void Calculate(int index)
+        protected override decimal? Calculate(int index)
         {
             var count = Lookback - 1;
             if (index >= count)
@@ -34,8 +34,9 @@
                 {
                     sum += IndexedTimeSeriesValues[i];
                 }
-                Results[index] = sum / Lookback;
+                return sum / Lookback;
             }
+            return null;
         }
     }
 }

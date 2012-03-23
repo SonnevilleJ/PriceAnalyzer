@@ -76,7 +76,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// Calculates a single value of this Indicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
-        protected abstract void Calculate(int index);
+        protected abstract decimal? Calculate(int index);
 
         #endregion
 
@@ -147,9 +147,9 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         public virtual void CalculateAll()
         {
             Reset();
-            foreach (var pricePeriod in IndexedTimeSeriesValues)
+            foreach (var index in IndexedTimeSeriesValues.Select(pricePeriod => pricePeriod.Key))
             {
-                Calculate(pricePeriod.Key);
+                CalculatePeriod(index);
             }
         }
 
@@ -179,7 +179,13 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             if (!HasValueInRange(index)) throw new ArgumentOutOfRangeException("index", index, Strings.IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator);
 
-            Calculate(ConvertDateTimeToIndex(index));
+            CalculatePeriod(ConvertDateTimeToIndex(index));
+        }
+
+        private void CalculatePeriod(int index)
+        {
+            var result = Calculate(index);
+            if (result.HasValue) Results[index] = result;
         }
 
         /// <summary>
