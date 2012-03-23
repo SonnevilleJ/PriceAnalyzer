@@ -4,6 +4,7 @@
         This file is used to track features being considered for development.
     </Header>
     <Feature name="Correlated Funds">
+        <Added>23 March 2012</Added>
         <UserStory>
             As a user, I can find which ticker from a given sample most correlates with a target ticker or index
             so that I can decide which fund to use when trading the underlying index.
@@ -14,13 +15,27 @@
         </Example>
     </Feature>
     <Feature name="CSV Output - PriceHistoryCsvFile">
+        <Added>23 March 2012</Added>
         <UserStory>
             As a user, I can write Price History data to CSV files. Output should be compatible with the existing PriceHistoryCsvFile CSV->Object logic.
         </UserStory>
     </Feature>
     <Feature name="CSV Output - TransactionHistoryCsvFile">
+        <Added>23 March 2012</Added>
         <UserStory>
             As a user, I can write Transaction History data to CSV files. Output should be compatible with the existing TransactionHistoryCsvFile CSV->Object logic.
+        </UserStory>
+    </Feature>
+    <Feature name="PriceRelative indicator">
+        <Added>23 March 2012</Added>
+        <UserStory>
+            As a user, I can create an indicator to show me the relative price of two TimeSeries.
+        </UserStory>
+    </Feature>
+    <Feature name="Trendlines">
+        <Added>23 March 2012</Added>
+        <UserStory>
+            As a user, I can create trend lines for a TimeSeries. Trend lines will have a head and tail, and a value for each day between head and tail.
         </UserStory>
     </Feature>
 </Features>
