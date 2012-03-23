@@ -18,8 +18,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamplePriceData", "SamplePriceData\SamplePriceData.csproj", "{0C6B87C5-6D7F-43A7-9E42-456DFC558004}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BackTesting", "BackTesting\BackTesting.csproj", "{6E980D3F-F8EA-412D-9A0D-CC12FDF08965}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SamplePortfolioData", "SamplePortfolioData\SamplePortfolioData.csproj", "{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{157B3FCE-E233-436A-B982-98A8BB693082}"
@@ -98,12 +96,6 @@ Global
 		{0C6B87C5-6D7F-43A7-9E42-456DFC558004}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0C6B87C5-6D7F-43A7-9E42-456DFC558004}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0C6B87C5-6D7F-43A7-9E42-456DFC558004}.Release|x86.ActiveCfg = Release|Any CPU
-		{6E980D3F-F8EA-412D-9A0D-CC12FDF08965}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6E980D3F-F8EA-412D-9A0D-CC12FDF08965}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6E980D3F-F8EA-412D-9A0D-CC12FDF08965}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6E980D3F-F8EA-412D-9A0D-CC12FDF08965}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6E980D3F-F8EA-412D-9A0D-CC12FDF08965}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6E980D3F-F8EA-412D-9A0D-CC12FDF08965}.Release|x86.ActiveCfg = Release|Any CPU
 		{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}.Debug|x86.ActiveCfg = Debug|Any CPU

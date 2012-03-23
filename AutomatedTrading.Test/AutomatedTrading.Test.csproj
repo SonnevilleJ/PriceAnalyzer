@@ -64,10 +64,6 @@
       <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
       <Name>AutomatedTrading</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BackTesting\BackTesting.csproj">
-      <Project>{6E980D3F-F8EA-412D-9A0D-CC12FDF08965}</Project>
-      <Name>BackTesting</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
