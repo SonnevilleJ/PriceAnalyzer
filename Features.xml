@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Features>
+    <Header>
+        This file is used to track features being considered for development.
+    </Header>
+    <Feature name="Correlated Funds">
+        <UserStory>
+            As a user, I can find which ticker from a given sample most correlates with a target ticker or index
+            so that I can decide which fund to use when trading the underlying index.
+        </UserStory>
+        <Example>
+            Technical Analysis indicates that the Home Builders industry may outperform the market.
+            Using this feature, I can find the fund which best tracks a Home Builders index, which itself cannot be traded.
+        </Example>
+    </Feature>
+</Features>
