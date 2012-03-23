@@ -13,4 +13,14 @@
             Using this feature, I can find the fund which best tracks a Home Builders index, which itself cannot be traded.
         </Example>
     </Feature>
+    <Feature name="CSV Output - PriceHistoryCsvFile">
+        <UserStory>
+            As a user, I can write Price History data to CSV files. Output should be compatible with the existing PriceHistoryCsvFile CSV->Object logic.
+        </UserStory>
+    </Feature>
+    <Feature name="CSV Output - TransactionHistoryCsvFile">
+        <UserStory>
+            As a user, I can write Transaction History data to CSV files. Output should be compatible with the existing TransactionHistoryCsvFile CSV->Object logic.
+        </UserStory>
+    </Feature>
 </Features>
