@@ -36,6 +36,7 @@
         <Added>23 March 2012</Added>
         <UserStory>
             As a user, I can create trend lines for a TimeSeries. Trend lines will have a head and tail, and a value for each day between head and tail.
+            The slope of the trendline should be observable by the user.
         </UserStory>
     </Feature>
 </Features>
