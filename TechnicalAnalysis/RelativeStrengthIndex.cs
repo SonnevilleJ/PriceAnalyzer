@@ -18,6 +18,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         private readonly List<KeyValuePair<int, decimal>> _gains = new List<KeyValuePair<int, decimal>>();
         private readonly List<KeyValuePair<int, decimal>> _losses = new List<KeyValuePair<int, decimal>>();
+        private readonly IDictionary<int, bool> _preCalculatedPeriods = new Dictionary<int, bool>();
 
         #endregion
 
@@ -57,7 +58,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                 // if any data is missing, calculate it
                 for (var i = index - (Lookback - 1); i > 0 && i <= index; i++)
                 {
-                    if (!PreCalculatedPeriods.ContainsKey(i))
+                    if (!_preCalculatedPeriods.ContainsKey(i))
                     {
                         Precalculate(i);
                     }
@@ -94,7 +95,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                     var change = IndexedTimeSeriesValues[index] - IndexedTimeSeriesValues[index - 1];
                     if (change > 0) _gains.Add(new KeyValuePair<int, decimal>(index, change));
                     if (change < 0) _losses.Add(new KeyValuePair<int, decimal>(index, change));
-                    PreCalculatedPeriods[index] = true;
+                    _preCalculatedPeriods[index] = true;
                 //}
 
             }

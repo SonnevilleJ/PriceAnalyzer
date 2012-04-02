@@ -9,6 +9,11 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// </summary>
     public abstract class Indicator : IIndicator
     {
+        /// <summary>
+        /// Stores the calculated values for each period. These values are publically accessible through the <see cref="Indicator"/> indexer.
+        /// </summary>
+        private IDictionary<int, decimal?> Results { get; set; }
+
         #region Constructors
 
         /// <summary>
@@ -62,17 +67,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         protected IDictionary<int, decimal> IndexedTimeSeriesValues { get; private set; }
 
         /// <summary>
-        /// Contains boolean values indicating whether or not all required data is available for calculation of later periods.
-        /// </summary>
-        /// <remarks>Note that inheriting classes must store this data separately.</remarks>
-        protected IDictionary<int, bool> PreCalculatedPeriods { get; private set; }
-
-        /// <summary>
-        /// Stores the calculated values for each period. These values are publically accessible through the <see cref="Indicator"/> indexer.
-        /// </summary>
-        protected IDictionary<int, decimal?> Results { get; private set; }
-
-        /// <summary>
         /// Calculates a single value of this Indicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
@@ -92,7 +86,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             get
             {
                 var i = ConvertDateTimeToIndex(index);
-                if (!Results.ContainsKey(i)) CalculatePeriod(index);
+                if (!Results.ContainsKey(i)) CalculateAndCache(index);
                 return Results[i].Value;
             }
         }
@@ -149,7 +143,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             Reset();
             foreach (var index in IndexedTimeSeriesValues.Select(pricePeriod => pricePeriod.Key))
             {
-                CalculatePeriod(index);
+                CalculateAndCache(index);
             }
         }
 
@@ -159,7 +153,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         private void Reset()
         {
-            PreCalculatedPeriods = new Dictionary<int, bool>();
             Results = new Dictionary<int, decimal?>(TimeSeries.Values.Count - Lookback);
             IndexTimeSeriesValues();
         }
@@ -175,14 +168,14 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             }
         }
 
-        private void CalculatePeriod(DateTime index)
+        private void CalculateAndCache(DateTime index)
         {
             if (!HasValueInRange(index)) throw new ArgumentOutOfRangeException("index", index, Strings.IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator);
 
-            CalculatePeriod(ConvertDateTimeToIndex(index));
+            CalculateAndCache(ConvertDateTimeToIndex(index));
         }
 
-        private void CalculatePeriod(int index)
+        private void CalculateAndCache(int index)
         {
             var result = Calculate(index);
             if (result.HasValue) Results[index] = result;
