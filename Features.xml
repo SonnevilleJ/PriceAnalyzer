@@ -47,4 +47,11 @@
             The slope of the trendline should be observable by the user.
         </UserStory>
     </Feature>
+    <Feature name="Sectors and Indexes">
+        <Added>13 April 2012</Added>
+        <UserStory>
+            As a user, I can interact with PriceSeries objects which represent sectors and industries within those sectors.
+            These could be compared to find outperformance and used for technical analysis.
+        </UserStory>
+    </Feature>
 </Features>
