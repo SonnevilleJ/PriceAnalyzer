@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Security.AccessControl;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.SamplePriceData;
@@ -13,7 +12,7 @@ namespace Sonneville.PriceTools.Google.Test
         [TestMethod]
         public void GoogleWeeklyTestPeriods()
         {
-            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile("DE", CsvPriceHistory.DE_Apr_June_2011_Weekly_Google);
+            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile("DE", new ResourceStream(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google));
 
             Assert.AreEqual(14, target.PricePeriods.Count);
         }
@@ -21,7 +20,7 @@ namespace Sonneville.PriceTools.Google.Test
         [TestMethod]
         public void GoogleWeeklyTestResolution()
         {
-            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile("DE", CsvPriceHistory.DE_Apr_June_2011_Weekly_Google);
+            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile("DE", new ResourceStream(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google));
 
             Assert.AreEqual(Resolution.Weeks, target.PriceSeries.Resolution);
             var periods = target.PricePeriods;
@@ -38,7 +37,7 @@ namespace Sonneville.PriceTools.Google.Test
         {
             var head = new DateTime(2011, 4, 1);
             var tail = new DateTime(2011, 7, 1, 23, 59, 59);
-            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile("DE", CsvPriceHistory.DE_Apr_June_2011_Weekly_Google, head, tail);
+            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile("DE", new ResourceStream(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google), head, tail);
 
             Assert.AreEqual(head, target.PriceSeries.Head);
             Assert.AreEqual(tail, target.PriceSeries.Tail);
@@ -53,14 +52,14 @@ namespace Sonneville.PriceTools.Google.Test
 
             using (var stream = new StreamWriter(tempFileName))
             {
-                originalFile = new GooglePriceHistoryCsvFile("DE", CsvPriceHistory.DE_Apr_June_2011_Weekly_Google);
+                originalFile = new GooglePriceHistoryCsvFile("DE", new ResourceStream(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google));
                 originalFile.Write(stream);
             }
 
             using (var stream = new StreamReader(tempFileName))
             {
-                targetFile = new GooglePriceHistoryCsvFile("DE");
-                targetFile.Read(stream);
+                targetFile = new GooglePriceHistoryCsvFile();
+                targetFile.Read("DE", stream);
             }
 
             Assert.IsTrue(targetFile.PriceSeries.Ticker == originalFile.PriceSeries.Ticker);

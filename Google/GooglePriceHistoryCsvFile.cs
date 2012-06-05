@@ -9,41 +9,33 @@ namespace Sonneville.PriceTools.Google
     /// </summary>
     public sealed class GooglePriceHistoryCsvFile : PriceHistoryCsvFile
     {
-        #region Constructors
-
         /// <summary>
         /// Constructs a GooglePriceHistoryCsvFile.
         /// </summary>
-        /// <param name="ticker">The ticker which should be assigned to the <see cref="PriceSeries"/>.</param>
-        public GooglePriceHistoryCsvFile(string ticker)
-            : base(ticker)
+        public GooglePriceHistoryCsvFile()
         {
         }
 
         /// <summary>
-        /// Constructs a GooglePriceHistoryCsvFile.
+        /// Constructs a GooglePriceHistoryCsvFile from CSV data in a stream.
         /// </summary>
         /// <param name="ticker">The ticker which should be assigned to the <see cref="PriceSeries"/>.</param>
         /// <param name="stream">The CSV data stream to parse.</param>
-        /// <param name="head">The head of the price data contained in the CSV data.</param>
-        /// <param name="tail">The tail of the price data contained in the CSV data.</param>
-        public GooglePriceHistoryCsvFile(string ticker, Stream stream, DateTime? head = null, DateTime? tail = null)
-            : base(ticker, stream, head, tail)
+        /// <param name="impliedHead">The head of the price data contained in the CSV data.</param>
+        /// <param name="impliedTail">The tail of the price data contained in the CSV data.</param>
+        public GooglePriceHistoryCsvFile(string ticker, Stream stream, DateTime impliedHead, DateTime impliedTail)
+            : base(ticker, stream, impliedHead, impliedTail)
         {
         }
 
         /// <summary>
-        /// Constructs a GooglePriceHistoryCsvFile.
+        /// Constructs a GooglePriceHistoryCsvFile from CSV data in a stream.
         /// </summary>
         /// <param name="ticker">The ticker which should be assigned to the <see cref="PriceSeries"/>.</param>
-        /// <param name="csvText">The raw CSV data to parse.</param>
-        /// <param name="head">The head of the price data contained in the CSV data.</param>
-        /// <param name="tail">The tail of the price data contained in the CSV data.</param>
-        public GooglePriceHistoryCsvFile(string ticker, string csvText, DateTime? head = null, DateTime? tail = null)
-            : base(ticker, csvText, head, tail)
+        /// <param name="stream">The CSV data stream to parse.</param>
+        public GooglePriceHistoryCsvFile(string ticker, Stream stream)
+            : base(ticker, stream)
         {
         }
-
-        #endregion
     }
 }
