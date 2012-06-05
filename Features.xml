@@ -55,4 +55,10 @@
             These could be compared to find outperformance and used for technical analysis.
         </UserStory>
     </Feature>
+    <Feature name="CSV Serialization of PriceSeries">
+        <Added>5 June 2012</Added>
+        <UserStory>
+            As a user, I can interact with PriceSeries objects to perform de/serialization to/from CSV files. This may use the PriceHistoryCsvFile class in the background.
+        </UserStory>
+    </Feature>
 </Features>
