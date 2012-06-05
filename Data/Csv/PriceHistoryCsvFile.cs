@@ -19,7 +19,15 @@ namespace Sonneville.PriceTools.Data.Csv
         private readonly string _ticker;
         private readonly DateTime? _fileHead;
         private readonly DateTime? _fileTail;
-        private static readonly IList<PriceColumn> WriteOrder = BuildWriteOrderList();
+        private static readonly IDictionary<PriceColumn, string> DefaultColumnHeaders = new Dictionary<PriceColumn, string>
+                                                                                            {
+                                                                                                {PriceColumn.Date, "Date"},
+                                                                                                {PriceColumn.Open, "Open"},
+                                                                                                {PriceColumn.High, "High"},
+                                                                                                {PriceColumn.Low, "Low"},
+                                                                                                {PriceColumn.Close, "Close"},
+                                                                                                {PriceColumn.Volume, "Volume"}
+                                                                                            };
 
         #endregion
 
@@ -152,19 +160,6 @@ namespace Sonneville.PriceTools.Data.Csv
 
         #region Private Methods
 
-        private static IList<PriceColumn> BuildWriteOrderList()
-        {
-            return new List<PriceColumn>
-                       {
-                           PriceColumn.Date,
-                           PriceColumn.Open,
-                           PriceColumn.High,
-                           PriceColumn.Low,
-                           PriceColumn.Close,
-                           PriceColumn.Volume
-                       };
-        }
-
         private void Parse(TextReader stringReader)
         {
             using (var reader = new CsvReader(stringReader, true))
@@ -192,11 +187,11 @@ namespace Sonneville.PriceTools.Data.Csv
 
         private void WriteHeaders(TextWriter writer)
         {
-            for (var i = 0; i < WriteOrder.Count; i++)
+            for (var i = 0; i < PriceColumnHeaders.Count; i++)
             {
-                writer.Write(NameColumnHeader(WriteOrder[i]));
+                writer.Write(PriceColumnHeaders.ElementAt(i).Value);
 
-                if(i < WriteOrder.Count - 1) writer.Write(",");
+                if (i < PriceColumnHeaders.Count - 1) writer.Write(",");
             }
             writer.Write(Environment.NewLine);
         }
@@ -220,13 +215,13 @@ namespace Sonneville.PriceTools.Data.Csv
             return stagedPeriods;
         }
 
-        private static string BuildCSVRecord(PricePeriod period)
+        private string BuildCSVRecord(PricePeriod period)
         {
             var builder = new StringBuilder();
-            for (var i = 0; i < WriteOrder.Count; i++)
+            for (var i = 0; i < PriceColumnHeaders.Count; i++)
             {
-                var priceColumn = WriteOrder[i];
-                switch (priceColumn)
+                var priceColumn = PriceColumnHeaders.ElementAt(i);
+                switch (priceColumn.Key)
                 {
                     case PriceColumn.Date:
                         builder.Append(period.Head.ToString(CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern));
@@ -252,7 +247,7 @@ namespace Sonneville.PriceTools.Data.Csv
                         throw new InvalidOperationException(String.Format("Cannot write information for column {0}", priceColumn));
                 }
 
-                if (i < WriteOrder.Count - 1) builder.Append(",");
+                if (i < PriceColumnHeaders.Count - 1) builder.Append(",");
             }
             return builder.ToString();
         }
@@ -411,6 +406,11 @@ namespace Sonneville.PriceTools.Data.Csv
         #endregion
 
         #region Abstract/Virtual Methods
+
+        protected virtual IDictionary<PriceColumn, string> PriceColumnHeaders
+        {
+            get { return DefaultColumnHeaders; }
+        }
 
         /// <summary>
         /// Parses the column headers of a PriceHistoryCsvFile.
