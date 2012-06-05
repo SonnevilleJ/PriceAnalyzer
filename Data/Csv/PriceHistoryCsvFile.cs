@@ -252,6 +252,19 @@ namespace Sonneville.PriceTools.Data.Csv
             return builder.ToString();
         }
 
+        /// <summary>
+        /// Parses the column headers of a PriceHistoryCsvFile.
+        /// </summary>
+        /// <param name="header">A column header from the CSV file.</param>
+        /// <returns>The <see cref="PriceColumn"/> of <paramref name="header"/>.</returns>
+        private PriceColumn ParseColumnHeader(string header)
+        {
+            var li = header.ToLowerInvariant();
+            var results = PriceColumnHeaders.Where(kvp => kvp.Value.ToLowerInvariant() == li).Select(kvp => kvp.Key);
+
+            return results.Count() == 1 ? results.First() : PriceColumn.None;
+        }
+
         #region Static parsing methods
 
         private static PriceSeries BuildPriceSeries(string ticker, IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail)
@@ -416,32 +429,6 @@ namespace Sonneville.PriceTools.Data.Csv
         protected virtual IDictionary<PriceColumn, string> PriceColumnHeaders
         {
             get { return DefaultColumnHeaders; }
-        }
-
-        /// <summary>
-        /// Parses the column headers of a PriceHistoryCsvFile.
-        /// </summary>
-        /// <param name="header">A column header from the CSV file.</param>
-        /// <returns>The <see cref="PriceColumn"/> of <paramref name="header"/>.</returns>
-        protected virtual PriceColumn ParseColumnHeader(string header)
-        {
-            switch (header.ToLowerInvariant())
-            {
-                case "date":
-                    return PriceColumn.Date;
-                case "open":
-                    return PriceColumn.Open;
-                case "high":
-                    return PriceColumn.High;
-                case "low":
-                    return PriceColumn.Low;
-                case "close":
-                    return PriceColumn.Close;
-                case "volume":
-                    return PriceColumn.Volume;
-                default:
-                    return PriceColumn.None;
-            }
         }
 
         /// <summary>
