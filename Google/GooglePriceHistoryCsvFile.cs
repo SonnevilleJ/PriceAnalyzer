@@ -15,6 +15,15 @@ namespace Sonneville.PriceTools.Google
         /// Constructs a GooglePriceHistoryCsvFile.
         /// </summary>
         /// <param name="ticker">The ticker which should be assigned to the <see cref="PriceSeries"/>.</param>
+        public GooglePriceHistoryCsvFile(string ticker)
+            : base(ticker)
+        {
+        }
+
+        /// <summary>
+        /// Constructs a GooglePriceHistoryCsvFile.
+        /// </summary>
+        /// <param name="ticker">The ticker which should be assigned to the <see cref="PriceSeries"/>.</param>
         /// <param name="stream">The CSV data stream to parse.</param>
         /// <param name="head">The head of the price data contained in the CSV data.</param>
         /// <param name="tail">The tail of the price data contained in the CSV data.</param>

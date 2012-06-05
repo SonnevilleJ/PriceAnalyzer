@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Text;
 using LumenWorks.Framework.IO.Csv;
 using Sonneville.PriceTools.Extensions;
 
@@ -18,12 +19,19 @@ namespace Sonneville.PriceTools.Data.Csv
         private readonly string _ticker;
         private readonly DateTime? _fileHead;
         private readonly DateTime? _fileTail;
+        private static readonly IList<PriceColumn> WriteOrder = BuildWriteOrderList();
 
         #endregion
 
         #region Constructors
 
-        private PriceHistoryCsvFile(string ticker, DateTime? head, DateTime? tail)
+        /// <summary>
+        /// Constructs a PriceHistoryCsvFile.
+        /// </summary>
+        /// <param name="ticker">The ticker which should be assigned to the <see cref="PriceTools.PriceSeries"/>.</param>
+        /// <param name="head">The head of the price data contained in the CSV data.</param>
+        /// <param name="tail">The tail of the price data contained in the CSV data.</param>
+        protected PriceHistoryCsvFile(string ticker, DateTime? head = null, DateTime? tail = null)
         {
             _ticker = ticker;
             _fileHead = head;
@@ -40,7 +48,7 @@ namespace Sonneville.PriceTools.Data.Csv
         protected internal PriceHistoryCsvFile(string ticker, Stream stream, DateTime? head = null, DateTime? tail = null)
             : this(ticker, head, tail)
         {
-            Parse(stream);
+            Read(stream);
         }
 
         /// <summary>
@@ -53,7 +61,7 @@ namespace Sonneville.PriceTools.Data.Csv
         protected internal PriceHistoryCsvFile(string ticker, string csvText, DateTime? head = null, DateTime? tail = null)
             : this(ticker, head, tail)
         {
-            Parse(csvText);
+            Read(new StringReader(csvText));
         }
 
         #endregion
@@ -75,31 +83,96 @@ namespace Sonneville.PriceTools.Data.Csv
 
         #endregion
 
-        #region Private Methods
+        #region Public Methods
 
-        private void Parse(Stream stream)
+        #region Read Methods
+
+        /// <summary>
+        /// Reads the contents of a Price History CSV file from disk.
+        /// </summary>
+        /// <param name="path">The path of the CSV file.</param>
+        public void Read(string path)
         {
-            Parse(new StreamReader(stream));
+            if (!File.Exists(path))
+                throw new ArgumentOutOfRangeException("path", path, Strings.PriceHistoryCsvFile_Read_The_given_path_was_not_valid_or_the_file_could_not_be_found_);
+            using (var fileStream = File.OpenRead(path))
+            {
+                Read(fileStream);
+            }
         }
 
-        private void Parse(string csvText)
+        /// <summary>
+        /// Reads the contents of a Price History CSV file from a stream.
+        /// </summary>
+        /// <param name="stream">The stream to read.</param>
+        public void Read(Stream stream)
         {
-            Parse(new StringReader(csvText));
+            using (var reader = new StreamReader(stream))
+            {
+                Parse(reader);
+            }
+        }
+
+        /// <summary>
+        /// Reads price history information from CSV data.
+        /// </summary>
+        /// <param name="reader"></param>
+        public void Read(TextReader reader)
+        {
+            Parse(reader);
+        }
+
+        #endregion
+
+        #region Write Methods
+
+        public void Write(string path)
+        {
+            Write(File.OpenWrite(path));
+        }
+
+        public void Write(Stream stream)
+        {
+            Write(new StreamWriter(stream));
+        }
+
+        public void Write(TextWriter writer)
+        {
+            WriteHeaders(writer);
+            foreach (var period in PricePeriods)
+            {
+                writer.Write(BuildCSVRecord(period));
+                writer.Write(Environment.NewLine);
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+        #region Private Methods
+
+        private static IList<PriceColumn> BuildWriteOrderList()
+        {
+            return new List<PriceColumn>
+                       {
+                           PriceColumn.Date,
+                           PriceColumn.Open,
+                           PriceColumn.High,
+                           PriceColumn.Low,
+                           PriceColumn.Close,
+                           PriceColumn.Volume
+                       };
         }
 
         private void Parse(TextReader stringReader)
         {
             using (var reader = new CsvReader(stringReader, true))
             {
-                ParseData(reader);
+                var map = MapHeaders(reader);
+                var stagedPeriods = StagePeriods(reader, map);
+                PriceSeries = BuildPriceSeries(_ticker, stagedPeriods, _fileHead, _fileTail);
             }
-        }
-
-        private void ParseData(CsvReader reader)
-        {
-            var map = MapHeaders(reader);
-            var stagedPeriods = StagePeriods(reader, map);
-            PriceSeries = BuildPriceSeries(_ticker, stagedPeriods, _fileHead, _fileTail);
         }
 
         private IDictionary<PriceColumn, int> MapHeaders(CsvReader reader)
@@ -115,6 +188,17 @@ namespace Sonneville.PriceTools.Data.Csv
                 }
             }
             return dictionary;
+        }
+
+        private void WriteHeaders(TextWriter writer)
+        {
+            for (var i = 0; i < WriteOrder.Count; i++)
+            {
+                writer.Write(NameColumnHeader(WriteOrder[i]));
+
+                if(i < WriteOrder.Count - 1) writer.Write(",");
+            }
+            writer.Write(Environment.NewLine);
         }
 
         private IList<SingleDatePeriod> StagePeriods(CsvReader reader, IDictionary<PriceColumn, int> map)
@@ -134,6 +218,43 @@ namespace Sonneville.PriceTools.Data.Csv
                 stagedPeriods.Add(new SingleDatePeriod {Date = date, Open = open, High = high, Low = low, Close = close.Value, Volume = volume});
             }
             return stagedPeriods;
+        }
+
+        private static string BuildCSVRecord(PricePeriod period)
+        {
+            var builder = new StringBuilder();
+            for (var i = 0; i < WriteOrder.Count; i++)
+            {
+                var priceColumn = WriteOrder[i];
+                switch (priceColumn)
+                {
+                    case PriceColumn.Date:
+                        builder.Append(period.Head.ToString(CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern));
+                        break;
+                    case PriceColumn.Open:
+                        builder.Append(period.Open.ToString());
+                        break;
+                    case PriceColumn.High:
+                        builder.Append(period.High.ToString());
+                        break;
+                    case PriceColumn.Low:
+                        builder.Append(period.Low.ToString());
+                        break;
+                    case PriceColumn.Close:
+                        builder.Append(period.Close.ToString());
+                        break;
+                    case PriceColumn.Volume:
+                        builder.Append(period.Volume.ToString());
+                        break;
+                    case PriceColumn.None:
+                        break;
+                    default:
+                        throw new InvalidOperationException(String.Format("Cannot write information for column {0}", priceColumn));
+                }
+
+                if (i < WriteOrder.Count - 1) builder.Append(",");
+            }
+            return builder.ToString();
         }
 
         #region Static parsing methods
@@ -314,6 +435,29 @@ namespace Sonneville.PriceTools.Data.Csv
                     return PriceColumn.Volume;
                 default:
                     return PriceColumn.None;
+            }
+        }
+
+        protected virtual string NameColumnHeader(PriceColumn column)
+        {
+            switch (column)
+            {
+                case PriceColumn.Date:
+                    return "Date";
+                case PriceColumn.Open:
+                    return "Open";
+                case PriceColumn.High:
+                    return "High";
+                case PriceColumn.Low:
+                    return "Low";
+                case PriceColumn.Close:
+                    return "Close";
+                case PriceColumn.Volume:
+                    return "Volume";
+                case PriceColumn.Dividends:
+                    return "Dividends";
+                default:
+                    return "";
             }
         }
 

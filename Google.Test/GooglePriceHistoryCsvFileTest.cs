@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Security.AccessControl;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.SamplePriceData;
@@ -40,6 +42,29 @@ namespace Sonneville.PriceTools.Google.Test
 
             Assert.AreEqual(head, target.PriceSeries.Head);
             Assert.AreEqual(tail, target.PriceSeries.Tail);
+        }
+
+        [TestMethod]
+        public void GoogleWeeklyTestWriteAndImport()
+        {
+            GooglePriceHistoryCsvFile originalFile;
+            PriceHistoryCsvFile targetFile;
+            var tempFileName = Path.GetTempFileName();
+
+            using (var stream = new StreamWriter(tempFileName))
+            {
+                originalFile = new GooglePriceHistoryCsvFile("DE", CsvPriceHistory.DE_Apr_June_2011_Weekly_Google);
+                originalFile.Write(stream);
+            }
+
+            using (var stream = new StreamReader(tempFileName))
+            {
+                targetFile = new GooglePriceHistoryCsvFile("DE");
+                targetFile.Read(stream);
+            }
+
+            Assert.IsTrue(targetFile.PriceSeries.Ticker == originalFile.PriceSeries.Ticker);
+            Assert.AreEqual(originalFile.PricePeriods.Count, targetFile.PricePeriods.Count);
         }
     }
 }
