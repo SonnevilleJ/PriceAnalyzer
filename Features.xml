@@ -26,6 +26,7 @@
             As a user, I can write Price History data to CSV files.
             Output should be compatible with the existing PriceHistoryCsvFile CSV->Object logic.
         </UserStory>
+        <Completed>5 June 2012</Completed>
     </Feature>
     <Feature name="CSV Output - TransactionHistoryCsvFile">
         <Added>23 March 2012</Added>
