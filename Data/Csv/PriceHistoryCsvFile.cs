@@ -407,6 +407,12 @@ namespace Sonneville.PriceTools.Data.Csv
 
         #region Abstract/Virtual Methods
 
+        /// <summary>
+        /// Returns a dictionary with an ordered list of <see cref="PriceColumn"/>s and their corresponding string values.
+        /// </summary>
+        /// <remarks>
+        /// When overridden in a derived class, this property defines localizable strings for column headers as well as the preferred order of columns.
+        /// </remarks>
         protected virtual IDictionary<PriceColumn, string> PriceColumnHeaders
         {
             get { return DefaultColumnHeaders; }
@@ -435,29 +441,6 @@ namespace Sonneville.PriceTools.Data.Csv
                     return PriceColumn.Volume;
                 default:
                     return PriceColumn.None;
-            }
-        }
-
-        protected virtual string NameColumnHeader(PriceColumn column)
-        {
-            switch (column)
-            {
-                case PriceColumn.Date:
-                    return "Date";
-                case PriceColumn.Open:
-                    return "Open";
-                case PriceColumn.High:
-                    return "High";
-                case PriceColumn.Low:
-                    return "Low";
-                case PriceColumn.Close:
-                    return "Close";
-                case PriceColumn.Volume:
-                    return "Volume";
-                case PriceColumn.Dividends:
-                    return "Dividends";
-                default:
-                    return "";
             }
         }
 
