@@ -43,6 +43,7 @@ namespace Sonneville.PriceTools.Fidelity
                 case "TRADE DATE":
                     return TransactionColumn.Date;
                 case "DESCRIPTION":
+                case "ACTION":
                     return TransactionColumn.OrderType;
                 case "SYMBOL":
                     return TransactionColumn.Symbol;
