@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.SamplePriceData;
@@ -50,20 +51,41 @@ namespace Sonneville.PriceTools.Google.Test
             PriceHistoryCsvFile targetFile;
             var tempFileName = Path.GetTempFileName();
 
-            using (var stream = new StreamWriter(tempFileName))
+            using (var writer = new StreamWriter(tempFileName))
             {
                 originalFile = new GooglePriceHistoryCsvFile("DE", new ResourceStream(CsvPriceHistory.DE_Apr_June_2011_Weekly_Google));
-                originalFile.Write(stream);
+                originalFile.Write(writer);
             }
 
-            using (var stream = new StreamReader(tempFileName))
+            using (var reader = new StreamReader(tempFileName))
             {
                 targetFile = new GooglePriceHistoryCsvFile();
-                targetFile.Read("DE", stream);
+                targetFile.Read("DE", reader);
             }
 
             Assert.IsTrue(targetFile.PriceSeries.Ticker == originalFile.PriceSeries.Ticker);
             Assert.AreEqual(originalFile.PricePeriods.Count, targetFile.PricePeriods.Count);
+            foreach (var pricePeriod in originalFile.PricePeriods)
+            {
+                var period = pricePeriod;
+                Assert.AreEqual(originalFile.PricePeriods.Where(p =>
+                                                                p.Head == period.Head &&
+                                                                p.Tail == period.Tail &&
+                                                                p.Open == period.Open &&
+                                                                p.High == period.High &&
+                                                                p.Low == period.Low &&
+                                                                p.Close == period.Close &&
+                                                                p.Volume == period.Volume
+                                    ).Count(), targetFile.PricePeriods.Where(p =>
+                                                                             p.Head == period.Head &&
+                                                                             p.Tail == period.Tail &&
+                                                                             p.Open == period.Open &&
+                                                                             p.High == period.High &&
+                                                                             p.Low == period.Low &&
+                                                                             p.Close == period.Close &&
+                                                                             p.Volume == period.Volume
+                                                   ).Count());
+            }
         }
     }
 }
