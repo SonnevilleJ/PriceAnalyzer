@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Test
     public class PricePeriodExtentionsTest
     {
         [TestMethod]
-        public void IsEqualDifferentData()
+        public void PeriodIsEqualWithDifferentData()
         {
             var head = new DateTime(2011, 3, 13);
             var tail = head.AddDays(1);
@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void IsEqualSameData()
+        public void PeriodIsEqualWithSameData()
         {
             var head = new DateTime(2011, 3, 13);
             var tail = head.AddDays(1);
@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools.Test
         }
         
         [TestMethod]
-        public void IsEqualDifferentImplementations()
+        public void PeriodIsEqualWithDifferentImplementations()
         {
             var head = new DateTime(2011, 3, 13);
             var tail = head.AddDays(1);
@@ -51,7 +51,7 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void IsEqualEnumerableDifferentData()
+        public void EnumerableIsEquivalentWithDifferentData()
         {
             var head = new DateTime(2011, 3, 13);
             var tail = head.AddDays(1);
@@ -65,11 +65,11 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<PricePeriod> { period1, period2 };
             var list2 = new List<PricePeriod> { period3, period4 };
 
-            Assert.IsFalse(list1.IsEqual(list2));
+            Assert.IsFalse(list1.IsEquivalent(list2));
         }
 
         [TestMethod]
-        public void IsEqualEnumerableSameData()
+        public void EnumerableIsEquivalentWithSameData()
         {
             var head = new DateTime(2011, 3, 13);
             var tail = head.AddDays(1);
@@ -83,11 +83,11 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<PricePeriod> {period1, period2};
             var list2 = new List<PricePeriod> {period3, period4};
 
-            Assert.IsTrue(list1.IsEqual(list2));
+            Assert.IsTrue(list1.IsEquivalent(list2));
         }
 
         [TestMethod]
-        public void IsEqualEnumerableExtraPeriod()
+        public void EnumerableIsEquivalentWithExtraPeriod()
         {
             var head = new DateTime(2011, 3, 13);
             var tail = head.AddDays(1);
@@ -102,11 +102,11 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<PricePeriod> {period1, period2};
             var list2 = new List<PricePeriod> {period3, period4, period5};
 
-            Assert.IsFalse(list1.IsEqual(list2));
+            Assert.IsFalse(list1.IsEquivalent(list2));
         }
 
         [TestMethod]
-        public void IsEqualEnumerableMissingPeriod()
+        public void EnumerableIsEquivalentWithMissingPeriod()
         {
             var head = new DateTime(2011, 3, 13);
             var tail = head.AddDays(1);
@@ -119,7 +119,7 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<PricePeriod> { period1, period2 };
             var list2 = new List<PricePeriod> {period3};
 
-            Assert.IsFalse(list1.IsEqual(list2));
+            Assert.IsFalse(list1.IsEquivalent(list2));
         }
     }
 }

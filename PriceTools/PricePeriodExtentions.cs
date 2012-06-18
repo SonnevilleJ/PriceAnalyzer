@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -28,10 +29,10 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Returns a value indicating whether a target <see cref="IEnumerable{PricePeriod}"/> is equal to the original <see cref="IEnumerable{PricePeriod}"/>.
+        /// Returns a value indicating whether a target <see cref="IEnumerable{PricePeriod}"/> is equivalent to the original <see cref="IEnumerable{PricePeriod}"/>. Order of <see cref="PricePeriod"/>s is ignored.
         /// </summary>
         /// <remarks>This method only considers the data within each <see cref="PricePeriod"/> and ignores the datatype implementing the <see cref="PricePeriod"/>s.</remarks>
-        public static bool IsEqual(this IEnumerable<PricePeriod> original, IEnumerable<PricePeriod> target)
+        public static bool IsEquivalent(this IEnumerable<PricePeriod> original, IEnumerable<PricePeriod> target)
         {
             var oParallel = original.AsParallel();
             var tParallel = target.AsParallel();
