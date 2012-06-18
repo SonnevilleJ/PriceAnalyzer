@@ -61,4 +61,10 @@
             As a user, I can interact with PriceSeries objects to perform de/serialization to/from CSV files. This may use the PriceHistoryCsvFile class in the background.
         </UserStory>
     </Feature>
+    <Feature name="Compare collections of Transactions, PricePeriods, etc.">
+        <Added>18 June 2012</Added>
+        <UserStory>
+            As a user, I can call a single method which determines equality or equivalence of two collections of Transactions, PricePeriods, etc.
+        </UserStory>
+    </Feature>
 </Features>
