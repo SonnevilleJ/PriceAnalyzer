@@ -58,6 +58,7 @@
     <Compile Include="OrderFactoryTest.cs" />
     <Compile Include="OrderTest.cs" />
     <Compile Include="PositionHoldingTests.cs" />
+    <Compile Include="PricePeriodExtentionsTest.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteFactoryTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />

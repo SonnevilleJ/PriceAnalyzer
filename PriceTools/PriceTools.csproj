@@ -80,6 +80,7 @@
     <Compile Include="LongTransaction.cs" />
     <Compile Include="Implementation\MarginableCashAccountImpl.cs" />
     <Compile Include="OpeningTransaction.cs" />
+    <Compile Include="PricePeriodExtentions.cs" />
     <Compile Include="ShortTransaction.cs" />
     <Compile Include="TickedPricePeriod.cs" />
     <Compile Include="SellShort.cs" />
