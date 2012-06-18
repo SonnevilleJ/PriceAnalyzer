@@ -117,16 +117,6 @@ namespace Sonneville.PriceTools.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The given path was not valid or the file could not be found..
-        /// </summary>
-        internal static string PriceHistoryCsvFile_Read_The_given_path_was_not_valid_or_the_file_could_not_be_found_ {
-            get {
-                return ResourceManager.GetString("PriceHistoryCsvFile_Read_The_given_path_was_not_valid_or_the_file_could_not_be_fo" +
-                        "und_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Given duration represents an unknown PriceSeriesResolution..
         /// </summary>
         internal static string PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSeriesResolution_ {

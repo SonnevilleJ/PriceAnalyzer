@@ -147,7 +147,4 @@
 	<data name="Serializer_DeserializeFromXml_Could_not_find_a_compatible_type_to_implement_interface___0__">
 		<value xml:space="preserve">Could not find a compatible type to implement interface: {0}.</value>
 	</data>
-	<data name="PriceHistoryCsvFile_Read_The_given_path_was_not_valid_or_the_file_could_not_be_found_">
-		<value xml:space="preserve">The given path was not valid or the file could not be found.</value>
-	</data>
 </root>

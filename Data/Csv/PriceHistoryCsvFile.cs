@@ -49,18 +49,6 @@ namespace Sonneville.PriceTools.Data.Csv
             Read(ticker, stream, impliedHead, impliedTail);
         }
 
-        /// <summary>
-        /// Constructs a PriceHistoryCsvFile.
-        /// </summary>
-        /// <param name="ticker">The ticker which should be assigned to the <see cref="PriceTools.PriceSeries"/>.</param>
-        /// <param name="csvText">The raw CSV data to parse.</param>
-        /// <param name="impliedHead">The head of the price data contained in the CSV data.</param>
-        /// <param name="impliedTail">The tail of the price data contained in the CSV data.</param>
-        protected internal PriceHistoryCsvFile(string ticker, string csvText, DateTime? impliedHead = null, DateTime? impliedTail = null)
-        {
-            Read(ticker, new StringReader(csvText), impliedHead, impliedTail);
-        }
-
         #endregion
 
         #region Public Properties
@@ -85,23 +73,6 @@ namespace Sonneville.PriceTools.Data.Csv
         #region Read Methods
 
         /// <summary>
-        /// Reads the contents of a Price History CSV file from disk.
-        /// </summary>
-        /// <param name="ticker"></param>
-        /// <param name="path">The path of the CSV file.</param>
-        /// <param name="impliedHead"></param>
-        /// <param name="impliedTail"></param>
-        public void Read(string ticker, string path, DateTime? impliedHead = null, DateTime? impliedTail = null)
-        {
-            if (!File.Exists(path))
-                throw new ArgumentOutOfRangeException("path", path, Strings.PriceHistoryCsvFile_Read_The_given_path_was_not_valid_or_the_file_could_not_be_found_);
-            using (var fileStream = File.OpenRead(path))
-            {
-                Read(ticker, fileStream, impliedHead, impliedTail);
-            }
-        }
-
-        /// <summary>
         /// Reads the contents of a Price History CSV file from a stream.
         /// </summary>
         /// <param name="ticker"></param>
@@ -112,7 +83,7 @@ namespace Sonneville.PriceTools.Data.Csv
         {
             using (var reader = new StreamReader(stream))
             {
-                Parse(reader, ticker, impliedHead, impliedTail);
+                Read(ticker, reader, impliedHead, impliedTail);
             }
         }
 
@@ -120,12 +91,17 @@ namespace Sonneville.PriceTools.Data.Csv
         /// Reads price history information from CSV data.
         /// </summary>
         /// <param name="ticker"></param>
-        /// <param name="reader"></param>
+        /// <param name="textReader"></param>
         /// <param name="impliedHead"></param>
         /// <param name="impliedTail"></param>
-        public void Read(string ticker, TextReader reader, DateTime? impliedHead = null, DateTime? impliedTail = null)
+        private void Read(string ticker, TextReader textReader, DateTime? impliedHead = null, DateTime? impliedTail = null)
         {
-            Parse(reader, ticker, impliedHead, impliedTail);
+            using (var csvReader = new CsvReader(textReader, true))
+            {
+                var map = MapHeaders(csvReader);
+                var stagedPeriods = StagePeriods(csvReader, map);
+                PriceSeries = BuildPriceSeries(ticker, stagedPeriods, impliedHead, impliedTail);
+            }
         }
 
         #endregion
@@ -157,16 +133,6 @@ namespace Sonneville.PriceTools.Data.Csv
         #endregion
 
         #region Private Methods
-
-        private void Parse(TextReader stringReader, string ticker, DateTime? impliedHead, DateTime? impliedTail)
-        {
-            using (var reader = new CsvReader(stringReader, true))
-            {
-                var map = MapHeaders(reader);
-                var stagedPeriods = StagePeriods(reader, map);
-                PriceSeries = BuildPriceSeries(ticker, stagedPeriods, impliedHead, impliedTail);
-            }
-        }
 
         private IDictionary<PriceColumn, int> MapHeaders(CsvReader reader)
         {

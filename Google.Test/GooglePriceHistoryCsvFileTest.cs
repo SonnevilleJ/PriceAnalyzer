@@ -57,7 +57,7 @@ namespace Sonneville.PriceTools.Google.Test
                 originalFile.Write(writer);
             }
 
-            using (var reader = new StreamReader(tempFileName))
+            using (var reader = File.Open(tempFileName, FileMode.Open))
             {
                 targetFile = new GooglePriceHistoryCsvFile();
                 targetFile.Read("DE", reader);
