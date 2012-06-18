@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Returns a value indicating whether a target <see cref="IList{PricePeriod}"/> is equal to the original <see cref="IList{PricePeriod}"/>.
+        /// Returns a value indicating whether a target <see cref="IEnumerable{PricePeriod}"/> is equal to the original <see cref="IEnumerable{PricePeriod}"/>.
         /// </summary>
         /// <remarks>This method only considers the data within each <see cref="PricePeriod"/> and ignores the datatype implementing the <see cref="PricePeriod"/>s.</remarks>
         public static bool IsEqual(this IEnumerable<PricePeriod> original, IEnumerable<PricePeriod> target)
