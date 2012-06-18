@@ -151,11 +151,11 @@ namespace Sonneville.PriceTools.Data.Csv
 
         private void WriteHeaders(TextWriter writer)
         {
-            for (var i = 0; i < PriceColumnHeaders.Count; i++)
+            for (var i = 0; i < ColumnHeaders.Count; i++)
             {
-                writer.Write(PriceColumnHeaders.ElementAt(i).Value);
+                writer.Write(ColumnHeaders.ElementAt(i).Value);
 
-                if (i < PriceColumnHeaders.Count - 1) writer.Write(",");
+                if (i < ColumnHeaders.Count - 1) writer.Write(",");
             }
             writer.Write(Environment.NewLine);
         }
@@ -182,9 +182,9 @@ namespace Sonneville.PriceTools.Data.Csv
         private string BuildCSVRecord(PricePeriod period)
         {
             var builder = new StringBuilder();
-            for (var i = 0; i < PriceColumnHeaders.Count; i++)
+            for (var i = 0; i < ColumnHeaders.Count; i++)
             {
-                var priceColumn = PriceColumnHeaders.ElementAt(i);
+                var priceColumn = ColumnHeaders.ElementAt(i);
                 switch (priceColumn.Key)
                 {
                     case PriceColumn.Date:
@@ -211,7 +211,7 @@ namespace Sonneville.PriceTools.Data.Csv
                         throw new InvalidOperationException(String.Format("Cannot write information for column {0}", priceColumn));
                 }
 
-                if (i < PriceColumnHeaders.Count - 1) builder.Append(",");
+                if (i < ColumnHeaders.Count - 1) builder.Append(",");
             }
             return builder.ToString();
         }
@@ -224,7 +224,7 @@ namespace Sonneville.PriceTools.Data.Csv
         private PriceColumn ParseColumnHeader(string header)
         {
             var li = header.ToLowerInvariant();
-            var results = PriceColumnHeaders.Where(kvp => kvp.Value.ToLowerInvariant() == li).Select(kvp => kvp.Key);
+            var results = ColumnHeaders.Where(kvp => kvp.Value.ToLowerInvariant() == li).Select(kvp => kvp.Key);
 
             return results.Count() == 1 ? results.First() : PriceColumn.None;
         }
@@ -390,7 +390,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <remarks>
         /// When overridden in a derived class, this property defines localizable strings for column headers as well as the preferred order of columns.
         /// </remarks>
-        protected virtual IDictionary<PriceColumn, string> PriceColumnHeaders
+        protected virtual IDictionary<PriceColumn, string> ColumnHeaders
         {
             get { return DefaultColumnHeaders; }
         }
