@@ -45,9 +45,9 @@ namespace Sonneville.PriceTools.Google.Test
         }
 
         [TestMethod]
-        public void GoogleWeeklyTestWriteAndImport()
+        public void GoogleWeeklyTestWriteAndRead()
         {
-            GooglePriceHistoryCsvFile originalFile;
+            PriceHistoryCsvFile originalFile;
             PriceHistoryCsvFile targetFile;
             var tempFileName = Path.GetTempFileName();
 
@@ -63,29 +63,7 @@ namespace Sonneville.PriceTools.Google.Test
                 targetFile.Read("DE", reader);
             }
 
-            Assert.IsTrue(targetFile.PriceSeries.Ticker == originalFile.PriceSeries.Ticker);
-            Assert.AreEqual(originalFile.PricePeriods.Count, targetFile.PricePeriods.Count);
-            foreach (var pricePeriod in originalFile.PricePeriods)
-            {
-                var period = pricePeriod;
-                Assert.AreEqual(originalFile.PricePeriods.Where(p =>
-                                                                p.Head == period.Head &&
-                                                                p.Tail == period.Tail &&
-                                                                p.Open == period.Open &&
-                                                                p.High == period.High &&
-                                                                p.Low == period.Low &&
-                                                                p.Close == period.Close &&
-                                                                p.Volume == period.Volume
-                                    ).Count(), targetFile.PricePeriods.Where(p =>
-                                                                             p.Head == period.Head &&
-                                                                             p.Tail == period.Tail &&
-                                                                             p.Open == period.Open &&
-                                                                             p.High == period.High &&
-                                                                             p.Low == period.Low &&
-                                                                             p.Close == period.Close &&
-                                                                             p.Volume == period.Volume
-                                                   ).Count());
-            }
+            Assert.IsTrue(originalFile.PricePeriods.IsEqual(targetFile.PricePeriods));
         }
     }
 }
