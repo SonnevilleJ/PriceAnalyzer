@@ -85,6 +85,7 @@
     <Compile Include="TickedPricePeriod.cs" />
     <Compile Include="SellShort.cs" />
     <Compile Include="Sell.cs" />
+    <Compile Include="TransactionExtentions.cs" />
     <Compile Include="Withdrawal.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="SecurityBasketExtensions.cs" />

@@ -1,13 +1,11 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// A class storing extention methods 
+    /// A class storing extention methods for <see cref="PricePeriod"/> objects.
     /// </summary>
     public static class PricePeriodExtentions
     {
