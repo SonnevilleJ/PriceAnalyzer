@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Sonneville.PriceTools
 {
@@ -58,6 +59,25 @@ namespace Sonneville.PriceTools
             var oParallel = original.AsParallel();
             var tParallel = target.AsParallel();
             return oParallel.All(transaction => oParallel.Where(t => t.IsEqual(transaction)).Count() == tParallel.Where(t => t.IsEqual(transaction)).Count());
+        }
+
+        /// <summary>
+        /// Returns a value indicating whether a target <see cref="IEnumerable{Transaction}"/> is equal to the original <see cref="IEnumerable{Transaction}"/>. Order of <see cref="PricePeriod"/>s must match.
+        /// </summary>
+        public static bool IsEqual(this IEnumerable<Transaction> original, IEnumerable<Transaction> target)
+        {
+            if (original.Count() != target.Count()) return false;
+
+            var result = true;
+            Parallel.For(0, original.Count(), (i, loopState) =>
+            {
+                if (!target.ElementAt(i).IsEqual(original.ElementAt(i)))
+                {
+                    result = false;
+                    loopState.Stop();
+                }
+            });
+            return result;
         }
     }
 }
