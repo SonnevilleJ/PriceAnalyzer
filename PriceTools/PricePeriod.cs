@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    public abstract class PricePeriod : TimeSeries
+    public abstract class PricePeriod : TimeSeries, IEquatable<PricePeriod>
     {
         #region Implementation of PricePeriod
 
@@ -103,6 +103,44 @@ namespace Sonneville.PriceTools
             {
                 eventHandler(this, e);
             }
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(PricePeriod other)
+        {
+            if (other == null) return false;
+
+            return Resolution == other.Resolution &&
+                   Head == other.Head &&
+                   Tail == other.Tail &&
+                   Open == other.Open &&
+                   High == other.High &&
+                   Low == other.Low &&
+                   Close == other.Close &&
+                   Volume == other.Volume;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as PricePeriod);
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override int GetHashCode()
+        {
+            return 0;
         }
     }
 }
