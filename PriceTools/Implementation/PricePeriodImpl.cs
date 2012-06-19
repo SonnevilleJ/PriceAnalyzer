@@ -98,9 +98,10 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="e">The NewPriceDataEventArgs to pass.</param>
         protected void InvokeNewPriceDataAvailable(NewPriceDataAvailableEventArgs e)
         {
-            if (NewPriceDataAvailable != null)
+            var eventHandler = NewPriceDataAvailable;
+            if (eventHandler != null)
             {
-                NewPriceDataAvailable(this, e);
+                eventHandler(this, e);
             }
         }
     }
