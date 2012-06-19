@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -17,7 +16,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static Deposit ConstructDeposit(DateTime settlementDate, decimal amount)
         {
-            return new DepositImpl {SettlementDate = settlementDate, Amount = amount};
+            return new Deposit {SettlementDate = settlementDate, Amount = amount};
         }
 
         /// <summary>
@@ -28,7 +27,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static Withdrawal ConstructWithdrawal(DateTime settlementDate, decimal amount)
         {
-            return new WithdrawalImpl {SettlementDate = settlementDate, Amount = amount};
+            return new Withdrawal {SettlementDate = settlementDate, Amount = amount};
         }
 
         /// <summary>
@@ -39,7 +38,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DividendReceipt ConstructDividendReceipt(DateTime settlementDate, decimal amount)
         {
-            return new DividendReceiptImpl {SettlementDate = settlementDate, Amount = amount};
+            return new DividendReceipt {SettlementDate = settlementDate, Amount = amount};
         }
 
         /// <summary>
@@ -65,7 +64,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DividendReinvestment ConstructDividendReinvestment(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0)
         {
-            return new DividendReinvestmentImpl {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
+            return new DividendReinvestment {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
         }
 
         /// <summary>
@@ -79,7 +78,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static Buy ConstructBuy(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new BuyImpl {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
+            return new Buy {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
         }
 
         /// <summary>
@@ -93,7 +92,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static Sell ConstructSell(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new SellImpl {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
+            return new Sell {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
         }
 
         /// <summary>
@@ -107,7 +106,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static BuyToCover ConstructBuyToCover(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new BuyToCoverImpl {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
+            return new BuyToCover {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
         }
 
         /// <summary>
@@ -121,7 +120,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static SellShort ConstructSellShort(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new SellShortImpl {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
+            return new SellShort {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
         }
 
         /// <summary>

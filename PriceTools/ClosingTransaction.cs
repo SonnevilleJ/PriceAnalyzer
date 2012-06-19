@@ -3,7 +3,7 @@
     /// <summary>
     /// Represents a transaction which closes or decreases an investment in a position.
     /// </summary>
-    public interface ClosingTransaction : ShareTransaction
+    public interface ClosingTransaction
     {
     }
 }

@@ -1,9 +1,12 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a transaction to short-sell shares.
     /// </summary>
-    public interface SellShort : ShortTransaction, DistributionTransaction, OpeningTransaction
+    [Serializable]
+    public sealed class SellShort : ShareTransaction, ShortTransaction, DistributionTransaction, OpeningTransaction
     {
     }
 }

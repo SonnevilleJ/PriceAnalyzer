@@ -1,9 +1,12 @@
+﻿using System;
+
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a transaction for deposit.
     /// </summary>
-    public interface Deposit : CashTransaction
+    [Serializable]
+    public sealed class Deposit : CashTransaction
     {
     }
 }

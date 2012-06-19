@@ -1,9 +1,12 @@
+﻿using System;
+
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a transaction for a cash withdrawal.
     /// </summary>
-    public interface Withdrawal : CashTransaction
+    [Serializable]
+    public sealed class Withdrawal : CashTransaction
     {
     }
 }

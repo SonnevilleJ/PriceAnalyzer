@@ -1,9 +1,12 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a transaction to sell shares.
     /// </summary>
-    public interface Sell : LongTransaction, DistributionTransaction, ClosingTransaction
+    [Serializable]
+    public sealed class Sell : ShareTransaction, LongTransaction, DistributionTransaction, ClosingTransaction
     {
     }
 }

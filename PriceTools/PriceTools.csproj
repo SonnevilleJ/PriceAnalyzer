@@ -53,28 +53,23 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccumulationTransaction.cs" />
-    <Compile Include="ClosingTransaction.cs" />
-    <Compile Include="DistributionTransaction.cs" />
-    <Compile Include="DividendReinvestment.cs" />
+    <Compile Include="Buy.cs" />
     <Compile Include="BuyToCover.cs" />
+    <Compile Include="CashTransaction.cs" />
+    <Compile Include="ClosingTransaction.cs" />
+    <Compile Include="Deposit.cs" />
+    <Compile Include="DistributionTransaction.cs" />
+    <Compile Include="DividendReceipt.cs" />
+    <Compile Include="DividendReinvestment.cs" />
     <Compile Include="Extensions\PriceSeriesReactionMovesExtensions.cs" />
     <Compile Include="Factories\CashAccountFactory.cs" />
     <Compile Include="Factories\PortfolioFactory.cs" />
     <Compile Include="Factories\PriceTickFactory.cs" />
     <Compile Include="HoldingExtensions.cs" />
-    <Compile Include="Implementation\BuyImpl.cs" />
-    <Compile Include="Implementation\BuyToCoverImpl.cs" />
     <Compile Include="Implementation\CashAccountImpl.cs" />
-    <Compile Include="Implementation\CashTransactionImpl.cs" />
     <Compile Include="Data\TransactionHistory.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Buy.cs" />
-    <Compile Include="Implementation\DepositImpl.cs" />
-    <Compile Include="Deposit.cs" />
-    <Compile Include="Implementation\DividendReceiptImpl.cs" />
-    <Compile Include="Implementation\DividendReinvestmentImpl.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
-    <Compile Include="DividendReceipt.cs" />
     <Compile Include="Implementation\TickedPricePeriodImpl.cs" />
     <Compile Include="MarginableCashAccount.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
@@ -83,12 +78,12 @@
     <Compile Include="OpeningTransaction.cs" />
     <Compile Include="PricePeriod.cs" />
     <Compile Include="PriceSeries.cs" />
-    <Compile Include="ShortTransaction.cs" />
-    <Compile Include="SellShort.cs" />
     <Compile Include="Sell.cs" />
+    <Compile Include="SellShort.cs" />
+    <Compile Include="ShareTransaction.cs" />
+    <Compile Include="ShortTransaction.cs" />
     <Compile Include="TickedPricePeriod.cs" />
     <Compile Include="TransactionExtentions.cs" />
-    <Compile Include="Withdrawal.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="SecurityBasketExtensions.cs" />
     <Compile Include="Data\IPriceDataProvider.cs" />
@@ -98,7 +93,6 @@
     <Compile Include="HighLow.cs" />
     <Compile Include="Holding.cs" />
     <Compile Include="CashAccount.cs" />
-    <Compile Include="CashTransaction.cs" />
     <Compile Include="IHolding.cs" />
     <Compile Include="SecurityBasket.cs" />
     <Compile Include="Portfolio.cs" />
@@ -113,23 +107,19 @@
     <Compile Include="Implementation\PriceTickImpl.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="TimeSeries.cs" />
-    <Compile Include="ShareTransaction.cs" />
     <Compile Include="Implementation\PortfolioImpl.cs" />
     <Compile Include="OrderType.cs" />
     <Compile Include="Implementation\PositionImpl.cs" />
     <Compile Include="Resolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Implementation\SellImpl.cs" />
-    <Compile Include="Implementation\SellShortImpl.cs" />
     <Compile Include="StockIndex.cs" />
-    <Compile Include="Implementation\ShareTransactionImpl.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="Factories\TransactionFactory.cs" />
-    <Compile Include="Implementation\WithdrawalImpl.cs" />
+    <Compile Include="Withdrawal.cs" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
