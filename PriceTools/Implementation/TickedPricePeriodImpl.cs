@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sonneville.PriceTools.Implementation;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
-    ///   A <see cref="PricePeriodImpl"/> made from <see cref="PriceTicks"/>.
+    ///   A <see cref="PricePeriod"/> made from <see cref="PriceTicks"/>.
     /// </summary>
-    internal class TickedPricePeriodImpl : PricePeriodImpl, TickedPricePeriod
+    internal class TickedPricePeriodImpl : TickedPricePeriod
     {
         private readonly List<PriceTick> _priceTicks = new List<PriceTick>();
         
         /// <summary>
         /// The <see cref="PriceTickImpl"/>s contained within this TickedPricePeriod.
         /// </summary>
-        public IList<PriceTick> PriceTicks { get { return _priceTicks.AsReadOnly(); } }
+        public override IList<PriceTick> PriceTicks { get { return _priceTicks.AsReadOnly(); } }
 
         #region Overrides of PricePeriod
 
@@ -58,7 +57,7 @@ namespace Sonneville.PriceTools
         ///   Adds one or more <see cref = "PriceTick" />s to the PriceSeries.
         /// </summary>
         /// <param name = "priceTicks">The <see cref = "PriceTick" />s to add.</param>
-        public void AddPriceTicks(params PriceTick[] priceTicks)
+        public override void AddPriceTicks(params PriceTick[] priceTicks)
         {
             foreach (var quote in priceTicks)
             {

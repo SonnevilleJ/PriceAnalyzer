@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools
         /// <returns>The <see cref="PriceSeries"/> for the given ticker.</returns>
         public static PriceSeries CreatePriceSeries(string ticker)
         {
-            return new PriceSeriesImpl { Ticker = ticker };
+            return new PriceSeries { Ticker = ticker };
         }
 
         /// <summary>
@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools
         /// <returns>The <see cref="PriceSeries"/> for the given ticker.</returns>
         public static PriceSeries CreatePriceSeries(string ticker, Resolution resolution)
         {
-            return new PriceSeriesImpl(resolution) {Ticker = ticker};
+            return new PriceSeries(resolution) {Ticker = ticker};
         }
     }
 }
