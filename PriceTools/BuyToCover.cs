@@ -8,5 +8,12 @@ namespace Sonneville.PriceTools
     [Serializable]
     public sealed class BuyToCover : ShareTransaction, ShortTransaction, AccumulationTransaction, ClosingTransaction
     {
+        /// <summary>
+        /// Constructs a BuyToCover.
+        /// </summary>
+        internal BuyToCover(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
+            : base(ticker, settlementDate, shares, -Math.Abs(price), commission)
+        {
+        }
     }
 }

@@ -8,5 +8,12 @@ namespace Sonneville.PriceTools
     [Serializable]
     public sealed class Sell : ShareTransaction, LongTransaction, DistributionTransaction, ClosingTransaction
     {
+        /// <summary>
+        /// Constructs a Sell.
+        /// </summary>
+        internal Sell(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
+            : base(ticker, settlementDate, shares, -Math.Abs(price), commission)
+        {
+        }
     }
 }

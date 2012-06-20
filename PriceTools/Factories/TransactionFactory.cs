@@ -64,7 +64,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DividendReinvestment ConstructDividendReinvestment(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0)
         {
-            return new DividendReinvestment {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
+            return new DividendReinvestment(ticker, settlementDate, shares, price, commission);
         }
 
         /// <summary>
@@ -78,7 +78,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static Buy ConstructBuy(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new Buy {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
+            return new Buy(ticker, settlementDate, shares, price, commission);
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static Sell ConstructSell(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new Sell {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
+            return new Sell(ticker, settlementDate, shares, price, commission);
         }
 
         /// <summary>
@@ -106,7 +106,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static BuyToCover ConstructBuyToCover(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new BuyToCover {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
+            return new BuyToCover(ticker, settlementDate, shares, price, commission);
         }
 
         /// <summary>
@@ -120,7 +120,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static SellShort ConstructSellShort(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new SellShort {Ticker = ticker, SettlementDate = settlementDate, Shares = shares, Price = price, Commission = commission};
+            return new SellShort(ticker, settlementDate, shares, price, commission);
         }
 
         /// <summary>

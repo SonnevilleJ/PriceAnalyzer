@@ -8,11 +8,24 @@ namespace Sonneville.PriceTools
     [Serializable]
     public abstract class ShareTransaction : Transaction
     {
-        #region Private Members
+        #region Constructors
 
-        private decimal _price;
-        private decimal _shares;
-        private decimal _commission;
+        protected internal ShareTransaction(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
+        {
+            Ticker = ticker;
+            SettlementDate = settlementDate;
+
+            if (shares < 0)
+                throw new ArgumentOutOfRangeException("shares", shares, Strings.ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_);
+            Shares = shares;
+
+            Price = price;
+
+            if (commission < 0)
+                throw new ArgumentOutOfRangeException("commission", commission, Strings.ShareTransaction_Commission_Commission_must_be_greater_than_or_equal_to_0_);
+            Commission = commission;
+        }
+
 
         #endregion
         
@@ -21,68 +34,27 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the DateTime that the Transaction occurred.
         /// </summary>
-        public DateTime SettlementDate { get; set; }
+        public DateTime SettlementDate { get; private set; }
 
         /// <summary>
         ///   Gets the ticker symbol of the security traded in this ShareTransaction.
         /// </summary>
-        public string Ticker { get; set; }
+        public string Ticker { get; private set; }
 
         /// <summary>
         ///   Gets the amount of securities traded in this ShareTransaction.
         /// </summary>
-        public decimal Shares
-        {
-            get { return _shares; }
-            set
-            {
-                if (value < 0) throw new ArgumentOutOfRangeException("value", value, Strings.ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_);
-                _shares = value;
-            }
-        }
+        public decimal Shares { get; private set; }
 
         /// <summary>
         ///   Gets the value of all securities traded in this ShareTransaction.
         /// </summary>
-        public decimal Price
-        {
-            get { return _price; }
-            set
-            {
-                var price = Math.Abs(value);
-                switch (PriceDirection)
-                {
-                    case 1:
-                        _price = price;
-                        break;
-                    case -1:
-                        _price = -price;
-                        break;
-                }
-            }
-        }
+        public decimal Price { get; private set; }
 
         /// <summary>
         ///   Gets the commission charged for this ShareTransaction.
         /// </summary>
-        public decimal Commission
-        {
-            get { return _commission; }
-            set
-            {
-                if (this is DividendReinvestment)
-                {
-                    if (value != 0)
-                        throw new ArgumentOutOfRangeException("value", value, Strings.ShareTransactionImpl_Commission_Commission_for_dividend_receipts_must_be_0_);
-                }
-                else
-                {
-                    if (value < 0)
-                        throw new ArgumentOutOfRangeException("value", value, Strings.ShareTransaction_Commission_Commission_must_be_greater_than_or_equal_to_0_);
-                }
-                _commission = value;
-            }
-        }
+        public decimal Commission { get; private set; }
 
         /// <summary>
         ///   Gets the total value of this ShareTransaction, including commissions.
@@ -90,26 +62,6 @@ namespace Sonneville.PriceTools
         public virtual decimal TotalValue
         {
             get { return Math.Round(Price * Shares, 2) + Commission; }
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private int PriceDirection
-        {
-            get
-            {
-                if (this is OpeningTransaction)
-                {
-                    return 1;
-                }
-                if (this is ClosingTransaction)
-                {
-                    return -1;
-                }
-                throw new NotSupportedException("Unknown transaction type.");
-            }
         }
 
         #endregion
