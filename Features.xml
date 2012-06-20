@@ -66,5 +66,6 @@
         <UserStory>
             As a user, I can call a single method which determines equality or equivalence of two collections of Transactions, PricePeriods, etc.
         </UserStory>
+        <Completed>20 June 2012</Completed>
     </Feature>
 </Features>

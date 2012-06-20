@@ -83,7 +83,6 @@
     <Compile Include="ShareTransaction.cs" />
     <Compile Include="ShortTransaction.cs" />
     <Compile Include="TickedPricePeriod.cs" />
-    <Compile Include="TransactionExtentions.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="SecurityBasketExtensions.cs" />
     <Compile Include="Data\IPriceDataProvider.cs" />

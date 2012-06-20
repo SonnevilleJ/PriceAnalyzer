@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     ///   Represents a transaction (or order) for a financial security.
     /// </summary>
     [Serializable]
-    public abstract class ShareTransaction : Transaction
+    public abstract class ShareTransaction : Transaction, IEquatable<ShareTransaction>
     {
         #region Constructors
 
@@ -57,6 +57,80 @@ namespace Sonneville.PriceTools
         public virtual decimal TotalValue
         {
             get { return Math.Round(Price * Shares, 2) + Commission; }
+        }
+
+        #endregion
+
+        #region Equality
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(ShareTransaction other)
+        {
+            return base.Equals(other) &&
+                   Ticker == other.Ticker &&
+                   Shares == other.Shares &&
+                   Price == other.Price &&
+                   Commission == other.Commission;
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="obj"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="obj">An object to compare with this object.</param>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ShareTransaction);
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var result = (Ticker != null ? Ticker.GetHashCode() : 0);
+                result = (result*397) ^ Shares.GetHashCode();
+                result = (result*397) ^ Price.GetHashCode();
+                result = (result*397) ^ Commission.GetHashCode();
+                result = (result*397) ^ SettlementDate.GetHashCode();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator ==(ShareTransaction left, ShareTransaction right)
+        {
+            return Equals(left, right);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(ShareTransaction left, ShareTransaction right)
+        {
+            return !Equals(left, right);
         }
 
         #endregion

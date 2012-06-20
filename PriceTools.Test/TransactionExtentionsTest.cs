@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Test
     public class TransactionExtentionsTest
     {
         [TestMethod]
-        public void TransactionIsEqualWithSameData()
+        public void TransactionEqualsWithSameData()
         {
             const string ticker = "DE";
             var settlementDate = new DateTime(2012, 6, 19);
@@ -18,11 +18,11 @@ namespace Sonneville.PriceTools.Test
             var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
             var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
-            Assert.IsTrue(t1.IsEqual(t2));
+            Assert.IsTrue(t1.Equals(t2));
         }
 
         [TestMethod]
-        public void TransactionIsEqualWithDifferentData()
+        public void TransactionEqualsWithDifferentData()
         {
             const string ticker = "DE";
             var settlementDate = new DateTime(2012, 6, 19);
@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools.Test
             var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
             var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
 
-            Assert.IsFalse(t1.IsEqual(t2));
+            Assert.IsFalse(t1.Equals(t2));
         }
 
         [TestMethod]
@@ -51,7 +51,7 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<Transaction> {t1, t2};
             var list2 = new List<Transaction> {t3, t4};
 
-            Assert.IsTrue(list1.IsEquivalent(list2));
+            CollectionAssert.AreEquivalent(list1, list2);
         }
 
         [TestMethod]
@@ -70,7 +70,7 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<Transaction> { t1, t2 };
             var list2 = new List<Transaction> { t3, t4 };
 
-            Assert.IsFalse(list1.IsEquivalent(list2));
+            CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
         [TestMethod]
@@ -90,7 +90,7 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<Transaction> { t1, t2 };
             var list2 = new List<Transaction> { t3, t4, t5 };
 
-            Assert.IsFalse(list1.IsEquivalent(list2));
+            CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
         [TestMethod]
@@ -108,7 +108,7 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<Transaction> { t1, t2 };
             var list2 = new List<Transaction> { t3 };
 
-            Assert.IsFalse(list1.IsEquivalent(list2));
+            CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
         [TestMethod]
@@ -127,7 +127,7 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<Transaction> { t1, t2 };
             var list2 = new List<Transaction> { t3, t4 };
 
-            Assert.IsTrue(list1.IsEquivalent(list2));
+            CollectionAssert.AreEquivalent(list1, list2);
         }
 
         [TestMethod]
@@ -146,7 +146,7 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<Transaction> { t1, t2 };
             var list2 = new List<Transaction> { t3, t4 };
 
-            Assert.IsTrue(list1.IsEqual(list2));
+            CollectionAssert.AreEqual(list1, list2);
         }
 
         [TestMethod]
@@ -165,7 +165,7 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<Transaction> { t1, t2 };
             var list2 = new List<Transaction> { t3, t4 };
 
-            Assert.IsFalse(list1.IsEqual(list2));
+            CollectionAssert.AreNotEqual(list1, list2);
         }
 
         [TestMethod]
@@ -185,7 +185,7 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<Transaction> { t1, t2 };
             var list2 = new List<Transaction> { t3, t4, t5 };
 
-            Assert.IsFalse(list1.IsEqual(list2));
+            CollectionAssert.AreNotEqual(list1, list2);
         }
 
         [TestMethod]
@@ -203,7 +203,7 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<Transaction> { t1, t2 };
             var list2 = new List<Transaction> { t3 };
 
-            Assert.IsFalse(list1.IsEqual(list2));
+            CollectionAssert.AreNotEqual(list1, list2);
         }
 
         [TestMethod]
@@ -222,7 +222,7 @@ namespace Sonneville.PriceTools.Test
             var list1 = new List<Transaction> { t1, t2 };
             var list2 = new List<Transaction> { t3, t4 };
 
-            Assert.IsFalse(list1.IsEqual(list2));
+            CollectionAssert.AreNotEqual(list1, list2);
         }
     }
 }
