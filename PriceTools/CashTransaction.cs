@@ -9,12 +9,16 @@ namespace Sonneville.PriceTools
     public abstract class CashTransaction : Transaction
     {
         #region Constructors
-
+        
         /// <summary>
-        /// Constructs a CashTransaction.
+        /// Constructs a CashTransaction with a given SettlemendDate and Amount.
         /// </summary>
-        protected internal CashTransaction()
+        /// <param name="settlementDate"></param>
+        /// <param name="amount"></param>
+        protected internal CashTransaction(DateTime settlementDate, decimal amount)
         {
+            SettlementDate = settlementDate;
+            Amount = amount;
         }
 
         #endregion
@@ -24,34 +28,16 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets the DateTime that the Transaction occurred.
         /// </summary>
-        public DateTime SettlementDate { get; set; }
+        public DateTime SettlementDate { get; private set; }
 
         #endregion
 
         #region Implementation of CashTransaction
 
-        private decimal _amount;
-
         /// <summary>
         ///   Gets the amount of cash in this CashTransaction.
         /// </summary>
-        public decimal Amount
-        {
-            get { return _amount; }
-            set
-            {
-                // ensure Amount is negative for Withdrawal
-                var amount = Math.Abs(value);
-                if (this is Withdrawal)
-                {
-                    _amount = -amount;
-                }
-                else
-                {
-                    _amount = amount;
-                }
-            }
-        }
+        public decimal Amount { get; private set; }
 
         #endregion
     }

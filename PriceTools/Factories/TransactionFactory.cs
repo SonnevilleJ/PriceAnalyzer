@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static Deposit ConstructDeposit(DateTime settlementDate, decimal amount)
         {
-            return new Deposit {SettlementDate = settlementDate, Amount = amount};
+            return new Deposit(settlementDate, amount);
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static Withdrawal ConstructWithdrawal(DateTime settlementDate, decimal amount)
         {
-            return new Withdrawal {SettlementDate = settlementDate, Amount = amount};
+            return new Withdrawal(settlementDate, amount);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static DividendReceipt ConstructDividendReceipt(DateTime settlementDate, decimal amount)
         {
-            return new DividendReceipt {SettlementDate = settlementDate, Amount = amount};
+            return new DividendReceipt(settlementDate, amount);
         }
 
         /// <summary>
