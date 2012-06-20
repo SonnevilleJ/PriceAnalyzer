@@ -23,15 +23,6 @@ namespace Sonneville.PriceTools
 
         #endregion
 
-        #region Implementation of Transaction
-
-        /// <summary>
-        ///   Gets the DateTime that the Transaction occurred.
-        /// </summary>
-        public DateTime SettlementDate { get; private set; }
-
-        #endregion
-
         #region Implementation of CashTransaction
 
         /// <summary>

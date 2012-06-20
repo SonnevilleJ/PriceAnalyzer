@@ -32,11 +32,6 @@ namespace Sonneville.PriceTools
         #region Accessors
 
         /// <summary>
-        ///   Gets the DateTime that the Transaction occurred.
-        /// </summary>
-        public DateTime SettlementDate { get; private set; }
-
-        /// <summary>
         ///   Gets the ticker symbol of the security traded in this ShareTransaction.
         /// </summary>
         public string Ticker { get; private set; }
