@@ -5,6 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a financial transaction.
     /// </summary>
+    [Serializable]
     public abstract class Transaction : IEquatable<Transaction>
     {
         /// <summary>
