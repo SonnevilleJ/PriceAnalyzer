@@ -135,5 +135,10 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1} shares of {2} on {3} for {4:c} with {5:c} commission", GetType().Name.ToUpperInvariant(), Shares, Ticker, SettlementDate, Price, Commission);
+        }
     }
 }

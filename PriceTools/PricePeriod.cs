@@ -149,8 +149,7 @@ namespace Sonneville.PriceTools
         {
             unchecked
             {
-                var result = base.GetHashCode();
-                result = (result * 397) ^ Resolution.GetHashCode();
+                var result = Resolution.GetHashCode();
                 result = (result * 397) ^ Head.GetHashCode();
                 result = (result * 397) ^ Tail.GetHashCode();
                 result = (result * 397) ^ Open.GetHashCode();

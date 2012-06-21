@@ -306,6 +306,8 @@ namespace Sonneville.PriceTools
 
         #endregion
 
+        #region Equality
+
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
         /// </summary>
@@ -317,7 +319,7 @@ namespace Sonneville.PriceTools
         {
             return base.Equals(other) &&
                    Ticker == other.Ticker &&
-                   PricePeriods == other.PricePeriods;
+                   other.PricePeriods.All(pricePeriod => PricePeriods.Contains(pricePeriod));
         }
 
         /// <summary>
@@ -345,7 +347,7 @@ namespace Sonneville.PriceTools
             {
                 var result = base.GetHashCode();
                 result = (result*397) ^ (Ticker != null ? Ticker.GetHashCode() : 0);
-                result = (result*397) ^ (PricePeriods != null ? PricePeriods.GetHashCode() : 0);
+                result = PricePeriods.Aggregate(result, (current, pricePeriod) => (current*397) ^ pricePeriod.GetHashCode());
                 return result;
             }
         }
@@ -371,5 +373,7 @@ namespace Sonneville.PriceTools
         {
             return !Equals(left, right);
         }
+
+        #endregion
     }
 }

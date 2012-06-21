@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -33,6 +34,34 @@ namespace Sonneville.PriceTools.Test
             var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
 
             Assert.IsFalse(t1.Equals(t2));
+        }
+
+        [TestMethod]
+        public void TransactionGetHashCodeWithSameData()
+        {
+            const string ticker = "DE";
+            var settlementDate = new DateTime(2012, 6, 19);
+            const decimal shares = 5.0m;
+            const decimal price = 100.00m;
+
+            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+
+            Assert.AreNotEqual(t1.GetHashCode(), t2.GetHashCode());
+        }
+
+        [TestMethod]
+        public void TransactionGetHashCodeWithDifferentData()
+        {
+            const string ticker = "DE";
+            var settlementDate = new DateTime(2012, 6, 19);
+            const decimal shares = 5.0m;
+            const decimal price = 100.00m;
+
+            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
+
+            Assert.AreNotEqual(t1.GetHashCode(), t2.GetHashCode());
         }
 
         [TestMethod]
@@ -223,6 +252,34 @@ namespace Sonneville.PriceTools.Test
             var list2 = new List<Transaction> { t3, t4 };
 
             CollectionAssert.AreNotEqual(list1, list2);
+        }
+
+        [TestMethod]
+        public void GetHashCodeSame()
+        {
+            const string ticker = "DE";
+            var settlementDate = new DateTime(2012, 6, 19);
+            const decimal shares = 5.0m;
+            const decimal price = 100.00m;
+
+            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+
+            Assert.AreEqual(t1.GetHashCode(), t2.GetHashCode());
+        }
+
+        [TestMethod]
+        public void GetHashCodeDifferent()
+        {
+            const string ticker = "DE";
+            var settlementDate = new DateTime(2012, 6, 19);
+            const decimal shares = 5.0m;
+            const decimal price = 100.00m;
+
+            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares + 1, price);
+
+            Assert.AreNotEqual(t1.GetHashCode(), t2.GetHashCode());
         }
     }
 }

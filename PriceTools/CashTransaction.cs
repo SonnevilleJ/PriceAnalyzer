@@ -96,5 +96,10 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
+
+        public override string ToString()
+        {
+            return String.Format("{0} {1:c} on {2}", GetType().Name.ToUpperInvariant(), Amount, SettlementDate);
+        }
     }
 }
