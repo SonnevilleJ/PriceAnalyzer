@@ -63,7 +63,7 @@ namespace Sonneville.PriceTools.Google.Test
                 targetFile.Read("DE", reader);
             }
 
-            Assert.IsTrue(originalFile.PricePeriods.Equals(targetFile.PricePeriods));
+            CollectionAssert.AreEqual(originalFile.PricePeriods.ToArray(), targetFile.PricePeriods.ToArray());
         }
     }
 }
