@@ -718,5 +718,25 @@ namespace Sonneville.PriceTools.Test
 
             target.AddPriceData(period);
         }
+
+        [TestMethod]
+        public void EqualsTestSame()
+        {
+            var original = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var duplicate = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+
+            Assert.IsFalse(ReferenceEquals(original, duplicate));
+            Assert.AreEqual(original, duplicate);
+        }
+
+        [TestMethod]
+        public void EqualsTestDifferent()
+        {
+            var original = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var duplicate = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
+
+            Assert.IsFalse(ReferenceEquals(original, duplicate));
+            Assert.AreNotEqual(original, duplicate);
+        }
     }
 }

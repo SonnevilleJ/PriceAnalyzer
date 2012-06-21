@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    public class PriceSeries : PricePeriod
+    public class PriceSeries : PricePeriod, IEquatable<PriceSeries>
     {
         /// <summary>
         /// The default <see cref="Resolution"/> of a PriceSeries.
@@ -305,5 +305,71 @@ namespace Sonneville.PriceTools
         }
 
         #endregion
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        public bool Equals(PriceSeries other)
+        {
+            return base.Equals(other) &&
+                   Ticker == other.Ticker &&
+                   PricePeriods == other.PricePeriods;
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="obj"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="obj">An object to compare with this object.</param>
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as PriceSeries);
+        }
+
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        public override int GetHashCode()
+        {
+            unchecked
+            {
+                var result = base.GetHashCode();
+                result = (result*397) ^ (Ticker != null ? Ticker.GetHashCode() : 0);
+                result = (result*397) ^ (PricePeriods != null ? PricePeriods.GetHashCode() : 0);
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator ==(PriceSeries left, PriceSeries right)
+        {
+            return Equals(left, right);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(PriceSeries left, PriceSeries right)
+        {
+            return !Equals(left, right);
+        }
     }
 }

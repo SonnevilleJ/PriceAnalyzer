@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools
         /// Gets the total volume of trades during the PricePeriod.
         /// </summary>
         public abstract long? Volume { get; }
-        
+
         /// <summary>
         ///   Event which is invoked when new price data is available for the PricePeriod.
         /// </summary>
@@ -66,7 +66,7 @@ namespace Sonneville.PriceTools
             get
             {
                 foreach (var resolution in
-                    Enum.GetValues(typeof (Resolution)).Cast<long>().OrderBy(ticks => ticks).Where(ticks => this.TimeSpan() <= new TimeSpan(ticks)))
+                    Enum.GetValues(typeof(Resolution)).Cast<long>().OrderBy(ticks => ticks).Where(ticks => this.TimeSpan() <= new TimeSpan(ticks)))
                 {
                     return (Resolution)Enum.ToObject(typeof(Resolution), new TimeSpan(resolution).Ticks);
                 }
@@ -126,6 +126,13 @@ namespace Sonneville.PriceTools
                    Volume == other.Volume;
         }
 
+        /// <summary>
+        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
+        /// </summary>
+        /// <returns>
+        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
+        /// </returns>
+        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
             return Equals(obj as PricePeriod);
@@ -140,7 +147,41 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return 0;
+            unchecked
+            {
+                var result = base.GetHashCode();
+                result = (result * 397) ^ Resolution.GetHashCode();
+                result = (result * 397) ^ Head.GetHashCode();
+                result = (result * 397) ^ Tail.GetHashCode();
+                result = (result * 397) ^ Open.GetHashCode();
+                result = (result * 397) ^ High.GetHashCode();
+                result = (result * 397) ^ Low.GetHashCode();
+                result = (result * 397) ^ Close.GetHashCode();
+                result = (result * 397) ^ Volume.GetHashCode();
+                return result;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator ==(PricePeriod left, PricePeriod right)
+        {
+            return Equals(left, right);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="left"></param>
+        /// <param name="right"></param>
+        /// <returns></returns>
+        public static bool operator !=(PricePeriod left, PricePeriod right)
+        {
+            return !Equals(left, right);
         }
     }
 }

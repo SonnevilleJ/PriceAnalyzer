@@ -68,8 +68,8 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            var result = Amount.GetHashCode();
-            result = (result*397) ^ SettlementDate.GetHashCode();
+            var result = base.GetHashCode();
+            result = (result*397) ^ Amount.GetHashCode();
             return result;
         }
 

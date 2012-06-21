@@ -50,7 +50,9 @@ namespace Sonneville.PriceTools
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return SettlementDate.GetHashCode();
+            var result = base.GetHashCode();
+            result = (result*397) ^ SettlementDate.GetHashCode();
+            return result;
         }
 
         /// <summary>

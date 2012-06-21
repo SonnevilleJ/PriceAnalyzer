@@ -102,7 +102,8 @@ namespace Sonneville.PriceTools
         {
             unchecked
             {
-                var result = (Ticker != null ? Ticker.GetHashCode() : 0);
+                var result = base.GetHashCode();
+                result = (result*397) ^ (Ticker != null ? Ticker.GetHashCode() : 0);
                 result = (result*397) ^ Shares.GetHashCode();
                 result = (result*397) ^ Price.GetHashCode();
                 result = (result*397) ^ Commission.GetHashCode();
