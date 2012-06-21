@@ -115,7 +115,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.FidelityTransactions));
             var ticker = String.Empty;
 
-            Portfolio target = PortfolioFactory.ConstructPortfolio(csvFile, ticker);
+            var target = PortfolioFactory.ConstructPortfolio(csvFile, ticker);
 
             Assert.AreEqual(ticker, target.CashTicker);
         }
@@ -126,7 +126,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.FidelityTransactions));
             var ticker = String.Empty;
 
-            Portfolio target = PortfolioFactory.ConstructPortfolio(csvFile, ticker);
+            var target = PortfolioFactory.ConstructPortfolio(csvFile, ticker);
 
             Assert.AreEqual(5, target.Positions.Count);
         }
@@ -136,7 +136,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.FidelityTransactions));
 
-            Portfolio target = PortfolioFactory.ConstructPortfolio(csvFile, "FTEXX");
+            var target = PortfolioFactory.ConstructPortfolio(csvFile, "FTEXX");
 
             Assert.AreEqual(2848.43m, target.GetAvailableCash(new DateTime(2010, 11, 16)));
         }
