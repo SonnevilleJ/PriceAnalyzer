@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Sonneville.PriceTools.Test
 {
     [TestClass]
-    public class PricePeriodExtentionsTest
+    public class PricePeriodEqualityTests
     {
         [TestMethod]
         public void PeriodEqualsWithDifferentData()

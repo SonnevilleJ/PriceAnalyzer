@@ -5,7 +5,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Sonneville.PriceTools.Test
 {
     [TestClass]
-    public class TransactionExtentionsTest
+    public class TransactionEqualityTests
     {
         [TestMethod]
         public void TransactionEqualsWithSameData()

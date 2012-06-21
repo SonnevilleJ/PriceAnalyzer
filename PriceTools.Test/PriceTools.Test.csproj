@@ -58,13 +58,13 @@
     <Compile Include="OrderFactoryTest.cs" />
     <Compile Include="OrderTest.cs" />
     <Compile Include="PositionHoldingTests.cs" />
-    <Compile Include="PricePeriodExtentionsTest.cs" />
+    <Compile Include="PricePeriodEqualityTests.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteFactoryTest.cs" />
     <Compile Include="PriceSeriesTest.cs" />
     <Compile Include="ReactionMovesTest.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
-    <Compile Include="TransactionExtentionsTest.cs" />
+    <Compile Include="TransactionEqualityTests.cs" />
     <Compile Include="TransactionFactoryTest.cs" />
     <Compile Include="CashAccountTest.cs" />
     <Compile Include="PortfolioTest.cs" />
