@@ -34,6 +34,7 @@
             As a user, I can write Transaction History data to CSV files.
             Output should be compatible with the existing TransactionHistoryCsvFile CSV->Object logic.
         </UserStory>
+        <Cancelled>21 June 2012</Cancelled>
     </Feature>
     <Feature name="PriceRelative indicator">
         <Added>23 March 2012</Added>
@@ -66,6 +67,6 @@
         <UserStory>
             As a user, I can call a single method which determines equality or equivalence of two collections of Transactions, PricePeriods, etc.
         </UserStory>
-        <Completed>20 June 2012</Completed>
+        <Completed>21 June 2012</Completed>
     </Feature>
 </Features>
