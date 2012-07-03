@@ -89,9 +89,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Correlation.cs" />
     <Compile Include="IIndicator.cs" />
     <Compile Include="Indicator.cs" />
     <Compile Include="OHLC.cs" />
+    <Compile Include="PriceRelative.cs" />
     <Compile Include="RelativeStrengthIndex.cs" />
     <Compile Include="SimpleMovingAverage.cs" />
     <Compile Include="Strings.Designer.cs">

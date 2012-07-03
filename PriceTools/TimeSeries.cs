@@ -16,6 +16,13 @@ namespace Sonneville.PriceTools
         decimal this[DateTime dateTime] { get; }
 
         /// <summary>
+        /// Gets the <see cref="PricePeriod"/> stored at a given index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="PricePeriod"/> to get.</param>
+        /// <returns>The <see cref="PricePeriod"/> stored at the given index.</returns>
+        PricePeriod this[int index] { get; }
+
+        /// <summary>
         /// Gets the first DateTime in the TimeSeries.
         /// </summary>
         DateTime Head { get; }

@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// <summary>
     /// A generic indicator used to transform <see cref="PriceTools.TimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying TimeSeries data.
     /// </summary>
-    public abstract class Indicator : IIndicator
+    public abstract class Indicator : PriceSeries, IIndicator
     {
         /// <summary>
         /// Stores the calculated values for each period. These values are publically accessible through the <see cref="Indicator"/> indexer.
@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Gets the first DateTime in the Indicator.
         /// </summary>
-        public virtual DateTime Head
+        public override DateTime Head
         {
             get { return TimeSeries.Values.ToArray()[Lookback - 1].Key; }
         }
@@ -52,7 +52,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Gets the last DateTime in the Indicator.
         /// </summary>
-        public virtual DateTime Tail
+        public override DateTime Tail
         {
             get { return TimeSeries.Tail; }
         }
@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
         /// <returns>THe value of the TimeSeries as of the given DateTime.</returns>
-        public virtual decimal this[DateTime index]
+        public override decimal this[DateTime index]
         {
             get
             {
@@ -89,6 +89,16 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                 if (!Results.ContainsKey(i)) CalculateAndCache(index);
                 return Results[i].Value;
             }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="PricePeriod"/> stored at a given index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="PricePeriod"/> to get.</param>
+        /// <returns>The <see cref="PricePeriod"/> stored at the given index.</returns>
+        public override PricePeriod this[int index]
+        {
+            get { throw new NotImplementedException(); }
         }
 
         /// <summary>
@@ -105,12 +115,12 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The Resolution of this Indicator.
         /// </summary>
-        public Resolution Resolution { get { return TimeSeries.Resolution; } }
+        public override Resolution Resolution { get { return TimeSeries.Resolution; } }
 
         /// <summary>
         /// Gets the calculated values of the Indicator.
         /// </summary>
-        public IDictionary<DateTime, decimal> Values
+        public override IDictionary<DateTime, decimal> Values
         {
             get
             {
@@ -130,7 +140,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <remarks>Assumes the Indicator has a valid value for every date of the underlying PriceSeries.</remarks>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the Indicator has a valid value for the given date.</returns>
-        public bool HasValueInRange(DateTime settlementDate)
+        public override bool HasValueInRange(DateTime settlementDate)
         {
             return (settlementDate >= Head && settlementDate <= Tail);
         }
