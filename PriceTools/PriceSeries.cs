@@ -24,13 +24,8 @@ namespace Sonneville.PriceTools
         #endregion
 
         #region Constructors
-
-        internal PriceSeries()
-            : this(DefaultResolution)
-        {
-        }
-
-        internal PriceSeries(Resolution resolution)
+        
+        protected internal PriceSeries(Resolution resolution = DefaultResolution)
         {
             _resolution = resolution;
         }
@@ -90,6 +85,16 @@ namespace Sonneville.PriceTools
             {
                 return index < Head ? 0.0m : GetLatestPrice(index);
             }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="PricePeriod"/> stored at a given index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="PricePeriod"/> to get.</param>
+        /// <returns>The <see cref="PricePeriod"/> stored at the given index.</returns>
+        public override PricePeriod this[int index]
+        {
+            get { return PricePeriods[index]; }
         }
 
         /// <summary>

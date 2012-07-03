@@ -92,6 +92,16 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
+        /// Gets the <see cref="PricePeriod"/> stored at a given index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="PricePeriod"/> to get.</param>
+        /// <returns>The <see cref="PricePeriod"/> stored at the given index.</returns>
+        public override PricePeriod this[int index]
+        {
+            get { throw new NotImplementedException(); }
+        }
+
+        /// <summary>
         /// Gets the lookback of this Indicator which specifies how many periods are required for the first indicator value.
         /// </summary>
         /// <example>A 50-period MovingAverage has a Lookback of 50.</example>
