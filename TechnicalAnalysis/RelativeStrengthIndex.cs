@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         public override DateTime Head
         {
-            get { return ConvertIndexToDateTime(Lookback); }
+            get { return ConvertIndexToDateTime(0); }
         }
 
         /// <summary>

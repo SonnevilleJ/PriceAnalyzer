@@ -184,11 +184,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns>The index of the corresponding <see cref="PricePeriod"/>.</returns>
         private int ConvertDateTimeToIndex(DateTime dateTime)
         {
-            var values = PriceSeries.GetPricePeriods().ToList();
-            var periods = values.Where(kvp => kvp.Head <= dateTime);
+            var periods = PriceSeries.GetPricePeriods().Where(period => period.Head <= dateTime);
             if (periods.Count() < 1)
                 throw new ArgumentOutOfRangeException(String.Format("The underlying TimeSeries does not have a value for DateTime: {0}.", dateTime));
-            return values.IndexOf(periods.Last());
+            return PriceSeries.GetPricePeriods().IndexOf(periods.Last());
         }
 
         /// <summary>
