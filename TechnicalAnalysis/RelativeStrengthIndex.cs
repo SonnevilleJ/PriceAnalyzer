@@ -92,7 +92,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                 //var sufficientAmount = PreCalculatedPeriods.Count >= index + 1;
                 //if (!sufficientAmount || !PreCalculatedPeriods[index])
                 //{
-                    var change = IndexedTimeSeriesValues[index] - IndexedTimeSeriesValues[index - 1];
+                    var change = IndexedPriceSeriesValues[index] - IndexedPriceSeriesValues[index - 1];
                     if (change > 0) _gains.Add(new KeyValuePair<int, decimal>(index, change));
                     if (change < 0) _losses.Add(new KeyValuePair<int, decimal>(index, change));
                     _preCalculatedPeriods[index] = true;

@@ -64,7 +64,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The indexed values from <see cref="PriceSeries"/>.
         /// </summary>
-        protected IDictionary<int, decimal> IndexedTimeSeriesValues { get; private set; }
+        protected IDictionary<int, decimal> IndexedPriceSeriesValues { get; private set; }
 
         /// <summary>
         /// Calculates a single value of this Indicator.
@@ -100,7 +100,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             get
             {
-                return PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(ConvertIndexToDateTime(index), IndexedTimeSeriesValues[index]));
+                return PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(ConvertIndexToDateTime(index), IndexedPriceSeriesValues[index]));
             }
         }
 
@@ -137,7 +137,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         public virtual void CalculateAll()
         {
             Reset();
-            foreach (var index in IndexedTimeSeriesValues.Select(pricePeriod => pricePeriod.Key))
+            foreach (var index in IndexedPriceSeriesValues.Select(pricePeriod => pricePeriod.Key))
             {
                 CalculateAndCache(index);
             }
@@ -155,12 +155,12 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         private void IndexTimeSeriesValues()
         {
-            IndexedTimeSeriesValues = new Dictionary<int, decimal>();
+            IndexedPriceSeriesValues = new Dictionary<int, decimal>();
 
             var array = PriceSeries.GetPricePeriods();
             for (var i = 0; i < array.Count; i++)
             {
-                IndexedTimeSeriesValues.Add(i, array[i].Close);
+                IndexedPriceSeriesValues.Add(i, array[i].Close);
             }
         }
 

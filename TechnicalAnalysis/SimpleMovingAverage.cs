@@ -32,7 +32,7 @@
                 decimal sum = 0;
                 for (var i = index - count; i <= index; i++)
                 {
-                    sum += IndexedTimeSeriesValues[i];
+                    sum += IndexedPriceSeriesValues[i];
                 }
                 return sum / Lookback;
             }
