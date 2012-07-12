@@ -43,16 +43,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the <see cref="PricePeriod"/> stored at a given index.
-        /// </summary>
-        /// <param name="index">The index of the <see cref="PricePeriod"/> to get.</param>
-        /// <returns>The <see cref="PricePeriod"/> stored at the given index.</returns>
-        public PricePeriod this[int index]
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        /// <summary>
         /// Gets the first DateTime in the TimeSeries.
         /// </summary>
         public DateTime Head
@@ -104,14 +94,6 @@ namespace Sonneville.PriceTools.Implementation
         public Resolution Resolution
         {
             get { return Positions.Min(p => p.Resolution); }
-        }
-
-        /// <summary>
-        /// Gets the values stored within the TimeSeries.
-        /// </summary>
-        public IDictionary<DateTime, decimal> Values
-        {
-            get { throw new NotSupportedException(); }
         }
 
         /// <summary>

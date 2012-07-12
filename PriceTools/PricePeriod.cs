@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Sonneville.PriceTools
@@ -49,13 +48,6 @@ namespace Sonneville.PriceTools
         public abstract decimal this[DateTime index] { get; }
 
         /// <summary>
-        /// Gets the <see cref="PricePeriod"/> stored at a given index.
-        /// </summary>
-        /// <param name="index">The index of the <see cref="PricePeriod"/> to get.</param>
-        /// <returns>The <see cref="PricePeriod"/> stored at the given index.</returns>
-        public virtual PricePeriod this[int index] { get { return this; } }
-
-        /// <summary>
         /// Gets the first DateTime in the TimeSeries.
         /// </summary>
         public abstract DateTime Head { get; }
@@ -81,11 +73,6 @@ namespace Sonneville.PriceTools
                 throw new OverflowException();
             }
         }
-
-        /// <summary>
-        /// Gets the values stored within the TimeSeries.
-        /// </summary>
-        public abstract IDictionary<DateTime, decimal> Values { get; }
 
         /// <summary>
         /// Determines if the PricePeriod has a valid value for a given date.

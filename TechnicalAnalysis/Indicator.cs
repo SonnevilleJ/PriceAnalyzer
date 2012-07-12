@@ -19,20 +19,20 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Constructs an Indicator for a given <see cref="PriceSeries"/>.
         /// </summary>
-        /// <param name="timeSeries">The <see cref="PriceSeries"/> to measure.</param>
+        /// <param name="priceSeries">The <see cref="PriceSeries"/> to measure.</param>
         /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
-        protected Indicator(TimeSeries timeSeries, int lookback)
+        protected Indicator(PriceSeries priceSeries, int lookback)
         {
-            if (timeSeries == null)
+            if (priceSeries == null)
             {
-                throw new ArgumentNullException("timeSeries");
+                throw new ArgumentNullException("priceSeries");
             }
-            if(timeSeries.TimeSpan() < new TimeSpan(lookback * (long)timeSeries.Resolution))
+            if(priceSeries.TimeSpan() < new TimeSpan(lookback * (long)priceSeries.Resolution))
             {
-                throw new InvalidOperationException("The TimeSpan of timeSeries is too narrow for the given lookback duration.");
+                throw new InvalidOperationException("The TimeSpan of priceSeries is too narrow for the given lookback duration.");
             }
 
-            TimeSeries = timeSeries;
+            PriceSeries = priceSeries;
             Lookback = lookback;
             Reset();
         }
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         public override DateTime Head
         {
-            get { return TimeSeries.Values.ToArray()[Lookback - 1].Key; }
+            get { return PriceSeries[Lookback - 1].Head; }
         }
 
         /// <summary>
@@ -54,7 +54,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         public override DateTime Tail
         {
-            get { return TimeSeries.Tail; }
+            get { return PriceSeries.Tail; }
         }
 
         #endregion
@@ -62,7 +62,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         #region Protected Members
 
         /// <summary>
-        /// The indexed values from <see cref="TimeSeries"/>.
+        /// The indexed values from <see cref="PriceSeries"/>.
         /// </summary>
         protected IDictionary<int, decimal> IndexedTimeSeriesValues { get; private set; }
 
@@ -110,29 +110,12 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
         /// </summary>
-        public TimeSeries TimeSeries { get; private set; }
+        public PriceSeries PriceSeries { get; private set; }
 
         /// <summary>
         /// The Resolution of this Indicator.
         /// </summary>
-        public override Resolution Resolution { get { return TimeSeries.Resolution; } }
-
-        /// <summary>
-        /// Gets the calculated values of the Indicator.
-        /// </summary>
-        public override IDictionary<DateTime, decimal> Values
-        {
-            get
-            {
-                var dictionary = new Dictionary<DateTime, decimal>(Results.Count);
-                foreach (var result in Results)
-                {
-                    var value = result.Value;
-                    if(value.HasValue) dictionary.Add(ConvertIndexToDateTime(result.Key), value.Value);
-                }
-                return dictionary;
-            }
-        }
+        public override Resolution Resolution { get { return PriceSeries.Resolution; } }
 
         /// <summary>
         /// Determines if the Indicator has a valid value for a given date.
@@ -163,7 +146,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         private void Reset()
         {
-            Results = new Dictionary<int, decimal?>(TimeSeries.Values.Count - Lookback);
+            Results = new Dictionary<int, decimal?>();
             IndexTimeSeriesValues();
         }
 
@@ -171,10 +154,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             IndexedTimeSeriesValues = new Dictionary<int, decimal>();
 
-            var array = TimeSeries.Values.ToArray();
-            for (var i = 0; i < array.Length; i++)
+            var array = PriceSeries.GetPricePeriods();
+            for (var i = 0; i < array.Count; i++)
             {
-                IndexedTimeSeriesValues.Add(i, array[i].Value);
+                IndexedTimeSeriesValues.Add(i, array[i].Close);
             }
         }
 
@@ -198,8 +181,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns>The index of the corresponding <see cref="PricePeriod"/>.</returns>
         private int ConvertDateTimeToIndex(DateTime dateTime)
         {
-            var values = TimeSeries.Values.ToList();
-            var periods = values.Where(kvp => kvp.Key <= dateTime);
+            var values = PriceSeries.GetPricePeriods().ToList();
+            var periods = values.Where(kvp => kvp.Head <= dateTime);
             if (periods.Count() < 1)
                 throw new ArgumentOutOfRangeException(String.Format("The underlying TimeSeries does not have a value for DateTime: {0}.", dateTime));
             return values.IndexOf(periods.Last());
@@ -212,8 +195,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns>The DateTime of the corresponding <paramref name="index"/>.</returns>
         protected DateTime ConvertIndexToDateTime(int index)
         {
-            var values = TimeSeries.Values.ToArray();
-            return values[index].Key;
+            var values = PriceSeries[index];
+            return values.Head;
         }
 
         #endregion

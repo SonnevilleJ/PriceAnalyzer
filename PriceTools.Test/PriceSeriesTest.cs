@@ -530,45 +530,6 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        public void ValuesCountTest()
-        {
-            var p1 = TestUtilities.CreatePeriod1();
-            var p2 = TestUtilities.CreatePeriod2();
-            var p3 = TestUtilities.CreatePeriod3();
-
-            var target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.AddPriceData(p1);
-            target.AddPriceData(p2);
-            target.AddPriceData(p3);
-
-            IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> {{p1.Head, p1.Close}, {p2.Head, p2.Close}, {p3.Head, p3.Close}};
-
-            var actual = target.Values;
-            Assert.AreEqual(expected.Count, actual.Count);
-        }
-
-        [TestMethod]
-        public void ValuesMatchTest()
-        {
-            var p1 = TestUtilities.CreatePeriod1();
-            var p2 = TestUtilities.CreatePeriod2();
-            var p3 = TestUtilities.CreatePeriod3();
-
-            var target = PriceSeriesFactory.CreatePriceSeries("test");
-            target.AddPriceData(p1);
-            target.AddPriceData(p2);
-            target.AddPriceData(p3);
-
-            IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> {{p1.Head, p1.Close}, {p2.Head, p2.Close}, {p3.Head, p3.Close}};
-
-            var actual = target.Values;
-            foreach (var key in expected.Keys)
-            {
-                Assert.IsTrue(actual.ContainsKey(key));
-            }
-        }
-
-        [TestMethod]
         public void DefaultResolutionTest()
         {
             var target = PriceSeriesFactory.CreatePriceSeries("DE");

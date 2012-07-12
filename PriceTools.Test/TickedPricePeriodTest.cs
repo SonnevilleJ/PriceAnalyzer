@@ -199,7 +199,7 @@ namespace Sonneville.PriceTools.Test
             var q3 = TestUtilities.CreateTick3();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
-            
+
             target.AddPriceTicks(q2, q3);
             Assert.AreEqual(q2.Price, target.Open);
 
@@ -274,41 +274,6 @@ namespace Sonneville.PriceTools.Test
             target.AddPriceTicks(q3);
 
             Assert.AreEqual(3, count);
-        }
-
-        [TestMethod]
-        public void ValuesCountTest()
-        {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
-
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
-            target.AddPriceTicks(q1, q2, q3);
-
-            IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> { { q1.SettlementDate, q1.Price }, { q2.SettlementDate, q2.Price }, { q3.SettlementDate, q3.Price } };
-
-            var actual = target.Values;
-            Assert.AreEqual(expected.Count, actual.Count);
-        }
-
-        [TestMethod]
-        public void ValuesMatchTest()
-        {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
-
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
-            target.AddPriceTicks(q1, q2, q3);
-
-            IDictionary<DateTime, decimal> expected = new Dictionary<DateTime, decimal> {{q1.SettlementDate, q1.Price}, {q2.SettlementDate, q2.Price}, {q3.SettlementDate, q3.Price}};
-
-            var actual = target.Values;
-            foreach (var key in expected.Keys)
-            {
-                Assert.IsTrue(actual.ContainsKey(key));
-            }
         }
     }
 }

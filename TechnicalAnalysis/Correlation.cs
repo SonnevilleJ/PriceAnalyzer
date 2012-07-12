@@ -23,8 +23,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         #region Constructors
 
-        public Correlation(TimeSeries timeSeries, int lookback, TimeSeries target)
-            : base(timeSeries, lookback)
+        public Correlation(PriceSeries priceSeries, int lookback, TimeSeries target)
+            : base(priceSeries, lookback)
         {
             _target = target;
         }
@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
         protected override decimal? Calculate(int index)
         {
-            var timeSeriesValues = GetValues(TimeSeries, index);
+            var timeSeriesValues = GetValues(PriceSeries, index);
             var targetValues = GetValues(_target, index);
 
             var timeSeriesTask = new Task<IList<decimal>>(() => SquareElements(index, timeSeriesValues));

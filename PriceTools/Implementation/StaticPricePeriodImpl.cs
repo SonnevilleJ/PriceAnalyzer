@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Sonneville.PriceTools.Implementation
 {
@@ -173,17 +172,6 @@ namespace Sonneville.PriceTools.Implementation
         public override DateTime Tail
         {
             get { return _tail; }
-        }
-
-        /// <summary>
-        /// Gets the values stored within the TimeSeries.
-        /// </summary>
-        public override IDictionary<DateTime, decimal> Values
-        {
-            get
-            {
-                return new Dictionary<DateTime, decimal> {{Head, Close}};
-            }
         }
 
         #endregion

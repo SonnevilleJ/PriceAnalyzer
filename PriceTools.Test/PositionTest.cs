@@ -328,16 +328,6 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
-        public void ValuesTest()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var values = target.Values;
-        }
-
-        [TestMethod]
         public void ResolutionEqualsResolutionOfPriceSeriesTest()
         {
             const string ticker = "DE";

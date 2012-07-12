@@ -92,7 +92,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="index">The index of the <see cref="PricePeriod"/> to get.</param>
         /// <returns>The <see cref="PricePeriod"/> stored at the given index.</returns>
-        public override PricePeriod this[int index]
+        public virtual PricePeriod this[int index]
         {
             get { return PricePeriods[index]; }
         }
@@ -118,23 +118,6 @@ namespace Sonneville.PriceTools
             {
                 if (_dataPeriods.Count == 0) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
                 return _dataPeriods.Max(p => p.Tail);
-            }
-        }
-
-        /// <summary>
-        /// Gets the values stored within the TimeSeries.
-        /// </summary>
-        public override IDictionary<DateTime, decimal> Values
-        {
-            get
-            {
-                var pricePeriods = PricePeriods;
-                var dictionary = new Dictionary<DateTime, decimal>(pricePeriods.Count);
-                foreach (var pricePeriod in pricePeriods)
-                {
-                    dictionary.Add(pricePeriod.Head, pricePeriod.Close);
-                }
-                return dictionary;
             }
         }
 

@@ -668,15 +668,5 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(false, target.HasValueInRange(testDate));
             Assert.AreEqual(true, target.HasValueInRange(purchaseDate.AddDays(1)));
         }
-
-        [TestMethod]
-        [ExpectedException(typeof(NotSupportedException))]
-        public void ValuesTest()
-        {
-            const string ticker = "DE";
-            var target = PortfolioFactory.ConstructPortfolio(ticker);
-
-            var values = target.Values;
-        }
     }
 }

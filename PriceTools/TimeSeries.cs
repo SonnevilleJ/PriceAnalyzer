@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
 {
@@ -16,13 +15,6 @@ namespace Sonneville.PriceTools
         decimal this[DateTime dateTime] { get; }
 
         /// <summary>
-        /// Gets the <see cref="PricePeriod"/> stored at a given index.
-        /// </summary>
-        /// <param name="index">The index of the <see cref="PricePeriod"/> to get.</param>
-        /// <returns>The <see cref="PricePeriod"/> stored at the given index.</returns>
-        PricePeriod this[int index] { get; }
-
-        /// <summary>
         /// Gets the first DateTime in the TimeSeries.
         /// </summary>
         DateTime Head { get; }
@@ -36,11 +28,6 @@ namespace Sonneville.PriceTools
         /// Gets the <see cref="Resolution"/> of price data stored within the TimeSeries.
         /// </summary>
         Resolution Resolution { get; }
-
-        /// <summary>
-        /// Gets the values stored within the TimeSeries.
-        /// </summary>
-        IDictionary<DateTime, decimal> Values { get; }
 
         /// <summary>
         /// Determines if the TimeSeries has a valid value for a given date.

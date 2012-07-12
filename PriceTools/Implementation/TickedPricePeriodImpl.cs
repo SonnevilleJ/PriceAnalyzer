@@ -43,17 +43,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the values stored within the TimeSeries.
-        /// </summary>
-        public override IDictionary<DateTime, decimal> Values
-        {
-            get
-            {
-                return PriceTicks.ToDictionary(tick => tick.SettlementDate, tick => tick.Price);
-            }
-        }
-
-        /// <summary>
         ///   Adds one or more <see cref = "PriceTick" />s to the PriceSeries.
         /// </summary>
         /// <param name = "priceTicks">The <see cref = "PriceTick" />s to add.</param>
