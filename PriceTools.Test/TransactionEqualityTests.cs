@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools.Test
             var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
             var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
-            Assert.AreNotEqual(t1.GetHashCode(), t2.GetHashCode());
+            Assert.AreEqual(t1.GetHashCode(), t2.GetHashCode());
         }
 
         [TestMethod]
