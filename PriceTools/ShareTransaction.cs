@@ -72,6 +72,10 @@ namespace Sonneville.PriceTools
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(ShareTransaction other)
         {
+            if (ReferenceEquals(null, other))
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
             return base.Equals(other) &&
                    Ticker == other.Ticker &&
                    Shares == other.Shares &&

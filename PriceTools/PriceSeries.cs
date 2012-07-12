@@ -185,7 +185,7 @@ namespace Sonneville.PriceTools
                     let low = periodsInRange.Min(p => p.Low)
                     let close = periodsInRange.Last().Close
                     let volume = periodsInRange.Sum(p => p.Volume)
-                    select PricePeriodFactory.CreateStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).ToList();
+                    select PricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).ToList();
         }
 
         /// <summary>
@@ -305,6 +305,10 @@ namespace Sonneville.PriceTools
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(PriceSeries other)
         {
+            if (ReferenceEquals(null, other))
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
             return base.Equals(other) &&
                    Ticker == other.Ticker &&
                    other.PricePeriods.All(pricePeriod => PricePeriods.Contains(pricePeriod));

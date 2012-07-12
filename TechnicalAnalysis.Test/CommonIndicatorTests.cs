@@ -44,6 +44,35 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             Assert.AreEqual(expected, actual);
         }
 
+        [TestMethod]
+        public void IndexerTest1()
+        {
+            var date = new DateTime(2011, 3, 1);
+            var priceSeries = CreateTestPriceSeries(10, date, 1);
+            const int lookback = 4;
+
+            var target = new SimpleMovingAverage(priceSeries, lookback);
+
+            var testDate = date.AddDays(lookback);
+            var expected = priceSeries[testDate];
+            var actual = target[testDate];
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void IndexerTest2()
+        {
+            var date = new DateTime(2011, 3, 1);
+            var priceSeries = CreateTestPriceSeries(10, date, 1);
+            const int lookback = 4;
+
+            var target = new SimpleMovingAverage(priceSeries, lookback);
+
+            var expected = priceSeries[lookback];
+            var actual = target[0];
+            Assert.AreEqual(expected, actual);
+        }
+
         private static PriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
         {
             var series = PriceSeriesFactory.CreatePriceSeries("test");

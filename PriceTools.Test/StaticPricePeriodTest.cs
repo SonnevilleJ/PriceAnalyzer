@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Sonneville.PriceTools.Test
@@ -21,7 +20,7 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             Assert.AreEqual(close, target.Close);
         }
@@ -39,7 +38,7 @@ namespace Sonneville.PriceTools.Test
             const decimal low = 90.00m;
             const decimal close = 100.00m;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close);
 
             Assert.AreEqual(head, target.Head);
         }
@@ -58,7 +57,7 @@ namespace Sonneville.PriceTools.Test
             const decimal low = 90.00m;
             const decimal close = 100.00m;
 
-            PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
+            PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close);
         }
 
         /// <summary>
@@ -75,7 +74,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             Assert.AreEqual(high, target.High);
         }
@@ -95,7 +94,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 8.00m;
             const long volume = 1000;
 
-            PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
         }
 
         /// <summary>
@@ -113,7 +112,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 9.00m;
             const long volume = 1000;
 
-            PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
         }
 
         /// <summary>
@@ -130,7 +129,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             Assert.AreEqual(target.Close, (decimal?) target[target.Head]);
         }
@@ -149,7 +148,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             Assert.AreEqual(target.Close, (decimal?) target[target.Tail]);
         }
@@ -169,7 +168,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             Assert.IsNull(target[target.Head.Subtract(new TimeSpan(1))]);
         }
@@ -188,7 +187,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             var result = target[target.Tail.Add(new TimeSpan(1))];
         }
@@ -207,7 +206,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             Assert.AreEqual(low, target.Low);
         }
@@ -227,7 +226,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 12.00m;
             const long volume = 1000;
 
-            PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
         }
 
         /// <summary>
@@ -245,7 +244,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 8.00m;
             const long volume = 1000;
 
-            PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
         }
 
         /// <summary>
@@ -262,7 +261,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             Assert.AreEqual(open, target.Open);
         }
@@ -281,7 +280,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             Assert.AreEqual(tail, target.Tail);
         }
@@ -300,7 +299,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             Assert.AreEqual(volume, target.Volume);
         }
@@ -319,7 +318,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             const Resolution expected = Resolution.Seconds;
             var actual = target.Resolution;
@@ -340,7 +339,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             const Resolution expected = Resolution.Minutes;
             var actual = target.Resolution;
@@ -361,7 +360,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             const Resolution expected = Resolution.Hours;
             var actual = target.Resolution;
@@ -382,7 +381,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             const Resolution expected = Resolution.Days;
             var actual = target.Resolution;
@@ -403,7 +402,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             const Resolution expected = Resolution.Weeks;
             var actual = target.Resolution;
@@ -424,7 +423,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 10.00m;
             const long volume = 1000;
 
-            var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             const Resolution expected = Resolution.Months;
             var actual = target.Resolution;

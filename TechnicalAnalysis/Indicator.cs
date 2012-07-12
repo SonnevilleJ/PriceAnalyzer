@@ -98,7 +98,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns>The <see cref="PricePeriod"/> stored at the given index.</returns>
         public override PricePeriod this[int index]
         {
-            get { throw new NotImplementedException(); }
+            get
+            {
+                return PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(ConvertIndexToDateTime(index), IndexedTimeSeriesValues[index]));
+            }
         }
 
         /// <summary>
@@ -195,7 +198,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns>The DateTime of the corresponding <paramref name="index"/>.</returns>
         protected DateTime ConvertIndexToDateTime(int index)
         {
-            var values = PriceSeries[index];
+            var values = PriceSeries[index + Lookback];
             return values.Head;
         }
 

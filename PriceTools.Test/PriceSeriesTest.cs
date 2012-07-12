@@ -546,7 +546,7 @@ namespace Sonneville.PriceTools.Test
             var head = new DateTime(2011, 12, 28);
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             var raised = false;
             EventHandler<NewPriceDataAvailableEventArgs> handler = (sender, e) => { raised = true; };
@@ -572,7 +572,7 @@ namespace Sonneville.PriceTools.Test
             var head = new DateTime(2011, 12, 28);
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             NewPriceDataAvailableEventArgs args = null;
             EventHandler<NewPriceDataAvailableEventArgs> handler = (sender, e) => { args = e; };
@@ -634,7 +634,7 @@ namespace Sonneville.PriceTools.Test
             var head = new DateTime(2011, 12, 28);
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             target.AddPriceData(period);
 
@@ -649,7 +649,7 @@ namespace Sonneville.PriceTools.Test
             var head = new DateTime(2011, 2, 28);
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             target.AddPriceData(period);
         }
@@ -662,7 +662,7 @@ namespace Sonneville.PriceTools.Test
             var tail = target.Head.GetFollowingClose();
             var head = tail.AddDays(-1).GetMostRecentOpen();
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             target.AddPriceData(period);
         }
@@ -675,7 +675,7 @@ namespace Sonneville.PriceTools.Test
             var head = target.Tail.GetMostRecentOpen();
             var tail = head.AddDays(1).GetFollowingClose();
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close);
+            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             target.AddPriceData(period);
         }

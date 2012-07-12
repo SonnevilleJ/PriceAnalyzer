@@ -205,7 +205,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
         {
             return new List<PricePeriod>
                        {
-                           PricePeriodFactory.CreateStaticPricePeriod(
+                           PricePeriodFactory.ConstructStaticPricePeriod(
                                new DateTime(2011, 12, 27),
                                new DateTime(2011, 12, 27).GetFollowingClose(),
                                100.00m)

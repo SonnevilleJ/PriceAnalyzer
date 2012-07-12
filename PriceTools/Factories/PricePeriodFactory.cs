@@ -18,9 +18,9 @@ namespace Sonneville.PriceTools
         /// <param name="close">The per-share price of the last transaction in the period.</param>
         /// <param name="volume">The total number of shares traded during the period.</param>
         /// <returns>A PricePeriod object with only a close.</returns>
-        public static PricePeriod CreateStaticPricePeriod(DateTime head, DateTime tail, decimal close, long? volume = null)
+        public static PricePeriod ConstructStaticPricePeriod(DateTime head, DateTime tail, decimal close, long? volume = null)
         {
-            return CreateStaticPricePeriod(head, tail, null, null, null, close, volume);
+            return ConstructStaticPricePeriod(head, tail, null, null, null, close, volume);
         }
 
         /// <summary>
@@ -31,9 +31,9 @@ namespace Sonneville.PriceTools
         /// <param name="close">The per-share price of the last transaction in the period.</param>
         /// <param name="volume">The total number of shares traded during the period.</param>
         /// <returns>A PricePeriod object with only a close.</returns>
-        public static PricePeriod CreateStaticPricePeriod(DateTime head, Resolution resolution, decimal close, long? volume = null)
+        public static PricePeriod ConstructStaticPricePeriod(DateTime head, Resolution resolution, decimal close, long? volume = null)
         {
-            return CreateStaticPricePeriod(head, resolution, null, null, null, close, volume);
+            return ConstructStaticPricePeriod(head, resolution, null, null, null, close, volume);
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools
         /// <param name="close">The per-share price of the last transaction in the period.</param>
         /// <param name="volume">The total number of shares traded during the period.</param>
         /// <returns>A PricePeriod object with only a close.</returns>
-        public static PricePeriod CreateStaticPricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
+        public static PricePeriod ConstructStaticPricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
         {
             return new StaticPricePeriodImpl(head, tail, open, high, low, close, volume);
         }
@@ -63,7 +63,7 @@ namespace Sonneville.PriceTools
         /// <param name="close">The per-share price of the last transaction in the period.</param>
         /// <param name="volume">The total number of shares traded during the period.</param>
         /// <returns>A PricePeriod object with only a close.</returns>
-        public static PricePeriod CreateStaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
+        public static PricePeriod ConstructStaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
         {
             return new StaticPricePeriodImpl(head, resolution, open, high, low, close, volume);
         }
@@ -84,8 +84,18 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static TickedPricePeriod ConstructTickedPricePeriod(IEnumerable<PriceTick> priceTicks)
         {
+            return ConstructTickedPricePeriod(priceTicks.ToArray());
+        }
+
+        /// <summary>
+        /// Constructs a <see cref="PricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
+        /// </summary>
+        /// <param name="priceTickArray"></param>
+        /// <returns></returns>
+        public static TickedPricePeriod ConstructTickedPricePeriod(params PriceTick[] priceTickArray)
+        {
             var period = new TickedPricePeriodImpl();
-            period.AddPriceTicks(priceTicks.ToArray());
+            period.AddPriceTicks(priceTickArray);
             return period;
         }
     }

@@ -108,8 +108,10 @@ namespace Sonneville.PriceTools
         /// <param name="other">An object to compare with this object.</param>
         public bool Equals(PricePeriod other)
         {
-            if (other == null) return false;
-
+            if (ReferenceEquals(null, other))
+                return false;
+            if (ReferenceEquals(this, other))
+                return true;
             return Resolution == other.Resolution &&
                    Head == other.Head &&
                    Tail == other.Tail &&

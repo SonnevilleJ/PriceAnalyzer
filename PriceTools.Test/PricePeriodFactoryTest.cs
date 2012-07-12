@@ -183,7 +183,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
 
                 Assert.AreEqual(head, target.Head);
             }
@@ -200,7 +200,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
 
                 Assert.AreEqual(tail, target.Tail);
             }
@@ -216,7 +216,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
 
                 Assert.AreEqual(open, target.Open);
             }
@@ -233,7 +233,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -248,7 +248,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -263,7 +263,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -277,7 +277,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
 
                 Assert.AreEqual(high, target.High);
             }
@@ -294,7 +294,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -308,7 +308,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
 
                 Assert.AreEqual(low, target.Low);
             }
@@ -325,7 +325,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -340,7 +340,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -354,7 +354,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
 
                 Assert.AreEqual(close, target.Close);
             }
@@ -371,7 +371,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetInvalidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -386,7 +386,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetInvalidCloseAboveHigh();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -401,7 +401,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetInvalidCloseBelowLow();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -414,7 +414,7 @@ namespace Sonneville.PriceTools.Test
                 var low = GetValidLow();
                 var close = GetValidClose();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close);
 
                 Assert.IsNull(target.Volume);
             }
@@ -430,7 +430,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
 
                 Assert.AreEqual(volume, target.Volume);
             }
@@ -447,7 +447,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetInvalidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -461,7 +461,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, open, high, low, close, volume);
 
                 Assert.AreEqual(resolution, target.Resolution);
             }
@@ -478,7 +478,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, close, volume);
 
                 Assert.AreEqual(head, target.Head);
             }
@@ -492,7 +492,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, close, volume);
 
                 Assert.AreEqual(tail, target.Tail);
             }
@@ -505,7 +505,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, close, volume);
 
                 Assert.AreEqual(close, target.Open);
             }
@@ -518,7 +518,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, close, volume);
 
                 Assert.AreEqual(close, target.High);
             }
@@ -531,7 +531,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, close, volume);
 
                 Assert.AreEqual(close, target.Low);
             }
@@ -544,7 +544,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, close, volume);
 
                 Assert.AreEqual(close, target.Close);
             }
@@ -558,7 +558,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetInvalidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, close, volume);
             }
 
             public override void CreateStaticPricePeriodDefaultVolumeTest()
@@ -568,7 +568,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, close, volume);
 
                 Assert.IsNull(target.Volume);
             }
@@ -581,7 +581,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, close, volume);
 
                 Assert.AreEqual(volume, target.Volume);
             }
@@ -595,7 +595,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetInvalidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, resolution, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, close, volume);
             }
 
             [TestMethod]
@@ -606,7 +606,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, resolution, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, resolution, close, volume);
 
                 Assert.AreEqual(resolution, target.Resolution);
             }
@@ -626,7 +626,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
                 Assert.AreEqual(head, target.Head);
             }
@@ -642,7 +642,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
                 Assert.AreEqual(tail, target.Tail);
             }
@@ -658,7 +658,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
                 Assert.AreEqual(open, target.Open);
             }
@@ -675,7 +675,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -690,7 +690,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -705,7 +705,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -719,7 +719,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
                 Assert.AreEqual(high, target.High);
             }
@@ -736,7 +736,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -750,7 +750,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
                 Assert.AreEqual(low, target.Low);
             }
@@ -767,7 +767,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -782,7 +782,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -796,7 +796,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
                 Assert.AreEqual(close, target.Close);
             }
@@ -813,7 +813,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetInvalidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -828,7 +828,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetInvalidCloseAboveHigh();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -843,7 +843,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetInvalidCloseBelowLow();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -856,7 +856,7 @@ namespace Sonneville.PriceTools.Test
                 var low = GetValidLow();
                 var close = GetValidClose();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close);
 
                 Assert.IsNull(target.Volume);
             }
@@ -872,7 +872,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
                 Assert.AreEqual(volume, target.Volume);
             }
@@ -889,7 +889,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetInvalidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
             }
 
             [TestMethod]
@@ -904,7 +904,7 @@ namespace Sonneville.PriceTools.Test
                 var volume = GetValidVolume();
                 var resolution = GetResolution();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
                 Assert.AreEqual(resolution, target.Resolution);
             }
@@ -921,7 +921,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close, volume);
 
                 Assert.AreEqual(head, target.Head);
             }
@@ -934,7 +934,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close, volume);
 
                 Assert.AreEqual(tail, target.Tail);
             }
@@ -947,7 +947,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close, volume);
 
                 Assert.AreEqual(close, target.Open);
             }
@@ -960,7 +960,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close, volume);
 
                 Assert.AreEqual(close, target.High);
             }
@@ -973,7 +973,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close, volume);
 
                 Assert.AreEqual(close, target.Low);
             }
@@ -986,7 +986,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close, volume);
 
                 Assert.AreEqual(close, target.Close);
             }
@@ -1000,7 +1000,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetInvalidClose();
                 var volume = GetValidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close, volume);
             }
 
             public override void CreateStaticPricePeriodDefaultVolumeTest()
@@ -1010,7 +1010,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close, volume);
 
                 Assert.IsNull(target.Volume);
             }
@@ -1023,7 +1023,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetValidVolume();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close, volume);
 
                 Assert.AreEqual(volume, target.Volume);
             }
@@ -1037,7 +1037,7 @@ namespace Sonneville.PriceTools.Test
                 var close = GetValidClose();
                 var volume = GetInvalidVolume();
 
-                PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+                PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close, volume);
             }
 
             [TestMethod]
@@ -1049,7 +1049,7 @@ namespace Sonneville.PriceTools.Test
                 var volume = GetValidVolume();
                 var resolution = GetResolution();
 
-                var target = PricePeriodFactory.CreateStaticPricePeriod(head, tail, close, volume);
+                var target = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close, volume);
 
                 Assert.AreEqual(resolution, target.Resolution);
             }

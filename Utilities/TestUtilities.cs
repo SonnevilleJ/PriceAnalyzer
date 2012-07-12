@@ -21,7 +21,7 @@ namespace Sonneville.Utilities
             const decimal close = 100.00m;
             const long volume = 20000;
 
-            return PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            return PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
         }
 
         public static PricePeriod CreatePeriod2()
@@ -33,7 +33,7 @@ namespace Sonneville.Utilities
             const decimal low = 100.00m;
             const decimal close = 110.00m;
 
-            return PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close);
+            return PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close);
         }
 
         public static PricePeriod CreatePeriod3()
@@ -46,7 +46,7 @@ namespace Sonneville.Utilities
             const decimal close = 90.00m;
             const long volume = 10000;
 
-            return PricePeriodFactory.CreateStaticPricePeriod(head, tail, open, high, low, close, volume);
+            return PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
         }
 
         #endregion

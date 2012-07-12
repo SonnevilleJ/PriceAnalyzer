@@ -282,7 +282,7 @@ namespace Sonneville.PriceTools.Data.Csv
                     tail = GetTail(stagedPeriod.Date, resolution);
                 }
 
-                var period = PricePeriodFactory.CreateStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
+                var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
                 pricePeriods.Add(period);
             }
             priceSeries.AddPriceData(pricePeriods);
