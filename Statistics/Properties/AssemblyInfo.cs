@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("DecimalStatistics")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Deere & Company")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("DecimalStatistics")]
-[assembly: AssemblyCopyright("Copyright © Deere & Company 2012")]
+[assembly: AssemblyCopyright("Copyright © John Sonneville 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
