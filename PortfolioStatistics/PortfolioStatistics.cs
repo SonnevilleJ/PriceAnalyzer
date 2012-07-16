@@ -13,6 +13,7 @@ namespace PortfolioStatistics
             long losses = 0;
             decimal totalGain = 0;
             decimal totalLoss = 0;
+            decimal trades = 0;
 
             foreach (var netProfit in holdings.Select(holding => holding.NetProfit()))
             {
@@ -26,10 +27,9 @@ namespace PortfolioStatistics
                     losses++;
                     totalLoss += Math.Abs(netProfit);
                 }
+                trades++;
             }
-
-            decimal trades = holdings.Count();
-
+            
             var winPercent = wins/trades;
             var lossPercent = losses/trades;
             var averageGain = totalGain/wins;
