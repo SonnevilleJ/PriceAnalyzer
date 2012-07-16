@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
@@ -20,7 +19,7 @@ namespace PortfolioStatistics.Test
             var winPercentage = (decimal) holdings.Where(h => h.NetProfit() > 0).Count()/holdings.Count;
             var lossPercentage = (decimal) holdings.Where(h => h.NetProfit() <= 0).Count()/holdings.Count;
             var averageWin = holdings.Where(h => h.NetProfit() > 0).Average(h => h.NetProfit());
-            var averageLoss = holdings.Where(h => h.NetProfit() <= 0).Average(h => h.NetProfit());
+            var averageLoss = holdings.Where(h => h.NetProfit() <= 0).Average(h => Math.Abs(h.NetProfit()));
 
             var expected = winPercentage - ((lossPercentage/(averageWin/averageLoss)));
             var actual = holdings.KellyPercentage();

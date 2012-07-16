@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools;
 
@@ -23,7 +24,7 @@ namespace PortfolioStatistics
                 else
                 {
                     losses++;
-                    totalLoss += netProfit;
+                    totalLoss += Math.Abs(netProfit);
                 }
             }
 
