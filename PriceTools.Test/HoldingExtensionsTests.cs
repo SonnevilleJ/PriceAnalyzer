@@ -3,14 +3,14 @@
 namespace Sonneville.PriceTools.Test
 {
     [TestClass]
-    public class HoldingCalculationTests
+    public class HoldingExtensionsTests
     {
         [TestMethod]
         public void GrossProfitTest()
         {
             var target = new Holding {Shares = 5, OpenPrice = 10, ClosePrice = 20, OpenCommission = 2, CloseCommission = 3};
 
-            var expected = ((decimal) target.Shares*(target.ClosePrice - target.OpenPrice));
+            var expected = (target.Shares*(target.ClosePrice - target.OpenPrice));
             var actual = target.GrossProfit();
             Assert.AreEqual(expected, actual);
         }
@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools.Test
         {
             var target = new Holding {Shares = 5, OpenPrice = 10, ClosePrice = 20, OpenCommission = 2, CloseCommission = 3};
 
-            var expected = ((decimal) target.Shares * (target.ClosePrice - target.OpenPrice)) - target.OpenCommission - target.CloseCommission;
+            var expected = (target.Shares * (target.ClosePrice - target.OpenPrice)) - target.OpenCommission - target.CloseCommission;
             var actual = target.NetProfit();
             Assert.AreEqual(expected, actual);
         }
