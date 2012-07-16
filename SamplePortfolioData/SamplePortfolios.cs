@@ -17,13 +17,5 @@
         {
             get { return PortfolioFactory.ConstructPortfolio(TransactionHistory.BrokerageLink_trades, "FDRXX"); }
         }
-        
-        /// <summary>
-        /// Consists of a single buy transaction. Used to test for rounding errors when calculating invested capital.
-        /// </summary>
-        public static Portfolio BrokerageLink_TransactionPriceRounding
-        {
-            get { return PortfolioFactory.ConstructPortfolio(TransactionHistory.BrokerageLink_TransactionPriceRounding); }
-        }
     }
 }

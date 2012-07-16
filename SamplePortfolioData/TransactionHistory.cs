@@ -18,15 +18,7 @@ namespace Sonneville.PriceTools.SamplePortfolioData
         /// </summary>
         public static Data.TransactionHistory BrokerageLink_trades
         {
-            get { return new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.BrokerageLink_trades)); }
-        }
-
-        /// <summary>
-        /// Consists of a single buy transaction. Used to test for rounding errors when calculating invested capital.
-        /// </summary>
-        public static Data.TransactionHistory BrokerageLink_TransactionPriceRounding
-        {
-            get { return new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.BrokerageLink_TransactionPriceRounding)); }
+            get { return new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.BrokerageLink_trades)); }
         }
     }
 }
