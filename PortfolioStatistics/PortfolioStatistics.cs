@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sonneville.PriceTools;
 
-namespace PortfolioStatistics
+namespace Sonneville.PriceTools.PortfolioStatistics
 {
     public static class PortfolioStatistics
     {

@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.SamplePortfolioData;
 
-namespace PortfolioStatistics.Test
+namespace Sonneville.PriceTools.PortfolioStatistics.Test
 {
     /// <summary>
     /// Summary description for PortfolioStatisticsTest
