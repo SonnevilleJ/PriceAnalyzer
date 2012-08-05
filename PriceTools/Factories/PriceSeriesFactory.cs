@@ -1,6 +1,4 @@
-﻿using Sonneville.PriceTools.Implementation;
-
-namespace Sonneville.PriceTools
+﻿namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Constructs a <see cref="PriceSeries"/> object.

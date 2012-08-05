@@ -154,7 +154,13 @@ namespace Sonneville.PriceTools
         /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
         public static decimal GetHeldShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
         {
-            return shareTransactions.GetOpenedShares(date) - shareTransactions.GetClosedShares(date);
+            var sum = 0m;
+            foreach (var transaction in shareTransactions)
+            {
+                if (transaction is OpeningTransaction) sum += transaction.Shares;
+                if (transaction is ClosingTransaction) sum -= transaction.Shares;
+            }
+            return sum;
         }
 
         /// <summary>

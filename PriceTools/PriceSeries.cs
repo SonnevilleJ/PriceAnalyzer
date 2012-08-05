@@ -128,7 +128,7 @@ namespace Sonneville.PriceTools
         /// <returns>A value indicating if the PriceSeries has a valid value for the given date.</returns>
         public override bool HasValueInRange(DateTime settlementDate)
         {
-            return _dataPeriods.Count > 0 ? base.HasValueInRange(settlementDate) : false;
+            return _dataPeriods.Count > 0 && base.HasValueInRange(settlementDate);
         }
 
         /// <summary>
@@ -204,7 +204,7 @@ namespace Sonneville.PriceTools
         public void AddPriceData(IEnumerable<PricePeriod> pricePeriods)
         {
             var orderedPeriods = pricePeriods.OrderByDescending(period => period.Head);
-            if (_dataPeriods.Where(period => period.HasValueInRange(orderedPeriods.Min(p=>p.Head)) || period.HasValueInRange(orderedPeriods.Max(p=>p.Tail))).Count() > 0)
+            if (_dataPeriods.Any(period => period.HasValueInRange(orderedPeriods.Min(p=>p.Head)) || period.HasValueInRange(orderedPeriods.Max(p=>p.Tail))))
                 throw new InvalidOperationException("Cannot add a PricePeriod for a DateTime range which overlaps that of the PriceSeries.");
 
             foreach (var pricePeriod in orderedPeriods)
@@ -285,7 +285,7 @@ namespace Sonneville.PriceTools
         private decimal GetLatestPrice(DateTime settlementDate)
         {
             var matchingPeriods = PricePeriods.Where(p => p.HasValueInRange(settlementDate));
-            if (matchingPeriods.Count() > 0) return matchingPeriods.OrderBy(p => p.Tail).Last()[settlementDate];
+            if (matchingPeriods.Any()) return matchingPeriods.OrderBy(p => p.Tail).Last()[settlementDate];
 
             if (PricePeriods.Count > 0) return PricePeriods.OrderBy(p => p.Tail).Last(p => p.Tail <= settlementDate).Close;
 

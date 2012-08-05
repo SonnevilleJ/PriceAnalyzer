@@ -80,8 +80,8 @@ namespace Sonneville.PriceTools.Implementation
                 DateTime? latest = null;
                 if (Positions.Count > 0)
                     latest = Positions.OrderBy(position => position.Tail).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last().SettlementDate;
-                var cashTransactions = _cashAccount.Transactions.Where(transaction => transaction.SettlementDate > (latest ?? DateTime.MinValue));
-                if (cashTransactions.Count() > 0)
+                var cashTransactions = _cashAccount.Transactions.Where(transaction => transaction.SettlementDate > (latest ?? DateTime.MinValue)).ToList();
+                if (cashTransactions.Any())
                     latest = cashTransactions.Max(t=>t.SettlementDate);
 
                 return latest ?? DateTime.Now;

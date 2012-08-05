@@ -1,5 +1,4 @@
-﻿using System;
-using Sonneville.PriceTools;
+﻿using Sonneville.PriceTools;
 
 namespace Sonneville.Utilities
 {

@@ -12,7 +12,7 @@
         /// <returns></returns>
         public static decimal GrossProfit(this IHolding holding)
         {
-            return (holding.ClosePrice - holding.OpenPrice) * (decimal) holding.Shares;
+            return (holding.ClosePrice - holding.OpenPrice) * holding.Shares;
         }
 
         /// <summary>
