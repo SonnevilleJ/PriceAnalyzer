@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}</ProjectGuid>
+    <ProjectGuid>{DA236F97-799B-47AD-BFDA-325B594350E7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.SamplePortfolioData</RootNamespace>
-    <AssemblyName>SamplePortfolioData</AssemblyName>
+    <RootNamespace>PortfolioStatistics</RootNamespace>
+    <AssemblyName>PortfolioStatistics</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,39 +40,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PortfolioCsv.cs" />
-    <Compile Include="SamplePortfolios.cs" />
-    <Compile Include="TransactionHistory.cs" />
+    <Compile Include="PortfolioStatistics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FidelityData.Designer.cs">
-      <DependentUpon>FidelityData.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FidelityData.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>FidelityData.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Data\Data.csproj">
-      <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
-      <Name>Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Fidelity\Fidelity.csproj">
-      <Project>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</Project>
-      <Name>Fidelity</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SamplePriceData\SamplePriceData.csproj">
-      <Project>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</Project>
-      <Name>SamplePriceData</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Data.Fidelity")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Deere & Company")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Data.Fidelity")]
-[assembly: AssemblyCopyright("Copyright © Deere & Company 2012")]
+[assembly: AssemblyCopyright("Copyright © John Sonneville 2012")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

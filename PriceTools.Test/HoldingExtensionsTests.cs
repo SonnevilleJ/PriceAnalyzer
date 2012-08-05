@@ -3,7 +3,7 @@
 namespace Sonneville.PriceTools.Test
 {
     [TestClass]
-    public class HoldingCalculationTests
+    public class HoldingExtensionsTests
     {
         [TestMethod]
         public void GrossProfitTest()

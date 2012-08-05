@@ -20,16 +20,27 @@ namespace Sonneville.PriceTools
         /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Position.</returns>
         public static IList<IHolding> CalculateHoldings(this SecurityBasket basket, DateTime settlementDate)
         {
+            return CalculateHoldings(basket.Transactions, settlementDate);
+        }
+
+        /// <summary>
+        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Position.
+        /// </summary>
+        /// <param name="transactions"></param>
+        /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
+        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Position.</returns>
+        public static IList<IHolding> CalculateHoldings(this IEnumerable<Transaction> transactions, DateTime settlementDate)
+        {
             var result = new List<IHolding>();
-            var groups = basket.Transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().GroupBy(t => t.Ticker);
-            foreach (var transactions in groups)
+            var groups = transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().GroupBy(t => t.Ticker);
+            foreach (var grouping in groups)
             {
-                var buys = transactions.Where(t => t is OpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderBy(t => t.SettlementDate);
+                var buys = grouping.Where(t => t is OpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderBy(t => t.SettlementDate);
                 var buysUsed = 0;
                 var unusedSharesInCurrentBuy = 0.0m;
                 ShareTransaction buy = null;
 
-                var sells = transactions.Where(t => t is ClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderBy(t => t.SettlementDate);
+                var sells = grouping.Where(t => t is ClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderBy(t => t.SettlementDate);
                 foreach (var sell in sells)
                 {
                     // collect shares from most recent buy

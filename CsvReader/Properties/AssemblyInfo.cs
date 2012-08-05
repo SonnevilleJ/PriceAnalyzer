@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
@@ -8,9 +7,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CsvReader")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Deere")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("CsvReader")]
-[assembly: AssemblyCopyright("Copyright © Deere 2010")]
+[assembly: AssemblyCopyright("Copyright © Sebastien Lorion 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

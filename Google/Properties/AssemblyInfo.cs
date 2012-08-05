@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Data.Google")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("John Sonneville")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Data.Google")]
 [assembly: AssemblyCopyright("Copyright © John Sonneville 2012")]
 [assembly: AssemblyTrademark("")]
