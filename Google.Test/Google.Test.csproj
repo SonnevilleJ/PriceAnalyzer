@@ -47,6 +47,7 @@
   <ItemGroup>
     <Compile Include="GooglePriceHistoryCsvFileTest.cs" />
     <Compile Include="GooglePriceDataProviderTest.cs" />
+    <Compile Include="PriceDataProviderTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
