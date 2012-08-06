@@ -37,23 +37,6 @@ namespace Sonneville.PriceTools.Data
         }
 
         /// <summary>
-        /// Gets a <see cref="PriceSeries"/> containing price history.
-        /// </summary>
-        /// <param name="ticker">The ticker symbol to price.</param>
-        /// <param name="head">The first date to price.</param>
-        /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
-        /// <returns></returns>
-        public PriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail, Resolution resolution)
-        {
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker, resolution);
-            var pricePeriods = GetPricePeriods(ticker, head, tail, resolution);
-
-            priceSeries.AddPriceData(pricePeriods);
-            return priceSeries;
-        }
-
-        /// <summary>
         /// Instructs the IPriceDataProvider to periodically update the price data in the <paramref name="priceSeries"/>.
         /// </summary>
         /// <param name="priceSeries">The <see cref="PriceSeries"/> to update.</param>
@@ -155,6 +138,16 @@ namespace Sonneville.PriceTools.Data
         /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
         public abstract IEnumerable<PricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution);
+
+        /// <summary>
+        /// Gets a <see cref="PriceSeries"/> containing price history.
+        /// </summary>
+        /// <param name="ticker">The ticker symbol to price.</param>
+        /// <param name="head">The first date to price.</param>
+        /// <param name="tail">The last date to price.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
+        /// <returns></returns>
+        public abstract PriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
         /// Gets the ticker symbol for a given stock index.

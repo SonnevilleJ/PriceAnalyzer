@@ -26,6 +26,19 @@ namespace Sonneville.PriceTools.Data.Csv
             return GetPriceHistoryCsvFile(ticker, head, tail, resolution).PricePeriods;
         }
 
+        /// <summary>
+        /// Gets a <see cref="PriceSeries"/> containing price history.
+        /// </summary>
+        /// <param name="ticker">The ticker symbol to price.</param>
+        /// <param name="head">The first date to price.</param>
+        /// <param name="tail">The last date to price.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
+        /// <returns></returns>
+        public override PriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail, Resolution resolution)
+        {
+            return GetPriceHistoryCsvFile(ticker, head, tail, resolution).PriceSeries;
+        }
+
         #endregion
 
         #region Abstract / Virtual Methods

@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFcntxTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -40,7 +40,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFdlsxTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -59,7 +59,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFemexTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -78,7 +78,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFemkxTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -97,7 +97,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFhkcxTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -116,7 +116,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFicdxTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -135,7 +135,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFlatxTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -154,7 +154,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFsagxTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -173,7 +173,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFschxTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -192,7 +192,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFslbxTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -211,7 +211,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFsngxTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -230,7 +230,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFtrnxTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -249,7 +249,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioAvailableCashTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -267,7 +267,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void TransactionPriceRoundingTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_TransactionPriceRounding))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_TransactionPriceRounding))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
@@ -280,7 +280,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void TickerTest()
         {
-            using (var csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (var csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
@@ -293,7 +293,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void PositionsTest()
         {
-            using (var csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (var csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
@@ -306,7 +306,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void AvailableCashTest()
         {
-            using (var csvStream = new ResourceStream(PortfolioCsv.BrokerageLink_trades))
+            using (var csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 

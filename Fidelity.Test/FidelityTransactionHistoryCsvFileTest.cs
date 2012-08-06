@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioAltrTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.FidelityTransactions))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.FidelityTransactions))
             {
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FTEXX");
@@ -40,7 +40,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioNtapTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.FidelityTransactions))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.FidelityTransactions))
             {
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FTEXX");
@@ -59,7 +59,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioNtctTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.FidelityTransactions))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.FidelityTransactions))
             {
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FTEXX");
@@ -78,7 +78,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioPgTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.FidelityTransactions))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.FidelityTransactions))
             {
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FTEXX");
@@ -97,7 +97,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioAvailableCashTest()
         {
-            using (Stream csvStream = new ResourceStream(PortfolioCsv.FidelityTransactions))
+            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.FidelityTransactions))
             {
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FTEXX");
@@ -112,7 +112,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void TickerTest()
         {
-            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.FidelityTransactions));
+            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(SamplePortfolioCsv.FidelityTransactions));
             var ticker = String.Empty;
 
             var target = PortfolioFactory.ConstructPortfolio(csvFile, ticker);
@@ -123,7 +123,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void PositionsTest()
         {
-            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.FidelityTransactions));
+            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(SamplePortfolioCsv.FidelityTransactions));
             var ticker = String.Empty;
 
             var target = PortfolioFactory.ConstructPortfolio(csvFile, ticker);
@@ -134,7 +134,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void AvailableCashTest()
         {
-            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.FidelityTransactions));
+            var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(SamplePortfolioCsv.FidelityTransactions));
 
             var target = PortfolioFactory.ConstructPortfolio(csvFile, "FTEXX");
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
@@ -75,7 +76,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 
         private static PriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
         {
-            var series = PriceSeriesFactory.CreatePriceSeries("test");
+            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
             for (var i = 0; i < count; i++)
             {
                 var period = PricePeriodFactory.ConstructTickedPricePeriod();

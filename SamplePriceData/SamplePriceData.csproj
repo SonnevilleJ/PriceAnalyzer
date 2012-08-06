@@ -34,20 +34,15 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CsvPriceHistory.cs" />
+    <Compile Include="SampleCsvPriceHistory.cs" />
     <Compile Include="CsvPriceData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CsvPriceData.resx</DependentUpon>
     </Compile>
-    <Compile Include="PriceHistoryCsvFiles.cs" />
+    <Compile Include="SamplePriceHistoryCsvFiles.cs" />
     <Compile Include="ResourceStream.cs" />
     <Compile Include="SamplePriceSeries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -60,9 +55,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\DE 1-1-2011 to 3-15-2011 Daily Yahoo.csv" />
     <None Include="Resources\DE 1-1-2011 to 6-30-2011.csv" />
-    <None Include="Resources\DE Apr-June 2011 Weekly Google.csv" />
+    <None Include="Resources\IBM 1-1-2011 to 3-15-2011 Daily Yahoo.csv" />
+    <None Include="Resources\MSFT Apr-June 2011 Weekly Google.csv" />
     <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
   </ItemGroup>
   <ItemGroup>
@@ -77,6 +72,10 @@
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Yahoo\Yahoo.csproj">
       <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>

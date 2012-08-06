@@ -3,7 +3,7 @@
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Contains event data for the <see cref="PricePeriod.NewPriceDataAvailable"/> event.
+    /// Contains event data for the <see cref="PricePeriod.NewDataAvailable"/> event.
     /// </summary>
     public class NewPriceDataAvailableEventArgs : EventArgs
     {

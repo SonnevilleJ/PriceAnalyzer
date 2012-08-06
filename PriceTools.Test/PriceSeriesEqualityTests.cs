@@ -1,6 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePriceData;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Test
 {
@@ -8,48 +11,86 @@ namespace Sonneville.PriceTools.Test
     public class PriceSeriesEqualityTests
     {
         [TestMethod]
-        public void PriceSeriesEqualsWithDifferentData()
+        public void EqualsEmptyPriceSeries()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
+            var ticker = TestUtilities.GetUniqueTicker();
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(ticker);
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(ticker);
 
-            Assert.IsFalse(series1.Equals(series2));
+            Assert.IsTrue(ps1.Equals(ps2));
         }
 
         [TestMethod]
-        public void PriceSeriesEqualsWithSameData()
+        public void EqualsTestSameTicker()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var ticker = TestUtilities.GetUniqueTicker();
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(ticker);
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(ticker);
 
-            Assert.IsTrue(series1.Equals(series2));
+            Assert.IsTrue(ps1.Equals(ps2));
         }
 
         [TestMethod]
-        public void PriceSeriesGetHashCodeWithDifferentData()
+        public void EqualsTestDifferentTicker()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
 
-            Assert.AreNotEqual(series1.GetHashCode(), series2.GetHashCode());
+            Assert.IsFalse(ps1.Equals(ps2));
         }
 
         [TestMethod]
-        public void PriceSeriesGetHashCodeWithSameData()
+        public void ReferenceEqualsTestSameTicker()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var ticker = TestUtilities.GetUniqueTicker();
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(ticker);
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(ticker);
 
-            Assert.AreEqual(series1.GetHashCode(), series2.GetHashCode());
+            Assert.IsTrue(ReferenceEquals(ps1, ps2));
+        }
+
+        [TestMethod]
+        public void ReferenceEqualsTestDifferentTicker()
+        {
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+
+            Assert.IsFalse(ReferenceEquals(ps1, ps2));
+        }
+
+        [TestMethod]
+        public void GetHashCodeTestSameTicker()
+        {
+            var ticker = TestUtilities.GetUniqueTicker();
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(ticker);
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(ticker);
+
+            Assert.IsTrue(ReferenceEquals(ps1, ps2));
+        }
+
+        [TestMethod]
+        public void GetHashCodeTestDifferentTicker()
+        {
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+
+            Assert.IsFalse(ReferenceEquals(ps1, ps2));
         }
 
         [TestMethod]
         public void EnumerableIsEquivalentWithDifferentData()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series3 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series4 = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
+            var ticker1 = TestUtilities.GetUniqueTicker();
+            var ticker2 = TestUtilities.GetUniqueTicker();
+            var ticker3 = TestUtilities.GetUniqueTicker();
+            var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series4 = PriceSeriesFactory.CreatePriceSeries(ticker3);
+            var dateTime = DateTime.Now;
+            series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series4.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
             var list1 = new List<PriceSeries> { series1, series2 };
             var list2 = new List<PriceSeries> { series3, series4 };
@@ -60,10 +101,15 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableIsEquivalentWithSameData()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series3 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series4 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var ticker1 = TestUtilities.GetUniqueTicker();
+            var ticker2 = TestUtilities.GetUniqueTicker();
+            var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series4 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var dateTime = DateTime.Now;
+            series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
             var list1 = new List<PriceSeries> { series1, series2 };
             var list2 = new List<PriceSeries> { series3, series4 };
@@ -74,11 +120,18 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableIsEquivalentWithExtraseries()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series3 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series4 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series5 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var ticker1 = TestUtilities.GetUniqueTicker();
+            var ticker2 = TestUtilities.GetUniqueTicker();
+            var ticker3 = TestUtilities.GetUniqueTicker();
+            var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series4 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series5 = PriceSeriesFactory.CreatePriceSeries(ticker3);
+            var dateTime = DateTime.Now;
+            series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series5.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
             var list1 = new List<PriceSeries> { series1, series2 };
             var list2 = new List<PriceSeries> { series3, series4, series5 };
@@ -89,10 +142,15 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableIsEquivalentWithMissingseries()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series3 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            
+            var ticker1 = TestUtilities.GetUniqueTicker();
+            var ticker2 = TestUtilities.GetUniqueTicker();
+            var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var dateTime = DateTime.Now;
+            series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+
             var list1 = new List<PriceSeries> { series1, series2 };
             var list2 = new List<PriceSeries> { series3 };
 
@@ -102,10 +160,15 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableIsEquivalentOrderCheck()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-            var series3 = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-            var series4 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var ticker1 = TestUtilities.GetUniqueTicker();
+            var ticker2 = TestUtilities.GetUniqueTicker();
+            var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series3 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series4 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var dateTime = DateTime.Now;
+            series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
             var list1 = new List<PriceSeries> { series1, series2 };
             var list2 = new List<PriceSeries> { series3, series4 };
@@ -116,10 +179,17 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableEqualsWithDifferentData()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series3 = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-            var series4 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var ticker1 = TestUtilities.GetUniqueTicker();
+            var ticker2 = TestUtilities.GetUniqueTicker();
+            var ticker3 = TestUtilities.GetUniqueTicker();
+            var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series3 = PriceSeriesFactory.CreatePriceSeries(ticker3);
+            var series4 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var dateTime = DateTime.Now;
+            series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series3.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
             var list1 = new List<PriceSeries> { series1, series2 };
             var list2 = new List<PriceSeries> { series3, series4 };
@@ -130,10 +200,15 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableEqualsWithSameData()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series3 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series4 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var ticker1 = TestUtilities.GetUniqueTicker();
+            var ticker2 = TestUtilities.GetUniqueTicker();
+            var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series4 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var dateTime = DateTime.Now;
+            series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
             var list1 = new List<PriceSeries> { series1, series2 };
             var list2 = new List<PriceSeries> { series3, series4 };
@@ -144,11 +219,18 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableEqualsWithExtraseries()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series3 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series4 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series5 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var ticker1 = TestUtilities.GetUniqueTicker();
+            var ticker2 = TestUtilities.GetUniqueTicker();
+            var ticker3 = TestUtilities.GetUniqueTicker();
+            var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series4 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series5 = PriceSeriesFactory.CreatePriceSeries(ticker3);
+            var dateTime = DateTime.Now;
+            series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series5.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
             var list1 = new List<PriceSeries> { series1, series2 };
             var list2 = new List<PriceSeries> { series3, series4, series5 };
@@ -159,9 +241,14 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableEqualsWithMissingseries()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series3 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var ticker1 = TestUtilities.GetUniqueTicker();
+            var ticker2 = TestUtilities.GetUniqueTicker();
+            var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var dateTime = DateTime.Now;
+            series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
             var list1 = new List<PriceSeries> { series1, series2 };
             var list2 = new List<PriceSeries> { series3 };
@@ -172,10 +259,15 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableEqualsOrderCheck()
         {
-            var series1 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
-            var series2 = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-            var series3 = SamplePriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-            var series4 = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var ticker1 = TestUtilities.GetUniqueTicker();
+            var ticker2 = TestUtilities.GetUniqueTicker();
+            var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series3 = PriceSeriesFactory.CreatePriceSeries(ticker2);
+            var series4 = PriceSeriesFactory.CreatePriceSeries(ticker1);
+            var dateTime = DateTime.Now;
+            series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
+            series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
             var list1 = new List<PriceSeries> { series1, series2 };
             var list2 = new List<PriceSeries> { series3, series4 };

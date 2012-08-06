@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
 
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Days);
+            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Days);
 
             Assert.AreEqual(Resolution.Days, target.Resolution);
             foreach (var period in target.PricePeriods)
@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
 
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Days);
+            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Days);
 
             Assert.AreEqual(50, target.PricePeriods.Count);
         }
@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
 
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Days);
+            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Days);
 
             // verify dates
             Assert.AreEqual(head, target.Head);
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             var provider = new YahooPriceDataProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Weeks);
+            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Weeks);
 
             Assert.AreEqual(11, target.PricePeriods.Count);
         }
@@ -71,7 +71,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             var provider = new YahooPriceDataProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Weeks);
+            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Weeks);
 
             Assert.AreEqual(Resolution.Weeks, target.Resolution);
             var periods = target.PricePeriods;
@@ -88,7 +88,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             var provider = new YahooPriceDataProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries("DE", head, tail, Resolution.Weeks);
+            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Weeks);
 
             Assert.AreEqual(head, target.Head);
             Assert.AreEqual(tail, target.Tail);
@@ -122,7 +122,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
         [TestMethod]
         public void AutoUpdateEmptyPriceSeriesTest()
         {
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
             var updateCount = 0;
             var locker = new object();
 
@@ -180,7 +180,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
         [ExpectedException(typeof(InvalidOperationException))]
         public void AutoUpdateSamePriceSeriesTwiceTest()
         {
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
             var updateCount = 0;
 
             Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = delegate

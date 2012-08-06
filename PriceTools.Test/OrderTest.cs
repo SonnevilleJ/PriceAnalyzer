@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -51,7 +51,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -69,7 +69,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddTicks(-1);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -82,13 +82,13 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
             var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
-            const string expected = ticker;
+            string expected = ticker;
             var actual = target.Ticker;
             Assert.AreEqual(expected, actual);
         }
@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -116,7 +116,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -133,7 +133,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.Limit;
@@ -151,7 +151,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -168,7 +168,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -186,7 +186,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = -100.00m;
 
@@ -200,7 +200,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = -5m;
             const decimal price = 100.00m;
 
@@ -214,7 +214,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Deposit;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -228,7 +228,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Withdrawal;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -242,7 +242,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.DividendReceipt;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -256,7 +256,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.DividendReinvestment;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -271,7 +271,7 @@ namespace Sonneville.PriceTools.Test
         {
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -310,7 +310,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 
@@ -350,7 +350,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.Market | PricingType.Limit;
@@ -367,7 +367,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.StopMarket;
@@ -388,7 +388,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.Stop | PricingType.Limit;
@@ -409,7 +409,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
             const PricingType pricingType = PricingType.Stop;
@@ -427,7 +427,7 @@ namespace Sonneville.PriceTools.Test
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             const decimal shares = 5m;
             const decimal price = 100.00m;
 

@@ -122,6 +122,14 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Determines if the PricePeriod has any data at all. PricePeriods with no data are not equal.
+        /// </summary>
+        protected override bool HasData
+        {
+            get { return _dataPeriods.Count > 0; }
+        }
+
+        /// <summary>
         /// Determines if the PriceSeries has a valid value for a given date.
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>
@@ -157,7 +165,9 @@ namespace Sonneville.PriceTools
         /// <returns>A list of <see cref="PricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public IList<PricePeriod> GetPricePeriods(Resolution resolution)
         {
-            return _dataPeriods.Count > 0 ? GetPricePeriods(resolution, Head, Tail) : new List<PricePeriod>();
+            if (HasData) return GetPricePeriods(resolution, Head, Tail);
+            if (resolution < Resolution) throw new InvalidOperationException(String.Format(Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__, resolution, Resolution));
+            return new List<PricePeriod>();
         }
 
         /// <summary>
@@ -170,7 +180,7 @@ namespace Sonneville.PriceTools
         /// <returns>A list of <see cref="PricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public IList<PricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail)
         {
-            if (resolution < Resolution) throw new InvalidOperationException(String.Format("Unable to get price periods using resolution {0}. Best supported resolution is {1}.", resolution, Resolution));
+            if (resolution < Resolution) throw new InvalidOperationException(String.Format(Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__, resolution, Resolution));
             var dataPeriods = _dataPeriods.Where(period => period.Head >= head && period.Tail <= tail).OrderBy(period => period.Head).ToList();
             if (resolution == Resolution) return dataPeriods;
 
@@ -203,20 +213,28 @@ namespace Sonneville.PriceTools
         /// <param name="pricePeriods"></param>
         public void AddPriceData(IEnumerable<PricePeriod> pricePeriods)
         {
-            var orderedPeriods = pricePeriods.OrderByDescending(period => period.Head);
-            if (_dataPeriods.Any(period => period.HasValueInRange(orderedPeriods.Min(p=>p.Head)) || period.HasValueInRange(orderedPeriods.Max(p=>p.Tail))))
-                throw new InvalidOperationException("Cannot add a PricePeriod for a DateTime range which overlaps that of the PriceSeries.");
-
-            foreach (var pricePeriod in orderedPeriods)
+            var orderedPeriods = pricePeriods.OrderByDescending(period => period.Head).ToList();
+            foreach (var period in _dataPeriods.Where(period =>
+                                                      period.HasValueInRange(orderedPeriods.Min(p => p.Head)) ||
+                                                      period.HasValueInRange(orderedPeriods.Max(p => p.Tail))))
             {
-                _dataPeriods.Add(pricePeriod);
+                // skip periods that overlap
+                orderedPeriods.Remove(period);
             }
-            var eventArgs = new NewPriceDataAvailableEventArgs
-                                {
-                                    Head = orderedPeriods.Min(p => p.Head),
-                                    Tail = orderedPeriods.Max(p => p.Tail)
-                                };
-            InvokeNewPriceDataAvailable(eventArgs);
+
+            if (orderedPeriods.Any())
+            {
+                foreach (var pricePeriod in orderedPeriods)
+                {
+                    _dataPeriods.Add(pricePeriod);
+                }
+                var eventArgs = new NewPriceDataAvailableEventArgs
+                                    {
+                                        Head = orderedPeriods.Min(p => p.Head),
+                                        Tail = orderedPeriods.Max(p => p.Tail)
+                                    };
+                InvokeNewDataAvailable(eventArgs);
+            }
         }
 
         /// <summary>

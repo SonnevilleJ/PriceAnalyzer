@@ -174,6 +174,14 @@ namespace Sonneville.PriceTools.Implementation
             get { return _tail; }
         }
 
+        /// <summary>
+        /// Determines if the PricePeriod has any data at all. PricePeriods with no data are not equal.
+        /// </summary>
+        protected override bool HasData
+        {
+            get { return true; } // constructor assigns data
+        }
+
         #endregion
     }
 }

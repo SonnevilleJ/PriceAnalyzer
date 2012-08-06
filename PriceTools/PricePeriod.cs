@@ -8,8 +8,6 @@ namespace Sonneville.PriceTools
     /// </summary>
     public abstract class PricePeriod : TimeSeries, IEquatable<PricePeriod>
     {
-        #region Implementation of PricePeriod
-
         /// <summary>
         /// Gets the closing price for the PricePeriod.
         /// </summary>
@@ -38,7 +36,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Event which is invoked when new price data is available for the PricePeriod.
         /// </summary>
-        public event EventHandler<NewPriceDataAvailableEventArgs> NewPriceDataAvailable;
+        public event EventHandler<NewPriceDataAvailableEventArgs> NewDataAvailable;
 
         /// <summary>
         /// Gets a value stored at a given DateTime index of the TimeSeries.
@@ -75,6 +73,11 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
+        /// Determines if the PricePeriod has any data at all. PricePeriods with no data are not equal.
+        /// </summary>
+        protected abstract bool HasData { get; }
+
+        /// <summary>
         /// Determines if the PricePeriod has a valid value for a given date.
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>
@@ -84,15 +87,13 @@ namespace Sonneville.PriceTools
             return Head <= settlementDate && Tail >= settlementDate;
         }
 
-        #endregion
-
         /// <summary>
-        /// Invokes the NewPriceDataAvailable event.
+        /// Invokes the NewDataAvailable event.
         /// </summary>
         /// <param name="e">The NewPriceDataEventArgs to pass.</param>
-        protected void InvokeNewPriceDataAvailable(NewPriceDataAvailableEventArgs e)
+        protected void InvokeNewDataAvailable(NewPriceDataAvailableEventArgs e)
         {
-            var eventHandler = NewPriceDataAvailable;
+            var eventHandler = NewDataAvailable;
             if (eventHandler != null)
             {
                 eventHandler(this, e);
@@ -112,7 +113,8 @@ namespace Sonneville.PriceTools
                 return false;
             if (ReferenceEquals(this, other))
                 return true;
-            return Resolution == other.Resolution &&
+            return HasData && HasData == other.HasData &&
+                   Resolution == other.Resolution &&
                    Head == other.Head &&
                    Tail == other.Tail &&
                    Open == other.Open &&

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Test
 {
@@ -195,7 +196,7 @@ namespace Sonneville.PriceTools.Test
 
         private static string GetTicker()
         {
-            return "DE";
+            return TestUtilities.GetUniqueTicker();
         }
 
         private static decimal GetValidShares()

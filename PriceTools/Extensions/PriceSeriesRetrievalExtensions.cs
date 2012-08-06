@@ -29,8 +29,7 @@ namespace Sonneville.PriceTools.Extensions
         public static void RetrievePriceData(this PriceSeries priceSeries, IPriceDataProvider provider, DateTime head, DateTime tail)
         {
             if (provider.BestResolution > priceSeries.Resolution) throw new ArgumentException(string.Format("Provider must be capable of providing periods of resolution {0} or better.", priceSeries.Resolution), "provider");
-            var pricePeriods = provider.GetPricePeriods(priceSeries.Ticker, head, tail, priceSeries.Resolution);
-            priceSeries.AddPriceData(pricePeriods);
+            provider.GetPricePeriods(priceSeries.Ticker, head, tail, priceSeries.Resolution);
         }
     }
 }

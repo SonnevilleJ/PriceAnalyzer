@@ -1,6 +1,6 @@
 ﻿namespace Sonneville.PriceTools.SamplePortfolioData
 {
-    public static class PortfolioCsv
+    public static class SamplePortfolioCsv
     {
         public static string FidelityTransactions
         {

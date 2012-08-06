@@ -192,4 +192,7 @@
 	<data name="ShareTransactionImpl_Commission_Commission_for_dividend_reinvestments_must_be_0_">
 		<value xml:space="preserve">Commission for dividend receipts must be 0.</value>
 	</data>
+  <data name="PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__">
+    <value xml:space="preserve">Unable to get price periods using resolution {0}. Best supported resolution is {1}.</value>
+  </data>
 </root>

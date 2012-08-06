@@ -71,7 +71,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 target.OrderExpired += expiredHandler;
 
                 var issued = DateTime.Now;
-                var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, "DE", 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.GetUniqueTicker(), 5, 100.00m);
 
                 lock (syncroot)
                 {
@@ -131,7 +131,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 target.OrderExpired += expiredHandler;
 
                 var expired = DateTime.Now;
-                var order = OrderFactory.ConstructOrder(expired.AddTicks(-1), expired, OrderType.Buy, "DE", 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(expired.AddTicks(-1), expired, OrderType.Buy, TestUtilities.GetUniqueTicker(), 5, 100.00m);
                 lock (syncroot)
                 {
                     target.Submit(order);
@@ -190,7 +190,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 target.OrderExpired += expiredHandler;
 
                 var issued = DateTime.Now;
-                var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, "DE", 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.GetUniqueTicker(), 5, 100.00m);
 
                 lock (syncroot)
                 {
@@ -257,7 +257,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             {
                 var issued = DateTime.Now;
                 var expiration = issued.AddDays(1);
-                const string ticker = "DE";
+                string ticker = TestUtilities.GetUniqueTicker();
                 const int shares = 5;
                 const decimal price = 100.00m;
                 
@@ -347,7 +347,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, "DE", i, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.GetUniqueTicker(), i, 100.00m);
                     target.Submit(order);
                     Thread.Sleep(50);
                 }
@@ -383,7 +383,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, "DE", i, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.GetUniqueTicker(), i, 100.00m);
                     target.Submit(order);
                     Thread.Sleep(50);
                     target.TryCancelOrder(order);
@@ -420,7 +420,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddTicks(1), OrderType.Buy, "DE", i, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddTicks(1), OrderType.Buy, TestUtilities.GetUniqueTicker(), i, 100.00m);
                     Thread.Sleep(50);
                     target.Submit(order);
                 }
@@ -459,7 +459,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
-                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, "DE", 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, TestUtilities.GetUniqueTicker(), 5, 100.00m);
 
                 lock (syncroot)
                 {
@@ -498,7 +498,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
-                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, "DE", 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, TestUtilities.GetUniqueTicker(), 5, 100.00m);
 
                 lock (syncroot)
                 {

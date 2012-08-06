@@ -43,6 +43,14 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
+        /// Determines if the PricePeriod has any data at all. PricePeriods with no data are not equal.
+        /// </summary>
+        protected override bool HasData
+        {
+            get { return PriceTicks.Count > 0; }
+        }
+
+        /// <summary>
         ///   Adds one or more <see cref = "PriceTick" />s to the PriceSeries.
         /// </summary>
         /// <param name = "priceTicks">The <see cref = "PriceTick" />s to add.</param>
@@ -57,7 +65,7 @@ namespace Sonneville.PriceTools.Implementation
                                Head = priceTicks.Min(quote => quote.SettlementDate),
                                Tail = priceTicks.Max(quote => quote.SettlementDate)
                            };
-            InvokeNewPriceDataAvailable(args);
+            InvokeNewDataAvailable(args);
         }
 
         /// <summary>

@@ -1,10 +1,16 @@
-﻿namespace Sonneville.PriceTools
+﻿using System;
+using System.Collections.Generic;
+
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Constructs a <see cref="PriceSeries"/> object.
     /// </summary>
     public static class PriceSeriesFactory
     {
+        private static readonly object Syncroot = new object();
+        private static readonly IDictionary<string, PriceSeries> Dictionary = new Dictionary<string, PriceSeries>();
+
         /// <summary>
         /// Constructs a <see cref="PriceSeries"/> for the given ticker.
         /// </summary>
@@ -12,7 +18,15 @@
         /// <returns>The <see cref="PriceSeries"/> for the given ticker.</returns>
         public static PriceSeries CreatePriceSeries(string ticker)
         {
-            return new PriceSeries { Ticker = ticker };
+            lock (Syncroot)
+            {
+                if (!Dictionary.ContainsKey(ticker))
+                {
+                    var priceSeries = new PriceSeries {Ticker = ticker};
+                    Dictionary.Add(ticker, priceSeries);
+                }
+                return Dictionary[ticker];
+            }
         }
 
         /// <summary>
@@ -23,7 +37,18 @@
         /// <returns>The <see cref="PriceSeries"/> for the given ticker.</returns>
         public static PriceSeries CreatePriceSeries(string ticker, Resolution resolution)
         {
-            return new PriceSeries(resolution) {Ticker = ticker};
+            lock (Syncroot)
+            {
+                if (!Dictionary.ContainsKey(ticker))
+                {
+                    var priceSeries = new PriceSeries(resolution) {Ticker = ticker};
+                    Dictionary.Add(ticker, priceSeries);
+                }
+                var existing = Dictionary[ticker];
+                if (existing.Resolution > resolution)
+                    throw new NotSupportedException("Existing PriceSeries has a resolution larger than requested.");
+                return existing;
+            }
         }
     }
 }

@@ -7,7 +7,7 @@
         /// </summary>
         public static Portfolio FidelityTransactions
         {
-            get { return PortfolioFactory.ConstructPortfolio(TransactionHistory.FidelityTransactions, "FTEXX"); }
+            get { return PortfolioFactory.ConstructPortfolio(SampleTransactionHistory.FidelityTransactions, "FTEXX"); }
         }
 
         /// <summary>
@@ -15,7 +15,7 @@
         /// </summary>
         public static Portfolio BrokerageLink_trades
         {
-            get { return PortfolioFactory.ConstructPortfolio(TransactionHistory.BrokerageLink_trades, "FDRXX"); }
+            get { return PortfolioFactory.ConstructPortfolio(SampleTransactionHistory.BrokerageLink_trades, "FDRXX"); }
         }
     }
 }

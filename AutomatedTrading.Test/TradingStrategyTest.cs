@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [TestMethod]
         public void PriceSeriesBeforeStartTest()
         {
-            const string ticker = "DE";
+            string ticker = TestUtilities.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
 
             var target = GetTradingStrategy();

@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void Constructor4Test()
         {
-            var csvFile = TransactionHistory.FidelityTransactions;
+            var csvFile = SampleTransactionHistory.FidelityTransactions;
             var ticker = String.Empty;
 
             var target = PortfolioFactory.ConstructPortfolio(csvFile);

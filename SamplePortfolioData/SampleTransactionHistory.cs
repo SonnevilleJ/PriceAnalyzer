@@ -3,14 +3,14 @@ using Sonneville.PriceTools.SamplePriceData;
 
 namespace Sonneville.PriceTools.SamplePortfolioData
 {
-    public static class TransactionHistory
+    public static class SampleTransactionHistory
     {
         /// <summary>
         /// Consists of 6 months of trading activity investing in 4 stocks.
         /// </summary>
         public static Data.TransactionHistory FidelityTransactions
         {
-            get { return new FidelityTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.FidelityTransactions)); }
+            get { return new FidelityTransactionHistoryCsvFile(new ResourceStream(SamplePortfolioCsv.FidelityTransactions)); }
         }
 
         /// <summary>
@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.SamplePortfolioData
         /// </summary>
         public static Data.TransactionHistory BrokerageLink_trades
         {
-            get { return new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(PortfolioCsv.BrokerageLink_trades)); }
+            get { return new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades)); }
         }
     }
 }

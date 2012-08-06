@@ -261,13 +261,13 @@ namespace Sonneville.PriceTools.Test
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
             var count = 0;
-            target.NewPriceDataAvailable += delegate { count++; };
+            target.NewDataAvailable += delegate { count++; };
             target.AddPriceTicks(q1, q2, q3);
             Assert.AreEqual(1, count);
 
             target = PricePeriodFactory.ConstructTickedPricePeriod();
             count = 0;
-            target.NewPriceDataAvailable += delegate { count++; };
+            target.NewDataAvailable += delegate { count++; };
             target.AddPriceTicks(q1);
             target.AddPriceTicks(q2);
             target.AddPriceTicks(q3);
