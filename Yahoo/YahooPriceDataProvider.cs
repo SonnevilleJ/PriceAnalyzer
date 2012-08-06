@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.Yahoo
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
         protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(string ticker, Stream stream, DateTime head, DateTime tail)
         {
-            return new YahooPriceHistoryCsvFile(ticker, stream, head, tail);
+            return new YahooPriceHistoryCsvFile(stream, head, tail);
         }
 
         /// <summary>

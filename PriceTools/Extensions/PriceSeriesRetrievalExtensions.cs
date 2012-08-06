@@ -14,9 +14,9 @@ namespace Sonneville.PriceTools.Extensions
         /// <param name="priceSeries"></param>
         /// <param name="provider">The <see cref="IPriceDataProvider"/> to use for retrieving price data.</param>
         /// <param name="head">The first date to retrieve price data for.</param>
-        public static void RetrievePriceData(this PriceSeries priceSeries, IPriceDataProvider provider, DateTime head)
+        public static void UpdatePriceData(this PriceSeries priceSeries, IPriceDataProvider provider, DateTime head)
         {
-            RetrievePriceData(priceSeries, provider, head, DateTime.Now);
+            UpdatePriceData(priceSeries, provider, head, DateTime.Now);
         }
 
         /// <summary>
@@ -26,10 +26,10 @@ namespace Sonneville.PriceTools.Extensions
         /// <param name="provider">The <see cref="IPriceDataProvider"/> to use for retrieving price data.</param>
         /// <param name="head">The first date to retrieve price data for.</param>
         /// <param name="tail">The last date to retrieve price data for.</param>
-        public static void RetrievePriceData(this PriceSeries priceSeries, IPriceDataProvider provider, DateTime head, DateTime tail)
+        public static void UpdatePriceData(this PriceSeries priceSeries, IPriceDataProvider provider, DateTime head, DateTime tail)
         {
             if (provider.BestResolution > priceSeries.Resolution) throw new ArgumentException(string.Format("Provider must be capable of providing periods of resolution {0} or better.", priceSeries.Resolution), "provider");
-            provider.GetPricePeriods(priceSeries.Ticker, head, tail, priceSeries.Resolution);
+            provider.UpdatePriceSeries(priceSeries, head, tail, priceSeries.Resolution);    
         }
     }
 }

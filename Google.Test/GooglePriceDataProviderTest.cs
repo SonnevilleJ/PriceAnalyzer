@@ -19,10 +19,12 @@ namespace Sonneville.PriceTools.Google.Test
             var provider = new GooglePriceDataProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Days);
+            var ticker = TestUtilities.GetUniqueTicker();
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
+            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
-            Assert.AreEqual(Resolution.Days, target.Resolution);
-            foreach (var period in target.PricePeriods)
+            Assert.AreEqual(Resolution.Days, priceSeries.Resolution);
+            foreach (var period in priceSeries.PricePeriods)
             {
                 Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
             }
@@ -34,9 +36,11 @@ namespace Sonneville.PriceTools.Google.Test
             var provider = new GooglePriceDataProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Days);
+            var ticker = TestUtilities.GetUniqueTicker();
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
+            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
-            Assert.AreEqual(50, target.PricePeriods.Count);
+            Assert.AreEqual(50, priceSeries.PricePeriods.Count);
         }
 
         [TestMethod]
@@ -45,10 +49,12 @@ namespace Sonneville.PriceTools.Google.Test
             var provider = new GooglePriceDataProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Days);
+            var ticker = TestUtilities.GetUniqueTicker();
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
+            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
-            Assert.AreEqual(head, target.Head);
-            Assert.AreEqual(tail, target.Tail);
+            Assert.AreEqual(head, priceSeries.Head);
+            Assert.AreEqual(tail, priceSeries.Tail);
         }
 
         [TestMethod]
@@ -57,9 +63,11 @@ namespace Sonneville.PriceTools.Google.Test
             var provider = new GooglePriceDataProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Weeks);
+            var ticker = TestUtilities.GetUniqueTicker();
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
+            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
 
-            Assert.AreEqual(11, target.PricePeriods.Count);
+            Assert.AreEqual(11, priceSeries.PricePeriods.Count);
         }
 
         [TestMethod]
@@ -68,10 +76,12 @@ namespace Sonneville.PriceTools.Google.Test
             var provider = new GooglePriceDataProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Weeks);
+            var ticker = TestUtilities.GetUniqueTicker();
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker, Resolution.Weeks);
+            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
 
-            Assert.AreEqual(Resolution.Weeks, target.Resolution);
-            var periods = target.PricePeriods;
+            Assert.AreEqual(Resolution.Weeks, priceSeries.Resolution);
+            var periods = priceSeries.PricePeriods;
             for (var i = 1; i < periods.Count - 1; i++) // skip check on first and last periods
             {
                 Assert.IsTrue(periods[i].Tail - periods[i].Head >= new TimeSpan(23, 59, 59));
@@ -85,10 +95,12 @@ namespace Sonneville.PriceTools.Google.Test
             var provider = new GooglePriceDataProvider();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var target = provider.GetPriceSeries(TestUtilities.GetUniqueTicker(), head, tail, Resolution.Weeks);
+            var ticker = TestUtilities.GetUniqueTicker();
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
+            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
 
-            Assert.AreEqual(head, target.Head);
-            Assert.AreEqual(tail, target.Tail);
+            Assert.AreEqual(head, priceSeries.Head);
+            Assert.AreEqual(tail, priceSeries.Tail);
         }
 
         [TestMethod]

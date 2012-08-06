@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.TestPriceData;
-using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Google.Test
 {
@@ -24,7 +23,7 @@ namespace Sonneville.PriceTools.Google.Test
         {
             var target = TestPriceHistoryCsvFiles.MSFT_Apr_June_2011_Weekly_Google;
 
-            Assert.AreEqual(Resolution.Weeks, target.PriceSeries.Resolution);
+            Assert.IsFalse(target.PricePeriods.Any(p => p.Resolution != Resolution.Weeks));
             var periods = target.PricePeriods;
 
             for (var i = 1; i < periods.Count - 1; i++) // skip check on first and last periods
@@ -39,10 +38,10 @@ namespace Sonneville.PriceTools.Google.Test
         {
             var head = new DateTime(2011, 4, 1);
             var tail = new DateTime(2011, 7, 1, 23, 59, 59);
-            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(TestUtilities.GetUniqueTicker(), new ResourceStream(TestCsvPriceHistory.MSFT_Apr_June_2011_Weekly_Google), head, tail);
+            PriceHistoryCsvFile target = new GooglePriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.MSFT_Apr_June_2011_Weekly_Google), head, tail);
 
-            Assert.AreEqual(head, target.PriceSeries.Head);
-            Assert.AreEqual(tail, target.PriceSeries.Tail);
+            Assert.AreEqual(head, target.PricePeriods.Min(p => p.Head));
+            Assert.AreEqual(tail, target.PricePeriods.Max(p=>p.Tail));
         }
 
         [TestMethod]
@@ -61,7 +60,7 @@ namespace Sonneville.PriceTools.Google.Test
             using (var reader = File.Open(tempFileName, FileMode.Open))
             {
                 targetFile = new GooglePriceHistoryCsvFile();
-                targetFile.Read(TestUtilities.GetUniqueTicker(), reader);
+                targetFile.Read(reader);
             }
 
             CollectionAssert.AreEqual(originalFile.PricePeriods.ToArray(), targetFile.PricePeriods.ToArray());

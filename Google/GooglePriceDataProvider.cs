@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools.Google
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
         protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(string ticker, Stream stream, DateTime head, DateTime tail)
         {
-            return new GooglePriceHistoryCsvFile(ticker, stream, head, tail);
+            return new GooglePriceHistoryCsvFile(stream, head, tail);
         }
 
         /// <summary>

@@ -40,13 +40,12 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <summary>
         /// Constructs a PriceHistoryCsvFile.
         /// </summary>
-        /// <param name="ticker">The ticker which should be assigned to the <see cref="PriceTools.PriceSeries"/>.</param>
         /// <param name="stream">The CSV data stream to parse.</param>
         /// <param name="impliedHead">The head of the price data contained in the CSV data.</param>
         /// <param name="impliedTail">The tail of the price data contained in the CSV data.</param>
-        protected internal PriceHistoryCsvFile(string ticker, Stream stream, DateTime? impliedHead = null, DateTime? impliedTail = null)
+        protected internal PriceHistoryCsvFile(Stream stream, DateTime? impliedHead = null, DateTime? impliedTail = null)
         {
-            Read(ticker, stream, impliedHead, impliedTail);
+            Read(stream, impliedHead, impliedTail);
         }
 
         #endregion
@@ -56,15 +55,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <summary>
         /// Gets a list of all <see cref="PricePeriod"/>s in the file.
         /// </summary>
-        public IList<PricePeriod> PricePeriods
-        {
-            get { return PriceSeries.PricePeriods; }
-        }
-
-        /// <summary>
-        /// Gets an <see cref="PriceTools.PriceSeries"/> containing the price data in the file.
-        /// </summary>
-        public PriceSeries PriceSeries { get; set; }
+        public IList<PricePeriod> PricePeriods { get; private set; }
         
         #endregion
 
@@ -75,32 +66,30 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <summary>
         /// Reads the contents of a Price History CSV file from a stream.
         /// </summary>
-        /// <param name="ticker"></param>
         /// <param name="stream">The stream to read.</param>
         /// <param name="impliedHead"></param>
         /// <param name="impliedTail"></param>
-        public void Read(string ticker, Stream stream, DateTime? impliedHead = null, DateTime? impliedTail = null)
+        public void Read(Stream stream, DateTime? impliedHead = null, DateTime? impliedTail = null)
         {
             using (var reader = new StreamReader(stream))
             {
-                Read(ticker, reader, impliedHead, impliedTail);
+                Read(reader, impliedHead, impliedTail);
             }
         }
 
         /// <summary>
         /// Reads price history information from CSV data.
         /// </summary>
-        /// <param name="ticker"></param>
         /// <param name="textReader"></param>
         /// <param name="impliedHead"></param>
         /// <param name="impliedTail"></param>
-        private void Read(string ticker, TextReader textReader, DateTime? impliedHead = null, DateTime? impliedTail = null)
+        private void Read(TextReader textReader, DateTime? impliedHead = null, DateTime? impliedTail = null)
         {
             using (var csvReader = new CsvReader(textReader, true))
             {
                 var map = MapHeaders(csvReader);
                 var stagedPeriods = StagePeriods(csvReader, map);
-                PriceSeries = BuildPriceSeries(ticker, stagedPeriods, impliedHead, impliedTail);
+                PricePeriods = BuildPricePeriods(stagedPeriods, impliedHead, impliedTail);
             }
         }
 
@@ -191,16 +180,16 @@ namespace Sonneville.PriceTools.Data.Csv
                         builder.Append(period.Head.ToString(CultureInfo.InvariantCulture.DateTimeFormat.ShortDatePattern));
                         break;
                     case PriceColumn.Open:
-                        builder.Append(period.Open.ToString());
+                        builder.Append(period.Open.ToString(CultureInfo.InvariantCulture));
                         break;
                     case PriceColumn.High:
-                        builder.Append(period.High.ToString());
+                        builder.Append(period.High.ToString(CultureInfo.InvariantCulture));
                         break;
                     case PriceColumn.Low:
-                        builder.Append(period.Low.ToString());
+                        builder.Append(period.Low.ToString(CultureInfo.InvariantCulture));
                         break;
                     case PriceColumn.Close:
-                        builder.Append(period.Close.ToString());
+                        builder.Append(period.Close.ToString(CultureInfo.InvariantCulture));
                         break;
                     case PriceColumn.Volume:
                         builder.Append(period.Volume.ToString());
@@ -231,11 +220,10 @@ namespace Sonneville.PriceTools.Data.Csv
 
         #region Static parsing methods
 
-        private static PriceSeries BuildPriceSeries(string ticker, IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail)
+        private static IList<PricePeriod> BuildPricePeriods(IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail)
         {
             stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
             var resolution = SetResolution(stagedPeriods);
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker, resolution);
             var pricePeriods = new List<PricePeriod>();
 
             for (var i = 0; i < stagedPeriods.Count; i++)
@@ -285,8 +273,7 @@ namespace Sonneville.PriceTools.Data.Csv
                 var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
                 pricePeriods.Add(period);
             }
-            priceSeries.AddPriceData(pricePeriods);
-            return priceSeries;
+            return pricePeriods;
         }
 
         private static DateTime GetHead(DateTime date, Resolution resolution)

@@ -151,7 +151,7 @@ namespace Sonneville.PriceTools
                 if (heldShares == 0) continue;
 
                 var priceSeries = PriceSeriesFactory.CreatePriceSeries(transactions.First().Ticker);
-                if (!priceSeries.HasValueInRange(settlementDate)) priceSeries.RetrievePriceData(provider, settlementDate);
+                if (!priceSeries.HasValueInRange(settlementDate)) priceSeries.UpdatePriceData(provider, settlementDate);
                 var price = priceSeries[settlementDate];
                 total += heldShares * price;
             }

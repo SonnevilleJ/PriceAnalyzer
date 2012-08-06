@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="tail">The last date to price.</param>
         /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
-        public override IEnumerable<PricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution)
+        public override IEnumerable<PricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             return GetPriceHistoryCsvFile(ticker, head, tail, resolution).PricePeriods;
         }
@@ -29,14 +29,15 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <summary>
         /// Gets a <see cref="PriceSeries"/> containing price history.
         /// </summary>
-        /// <param name="ticker">The ticker symbol to price.</param>
+        /// <param name="priceSeries">The <see cref="PriceSeries"/> containing price history to be updated.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
         /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
-        public override PriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail, Resolution resolution)
+        public override void UpdatePriceSeries(PriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
         {
-            return GetPriceHistoryCsvFile(ticker, head, tail, resolution).PriceSeries;
+            var priceHistoryCsvFile = GetPriceHistoryCsvFile(priceSeries.Ticker, head, tail, resolution);
+            priceSeries.AddPriceData(priceHistoryCsvFile.PricePeriods);
         }
 
         #endregion

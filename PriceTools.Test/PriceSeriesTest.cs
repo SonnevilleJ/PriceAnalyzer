@@ -307,7 +307,8 @@ namespace Sonneville.PriceTools.Test
         {
             var head = new DateTime(2011, 1, 1);
             var tail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = new YahooPriceHistoryCsvFile(TestUtilities.GetUniqueTicker(), new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), head, tail).PriceSeries;
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), head, tail).PricePeriods);
 
             var pricePeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
 
@@ -319,7 +320,8 @@ namespace Sonneville.PriceTools.Test
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = new YahooPriceHistoryCsvFile(TestUtilities.GetUniqueTicker(), new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
 
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var weeklyPeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
@@ -358,7 +360,8 @@ namespace Sonneville.PriceTools.Test
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = new YahooPriceHistoryCsvFile(TestUtilities.GetUniqueTicker(), new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
 
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var monthlyPeriods = priceSeries.GetPricePeriods(Resolution.Months);
@@ -499,7 +502,7 @@ namespace Sonneville.PriceTools.Test
             var target = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
 
             var provider = new YahooPriceDataProvider();
-            target.RetrievePriceData(provider, dateTime);
+            target.UpdatePriceData(provider, dateTime);
 
             Assert.IsNotNull(target[dateTime.AddHours(12)]);    // add 12 hours because no price is available at midnight.
         }
@@ -512,7 +515,7 @@ namespace Sonneville.PriceTools.Test
             var target = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
 
             var provider = new YahooPriceDataProvider();
-            target.RetrievePriceData(provider, head, tail);
+            target.UpdatePriceData(provider, head, tail);
 
             Assert.IsNotNull(target[tail]);
         }
@@ -526,7 +529,7 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddMonths(1);
             var target = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
 
-            target.RetrievePriceData(provider, head, tail);
+            target.UpdatePriceData(provider, head, tail);
         }
 
         [TestMethod]

@@ -31,9 +31,32 @@ namespace Sonneville.PriceTools.Data
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
         /// <returns></returns>
-        public IEnumerable<PricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail)
+        public IEnumerable<PricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail)
         {
-            return GetPricePeriods(ticker, head, tail, BestResolution);
+            return GetPriceData(ticker, head, tail, BestResolution);
+        }
+
+        /// <summary>
+        /// Updates the <paramref name="priceSeries"/> with any missing price data.
+        /// </summary>
+        /// <param name="priceSeries"></param>
+        public void UpdatePriceSeries(PriceSeries priceSeries)
+        {
+            var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.GetFollowingOpen() : DateTime.Now.GetMostRecentOpen();
+            var tail = DateTime.Now.GetMostRecentClose();
+
+            UpdatePriceSeries(priceSeries, head, tail);
+        }
+
+        /// <summary>
+        /// Updates the <paramref name="priceSeries"/> with any missing price data.
+        /// </summary>
+        /// <param name="priceSeries"></param>
+        /// <param name="head"></param>
+        /// <param name="tail"></param>
+        public void UpdatePriceSeries(PriceSeries priceSeries, DateTime head, DateTime tail)
+        {
+            UpdatePriceSeries(priceSeries, head, tail, priceSeries.Resolution);
         }
 
         /// <summary>
@@ -109,17 +132,6 @@ namespace Sonneville.PriceTools.Data
             }
         }
 
-        /// <summary>
-        /// Updates the <paramref name="priceSeries"/> with any missing price data.
-        /// </summary>
-        private void UpdatePriceSeries(PriceSeries priceSeries)
-        {
-            var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.GetFollowingOpen() : DateTime.Now.GetMostRecentOpen();
-            var tail = DateTime.Now.GetMostRecentClose();
-
-            priceSeries.RetrievePriceData(this, head, tail);
-        }
-
         #endregion
 
         #region Abstract/Virtual Methods
@@ -137,17 +149,17 @@ namespace Sonneville.PriceTools.Data
         /// <param name="tail">The last date to price.</param>
         /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
-        public abstract IEnumerable<PricePeriod> GetPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution);
+        public abstract IEnumerable<PricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
         /// Gets a <see cref="PriceSeries"/> containing price history.
         /// </summary>
-        /// <param name="ticker">The ticker symbol to price.</param>
+        /// <param name="priceSeries"> </param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
         /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
-        public abstract PriceSeries GetPriceSeries(string ticker, DateTime head, DateTime tail, Resolution resolution);
+        public abstract void UpdatePriceSeries(PriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
         /// Gets the ticker symbol for a given stock index.
