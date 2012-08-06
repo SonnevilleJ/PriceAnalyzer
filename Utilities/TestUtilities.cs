@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
@@ -215,7 +216,7 @@ namespace Sonneville.Utilities
             {
                 if (propertyInfo.GetIndexParameters().Length != 0) continue;
 
-                //Assert.AreEqual(propertyInfo.GetValue(expected, null), propertyInfo.GetValue(actual, null));
+                Assert.AreEqual(propertyInfo.GetValue(expected, null), propertyInfo.GetValue(actual, null));
             }
         }
 

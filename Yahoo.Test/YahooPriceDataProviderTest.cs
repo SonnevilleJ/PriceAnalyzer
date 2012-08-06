@@ -4,7 +4,7 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.PriceTools.SamplePriceData;
+using Sonneville.PriceTools.TestPriceData;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Yahoo.Test
@@ -97,7 +97,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
         [TestMethod]
         public void AutoUpdateTest()
         {
-            var priceSeries = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
             var updateCount = 0;
             var locker = new object();
 
@@ -147,7 +147,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
         [TestMethod]
         public void AutoUpdateTwoTickersTest()
         {
-            var deere = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var deere = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
             var microsoft = PriceSeriesFactory.CreatePriceSeries("MSFT");
             var deereUpdates = 0;
             var microsoftUpdates = 0;

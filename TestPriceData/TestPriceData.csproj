@@ -5,13 +5,15 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</ProjectGuid>
+    <ProjectGuid>{905DFF66-3320-4F3F-A924-7E5793EF1663}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.Google</RootNamespace>
-    <AssemblyName>Google</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.TestPriceData</RootNamespace>
+    <AssemblyName>TestPriceData</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +23,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,18 +37,50 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GooglePriceDataProvider.cs" />
-    <Compile Include="GooglePriceHistoryCsvFile.cs" />
+    <Compile Include="ResourceStream.cs" />
+    <Compile Include="TestCsvPriceHistory.cs" />
+    <Compile Include="CsvPriceData.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CsvPriceData.resx</DependentUpon>
+    </Compile>
+    <Compile Include="TestPriceHistoryCsvFiles.cs" />
+    <Compile Include="TestPriceSeries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CsvPriceData.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CsvPriceData.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\DE 1-1-2011 to 6-30-2011.csv" />
+    <None Include="Resources\IBM 1-1-2011 to 3-15-2011 Daily Yahoo.csv" />
+    <None Include="Resources\MSFT Apr-June 2011 Weekly Google.csv" />
+    <None Include="Resources\SPX_8_Dec_2010_to_10_Dec_2010.csv" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
       <Name>Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Google\Google.csproj">
+      <Project>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</Project>
+      <Name>Google</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</Project>
+      <Name>Utilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yahoo\Yahoo.csproj">
+      <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
+      <Name>Yahoo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

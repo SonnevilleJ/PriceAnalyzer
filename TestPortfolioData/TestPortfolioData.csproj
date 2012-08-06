@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</ProjectGuid>
+    <ProjectGuid>{FDFCAAFD-3E23-46D4-9E3D-2B46C5344E56}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.Google</RootNamespace>
-    <AssemblyName>Google</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.TestPortfolioData</RootNamespace>
+    <AssemblyName>TestPortfolioData</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -21,7 +21,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -36,18 +35,39 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="GooglePriceDataProvider.cs" />
-    <Compile Include="GooglePriceHistoryCsvFile.cs" />
+    <Compile Include="TestPortfolioCsv.cs" />
+    <Compile Include="TestPortfolios.cs" />
+    <Compile Include="TestTransactionHistory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="FidelityData.Designer.cs">
+      <DependentUpon>FidelityData.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="FidelityData.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FidelityData.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
       <Name>Data</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Fidelity\Fidelity.csproj">
+      <Project>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</Project>
+      <Name>Fidelity</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
+      <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
+      <Name>TestPriceData</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

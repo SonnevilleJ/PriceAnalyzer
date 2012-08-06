@@ -67,13 +67,13 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SamplePortfolioData\SamplePortfolioData.csproj">
-      <Project>{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}</Project>
-      <Name>SamplePortfolioData</Name>
+    <ProjectReference Include="..\TestPortfolioData\TestPortfolioData.csproj">
+      <Project>{FDFCAAFD-3E23-46D4-9E3D-2B46C5344E56}</Project>
+      <Name>TestPortfolioData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SamplePriceData\SamplePriceData.csproj">
-      <Project>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</Project>
-      <Name>SamplePriceData</Name>
+    <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
+      <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
+      <Name>TestPriceData</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</Project>

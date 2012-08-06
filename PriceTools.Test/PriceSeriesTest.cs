@@ -4,7 +4,7 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.PriceTools.SamplePriceData;
+using Sonneville.PriceTools.TestPriceData;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.Utilities;
 
@@ -307,7 +307,7 @@ namespace Sonneville.PriceTools.Test
         {
             var head = new DateTime(2011, 1, 1);
             var tail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = new YahooPriceHistoryCsvFile(TestUtilities.GetUniqueTicker(), new ResourceStream(SampleCsvPriceHistory.DE_1_1_2011_to_6_30_2011), head, tail).PriceSeries;
+            var priceSeries = new YahooPriceHistoryCsvFile(TestUtilities.GetUniqueTicker(), new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), head, tail).PriceSeries;
 
             var pricePeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
 
@@ -319,7 +319,7 @@ namespace Sonneville.PriceTools.Test
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = new YahooPriceHistoryCsvFile(TestUtilities.GetUniqueTicker(), new ResourceStream(SampleCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
+            var priceSeries = new YahooPriceHistoryCsvFile(TestUtilities.GetUniqueTicker(), new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
 
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var weeklyPeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
@@ -358,7 +358,7 @@ namespace Sonneville.PriceTools.Test
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = new YahooPriceHistoryCsvFile(TestUtilities.GetUniqueTicker(), new ResourceStream(SampleCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
+            var priceSeries = new YahooPriceHistoryCsvFile(TestUtilities.GetUniqueTicker(), new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PriceSeries;
 
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var monthlyPeriods = priceSeries.GetPricePeriods(Resolution.Months);
@@ -645,7 +645,7 @@ namespace Sonneville.PriceTools.Test
         [ExpectedException(typeof(InvalidOperationException))]
         public void AddPricePeriodOverlapTestInner()
         {
-            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
             var head = new DateTime(2011, 2, 28);
             var tail = head.GetFollowingClose();
             const decimal close = 5.00m;
@@ -658,7 +658,7 @@ namespace Sonneville.PriceTools.Test
         [ExpectedException(typeof(InvalidOperationException))]
         public void AddPricePeriodOverlapHeadTest()
         {
-            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
             var tail = target.Head.GetFollowingClose();
             var head = tail.AddDays(-1).GetMostRecentOpen();
             const decimal close = 5.00m;
@@ -671,7 +671,7 @@ namespace Sonneville.PriceTools.Test
         [ExpectedException(typeof(InvalidOperationException))]
         public void AddPricePeriodOverlapTailTest()
         {
-            var target = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
             var head = target.Tail.GetMostRecentOpen();
             var tail = head.AddDays(1).GetFollowingClose();
             const decimal close = 5.00m;

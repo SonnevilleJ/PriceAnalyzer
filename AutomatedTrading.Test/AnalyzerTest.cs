@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.SamplePriceData;
+using Sonneville.PriceTools.TestPriceData;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
         {
-            _priceSeries = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+            _priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
         }
 
         [TestMethod]

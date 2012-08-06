@@ -2,9 +2,9 @@ using System;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.TestPriceData;
 using Sonneville.PriceTools.Yahoo;
-using Sonneville.PriceTools.SamplePortfolioData;
-using Sonneville.PriceTools.SamplePriceData;
+using Sonneville.PriceTools.TestPortfolioData;
 
 namespace Sonneville.PriceTools.Fidelity.Test
 {
@@ -21,14 +21,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFcntxTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var fcntx = portfolio.Positions.Where(p => p.Ticker == "FCNTX").First();
+                var fcntx = portfolio.Positions.First(p => p.Ticker == "FCNTX");
                 var investedValue = fcntx.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(530.24044m, investedValue);
             }
@@ -40,14 +40,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFdlsxTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var fdlsx = portfolio.Positions.Where(p => p.Ticker == "FDLSX").First();
+                var fdlsx = portfolio.Positions.First(p => p.Ticker == "FDLSX");
                 var investedValue = fdlsx.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(1780.07445m, investedValue);
             }
@@ -59,14 +59,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFemexTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var femex = portfolio.Positions.Where(p => p.Ticker == "FEMEX").First();
+                var femex = portfolio.Positions.First(p => p.Ticker == "FEMEX");
                 var investedValue = femex.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(800.00325m, investedValue);
             }
@@ -78,14 +78,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFemkxTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var femkx = portfolio.Positions.Where(p => p.Ticker == "FEMKX").First();
+                var femkx = portfolio.Positions.First(p => p.Ticker == "FEMKX");
                 var investedValue = femkx.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(543.33666m, investedValue);
             }
@@ -97,14 +97,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFhkcxTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var fhkcx = portfolio.Positions.Where(p => p.Ticker == "FHKCX").First();
+                var fhkcx = portfolio.Positions.First(p => p.Ticker == "FHKCX");
                 var investedValue = fhkcx.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(558.50175m, investedValue);
             }
@@ -116,14 +116,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFicdxTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var ficdx = portfolio.Positions.Where(p => p.Ticker == "FICDX").First();
+                var ficdx = portfolio.Positions.First(p => p.Ticker == "FICDX");
                 var investedValue = ficdx.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(919.53195m, investedValue);
             }
@@ -135,14 +135,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFlatxTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var flatx = portfolio.Positions.Where(p => p.Ticker == "FLATX").First();
+                var flatx = portfolio.Positions.First(p => p.Ticker == "FLATX");
                 var investedValue = flatx.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(1379.28336m, investedValue);
             }
@@ -154,14 +154,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFsagxTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var fsagx = portfolio.Positions.Where(p => p.Ticker == "FSAGX").First();
+                var fsagx = portfolio.Positions.First(p => p.Ticker == "FSAGX");
                 var investedValue = fsagx.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(0m, investedValue);
             }
@@ -173,14 +173,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFschxTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var fschx = portfolio.Positions.Where(p => p.Ticker == "FSCHX").First();
+                var fschx = portfolio.Positions.First(p => p.Ticker == "FSCHX");
                 var investedValue = fschx.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(792.87264m, investedValue);
             }
@@ -192,14 +192,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFslbxTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var fslbx = portfolio.Positions.Where(p => p.Ticker == "FSLBX").First();
+                var fslbx = portfolio.Positions.First(p => p.Ticker == "FSLBX");
                 var investedValue = fslbx.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(3376.71644m, investedValue);
             }
@@ -211,14 +211,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFsngxTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var fsngx = portfolio.Positions.Where(p => p.Ticker == "FSNGX").First();
+                var fsngx = portfolio.Positions.First(p => p.Ticker == "FSNGX");
                 var investedValue = fsngx.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(1966.2302m, investedValue);
             }
@@ -230,14 +230,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioFtrnxTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = new YahooPriceDataProvider();
 
-                var ftrnx = portfolio.Positions.Where(p => p.Ticker == "FTRNX").First();
+                var ftrnx = portfolio.Positions.First(p => p.Ticker == "FTRNX");
                 var investedValue = ftrnx.CalculateMarketValue(provider, settlementDate);
                 Assert.AreEqual(597.02433m, investedValue);
             }
@@ -249,7 +249,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void ParsePortfolioAvailableCashTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
                 var portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
@@ -267,7 +267,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void TransactionPriceRoundingTest()
         {
-            using (Stream csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_TransactionPriceRounding))
+            using (Stream csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_TransactionPriceRounding))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
@@ -280,7 +280,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void TickerTest()
         {
-            using (var csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (var csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
@@ -293,7 +293,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void PositionsTest()
         {
-            using (var csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (var csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
@@ -306,7 +306,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [TestMethod]
         public void AvailableCashTest()
         {
-            using (var csvStream = new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades))
+            using (var csvStream = new ResourceStream(TestPortfolioCsv.BrokerageLink_trades))
             {
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
