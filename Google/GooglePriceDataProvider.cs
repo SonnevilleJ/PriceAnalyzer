@@ -22,6 +22,28 @@ namespace Sonneville.PriceTools.Google
         }
 
         /// <summary>
+        /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
+        /// </summary>
+        /// <param name="stream">The CSV data stream containing the price history.</param>
+        /// <param name="head">The head of the price data to retrieve.</param>
+        /// <param name="tail">The tail of the price data to retrieve.</param>
+        /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
+        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail)
+        {
+            return new GooglePriceHistoryCsvFile(stream, head, tail);
+        }
+
+        /// <summary>
+        /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
+        /// </summary>
+        public override Resolution BestResolution
+        {
+            get { return Resolution.Days; }
+        }
+
+        #region URL Management
+
+        /// <summary>
         /// Gets the base component of the URL used to retrieve the PriceHistoryCsvFile.
         /// </summary>
         /// <returns>A URL scheme, host, path, and miscellaneous query string.</returns>
@@ -89,28 +111,6 @@ namespace Sonneville.PriceTools.Google
             return "output=csv&";
         }
 
-        /// <summary>
-        /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
-        /// </summary>
-        /// <param name="stream">The CSV data stream containing the price history.</param>
-        /// <param name="head">The head of the price data to retrieve.</param>
-        /// <param name="tail">The tail of the price data to retrieve.</param>
-        /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
-        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail)
-        {
-            return new GooglePriceHistoryCsvFile(stream, head, tail);
-        }
-
-        /// <summary>
-        /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
-        /// </summary>
-        public override Resolution BestResolution
-        {
-            get { return Resolution.Days; }
-        }
-
-        #endregion
-
         private static string TranslateMonth(int month)
         {
             switch (month)
@@ -156,5 +156,9 @@ namespace Sonneville.PriceTools.Google
                     throw new NotSupportedException();
             }
         }
+
+        #endregion
+
+        #endregion
     }
 }

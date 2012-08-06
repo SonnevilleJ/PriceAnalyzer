@@ -18,10 +18,6 @@ namespace Sonneville.PriceTools.Data
 
         #endregion
 
-        #region Constructors
-
-        #endregion
-
         #region Public Methods
 
         /// <summary>
