@@ -253,11 +253,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         {
             var target = TestUtilities.CreateSimulatedTradingAccount();
 
+            string ticker = TestUtilities.GetUniqueTicker();
             foreach (var orderType in orderTypes)
             {
                 var issued = DateTime.Now;
                 var expiration = issued.AddDays(1);
-                string ticker = TestUtilities.GetUniqueTicker();
                 const int shares = 5;
                 const decimal price = 100.00m;
                 

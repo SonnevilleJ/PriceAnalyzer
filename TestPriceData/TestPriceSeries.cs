@@ -2,7 +2,7 @@
 {
     public static class TestPriceSeries
     {
-        public static PriceSeries DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS
+        public static PriceSeries IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS
         {
             get { return TestPriceHistoryCsvFiles.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo.PriceSeries; }
         }

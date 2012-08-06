@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Contains event data for the <see cref="PricePeriod.NewDataAvailable"/> event.
     /// </summary>
-    public class NewPriceDataAvailableEventArgs : EventArgs
+    public class NewDataAvailableEventArgs : EventArgs
     {
         /// <summary>
         /// Gets the head of the date range for which prices are now available.

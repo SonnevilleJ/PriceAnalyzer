@@ -213,25 +213,18 @@ namespace Sonneville.PriceTools
         /// <param name="pricePeriods"></param>
         public void AddPriceData(IEnumerable<PricePeriod> pricePeriods)
         {
-            var orderedPeriods = pricePeriods.OrderByDescending(period => period.Head).ToList();
-            foreach (var period in _dataPeriods.Where(period =>
-                                                      period.HasValueInRange(orderedPeriods.Min(p => p.Head)) ||
-                                                      period.HasValueInRange(orderedPeriods.Max(p => p.Tail))))
-            {
-                // skip periods that overlap
-                orderedPeriods.Remove(period);
-            }
+            var list = pricePeriods.Where(period => !HasValueInRange(period.Head) && !HasValueInRange(period.Tail)).ToList();
 
-            if (orderedPeriods.Any())
+            if (list.Any())
             {
-                foreach (var pricePeriod in orderedPeriods)
+                foreach (var pricePeriod in list)
                 {
                     _dataPeriods.Add(pricePeriod);
                 }
-                var eventArgs = new NewPriceDataAvailableEventArgs
+                var eventArgs = new NewDataAvailableEventArgs
                                     {
-                                        Head = orderedPeriods.Min(p => p.Head),
-                                        Tail = orderedPeriods.Max(p => p.Tail)
+                                        Head = list.Min(p => p.Head),
+                                        Tail = list.Max(p => p.Tail)
                                     };
                 InvokeNewDataAvailable(eventArgs);
             }

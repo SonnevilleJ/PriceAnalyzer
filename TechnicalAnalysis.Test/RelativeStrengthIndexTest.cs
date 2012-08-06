@@ -20,10 +20,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [TestMethod]
         public void Calculates14PeriodSingleCorrect()
         {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
+            var priceSeries = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
             var target = new RelativeStrengthIndex(priceSeries);
 
-            const decimal expected = 81.42m;
+            const decimal expected = 85.22m;
             var actual = target[target.Head];
             Assert.AreEqual(expected, Math.Round(actual, 2));
         }
@@ -33,18 +33,18 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         {
             var results = new[]
                               {
-                                  81.42m,
-                                  75.70m,
-                                  79.16m,
-                                  79.08m,
-                                  65.17m,
-                                  70.54m,
-                                  74.86m,
-                                  76.86m,
-                                  73.46m,
-                                  71.94m
+                                  85.22m,
+                                  86.72m,
+                                  84.67m,
+                                  84.70m,
+                                  75.16m,
+                                  78.98m,
+                                  80.77m,
+                                  79.55m,
+                                  79.84m,
+                                  80.45m
                               };
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
+            var priceSeries = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
             var target = new RelativeStrengthIndex(priceSeries);
 
             target.CalculateAll();
@@ -62,10 +62,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [TestMethod]
         public void Calculates10PeriodSingleCorrect()
         {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
+            var priceSeries = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
             var target = new RelativeStrengthIndex(priceSeries, 10);
 
-            const decimal expected = 93.01m;
+            const decimal expected = 70.66m;
             var actual = target[target.Head];
             Assert.AreEqual(expected, Math.Round(actual, 2));
         }
@@ -75,18 +75,18 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         {
             var results = new[]
                               {
-                                  93.01m,
-                                  79.93m,
-                                  78.50m,
-                                  78.28m,
-                                  80.92m,
-                                  72.76m,
-                                  78.13m,
-                                  78.02m,
-                                  59.36m,
-                                  67.63m
+                                  70.66m,
+                                  83.04m,
+                                  83.22m,
+                                  80.74m,
+                                  86.77m,
+                                  88.52m,
+                                  85.73m,
+                                  85.77m,
+                                  72.68m,
+                                  78.22m
                               };
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
+            var priceSeries = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
             var target = new RelativeStrengthIndex(priceSeries, 10);
 
             target.CalculateAll();

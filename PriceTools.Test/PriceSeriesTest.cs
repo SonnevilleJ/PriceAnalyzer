@@ -549,7 +549,7 @@ namespace Sonneville.PriceTools.Test
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             var raised = false;
-            EventHandler<NewPriceDataAvailableEventArgs> handler = (sender, e) => { raised = true; };
+            EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { raised = true; };
 
             try
             {
@@ -574,8 +574,8 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            NewPriceDataAvailableEventArgs args = null;
-            EventHandler<NewPriceDataAvailableEventArgs> handler = (sender, e) => { args = e; };
+            NewDataAvailableEventArgs args = null;
+            EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { args = e; };
 
             try
             {
@@ -606,8 +606,8 @@ namespace Sonneville.PriceTools.Test
             var head = p1.Head;
             var tail = p3.Tail;
 
-            NewPriceDataAvailableEventArgs args = null;
-            EventHandler<NewPriceDataAvailableEventArgs> handler = (sender, e) => { args = e; };
+            NewDataAvailableEventArgs args = null;
+            EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { args = e; };
 
             try
             {
@@ -642,7 +642,6 @@ namespace Sonneville.PriceTools.Test
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void AddPricePeriodOverlapTestInner()
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
@@ -651,11 +650,24 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            target.AddPriceData(period);
+            bool triggered = false;
+            EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { triggered = true; };
+
+            try
+            {
+                target.NewDataAvailable += handler;
+
+                target.AddPriceData(period);
+            }
+            finally
+            {
+                target.NewDataAvailable -= handler;
+            }
+
+            Assert.IsFalse(triggered);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void AddPricePeriodOverlapHeadTest()
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
@@ -664,11 +676,24 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            target.AddPriceData(period);
+            bool triggered = false;
+            EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { triggered = true; };
+
+            try
+            {
+                target.NewDataAvailable += handler;
+
+                target.AddPriceData(period);
+            }
+            finally
+            {
+                target.NewDataAvailable -= handler;
+            }
+
+            Assert.IsFalse(triggered);
         }
 
         [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void AddPricePeriodOverlapTailTest()
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
@@ -677,7 +702,21 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            target.AddPriceData(period);
+            bool triggered = false;
+            EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { triggered = true; };
+
+            try
+            {
+                target.NewDataAvailable += handler;
+
+                target.AddPriceData(period);
+            }
+            finally
+            {
+                target.NewDataAvailable -= handler;
+            }
+
+            Assert.IsFalse(triggered);
         }
     }
 }

@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Event which is invoked when new price data is available for the PricePeriod.
         /// </summary>
-        public event EventHandler<NewPriceDataAvailableEventArgs> NewDataAvailable;
+        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
 
         /// <summary>
         /// Gets a value stored at a given DateTime index of the TimeSeries.
@@ -91,7 +91,7 @@ namespace Sonneville.PriceTools
         /// Invokes the NewDataAvailable event.
         /// </summary>
         /// <param name="e">The NewPriceDataEventArgs to pass.</param>
-        protected void InvokeNewDataAvailable(NewPriceDataAvailableEventArgs e)
+        protected void InvokeNewDataAvailable(NewDataAvailableEventArgs e)
         {
             var eventHandler = NewDataAvailable;
             if (eventHandler != null)

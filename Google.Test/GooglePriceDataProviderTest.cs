@@ -216,7 +216,7 @@ namespace Sonneville.PriceTools.Google.Test
             var updateCount = 0;
             var locker = new object();
 
-            EventHandler<NewPriceDataAvailableEventArgs> handler = (sender, args) =>
+            EventHandler<NewDataAvailableEventArgs> handler = (sender, args) =>
                                                                        {
                                                                            Interlocked.Increment(ref updateCount);
                                                                            lock (locker) Monitor.Pulse(locker);

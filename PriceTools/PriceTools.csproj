@@ -90,7 +90,7 @@
     <Compile Include="Portfolio.cs" />
     <Compile Include="PriceTick.cs" />
     <Compile Include="Transaction.cs" />
-    <Compile Include="NewPriceDataAvailableEventArgs.cs" />
+    <Compile Include="NewDataAvailableEventArgs.cs" />
     <Compile Include="Factories\PositionFactory.cs" />
     <Compile Include="Factories\PricePeriodFactory.cs" />
     <Compile Include="Factories\PriceSeriesFactory.cs" />
