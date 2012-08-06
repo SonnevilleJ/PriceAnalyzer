@@ -36,8 +36,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <returns></returns>
         public override void UpdatePriceSeries(PriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
         {
-            var priceHistoryCsvFile = GetPriceHistoryCsvFile(priceSeries.Ticker, head, tail, resolution);
-            priceSeries.AddPriceData(priceHistoryCsvFile.PricePeriods);
+            priceSeries.AddPriceData(GetPriceData(priceSeries.Ticker, head, tail, resolution));
         }
 
         #endregion
@@ -118,12 +117,11 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <summary>
         /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
         /// </summary>
-        /// <param name="ticker">The ticker of the price data contained in the <see cref="PriceHistoryCsvFile"/>.</param>
         /// <param name="stream">The CSV data stream containing the price history.</param>
         /// <param name="head">The head of the price data to retrieve.</param>
         /// <param name="tail">The tail of the price data to retrieve.</param>
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
-        protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(string ticker, Stream stream, DateTime head, DateTime tail);
+        protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail);
 
         #endregion
 
@@ -141,7 +139,7 @@ namespace Sonneville.PriceTools.Data.Csv
         {
             using (var stream = DownloadPricesToCsv(ticker, head, tail, resolution))
             {
-                return CreatePriceHistoryCsvFile(ticker, stream, head, tail);
+                return CreatePriceHistoryCsvFile(stream, head, tail);
             }
         }
 
