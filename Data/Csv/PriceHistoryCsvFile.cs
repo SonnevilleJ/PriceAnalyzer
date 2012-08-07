@@ -83,7 +83,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="textReader"></param>
         /// <param name="impliedHead"></param>
         /// <param name="impliedTail"></param>
-        private void Read(TextReader textReader, DateTime? impliedHead = null, DateTime? impliedTail = null)
+        public void Read(TextReader textReader, DateTime? impliedHead = null, DateTime? impliedTail = null)
         {
             using (var csvReader = new CsvReader(textReader, true))
             {
@@ -96,11 +96,6 @@ namespace Sonneville.PriceTools.Data.Csv
         #endregion
 
         #region Write Methods
-
-        public void Write(string path)
-        {
-            Write(File.OpenWrite(path));
-        }
 
         public void Write(Stream stream)
         {
