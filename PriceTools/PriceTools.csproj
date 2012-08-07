@@ -75,6 +75,7 @@
     <Compile Include="SellShort.cs" />
     <Compile Include="ShareTransaction.cs" />
     <Compile Include="ShortTransaction.cs" />
+    <Compile Include="StockIndexInfo.cs" />
     <Compile Include="TickedPricePeriod.cs" />
     <Compile Include="Order.cs" />
     <Compile Include="SecurityBasketExtensions.cs" />
