@@ -348,10 +348,7 @@ namespace Sonneville.PriceTools
         {
             unchecked
             {
-                var result = base.GetHashCode();
-                result = (result*397) ^ (Ticker != null ? Ticker.GetHashCode() : 0);
-                result = PricePeriods.Aggregate(result, (current, pricePeriod) => (current*397) ^ pricePeriod.GetHashCode());
-                return result;
+                return Ticker.GetHashCode();
             }
         }
 

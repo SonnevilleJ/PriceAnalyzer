@@ -42,21 +42,18 @@ namespace Sonneville.PriceTools.Google.Test
         {
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
             var updateCount = 0;
-            var locker = new object();
-
+            var resetEvent = new AutoResetEvent(false);
+            
             Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = delegate
             {
                 Interlocked.Increment(ref updateCount);
-                lock (locker) Monitor.Pulse(locker);
+                resetEvent.Set();
                 return GetPricePeriods();
             };
             var provider = GetProvider(action);
 
-            lock (locker)
-            {
-                provider.StartAutoUpdate(priceSeries);
-                Monitor.Wait(locker);
-            }
+            provider.StartAutoUpdate(priceSeries);
+            resetEvent.WaitOne();
             provider.StopAutoUpdate(priceSeries);
 
             Assert.IsTrue(updateCount >= 1);
@@ -69,25 +66,28 @@ namespace Sonneville.PriceTools.Google.Test
             var microsoft = PriceSeriesFactory.CreatePriceSeries("MSFT");
             var deereUpdates = 0;
             var microsoftUpdates = 0;
-            var locker = new object();
+            var countdown = new CountdownEvent(2);
 
             Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = (ticker, head, tail, resolution) =>
             {
-                if (ticker == deere.Ticker)
+                if (ticker == deere.Ticker && deereUpdates == 0)
+                {
                     Interlocked.Increment(ref deereUpdates);
-                if (ticker == microsoft.Ticker)
+                    countdown.Signal();
+                }
+                if (ticker == microsoft.Ticker && microsoftUpdates == 0)
+                {
                     Interlocked.Increment(ref microsoftUpdates);
-                lock (locker) Monitor.Pulse(locker);
+                    countdown.Signal();
+                }
                 return GetPricePeriods();
             };
             var provider = GetProvider(action);
 
-            lock (locker)
-            {
-                provider.StartAutoUpdate(deere);
-                provider.StartAutoUpdate(microsoft);
-                Monitor.Wait(locker);
-            }
+            provider.StartAutoUpdate(deere);
+            provider.StartAutoUpdate(microsoft);
+            countdown.Wait();
+
             provider.StopAutoUpdate(deere);
             provider.StopAutoUpdate(microsoft);
 
@@ -99,18 +99,16 @@ namespace Sonneville.PriceTools.Google.Test
         public void AutoUpdateSamePriceSeriesTwiceTest()
         {
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
-            var updateCount = 0;
 
             Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = delegate
             {
-                Interlocked.Increment(ref updateCount);
                 return GetPricePeriods();
             };
             var provider = GetProvider(action);
 
-            provider.StartAutoUpdate(priceSeries);
             try
             {
+                provider.StartAutoUpdate(priceSeries);
                 provider.StartAutoUpdate(priceSeries);
             }
             finally
@@ -135,35 +133,63 @@ namespace Sonneville.PriceTools.Google.Test
         {
             var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
             var updateCount = 0;
-            var locker = new object();
+            var resetEvent = new AutoResetEvent(false);
 
             EventHandler<NewDataAvailableEventArgs> handler = (sender, args) =>
             {
                 Interlocked.Increment(ref updateCount);
-                lock (locker) Monitor.Pulse(locker);
+                resetEvent.Set();
             };
+            Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = delegate
+            {
+                return GetPricePeriods();
+            };
+            var provider = GetProvider(action);
 
             try
             {
                 priceSeries.NewDataAvailable += handler;
-                var provider = new GooglePriceDataProvider();
+                provider.StartAutoUpdate(priceSeries);
 
-                lock (locker)
-                {
-                    provider.StartAutoUpdate(priceSeries);
-
-                    // wait until event has processed
-                    Monitor.Wait(locker);
-                }
-
-                provider.StopAutoUpdate(priceSeries);
-
-                Assert.IsTrue(updateCount >= 1);
+                resetEvent.WaitOne();
             }
             finally
             {
+                provider.StopAutoUpdate(priceSeries);
                 priceSeries.NewDataAvailable -= handler;
             }
+
+            Assert.IsTrue(updateCount >= 1);
+        }
+
+        [TestMethod]
+        public void AutoUpdateCancelDoesntSleepFullTimeoutTest()
+        {
+            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var updateCount = 0;
+            var resetEvent = new AutoResetEvent(false);
+
+            EventHandler<NewDataAvailableEventArgs> handler = (sender, args) =>
+            {
+                Interlocked.Increment(ref updateCount);
+                resetEvent.Set();
+            };
+            IPriceDataProvider provider = new WeeklyProvider {UpdateAction = delegate { return GetPricePeriods(); }};
+
+            try
+            {
+                priceSeries.NewDataAvailable += handler;
+                provider.StartAutoUpdate(priceSeries);
+
+                resetEvent.WaitOne();
+            }
+            finally
+            {
+                provider.StopAutoUpdate(priceSeries);
+                priceSeries.NewDataAvailable -= handler;
+            }
+
+            Assert.IsTrue(updateCount >= 1);
         }
 
         private static IPriceDataProvider GetProvider(Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = null)

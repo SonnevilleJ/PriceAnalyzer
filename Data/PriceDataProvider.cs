@@ -61,20 +61,20 @@ namespace Sonneville.PriceTools.Data
         /// <param name="priceSeries">The <see cref="PriceSeries"/> to update.</param>
         public void StartAutoUpdate(PriceSeries priceSeries)
         {
-            if (_tasks.ContainsKey(priceSeries))
-            {
-                throw new InvalidOperationException("Cannot execute duplicate tasks to update the same PriceSeries.");
-            }
-            var cts = new CancellationTokenSource();
-            var token = cts.Token;
-            var task = new Task(() => UpdateLoop(priceSeries, token), token);
             lock (priceSeries)
             {
+                if (_tasks.ContainsKey(priceSeries))
+                {
+                    throw new InvalidOperationException("Cannot execute duplicate tasks to update the same PriceSeries.");
+                }
+                var cts = new CancellationTokenSource();
+                var token = cts.Token;
+                var task = new Task(() => UpdateLoop(priceSeries, token), token, TaskCreationOptions.LongRunning);
                 _tokens.Add(priceSeries, cts);
                 _tasks.Add(priceSeries, task);
-            }
 
-            task.Start();
+                task.Start();
+            }
         }
 
         /// <summary>
