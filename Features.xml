@@ -47,6 +47,24 @@
                 As a user, I can interact with PriceSeries objects to perform de/serialization to/from CSV files. This may use the PriceHistoryCsvFile class in the background.
             </UserStory>
         </Feature>
+        <Feature name="IQueryable PriceDataProvider">
+          <Added>9 August 2012</Added>
+          <UserStory>
+                Implement IQueryable in such a way that the PricePeriods of a PriceSeries can be lazy loaded from a data source.
+          </UserStory>
+        </Feature>
+        <Feature name="PriceSeries persistence">
+          <Added>9 August 2012</Added>
+          <UserStory>
+                Implement a method of persisting PriceSeries data to an ADO.NET database.
+          </UserStory>
+        </Feature>
+        <Feature name="SqlPriceDataProvider">
+          <Added>9 August 2012</Added>
+          <UserStory>
+                Implmenet a PriceDataProvider which fetches price data from an ADO.NET database.
+          </UserStory>
+        </Feature>
     </PlannedFeatures>
     <CompletedFeatures>
         <Feature name="CSV Output - PriceHistoryCsvFile">
