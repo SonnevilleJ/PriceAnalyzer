@@ -16,6 +16,8 @@ namespace Sonneville.PriceTools.Yahoo
         // Yahoo has many features beyond price history - i.e. fundamental indicators.
         // See http://www.codeproject.com/KB/aspnet/StockQuote.aspx for details.
         //
+        // Also, a REST API is now available: http://www.jarloo.com/yahoo_finance/
+        //
 
         #region IPriceSeriesProvider Implementation
 
@@ -45,10 +47,11 @@ namespace Sonneville.PriceTools.Yahoo
         /// <param name="stream">The CSV data stream containing the price history.</param>
         /// <param name="head">The head of the price data to retrieve.</param>
         /// <param name="tail">The tail of the price data to retrieve.</param>
+        /// <param name="impliedResolution">The <see cref="Resolution"/> of price data to retrieve.</param>
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
-        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail)
+        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail, Resolution? impliedResolution = null)
         {
-            return new YahooPriceHistoryCsvFile(stream, head, tail);
+            return new YahooPriceHistoryCsvFile(stream, head, tail, impliedResolution);
         }
 
         /// <summary>

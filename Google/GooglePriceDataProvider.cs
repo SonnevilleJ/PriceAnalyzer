@@ -27,10 +27,11 @@ namespace Sonneville.PriceTools.Google
         /// <param name="stream">The CSV data stream containing the price history.</param>
         /// <param name="head">The head of the price data to retrieve.</param>
         /// <param name="tail">The tail of the price data to retrieve.</param>
+        /// <param name="impliedResolution">The <see cref="Resolution"/> of price data to retrieve.</param>
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
-        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail)
+        protected override PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail, Resolution? impliedResolution = null)
         {
-            return new GooglePriceHistoryCsvFile(stream, head, tail);
+            return new GooglePriceHistoryCsvFile(stream, head, tail, impliedResolution);
         }
 
         /// <summary>
@@ -79,8 +80,7 @@ namespace Sonneville.PriceTools.Google
         /// <returns>A partial URL query string containing the given ending date.</returns>
         protected override string GetUrlTailDate(DateTime tail)
         {
-            var day = tail.Day - 1; // Google Finance returns an extra day of price history for some reason
-            return String.Format("enddate={0}+{1}%2C+{2}&", TranslateMonth(tail.Month), day, tail.Year);
+            return String.Format("enddate={0}+{1}%2C+{2}&", TranslateMonth(tail.Month), tail.Day, tail.Year);
         }
 
         /// <summary>

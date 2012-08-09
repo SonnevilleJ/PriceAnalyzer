@@ -22,8 +22,9 @@ namespace Sonneville.PriceTools.Google
         /// <param name="stream">The CSV data stream to parse.</param>
         /// <param name="impliedHead">The head of the price data contained in the CSV data.</param>
         /// <param name="impliedTail">The tail of the price data contained in the CSV data.</param>
-        public GooglePriceHistoryCsvFile(Stream stream, DateTime impliedHead, DateTime impliedTail)
-            : base(stream, impliedHead, impliedTail)
+        /// <param name="impliedResolution">The <see cref="Resolution"/> of price data contained in the CSV data.</param>
+        public GooglePriceHistoryCsvFile(Stream stream, DateTime impliedHead = default(DateTime), DateTime impliedTail = default(DateTime), Resolution? impliedResolution = null)
+            : base(stream, impliedHead, impliedTail, impliedResolution)
         {
         }
 

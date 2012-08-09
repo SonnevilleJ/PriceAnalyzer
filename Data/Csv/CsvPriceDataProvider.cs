@@ -120,8 +120,9 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="stream">The CSV data stream containing the price history.</param>
         /// <param name="head">The head of the price data to retrieve.</param>
         /// <param name="tail">The tail of the price data to retrieve.</param>
+        /// <param name="impliedResolution">The <see cref="Resolution"/> of price data to retrieve.</param>
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
-        protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail);
+        protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail, Resolution? impliedResolution = null);
 
         #endregion
 
@@ -139,7 +140,7 @@ namespace Sonneville.PriceTools.Data.Csv
         {
             using (var stream = DownloadPricesToCsv(ticker, head, tail, resolution))
             {
-                return CreatePriceHistoryCsvFile(stream, head, tail);
+                return CreatePriceHistoryCsvFile(stream, head, tail, resolution);
             }
         }
 

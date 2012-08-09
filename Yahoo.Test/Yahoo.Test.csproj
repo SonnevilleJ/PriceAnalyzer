@@ -50,6 +50,10 @@
     <Compile Include="YahooPriceHistoryCsvFileTest.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data.Test\Data.Test.csproj">
+      <Project>{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}</Project>
+      <Name>Data.Test</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
       <Name>Data</Name>
@@ -61,10 +65,6 @@
     <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
       <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
       <Name>TestPriceData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\Utilities.csproj">
-      <Project>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</Project>
-      <Name>Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Yahoo\Yahoo.csproj">
       <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>

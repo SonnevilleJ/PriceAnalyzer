@@ -13,6 +13,7 @@ namespace Sonneville.PriceTools.Data
     {
         #region Private Members
 
+        private readonly object _syncroot = new object();
         private readonly IDictionary<PriceSeries, CancellationTokenSource> _tokens = new Dictionary<PriceSeries, CancellationTokenSource>();
         private readonly IDictionary<PriceSeries, Task> _tasks = new Dictionary<PriceSeries, Task>();
 
@@ -38,8 +39,8 @@ namespace Sonneville.PriceTools.Data
         /// <param name="priceSeries"></param>
         public void UpdatePriceSeries(PriceSeries priceSeries)
         {
-            var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.GetFollowingOpen() : DateTime.Now.GetMostRecentOpen();
             var tail = DateTime.Now.GetMostRecentClose();
+            var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.GetFollowingOpen() : tail.GetMostRecentOpen();
 
             UpdatePriceSeries(priceSeries, head, tail);
         }
@@ -61,7 +62,7 @@ namespace Sonneville.PriceTools.Data
         /// <param name="priceSeries">The <see cref="PriceSeries"/> to update.</param>
         public void StartAutoUpdate(PriceSeries priceSeries)
         {
-            lock (priceSeries)
+            lock (_syncroot)
             {
                 if (_tasks.ContainsKey(priceSeries))
                 {
@@ -87,7 +88,7 @@ namespace Sonneville.PriceTools.Data
             if (_tokens.TryGetValue(priceSeries, out cts))
             {
                 var task = _tasks[priceSeries];
-                lock (priceSeries)
+                lock (_syncroot)
                 {
                     // cleanup
                     _tokens.Remove(priceSeries);
@@ -97,7 +98,7 @@ namespace Sonneville.PriceTools.Data
                     cts.Cancel();
 
                     // wake up sleeping tasks so they can terminate
-                    Monitor.PulseAll(priceSeries);
+                    lock(priceSeries) Monitor.PulseAll(priceSeries);
                 }
 
                 // wait for completion and throw exceptions

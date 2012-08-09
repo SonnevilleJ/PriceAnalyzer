@@ -43,9 +43,10 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="stream">The CSV data stream to parse.</param>
         /// <param name="impliedHead">The head of the price data contained in the CSV data.</param>
         /// <param name="impliedTail">The tail of the price data contained in the CSV data.</param>
-        protected internal PriceHistoryCsvFile(Stream stream, DateTime? impliedHead = null, DateTime? impliedTail = null)
+        /// <param name="impliedResolution">The <see cref="Resolution"/> of price data contained in the CSV data.</param>
+        protected internal PriceHistoryCsvFile(Stream stream, DateTime? impliedHead = null, DateTime? impliedTail = null, Resolution? impliedResolution = null)
         {
-            Read(stream, impliedHead, impliedTail);
+            Read(stream, impliedHead, impliedTail, impliedResolution);
         }
 
         #endregion
@@ -69,11 +70,12 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="stream">The stream to read.</param>
         /// <param name="impliedHead"></param>
         /// <param name="impliedTail"></param>
-        public void Read(Stream stream, DateTime? impliedHead = null, DateTime? impliedTail = null)
+        /// <param name="impliedResolution"></param>
+        public void Read(Stream stream, DateTime? impliedHead = null, DateTime? impliedTail = null, Resolution? impliedResolution = null)
         {
             using (var reader = new StreamReader(stream))
             {
-                Read(reader, impliedHead, impliedTail);
+                Read(reader, impliedHead, impliedTail, impliedResolution);
             }
         }
 
@@ -83,13 +85,14 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="textReader"></param>
         /// <param name="impliedHead"></param>
         /// <param name="impliedTail"></param>
-        public void Read(TextReader textReader, DateTime? impliedHead = null, DateTime? impliedTail = null)
+        /// <param name="impliedResolution"></param>
+        public void Read(TextReader textReader, DateTime? impliedHead = null, DateTime? impliedTail = null, Resolution? impliedResolution = null)
         {
             using (var csvReader = new CsvReader(textReader, true))
             {
                 var map = MapHeaders(csvReader);
                 var stagedPeriods = StagePeriods(csvReader, map);
-                PricePeriods = BuildPricePeriods(stagedPeriods, impliedHead, impliedTail);
+                PricePeriods = BuildPricePeriods(stagedPeriods, impliedHead, impliedTail, impliedResolution);
             }
         }
 
@@ -215,10 +218,10 @@ namespace Sonneville.PriceTools.Data.Csv
 
         #region Static parsing methods
 
-        private static IList<PricePeriod> BuildPricePeriods(IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail)
+        private static IList<PricePeriod> BuildPricePeriods(IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail, Resolution? impliedResolution)
         {
             stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
-            var resolution = SetResolution(stagedPeriods);
+            var resolution = SetResolution(stagedPeriods, impliedResolution);
             var pricePeriods = new List<PricePeriod>();
 
             for (var i = 0; i < stagedPeriods.Count; i++)
@@ -255,7 +258,12 @@ namespace Sonneville.PriceTools.Data.Csv
                     }
 
                     // find the latest possible tail
-                    var lastLogicalTail = pricePeriods[pricePeriods.Count - 1].Tail.AddPeriod(resolution);
+                    // TODO: create DateTime extension method to get the tail from a given resolution
+                    DateTime lastLogicalTail;
+                    if(pricePeriods.Count > 0)
+                        lastLogicalTail = pricePeriods[pricePeriods.Count - 1].Tail.AddPeriod(resolution);
+                    else
+                        lastLogicalTail = GetTail(stagedPeriod.Date, resolution);
 
                     // assign appropriate tail
                     tail = impliedTail.Value > lastLogicalTail ? lastLogicalTail : impliedTail.Value;
@@ -264,6 +272,8 @@ namespace Sonneville.PriceTools.Data.Csv
                 {
                     tail = GetTail(stagedPeriod.Date, resolution);
                 }
+
+                if (head > tail) break; // provider gave us extra data beyond what we asked for, so stop here
 
                 var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
                 pricePeriods.Add(period);
@@ -297,8 +307,9 @@ namespace Sonneville.PriceTools.Data.Csv
             }
         }
 
-        private static Resolution SetResolution(IList<SingleDatePeriod> periods)
+        private static Resolution SetResolution(IList<SingleDatePeriod> periods, Resolution? impliedResolution)
         {
+            if (impliedResolution.HasValue) return impliedResolution.Value;
             if (periods.Count >= 3)
             {
                 var time1 = periods[0].Date;

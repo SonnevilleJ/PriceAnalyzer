@@ -59,6 +59,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPortfolioData", "TestPo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPriceData", "TestPriceData\TestPriceData.csproj", "{905DFF66-3320-4F3F-A924-7E5793EF1663}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Test", "Data.Test\Data.Test.csproj", "{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = PriceAnalyzer.vsmdi
@@ -220,6 +222,12 @@ Global
 		{905DFF66-3320-4F3F-A924-7E5793EF1663}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{905DFF66-3320-4F3F-A924-7E5793EF1663}.Release|Any CPU.Build.0 = Release|Any CPU
 		{905DFF66-3320-4F3F-A924-7E5793EF1663}.Release|x86.ActiveCfg = Release|Any CPU
+		{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,101 +1,56 @@
-﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.Utilities;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.Data.Test;
 
 namespace Sonneville.PriceTools.Google.Test
 {
     [TestClass]
-    public class GooglePriceDataProviderTest
+    public class GooglePriceDataProviderTest : PriceDataProviderTest
     {
-
-        [TestMethod]
-        public void GoogleDownloadDailyTestResolution()
+        protected override Data.PriceDataProvider GetTestObjectInstance()
         {
-            var provider = new GooglePriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
-            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
-
-            Assert.AreEqual(Resolution.Days, priceSeries.Resolution);
-            foreach (var period in priceSeries.PricePeriods)
-            {
-                Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
-            }
+            return new GooglePriceDataProvider();
         }
 
         [TestMethod]
-        public void GoogleDownloadDailyTestPeriods()
+        public override void DailyDownloadSingleDay()
         {
-            var provider = new GooglePriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
-            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
-
-            Assert.AreEqual(50, priceSeries.PricePeriods.Count);
+            DailyDownloadSingleDayTest();
         }
 
         [TestMethod]
-        public void GoogleDownloadDailyTestDates()
+        public override void DailyDownloadTestResolution()
         {
-            var provider = new GooglePriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
-            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
-
-            Assert.AreEqual(head, priceSeries.Head);
-            Assert.AreEqual(tail, priceSeries.Tail);
+            DailyDownloadResolutionTest();
         }
 
         [TestMethod]
-        public void GoogleDownloadWeeklyTestPeriods()
+        public override void DailyDownloadTestPeriods()
         {
-            var provider = new GooglePriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
-            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
-
-            Assert.AreEqual(11, priceSeries.PricePeriods.Count);
+            DailyDownloadPeriodsTest();
         }
 
         [TestMethod]
-        public void GoogleDownloadWeeklyTestResolution()
+        public override void DailyDownloadDates()
         {
-            var provider = new GooglePriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker, Resolution.Weeks);
-            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
-
-            Assert.AreEqual(Resolution.Weeks, priceSeries.Resolution);
-            var periods = priceSeries.PricePeriods;
-            for (var i = 1; i < periods.Count - 1; i++) // skip check on first and last periods
-            {
-                Assert.IsTrue(periods[i].Tail - periods[i].Head >= new TimeSpan(23, 59, 59));
-                Assert.IsTrue(periods[i].Tail - periods[i].Head < new TimeSpan(7, 0, 0, 0));
-            }
+            DailyDownloadDatesTest();
         }
 
         [TestMethod]
-        public void GoogleDownloadWeeklyDoesNotReturnAfterImplied()
+        public override void WeeklyDownloadPeriods()
         {
-            var provider = new GooglePriceDataProvider();
-            var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
-            provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
+            WeeklyDownloadPeriodsTest();
+        }
 
-            Assert.AreEqual(head, priceSeries.Head);
-            Assert.AreEqual(tail, priceSeries.Tail);
+        [TestMethod]
+        public override void WeeklyDownloadResolution()
+        {
+            WeeklyDownloadResolutionTest();
+        }
+
+        [TestMethod]
+        public override void WeeklyDownloadDates()
+        {
+            WeeklyDownloadDatesTest();
         }
     }
 }
