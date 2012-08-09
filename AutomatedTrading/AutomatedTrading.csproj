@@ -39,6 +39,7 @@
     <Compile Include="Analyzer.cs" />
     <Compile Include="AnalyzerEventArgs.cs" />
     <Compile Include="AnalyzerTriggerDelegate.cs" />
+    <Compile Include="ContinuousTradingEngine.cs" />
     <Compile Include="Implementation\BacktestingTradingAccountImpl.cs" />
     <Compile Include="DailyTriggerTradingStrategy.cs" />
     <Compile Include="FlatCommissionSchedule.cs" />
@@ -70,9 +71,21 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Google\Google.csproj">
+      <Project>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</Project>
+      <Name>Google</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yahoo\Yahoo.csproj">
+      <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
+      <Name>Yahoo</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
