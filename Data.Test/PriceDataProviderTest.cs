@@ -34,6 +34,19 @@ namespace Sonneville.PriceTools.Data.Test
         [TestMethod]
         public abstract void WeeklyDownloadDates();
 
+        [TestMethod]
+        public abstract void AutoUpdatePopulatedPriceSeries();
+
+        [TestMethod]
+        public abstract void AutoUpdateEmptyPriceSeries();
+
+        [TestMethod]
+        public abstract void AutoUpdateTwoTickers();
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public abstract void AutoUpdateSamePriceSeriesTwice();
+
         protected void DailyDownloadSingleDayTest()
         {
             var provider = GetTestObjectInstance();
@@ -130,41 +143,20 @@ namespace Sonneville.PriceTools.Data.Test
             Assert.AreEqual(tail, priceSeries.Tail);
         }
 
-        [TestMethod]
-        public void AutoUpdateTest()
-        {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var updateCount = 0;
-            var locker = new object();
-
-            Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = delegate
-            {
-                Interlocked.Increment(ref updateCount);
-                lock (locker) Monitor.Pulse(locker);
-                return GetPricePeriods();
-            };
-            var provider = GetProvider(action);
-
-            lock (locker)
-            {
-                provider.StartAutoUpdate(priceSeries);
-                Monitor.Wait(locker);
-            }
-            provider.StopAutoUpdate(priceSeries);
-
-            Assert.IsTrue(updateCount >= 1);
-        }
-
-        [TestMethod]
-        public void AutoUpdateEmptyPriceSeriesTest()
+        protected void AutoUpdatePopulatedPriceSeriesTest()
         {
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
             var resetEvent = new AutoResetEvent(false);
-            
+
             EventHandler<NewDataAvailableEventArgs> action = delegate { resetEvent.Set(); };
             var provider = GetTestObjectInstance();
 
-            Assert.IsTrue(priceSeries.PricePeriods.Count == 0);
+            var head = new DateTime(2012, 6, 6);
+            var tail = new DateTime(2012, 6, 9).GetFollowingClose();
+            provider.UpdatePriceSeries(priceSeries, head, tail);
+
+            var startingPeriods = priceSeries.PricePeriods.Count;
+            Assert.IsTrue(startingPeriods > 0);
 
             priceSeries.NewDataAvailable += action;
             provider.StartAutoUpdate(priceSeries);
@@ -173,54 +165,72 @@ namespace Sonneville.PriceTools.Data.Test
             priceSeries.NewDataAvailable -= action;
             provider.StopAutoUpdate(priceSeries);
 
-            Assert.IsTrue(priceSeries.PricePeriods.Count > 0);
+            Assert.IsTrue(priceSeries.PricePeriods.Count > startingPeriods);
         }
 
-        [TestMethod]
-        public void AutoUpdateTwoTickersTest()
+        protected void AutoUpdateEmptyPriceSeriesTest()
         {
-            var deere = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var microsoft = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var resetEvent = new AutoResetEvent(false);
+            
+            EventHandler<NewDataAvailableEventArgs> action = delegate { resetEvent.Set(); };
+            var provider = GetTestObjectInstance();
+
+            var startingPeriods = priceSeries.PricePeriods.Count;
+            Assert.IsTrue(startingPeriods == 0);
+
+            priceSeries.NewDataAvailable += action;
+            provider.StartAutoUpdate(priceSeries);
+            resetEvent.WaitOne();
+
+            priceSeries.NewDataAvailable -= action;
+            provider.StopAutoUpdate(priceSeries);
+
+            Assert.IsTrue(priceSeries.PricePeriods.Count > startingPeriods);
+        }
+
+        protected void AutoUpdateTwoTickersTest()
+        {
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
             var deereUpdates = 0;
             var microsoftUpdates = 0;
             var countdown = new CountdownEvent(2);
 
             Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = (ticker, head, tail, resolution) =>
-            {
-                if (ticker == deere.Ticker && deereUpdates == 0)
-                {
-                    Interlocked.Increment(ref deereUpdates);
-                    countdown.Signal();
-                }
-                if (ticker == microsoft.Ticker && microsoftUpdates == 0)
-                {
-                    Interlocked.Increment(ref microsoftUpdates);
-                    countdown.Signal();
-                }
-                return GetPricePeriods();
-            };
+                                                                                                {
+                                                                                                    if (ticker == ps1.Ticker && deereUpdates == 0)
+                                                                                                    {
+                                                                                                        Interlocked.Increment(ref deereUpdates);
+                                                                                                        countdown.Signal();
+                                                                                                    }
+                                                                                                    if (ticker == ps2.Ticker && microsoftUpdates == 0)
+                                                                                                    {
+                                                                                                        Interlocked.Increment(ref microsoftUpdates);
+                                                                                                        countdown.Signal();
+                                                                                                    }
+                                                                                                    return GetPricePeriods();
+                                                                                                };
             var provider = GetProvider(action);
 
-            provider.StartAutoUpdate(deere);
-            provider.StartAutoUpdate(microsoft);
+            provider.StartAutoUpdate(ps1);
+            provider.StartAutoUpdate(ps2);
             countdown.Wait();
 
-            provider.StopAutoUpdate(deere);
-            provider.StopAutoUpdate(microsoft);
+            provider.StopAutoUpdate(ps1);
+            provider.StopAutoUpdate(ps2);
 
             Assert.IsTrue(deereUpdates >= 1 && microsoftUpdates >= 1);
         }
 
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public void AutoUpdateSamePriceSeriesTwiceTest()
+        protected void AutoUpdateSamePriceSeriesTwiceTest()
         {
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
 
             Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = delegate
-            {
-                return GetPricePeriods();
-            };
+                                                                                                {
+                                                                                                    return GetPricePeriods();
+                                                                                                };
             var provider = GetProvider(action);
 
             try

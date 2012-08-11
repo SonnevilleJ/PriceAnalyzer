@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Data.Test;
 
 namespace Sonneville.PriceTools.Google.Test
@@ -51,6 +52,31 @@ namespace Sonneville.PriceTools.Google.Test
         public override void WeeklyDownloadDates()
         {
             WeeklyDownloadDatesTest();
+        }
+
+        [TestMethod]
+        public override void AutoUpdatePopulatedPriceSeries()
+        {
+            AutoUpdatePopulatedPriceSeriesTest();
+        }
+
+        [TestMethod]
+        public override void AutoUpdateEmptyPriceSeries()
+        {
+            AutoUpdateEmptyPriceSeriesTest();
+        }
+
+        [TestMethod]
+        public override void AutoUpdateTwoTickers()
+        {
+            AutoUpdateTwoTickersTest();
+        }
+
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public override void AutoUpdateSamePriceSeriesTwice()
+        {
+            AutoUpdateSamePriceSeriesTwiceTest();
         }
     }
 }
