@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.PriceTools.TestPriceData;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Data.Test
@@ -146,47 +144,63 @@ namespace Sonneville.PriceTools.Data.Test
         protected void AutoUpdatePopulatedPriceSeriesTest()
         {
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var updateCount = 0;
             var resetEvent = new AutoResetEvent(false);
 
-            EventHandler<NewDataAvailableEventArgs> action = delegate { resetEvent.Set(); };
-            var provider = GetTestObjectInstance();
+            EventHandler<NewDataAvailableEventArgs> handler = (sender, args) =>
+            {
+                Interlocked.Increment(ref updateCount);
+                resetEvent.Set();
+            };
+            IPriceDataProvider provider = GetTestObjectInstance();
 
             var head = new DateTime(2012, 6, 6);
             var tail = new DateTime(2012, 6, 9).GetFollowingClose();
             provider.UpdatePriceSeries(priceSeries, head, tail);
 
-            var startingPeriods = priceSeries.PricePeriods.Count;
-            Assert.IsTrue(startingPeriods > 0);
+            try
+            {
+                priceSeries.NewDataAvailable += handler;
+                provider.StartAutoUpdate(priceSeries);
 
-            priceSeries.NewDataAvailable += action;
-            provider.StartAutoUpdate(priceSeries);
-            resetEvent.WaitOne();
+                resetEvent.WaitOne();
+            }
+            finally
+            {
+                provider.StopAutoUpdate(priceSeries);
+                priceSeries.NewDataAvailable -= handler;
+            }
 
-            priceSeries.NewDataAvailable -= action;
-            provider.StopAutoUpdate(priceSeries);
-
-            Assert.IsTrue(priceSeries.PricePeriods.Count > startingPeriods);
+            Assert.IsTrue(updateCount >= 1);
         }
 
         protected void AutoUpdateEmptyPriceSeriesTest()
         {
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var updateCount = 0;
             var resetEvent = new AutoResetEvent(false);
-            
-            EventHandler<NewDataAvailableEventArgs> action = delegate { resetEvent.Set(); };
-            var provider = GetTestObjectInstance();
 
-            var startingPeriods = priceSeries.PricePeriods.Count;
-            Assert.IsTrue(startingPeriods == 0);
+            EventHandler<NewDataAvailableEventArgs> handler = (sender, args) =>
+            {
+                Interlocked.Increment(ref updateCount);
+                resetEvent.Set();
+            };
+            IPriceDataProvider provider = GetTestObjectInstance();
 
-            priceSeries.NewDataAvailable += action;
-            provider.StartAutoUpdate(priceSeries);
-            resetEvent.WaitOne();
+            try
+            {
+                priceSeries.NewDataAvailable += handler;
+                provider.StartAutoUpdate(priceSeries);
 
-            priceSeries.NewDataAvailable -= action;
-            provider.StopAutoUpdate(priceSeries);
+                resetEvent.WaitOne();
+            }
+            finally
+            {
+                provider.StopAutoUpdate(priceSeries);
+                priceSeries.NewDataAvailable -= handler;
+            }
 
-            Assert.IsTrue(priceSeries.PricePeriods.Count > startingPeriods);
+            Assert.IsTrue(updateCount >= 1);
         }
 
         protected void AutoUpdateTwoTickersTest()
@@ -229,11 +243,7 @@ namespace Sonneville.PriceTools.Data.Test
         {
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
 
-            Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = delegate
-                                                                                                {
-                                                                                                    return GetPricePeriods();
-                                                                                                };
-            var provider = GetProvider(action);
+            var provider = GetTestObjectInstance();
 
             try
             {
@@ -244,86 +254,6 @@ namespace Sonneville.PriceTools.Data.Test
             {
                 provider.StopAutoUpdate(priceSeries);
             }
-        }
-
-        private static IEnumerable<PricePeriod> GetPricePeriods()
-        {
-            return new List<PricePeriod>
-                       {
-                           PricePeriodFactory.ConstructStaticPricePeriod(
-                               new DateTime(2011, 12, 27),
-                               new DateTime(2011, 12, 27).GetFollowingClose(),
-                               100.00m)
-                       };
-        }
-
-        [TestMethod]
-        public void AutoUpdatePriceSeriesEventsTest()
-        {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var updateCount = 0;
-            var resetEvent = new AutoResetEvent(false);
-
-            EventHandler<NewDataAvailableEventArgs> handler = (sender, args) =>
-            {
-                Interlocked.Increment(ref updateCount);
-                resetEvent.Set();
-            };
-            Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = delegate
-            {
-                return GetPricePeriods();
-            };
-            var provider = GetProvider(action);
-
-            try
-            {
-                priceSeries.NewDataAvailable += handler;
-                provider.StartAutoUpdate(priceSeries);
-
-                resetEvent.WaitOne();
-            }
-            finally
-            {
-                provider.StopAutoUpdate(priceSeries);
-                priceSeries.NewDataAvailable -= handler;
-            }
-
-            Assert.IsTrue(updateCount >= 1);
-        }
-
-        [TestMethod]
-        public void AutoUpdateCancelDoesntSleepFullTimeoutTest()
-        {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var updateCount = 0;
-            var resetEvent = new AutoResetEvent(false);
-
-            EventHandler<NewDataAvailableEventArgs> handler = (sender, args) =>
-            {
-                Interlocked.Increment(ref updateCount);
-                resetEvent.Set();
-            };
-            IPriceDataProvider provider = new WeeklyProvider {UpdateAction = delegate { return GetPricePeriods(); }};
-
-            try
-            {
-                priceSeries.NewDataAvailable += handler;
-                provider.StartAutoUpdate(priceSeries);
-
-                resetEvent.WaitOne();
-            }
-            finally
-            {
-                provider.StopAutoUpdate(priceSeries);
-                priceSeries.NewDataAvailable -= handler;
-            }
-
-            Assert.IsTrue(updateCount >= 1);
-        }
-
-        private static IPriceDataProvider GetProvider(Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = null)
-        {
-            return new SecondsProvider { UpdateAction = action };
         }
     }
 }
