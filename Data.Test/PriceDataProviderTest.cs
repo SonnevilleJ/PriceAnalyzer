@@ -197,21 +197,23 @@ namespace Sonneville.PriceTools.Data.Test
             var microsoftUpdates = 0;
             var countdown = new CountdownEvent(2);
 
-            Func<string, DateTime, DateTime, Resolution, IEnumerable<PricePeriod>> action = (ticker, head, tail, resolution) =>
-                                                                                                {
-                                                                                                    if (ticker == ps1.Ticker && deereUpdates == 0)
-                                                                                                    {
-                                                                                                        Interlocked.Increment(ref deereUpdates);
-                                                                                                        countdown.Signal();
-                                                                                                    }
-                                                                                                    if (ticker == ps2.Ticker && microsoftUpdates == 0)
-                                                                                                    {
-                                                                                                        Interlocked.Increment(ref microsoftUpdates);
-                                                                                                        countdown.Signal();
-                                                                                                    }
-                                                                                                    return GetPricePeriods();
-                                                                                                };
-            var provider = GetProvider(action);
+            ps1.NewDataAvailable += (o, args) =>
+                                        {
+                                            if (deereUpdates == 0)
+                                            {
+                                                Interlocked.Increment(ref deereUpdates);
+                                                countdown.Signal();
+                                            }
+                                        };
+            ps2.NewDataAvailable += (o, args) =>
+                                        {
+                                            if (microsoftUpdates == 0)
+                                            {
+                                                Interlocked.Increment(ref microsoftUpdates);
+                                                countdown.Signal();
+                                            }
+                                        };
+            var provider = GetTestObjectInstance();
 
             provider.StartAutoUpdate(ps1);
             provider.StartAutoUpdate(ps2);
