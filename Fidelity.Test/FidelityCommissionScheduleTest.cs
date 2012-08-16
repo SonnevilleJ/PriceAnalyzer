@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Fidelity;
-using Sonneville.PriceTools.Test.Utilities;
 
 namespace Test.Sonneville.PriceTools.Fidelity
 {
@@ -14,7 +13,7 @@ namespace Test.Sonneville.PriceTools.Fidelity
         {
             var target = new FidelityCommissionSchedule();
             const OrderType orderType = OrderType.Buy;
-            var order = OrderFactory.ConstructOrder(DateTime.Now, DateTime.Today.AddDays(1), orderType, TestUtilities.GetUniqueTicker(), 1, 100);
+            var order = OrderFactory.ConstructOrder(DateTime.Now, DateTime.Today.AddDays(1), orderType, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), 1, 100);
 
             const decimal expected = 7.95m;
             var actual = target.PriceCheck(order);
@@ -27,7 +26,7 @@ namespace Test.Sonneville.PriceTools.Fidelity
         {
             var target = new FidelityCommissionSchedule();
             const OrderType orderType = OrderType.Sell;
-            var order = OrderFactory.ConstructOrder(DateTime.Now, DateTime.Today.AddDays(1), orderType, TestUtilities.GetUniqueTicker(), 1, 100);
+            var order = OrderFactory.ConstructOrder(DateTime.Now, DateTime.Today.AddDays(1), orderType, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), 1, 100);
 
             const decimal expected = 7.95m;
             var actual = target.PriceCheck(order);
@@ -40,7 +39,7 @@ namespace Test.Sonneville.PriceTools.Fidelity
         {
             var target = new FidelityCommissionSchedule();
             const OrderType orderType = OrderType.SellShort;
-            var order = OrderFactory.ConstructOrder(DateTime.Now, DateTime.Today.AddDays(1), orderType, TestUtilities.GetUniqueTicker(), 1, 100);
+            var order = OrderFactory.ConstructOrder(DateTime.Now, DateTime.Today.AddDays(1), orderType, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), 1, 100);
 
             const decimal expected = 7.95m;
             var actual = target.PriceCheck(order);
@@ -53,7 +52,7 @@ namespace Test.Sonneville.PriceTools.Fidelity
         {
             var target = new FidelityCommissionSchedule();
             const OrderType orderType = OrderType.BuyToCover;
-            var order = OrderFactory.ConstructOrder(DateTime.Now, DateTime.Today.AddDays(1), orderType, TestUtilities.GetUniqueTicker(), 1, 100);
+            var order = OrderFactory.ConstructOrder(DateTime.Now, DateTime.Today.AddDays(1), orderType, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), 1, 100);
 
             const decimal expected = 7.95m;
             var actual = target.PriceCheck(order);

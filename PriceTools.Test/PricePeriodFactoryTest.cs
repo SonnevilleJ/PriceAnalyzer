@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Test.Utilities;
+using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools
 {
@@ -1248,9 +1248,9 @@ namespace Test.Sonneville.PriceTools
             {
                 get
                 {
-                    var quote1 = TestUtilities.CreateTick1();
-                    var quote2 = TestUtilities.CreateTick2();
-                    var quote3 = TestUtilities.CreateTick3();
+                    var quote1 = PriceQuoteUtilities.CreateTick1();
+                    var quote2 = PriceQuoteUtilities.CreateTick2();
+                    var quote3 = PriceQuoteUtilities.CreateTick3();
                     return new[] {quote1, quote2, quote3};
                 }
             }

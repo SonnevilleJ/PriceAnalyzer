@@ -8,10 +8,12 @@
     <ProjectGuid>{FDFCAAFD-3E23-46D4-9E3D-2B46C5344E56}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.TestPortfolioData</RootNamespace>
-    <AssemblyName>TestPortfolioData</AssemblyName>
+    <RootNamespace>Test.Sonneville.PriceTools.PortfolioData</RootNamespace>
+    <AssemblyName>Test.SamplePortfolioData</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>

@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Test.Utilities;
+using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools
 {
@@ -14,9 +15,9 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void TimeSpanTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
@@ -27,9 +28,9 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void OpenTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
@@ -40,9 +41,9 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void HighTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
@@ -53,9 +54,9 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void LowTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
@@ -66,9 +67,9 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void CloseTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
@@ -79,9 +80,9 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void VolumeTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
@@ -92,10 +93,10 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void TimeSpanTestAfterAddingSubsequentPriceTickTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
-            var q4 = TestUtilities.CreateQuote4();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
+            var q4 = PriceQuoteUtilities.CreateTick4();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
 
@@ -109,10 +110,10 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void OpenTestAfterAddingSubsequentPriceTickTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
-            var q4 = TestUtilities.CreateQuote4();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
+            var q4 = PriceQuoteUtilities.CreateTick4();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
 
@@ -126,10 +127,10 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void HighTestAfterAddingSubsequentPriceTickTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
-            var q4 = TestUtilities.CreateQuote4();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
+            var q4 = PriceQuoteUtilities.CreateTick4();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
 
@@ -143,10 +144,10 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void LowTestAfterAddingSubsequentPriceTickTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
-            var q4 = TestUtilities.CreateQuote4();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
+            var q4 = PriceQuoteUtilities.CreateTick4();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
 
@@ -160,10 +161,10 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void CloseTestAfterAddingSubsequentPriceTickTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
-            var q4 = TestUtilities.CreateQuote4();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
+            var q4 = PriceQuoteUtilities.CreateTick4();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
 
@@ -177,10 +178,10 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void VolumeTestAfterAddingSubsequentPriceTickTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
-            var q4 = TestUtilities.CreateQuote4();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
+            var q4 = PriceQuoteUtilities.CreateTick4();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
 
@@ -194,9 +195,9 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void OpenTestAfterAddingPriorPriceTick()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
 
@@ -210,9 +211,9 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void QuotedPricePeriodIndexerTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
@@ -228,9 +229,9 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void PriceTicksTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
@@ -245,7 +246,7 @@ namespace Test.Sonneville.PriceTools
         [ExpectedException(typeof(NotSupportedException))]
         public void PriceTicksChangedTest()
         {
-            var q1 = TestUtilities.CreateTick1();
+            var q1 = PriceQuoteUtilities.CreateTick1();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
             target.PriceTicks.Add(q1);
@@ -256,24 +257,25 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void NewPriceDataAvailableEventTest()
         {
-            var q1 = TestUtilities.CreateTick1();
-            var q2 = TestUtilities.CreateTick2();
-            var q3 = TestUtilities.CreateTick3();
+            var q1 = PriceQuoteUtilities.CreateTick1();
+            var q2 = PriceQuoteUtilities.CreateTick2();
+            var q3 = PriceQuoteUtilities.CreateTick3();
 
             var target = PricePeriodFactory.ConstructTickedPricePeriod();
-            var count = 0;
-            target.NewDataAvailable += delegate { count++; };
+            int[] count = {0}; // int is value type. array is reference type. value types are subject to modified closures
+            EventHandler<NewDataAvailableEventArgs> handler = delegate { Interlocked.Increment(ref count[0]); };
+            target.NewDataAvailable += handler;
             target.AddPriceTicks(q1, q2, q3);
-            Assert.AreEqual(1, count);
+            Assert.AreEqual(1, count[0]);
 
             target = PricePeriodFactory.ConstructTickedPricePeriod();
-            count = 0;
-            target.NewDataAvailable += delegate { count++; };
+            count[0] = 0;
+            target.NewDataAvailable += handler;
             target.AddPriceTicks(q1);
             target.AddPriceTicks(q2);
             target.AddPriceTicks(q3);
 
-            Assert.AreEqual(3, count);
+            Assert.AreEqual(3, count[0]);
         }
     }
 }

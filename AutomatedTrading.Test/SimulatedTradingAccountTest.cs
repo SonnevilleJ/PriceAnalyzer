@@ -5,7 +5,7 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
-using Sonneville.PriceTools.Test.Utilities;
+using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
@@ -18,7 +18,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void TradingAccountFeaturesSupportedOrderTypesTest()
         {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
 
             var expected = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures().SupportedOrderTypes;
             var actual = target.Features.SupportedOrderTypes;
@@ -28,7 +28,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void EmptyPositionsByDefault()
         {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
 
             Assert.AreEqual(0, target.Portfolio.Positions.Count);
         }
@@ -36,7 +36,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void EventsTestFilled()
         {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
             var syncroot = new object();
 
             var expiredRaised = false;
@@ -73,7 +73,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                 target.OrderExpired += expiredHandler;
 
                 var issued = DateTime.Now;
-                var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.GetUniqueTicker(), 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), 5, 100.00m);
 
                 lock (syncroot)
                 {
@@ -96,7 +96,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void EventsTestExpired()
         {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
             var syncroot = new object();
 
             var expiredRaised = false;
@@ -133,7 +133,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                 target.OrderExpired += expiredHandler;
 
                 var expired = DateTime.Now;
-                var order = OrderFactory.ConstructOrder(expired.AddTicks(-1), expired, OrderType.Buy, TestUtilities.GetUniqueTicker(), 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(expired.AddTicks(-1), expired, OrderType.Buy, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), 5, 100.00m);
                 lock (syncroot)
                 {
                     target.Submit(order);
@@ -155,7 +155,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void EventsTestCancelled()
         {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
             var syncroot = new object();
 
             var expiredRaised = false;
@@ -192,7 +192,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                 target.OrderExpired += expiredHandler;
 
                 var issued = DateTime.Now;
-                var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.GetUniqueTicker(), 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), 5, 100.00m);
 
                 lock (syncroot)
                 {
@@ -253,9 +253,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
         private static void VerifyOrderFillsCorrectly(params OrderType[] orderTypes)
         {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
 
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             foreach (var orderType in orderTypes)
             {
                 var issued = DateTime.Now;
@@ -280,7 +280,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                                                                          lock (syncroot)
                                                                          {
                                                                              var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                                                                             expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                                                                             expected = TradingAccountUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
                                                                              actual = e.Transaction;
                                                                              Monitor.Pulse(syncroot);
                                                                          }
@@ -330,7 +330,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void MultipleEventsTestFilled()
         {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
 
             const int count = 5;
             var syncroot = new object();
@@ -349,7 +349,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.GetUniqueTicker(), i, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), i, 100.00m);
                     target.Submit(order);
                     Thread.Sleep(50);
                 }
@@ -366,7 +366,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void MultipleEventsTestCancelled()
         {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
 
             const int count = 5;
             var syncroot = new object();
@@ -385,7 +385,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.GetUniqueTicker(), i, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddDays(1), OrderType.Buy, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), i, 100.00m);
                     target.Submit(order);
                     Thread.Sleep(50);
                     target.TryCancelOrder(order);
@@ -403,7 +403,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void MultipleEventsTestExpired()
         {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
 
             const int count = 5;
             var syncroot = new object();
@@ -422,7 +422,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                 for (var i = 0; i < count; i++)
                 {
                     var issued = DateTime.Now;
-                    var order = OrderFactory.ConstructOrder(issued, issued.AddTicks(1), OrderType.Buy, TestUtilities.GetUniqueTicker(), i, 100.00m);
+                    var order = OrderFactory.ConstructOrder(issued, issued.AddTicks(1), OrderType.Buy, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), i, 100.00m);
                     Thread.Sleep(50);
                     target.Submit(order);
                 }
@@ -439,7 +439,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void HistoricalOrderFilledReturnsCorrectTransaction()
         {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
 
             ShareTransaction expected = null;
             ShareTransaction actual = null;
@@ -450,7 +450,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                                                                          lock (syncroot)
                                                                          {
                                                                              var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                                                                             expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                                                                             expected = TradingAccountUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
                                                                              actual = e.Transaction;
                                                                              Monitor.Pulse(syncroot);
                                                                          }
@@ -461,7 +461,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
-                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, TestUtilities.GetUniqueTicker(), 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), 5, 100.00m);
 
                 lock (syncroot)
                 {
@@ -480,7 +480,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void FilledAddsToPortfolioCorrectly()
         {
-            var target = TestUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
 
             ShareTransaction expected = null;
             var syncroot = new object();
@@ -490,7 +490,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                                                                          lock (syncroot)
                                                                          {
                                                                              var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                                                                             expected = TestUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                                                                             expected = TradingAccountUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
                                                                              Monitor.Pulse(syncroot);
                                                                          }
                                                                      };
@@ -500,7 +500,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
-                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, TestUtilities.GetUniqueTicker(), 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker(), 5, 100.00m);
 
                 lock (syncroot)
                 {

@@ -1,89 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
-using Sonneville.PriceTools.Extensions;
 
-namespace Sonneville.PriceTools.Test.Utilities
+namespace TestUtilities.Sonneville.PriceTools
 {
-    public static class TestUtilities
-    {
-        #region Tickers
-
-        private static readonly IList<string> TickersUsed = new List<string>();
-        private static readonly IList<string> Tickers = StockIndexInfo.GetTickers(StockIndex.StandardAndPoors500);
-
-        #endregion
-
-        #region Price Period tools
-
-        public static PricePeriod CreatePeriod1()
-        {
-            var head = new DateTime(2011, 3, 14);
-            var tail = head.GetFollowingClose();
-            const decimal open = 100.00m;
-            const decimal high = 110.00m;
-            const decimal low = 90.00m;
-            const decimal close = 100.00m;
-            const long volume = 20000;
-
-            return PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
-        }
-
-        public static PricePeriod CreatePeriod2()
-        {
-            var head = new DateTime(2011, 3, 15);
-            var tail = head.GetFollowingClose();
-            const decimal open = 100.00m;
-            const decimal high = 120.00m;
-            const decimal low = 100.00m;
-            const decimal close = 110.00m;
-
-            return PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close);
-        }
-
-        public static PricePeriod CreatePeriod3()
-        {
-            var head = new DateTime(2011, 3, 16);
-            var tail = head.GetFollowingClose();
-            const decimal open = 110.00m;
-            const decimal high = 110.00m;
-            const decimal low = 80.00m;
-            const decimal close = 90.00m;
-            const long volume = 10000;
-
-            return PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
-        }
-
-        #endregion
-
-        #region Price Quote tools
-
-        public static PriceTick CreateTick1()
-        {
-            return PriceTickFactory.ConstructPriceTick(DateTime.Parse("2/28/2011 9:30 AM"), 10, 50);
-        }
-
-        public static PriceTick CreateTick2()
-        {
-            return PriceTickFactory.ConstructPriceTick(DateTime.Parse("3/1/2011 10:00 AM"), 9, 60);
-        }
-
-        public static PriceTick CreateTick3()
-        {
-            return PriceTickFactory.ConstructPriceTick(DateTime.Parse("3/2/2011 2:00 PM"), 14, 50);
-        }
-
-        public static PriceTick CreateQuote4()
-        {
-            return PriceTickFactory.ConstructPriceTick(DateTime.Parse("3/2/2011 4:00 PM"), 11, 30);
-        }
-
-        #endregion
-
-        #region Trading Account tools
-
+    public static class TradingAccountUtilities{
         /// <summary>
         /// Creates a simulated <see cref="TradingAccount"/> which accepts all <see cref="OrderType"/>s, does not allow margin trading, imposes a flat commission of $5.00 per transaction, and has an opening deposit of $1,000,000.00.
         /// </summary>
@@ -155,40 +77,6 @@ namespace Sonneville.PriceTools.Test.Utilities
         public static ShareTransaction CreateShareTransaction(DateTime settlementDate, Order order, decimal commission)
         {
             return TransactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, settlementDate, order.Shares, order.Price, commission);
-        }
-
-        #endregion
-
-        /// <summary>
-        /// Asserts that each property is identical for the two instances of T.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="expected"></param>
-        /// <param name="actual"></param>
-        public static void AssertSameState<T>(T expected, T actual)
-        {
-            var properties = expected.GetType().GetProperties();
-            foreach (var propertyInfo in properties)
-            {
-                if (propertyInfo.GetIndexParameters().Length != 0) continue;
-
-                Assert.AreEqual(propertyInfo.GetValue(expected, null), propertyInfo.GetValue(actual, null));
-            }
-        }
-
-        /// <summary>
-        /// Gets a ticker symbol guaranteed to be unique across all threads creating tickers with this method.
-        /// </summary>
-        /// <returns></returns>
-        public static string GetUniqueTicker()
-        {
-            lock (TickersUsed)
-            {
-                var ticker = Tickers[0];
-                Tickers.Remove(ticker);
-                TickersUsed.Add(ticker);
-                return ticker;
-            }
         }
     }
 }

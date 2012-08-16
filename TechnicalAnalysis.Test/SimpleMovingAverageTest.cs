@@ -2,7 +2,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.TechnicalAnalysis;
-using Sonneville.PriceTools.Test.Utilities;
 
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
@@ -52,7 +51,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             p8.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(7), 2));
             p9.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(8), 1));
 
-            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             series.AddPriceData(p1);
             series.AddPriceData(p2);
             series.AddPriceData(p3);
@@ -78,7 +77,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 
         private static PriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
         {
-            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             for (var i = 0; i < count; i++)
             {
                 var period = PricePeriodFactory.ConstructTickedPricePeriod();

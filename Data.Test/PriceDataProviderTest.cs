@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.PriceTools.Test.Utilities;
 
 namespace Test.Sonneville.PriceTools.Data
 {
@@ -52,7 +51,7 @@ namespace Test.Sonneville.PriceTools.Data
             var provider = GetTestObjectInstance();
             var head = new DateTime(2012, 8, 7);
             var tail = new DateTime(2012, 8, 7, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
@@ -64,7 +63,7 @@ namespace Test.Sonneville.PriceTools.Data
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
@@ -80,7 +79,7 @@ namespace Test.Sonneville.PriceTools.Data
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
@@ -92,7 +91,7 @@ namespace Test.Sonneville.PriceTools.Data
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
@@ -105,7 +104,7 @@ namespace Test.Sonneville.PriceTools.Data
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
 
@@ -117,7 +116,7 @@ namespace Test.Sonneville.PriceTools.Data
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker, Resolution.Weeks);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
 
@@ -135,7 +134,7 @@ namespace Test.Sonneville.PriceTools.Data
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15, 23, 59, 59);
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
 
@@ -145,7 +144,7 @@ namespace Test.Sonneville.PriceTools.Data
 
         protected void AutoUpdatePopulatedPriceSeriesTest()
         {
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             var updateCount = 0;
             var resetEvent = new AutoResetEvent(false);
 
@@ -178,7 +177,7 @@ namespace Test.Sonneville.PriceTools.Data
 
         protected void AutoUpdateEmptyPriceSeriesTest()
         {
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             var updateCount = 0;
             var resetEvent = new AutoResetEvent(false);
 
@@ -207,8 +206,8 @@ namespace Test.Sonneville.PriceTools.Data
 
         protected void AutoUpdateTwoTickersTest()
         {
-            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
-            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             var deereUpdates = 0;
             var microsoftUpdates = 0;
             var countdown = new CountdownEvent(2);
@@ -243,7 +242,7 @@ namespace Test.Sonneville.PriceTools.Data
 
         protected void AutoUpdateSamePriceSeriesTwiceTest()
         {
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
 
             var provider = GetTestObjectInstance();
 
