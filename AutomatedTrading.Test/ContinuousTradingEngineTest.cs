@@ -1,7 +1,8 @@
 ﻿using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.AutomatedTrading;
 
-namespace Sonneville.PriceTools.AutomatedTrading.Test
+namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
     [TestClass]
     public class ContinuousTradingEngineTest

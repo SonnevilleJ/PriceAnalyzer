@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
+using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Test.PriceData;
 
-namespace Sonneville.PriceTools.AutomatedTrading.Test
+namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
     /// <summary>
     ///This is a test class for PriceOverThresholdAnalyzerTest and is intended

@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Data.Test;
+using Sonneville.PriceTools.Yahoo;
+using Test.Sonneville.PriceTools.Data;
 
-namespace Sonneville.PriceTools.Yahoo.Test
+namespace Test.Sonneville.PriceTools.Yahoo
 {
     [TestClass]
     public class YahooPriceDataProviderTest : PriceDataProviderTest

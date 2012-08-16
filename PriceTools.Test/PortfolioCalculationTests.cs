@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Sonneville.PriceTools.Test
+namespace Test.Sonneville.PriceTools
 {
     [TestClass]
     public class PortfolioCalculationTests

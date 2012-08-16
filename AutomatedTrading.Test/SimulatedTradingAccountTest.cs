@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
+using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Test.Utilities;
 
-namespace Sonneville.PriceTools.AutomatedTrading.Test
+namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
     /// <summary>
     /// Summary description for SimulatedTradingAccountTest

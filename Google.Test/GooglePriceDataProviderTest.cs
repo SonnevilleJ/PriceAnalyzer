@@ -1,13 +1,15 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.Data.Test;
+using Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Google;
+using Test.Sonneville.PriceTools.Data;
 
-namespace Sonneville.PriceTools.Google.Test
+namespace Test.Sonneville.PriceTools.Google
 {
     [TestClass]
     public class GooglePriceDataProviderTest : PriceDataProviderTest
     {
-        protected override Data.PriceDataProvider GetTestObjectInstance()
+        protected override PriceDataProvider GetTestObjectInstance()
         {
             return new GooglePriceDataProvider();
         }

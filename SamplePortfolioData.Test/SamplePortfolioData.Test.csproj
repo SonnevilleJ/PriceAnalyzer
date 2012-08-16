@@ -9,7 +9,7 @@
     <ProjectGuid>{F7EE6F03-2B35-4BED-8575-C9D5A8B97C35}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SamplePortfolioData.Test</RootNamespace>
+    <RootNamespace>Test.Sonneville.PriceTools.SamplePortfolioData</RootNamespace>
     <AssemblyName>SamplePortfolioData.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

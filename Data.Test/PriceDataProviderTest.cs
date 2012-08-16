@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
+using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.Test.Utilities;
 
-namespace Sonneville.PriceTools.Data.Test
+namespace Test.Sonneville.PriceTools.Data
 {
     [TestClass]
     public abstract class PriceDataProviderTest
