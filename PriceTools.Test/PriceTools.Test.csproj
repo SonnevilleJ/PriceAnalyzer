@@ -90,6 +90,10 @@
       <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
       <Name>TestPriceData</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
+      <Project>{87F42318-0470-4F99-8AED-B9C0AFA72918}</Project>
+      <Name>TestUtilities</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</Project>
       <Name>Utilities</Name>

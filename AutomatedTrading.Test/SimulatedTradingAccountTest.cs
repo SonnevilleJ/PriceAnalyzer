@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.Utilities;
+using Sonneville.PriceTools.Test.Utilities;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
@@ -253,7 +253,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         {
             var target = TestUtilities.CreateSimulatedTradingAccount();
 
-            string ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.GetUniqueTicker();
             foreach (var orderType in orderTypes)
             {
                 var issued = DateTime.Now;

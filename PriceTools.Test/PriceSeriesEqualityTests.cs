@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.Utilities;
+using Sonneville.PriceTools.Test.Utilities;
 
 namespace Sonneville.PriceTools.Test
 {

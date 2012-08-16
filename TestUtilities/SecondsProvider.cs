@@ -1,6 +1,4 @@
-﻿using Sonneville.PriceTools;
-
-namespace Sonneville.Utilities
+﻿namespace Sonneville.PriceTools.Test.Utilities
 {
     public class SecondsProvider : MockProvider
     {

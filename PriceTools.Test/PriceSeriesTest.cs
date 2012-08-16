@@ -4,7 +4,8 @@ using System.Globalization;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.Test.PriceData;
+using Sonneville.PriceTools.Test.Utilities;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.Utilities;
 
@@ -450,10 +451,10 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void TickerTest()
         {
-            string ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.GetUniqueTicker();
             var target = PriceSeriesFactory.CreatePriceSeries(ticker);
 
-            string expected = ticker;
+            var expected = ticker;
             var actual = target.Ticker;
             Assert.AreEqual(expected, actual);
         }
@@ -653,7 +654,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            bool triggered = false;
+            var triggered = false;
             EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { triggered = true; };
 
             try
@@ -679,7 +680,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            bool triggered = false;
+            var triggered = false;
             EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { triggered = true; };
 
             try
@@ -705,7 +706,7 @@ namespace Sonneville.PriceTools.Test
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            bool triggered = false;
+            var triggered = false;
             EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { triggered = true; };
 
             try

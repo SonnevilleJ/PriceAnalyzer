@@ -3,8 +3,8 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.TestPortfolioData;
-using Sonneville.PriceTools.TestPriceData;
 using Sonneville.PriceTools.Yahoo;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Fidelity.Test
 {

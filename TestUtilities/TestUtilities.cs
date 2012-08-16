@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Extensions;
 
-namespace Sonneville.Utilities
+namespace Sonneville.PriceTools.Test.Utilities
 {
     public static class TestUtilities
     {

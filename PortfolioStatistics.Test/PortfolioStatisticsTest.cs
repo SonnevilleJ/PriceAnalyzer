@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.SamplePortfolioData;
 
 namespace Sonneville.PriceTools.PortfolioStatistics.Test

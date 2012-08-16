@@ -1,6 +1,6 @@
-﻿using Sonneville.Utilities;
+﻿using Sonneville.PriceTools.Test.Utilities;
 
-namespace Sonneville.PriceTools.TestPriceData
+namespace Sonneville.PriceTools.Test.PriceData
 {
     public static class TestPriceSeries
     {

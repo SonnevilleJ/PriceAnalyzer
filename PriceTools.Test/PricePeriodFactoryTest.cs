@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.Test.Utilities;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Test

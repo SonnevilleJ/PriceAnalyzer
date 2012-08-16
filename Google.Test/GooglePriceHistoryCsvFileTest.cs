@@ -3,7 +3,8 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Data.Csv;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.Test.PriceData;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Google.Test
 {

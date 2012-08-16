@@ -1,7 +1,10 @@
 ﻿using System.IO;
 
-namespace Sonneville.PriceTools.SamplePriceData
+namespace Sonneville.Utilities
 {
+    /// <summary>
+    /// Wraps a stream object around a piece of data.
+    /// </summary>
     public class ResourceStream : Stream
     {
         private readonly MemoryStream _stream;

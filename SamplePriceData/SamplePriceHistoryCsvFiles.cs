@@ -1,6 +1,7 @@
 ﻿using System;
 using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.Yahoo;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.SamplePriceData
 {

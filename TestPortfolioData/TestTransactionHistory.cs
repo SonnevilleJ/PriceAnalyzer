@@ -1,5 +1,5 @@
 ﻿using Sonneville.PriceTools.Fidelity;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.TestPortfolioData
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.Utilities;
+using Sonneville.PriceTools.Test.Utilities;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
