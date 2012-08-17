@@ -200,6 +200,7 @@ namespace Sonneville.PriceTools
         /// <param name="position">The <see cref="Position"/> for which to calculate average cost.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The average cost of all shares held at <paramref name = "settlementDate" />.</returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public static decimal CalculateAverageCost(this Position position, DateTime settlementDate)
         {
             var transactions = position.Transactions.Cast<ShareTransaction>()
@@ -278,6 +279,8 @@ namespace Sonneville.PriceTools
         /// </remarks>
         public static decimal? CalculateAnnualGrossReturn(this SecurityBasket basket, DateTime settlementDate)
         {
+            if(basket == null) throw new ArgumentNullException("basket", Strings.SecurityBasketExtensions_CalculateAnnualGrossReturn_Parameter_basket_cannot_be_null_);
+
             var totalReturn = basket.CalculateGrossReturn(settlementDate);
             return totalReturn == null ? null : Annualize(totalReturn.Value, basket.Tail, basket.Head);
         }

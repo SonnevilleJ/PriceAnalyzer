@@ -103,11 +103,11 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         ///   Gets a value stored at a given DateTime index of the PricePeriod.
         /// </summary>
-        /// <param name = "index">The DateTime of the desired value.</param>
+        /// <param name = "dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the TimeSeries as of the given DateTime.</returns>
-        public override decimal this[DateTime index]
+        public override decimal this[DateTime dateTime]
         {
-            get { return PriceTicks.Where(q => q.SettlementDate <= index).Last().Price; }
+            get { return PriceTicks.Where(q => q.SettlementDate <= dateTime).Last().Price; }
         }
 
         #endregion

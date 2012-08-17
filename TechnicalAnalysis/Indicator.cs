@@ -79,14 +79,14 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Gets the value stored at a given index of this Indicator.
         /// </summary>
-        /// <param name="index">The DateTime of the desired value.</param>
+        /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>THe value of the TimeSeries as of the given DateTime.</returns>
-        public override decimal this[DateTime index]
+        public override decimal this[DateTime dateTime]
         {
             get
             {
-                var i = ConvertDateTimeToIndex(index);
-                if (!Results.ContainsKey(i)) CalculateAndCache(index);
+                var i = ConvertDateTimeToIndex(dateTime);
+                if (!Results.ContainsKey(i)) CalculateAndCache(dateTime);
                 return Results[i].Value;
             }
         }

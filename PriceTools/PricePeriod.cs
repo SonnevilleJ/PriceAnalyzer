@@ -41,9 +41,9 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets a value stored at a given DateTime index of the TimeSeries.
         /// </summary>
-        /// <param name="index">The DateTime of the desired value.</param>
+        /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the TimeSeries as of the given DateTime.</returns>
-        public abstract decimal this[DateTime index] { get; }
+        public abstract decimal this[DateTime dateTime] { get; }
 
         /// <summary>
         /// Gets the first DateTime in the TimeSeries.
@@ -63,7 +63,7 @@ namespace Sonneville.PriceTools
             get
             {
                 foreach (var resolution in
-                    Enum.GetValues(typeof(Resolution)).Cast<long>().OrderBy(ticks => ticks).Where(ticks => this.TimeSpan() <= new TimeSpan(ticks)))
+                    Enum.GetValues(typeof(Resolution)).Cast<long>().Where(ticks => this.TimeSpan().Ticks <= ticks).OrderBy(ticks => ticks))
                 {
                     return (Resolution)Enum.ToObject(typeof(Resolution), new TimeSpan(resolution).Ticks);
                 }

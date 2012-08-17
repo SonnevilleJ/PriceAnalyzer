@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Sonneville.PriceTools.Extensions
@@ -13,6 +14,8 @@ namespace Sonneville.PriceTools.Extensions
         /// </summary>
         public static IEnumerable<ReactionMove> GetReactionMoves(this PriceSeries priceSeries)
         {
+            if (priceSeries == null) throw new ArgumentNullException("priceSeries", Strings.PriceSeriesReactionMovesExtensions_GetReactionMoves_Parameter_priceSeries_cannot_be_null_);
+
             var moves = new List<ReactionMove>();
 
             var todayUp = false;

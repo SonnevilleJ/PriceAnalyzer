@@ -35,11 +35,11 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets a value stored at a given DateTime index of the TimeSeries.
         /// </summary>
-        /// <param name="index">The DateTime of the desired value.</param>
+        /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the TimeSeries as of the given DateTime.</returns>
-        public decimal this[DateTime index]
+        public decimal this[DateTime dateTime]
         {
-            get { return this.CalculateGrossProfit(index); }
+            get { return this.CalculateGrossProfit(dateTime); }
         }
 
         /// <summary>
@@ -243,6 +243,8 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="transactionHistory">The historical transactions to add.</param>
         public void AddTransactionHistory(TransactionHistory transactionHistory)
         {
+            if (transactionHistory == null) throw new ArgumentNullException("transactionHistory", Strings.PortfolioImpl_AddTransactionHistory_Parameter_transactionHistory_cannot_be_null_);
+
             foreach (var transaction in transactionHistory.Transactions)
             {
                 AddTransaction(transaction);
