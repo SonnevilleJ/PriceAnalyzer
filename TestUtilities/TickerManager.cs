@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Sonneville.PriceTools;
 
 namespace TestUtilities.Sonneville.PriceTools
@@ -8,7 +9,7 @@ namespace TestUtilities.Sonneville.PriceTools
         #region Tickers
 
         private static readonly IList<string> TickersUsed = new List<string>();
-        private static readonly IList<string> Tickers = StockIndexInfo.GetTickers(StockIndex.StandardAndPoors500);
+        private static readonly IList<string> Tickers = StockIndexInfo.GetTickers(StockIndex.StandardAndPoors500).ToList();
 
         #endregion
 

@@ -10,6 +10,7 @@ namespace Test.Sonneville.PriceTools
     [TestClass]
     public class TransactionFactoryTest
     {
+        [TestClass]
         public abstract class CashTransactionTestsBase
         {
             /// <summary>
@@ -227,6 +228,7 @@ namespace Test.Sonneville.PriceTools
             }
         }
 
+        [TestClass]
         public abstract class ShareTransactionTestsBase
         {
             /// <summary>

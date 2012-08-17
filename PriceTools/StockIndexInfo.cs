@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets a list of tickers included in a given <see cref="StockIndex"/>.
         /// </summary>
-        public static List<string> GetTickers(StockIndex stockIndex)
+        public static IEnumerable<string> GetTickers(StockIndex stockIndex)
         {
             switch (stockIndex)
             {
