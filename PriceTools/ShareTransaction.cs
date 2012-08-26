@@ -10,6 +10,14 @@ namespace Sonneville.PriceTools
     {
         #region Constructors
 
+        /// <summary>
+        /// Constructs a ShareTransaction object.
+        /// </summary>
+        /// <param name="ticker"></param>
+        /// <param name="settlementDate"></param>
+        /// <param name="shares"></param>
+        /// <param name="price"></param>
+        /// <param name="commission"></param>
         protected internal ShareTransaction(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
         {
             Ticker = ticker;
@@ -140,6 +148,13 @@ namespace Sonneville.PriceTools
 
         #endregion
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
             return String.Format("{0} {1} shares of {2} on {3} for {4:c} with {5:c} commission", GetType().Name.ToUpperInvariant(), Shares, Ticker, SettlementDate, Price, Commission);

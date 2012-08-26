@@ -25,6 +25,10 @@ namespace Sonneville.PriceTools
 
         #region Constructors
         
+        /// <summary>
+        /// Constructs a PriceSeries object.
+        /// </summary>
+        /// <param name="resolution"></param>
         protected internal PriceSeries(Resolution resolution = DefaultResolution)
         {
             _resolution = resolution;

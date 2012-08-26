@@ -101,6 +101,13 @@ namespace Sonneville.PriceTools
 
         #endregion
 
+        /// <summary>
+        /// Returns a string that represents the current object.
+        /// </summary>
+        /// <returns>
+        /// A string that represents the current object.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
             return String.Format("{0} {1:c} on {2}", GetType().Name.ToUpperInvariant(), Amount, SettlementDate);
