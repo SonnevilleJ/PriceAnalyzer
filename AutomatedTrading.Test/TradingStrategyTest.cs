@@ -1,7 +1,9 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.Utilities;
+using Sonneville.PriceTools;
+using Sonneville.PriceTools.AutomatedTrading;
+using TestUtilities.Sonneville.PriceTools;
 
-namespace Sonneville.PriceTools.AutomatedTrading.Test
+namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
     [TestClass]
     public class TradingStrategyTest
@@ -9,7 +11,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [TestMethod]
         public void PriceSeriesBeforeStartTest()
         {
-            string ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
 
             var target = GetTradingStrategy();
@@ -22,7 +24,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [TestMethod]
         public void TradingAccountBeforeStartTest()
         {
-            var tradingAccount = TestUtilities.CreateSimulatedTradingAccount();
+            var tradingAccount = TradingAccountUtilities.CreateSimulatedTradingAccount();
 
             var target = GetTradingStrategy();
 

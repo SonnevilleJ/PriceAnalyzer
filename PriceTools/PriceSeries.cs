@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Sonneville.PriceTools.Extensions;
 
@@ -81,13 +82,13 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets a value stored at a given DateTime index of the PriceSeries.
         /// </summary>
-        /// <param name="index">The DateTime of the desired value.</param>
+        /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the PriceSeries as of the given DateTime.</returns>
-        public override decimal this[DateTime index]
+        public override decimal this[DateTime dateTime]
         {
             get
             {
-                return index < Head ? 0.0m : GetLatestPrice(index);
+                return dateTime < Head ? 0.0m : GetLatestPrice(dateTime);
             }
         }
 
@@ -287,7 +288,7 @@ namespace Sonneville.PriceTools
                     getNextOpen = DateTimeExtensions.GetFollowingMonthlyOpen;
                     break;
                 default:
-                    throw new NotSupportedException(String.Format("Resolution {0} not supported.", resolution));
+                    throw new NotSupportedException(String.Format(CultureInfo.InvariantCulture, Strings.PriceSeries_GetDelegates_Resolution__0__not_supported_, resolution));
             }
         }
 
@@ -304,7 +305,7 @@ namespace Sonneville.PriceTools
 
             if (PricePeriods.Count > 0) return PricePeriods.OrderBy(p => p.Tail).Last(p => p.Tail <= settlementDate).Close;
 
-            throw new InvalidOperationException(String.Format("No price data available for settlement date: {0}", settlementDate));
+            throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, Strings.PriceSeries_GetLatestPrice_No_price_data_available_for_settlement_date___0_, settlementDate));
         }
 
         #endregion

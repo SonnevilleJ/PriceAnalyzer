@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
 using Sonneville.PriceTools.Extensions;
 
-namespace Sonneville.PriceTools.Test
+namespace Test.Sonneville.PriceTools
 {
     /// <summary>
     ///This is a test class for DateTimeExtensionsTest and is intended

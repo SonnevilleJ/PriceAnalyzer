@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.Utilities;
+using Sonneville.PriceTools;
+using Sonneville.PriceTools.TechnicalAnalysis;
 
-namespace Sonneville.PriceTools.TechnicalAnalysis.Test
+namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
     public class SimpleMovingAverageTest
@@ -50,7 +51,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             p8.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(7), 2));
             p9.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(8), 1));
 
-            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             series.AddPriceData(p1);
             series.AddPriceData(p2);
             series.AddPriceData(p3);
@@ -76,7 +77,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 
         private static PriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
         {
-            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             for (var i = 0; i < count; i++)
             {
                 var period = PricePeriodFactory.ConstructTickedPricePeriod();

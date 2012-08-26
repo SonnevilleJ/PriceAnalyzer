@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data;
-using Sonneville.Utilities;
+using TestUtilities.Sonneville.PriceTools;
 
-namespace Sonneville.PriceTools.Test
+namespace Test.Sonneville.PriceTools
 {
     [TestClass]
     public class PriceTickFactoryTest
@@ -20,7 +21,7 @@ namespace Sonneville.PriceTools.Test
             var xml = Serializer.SerializeToXml(target);
             var result = Serializer.DeserializeFromXml<PriceTick>(xml);
 
-            TestUtilities.AssertSameState(target, result);
+            GenericTestUtilities.AssertSameState(target, result);
         }
         
         [TestMethod]

@@ -1,4 +1,6 @@
-﻿namespace Sonneville.PriceTools.TestPortfolioData
+﻿using Sonneville.PriceTools;
+
+namespace Test.Sonneville.PriceTools.PortfolioData
 {
     public static class TestPortfolios
     {

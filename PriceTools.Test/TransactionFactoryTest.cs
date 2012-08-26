@@ -1,34 +1,40 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data;
-using Sonneville.Utilities;
+using TestUtilities.Sonneville.PriceTools;
 
-namespace Sonneville.PriceTools.Test
+namespace Test.Sonneville.PriceTools
 {
     [TestClass]
     public class TransactionFactoryTest
     {
+        [TestClass]
         public abstract class CashTransactionTestsBase
         {
             /// <summary>
             /// A test for serialization
             /// </summary>
+            [TestMethod]
             public abstract void SerializeTest();
 
             /// <summary>
             ///A test for Amount
             ///</summary>
+            [TestMethod]
             public abstract void AmountInvalidTest();
 
             /// <summary>
             ///A test for SettlementDate
             ///</summary>
+            [TestMethod]
             public abstract void SettlementDateTest();
 
             /// <summary>
             ///A test for Amount
             ///</summary>
+            [TestMethod]
             public abstract void AmountValidTest();
 
             protected static void CashTransactionSerializeTest(OrderType transactionType)
@@ -41,7 +47,7 @@ namespace Sonneville.PriceTools.Test
                 var xml = Serializer.SerializeToXml(target);
                 var result = Serializer.DeserializeFromXml<CashTransaction>(xml);
 
-                TestUtilities.AssertSameState(target, result);
+                GenericTestUtilities.AssertSameState(target, result);
             }
 
             protected static void CashTransactionSettlementDateTest(OrderType transactionType)
@@ -95,7 +101,7 @@ namespace Sonneville.PriceTools.Test
                     case OrderType.Withdrawal:
                         return -2.00m;
                     default:
-                        throw new ArgumentOutOfRangeException("transactionType", transactionType, @"Unknown OrderType.");
+                        throw new ArgumentOutOfRangeException("transactionType", transactionType, string.Format(@"Unknown OrderType: {0}.", transactionType));
                 }
             }
 
@@ -222,71 +228,85 @@ namespace Sonneville.PriceTools.Test
             }
         }
 
+        [TestClass]
         public abstract class ShareTransactionTestsBase
         {
             /// <summary>
             /// A test for serialization
             /// </summary>
+            [TestMethod]
             public abstract void SerializeTest();
 
             /// <summary>
             /// A test for SettlementDate
             /// </summary>
+            [TestMethod]
             public abstract void SettlementDateTest();
 
             /// <summary>
             /// A test for Ticker
             /// </summary>
+            [TestMethod]
             public abstract void TickerTest();
 
             /// <summary>
             /// A test for Price
             /// </summary>
+            [TestMethod]
             public abstract void PriceValidTest();
 
             /// <summary>
             /// A test for Price
             /// </summary>
+            [TestMethod]
             public abstract void PriceInvalidTest();
 
             /// <summary>
             /// A test for Shares
             /// </summary>
+            [TestMethod]
             public abstract void SharesValidTest();
 
             /// <summary>
             /// A test for Shares
             /// </summary>
+            [TestMethod]
             public abstract void SharesInvalidTest();
 
             /// <summary>
             /// A test for Commission
             /// </summary>
+            [TestMethod]
             public abstract void CommissionValidTest();
 
             /// <summary>
             /// A test for Commission
             /// </summary>
+            [TestMethod]
             public abstract void CommissionInvalidTest();
 
             /// <summary>
             /// A test for TotalValue
             /// </summary>
+            [TestMethod]
             public abstract void TotalValueTest();
 
             /// <summary>
             /// A test for long/short transaction type
             /// </summary>
+            [TestMethod]
             public abstract void LongShortTest();
 
             /// <summary>
             /// A test for accumulation/distribution transaction type
             /// </summary>
+            [TestMethod]
             public abstract void AccumulationDistributionTest();
 
             /// <summary>
             /// A test for opening/closing transaction type
             /// </summary>
+            [TestMethod]
             public abstract void OpeningClosingTest();
 
             protected static void ShareTransactionSerializeTest(OrderType transactionType)
@@ -302,7 +322,7 @@ namespace Sonneville.PriceTools.Test
                 var xml = Serializer.SerializeToXml(target);
                 var result = Serializer.DeserializeFromXml<ShareTransaction>(xml);
 
-                TestUtilities.AssertSameState(target, result);
+                GenericTestUtilities.AssertSameState(target, result);
             }
 
             protected static void ShareTransactionSettlementDateTest(OrderType transactionType)
@@ -449,7 +469,7 @@ namespace Sonneville.PriceTools.Test
                     case OrderType.Sell:
                         return -100.00m;
                     default:
-                        throw new ArgumentOutOfRangeException("transactionType", transactionType, @"Unknown OrderType.");
+                        throw new ArgumentOutOfRangeException("transactionType", transactionType, string.Format(@"Unknown OrderType: {0}.", transactionType));
                 }
             }
 
@@ -480,7 +500,7 @@ namespace Sonneville.PriceTools.Test
                     case OrderType.DividendReinvestment:
                         return 0.00m;
                     default:
-                        throw new ArgumentOutOfRangeException("transactionType", transactionType, @"Unknown OrderType.");
+                        throw new ArgumentOutOfRangeException("transactionType", transactionType, string.Format(@"Unknown OrderType: {0}.", transactionType));
                 }
             }
 

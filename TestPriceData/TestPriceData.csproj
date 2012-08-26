@@ -8,8 +8,8 @@
     <ProjectGuid>{905DFF66-3320-4F3F-A924-7E5793EF1663}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.TestPriceData</RootNamespace>
-    <AssemblyName>TestPriceData</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.Test.PriceData</RootNamespace>
+    <AssemblyName>PriceTools.Test.PriceData</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile>
@@ -43,7 +43,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ResourceStream.cs" />
     <Compile Include="TestCsvPriceHistory.cs" />
     <Compile Include="CsvPriceData.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -82,6 +81,10 @@
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
+      <Project>{87F42318-0470-4F99-8AED-B9C0AFA72918}</Project>
+      <Name>TestUtilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</Project>

@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.SamplePortfolioData;
 
-namespace SamplePortfolioData.Test
+namespace Test.Sonneville.PriceTools.SamplePortfolioData
 {
     [TestClass]
     public abstract class SamplePortfolioTestBase

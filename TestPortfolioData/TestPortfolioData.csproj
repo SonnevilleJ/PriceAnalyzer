@@ -8,10 +8,12 @@
     <ProjectGuid>{FDFCAAFD-3E23-46D4-9E3D-2B46C5344E56}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.TestPortfolioData</RootNamespace>
-    <AssemblyName>TestPortfolioData</AssemblyName>
+    <RootNamespace>Test.Sonneville.PriceTools.PortfolioData</RootNamespace>
+    <AssemblyName>Test.SamplePortfolioData</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>
+    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -77,6 +79,10 @@
     <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
       <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
       <Name>TestPriceData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

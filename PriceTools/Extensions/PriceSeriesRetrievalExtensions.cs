@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.Extensions
@@ -26,9 +27,14 @@ namespace Sonneville.PriceTools.Extensions
         /// <param name="provider">The <see cref="IPriceDataProvider"/> to use for retrieving price data.</param>
         /// <param name="head">The first date to retrieve price data for.</param>
         /// <param name="tail">The last date to retrieve price data for.</param>
+        /// <exception cref="ArgumentException">The best available <see cref="Resolution"/> offered by <paramref name="provider"/> is not sufficient for the <see cref="Resolution"/> required by <paramref name="priceSeries"/>.</exception>
+        /// <exception cref="ArgumentNullException">A parameter is equal to null.</exception>
         public static void UpdatePriceData(this PriceSeries priceSeries, IPriceDataProvider provider, DateTime head, DateTime tail)
         {
-            if (provider.BestResolution > priceSeries.Resolution) throw new ArgumentException(string.Format("Provider must be capable of providing periods of resolution {0} or better.", priceSeries.Resolution), "provider");
+            if(priceSeries == null) throw new ArgumentNullException("priceSeries", Strings.PriceSeriesRetrievalExtensions_UpdatePriceData_Paramter_priceSeries_cannot_be_null_);
+            if(provider == null) throw new ArgumentNullException("provider", Strings.PriceSeriesRetrievalExtensions_UpdatePriceData_Parameter_provider_cannot_be_null_);
+
+            if (provider.BestResolution > priceSeries.Resolution) throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, Strings.PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_providing_periods_of_resolution__0__or_better_, priceSeries.Resolution), "provider");
             provider.UpdatePriceSeries(priceSeries, head, tail, priceSeries.Resolution);    
         }
     }

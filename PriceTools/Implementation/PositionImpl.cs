@@ -104,10 +104,10 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         ///   Gets the total value of the Position, including commissions.
         /// </summary>
-        /// <param name = "index">The <see cref = "DateTime" /> to use.</param>
-        public decimal this[DateTime index]
+        /// <param name = "dateTime">The <see cref = "DateTime" /> to use.</param>
+        public decimal this[DateTime dateTime]
         {
-            get { return this.CalculateGrossProfit(index); }
+            get { return this.CalculateGrossProfit(dateTime); }
         }
 
         /// <summary>

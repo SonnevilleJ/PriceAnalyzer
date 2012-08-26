@@ -49,7 +49,6 @@
       <DependentUpon>CsvPriceData.resx</DependentUpon>
     </Compile>
     <Compile Include="SamplePriceHistoryCsvFiles.cs" />
-    <Compile Include="ResourceStream.cs" />
     <Compile Include="SamplePriceSeries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -78,6 +77,10 @@
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Utilities.csproj">
+      <Project>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</Project>
+      <Name>Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Yahoo\Yahoo.csproj">
       <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>

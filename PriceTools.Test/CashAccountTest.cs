@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
 
-namespace Sonneville.PriceTools.Test
+namespace Test.Sonneville.PriceTools
 {
     /// <summary>
     ///This is a test class for ICashAccountTest and is intended

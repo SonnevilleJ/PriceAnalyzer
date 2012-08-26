@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data;
 
-namespace Sonneville.Utilities
+namespace Sonneville.PriceTools.Test.Utilities
 {
     public abstract class MockProvider : PriceDataProvider
     {

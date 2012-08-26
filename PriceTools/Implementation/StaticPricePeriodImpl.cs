@@ -146,13 +146,13 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets a value stored at a given DateTime index of the TimeSeries.
         /// </summary>
-        /// <param name="index">The DateTime of the desired value.</param>
+        /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the TimeSeries as of the given DateTime.</returns>
-        public override decimal this[DateTime index]
+        public override decimal this[DateTime dateTime]
         {
             get
             {
-                if (index < Head) throw new InvalidOperationException("Index was before the Head of the PricePeriod.");
+                if (dateTime < Head) throw new InvalidOperationException("Index was before the Head of the PricePeriod.");
 
                 return Close;
             }

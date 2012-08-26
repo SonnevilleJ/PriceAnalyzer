@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.Yahoo;
 
 namespace Sonneville.PriceTools.AutomatedTrading

@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.Utilities;
+using Sonneville.PriceTools;
+using TestUtilities.Sonneville.PriceTools;
 
-namespace Sonneville.PriceTools.Test
+namespace Test.Sonneville.PriceTools
 {
     [TestClass]
     public class PricePeriodFactoryTest
@@ -1247,9 +1248,9 @@ namespace Sonneville.PriceTools.Test
             {
                 get
                 {
-                    var quote1 = TestUtilities.CreateTick1();
-                    var quote2 = TestUtilities.CreateTick2();
-                    var quote3 = TestUtilities.CreateTick3();
+                    var quote1 = PriceQuoteUtilities.CreateTick1();
+                    var quote2 = PriceQuoteUtilities.CreateTick2();
+                    var quote3 = PriceQuoteUtilities.CreateTick3();
                     return new[] {quote1, quote2, quote3};
                 }
             }

@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.Utilities;
+using Sonneville.PriceTools;
+using Sonneville.PriceTools.AutomatedTrading;
 
-namespace Sonneville.PriceTools.AutomatedTrading.Test
+namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
     [TestClass]
     public class OrderCancelledEventArgsTest
@@ -13,7 +14,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             cancelled = issued.AddMinutes(3);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            string ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             const decimal shares = 5;
             const decimal price = 100.00m;
 

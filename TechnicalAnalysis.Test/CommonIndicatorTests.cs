@@ -1,8 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.Utilities;
+using Sonneville.PriceTools;
+using Sonneville.PriceTools.TechnicalAnalysis;
 
-namespace Sonneville.PriceTools.TechnicalAnalysis.Test
+namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
     public class CommonIndicatorTests
@@ -76,7 +77,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 
         private static PriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
         {
-            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             for (var i = 0; i < count; i++)
             {
                 var period = PricePeriodFactory.ConstructTickedPricePeriod();

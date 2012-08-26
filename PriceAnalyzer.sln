@@ -60,6 +60,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestPriceData", "TestPriceD
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Test", "Data.Test\Data.Test.csproj", "{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtilities", "TestUtilities\TestUtilities.csproj", "{87F42318-0470-4F99-8AED-B9C0AFA72918}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -224,6 +226,12 @@ Global
 		{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}.Release|x86.ActiveCfg = Release|Any CPU
+		{87F42318-0470-4F99-8AED-B9C0AFA72918}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87F42318-0470-4F99-8AED-B9C0AFA72918}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87F42318-0470-4F99-8AED-B9C0AFA72918}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{87F42318-0470-4F99-8AED-B9C0AFA72918}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87F42318-0470-4F99-8AED-B9C0AFA72918}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87F42318-0470-4F99-8AED-B9C0AFA72918}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

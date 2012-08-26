@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.Utilities;
 
-namespace Sonneville.PriceTools.Test
+namespace Test.Sonneville.PriceTools
 {
     [TestClass]
     public class PriceSeriesEqualityTests
@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EqualsEmptyPriceSeries()
         {
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ps1 = PriceSeriesFactory.CreatePriceSeries(ticker);
             var ps2 = PriceSeriesFactory.CreatePriceSeries(ticker);
 
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EqualsTestSameTicker()
         {
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ps1 = PriceSeriesFactory.CreatePriceSeries(ticker);
             var ps2 = PriceSeriesFactory.CreatePriceSeries(ticker);
 
@@ -32,8 +32,8 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EqualsTestDifferentTicker()
         {
-            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
-            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
 
             Assert.IsFalse(ps1.Equals(ps2));
         }
@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void ReferenceEqualsTestSameTicker()
         {
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ps1 = PriceSeriesFactory.CreatePriceSeries(ticker);
             var ps2 = PriceSeriesFactory.CreatePriceSeries(ticker);
 
@@ -51,8 +51,8 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void ReferenceEqualsTestDifferentTicker()
         {
-            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
-            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
 
             Assert.IsFalse(ReferenceEquals(ps1, ps2));
         }
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetHashCodeTestSameTicker()
         {
-            var ticker = TestUtilities.GetUniqueTicker();
+            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ps1 = PriceSeriesFactory.CreatePriceSeries(ticker);
             var ps2 = PriceSeriesFactory.CreatePriceSeries(ticker);
 
@@ -70,8 +70,8 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetHashCodeTestDifferentTicker()
         {
-            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
-            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.GetUniqueTicker());
+            var ps1 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var ps2 = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
 
             Assert.IsFalse(ReferenceEquals(ps1, ps2));
         }
@@ -79,9 +79,9 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableIsEquivalentWithDifferentData()
         {
-            var ticker1 = TestUtilities.GetUniqueTicker();
-            var ticker2 = TestUtilities.GetUniqueTicker();
-            var ticker3 = TestUtilities.GetUniqueTicker();
+            var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker3 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
             var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
             var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
@@ -100,8 +100,8 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableIsEquivalentWithSameData()
         {
-            var ticker1 = TestUtilities.GetUniqueTicker();
-            var ticker2 = TestUtilities.GetUniqueTicker();
+            var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
             var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
             var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
@@ -119,9 +119,9 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableIsEquivalentWithExtraseries()
         {
-            var ticker1 = TestUtilities.GetUniqueTicker();
-            var ticker2 = TestUtilities.GetUniqueTicker();
-            var ticker3 = TestUtilities.GetUniqueTicker();
+            var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker3 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
             var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
             var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
@@ -141,8 +141,8 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableIsEquivalentWithMissingseries()
         {
-            var ticker1 = TestUtilities.GetUniqueTicker();
-            var ticker2 = TestUtilities.GetUniqueTicker();
+            var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
             var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
             var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
@@ -159,8 +159,8 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableIsEquivalentOrderCheck()
         {
-            var ticker1 = TestUtilities.GetUniqueTicker();
-            var ticker2 = TestUtilities.GetUniqueTicker();
+            var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
             var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
             var series3 = PriceSeriesFactory.CreatePriceSeries(ticker2);
@@ -178,9 +178,9 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableEqualsWithDifferentData()
         {
-            var ticker1 = TestUtilities.GetUniqueTicker();
-            var ticker2 = TestUtilities.GetUniqueTicker();
-            var ticker3 = TestUtilities.GetUniqueTicker();
+            var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker3 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
             var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
             var series3 = PriceSeriesFactory.CreatePriceSeries(ticker3);
@@ -199,8 +199,8 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableEqualsWithSameData()
         {
-            var ticker1 = TestUtilities.GetUniqueTicker();
-            var ticker2 = TestUtilities.GetUniqueTicker();
+            var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
             var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
             var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
@@ -218,9 +218,9 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableEqualsWithExtraseries()
         {
-            var ticker1 = TestUtilities.GetUniqueTicker();
-            var ticker2 = TestUtilities.GetUniqueTicker();
-            var ticker3 = TestUtilities.GetUniqueTicker();
+            var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker3 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
             var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
             var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
@@ -240,8 +240,8 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableEqualsWithMissingseries()
         {
-            var ticker1 = TestUtilities.GetUniqueTicker();
-            var ticker2 = TestUtilities.GetUniqueTicker();
+            var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
             var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
             var series3 = PriceSeriesFactory.CreatePriceSeries(ticker1);
@@ -258,8 +258,8 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void EnumerableEqualsOrderCheck()
         {
-            var ticker1 = TestUtilities.GetUniqueTicker();
-            var ticker2 = TestUtilities.GetUniqueTicker();
+            var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var series1 = PriceSeriesFactory.CreatePriceSeries(ticker1);
             var series2 = PriceSeriesFactory.CreatePriceSeries(ticker2);
             var series3 = PriceSeriesFactory.CreatePriceSeries(ticker2);

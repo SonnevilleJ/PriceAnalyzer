@@ -9,7 +9,7 @@
     <ProjectGuid>{3C9D8671-15C6-4521-A886-C192AED54121}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.AutomatedTrading.Test</RootNamespace>
+    <RootNamespace>Test.Sonneville.PriceTools.AutomatedTrading</RootNamespace>
     <AssemblyName>AutomatedTrading.Test</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -64,6 +64,10 @@
       <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
       <Name>AutomatedTrading</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
@@ -71,6 +75,10 @@
     <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
       <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
       <Name>TestPriceData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
+      <Project>{87F42318-0470-4F99-8AED-B9C0AFA72918}</Project>
+      <Name>TestUtilities</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\Utilities.csproj">
       <Project>{ABB6CEEB-E5C4-4050-8D3E-DFCEE43FC8D9}</Project>

@@ -1,8 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.Utilities;
+using Sonneville.PriceTools;
 
-namespace Sonneville.PriceTools.Test
+namespace Test.Sonneville.PriceTools
 {
     [TestClass]
     public class OrderFactoryTest
@@ -196,7 +196,7 @@ namespace Sonneville.PriceTools.Test
 
         private static string GetTicker()
         {
-            return TestUtilities.GetUniqueTicker();
+            return TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
         }
 
         private static decimal GetValidShares()

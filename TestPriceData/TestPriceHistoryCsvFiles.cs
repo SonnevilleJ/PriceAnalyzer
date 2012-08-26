@@ -1,7 +1,8 @@
 ﻿using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.Yahoo;
+using Sonneville.Utilities;
 
-namespace Sonneville.PriceTools.TestPriceData
+namespace Sonneville.PriceTools.Test.PriceData
 {
     public static class TestPriceHistoryCsvFiles
     {
