@@ -1,0 +1,65 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{6cb36167-4df2-400e-9533-b37a09adc66e}</ProjectGuid>
+    <ArchitectureToolsVersion>2.0.0.0</ArchitectureToolsVersion>
+    <Name>Architecture</Name>
+    <RootNamespace>Architecture</RootNamespace>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <OutputPath>bin\Debug\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <OutputPath>bin\Release\</OutputPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(VSToolsPath)\ArchitectureTools\Microsoft.VisualStudio.TeamArchitect.ModelingProject.targets" Condition="'$(VSToolsPath)' != ''" />
+  <ItemGroup>
+    <Folder Include="ModelDefinition\" />
+    <Content Include="ModelDefinition\Architecture.uml">
+      <SubType>Content</SubType>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Validate Include="DataAssemblies.layerdiagram">
+      <SubType>Content</SubType>
+    </Validate>
+    <Validate Include="DataAssemblies.layerdiagram.layout">
+      <SubType>Content</SubType>
+      <DependentUpon>DataAssemblies.layerdiagram</DependentUpon>
+    </Validate>
+    <Validate Include="DataAssemblies.layerdiagram.suppressions">
+      <SubType>Content</SubType>
+      <DependentUpon>DataAssemblies.layerdiagram</DependentUpon>
+    </Validate>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Name>Data</Name>
+      <Project>{157b3fce-e233-436a-b982-98a8bb693082}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Fidelity\Fidelity.csproj">
+      <Name>Fidelity</Name>
+      <Project>{e8795da4-fb2c-4ae2-a13e-187b5b8e4a39}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Google\Google.csproj">
+      <Name>Google</Name>
+      <Project>{241c2cf7-9a10-4b2f-bdd7-efc49e24ecae}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\PriceTools\PriceTools.csproj">
+      <Name>PriceTools</Name>
+      <Project>{fbe4a744-cacd-4ccc-9746-1692ab3b606b}</Project>
+    </ProjectReference>
+    <ProjectReference Include="..\Yahoo\Yahoo.csproj">
+      <Name>Yahoo</Name>
+      <Project>{657f02d4-7de6-4cbc-8e15-ad4466879e18}</Project>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
