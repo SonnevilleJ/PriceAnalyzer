@@ -1,12 +1,11 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{51C91DF8-2856-4255-B7B1-12CE447741AC}"
 	ProjectSection(SolutionItems) = preProject
+		CustomDictionary.xml = CustomDictionary.xml
 		Features.xml = Features.xml
-		Local.testsettings = Local.testsettings
-		PriceAnalyzer.vsmdi = PriceAnalyzer.vsmdi
-		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		Sonneville.snk = Sonneville.snk
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceTools", "PriceTools\PriceTools.csproj", "{FBE4A744-CACD-4CCC-9746-1692AB3B606B}"
@@ -62,9 +61,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Test", "Data.Test\Data.Test.csproj", "{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}"
 EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = PriceAnalyzer.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Debug|x86 = Debug|x86
