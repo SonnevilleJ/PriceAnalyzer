@@ -18,7 +18,7 @@ namespace Statistics
         public static decimal Median(this IEnumerable<decimal> decimals)
         {
             var list = decimals.OrderBy(d => d);
-            if (list.Count() == 0) return 0m;
+            if (!list.Any()) return 0m;
 
             var midpoint = list.Count() / 2;
             if (list.Count() % 2 == 0)
