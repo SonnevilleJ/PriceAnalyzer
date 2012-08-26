@@ -126,8 +126,11 @@ namespace Statistics
         public static decimal StudentTDistribution(decimal tScore, int degreesOfFreedom)
         {
             if(degreesOfFreedom <= 0) throw new ArgumentOutOfRangeException("degreesOfFreedom", degreesOfFreedom, "Degrees of freedom must be positive.");
-            
-            return (decimal)new Chart().DataManipulator.Statistics.TDistribution((double)tScore, degreesOfFreedom, true);
+
+            using (var chart = new Chart())
+            {
+                return (decimal)chart.DataManipulator.Statistics.TDistribution((double)tScore, degreesOfFreedom, true);
+            }
         }
     }
 }
