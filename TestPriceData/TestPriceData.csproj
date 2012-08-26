@@ -49,6 +49,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="CsvPriceData.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CsvPriceData.Designer.cs</LastGenOutput>

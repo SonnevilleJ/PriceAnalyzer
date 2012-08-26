@@ -46,6 +46,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Include="FidelityData.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>FidelityData.Designer.cs</LastGenOutput>

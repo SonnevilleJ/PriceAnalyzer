@@ -129,7 +129,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="CustomDictionary.xml" />
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Strings.resx">
