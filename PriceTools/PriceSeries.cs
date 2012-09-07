@@ -300,7 +300,7 @@ namespace Sonneville.PriceTools
         /// <returns>The most recent price at or before <paramref name="settlementDate"/>.</returns>
         private decimal GetLatestPrice(DateTime settlementDate)
         {
-            var matchingPeriods = PricePeriods.Where(p => p.HasValueInRange(settlementDate));
+            var matchingPeriods = PricePeriods.Where(p => p.HasValueInRange(settlementDate)).ToList();
             if (matchingPeriods.Any()) return matchingPeriods.OrderBy(p => p.Tail).Last()[settlementDate];
 
             if (PricePeriods.Count > 0) return PricePeriods.OrderBy(p => p.Tail).Last(p => p.Tail <= settlementDate).Close;

@@ -34,11 +34,6 @@ namespace Sonneville.PriceTools
         public abstract long? Volume { get; }
 
         /// <summary>
-        ///   Event which is invoked when new price data is available for the PricePeriod.
-        /// </summary>
-        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
-
-        /// <summary>
         /// Gets a value stored at a given DateTime index of the TimeSeries.
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
@@ -87,6 +82,8 @@ namespace Sonneville.PriceTools
             return Head <= settlementDate && Tail >= settlementDate;
         }
 
+        #region Events and Invokers
+
         /// <summary>
         /// Invokes the NewDataAvailable event.
         /// </summary>
@@ -99,6 +96,15 @@ namespace Sonneville.PriceTools
                 eventHandler(this, e);
             }
         }
+
+        /// <summary>
+        ///   Event which is invoked when new price data is available for the PricePeriod.
+        /// </summary>
+        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
+
+        #endregion
+        
+        #region Equality
 
         /// <summary>
         /// Indicates whether the current object is equal to another object of the same type.
@@ -180,5 +186,7 @@ namespace Sonneville.PriceTools
         {
             return !Equals(left, right);
         }
+
+        #endregion
     }
 }
