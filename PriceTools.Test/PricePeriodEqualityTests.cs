@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Implementation;
 
 namespace Test.Sonneville.PriceTools
 {
@@ -89,8 +90,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail.AddDays(1), close);
             var period4 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            var list1 = new List<PricePeriod> { period1, period2 };
-            var list2 = new List<PricePeriod> { period3, period4 };
+            var list1 = new List<IPricePeriod> { period1, period2 };
+            var list2 = new List<IPricePeriod> { period3, period4 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -107,8 +108,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
             var period4 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            var list1 = new List<PricePeriod> {period1, period2};
-            var list2 = new List<PricePeriod> {period3, period4};
+            var list1 = new List<IPricePeriod> {period1, period2};
+            var list2 = new List<IPricePeriod> {period3, period4};
 
             CollectionAssert.AreEquivalent(list1, list2);
         }
@@ -126,8 +127,8 @@ namespace Test.Sonneville.PriceTools
             var period4 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
             var period5 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            var list1 = new List<PricePeriod> {period1, period2};
-            var list2 = new List<PricePeriod> {period3, period4, period5};
+            var list1 = new List<IPricePeriod> {period1, period2};
+            var list2 = new List<IPricePeriod> {period3, period4, period5};
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -143,8 +144,8 @@ namespace Test.Sonneville.PriceTools
             var period2 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
             var period3 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            var list1 = new List<PricePeriod> { period1, period2 };
-            var list2 = new List<PricePeriod> {period3};
+            var list1 = new List<IPricePeriod> { period1, period2 };
+            var list2 = new List<IPricePeriod> {period3};
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -161,8 +162,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail.AddDays(1), close);
             var period4 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            var list1 = new List<PricePeriod> { period1, period2 };
-            var list2 = new List<PricePeriod> { period3, period4 };
+            var list1 = new List<IPricePeriod> { period1, period2 };
+            var list2 = new List<IPricePeriod> { period3, period4 };
 
             CollectionAssert.AreEquivalent(list1, list2);
         }
@@ -179,8 +180,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail.AddDays(1), close);
             var period4 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            var list1 = new List<PricePeriod> { period1, period2 };
-            var list2 = new List<PricePeriod> { period3, period4 };
+            var list1 = new List<IPricePeriod> { period1, period2 };
+            var list2 = new List<IPricePeriod> { period3, period4 };
 
             Assert.IsFalse(list1.Equals(list2));
         }
@@ -197,8 +198,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
             var period4 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            var list1 = new List<PricePeriod> { period1, period2 };
-            var list2 = new List<PricePeriod> { period3, period4 };
+            var list1 = new List<IPricePeriod> { period1, period2 };
+            var list2 = new List<IPricePeriod> { period3, period4 };
 
             CollectionAssert.AreEqual(list1, list2);
         }
@@ -216,8 +217,8 @@ namespace Test.Sonneville.PriceTools
             var period4 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
             var period5 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            var list1 = new List<PricePeriod> { period1, period2 };
-            var list2 = new List<PricePeriod> { period3, period4, period5 };
+            var list1 = new List<IPricePeriod> { period1, period2 };
+            var list2 = new List<IPricePeriod> { period3, period4, period5 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }
@@ -233,8 +234,8 @@ namespace Test.Sonneville.PriceTools
             var period2 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
             var period3 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            var list1 = new List<PricePeriod> { period1, period2 };
-            var list2 = new List<PricePeriod> { period3 };
+            var list1 = new List<IPricePeriod> { period1, period2 };
+            var list2 = new List<IPricePeriod> { period3 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }
@@ -251,8 +252,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail.AddDays(1), close);
             var period4 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            var list1 = new List<PricePeriod> { period1, period2 };
-            var list2 = new List<PricePeriod> { period3, period4 };
+            var list1 = new List<IPricePeriod> { period1, period2 };
+            var list2 = new List<IPricePeriod> { period3, period4 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }

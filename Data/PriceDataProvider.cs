@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Sonneville.PriceTools.Extensions;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.Data
 {
@@ -22,13 +23,13 @@ namespace Sonneville.PriceTools.Data
         #region Public Methods
 
         /// <summary>
-        /// Gets a list of <see cref="PricePeriod"/>s containing price data for the requested DateTime range.
+        /// Gets a list of <see cref="PricePeriodImpl"/>s containing price data for the requested DateTime range.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
         /// <returns></returns>
-        public IEnumerable<PricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail)
+        public IEnumerable<IPricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail)
         {
             return GetPriceData(ticker, head, tail, BestResolution);
         }
@@ -139,14 +140,14 @@ namespace Sonneville.PriceTools.Data
         public abstract Resolution BestResolution { get; }
 
         /// <summary>
-        /// Gets a list of <see cref="PricePeriod"/>s containing price data for the requested DateTime range.
+        /// Gets a list of <see cref="PricePeriodImpl"/>s containing price data for the requested DateTime range.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriodImpl"/>s to retrieve.</param>
         /// <returns></returns>
-        public abstract IEnumerable<PricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail, Resolution resolution);
+        public abstract IEnumerable<IPricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
         /// Gets a <see cref="PriceSeries"/> containing price history.
@@ -154,7 +155,7 @@ namespace Sonneville.PriceTools.Data
         /// <param name="priceSeries"> </param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriod"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriodImpl"/>s to retrieve.</param>
         /// <returns></returns>
         public abstract void UpdatePriceSeries(PriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution);
 

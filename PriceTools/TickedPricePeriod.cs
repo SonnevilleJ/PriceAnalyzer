@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   A <see cref="PricePeriod"/> made from <see cref="PriceTicks"/>.
+    ///   A <see cref="PricePeriodImpl"/> made from <see cref="PriceTicks"/>.
     /// </summary>
-    public abstract class TickedPricePeriod : PricePeriod, IEquatable<TickedPricePeriod>
+    public abstract class TickedPricePeriod : PricePeriodImpl, IEquatable<TickedPricePeriod>
     {
         /// <summary>
         ///  The <see cref="PriceTick" />s contained within this TickedPricePeriod.

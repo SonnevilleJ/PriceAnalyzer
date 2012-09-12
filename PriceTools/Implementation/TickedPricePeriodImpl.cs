@@ -5,7 +5,7 @@ using System.Linq;
 namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
-    ///   A <see cref="PricePeriod"/> made from <see cref="PriceTicks"/>.
+    ///   A <see cref="PricePeriodImpl"/> made from <see cref="PriceTicks"/>.
     /// </summary>
     internal class TickedPricePeriodImpl : TickedPricePeriod
     {

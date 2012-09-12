@@ -1,4 +1,6 @@
-﻿namespace Sonneville.PriceTools.Data.Csv
+﻿using Sonneville.PriceTools.Implementation;
+
+namespace Sonneville.PriceTools.Data.Csv
 {
     /// <summary>
     /// Columns used in a price history CSV file.
@@ -11,37 +13,37 @@
         None = 0,
 
         /// <summary>
-        /// Represents the Date column in a table of static <see cref="PricePeriod"/> data.
+        /// Represents the Date column in a table of static <see cref="IPricePeriod"/> data.
         /// </summary>
         Date,
 
         /// <summary>
-        /// Represents the Open column in a table of static <see cref="PricePeriod"/> data.
+        /// Represents the Open column in a table of static <see cref="IPricePeriod"/> data.
         /// </summary>
         Open,
 
         /// <summary>
-        /// Represents the High column in a table of static <see cref="PricePeriod"/> data.
+        /// Represents the High column in a table of static <see cref="IPricePeriod"/> data.
         /// </summary>
         High,
 
         /// <summary>
-        /// Represents the Low column in a table of static <see cref="PricePeriod"/> data.
+        /// Represents the Low column in a table of static <see cref="IPricePeriod"/> data.
         /// </summary>
         Low,
 
         /// <summary>
-        /// Represents the Close column in a table of static <see cref="PricePeriod"/> data.
+        /// Represents the Close column in a table of static <see cref="IPricePeriod"/> data.
         /// </summary>
         Close,
 
         /// <summary>
-        /// Represents the Volume column in a table of static <see cref="PricePeriod"/> data.
+        /// Represents the Volume column in a table of static <see cref="IPricePeriod"/> data.
         /// </summary>
         Volume,
 
         /// <summary>
-        /// Represents the Dividends column in a table of static <see cref="PricePeriod"/> data.
+        /// Represents the Dividends column in a table of static <see cref="IPricePeriod"/> data.
         /// </summary>
         Dividends
     }

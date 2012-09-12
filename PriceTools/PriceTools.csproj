@@ -74,7 +74,7 @@
     <Compile Include="LongTransaction.cs" />
     <Compile Include="Implementation\MarginableCashAccountImpl.cs" />
     <Compile Include="OpeningTransaction.cs" />
-    <Compile Include="PricePeriod.cs" />
+    <Compile Include="Implementation\PricePeriodImpl.cs" />
     <Compile Include="PriceSeries.cs" />
     <Compile Include="Sell.cs" />
     <Compile Include="SellShort.cs" />

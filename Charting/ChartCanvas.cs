@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.Charting
 {
@@ -261,7 +262,7 @@ namespace Sonneville.PriceTools.Charting
         #region Abstract/Virtual Methods
 
         /// <summary>
-        /// When overridden in a class, constructs a <see cref="PointCollection"/> from X,Y coordinate points which defines the visual shape of an <see cref="PricePeriod"/>.
+        /// When overridden in a class, constructs a <see cref="PointCollection"/> from X,Y coordinate points which defines the visual shape of an <see cref="PricePeriodImpl"/>.
         /// The base implementation draws only the closing price, resulting in a line chart.
         /// </summary>
         /// <param name="left">The X coordinate of the left edge of the period.</param>
@@ -271,7 +272,7 @@ namespace Sonneville.PriceTools.Charting
         /// <param name="high">The Y coordinate of the period's highest price.</param>
         /// <param name="low">The Y coordinate of the period's lowest price.</param>
         /// <param name="close">The Y coordinate of the period's closing price.</param>
-        /// <returns>A <see cref="PointCollection"/> which defines the visual shape of an <see cref="PricePeriod"/>.</returns>
+        /// <returns>A <see cref="PointCollection"/> which defines the visual shape of an <see cref="PricePeriodImpl"/>.</returns>
         protected virtual PointCollection GetPolylinePoints(double left, double center, double right, double open, double high, double low, double close)
         {
             return new PointCollection { new Point(center, close) };

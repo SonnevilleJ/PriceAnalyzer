@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Sonneville.PriceTools.Extensions;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    public class PriceSeries : PricePeriod, IEquatable<PriceSeries>, IPriceSeries
+    public class PriceSeries : PricePeriodImpl, IEquatable<PriceSeries>, IPriceSeries
     {
         /// <summary>
         /// The default <see cref="Resolution"/> of a PriceSeries.
@@ -20,7 +21,7 @@ namespace Sonneville.PriceTools
 
         private readonly Resolution _resolution;
 
-        private readonly IList<PricePeriod> _dataPeriods = new List<PricePeriod>();
+        private readonly IList<IPricePeriod> _dataPeriods = new List<IPricePeriod>();
 
         #endregion
 
@@ -93,11 +94,11 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets the <see cref="PricePeriod"/> stored at a given index.
+        /// Gets the <see cref="PricePeriodImpl"/> stored at a given index.
         /// </summary>
-        /// <param name="index">The index of the <see cref="PricePeriod"/> to get.</param>
-        /// <returns>The <see cref="PricePeriod"/> stored at the given index.</returns>
-        public virtual PricePeriod this[int index]
+        /// <param name="index">The index of the <see cref="PricePeriodImpl"/> to get.</param>
+        /// <returns>The <see cref="PricePeriodImpl"/> stored at the given index.</returns>
+        public virtual IPricePeriod this[int index]
         {
             get { return PricePeriods[index]; }
         }
@@ -150,40 +151,40 @@ namespace Sonneville.PriceTools
         public string Ticker { get; set; }
 
         /// <summary>
-        /// Gets a collection of the <see cref="PricePeriod"/>s in this PriceSeries.
+        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries.
         /// </summary>
-        public IList<PricePeriod> PricePeriods { get { return GetPricePeriods(); } }
+        public IList<IPricePeriod> PricePeriods { get { return GetPricePeriods(); } }
 
         /// <summary>
-        /// Gets a collection of the <see cref="PricePeriod"/>s in this PriceSeries.
+        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries.
         /// </summary>
-        /// <returns>A list of <see cref="PricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
-        public IList<PricePeriod> GetPricePeriods()
+        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
+        public IList<IPricePeriod> GetPricePeriods()
         {
             return GetPricePeriods(Resolution);
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="PricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
-        /// <returns>A list of <see cref="PricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
-        public IList<PricePeriod> GetPricePeriods(Resolution resolution)
+        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
+        public IList<IPricePeriod> GetPricePeriods(Resolution resolution)
         {
             if (HasData) return GetPricePeriods(resolution, Head, Tail);
             if (resolution < Resolution) throw new InvalidOperationException(String.Format(Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__, resolution, Resolution));
-            return new List<PricePeriod>();
+            return new List<IPricePeriod>();
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="PricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
         /// <param name="head">The head of the periods to retrieve.</param>
         /// <param name="tail">The tail of the periods to retrieve.</param>
         /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this PriceSeries.</exception>
-        /// <returns>A list of <see cref="PricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
-        public IList<PricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail)
+        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
+        public IList<IPricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail)
         {
             if (resolution < Resolution) throw new InvalidOperationException(String.Format(Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__, resolution, Resolution));
             var dataPeriods = _dataPeriods.Where(period => period.Head >= head && period.Tail <= tail).OrderBy(period => period.Head).ToList();
@@ -200,14 +201,14 @@ namespace Sonneville.PriceTools
                     let low = periodsInRange.Min(p => p.Low)
                     let close = periodsInRange.Last().Close
                     let volume = periodsInRange.Sum(p => p.Volume)
-                    select PricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).ToList();
+                    select PricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).Cast<IPricePeriod>().ToList();
         }
 
         /// <summary>
         /// Adds price data to the PriceSeries.
         /// </summary>
         /// <param name="pricePeriod"></param>
-        public void AddPriceData(PricePeriod pricePeriod)
+        public void AddPriceData(IPricePeriod pricePeriod)
         {
             AddPriceData(new [] {pricePeriod});
         }
@@ -216,7 +217,7 @@ namespace Sonneville.PriceTools
         /// Adds price data to the PriceSeries.
         /// </summary>
         /// <param name="pricePeriods"></param>
-        public void AddPriceData(IEnumerable<PricePeriod> pricePeriods)
+        public void AddPriceData(IEnumerable<IPricePeriod> pricePeriods)
         {
             var list = pricePeriods.Where(period => !HasValueInRange(period.Head) && !HasValueInRange(period.Tail)).ToList();
 

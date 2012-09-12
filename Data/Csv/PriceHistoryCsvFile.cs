@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using LumenWorks.Framework.IO.Csv;
 using Sonneville.PriceTools.Extensions;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.Data.Csv
 {
@@ -54,9 +55,9 @@ namespace Sonneville.PriceTools.Data.Csv
         #region Public Properties
 
         /// <summary>
-        /// Gets a list of all <see cref="PricePeriod"/>s in the file.
+        /// Gets a list of all <see cref="PricePeriodImpl"/>s in the file.
         /// </summary>
-        public IList<PricePeriod> PricePeriods { get; private set; }
+        public IList<IPricePeriod> PricePeriods { get; private set; }
         
         #endregion
 
@@ -166,7 +167,7 @@ namespace Sonneville.PriceTools.Data.Csv
             return stagedPeriods;
         }
 
-        private string BuildCSVRecord(PricePeriod period)
+        private string BuildCSVRecord(IPricePeriod period)
         {
             var builder = new StringBuilder();
             for (var i = 0; i < ColumnHeaders.Count; i++)
@@ -218,11 +219,11 @@ namespace Sonneville.PriceTools.Data.Csv
 
         #region Static parsing methods
 
-        private static IList<PricePeriod> BuildPricePeriods(IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail, Resolution? impliedResolution)
+        private static IList<IPricePeriod> BuildPricePeriods(IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail, Resolution? impliedResolution)
         {
             stagedPeriods = stagedPeriods.OrderBy(period => period.Date).ToList();
             var resolution = SetResolution(stagedPeriods, impliedResolution);
-            var pricePeriods = new List<PricePeriod>();
+            var pricePeriods = new List<IPricePeriod>();
 
             for (var i = 0; i < stagedPeriods.Count; i++)
             {

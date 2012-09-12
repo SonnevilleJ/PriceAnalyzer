@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Linq;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    public abstract class PricePeriod : TimePeriod, IEquatable<PricePeriod>, IPricePeriod
+    public abstract class PricePeriodImpl : IPricePeriod, IEquatable<PricePeriodImpl>
     {
         /// <summary>
         /// Gets the closing price for the PricePeriod.
@@ -113,7 +113,7 @@ namespace Sonneville.PriceTools
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(PricePeriod other)
+        public bool Equals(PricePeriodImpl other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -139,7 +139,7 @@ namespace Sonneville.PriceTools
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return Equals(obj as PricePeriod);
+            return Equals(obj as PricePeriodImpl);
         }
 
         /// <summary>
@@ -171,7 +171,7 @@ namespace Sonneville.PriceTools
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(PricePeriod left, PricePeriod right)
+        public static bool operator ==(PricePeriodImpl left, PricePeriodImpl right)
         {
             return Equals(left, right);
         }
@@ -182,7 +182,7 @@ namespace Sonneville.PriceTools
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(PricePeriod left, PricePeriod right)
+        public static bool operator !=(PricePeriodImpl left, PricePeriodImpl right)
         {
             return !Equals(left, right);
         }

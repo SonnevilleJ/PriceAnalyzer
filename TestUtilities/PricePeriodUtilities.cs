@@ -1,12 +1,13 @@
 ﻿using System;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Extensions;
+using Sonneville.PriceTools.Implementation;
 
 namespace TestUtilities.Sonneville.PriceTools
 {
     public static class PricePeriodUtilities
     {
-        public static PricePeriod CreatePeriod1()
+        public static PricePeriodImpl CreatePeriod1()
         {
             var head = new DateTime(2011, 3, 14);
             var tail = head.GetFollowingClose();
@@ -19,7 +20,7 @@ namespace TestUtilities.Sonneville.PriceTools
             return PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
         }
 
-        public static PricePeriod CreatePeriod2()
+        public static PricePeriodImpl CreatePeriod2()
         {
             var head = new DateTime(2011, 3, 15);
             var tail = head.GetFollowingClose();
@@ -31,7 +32,7 @@ namespace TestUtilities.Sonneville.PriceTools
             return PricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close);
         }
 
-        public static PricePeriod CreatePeriod3()
+        public static PricePeriodImpl CreatePeriod3()
         {
             var head = new DateTime(2011, 3, 16);
             var tail = head.GetFollowingClose();

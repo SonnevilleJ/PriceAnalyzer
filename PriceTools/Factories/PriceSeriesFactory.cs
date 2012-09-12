@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -33,7 +34,7 @@ namespace Sonneville.PriceTools
         /// Constructs a <see cref="PriceSeries"/> for the given ticker and resolution.
         /// </summary>
         /// <param name="ticker">The ticker symbol of the <see cref="PriceSeries"/>.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of the <see cref="PricePeriod"/>s contained in the <see cref="PriceSeries"/>.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of the <see cref="PricePeriodImpl"/>s contained in the <see cref="PriceSeries"/>.</param>
         /// <returns>The <see cref="PriceSeries"/> for the given ticker.</returns>
         public static PriceSeries CreatePriceSeries(string ticker, Resolution resolution)
         {

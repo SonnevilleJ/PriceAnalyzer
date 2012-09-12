@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    internal class StaticPricePeriodImpl : PricePeriod
+    internal class StaticPricePeriodImpl : PricePeriodImpl
     {
         #region Private Members
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
@@ -11,7 +12,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
     public abstract class TradingStrategy
     {
         private bool _isRunning;
-        private IList<PricePeriod> _pricePeriods;
+        private IList<IPricePeriod> _pricePeriods;
         private Task _task;
         private CancellationTokenSource _tokenSource;
 

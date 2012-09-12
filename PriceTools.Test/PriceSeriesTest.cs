@@ -5,6 +5,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Extensions;
+using Sonneville.PriceTools.Implementation;
 using Sonneville.PriceTools.Test.PriceData;
 using Sonneville.PriceTools.Test.Utilities;
 using Sonneville.PriceTools.Yahoo;
@@ -608,7 +609,7 @@ namespace Test.Sonneville.PriceTools
             var p1 = PricePeriodUtilities.CreatePeriod1();
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
-            var pricePeriods = new List<PricePeriod> {p1, p2, p3};
+            var pricePeriods = new List<IPricePeriod> {p1, p2, p3};
             var head = p1.Head;
             var tail = p3.Tail;
 
