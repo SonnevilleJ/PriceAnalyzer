@@ -723,5 +723,55 @@ namespace Test.Sonneville.PriceTools
 
             Assert.IsFalse(triggered);
         }
+
+        [TestMethod]
+        public void TimePeriodsTest()
+        {
+            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+
+            CollectionAssert.AreEquivalent(target.PricePeriods.Cast<ITimePeriod>().ToList(), target.TimePeriods.ToList());
+        }
+
+        [TestMethod]
+        public void GetTimePeriods1Test()
+        {
+            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+
+            CollectionAssert.AreEquivalent(target.GetPricePeriods().Cast<ITimePeriod>().ToList(), target.GetTimePeriods().ToList());
+        }
+
+        [TestMethod]
+        public void GetTimePeriods2Test()
+        {
+            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var resolution = target.Resolution;
+
+            CollectionAssert.AreEquivalent(target.GetPricePeriods(resolution).Cast<ITimePeriod>().ToList(), target.GetTimePeriods(resolution).ToList());
+        }
+
+        [TestMethod]
+        public void GetTimePeriods3Test()
+        {
+            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var resolution = target.Resolution;
+            var head = target.Head;
+            var tail = target.Tail;
+
+            CollectionAssert.AreEquivalent(target.GetPricePeriods(resolution, head, tail).Cast<ITimePeriod>().ToList(), target.GetTimePeriods(resolution, head, tail).ToList());
+        }
+
+        [TestMethod]
+        public void AddTimeDataValidDataTest()
+        {
+            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var head = new DateTime(2011, 12, 28);
+            var tail = head.GetFollowingClose();
+            const decimal close = 5.00m;
+            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+
+            target.AddTimeData(period);
+
+            Assert.IsTrue(target.PricePeriods.Contains(period));
+        }
     }
 }

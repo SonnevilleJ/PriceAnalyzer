@@ -93,6 +93,74 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
+        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
+        /// </summary>
+        public IList<ITimePeriod> TimePeriods
+        {
+            get { return PricePeriods.Cast<ITimePeriod>().ToList(); }
+        }
+
+        /// <summary>
+        /// Gets the <see cref="ITimePeriod"/> stored at a given index.
+        /// </summary>
+        /// <param name="index">The index of the <see cref="ITimePeriod"/> to get.</param>
+        /// <returns>The <see cref="ITimePeriod"/> stored at the given index.</returns>
+        ITimePeriod ITimeSeries.this[int index]
+        {
+            get { return this[index]; }
+        }
+
+        /// <summary>
+        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
+        /// </summary>
+        /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
+        public IList<ITimePeriod> GetTimePeriods()
+        {
+            return GetPricePeriods().Cast<ITimePeriod>().ToList();
+        }
+
+        /// <summary>
+        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// </summary>
+        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
+        /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
+        public IList<ITimePeriod> GetTimePeriods(Resolution resolution)
+        {
+            return GetPricePeriods(resolution).Cast<ITimePeriod>().ToList();
+        }
+
+        /// <summary>
+        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// </summary>
+        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
+        /// <param name="head">The head of the periods to retrieve.</param>
+        /// <param name="tail">The tail of the periods to retrieve.</param>
+        /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="ITimeSeries.Resolution"/> of this TimeSeries.</exception>
+        /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
+        public IList<ITimePeriod> GetTimePeriods(Resolution resolution, DateTime head, DateTime tail)
+        {
+            return GetPricePeriods(resolution, head, tail).Cast<ITimePeriod>().ToList();
+        }
+
+        /// <summary>
+        /// Adds Time data to the TimeSeries.
+        /// </summary>
+        /// <param name="timePeriod"></param>
+        public void AddTimeData(ITimePeriod timePeriod)
+        {
+            AddPriceData((IPricePeriod) timePeriod);
+        }
+
+        /// <summary>
+        /// Adds Time data to the TimeSeries.
+        /// </summary>
+        /// <param name="timePeriods"></param>
+        public void AddTimeData(IEnumerable<ITimePeriod> timePeriods)
+        {
+            AddPriceData(timePeriods.Cast<IPricePeriod>());
+        }
+
+        /// <summary>
         /// Gets the <see cref="PricePeriodImpl"/> stored at a given index.
         /// </summary>
         /// <param name="index">The index of the <see cref="PricePeriodImpl"/> to get.</param>
@@ -200,7 +268,7 @@ namespace Sonneville.PriceTools.Implementation
                     let low = periodsInRange.Min(p => p.Low)
                     let close = periodsInRange.Last().Close
                     let volume = periodsInRange.Sum(p => p.Volume)
-                    select PricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).Cast<IPricePeriod>().ToList();
+                    select PricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).ToList();
         }
 
         /// <summary>

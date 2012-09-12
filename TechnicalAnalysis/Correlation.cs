@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
     /// <summary>
-    /// Indicates the level of correlation between two <see cref="TimePeriod"/>.
+    /// Indicates the level of correlation between two <see cref="ITimePeriod"/>.
     /// </summary>
     public class Correlation : Indicator
     {
@@ -17,13 +17,13 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         #region Private Members
 
-        private readonly TimePeriod _target;
+        private readonly ITimePeriod _target;
 
         #endregion
 
         #region Constructors
 
-        public Correlation(IPriceSeries priceSeries, int lookback, TimePeriod target)
+        public Correlation(IPriceSeries priceSeries, int lookback, ITimePeriod target)
             : base(priceSeries, lookback)
         {
             _target = target;
@@ -57,7 +57,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             return covariance/(decimal) Math.Sqrt((double) (timeSeriesVariance*targetVariance));
         }
 
-        private IList<decimal> GetValues(TimePeriod timePeriod, int index)
+        private IList<decimal> GetValues(ITimePeriod timePeriod, int index)
         {
             var result = new List<decimal>();
             for (var i = index - (Lookback - 1); i <= index; i++)

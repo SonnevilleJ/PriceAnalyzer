@@ -104,7 +104,7 @@
     <Compile Include="Implementation\StaticPricePeriodImpl.cs" />
     <Compile Include="Implementation\PriceTickImpl.cs" />
     <Compile Include="Position.cs" />
-    <Compile Include="TimePeriod.cs" />
+    <Compile Include="ITimePeriod.cs" />
     <Compile Include="Implementation\PortfolioImpl.cs" />
     <Compile Include="OrderType.cs" />
     <Compile Include="Implementation\PositionImpl.cs" />

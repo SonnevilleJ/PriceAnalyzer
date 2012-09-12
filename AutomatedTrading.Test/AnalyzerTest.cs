@@ -30,7 +30,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var head = new DateTime(2011, 7, 1);
             var tail = head;
             const decimal close = 5.0m;
-            TimePeriod period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            ITimePeriod period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             new HigherThanYesterdayAnalyzer {TimePeriod = period};
         }

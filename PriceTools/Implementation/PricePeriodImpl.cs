@@ -34,24 +34,24 @@ namespace Sonneville.PriceTools.Implementation
         public abstract long? Volume { get; }
 
         /// <summary>
-        /// Gets a value stored at a given DateTime index of the TimePeriod.
+        /// Gets a value stored at a given DateTime index of the ITimePeriod.
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
-        /// <returns>The value of the TimePeriod as of the given DateTime.</returns>
+        /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
         public abstract decimal this[DateTime dateTime] { get; }
 
         /// <summary>
-        /// Gets the first DateTime in the TimePeriod.
+        /// Gets the first DateTime in the ITimePeriod.
         /// </summary>
         public abstract DateTime Head { get; }
 
         /// <summary>
-        /// Gets the last DateTime in the TimePeriod.
+        /// Gets the last DateTime in the ITimePeriod.
         /// </summary>
         public abstract DateTime Tail { get; }
 
         /// <summary>
-        /// Gets the <see cref="TimePeriod.Resolution"/> of price data stored within the TimePeriod.
+        /// Gets the <see cref="ITimePeriod.Resolution"/> of price data stored within the ITimePeriod.
         /// </summary>
         public virtual Resolution Resolution
         {

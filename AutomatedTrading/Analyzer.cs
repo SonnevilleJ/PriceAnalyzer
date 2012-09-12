@@ -5,8 +5,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
 {
     public abstract class Analyzer
     {
-        private TimePeriod _timePeriod;
-        public TimePeriod TimePeriod
+        private ITimePeriod _timePeriod;
+        public ITimePeriod TimePeriod
         {
             get { return _timePeriod; }
             set

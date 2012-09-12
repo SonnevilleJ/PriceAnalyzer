@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   Represents a basket of securities whose value changes over time.
     /// </summary>
-    public interface SecurityBasket : TimePeriod
+    public interface SecurityBasket : ITimePeriod
     {
         /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this SecurityBasket.

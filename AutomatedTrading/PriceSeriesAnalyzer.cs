@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         {
             if (!(TimePeriod is IPriceSeries))
             {
-                throw new InvalidOperationException("TimePeriod must be assigned a PriceSeries object.");
+                throw new InvalidOperationException("ITimePeriod must be assigned a PriceSeries object.");
             }
         }
 

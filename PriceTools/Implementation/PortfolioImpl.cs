@@ -30,20 +30,20 @@ namespace Sonneville.PriceTools.Implementation
 
         #endregion
 
-        #region Implementation of TimePeriod
+        #region Implementation of ITimePeriod
 
         /// <summary>
-        /// Gets a value stored at a given DateTime index of the TimePeriod.
+        /// Gets a value stored at a given DateTime index of the ITimePeriod.
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
-        /// <returns>The value of the TimePeriod as of the given DateTime.</returns>
+        /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
         public decimal this[DateTime dateTime]
         {
             get { return this.CalculateGrossProfit(dateTime); }
         }
 
         /// <summary>
-        /// Gets the first DateTime in the TimePeriod.
+        /// Gets the first DateTime in the ITimePeriod.
         /// </summary>
         public DateTime Head
         {
@@ -71,7 +71,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the last DateTime in the TimePeriod.
+        /// Gets the last DateTime in the ITimePeriod.
         /// </summary>
         public DateTime Tail
         {
@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the <see cref="TimePeriod.Resolution"/> of price data stored within the TimePeriod.
+        /// Gets the <see cref="ITimePeriod.Resolution"/> of price data stored within the ITimePeriod.
         /// </summary>
         public Resolution Resolution
         {
@@ -97,10 +97,10 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Determines if the TimePeriod has a valid value for a given date.
+        /// Determines if the ITimePeriod has a valid value for a given date.
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the TimePeriod has a valid value for the given date.</returns>
+        /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
             return settlementDate >= Head;
@@ -314,7 +314,7 @@ namespace Sonneville.PriceTools.Implementation
 
         private Position GetPosition(string ticker, bool nullAcceptable)
         {
-            var firstOrDefault = Positions.Where(p => p.Ticker == ticker).FirstOrDefault();
+            var firstOrDefault = Positions.FirstOrDefault(p => p.Ticker == ticker);
             return firstOrDefault == null && !nullAcceptable ? PositionFactory.CreatePosition(ticker) : firstOrDefault;
         }
 
