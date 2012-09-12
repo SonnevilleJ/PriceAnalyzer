@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
@@ -18,7 +17,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         protected DateTime StartDateTime { get; set; }
 
-        public PriceSeries PriceSeries { get; set; }
+        public IPriceSeries PriceSeries { get; set; }
 
         public TradingAccount TradingAccount { get; set; }
 

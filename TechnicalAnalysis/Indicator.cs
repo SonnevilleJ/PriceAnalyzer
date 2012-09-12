@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
@@ -23,7 +22,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         /// <param name="priceSeries">The <see cref="PriceSeries"/> to measure.</param>
         /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
-        protected Indicator(PriceSeries priceSeries, int lookback)
+        protected Indicator(IPriceSeries priceSeries, int lookback)
         {
             if (priceSeries == null)
             {
@@ -98,15 +97,15 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries.
         /// </summary>
         public IList<IPricePeriod> PricePeriods { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="PricePeriodImpl"/> stored at a given index.
+        /// Gets the <see cref="IPricePeriod"/> stored at a given index.
         /// </summary>
-        /// <param name="index">The index of the <see cref="PricePeriodImpl"/> to get.</param>
-        /// <returns>The <see cref="PricePeriodImpl"/> stored at the given index.</returns>
+        /// <param name="index">The index of the <see cref="IPricePeriod"/> to get.</param>
+        /// <returns>The <see cref="IPricePeriod"/> stored at the given index.</returns>
         public IPricePeriod this[int index]
         {
             get
@@ -116,32 +115,32 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
         /// </summary>
-        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this IPriceSeries.</returns>
         public IList<IPricePeriod> GetPricePeriods()
         {
             return GetPricePeriods(Resolution);
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
-        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
-        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
+        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the IPricePeriods.</param>
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this IPriceSeries.</returns>
         public IList<IPricePeriod> GetPricePeriods(Resolution resolution)
         {
             return GetPricePeriods(resolution, Head, Tail);
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
-        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
+        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the IPricePeriods.</param>
         /// <param name="head">The head of the periods to retrieve.</param>
         /// <param name="tail">The tail of the periods to retrieve.</param>
-        /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="PriceTools.PriceSeries.Resolution"/> of this PriceSeries.</exception>
-        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
+        /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="PriceTools.IPriceSeries.Resolution"/> of this IPriceSeries.</exception>
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this IPriceSeries.</returns>
         public IList<IPricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail)
         {
             throw new NotImplementedException();
@@ -174,7 +173,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
         /// </summary>
-        public PriceSeries PriceSeries { get; private set; }
+        public IPriceSeries PriceSeries { get; private set; }
 
         /// <summary>
         /// The Resolution of this Indicator.
@@ -239,10 +238,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Converts a DateTime to the index of the corresponding <see cref="PricePeriodImpl"/>.
+        /// Converts a DateTime to the index of the corresponding <see cref="IPricePeriod"/>.
         /// </summary>
-        /// <param name="dateTime">The <see cref="DateTime"/> corresponding to the <see cref="PricePeriodImpl"/> to index.</param>
-        /// <returns>The index of the corresponding <see cref="PricePeriodImpl"/>.</returns>
+        /// <param name="dateTime">The <see cref="DateTime"/> corresponding to the <see cref="IPricePeriod"/> to index.</param>
+        /// <returns>The index of the corresponding <see cref="IPricePeriod"/>.</returns>
         private int ConvertDateTimeToIndex(DateTime dateTime)
         {
             var periods = PriceSeries.GetPricePeriods().Where(period => period.Head <= dateTime).ToList();
@@ -252,7 +251,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Converts the index of the corresponding <see cref="PricePeriodImpl"/> to a DateTime.
+        /// Converts the index of the corresponding <see cref="IPricePeriod"/> to a DateTime.
         /// </summary>
         /// <param name="index">The index to convert.</param>
         /// <returns>The DateTime of the corresponding <paramref name="index"/>.</returns>

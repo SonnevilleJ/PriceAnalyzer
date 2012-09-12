@@ -1,4 +1,6 @@
-﻿namespace Sonneville.PriceTools.Test.Utilities
+﻿using Sonneville.PriceTools;
+
+namespace TestUtilities.Sonneville.PriceTools
 {
     public class WeeklyProvider : MockProvider
     {

@@ -9,7 +9,7 @@ namespace Program
     /// </summary>
     public partial class MainWindow
     {
-        private readonly PriceSeries _priceSeries = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
+        private readonly IPriceSeries _priceSeries = SamplePriceSeries.DE_1_1_2011_to_6_30_2011;
         
         public MainWindow()
         {

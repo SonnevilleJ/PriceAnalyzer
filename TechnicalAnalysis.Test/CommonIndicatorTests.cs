@@ -75,7 +75,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             Assert.AreEqual(expected, actual);
         }
 
-        private static PriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
+        private static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
         {
             var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             for (var i = 0; i < count; i++)

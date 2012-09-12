@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <summary>
         /// Gets a collection of reaction moves observed in the PriceSeries.
         /// </summary>
-        public static IEnumerable<ReactionMove> GetReactionMoves(this PriceSeries priceSeries)
+        public static IEnumerable<ReactionMove> GetReactionMoves(this IPriceSeries priceSeries)
         {
             if (priceSeries == null) throw new ArgumentNullException("priceSeries", Strings.PriceSeriesReactionMovesExtensions_GetReactionMoves_Parameter_priceSeries_cannot_be_null_);
 
@@ -65,7 +65,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <summary>
         /// Gets a collection of reaction highs observed in the PriceSeries.
         /// </summary>
-        public static IEnumerable<ReactionMove> GetReactionHighs(this PriceSeries priceSeries)
+        public static IEnumerable<ReactionMove> GetReactionHighs(this IPriceSeries priceSeries)
         {
             return priceSeries.GetReactionMoves().Where(rm => rm.HighLow == HighLow.High);
         }
@@ -73,7 +73,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <summary>
         /// Gets a collection of reaction lows observed in the PriceSeries.
         /// </summary>
-        public static IEnumerable<ReactionMove> GetReactionLows(this PriceSeries priceSeries)
+        public static IEnumerable<ReactionMove> GetReactionLows(this IPriceSeries priceSeries)
         {
             return priceSeries.GetReactionMoves().Where(rm => rm.HighLow == HighLow.Low);
         }

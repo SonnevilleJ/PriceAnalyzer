@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         #region Constructors
 
-        public Correlation(PriceSeries priceSeries, int lookback, TimePeriod target)
+        public Correlation(IPriceSeries priceSeries, int lookback, TimePeriod target)
             : base(priceSeries, lookback)
         {
             _target = target;

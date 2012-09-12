@@ -91,8 +91,8 @@ namespace Test.Sonneville.PriceTools
             series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
             series4.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
-            var list1 = new List<PriceSeries> { series1, series2 };
-            var list2 = new List<PriceSeries> { series3, series4 };
+            var list1 = new List<IPriceSeries> { series1, series2 };
+            var list2 = new List<IPriceSeries> { series3, series4 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -110,8 +110,8 @@ namespace Test.Sonneville.PriceTools
             series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
             series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
-            var list1 = new List<PriceSeries> { series1, series2 };
-            var list2 = new List<PriceSeries> { series3, series4 };
+            var list1 = new List<IPriceSeries> { series1, series2 };
+            var list2 = new List<IPriceSeries> { series3, series4 };
 
             CollectionAssert.AreEquivalent(list1, list2);
         }
@@ -132,8 +132,8 @@ namespace Test.Sonneville.PriceTools
             series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
             series5.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
-            var list1 = new List<PriceSeries> { series1, series2 };
-            var list2 = new List<PriceSeries> { series3, series4, series5 };
+            var list1 = new List<IPriceSeries> { series1, series2 };
+            var list2 = new List<IPriceSeries> { series3, series4, series5 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -150,8 +150,8 @@ namespace Test.Sonneville.PriceTools
             series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
             series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
-            var list1 = new List<PriceSeries> { series1, series2 };
-            var list2 = new List<PriceSeries> { series3 };
+            var list1 = new List<IPriceSeries> { series1, series2 };
+            var list2 = new List<IPriceSeries> { series3 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -169,8 +169,8 @@ namespace Test.Sonneville.PriceTools
             series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
             series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
-            var list1 = new List<PriceSeries> { series1, series2 };
-            var list2 = new List<PriceSeries> { series3, series4 };
+            var list1 = new List<IPriceSeries> { series1, series2 };
+            var list2 = new List<IPriceSeries> { series3, series4 };
 
             CollectionAssert.AreEquivalent(list1, list2);
         }
@@ -190,8 +190,8 @@ namespace Test.Sonneville.PriceTools
             series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
             series3.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
-            var list1 = new List<PriceSeries> { series1, series2 };
-            var list2 = new List<PriceSeries> { series3, series4 };
+            var list1 = new List<IPriceSeries> { series1, series2 };
+            var list2 = new List<IPriceSeries> { series3, series4 };
 
             Assert.IsFalse(list1.Equals(list2));
         }
@@ -209,8 +209,8 @@ namespace Test.Sonneville.PriceTools
             series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
             series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
-            var list1 = new List<PriceSeries> { series1, series2 };
-            var list2 = new List<PriceSeries> { series3, series4 };
+            var list1 = new List<IPriceSeries> { series1, series2 };
+            var list2 = new List<IPriceSeries> { series3, series4 };
 
             CollectionAssert.AreEqual(list1, list2);
         }
@@ -231,8 +231,8 @@ namespace Test.Sonneville.PriceTools
             series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
             series5.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
-            var list1 = new List<PriceSeries> { series1, series2 };
-            var list2 = new List<PriceSeries> { series3, series4, series5 };
+            var list1 = new List<IPriceSeries> { series1, series2 };
+            var list2 = new List<IPriceSeries> { series3, series4, series5 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }
@@ -249,8 +249,8 @@ namespace Test.Sonneville.PriceTools
             series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
             series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
-            var list1 = new List<PriceSeries> { series1, series2 };
-            var list2 = new List<PriceSeries> { series3 };
+            var list1 = new List<IPriceSeries> { series1, series2 };
+            var list2 = new List<IPriceSeries> { series3 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }
@@ -268,8 +268,8 @@ namespace Test.Sonneville.PriceTools
             series1.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
             series2.AddPriceData(PricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.GetFollowingClose(), 100));
 
-            var list1 = new List<PriceSeries> { series1, series2 };
-            var list2 = new List<PriceSeries> { series3, series4 };
+            var list1 = new List<IPriceSeries> { series1, series2 };
+            var list2 = new List<IPriceSeries> { series3, series4 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }

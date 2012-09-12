@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.Charting
 {
@@ -12,7 +11,7 @@ namespace Sonneville.PriceTools.Charting
     {
         #region Private Members
 
-        private PriceSeries _priceSeries;
+        private IPriceSeries _priceSeries;
 
         #endregion
 
@@ -103,9 +102,9 @@ namespace Sonneville.PriceTools.Charting
         public DateTime LastDisplayedPeriod { get; private set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="PriceTools.PriceSeries"/> containing the price data to be charted.
+        /// Gets or sets the <see cref="IPriceSeries"/> containing the price data to be charted.
         /// </summary>
-        public PriceSeries PriceSeries
+        public IPriceSeries PriceSeries
         {
             get { return _priceSeries; }
             set
@@ -262,7 +261,7 @@ namespace Sonneville.PriceTools.Charting
         #region Abstract/Virtual Methods
 
         /// <summary>
-        /// When overridden in a class, constructs a <see cref="PointCollection"/> from X,Y coordinate points which defines the visual shape of an <see cref="PricePeriodImpl"/>.
+        /// When overridden in a class, constructs a <see cref="PointCollection"/> from X,Y coordinate points which defines the visual shape of an <see cref="IPricePeriod"/>.
         /// The base implementation draws only the closing price, resulting in a line chart.
         /// </summary>
         /// <param name="left">The X coordinate of the left edge of the period.</param>
@@ -272,7 +271,7 @@ namespace Sonneville.PriceTools.Charting
         /// <param name="high">The Y coordinate of the period's highest price.</param>
         /// <param name="low">The Y coordinate of the period's lowest price.</param>
         /// <param name="close">The Y coordinate of the period's closing price.</param>
-        /// <returns>A <see cref="PointCollection"/> which defines the visual shape of an <see cref="PricePeriodImpl"/>.</returns>
+        /// <returns>A <see cref="PointCollection"/> which defines the visual shape of an <see cref="IPricePeriod"/>.</returns>
         protected virtual PointCollection GetPolylinePoints(double left, double center, double right, double open, double high, double low, double close)
         {
             return new PointCollection { new Point(center, close) };

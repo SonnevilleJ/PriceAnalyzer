@@ -1,6 +1,4 @@
-﻿using Sonneville.PriceTools.Implementation;
-
-namespace Sonneville.PriceTools.Data.Csv
+﻿namespace Sonneville.PriceTools.Data.Csv
 {
     /// <summary>
     /// Columns used in a price history CSV file.

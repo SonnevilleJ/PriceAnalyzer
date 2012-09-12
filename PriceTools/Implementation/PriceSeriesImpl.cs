@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.PriceTools.Implementation;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    public class PriceSeries : PricePeriodImpl, IEquatable<PriceSeries>, IPriceSeries
+    public class PriceSeriesImpl : PricePeriodImpl, IEquatable<PriceSeriesImpl>, IPriceSeries
     {
         /// <summary>
         /// The default <see cref="Resolution"/> of a PriceSeries.
@@ -31,7 +30,7 @@ namespace Sonneville.PriceTools
         /// Constructs a PriceSeries object.
         /// </summary>
         /// <param name="resolution"></param>
-        protected internal PriceSeries(Resolution resolution = DefaultResolution)
+        protected internal PriceSeriesImpl(Resolution resolution = DefaultResolution)
         {
             _resolution = resolution;
         }
@@ -320,7 +319,7 @@ namespace Sonneville.PriceTools
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(PriceSeries other)
+        public bool Equals(PriceSeriesImpl other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -340,7 +339,7 @@ namespace Sonneville.PriceTools
         /// <param name="obj">An object to compare with this object.</param>
         public override bool Equals(object obj)
         {
-            return Equals(obj as PriceSeries);
+            return Equals(obj as PriceSeriesImpl);
         }
 
         /// <summary>
@@ -364,7 +363,7 @@ namespace Sonneville.PriceTools
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(PriceSeries left, PriceSeries right)
+        public static bool operator ==(PriceSeriesImpl left, PriceSeriesImpl right)
         {
             return Equals(left, right);
         }
@@ -375,7 +374,7 @@ namespace Sonneville.PriceTools
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(PriceSeries left, PriceSeries right)
+        public static bool operator !=(PriceSeriesImpl left, PriceSeriesImpl right)
         {
             return !Equals(left, right);
         }

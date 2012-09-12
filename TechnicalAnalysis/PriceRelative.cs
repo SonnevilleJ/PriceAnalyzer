@@ -8,11 +8,11 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     public class PriceRelative : Indicator
     {
         /// <summary>
-        /// Constructs an Indicator for a given <see cref="PriceSeries"/>.
+        /// Constructs an Indicator for a given <see cref="IPriceSeries"/>.
         /// </summary>
-        /// <param name="priceSeries">The <see cref="PriceSeries"/> to measure.</param>
+        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to measure.</param>
         /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
-        public PriceRelative(PriceSeries priceSeries, int lookback) : base(priceSeries, lookback)
+        public PriceRelative(IPriceSeries priceSeries, int lookback) : base(priceSeries, lookback)
         {
         }
 

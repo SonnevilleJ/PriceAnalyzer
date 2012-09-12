@@ -6,15 +6,15 @@ namespace Sonneville.PriceTools.AutomatedTrading
     {
         protected override void ValidateTimeSeries()
         {
-            if (!(TimePeriod is PriceSeries))
+            if (!(TimePeriod is IPriceSeries))
             {
                 throw new InvalidOperationException("TimePeriod must be assigned a PriceSeries object.");
             }
         }
 
-        protected PriceSeries PriceSeries
+        protected IPriceSeries PriceSeries
         {
-            get { return (PriceSeries) TimePeriod; }
+            get { return (IPriceSeries) TimePeriod; }
         }
     }
 }

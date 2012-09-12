@@ -3,27 +3,26 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.Data
 {
     /// <summary>
-    ///   Provides price data for <see cref="PriceSeries"/>.
+    ///   Provides price data for <see cref="IPriceSeries"/>.
     /// </summary>
     public abstract class PriceDataProvider : IPriceDataProvider
     {
         #region Private Members
 
         private readonly object _syncroot = new object();
-        private readonly IDictionary<PriceSeries, CancellationTokenSource> _tokens = new Dictionary<PriceSeries, CancellationTokenSource>();
-        private readonly IDictionary<PriceSeries, Task> _tasks = new Dictionary<PriceSeries, Task>();
+        private readonly IDictionary<IPriceSeries, CancellationTokenSource> _tokens = new Dictionary<IPriceSeries, CancellationTokenSource>();
+        private readonly IDictionary<IPriceSeries, Task> _tasks = new Dictionary<IPriceSeries, Task>();
 
         #endregion
 
         #region Public Methods
 
         /// <summary>
-        /// Gets a list of <see cref="PricePeriodImpl"/>s containing price data for the requested DateTime range.
+        /// Gets a list of <see cref="IPricePeriod"/>s containing price data for the requested DateTime range.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
@@ -38,7 +37,7 @@ namespace Sonneville.PriceTools.Data
         /// Updates the <paramref name="priceSeries"/> with any missing price data.
         /// </summary>
         /// <param name="priceSeries"></param>
-        public void UpdatePriceSeries(PriceSeries priceSeries)
+        public void UpdatePriceSeries(IPriceSeries priceSeries)
         {
             var tail = DateTime.Now.GetMostRecentClose();
             var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.GetFollowingOpen() : tail.GetMostRecentOpen();
@@ -52,7 +51,7 @@ namespace Sonneville.PriceTools.Data
         /// <param name="priceSeries"></param>
         /// <param name="head"></param>
         /// <param name="tail"></param>
-        public void UpdatePriceSeries(PriceSeries priceSeries, DateTime head, DateTime tail)
+        public void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail)
         {
             UpdatePriceSeries(priceSeries, head, tail, priceSeries.Resolution);
         }
@@ -60,8 +59,8 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         /// Instructs the IPriceDataProvider to periodically update the price data in the <paramref name="priceSeries"/>.
         /// </summary>
-        /// <param name="priceSeries">The <see cref="PriceSeries"/> to update.</param>
-        public void StartAutoUpdate(PriceSeries priceSeries)
+        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to update.</param>
+        public void StartAutoUpdate(IPriceSeries priceSeries)
         {
             lock (_syncroot)
             {
@@ -82,8 +81,8 @@ namespace Sonneville.PriceTools.Data
         /// <summary>
         /// Instructs the IPriceDataProvider to stop periodically updating the price data in <paramref name="priceSeries"/>.
         /// </summary>
-        /// <param name="priceSeries">The <see cref="PriceSeries"/> to stop updating.</param>
-        public void StopAutoUpdate(PriceSeries priceSeries)
+        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to stop updating.</param>
+        public void StopAutoUpdate(IPriceSeries priceSeries)
         {
             CancellationTokenSource cts;
             if (_tokens.TryGetValue(priceSeries, out cts))
@@ -116,7 +115,7 @@ namespace Sonneville.PriceTools.Data
         /// </summary>
         /// <param name="priceSeries"></param>
         /// <param name="token"></param>
-        private void UpdateLoop(PriceSeries priceSeries, CancellationToken token)
+        private void UpdateLoop(IPriceSeries priceSeries, CancellationToken token)
         {
             var timeout = new TimeSpan((long) BestResolution);
             while (!token.IsCancellationRequested)
@@ -140,24 +139,24 @@ namespace Sonneville.PriceTools.Data
         public abstract Resolution BestResolution { get; }
 
         /// <summary>
-        /// Gets a list of <see cref="PricePeriodImpl"/>s containing price data for the requested DateTime range.
+        /// Gets a list of <see cref="IPricePeriod"/>s containing price data for the requested DateTime range.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriodImpl"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
         public abstract IEnumerable<IPricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
-        /// Gets a <see cref="PriceSeries"/> containing price history.
+        /// Gets a <see cref="IPriceSeries"/> containing price history.
         /// </summary>
         /// <param name="priceSeries"> </param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriodImpl"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
-        public abstract void UpdatePriceSeries(PriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution);
+        public abstract void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
         /// Gets the ticker symbol for a given stock index.

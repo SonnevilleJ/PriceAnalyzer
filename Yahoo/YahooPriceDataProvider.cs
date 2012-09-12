@@ -8,7 +8,7 @@ using Sonneville.PriceTools.Data.Csv;
 namespace Sonneville.PriceTools.Yahoo
 {
     /// <summary>
-    ///   Parses an <see cref = "PriceSeries" /> from Yahoo! CSV files.
+    ///   Parses an <see cref = "IPriceSeries" /> from Yahoo! CSV files.
     /// </summary>
     public sealed class YahooPriceDataProvider : CsvPriceDataProvider
     {

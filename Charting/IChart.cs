@@ -11,9 +11,9 @@ namespace Sonneville.PriceTools.Charting
         int StrokeThickness { get; set; }
 
         /// <summary>
-        /// Gets or sets the <see cref="PriceTools.PriceSeries"/> containing the price data to be charted.
+        /// Gets or sets the <see cref="IPriceSeries"/> containing the price data to be charted.
         /// </summary>
-        PriceSeries PriceSeries { get; set; }
+        IPriceSeries PriceSeries { get; set; }
 
         /// <summary>
         /// Gets or sets the space in period widths that should be placed between periods.

@@ -6,7 +6,7 @@ using Sonneville.PriceTools.Implementation;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   A <see cref="PricePeriodImpl"/> made from <see cref="PriceTicks"/>.
+    ///   A <see cref="IPricePeriod"/> made from <see cref="PriceTicks"/>.
     /// </summary>
     public abstract class TickedPricePeriod : PricePeriodImpl, IEquatable<TickedPricePeriod>
     {

@@ -6,7 +6,6 @@ using System.Linq;
 using System.Text;
 using LumenWorks.Framework.IO.Csv;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.Data.Csv
 {
@@ -55,7 +54,7 @@ namespace Sonneville.PriceTools.Data.Csv
         #region Public Properties
 
         /// <summary>
-        /// Gets a list of all <see cref="PricePeriodImpl"/>s in the file.
+        /// Gets a list of all <see cref="IPricePeriod"/>s in the file.
         /// </summary>
         public IList<IPricePeriod> PricePeriods { get; private set; }
         

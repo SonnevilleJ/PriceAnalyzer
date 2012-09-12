@@ -1,6 +1,4 @@
-﻿using Sonneville.PriceTools.Implementation;
-
-namespace Sonneville.PriceTools.AutomatedTrading
+﻿namespace Sonneville.PriceTools.AutomatedTrading
 {
     public class PriceUnderThresholdAnalyzer : PriceThresholdAnalyzer
     {

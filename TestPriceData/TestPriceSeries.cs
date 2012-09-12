@@ -2,7 +2,7 @@
 {
     public static class TestPriceSeries
     {
-        public static PriceSeries IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS
+        public static IPriceSeries IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS
         {
             get
             {
@@ -13,7 +13,7 @@
             }
         }
 
-        public static PriceSeries DE_1_1_2011_to_6_30_2011
+        public static IPriceSeries DE_1_1_2011_to_6_30_2011
         {
             get
             {
@@ -24,7 +24,7 @@
             }
         }
 
-        public static PriceSeries MSFT_Apr_June_2011_Weekly_Google
+        public static IPriceSeries MSFT_Apr_June_2011_Weekly_Google
         {
             get
             {

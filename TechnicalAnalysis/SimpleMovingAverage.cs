@@ -10,9 +10,9 @@
         /// <summary>
         ///   Constructs a new Simple Moving Average.
         /// </summary>
-        /// <param name = "priceSeries">The <see cref="PriceSeries"/> containing the data to be averaged.</param>
+        /// <param name = "priceSeries">The <see cref="IPriceSeries"/> containing the data to be averaged.</param>
         /// <param name = "range">The number of periods to average together.</param>
-        public SimpleMovingAverage(PriceSeries priceSeries, int range)
+        public SimpleMovingAverage(IPriceSeries priceSeries, int range)
             : base(priceSeries, range)
         {
         }

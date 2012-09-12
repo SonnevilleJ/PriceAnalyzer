@@ -1,10 +1,9 @@
 ﻿using System;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Contains event data for the <see cref="PricePeriodImpl.NewDataAvailable"/> event.
+    /// Contains event data for the <see cref="IPricePeriod.NewDataAvailable"/> event.
     /// </summary>
     public class NewDataAvailableEventArgs : EventArgs
     {

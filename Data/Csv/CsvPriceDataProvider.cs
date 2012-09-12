@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 using System.Text;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.Data.Csv
 {
@@ -15,12 +14,12 @@ namespace Sonneville.PriceTools.Data.Csv
         #region Overrides of PriceDataProvider
 
         /// <summary>
-        /// Gets a list of <see cref="PricePeriodImpl"/>s containing price data for the requested DateTime range.
+        /// Gets a list of <see cref="IPricePeriod"/>s containing price data for the requested DateTime range.
         /// </summary>
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriodImpl"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
         public override IEnumerable<IPricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
@@ -28,14 +27,14 @@ namespace Sonneville.PriceTools.Data.Csv
         }
 
         /// <summary>
-        /// Gets a <see cref="PriceSeries"/> containing price history.
+        /// Gets a <see cref="IPriceSeries"/> containing price history.
         /// </summary>
-        /// <param name="priceSeries">The <see cref="PriceSeries"/> containing price history to be updated.</param>
+        /// <param name="priceSeries">The <see cref="IPriceSeries"/> containing price history to be updated.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriodImpl"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
-        public override void UpdatePriceSeries(PriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
+        public override void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
         {
             priceSeries.AddPriceData(GetPriceData(priceSeries.Ticker, head, tail, resolution));
         }
@@ -135,7 +134,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="ticker">The ticker symbol to price.</param>
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriodImpl"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
         private PriceHistoryCsvFile GetPriceHistoryCsvFile(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
@@ -151,7 +150,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name = "ticker">The ticker symbol of the security to price.</param>
         /// <param name = "head">The beginning of the date range to price.</param>
         /// <param name = "tail">The end of the date range to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="PricePeriodImpl"/>s to retrieve.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <exception cref="WebException">Thrown when accessing the Internet fails.</exception>
         /// <returns>A <see cref = "Stream" /> containing the price data in CSV format.</returns>
         private Stream DownloadPricesToCsv(string ticker, DateTime head, DateTime tail, Resolution resolution)
