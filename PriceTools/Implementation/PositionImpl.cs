@@ -111,7 +111,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the first DateTime in the TimeSeries.
+        ///   Gets the first DateTime in the TimePeriod.
         /// </summary>
         public DateTime Head
         {
@@ -119,7 +119,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the last DateTime in the TimeSeries.
+        ///   Gets the last DateTime in the TimePeriod.
         /// </summary>
         public DateTime Tail
         {
@@ -127,7 +127,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the <see cref="TimeSeries.Resolution"/> of price data stored within the TimeSeries.
+        /// Gets the <see cref="TimePeriod.Resolution"/> of price data stored within the TimePeriod.
         /// </summary>
         public Resolution Resolution
         {
@@ -135,10 +135,10 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Determines if the TimeSeries has a valid value for a given date.
+        ///   Determines if the TimePeriod has a valid value for a given date.
         /// </summary>
         /// <param name = "settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the TimeSeries has a valid value for the given date.</returns>
+        /// <returns>A value indicating if the TimePeriod has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
             return settlementDate >= Head;

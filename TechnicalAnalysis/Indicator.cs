@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
     /// <summary>
-    /// A generic indicator used to transform <see cref="PriceTools.TimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying TimeSeries data.
+    /// A generic indicator used to transform <see cref="PriceTools.TimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying data series.
     /// </summary>
-    public abstract class Indicator : PriceSeries, IIndicator
+    public abstract class Indicator : IIndicator
     {
         /// <summary>
         /// Stores the calculated values for each period. These values are publically accessible through the <see cref="Indicator"/> indexer.
@@ -44,7 +45,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Gets the first DateTime in the Indicator.
         /// </summary>
-        public override DateTime Head
+        public virtual DateTime Head
         {
             get { return PriceSeries[Lookback - 1].Head; }
         }
@@ -52,7 +53,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Gets the last DateTime in the Indicator.
         /// </summary>
-        public override DateTime Tail
+        public virtual DateTime Tail
         {
             get { return PriceSeries.Tail; }
         }
@@ -80,14 +81,18 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// Gets the value stored at a given index of this Indicator.
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
-        /// <returns>THe value of the TimeSeries as of the given DateTime.</returns>
-        public override decimal this[DateTime dateTime]
+        /// <returns>The value of the TimePeriod as of the given DateTime.</returns>
+        public decimal this[DateTime dateTime]
         {
             get
             {
                 var i = ConvertDateTimeToIndex(dateTime);
                 if (!Results.ContainsKey(i)) CalculateAndCache(dateTime);
-                return Results[i].Value;
+                var value = Results[i];
+                if (value == null)
+                    throw new InvalidOperationException(String.Format("Unable to calculate value for DateTime: {0}",
+                                                                      dateTime.ToString(CultureInfo.CurrentCulture)));
+                return value.Value;
             }
         }
 
@@ -96,7 +101,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         /// <param name="index">The index of the <see cref="PricePeriod"/> to get.</param>
         /// <returns>The <see cref="PricePeriod"/> stored at the given index.</returns>
-        public override PricePeriod this[int index]
+        public PricePeriod this[int index]
         {
             get
             {
@@ -118,7 +123,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The Resolution of this Indicator.
         /// </summary>
-        public override Resolution Resolution { get { return PriceSeries.Resolution; } }
+        public Resolution Resolution { get { return PriceSeries.Resolution; } }
 
         /// <summary>
         /// Determines if the Indicator has a valid value for a given date.
@@ -126,7 +131,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <remarks>Assumes the Indicator has a valid value for every date of the underlying PriceSeries.</remarks>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the Indicator has a valid value for the given date.</returns>
-        public override bool HasValueInRange(DateTime settlementDate)
+        public bool HasValueInRange(DateTime settlementDate)
         {
             return (settlementDate >= Head && settlementDate <= Tail);
         }
@@ -184,9 +189,9 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns>The index of the corresponding <see cref="PricePeriod"/>.</returns>
         private int ConvertDateTimeToIndex(DateTime dateTime)
         {
-            var periods = PriceSeries.GetPricePeriods().Where(period => period.Head <= dateTime);
-            if (periods.Count() < 1)
-                throw new ArgumentOutOfRangeException(String.Format("The underlying TimeSeries does not have a value for DateTime: {0}.", dateTime));
+            var periods = PriceSeries.GetPricePeriods().Where(period => period.Head <= dateTime).ToList();
+            if (!periods.Any())
+                throw new ArgumentOutOfRangeException(String.Format("The underlying TimePeriod does not have a value for DateTime: {0}.", dateTime));
             return PriceSeries.GetPricePeriods().IndexOf(periods.Last());
         }
 

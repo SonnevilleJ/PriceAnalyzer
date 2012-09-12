@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    public class PriceSeries : PricePeriod, IEquatable<PriceSeries>
+    public class PriceSeries : PricePeriod, IEquatable<PriceSeries>, IPriceSeries
     {
         /// <summary>
         /// The default <see cref="Resolution"/> of a PriceSeries.

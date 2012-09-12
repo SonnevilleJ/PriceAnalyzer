@@ -30,15 +30,15 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var head = new DateTime(2011, 7, 1);
             var tail = head;
             const decimal close = 5.0m;
-            TimeSeries period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            TimePeriod period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
-            new HigherThanYesterdayAnalyzer {TimeSeries = period};
+            new HigherThanYesterdayAnalyzer {TimePeriod = period};
         }
 
         [TestMethod]
         public void PriceOverThresholdAnalyzerTest()
         {
-            Analyzer target = new PriceOverThresholdAnalyzer {TimeSeries = _priceSeries, Threshold = 99.0m};
+            Analyzer target = new PriceOverThresholdAnalyzer {TimePeriod = _priceSeries, Threshold = 99.0m};
             var days = new List<DateTime> {new DateTime(2011, 4, 1), new DateTime(2011, 4, 4), new DateTime(2011, 4, 5)};
             RunAnalyzerTest(target, days);
         }
@@ -46,7 +46,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void PriceUnderThresholdAnalyzerTest()
         {
-            Analyzer target = new PriceUnderThresholdAnalyzer {TimeSeries = _priceSeries, Threshold = 79.0m};
+            Analyzer target = new PriceUnderThresholdAnalyzer {TimePeriod = _priceSeries, Threshold = 79.0m};
             var days = new List<DateTime> {new DateTime(2011, 6, 16), new DateTime(2011, 6, 17), new DateTime(2011, 6, 20), new DateTime(2011, 6, 23)};
             RunAnalyzerTest(target, days);
         }
@@ -54,7 +54,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void HigherThanYesterdayAnalyzerTest()
         {
-            Analyzer target = new HigherThanYesterdayAnalyzer {TimeSeries = _priceSeries};
+            Analyzer target = new HigherThanYesterdayAnalyzer {TimePeriod = _priceSeries};
             #region Days
             var days = new List<DateTime>
                            {
@@ -127,7 +127,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void LowerThanYesterdayAnalyzerTest()
         {
-            Analyzer target = new LowerThanYesterdayAnalyzer { TimeSeries = _priceSeries };
+            Analyzer target = new LowerThanYesterdayAnalyzer { TimePeriod = _priceSeries };
             #region Days
 
             var days = new List<DateTime>

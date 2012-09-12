@@ -27,7 +27,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the first DateTime in the TimeSeries.
+        ///   Gets the first DateTime in the TimePeriod.
         /// </summary>
         public override DateTime Head
         {
@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the last DateTime in the TimeSeries.
+        ///   Gets the last DateTime in the TimePeriod.
         /// </summary>
         public override DateTime Tail
         {
@@ -104,7 +104,7 @@ namespace Sonneville.PriceTools.Implementation
         ///   Gets a value stored at a given DateTime index of the PricePeriod.
         /// </summary>
         /// <param name = "dateTime">The DateTime of the desired value.</param>
-        /// <returns>The value of the TimeSeries as of the given DateTime.</returns>
+        /// <returns>The value of the TimePeriod as of the given DateTime.</returns>
         public override decimal this[DateTime dateTime]
         {
             get { return PriceTicks.Where(q => q.SettlementDate <= dateTime).Last().Price; }

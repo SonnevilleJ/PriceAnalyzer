@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    public abstract class PricePeriod : TimeSeries, IEquatable<PricePeriod>
+    public abstract class PricePeriod : TimePeriod, IEquatable<PricePeriod>, IPricePeriod
     {
         /// <summary>
         /// Gets the closing price for the PricePeriod.
@@ -34,24 +34,24 @@ namespace Sonneville.PriceTools
         public abstract long? Volume { get; }
 
         /// <summary>
-        /// Gets a value stored at a given DateTime index of the TimeSeries.
+        /// Gets a value stored at a given DateTime index of the TimePeriod.
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
-        /// <returns>The value of the TimeSeries as of the given DateTime.</returns>
+        /// <returns>The value of the TimePeriod as of the given DateTime.</returns>
         public abstract decimal this[DateTime dateTime] { get; }
 
         /// <summary>
-        /// Gets the first DateTime in the TimeSeries.
+        /// Gets the first DateTime in the TimePeriod.
         /// </summary>
         public abstract DateTime Head { get; }
 
         /// <summary>
-        /// Gets the last DateTime in the TimeSeries.
+        /// Gets the last DateTime in the TimePeriod.
         /// </summary>
         public abstract DateTime Tail { get; }
 
         /// <summary>
-        /// Gets the <see cref="TimeSeries.Resolution"/> of price data stored within the TimeSeries.
+        /// Gets the <see cref="TimePeriod.Resolution"/> of price data stored within the TimePeriod.
         /// </summary>
         public virtual Resolution Resolution
         {

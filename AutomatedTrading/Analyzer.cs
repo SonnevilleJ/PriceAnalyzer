@@ -5,13 +5,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
 {
     public abstract class Analyzer
     {
-        private TimeSeries _timeSeries;
-        public TimeSeries TimeSeries
+        private TimePeriod _timePeriod;
+        public TimePeriod TimePeriod
         {
-            get { return _timeSeries; }
+            get { return _timePeriod; }
             set
             {
-                _timeSeries = value;
+                _timePeriod = value;
                 ValidateTimeSeries();
             }
         }
