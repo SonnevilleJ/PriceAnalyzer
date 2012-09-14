@@ -99,7 +99,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries.
         /// </summary>
-        public IList<IPricePeriod> PricePeriods { get; private set; }
+        public IList<IPricePeriod> PricePeriods
+        {
+            get { return new List<IPricePeriod>(); }
+        }
 
         /// <summary>
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
