@@ -95,7 +95,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
         /// </summary>
-        public IList<ITimePeriod> TimePeriods
+        public IEnumerable<ITimePeriod> TimePeriods
         {
             get { return PricePeriods.Cast<ITimePeriod>().ToList(); }
         }
@@ -114,7 +114,7 @@ namespace Sonneville.PriceTools.Implementation
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
         /// </summary>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IList<ITimePeriod> GetTimePeriods()
+        public IEnumerable<ITimePeriod> GetTimePeriods()
         {
             return GetPricePeriods().Cast<ITimePeriod>().ToList();
         }
@@ -124,7 +124,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IList<ITimePeriod> GetTimePeriods(Resolution resolution)
+        public IEnumerable<ITimePeriod> GetTimePeriods(Resolution resolution)
         {
             return GetPricePeriods(resolution).Cast<ITimePeriod>().ToList();
         }
@@ -137,7 +137,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="tail">The tail of the periods to retrieve.</param>
         /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="ITimeSeries.Resolution"/> of this TimeSeries.</exception>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IList<ITimePeriod> GetTimePeriods(Resolution resolution, DateTime head, DateTime tail)
+        public IEnumerable<ITimePeriod> GetTimePeriods(Resolution resolution, DateTime head, DateTime tail)
         {
             return GetPricePeriods(resolution, head, tail).Cast<ITimePeriod>().ToList();
         }

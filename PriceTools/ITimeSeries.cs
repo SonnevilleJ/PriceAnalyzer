@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
         /// </summary>
-        IList<ITimePeriod> TimePeriods { get; }
+        IEnumerable<ITimePeriod> TimePeriods { get; }
 
         /// <summary>
         /// Gets the <see cref="ITimePeriod"/> stored at a given index.
@@ -24,14 +24,14 @@ namespace Sonneville.PriceTools
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
         /// </summary>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        IList<ITimePeriod> GetTimePeriods();
+        IEnumerable<ITimePeriod> GetTimePeriods();
 
         /// <summary>
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        IList<ITimePeriod> GetTimePeriods(Resolution resolution);
+        IEnumerable<ITimePeriod> GetTimePeriods(Resolution resolution);
 
         /// <summary>
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries, in a specified <see cref="PriceTools.Resolution"/>.
@@ -41,18 +41,6 @@ namespace Sonneville.PriceTools
         /// <param name="tail">The tail of the periods to retrieve.</param>
         /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="ITimeSeries.Resolution"/> of this TimeSeries.</exception>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        IList<ITimePeriod> GetTimePeriods(Resolution resolution, DateTime head, DateTime tail);
-
-        /// <summary>
-        /// Adds Time data to the TimeSeries.
-        /// </summary>
-        /// <param name="timePeriod"></param>
-        void AddTimeData(ITimePeriod timePeriod);
-
-        /// <summary>
-        /// Adds Time data to the TimeSeries.
-        /// </summary>
-        /// <param name="timePeriods"></param>
-        void AddTimeData(IEnumerable<ITimePeriod> timePeriods);
+        IEnumerable<ITimePeriod> GetTimePeriods(Resolution resolution, DateTime head, DateTime tail);
     }
 }

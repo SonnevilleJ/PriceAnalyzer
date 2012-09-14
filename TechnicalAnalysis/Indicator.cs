@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries.
         /// </summary>
-        public IList<ITimePeriod> TimePeriods
+        public IEnumerable<ITimePeriod> TimePeriods
         {
             get { return new List<ITimePeriod>(); }
         }
@@ -118,7 +118,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
         /// </summary>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IList<ITimePeriod> GetTimePeriods()
+        public IEnumerable<ITimePeriod> GetTimePeriods()
         {
             return GetTimePeriods(Resolution);
         }
@@ -128,7 +128,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IList<ITimePeriod> GetTimePeriods(Resolution resolution)
+        public IEnumerable<ITimePeriod> GetTimePeriods(Resolution resolution)
         {
             return GetTimePeriods(resolution, Head, Tail);
         }
@@ -141,7 +141,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="tail">The tail of the periods to retrieve.</param>
         /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="ITimeSeries.Resolution"/> of this TimeSeries.</exception>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IList<ITimePeriod> GetTimePeriods(Resolution resolution, DateTime head, DateTime tail)
+        public IEnumerable<ITimePeriod> GetTimePeriods(Resolution resolution, DateTime head, DateTime tail)
         {
             throw new NotSupportedException();
         }

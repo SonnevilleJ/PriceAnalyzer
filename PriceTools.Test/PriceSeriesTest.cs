@@ -759,19 +759,5 @@ namespace Test.Sonneville.PriceTools
 
             CollectionAssert.AreEquivalent(target.GetPricePeriods(resolution, head, tail).Cast<ITimePeriod>().ToList(), target.GetTimePeriods(resolution, head, tail).ToList());
         }
-
-        [TestMethod]
-        public void AddTimeDataValidDataTest()
-        {
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
-            var head = new DateTime(2011, 12, 28);
-            var tail = head.GetFollowingClose();
-            const decimal close = 5.00m;
-            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-
-            target.AddTimeData(period);
-
-            Assert.IsTrue(target.PricePeriods.Contains(period));
-        }
     }
 }
