@@ -99,17 +99,9 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries.
         /// </summary>
-        public IList<IPricePeriod> PricePeriods
-        {
-            get { return new List<IPricePeriod>(); }
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
-        /// </summary>
         public IList<ITimePeriod> TimePeriods
         {
-            get { return PricePeriods.Cast<ITimePeriod>().ToList(); }
+            get { return new List<ITimePeriod>(); }
         }
 
         /// <summary>
@@ -128,7 +120,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
         public IList<ITimePeriod> GetTimePeriods()
         {
-            return GetPricePeriods().Cast<ITimePeriod>().ToList();
+            return GetTimePeriods(Resolution);
         }
 
         /// <summary>
@@ -138,7 +130,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
         public IList<ITimePeriod> GetTimePeriods(Resolution resolution)
         {
-            return GetPricePeriods(resolution).Cast<ITimePeriod>().ToList();
+            return GetTimePeriods(resolution, Head, Tail);
         }
 
         /// <summary>
@@ -151,7 +143,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
         public IList<ITimePeriod> GetTimePeriods(Resolution resolution, DateTime head, DateTime tail)
         {
-            return GetPricePeriods(resolution, head, tail).Cast<ITimePeriod>().ToList();
+            throw new NotSupportedException();
         }
 
         /// <summary>
@@ -160,7 +152,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="timePeriod"></param>
         public void AddTimeData(ITimePeriod timePeriod)
         {
-            AddPriceData(timePeriod as IPricePeriod);
         }
 
         /// <summary>
@@ -169,7 +160,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="timePeriods"></param>
         public void AddTimeData(IEnumerable<ITimePeriod> timePeriods)
         {
-            AddPriceData(timePeriods.Cast<IPricePeriod>());
         }
 
         /// <summary>
@@ -183,56 +173,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             {
                 return PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(ConvertIndexToDateTime(index), IndexedPriceSeriesValues[index]));
             }
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries.
-        /// </summary>
-        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this IPriceSeries.</returns>
-        public IList<IPricePeriod> GetPricePeriods()
-        {
-            return GetPricePeriods(Resolution);
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
-        /// </summary>
-        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the IPricePeriods.</param>
-        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this IPriceSeries.</returns>
-        public IList<IPricePeriod> GetPricePeriods(Resolution resolution)
-        {
-            return GetPricePeriods(resolution, Head, Tail);
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="IPricePeriod"/>s in this IPriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
-        /// </summary>
-        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the IPricePeriods.</param>
-        /// <param name="head">The head of the periods to retrieve.</param>
-        /// <param name="tail">The tail of the periods to retrieve.</param>
-        /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="PriceTools.IPriceSeries.Resolution"/> of this IPriceSeries.</exception>
-        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this IPriceSeries.</returns>
-        public IList<IPricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail)
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Adds price data to the PriceSeries.
-        /// </summary>
-        /// <param name="pricePeriod"></param>
-        public void AddPriceData(IPricePeriod pricePeriod)
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
-        /// Adds price data to the PriceSeries.
-        /// </summary>
-        /// <param name="pricePeriods"></param>
-        public void AddPriceData(IEnumerable<IPricePeriod> pricePeriods)
-        {
-            throw new NotSupportedException();
         }
 
         /// <summary>
