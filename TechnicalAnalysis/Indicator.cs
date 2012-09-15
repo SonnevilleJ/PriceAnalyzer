@@ -147,22 +147,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Adds Time data to the TimeSeries.
-        /// </summary>
-        /// <param name="timePeriod"></param>
-        public void AddTimeData(ITimePeriod timePeriod)
-        {
-        }
-
-        /// <summary>
-        /// Adds Time data to the TimeSeries.
-        /// </summary>
-        /// <param name="timePeriods"></param>
-        public void AddTimeData(IEnumerable<ITimePeriod> timePeriods)
-        {
-        }
-
-        /// <summary>
         /// Gets the <see cref="IPricePeriod"/> stored at a given index.
         /// </summary>
         /// <param name="index">The index of the <see cref="IPricePeriod"/> to get.</param>
