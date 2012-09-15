@@ -107,7 +107,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
         public override decimal this[DateTime dateTime]
         {
-            get { return PriceTicks.Where(q => q.SettlementDate <= dateTime).Last().Price; }
+            get { return PriceTicks.Last(q => q.SettlementDate <= dateTime).Price; }
         }
 
         #endregion
