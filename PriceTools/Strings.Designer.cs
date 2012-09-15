@@ -276,6 +276,15 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Period&apos;s head must come before tail..
+        /// </summary>
+        internal static string SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_ {
+            get {
+                return ResourceManager.GetString("SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Closing price cannot be higher than High price..
         /// </summary>
         internal static string StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_higher_than_High_price_ {

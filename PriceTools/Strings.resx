@@ -222,4 +222,7 @@
 	<data name="PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_providing_periods_of_resolution__0__or_better_">
 		<value xml:space="preserve">Provider must be capable of providing periods of resolution {0} or better.</value>
 	</data>
+    <data name="SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_">
+        <value xml:space="preserve">Period's head must come before tail.</value>
+    </data>
 </root>

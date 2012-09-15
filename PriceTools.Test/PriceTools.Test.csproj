@@ -62,6 +62,7 @@
     <Compile Include="PriceSeriesEqualityTests.cs" />
     <Compile Include="PriceSeriesTest.cs" />
     <Compile Include="ReactionMovesTest.cs" />
+    <Compile Include="SimplePeriodFactoryTest.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="TickedPricePeriodEqualityTests.cs" />
     <Compile Include="TransactionEqualityTests.cs" />

@@ -60,11 +60,13 @@
     <Compile Include="Factories\CashAccountFactory.cs" />
     <Compile Include="Factories\PortfolioFactory.cs" />
     <Compile Include="Factories\PriceTickFactory.cs" />
+    <Compile Include="Factories\TimePeriodFactory.cs" />
     <Compile Include="HoldingExtensions.cs" />
     <Compile Include="Implementation\CashAccountImpl.cs" />
     <Compile Include="Data\TransactionHistory.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
+    <Compile Include="Implementation\SimplePeriodImpl.cs" />
     <Compile Include="Implementation\TickedPricePeriodImpl.cs" />
     <Compile Include="IPricePeriod.cs" />
     <Compile Include="IPriceSeries.cs" />
