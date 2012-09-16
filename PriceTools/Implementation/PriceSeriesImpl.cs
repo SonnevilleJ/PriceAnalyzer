@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    public class PriceSeriesImpl : PricePeriodImpl, IEquatable<PriceSeriesImpl>, IPriceSeries
+    internal class PriceSeriesImpl : PricePeriodImpl, IEquatable<PriceSeriesImpl>, IPriceSeries
     {
         /// <summary>
         /// The default <see cref="Resolution"/> of a PriceSeries.
@@ -143,29 +143,11 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Adds Time data to the TimeSeries.
-        /// </summary>
-        /// <param name="timePeriod"></param>
-        public void AddTimeData(ITimePeriod timePeriod)
-        {
-            AddPriceData((IPricePeriod) timePeriod);
-        }
-
-        /// <summary>
-        /// Adds Time data to the TimeSeries.
-        /// </summary>
-        /// <param name="timePeriods"></param>
-        public void AddTimeData(IEnumerable<ITimePeriod> timePeriods)
-        {
-            AddPriceData(timePeriods.Cast<IPricePeriod>());
-        }
-
-        /// <summary>
         /// Gets the <see cref="PricePeriodImpl"/> stored at a given index.
         /// </summary>
         /// <param name="index">The index of the <see cref="PricePeriodImpl"/> to get.</param>
         /// <returns>The <see cref="PricePeriodImpl"/> stored at the given index.</returns>
-        public virtual IPricePeriod this[int index]
+        public IPricePeriod this[int index]
         {
             get { return PricePeriods[index]; }
         }

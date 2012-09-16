@@ -45,6 +45,18 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         }
 
         [TestMethod]
+        public void CalculateAllDoesNotThrow()
+        {
+            var date = new DateTime(2011, 3, 1);
+            var priceSeries = CreateTestPriceSeries(10, date, 1);
+            const int lookback = 4;
+
+            var target = new SimpleMovingAverage(priceSeries, lookback);
+
+            target.CalculateAll();
+        }
+
+        [TestMethod]
         public void IndexerTest1()
         {
             var date = new DateTime(2011, 3, 1);
