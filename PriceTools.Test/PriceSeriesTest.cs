@@ -312,7 +312,7 @@ namespace Test.Sonneville.PriceTools
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), head, tail).PricePeriods);
 
-            var pricePeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
+            var pricePeriods = priceSeries.ResizePricePeriods(Resolution.Weeks);
 
             Assert.AreEqual(26, pricePeriods.Count());
         }
@@ -325,8 +325,8 @@ namespace Test.Sonneville.PriceTools
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
 
-            var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days).ToArray();
-            var weeklyPeriods = priceSeries.GetPricePeriods(Resolution.Weeks).ToArray();
+            var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
+            var weeklyPeriods = priceSeries.ResizePricePeriods(Resolution.Weeks).ToArray();
 
             var weekHead = seriesHead.CurrentPeriodOpen(Resolution.Weeks);
             var weekTail = seriesHead.CurrentPeriodClose(Resolution.Weeks);
@@ -365,8 +365,8 @@ namespace Test.Sonneville.PriceTools
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
 
-            var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days).ToArray();
-            var monthlyPeriods = priceSeries.GetPricePeriods(Resolution.Months).ToArray();
+            var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
+            var monthlyPeriods = priceSeries.ResizePricePeriods(Resolution.Months).ToArray();
 
             var monthHead = seriesHead.CurrentPeriodOpen(Resolution.Months);
             var monthTail = seriesHead.CurrentPeriodClose(Resolution.Months);
@@ -416,7 +416,7 @@ namespace Test.Sonneville.PriceTools
         public void GetDailyPeriodsFromWeeklyPeriodsTest()
         {
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker(), Resolution.Weeks);
-            priceSeries.GetPricePeriods(Resolution.Days);
+            priceSeries.ResizePricePeriods(Resolution.Days);
         }
 
         /// <summary>
@@ -729,35 +729,27 @@ namespace Test.Sonneville.PriceTools
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
 
-            CollectionAssert.AreEquivalent(target.PricePeriods.Cast<ITimePeriod>().ToList(), target.GetTimePeriods().ToList());
+            CollectionAssert.AreEquivalent(target.PricePeriods.Cast<ITimePeriod>().ToList(), target.TimePeriods.ToList());
         }
 
         [TestMethod]
-        public void GetTimePeriods1Test()
-        {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-
-            CollectionAssert.AreEquivalent(target.GetPricePeriods().Cast<ITimePeriod>().ToList(), target.GetTimePeriods().ToList());
-        }
-
-        [TestMethod]
-        public void GetTimePeriods2Test()
+        public void ResizeTimePeriods1Test()
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
             var resolution = target.Resolution;
 
-            CollectionAssert.AreEquivalent(target.GetPricePeriods(resolution).Cast<ITimePeriod>().ToList(), target.GetTimePeriods(resolution).ToList());
+            CollectionAssert.AreEquivalent(target.ResizePricePeriods(resolution).Cast<ITimePeriod>().ToList(), target.ResizeTimePeriods(resolution).ToList());
         }
 
         [TestMethod]
-        public void GetTimePeriods3Test()
+        public void ResizeTimePeriods2Test()
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
             var resolution = target.Resolution;
             var head = target.Head;
             var tail = target.Tail;
 
-            CollectionAssert.AreEquivalent(target.GetPricePeriods(resolution, head, tail).Cast<ITimePeriod>().ToList(), target.GetTimePeriods(resolution, head, tail).ToList());
+            CollectionAssert.AreEquivalent(target.ResizePricePeriods(resolution, head, tail).Cast<ITimePeriod>().ToList(), target.ResizeTimePeriods(resolution, head, tail).ToList());
         }
     }
 }

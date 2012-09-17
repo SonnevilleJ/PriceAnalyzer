@@ -74,7 +74,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         private void Execute(CancellationToken token)
         {
-            _pricePeriods = PriceSeries.GetPricePeriods(PriceSeries.Resolution, StartDateTime, DateTime.Now).ToArray();
+            _pricePeriods = PriceSeries.ResizePricePeriods(PriceSeries.Resolution, StartDateTime, DateTime.Now).ToArray();
 
             for (var i = 0; i < _pricePeriods.Count; i++)
             {

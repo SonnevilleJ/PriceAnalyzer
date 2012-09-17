@@ -170,7 +170,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             IndexedPriceSeriesValues = new Dictionary<int, decimal>();
 
-            var array = PriceSeries.GetPricePeriods().ToList();
+            var array = PriceSeries.PricePeriods.ToList();
             for (var i = 0; i < array.Count; i++)
             {
                 IndexedPriceSeriesValues.Add(i, array[i].Close);
@@ -197,10 +197,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns>The index of the corresponding <see cref="IPricePeriod"/>.</returns>
         private int ConvertDateTimeToIndex(DateTime dateTime)
         {
-            var periods = PriceSeries.GetPricePeriods().Where(period => period.Head <= dateTime).ToList();
+            var periods = PriceSeries.PricePeriods.Where(period => period.Head <= dateTime).ToList();
             if (!periods.Any())
                 throw new ArgumentOutOfRangeException(String.Format("The underlying ITimePeriod does not have a value for DateTime: {0}.", dateTime));
-            return PriceSeries.GetPricePeriods().ToList().IndexOf(periods.Last());
+            return PriceSeries.PricePeriods.ToList().IndexOf(periods.Last());
         }
 
         /// <summary>

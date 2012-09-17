@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.Extensions;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -14,23 +13,14 @@ namespace Sonneville.PriceTools
         #region TimeSeries Extensions
 
         /// <summary>
-        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
-        /// </summary>
-        /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public static IEnumerable<ITimePeriod> GetTimePeriods(this ITimeSeries timeSeries)
-        {
-            return timeSeries.GetTimePeriods(timeSeries.Resolution);
-        }
-
-        /// <summary>
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="timeSeries"></param>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public static IEnumerable<ITimePeriod> GetTimePeriods(this ITimeSeries timeSeries, Resolution resolution)
+        public static IEnumerable<ITimePeriod> ResizeTimePeriods(this ITimeSeries timeSeries, Resolution resolution)
         {
-            if (timeSeries.TimePeriods.Any()) return timeSeries.GetTimePeriods(resolution, timeSeries.Head, timeSeries.Tail);
+            if (timeSeries.TimePeriods.Any()) return timeSeries.ResizeTimePeriods(resolution, timeSeries.Head, timeSeries.Tail);
             if (resolution < timeSeries.Resolution)
                 throw new InvalidOperationException(
                     String.Format(
@@ -48,11 +38,11 @@ namespace Sonneville.PriceTools
         /// <param name="tail">The tail of the periods to retrieve.</param>
         /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this TimeSeries.</exception>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public static IEnumerable<ITimePeriod> GetTimePeriods(this ITimeSeries timeSeries, Resolution resolution, DateTime head, DateTime tail)
+        public static IEnumerable<ITimePeriod> ResizeTimePeriods(this ITimeSeries timeSeries, Resolution resolution, DateTime head, DateTime tail)
         {
             // defer to child object
             var priceSeries = timeSeries as IPriceSeries;
-            if (priceSeries != null) return priceSeries.GetPricePeriods(resolution, head, tail);
+            if (priceSeries != null) return priceSeries.ResizePricePeriods(resolution, head, tail);
 
             if (resolution < timeSeries.Resolution)
                 throw new InvalidOperationException(
@@ -77,23 +67,14 @@ namespace Sonneville.PriceTools
         #region PriceSeries Extensions
 
         /// <summary>
-        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries.
-        /// </summary>
-        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
-        public static IEnumerable<IPricePeriod> GetPricePeriods(this IPriceSeries priceSeries)
-        {
-            return priceSeries.GetPricePeriods(priceSeries.Resolution);
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="priceSeries"></param>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
-        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
-        public static IEnumerable<IPricePeriod> GetPricePeriods(this IPriceSeries priceSeries, Resolution resolution)
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
+        public static IEnumerable<IPricePeriod> ResizePricePeriods(this IPriceSeries priceSeries, Resolution resolution)
         {
-            if (priceSeries.PricePeriods.Count > 0) return priceSeries.GetPricePeriods(resolution, priceSeries.Head, priceSeries.Tail);
+            if (priceSeries.PricePeriods.Count > 0) return priceSeries.ResizePricePeriods(resolution, priceSeries.Head, priceSeries.Tail);
             if (resolution < priceSeries.Resolution)
                 throw new InvalidOperationException(
                     String.Format(Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__,
@@ -102,15 +83,15 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="priceSeries"></param>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
         /// <param name="head">The head of the periods to retrieve.</param>
         /// <param name="tail">The tail of the periods to retrieve.</param>
         /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this PriceSeries.</exception>
-        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
-        public static IEnumerable<IPricePeriod> GetPricePeriods(this IPriceSeries priceSeries, Resolution resolution, DateTime head, DateTime tail)
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
+        public static IEnumerable<IPricePeriod> ResizePricePeriods(this IPriceSeries priceSeries, Resolution resolution, DateTime head, DateTime tail)
         {
             if (resolution < priceSeries.Resolution)
                 throw new InvalidOperationException(
