@@ -59,7 +59,16 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime CurrentPeriodClose(this DateTime dateTime, Resolution resolution)
         {
-            return dateTime.CurrentPeriodOpen(resolution).AddTicks(-1 + (long) resolution);
+            if (resolution < ((Resolution)(4 * (long)Resolution.Weeks)))
+            {
+                return dateTime.CurrentPeriodOpen(resolution).AddTicks(-1 + (long)resolution);
+            }
+            if (resolution == Resolution.Months)
+            {
+                var firstDayOfMonth = new DateTime(dateTime.Year, dateTime.Month, 1);
+                return firstDayOfMonth.AddMonths(1).AddDays(-1).CurrentPeriodClose(Resolution.Days);
+            }
+            throw new ArgumentOutOfRangeException("resolution", String.Format("Unable to determine boundaries for an ITimePeriod with Resolution: {0}", resolution));
         }
 
         /// <summary>
@@ -70,8 +79,19 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime CurrentPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
-            // TODO: handle other resolutions
-            return dateTime.Date;
+            if (resolution < ((Resolution)(4 * (long)Resolution.Weeks)))
+            {
+                var ticksFromNearestBarrier = dateTime.Ticks % (long) resolution;
+                return dateTime.AddTicks(0 - ticksFromNearestBarrier);
+            }
+            if (resolution == Resolution.Months)
+            {
+                return new DateTime(dateTime.Year, dateTime.Month, 1);
+            }
+            //if (resolution == resolution.Years)
+            //{
+            //}
+            throw new ArgumentOutOfRangeException("resolution", String.Format("Unable to determine boundaries for an ITimePeriod with Resolution: {0}", resolution));
         }
 
         /// <summary>
