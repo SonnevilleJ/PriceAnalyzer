@@ -5,13 +5,9 @@ using Sonneville.PriceTools.Extensions;
 
 namespace Test.Sonneville.PriceTools
 {
-    [TestClass]
-    public class DatesTest
+    public abstract class DatesTest
     {
-        private Resolution Resolution
-        {
-            get { return Resolution.Days; }
-        }
+        protected abstract Resolution Resolution { get; }
 
         /// <summary>
         /// A DateTime guaranteed to be on the open-side border of every period <see cref="Resolution"/>.

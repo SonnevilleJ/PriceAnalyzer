@@ -47,6 +47,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CashAccountFactoryTest.cs" />
+    <Compile Include="DatesTestDays.cs" />
+    <Compile Include="DatesTestHours.cs" />
+    <Compile Include="DatesTestMinutes.cs" />
+    <Compile Include="DatesTestMonths.cs" />
+    <Compile Include="DatesTestSeconds.cs" />
+    <Compile Include="DatesTestWeeks.cs" />
     <Compile Include="HoldingExtensionsTests.cs" />
     <Compile Include="MarginableCashAccountTest.cs" />
     <Compile Include="DatesTest.cs" />

@@ -79,10 +79,19 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime CurrentPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
-            if (resolution < ((Resolution)(4 * (long)Resolution.Weeks)))
+            if (resolution < Resolution.Weeks)
             {
                 var ticksFromNearestBarrier = dateTime.Ticks % (long) resolution;
                 return dateTime.AddTicks(0 - ticksFromNearestBarrier);
+            }
+            if (resolution < (Resolution)(4 * (long)Resolution.Weeks))
+            {
+                var local = dateTime;
+                while (local.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    local = local.PreviousPeriodOpen(Resolution.Days);
+                }
+                return local.CurrentPeriodOpen(Resolution.Days);
             }
             if (resolution == Resolution.Months)
             {
