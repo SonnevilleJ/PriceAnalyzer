@@ -89,24 +89,6 @@ namespace Sonneville.PriceTools.Data {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to get head using Price Series Resolution: {0}.
-        /// </summary>
-        internal static string PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution {
-            get {
-                return ResourceManager.GetString("PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Unable to get tail using Price Series Resolution: {0}.
-        /// </summary>
-        internal static string PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution {
-            get {
-                return ResourceManager.GetString("PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Parsed date was returned as null or whitespace..
         /// </summary>
         internal static string PriceHistoryCsvFile_ParseDateColumn_Parsed_date_was_returned_as_null_or_whitespace_ {

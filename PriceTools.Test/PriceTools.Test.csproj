@@ -46,10 +46,21 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BuyTests.cs" />
+    <Compile Include="BuyToCoverTests.cs" />
     <Compile Include="CashAccountFactoryTest.cs" />
-    <Compile Include="DateTimeExtensionsTest.cs" />
+    <Compile Include="DatesTestDays.cs" />
+    <Compile Include="DatesTestHours.cs" />
+    <Compile Include="DatesTestMinutes.cs" />
+    <Compile Include="DatesTestMonths.cs" />
+    <Compile Include="DatesTestSeconds.cs" />
+    <Compile Include="DatesTestWeeks.cs" />
+    <Compile Include="DepositTests.cs" />
+    <Compile Include="DividendReceiptTests.cs" />
+    <Compile Include="DividendReinvestmentTests.cs" />
     <Compile Include="HoldingExtensionsTests.cs" />
     <Compile Include="MarginableCashAccountTest.cs" />
+    <Compile Include="DatesTest.cs" />
     <Compile Include="PortfolioCalculationTests.cs" />
     <Compile Include="PortfolioHoldingTests.cs" />
     <Compile Include="PositionCalculationTests.cs" />
@@ -62,16 +73,20 @@
     <Compile Include="PriceSeriesEqualityTests.cs" />
     <Compile Include="PriceSeriesTest.cs" />
     <Compile Include="ReactionMovesTest.cs" />
+    <Compile Include="SellShortTests.cs" />
+    <Compile Include="SellTests.cs" />
+    <Compile Include="ShareTransactionTestsBase.cs" />
     <Compile Include="SimplePeriodFactoryTest.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="TickedPricePeriodEqualityTests.cs" />
     <Compile Include="TransactionEqualityTests.cs" />
-    <Compile Include="TransactionFactoryTest.cs" />
+    <Compile Include="CashTransactionTestsBase.cs" />
     <Compile Include="CashAccountTest.cs" />
     <Compile Include="PortfolioTest.cs" />
     <Compile Include="PositionTest.cs" />
     <Compile Include="TickedPricePeriodTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WithdrawalTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">

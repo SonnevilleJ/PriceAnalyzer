@@ -7,188 +7,113 @@ namespace Sonneville.PriceTools.Extensions
     /// </summary>
     public static class DateTimeExtensions
     {
-        private static readonly TimeSpan TimeFromOpenToClose = new TimeSpan(23, 59, 59);
-
         /// <summary>
-        /// Gets the next opening DateTime. This method does not consider holidays.
+        /// Gets the opening DateTime of the next <see cref="ITimePeriod"/>.
         /// </summary>
         /// <param name="dateTime"></param>
+        /// <param name="resolution">The <see cref="Resolution"/> to use when determining <see cref="ITimePeriod"/> boundaries.</param>
         /// <returns></returns>
-        public static DateTime GetFollowingOpen(this DateTime dateTime)
+        public static DateTime NextPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
-            do
-            {
-                dateTime = dateTime.AddDays(1);
-            } while (dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday);
-            return dateTime.TodaysOpen();
+            return dateTime.CurrentPeriodClose(resolution).AddTicks(1).CurrentPeriodOpen(resolution);
         }
 
         /// <summary>
-        /// Gets the next closing DateTime. This method does not consider holidays.
+        /// Gets the closing DateTime of the next <see cref="ITimePeriod"/>.
         /// </summary>
         /// <param name="dateTime"></param>
+        /// <param name="resolution">The <see cref="Resolution"/> to use when determining <see cref="ITimePeriod"/> boundaries.</param>
         /// <returns></returns>
-        public static DateTime GetFollowingClose(this DateTime dateTime)
+        public static DateTime NextPeriodClose(this DateTime dateTime, Resolution resolution)
         {
-            dateTime = dateTime.AddSeconds(1);
-            while (dateTime.DayOfWeek == DayOfWeek.Saturday || dateTime.DayOfWeek == DayOfWeek.Sunday)
-            {
-                dateTime = dateTime.AddDays(1);
-            }
-            return dateTime.TodaysClose();
+            return dateTime.CurrentPeriodClose(resolution).AddTicks(1).CurrentPeriodClose(resolution);
         }
 
         /// <summary>
-        /// Gets the opening DateTime of the following Monday. This method does not consider holidays.
+        /// Gets the opening DateTime of the previous <see cref="ITimePeriod"/>.
         /// </summary>
         /// <param name="dateTime"></param>
+        /// <param name="resolution">The <see cref="Resolution"/> to use when determining <see cref="ITimePeriod"/> boundaries.</param>
         /// <returns></returns>
-        public static DateTime GetFollowingWeeklyOpen(this DateTime dateTime)
+        public static DateTime PreviousPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
-            do
-            {
-                dateTime = dateTime.AddDays(1);
-            } while (dateTime.DayOfWeek != DayOfWeek.Monday);
-            return dateTime.TodaysOpen();
+            return dateTime.CurrentPeriodOpen(resolution).AddTicks(-1).CurrentPeriodOpen(resolution);
         }
 
         /// <summary>
-        /// Gets the DateTime of the most recent daily open.
+        /// Gets the closing DateTime of the previous <see cref="ITimePeriod"/>.
         /// </summary>
-        /// <param name="date"></param>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution">The <see cref="Resolution"/> to use when determining <see cref="ITimePeriod"/> boundaries.</param>
         /// <returns></returns>
-        public static DateTime GetMostRecentOpen(this DateTime date)
+        public static DateTime PreviousPeriodClose(this DateTime dateTime, Resolution resolution)
         {
-            while (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
-            {
-                date = date.AddDays(-1);
-            }
-            return date.TodaysOpen();
+            return dateTime.CurrentPeriodOpen(resolution).AddTicks(-1).CurrentPeriodClose(resolution);
         }
 
         /// <summary>
-        /// Gets the DateTime of the most recent daily close.
+        /// Gets the closing DateTime of the current <see cref="ITimePeriod"/>.
         /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime GetMostRecentClose(this DateTime date)
-        {
-            date = date.AddDays(-1);
-            while (date.DayOfWeek == DayOfWeek.Saturday || date.DayOfWeek == DayOfWeek.Sunday)
-            {
-                date = date.AddDays(-1);
-            }
-            return date.TodaysClose();
-        }
-
-        /// <summary>
-        /// Gets the most recent open of a trading week.
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime GetMostRecentWeeklyOpen(this DateTime date)
-        {
-            while (date.DayOfWeek != DayOfWeek.Monday)
-            {
-                date = date.AddDays(-1);
-            }
-            return date.TodaysOpen();
-        }
-
-        /// <summary>
-        /// Gets the most recent close of a trading week.
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime GetMostRecentWeeklyClose(this DateTime date)
-        {
-            while (date.DayOfWeek != DayOfWeek.Friday)
-            {
-                date = date.AddDays(-1);
-            }
-            return date.TodaysClose();
-        }
-
-        /// <summary>
-        /// Gets the following close of a trading week.
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime GetFollowingWeeklyClose(this DateTime date)
-        {
-            while (date.DayOfWeek != DayOfWeek.Friday)
-            {
-                date = date.AddDays(1);
-            }
-            return date.TodaysClose();
-        }
-
-        /// <summary>
-        /// Gets the following open of a trading month.
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime GetFollowingMonthlyOpen(this DateTime date)
-        {
-            var next = date.AddMonths(1);
-            var firstDayOfMonth = new DateTime(next.Year, next.Month, 1);
-            return firstDayOfMonth.TodaysOpen();
-        }
-
-        /// <summary>
-        /// Gets the following close of a trading month.
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime GetFollowingMonthlyClose(this DateTime date)
-        {
-            var next = date.AddMonths(1);
-            var firstDayOfMonth = new DateTime(next.Year, next.Month, 1);
-            var lastDayOfMonth = firstDayOfMonth.AddMonths(1).AddDays(-1);
-            return lastDayOfMonth.TodaysClose();
-        }
-
-        /// <summary>
-        /// Gets the most recent open of the trading month.
-        /// </summary>
-        /// <param name="date"></param>
-        /// <returns></returns>
-        public static DateTime GetMostRecentMonthlyOpen(this DateTime date)
-        {
-            var firstDayOfMonth = new DateTime(date.Year, date.Month, 1);
-            return firstDayOfMonth.TodaysOpen();
-        }
-
-        /// <summary>
-        /// Adds a single period's duration to the given date, while accounting for non-trading days.
-        /// </summary>
-        /// <param name="date"></param>
+        /// <param name="dateTime"></param>
         /// <param name="resolution"></param>
         /// <returns></returns>
-        public static DateTime AddPeriod (this DateTime date, Resolution resolution)
+        public static DateTime CurrentPeriodClose(this DateTime dateTime, Resolution resolution)
         {
-            var ticks = (long) resolution;
-            do
+            if (resolution < ((Resolution)(4 * (long)Resolution.Weeks)))
             {
-                date = date.AddTicks(ticks);
-            } while (!date.IsTradingDay());
-            return date;
+                return dateTime.CurrentPeriodOpen(resolution).AddTicks(-1 + (long)resolution);
+            }
+            if (resolution == Resolution.Months)
+            {
+                var firstDayOfMonth = new DateTime(dateTime.Year, dateTime.Month, 1);
+                return firstDayOfMonth.AddMonths(1).AddDays(-1).CurrentPeriodClose(Resolution.Days);
+            }
+            throw new ArgumentOutOfRangeException("resolution", String.Format("Unable to determine boundaries for an ITimePeriod with Resolution: {0}", resolution));
         }
 
-        #region Private Methods
-
-        private static DateTime TodaysClose(this DateTime dateTime)
+        /// <summary>
+        /// Gets the opening DateTime of the current <see cref="ITimePeriod"/>.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
+        public static DateTime CurrentPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
-            return dateTime.TodaysOpen().Add(TimeFromOpenToClose);
+            if (resolution < Resolution.Weeks)
+            {
+                var ticksFromNearestBarrier = dateTime.Ticks % (long) resolution;
+                return dateTime.AddTicks(0 - ticksFromNearestBarrier);
+            }
+            if (resolution < (Resolution)(4 * (long)Resolution.Weeks))
+            {
+                var local = dateTime;
+                while (local.DayOfWeek != DayOfWeek.Sunday)
+                {
+                    local = local.PreviousPeriodOpen(Resolution.Days);
+                }
+                return local.CurrentPeriodOpen(Resolution.Days);
+            }
+            if (resolution == Resolution.Months)
+            {
+                return new DateTime(dateTime.Year, dateTime.Month, 1);
+            }
+            //if (resolution == resolution.Years)
+            //{
+            //}
+            throw new ArgumentOutOfRangeException("resolution", String.Format("Unable to determine boundaries for an ITimePeriod with Resolution: {0}", resolution));
         }
 
-        private static DateTime TodaysOpen(this DateTime dateTime)
+        /// <summary>
+        /// Gets a value indicating if the DateTime is within market trading hours.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
+        public static bool IsInTradingPeriod(this DateTime dateTime, Resolution resolution)
         {
-            return dateTime.Date;
-        }
-
-        private static bool IsTradingDay(this DateTime dateTime)
-        {
+            // Weeks, Months, Years, etc do not have "trading periods"
+            if (resolution >= Resolution.Weeks) return true;
+            
             return dateTime.DayOfWeek == DayOfWeek.Monday ||
                    dateTime.DayOfWeek == DayOfWeek.Tuesday ||
                    dateTime.DayOfWeek == DayOfWeek.Wednesday ||
@@ -196,6 +121,64 @@ namespace Sonneville.PriceTools.Extensions
                    dateTime.DayOfWeek == DayOfWeek.Friday;
         }
 
-        #endregion
+        /// <summary>
+        /// Gets the opening DateTime of the next trading period <see cref="ITimePeriod"/>.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
+        public static DateTime NextTradingPeriodOpen(this DateTime dateTime, Resolution resolution)
+        {
+            do
+            {
+                dateTime = dateTime.NextPeriodOpen(resolution);
+            } while (!dateTime.IsInTradingPeriod(resolution));
+            return dateTime;
+        }
+
+        /// <summary>
+        /// Gets the closing DateTime of the next trading period <see cref="ITimePeriod"/>.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
+        public static DateTime NextTradingPeriodClose(this DateTime dateTime, Resolution resolution)
+        {
+            do
+            {
+                dateTime = dateTime.NextPeriodClose(resolution);
+            } while (!dateTime.IsInTradingPeriod(resolution));
+            return dateTime;
+        }
+
+        /// <summary>
+        /// Gets the opening DateTime of the previous trading period <see cref="ITimePeriod"/>.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
+        public static DateTime PreviousTradingPeriodOpen(this DateTime dateTime, Resolution resolution)
+        {
+            do
+            {
+                dateTime = dateTime.PreviousPeriodOpen(resolution);
+            } while (!dateTime.IsInTradingPeriod(resolution));
+            return dateTime;
+        }
+
+        /// <summary>
+        /// Gets the closing DateTime of the previous trading period <see cref="ITimePeriod"/>.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
+        public static DateTime PreviousTradingPeriodClose(this DateTime dateTime, Resolution resolution)
+        {
+            do
+            {
+                dateTime = dateTime.PreviousPeriodClose(resolution);
+            } while (!dateTime.IsInTradingPeriod(resolution));
+            return dateTime;
+        }
     }
 }

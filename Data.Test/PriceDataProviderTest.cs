@@ -156,7 +156,7 @@ namespace Test.Sonneville.PriceTools.Data
             IPriceDataProvider provider = GetTestObjectInstance();
 
             var head = new DateTime(2012, 6, 6);
-            var tail = new DateTime(2012, 6, 9).GetFollowingClose();
+            var tail = new DateTime(2012, 6, 9).CurrentPeriodClose(priceSeries.Resolution);
             provider.UpdatePriceSeries(priceSeries, head, tail);
 
             try
@@ -193,7 +193,7 @@ namespace Test.Sonneville.PriceTools.Data
                 priceSeries.NewDataAvailable += handler;
                 provider.StartAutoUpdate(priceSeries);
 
-                resetEvent.WaitOne();
+                resetEvent.WaitOne(new TimeSpan(0, 2, 0));
             }
             finally
             {
@@ -232,7 +232,7 @@ namespace Test.Sonneville.PriceTools.Data
 
             provider.StartAutoUpdate(ps1);
             provider.StartAutoUpdate(ps2);
-            countdown.Wait();
+            countdown.Wait(new TimeSpan(0, 2, 0));
 
             provider.StopAutoUpdate(ps1);
             provider.StopAutoUpdate(ps2);

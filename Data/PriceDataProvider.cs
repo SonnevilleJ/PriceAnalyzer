@@ -39,8 +39,9 @@ namespace Sonneville.PriceTools.Data
         /// <param name="priceSeries"></param>
         public void UpdatePriceSeries(IPriceSeries priceSeries)
         {
-            var tail = DateTime.Now.GetMostRecentClose();
-            var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.GetFollowingOpen() : tail.GetMostRecentOpen();
+            var resolution = priceSeries.Resolution;
+            var tail = DateTime.Now.PreviousPeriodClose(resolution);
+            var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.NextPeriodOpen(resolution) : tail.PreviousPeriodOpen(resolution);
 
             UpdatePriceSeries(priceSeries, head, tail);
         }

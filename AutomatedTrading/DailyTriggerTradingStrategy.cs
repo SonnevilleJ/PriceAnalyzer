@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
     {
         protected override Order CreateOrder(DateTime issued)
         {
-            var expiration = issued.GetFollowingClose();
+            var expiration = issued.NextPeriodClose(Resolution.Days);
             var orderType = OrderType.Buy;
             var ticker = PriceSeries.Ticker;
             var shares = 5;
