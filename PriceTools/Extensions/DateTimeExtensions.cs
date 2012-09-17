@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Extensions
     public static class DateTimeExtensions
     {
         /// <summary>
-        /// Gets the next opening DateTime. This method does not consider holidays.
+        /// Gets the opening DateTime of the next <see cref="ITimePeriod"/>.
         /// </summary>
         /// <param name="dateTime"></param>
         /// <param name="resolution">The <see cref="Resolution"/> to use when determining <see cref="ITimePeriod"/> boundaries.</param>
@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools.Extensions
         }
 
         /// <summary>
-        /// Gets the next closing DateTime. This method does not consider holidays.
+        /// Gets the closing DateTime of the next <see cref="ITimePeriod"/>.
         /// </summary>
         /// <param name="dateTime"></param>
         /// <param name="resolution">The <see cref="Resolution"/> to use when determining <see cref="ITimePeriod"/> boundaries.</param>
@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools.Extensions
         }
 
         /// <summary>
-        /// Gets the DateTime of the most recent daily open.
+        /// Gets the opening DateTime of the previous <see cref="ITimePeriod"/>.
         /// </summary>
         /// <param name="dateTime"></param>
         /// <param name="resolution">The <see cref="Resolution"/> to use when determining <see cref="ITimePeriod"/> boundaries.</param>
@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools.Extensions
         }
 
         /// <summary>
-        /// Gets the DateTime of the most recent daily close.
+        /// Gets the closing DateTime of the previous <see cref="ITimePeriod"/>.
         /// </summary>
         /// <param name="dateTime"></param>
         /// <param name="resolution">The <see cref="Resolution"/> to use when determining <see cref="ITimePeriod"/> boundaries.</param>
@@ -52,34 +52,33 @@ namespace Sonneville.PriceTools.Extensions
         }
 
         /// <summary>
-        /// Adds a single period's duration to the given date, while accounting for non-trading days.
+        /// Gets the closing DateTime of the current <see cref="ITimePeriod"/>.
         /// </summary>
-        /// <param name="date"></param>
+        /// <param name="dateTime"></param>
         /// <param name="resolution"></param>
         /// <returns></returns>
-        public static DateTime AddPeriod (this DateTime date, Resolution resolution)
-        {
-            var ticks = (long) resolution;
-            do
-            {
-                date = date.AddTicks(ticks);
-            } while (!date.IsInTradingPeriod());
-            return date;
-        }
-
-        #region Private Methods
-
         public static DateTime CurrentPeriodClose(this DateTime dateTime, Resolution resolution)
         {
             return dateTime.CurrentPeriodOpen(resolution).AddTicks(-1 + (long) resolution);
         }
 
+        /// <summary>
+        /// Gets the opening DateTime of the current <see cref="ITimePeriod"/>.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
         public static DateTime CurrentPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
             // TODO: handle other resolutions
             return dateTime.Date;
         }
 
+        /// <summary>
+        /// Gets a value indicating if the DateTime is within market trading hours.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <returns></returns>
         public static bool IsInTradingPeriod(this DateTime dateTime)
         {
             return dateTime.DayOfWeek == DayOfWeek.Monday ||
@@ -89,6 +88,12 @@ namespace Sonneville.PriceTools.Extensions
                    dateTime.DayOfWeek == DayOfWeek.Friday;
         }
 
+        /// <summary>
+        /// Gets the opening DateTime of the next trading period <see cref="ITimePeriod"/>.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
         public static DateTime NextTradingPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
             while (!dateTime.IsInTradingPeriod())
@@ -98,6 +103,12 @@ namespace Sonneville.PriceTools.Extensions
             return dateTime;
         }
 
+        /// <summary>
+        /// Gets the closing DateTime of the next trading period <see cref="ITimePeriod"/>.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
         public static DateTime NextTradingPeriodClose(this DateTime dateTime, Resolution resolution)
         {
             while (!dateTime.IsInTradingPeriod())
@@ -107,6 +118,12 @@ namespace Sonneville.PriceTools.Extensions
             return dateTime;
         }
 
+        /// <summary>
+        /// Gets the opening DateTime of the previous trading period <see cref="ITimePeriod"/>.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
         public static DateTime PreviousTradingPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
             while (!dateTime.IsInTradingPeriod())
@@ -116,6 +133,12 @@ namespace Sonneville.PriceTools.Extensions
             return dateTime;
         }
 
+        /// <summary>
+        /// Gets the closing DateTime of the previous trading period <see cref="ITimePeriod"/>.
+        /// </summary>
+        /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
+        /// <returns></returns>
         public static DateTime PreviousTradingPeriodClose(this DateTime dateTime, Resolution resolution)
         {
             while (!dateTime.IsInTradingPeriod())
@@ -124,7 +147,5 @@ namespace Sonneville.PriceTools.Extensions
             }
             return dateTime;
         }
-
-        #endregion
     }
 }

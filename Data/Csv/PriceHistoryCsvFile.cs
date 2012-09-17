@@ -282,7 +282,7 @@ namespace Sonneville.PriceTools.Data.Csv
         private static DateTime CalculateLastSensibleTail(IReadOnlyList<IPricePeriod> pricePeriods, Resolution resolution, SingleDatePeriod stagedPeriod)
         {
             return pricePeriods.Count > 0
-                       ? pricePeriods[pricePeriods.Count - 1].Tail.AddPeriod(resolution)
+                       ? pricePeriods[pricePeriods.Count - 1].Tail.NextPeriodClose(resolution)
                        : stagedPeriod.Date.CurrentPeriodClose(resolution);
         }
 
