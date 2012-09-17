@@ -351,8 +351,8 @@ namespace Test.Sonneville.PriceTools
                 Assert.AreEqual(periodsInWeek.Min(p => p.Low), weeklyPeriod.Low);
                 Assert.AreEqual(periodsInWeek.Last().Close, weeklyPeriod.Close);
 
-                weekHead = weekTail.NextPeriodOpen(Resolution.Weeks);
-                weekTail = weekHead.NextPeriodClose(Resolution.Weeks);
+                weekHead = weekHead.NextPeriodOpen(Resolution.Weeks);
+                weekTail = weekTail.NextPeriodClose(Resolution.Weeks);
             } while (calendar.GetWeekOfYear(weekTail, calendarWeekRule, firstDayOfWeek) <=
                      calendar.GetWeekOfYear(seriesTail, calendarWeekRule, firstDayOfWeek));
         }
@@ -389,8 +389,8 @@ namespace Test.Sonneville.PriceTools
                 Assert.AreEqual(periodsInMonth.Min(p => p.Low), monthlyPeriod.Low);
                 Assert.AreEqual(periodsInMonth.Last().Close, monthlyPeriod.Close);
 
-                monthHead = monthTail.NextPeriodOpen(Resolution.Months);
-                monthTail = monthHead.NextPeriodClose(Resolution.Months);
+                monthHead = monthHead.NextPeriodOpen(Resolution.Months);
+                monthTail = monthTail.NextPeriodClose(Resolution.Months);
             } while (calendar.GetMonth(monthTail) <= calendar.GetMonth(seriesTail));
         }
 
