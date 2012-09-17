@@ -1,12 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Sonneville.PriceTools.Implementation
 {
     internal class TimeSeriesImpl : ITimeSeries
     {
         private readonly IEnumerable<ITimePeriod> _periods = new List<ITimePeriod>();
- 
+
+        internal TimeSeriesImpl(IEnumerable<ITimePeriod> list)
+        {
+            _periods = list;
+        }
+
         /// <summary>
         /// Gets a value stored at a given DateTime index of the ITimePeriod.
         /// </summary>
@@ -14,30 +20,30 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
         public decimal this[DateTime dateTime]
         {
-            get { throw new NotImplementedException(); }
+            get { return TimePeriods.First(p => dateTime >= p.Head && dateTime <= p.Tail)[dateTime]; }
         }
 
         /// <summary>
         /// Gets the first DateTime in the ITimePeriod.
         /// </summary>
-        public DateTime Head { get; private set; }
+        public DateTime Head { get { return TimePeriods.First().Head; } }
 
         /// <summary>
         /// Gets the last DateTime in the ITimePeriod.
         /// </summary>
-        public DateTime Tail { get; private set; }
+        public DateTime Tail { get { return TimePeriods.Last().Tail; } }
 
         /// <summary>
         /// Gets the <see cref="ITimePeriod.Resolution"/> of price data stored within the ITimePeriod.
         /// </summary>
-        public Resolution Resolution { get; private set; }
+        public Resolution Resolution { get { return TimePeriods.Min(p => p.Resolution); } }
 
         /// <summary>
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
         /// </summary>
         public IEnumerable<ITimePeriod> TimePeriods
         {
-            get { return _periods; }
+            get { return _periods.OrderBy(p => p.Head); }
         }
 
         /// <summary>
@@ -47,7 +53,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
-            throw new NotImplementedException();
+            return Head <= settlementDate && Tail >= settlementDate;
         }
     }
 }

@@ -39,46 +39,40 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         #region Overrides of Indicator
 
         /// <summary>
-        /// Gets the first DateTime in the Indicator.
-        /// </summary>
-        public override DateTime Head
-        {
-            get { return ConvertIndexToDateTime(0); }
-        }
-
-        /// <summary>
         /// Calculates a single value of this Indicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
-        protected override decimal? Calculate(int index)
+        protected decimal? Calculate(int index)
         {
-            // cannot do anything for the first period; we need to have a delta to even begin
-            if (index > 0)
-            {
-                // if any data is missing, calculate it
-                for (var i = index - (Lookback - 1); i > 0 && i <= index; i++)
-                {
-                    if (!_preCalculatedPeriods.ContainsKey(i))
-                    {
-                        Precalculate(i);
-                    }
-                }
+            //// cannot do anything for the first period; we need to have a delta to even begin
+            //if (index > 0)
+            //{
+            //    // if any data is missing, calculate it
+            //    for (var i = index - (Lookback - 1); i > 0 && i <= index; i++)
+            //    {
+            //        if (!_preCalculatedPeriods.ContainsKey(i))
+            //        {
+            //            Precalculate(i);
+            //        }
+            //    }
                 
-                // if we have enough data to calculate an RSI value
-                if (index >= Lookback)
-                {
-                    var averageGain = GetAverageGain(index);
-                    var averageLoss = GetAverageLoss(index);
-                    if (averageLoss != 0)
-                    {
-                        var relativeStrength = averageGain / -averageLoss;
-                        var result = 100.0m - (100.0m/(1.0m + relativeStrength));
-                        return result;
-                    }
-                    return 100.0m;
-                }
-            }
-            return null;
+            //    // if we have enough data to calculate an RSI value
+            //    if (index >= Lookback)
+            //    {
+            //        var averageGain = GetAverageGain(index);
+            //        var averageLoss = GetAverageLoss(index);
+            //        if (averageLoss != 0)
+            //        {
+            //            var relativeStrength = averageGain / -averageLoss;
+            //            var result = 100.0m - (100.0m/(1.0m + relativeStrength));
+            //            return result;
+            //        }
+            //        return 100.0m;
+            //    }
+            //}
+            //return null;
+
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -87,18 +81,18 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="index">The period to calulate.</param>
         private void Precalculate(int index)
         {
-            if (index > 0)
-            {
-                //var sufficientAmount = PreCalculatedPeriods.Count >= index + 1;
-                //if (!sufficientAmount || !PreCalculatedPeriods[index])
-                //{
-                    var change = IndexedPriceSeriesValues[index] - IndexedPriceSeriesValues[index - 1];
-                    if (change > 0) _gains.Add(new KeyValuePair<int, decimal>(index, change));
-                    if (change < 0) _losses.Add(new KeyValuePair<int, decimal>(index, change));
-                    _preCalculatedPeriods[index] = true;
-                //}
+            //if (index > 0)
+            //{
+            //    //var sufficientAmount = PreCalculatedPeriods.Count >= index + 1;
+            //    //if (!sufficientAmount || !PreCalculatedPeriods[index])
+            //    //{
+            //        var change = IndexedPriceSeriesValues[index] - IndexedPriceSeriesValues[index - 1];
+            //        if (change > 0) _gains.Add(new KeyValuePair<int, decimal>(index, change));
+            //        if (change < 0) _losses.Add(new KeyValuePair<int, decimal>(index, change));
+            //        _preCalculatedPeriods[index] = true;
+            //    //}
 
-            }
+            //}
         }
 
         #endregion

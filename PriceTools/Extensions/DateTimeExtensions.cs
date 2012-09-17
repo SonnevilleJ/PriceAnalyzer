@@ -180,5 +180,15 @@ namespace Sonneville.PriceTools.Extensions
             } while (!dateTime.IsInTradingPeriod(resolution));
             return dateTime;
         }
+
+        public static DateTime SeekPeriods(this DateTime dateTime, int periods)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static DateTime SeekPeriods(this DateTime dateTime, int periods, Resolution resolution)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

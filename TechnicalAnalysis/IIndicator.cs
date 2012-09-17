@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
         /// </summary>
-        IPriceSeries PriceSeries { get; }
+        ITimeSeries MeasuredTimeSeries { get; }
 
         /// <summary>
         /// Pre-caches all values for this Indicator.

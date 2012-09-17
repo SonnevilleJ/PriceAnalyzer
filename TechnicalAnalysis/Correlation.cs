@@ -35,35 +35,37 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// Calculates the correlation coefficient for a single period.
         /// </summary>
         /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
-        protected override decimal? Calculate(int index)
+        protected decimal? Calculate(int index)
         {
-            var timeSeriesValues = GetValues(PriceSeries, index);
-            var targetValues = GetValues(_target, index);
+            //var timeSeriesValues = GetValues(MeasuredTimeSeries, index);
+            //var targetValues = GetValues(_target, index);
 
-            var timeSeriesTask = new Task<IList<decimal>>(() => SquareElements(index, timeSeriesValues));
-            var targetTask = new Task<IList<decimal>>(() => SquareElements(index, targetValues));
-            Task.WaitAll(timeSeriesTask, targetTask);
+            //var timeSeriesTask = new Task<IList<decimal>>(() => SquareElements(index, timeSeriesValues));
+            //var targetTask = new Task<IList<decimal>>(() => SquareElements(index, targetValues));
+            //Task.WaitAll(timeSeriesTask, targetTask);
 
-            var timeSeriesSquares = timeSeriesTask.Result;
-            var targetSquares = targetTask.Result;
+            //var timeSeriesSquares = timeSeriesTask.Result;
+            //var targetSquares = targetTask.Result;
 
-            var squares = MultiplyElements(index, timeSeriesSquares, targetSquares);
+            //var squares = MultiplyElements(index, timeSeriesSquares, targetSquares);
 
-            var timeSeriesSquare = timeSeriesValues.Average();
-            var timeSeriesVariance = timeSeriesSquares.Average() - (timeSeriesSquare*timeSeriesSquare);
-            var targetSquare = targetValues.Average();
-            var targetVariance = targetSquares.Average() - (targetSquare*targetSquare);
-            var covariance = squares.Average() - (timeSeriesSquare*targetSquare);
-            return covariance/(decimal) Math.Sqrt((double) (timeSeriesVariance*targetVariance));
+            //var timeSeriesSquare = timeSeriesValues.Average();
+            //var timeSeriesVariance = timeSeriesSquares.Average() - (timeSeriesSquare*timeSeriesSquare);
+            //var targetSquare = targetValues.Average();
+            //var targetVariance = targetSquares.Average() - (targetSquare*targetSquare);
+            //var covariance = squares.Average() - (timeSeriesSquare*targetSquare);
+            //return covariance/(decimal) Math.Sqrt((double) (timeSeriesVariance*targetVariance));
+
+            throw new NotImplementedException();
         }
 
         private IList<decimal> GetValues(ITimePeriod timePeriod, int index)
         {
             var result = new List<decimal>();
-            for (var i = index - (Lookback - 1); i <= index; i++)
-            {
-                result.Add(timePeriod[ConvertIndexToDateTime(i)]);
-            }
+            //for (var i = index - (Lookback - 1); i <= index; i++)
+            //{
+            //    result.Add(timePeriod[ConvertIndexToDateTime(i)]);
+            //}
             return result;
         }
 

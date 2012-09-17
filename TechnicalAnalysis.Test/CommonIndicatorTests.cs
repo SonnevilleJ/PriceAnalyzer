@@ -57,7 +57,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         }
 
         [TestMethod]
-        public void IndexerTest1()
+        public void IndexerTest()
         {
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(10, date, 1);
@@ -68,20 +68,6 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var testDate = date.AddDays(lookback);
             var expected = priceSeries[testDate];
             var actual = target[testDate];
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void IndexerTest2()
-        {
-            var date = new DateTime(2011, 3, 1);
-            var priceSeries = CreateTestPriceSeries(10, date, 1);
-            const int lookback = 4;
-
-            var target = new SimpleMovingAverage(priceSeries, lookback);
-
-            var expected = priceSeries[lookback];
-            var actual = target[0];
             Assert.AreEqual(expected, actual);
         }
 

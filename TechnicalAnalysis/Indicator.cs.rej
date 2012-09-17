@@ -1,0 +1,10 @@
+--- Indicator.cs
++++ Indicator.cs
+@@ -1,7 +1,5 @@
+ ﻿using System;
+ using System.Collections.Generic;
+-using System.Globalization;
+-using System.Linq;
+ 
+ namespace Sonneville.PriceTools.TechnicalAnalysis
+ {

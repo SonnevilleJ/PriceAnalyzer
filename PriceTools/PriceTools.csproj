@@ -61,6 +61,7 @@
     <Compile Include="Factories\PortfolioFactory.cs" />
     <Compile Include="Factories\PriceTickFactory.cs" />
     <Compile Include="Factories\TimePeriodFactory.cs" />
+    <Compile Include="Factories\TimeSeriesFactory.cs" />
     <Compile Include="HoldingExtensions.cs" />
     <Compile Include="Implementation\CashAccountImpl.cs" />
     <Compile Include="Data\TransactionHistory.cs" />
