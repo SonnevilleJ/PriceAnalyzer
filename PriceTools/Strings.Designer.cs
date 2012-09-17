@@ -384,6 +384,16 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to get time periods using resolution {0}. Best supported resolution is {1}..
+        /// </summary>
+        internal static string TimeSeriesExtensions_GetTimePeriods_Unable_to_get_time_periods_using_resolution__0___Best_supported_resolution_is__1__ {
+            get {
+                return ResourceManager.GetString("TimeSeriesExtensions_GetTimePeriods_Unable_to_get_time_periods_using_resolution__" +
+                        "0___Best_supported_resolution_is__1__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot create a CashTransaction for an OrderType of {0}..
         /// </summary>
         internal static string TransactionFactory_ConstructCashTransaction_Cannot_create_a_CashTransaction_for_an_OrderType_of__0__ {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Sonneville.PriceTools.Extensions;
 
 namespace Sonneville.PriceTools.Implementation
 {
@@ -88,7 +87,7 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                return dateTime < Head ? 0.0m : GetLatestPrice(dateTime);
+                return dateTime < Head ? 0.0m : GetLatestPrice(this, dateTime);
             }
         }
 
@@ -98,48 +97,6 @@ namespace Sonneville.PriceTools.Implementation
         public IEnumerable<ITimePeriod> TimePeriods
         {
             get { return PricePeriods.Cast<ITimePeriod>().ToList(); }
-        }
-
-        /// <summary>
-        /// Gets the <see cref="ITimePeriod"/> stored at a given index.
-        /// </summary>
-        /// <param name="index">The index of the <see cref="ITimePeriod"/> to get.</param>
-        /// <returns>The <see cref="ITimePeriod"/> stored at the given index.</returns>
-        ITimePeriod ITimeSeries.this[int index]
-        {
-            get { return this[index]; }
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
-        /// </summary>
-        /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IEnumerable<ITimePeriod> GetTimePeriods()
-        {
-            return GetPricePeriods().Cast<ITimePeriod>().ToList();
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries, in a specified <see cref="PriceTools.Resolution"/>.
-        /// </summary>
-        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
-        /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IEnumerable<ITimePeriod> GetTimePeriods(Resolution resolution)
-        {
-            return GetPricePeriods(resolution).Cast<ITimePeriod>().ToList();
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries, in a specified <see cref="PriceTools.Resolution"/>.
-        /// </summary>
-        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
-        /// <param name="head">The head of the periods to retrieve.</param>
-        /// <param name="tail">The tail of the periods to retrieve.</param>
-        /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="ITimeSeries.Resolution"/> of this TimeSeries.</exception>
-        /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IEnumerable<ITimePeriod> GetTimePeriods(Resolution resolution, DateTime head, DateTime tail)
-        {
-            return GetPricePeriods(resolution, head, tail).Cast<ITimePeriod>().ToList();
         }
 
         /// <summary>
@@ -202,56 +159,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries.
         /// </summary>
-        public IList<IPricePeriod> PricePeriods { get { return GetPricePeriods(); } }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries.
-        /// </summary>
-        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
-        public IList<IPricePeriod> GetPricePeriods()
-        {
-            return GetPricePeriods(Resolution);
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
-        /// </summary>
-        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
-        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
-        public IList<IPricePeriod> GetPricePeriods(Resolution resolution)
-        {
-            if (HasData) return GetPricePeriods(resolution, Head, Tail);
-            if (resolution < Resolution) throw new InvalidOperationException(String.Format(Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__, resolution, Resolution));
-            return new List<IPricePeriod>();
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
-        /// </summary>
-        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
-        /// <param name="head">The head of the periods to retrieve.</param>
-        /// <param name="tail">The tail of the periods to retrieve.</param>
-        /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this PriceSeries.</exception>
-        /// <returns>A list of <see cref="PricePeriodImpl"/>s in the given resolution contained in this PriceSeries.</returns>
-        public IList<IPricePeriod> GetPricePeriods(Resolution resolution, DateTime head, DateTime tail)
-        {
-            if (resolution < Resolution) throw new InvalidOperationException(String.Format(Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__, resolution, Resolution));
-            var dataPeriods = _dataPeriods.Where(period => period.Head >= head && period.Tail <= tail).OrderBy(period => period.Head).ToList();
-            if (resolution == Resolution) return dataPeriods;
-
-            var pairs = GetResolutionDatePairs(resolution, head, tail);
-
-            return (from pair in pairs
-                    let periodHead = pair.Key
-                    let periodTail = pair.Value
-                    let periodsInRange = dataPeriods.Where(period => period.Head >= periodHead && period.Tail <= periodTail).ToList()
-                    let open = periodsInRange.First().Open
-                    let high = periodsInRange.Max(p => p.High)
-                    let low = periodsInRange.Min(p => p.Low)
-                    let close = periodsInRange.Last().Close
-                    let volume = periodsInRange.Sum(p => p.Volume)
-                    select PricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume)).ToList();
-        }
+        public IList<IPricePeriod> PricePeriods { get { return _dataPeriods; } }
 
         /// <summary>
         /// Adds price data to the PriceSeries.
@@ -297,36 +205,19 @@ namespace Sonneville.PriceTools.Implementation
 
         #region Private Methods
 
-        private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetResolutionDatePairs(Resolution resolution, DateTime head, DateTime tail)
-        {
-            if (!head.IsInTradingPeriod(resolution))
-            {
-                head = head.NextTradingPeriodOpen(resolution);
-            }
-            
-            var list = new List<KeyValuePair<DateTime, DateTime>>();
-            while (head < tail)
-            {
-                var periodClose = head.CurrentPeriodClose(resolution);
-                var lastDay = periodClose > tail ? tail : periodClose;
-                list.Add(new KeyValuePair<DateTime, DateTime>(head, lastDay));
-                head = lastDay.NextPeriodOpen(resolution);
-            }
-            return list;
-        }
-
         /// <summary>
         /// Gets the most recent price at or before <paramref name="settlementDate"/>.
         /// </summary>
+        /// <param name="priceSeries"> </param>
         /// <param name="settlementDate">The DateTime to price.</param>
         /// <exception cref="InvalidOperationException">Throws if no price is available at or before <paramref name="settlementDate"/>.</exception>
         /// <returns>The most recent price at or before <paramref name="settlementDate"/>.</returns>
-        private decimal GetLatestPrice(DateTime settlementDate)
+        private static decimal GetLatestPrice(IPriceSeries priceSeries, DateTime settlementDate)
         {
-            var matchingPeriods = PricePeriods.Where(p => p.HasValueInRange(settlementDate)).ToList();
+            var matchingPeriods = priceSeries.PricePeriods.Where(p => p.HasValueInRange(settlementDate)).ToList();
             if (matchingPeriods.Any()) return matchingPeriods.OrderBy(p => p.Tail).Last()[settlementDate];
 
-            if (PricePeriods.Count > 0) return PricePeriods.OrderBy(p => p.Tail).Last(p => p.Tail <= settlementDate).Close;
+            if (priceSeries.PricePeriods.Count > 0) return priceSeries.PricePeriods.OrderBy(p => p.Tail).Last(p => p.Tail <= settlementDate).Close;
 
             throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, Strings.PriceSeries_GetLatestPrice_No_price_data_available_for_settlement_date___0_, settlementDate));
         }

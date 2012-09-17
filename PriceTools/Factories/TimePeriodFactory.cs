@@ -17,7 +17,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public static ITimePeriod ConstructTimePeriod(DateTime head, DateTime tail, decimal value)
         {
-            return new SimplePeriodImpl(head, tail, value);
+            return new TimePeriodImpl(head, tail, value);
         }
     }
 }

@@ -66,8 +66,9 @@
     <Compile Include="Data\TransactionHistory.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
-    <Compile Include="Implementation\SimplePeriodImpl.cs" />
+    <Compile Include="Implementation\TimePeriodImpl.cs" />
     <Compile Include="Implementation\TickedPricePeriodImpl.cs" />
+    <Compile Include="Implementation\TimeSeriesImpl.cs" />
     <Compile Include="IPricePeriod.cs" />
     <Compile Include="IPriceSeries.cs" />
     <Compile Include="ITimeSeries.cs" />
@@ -97,6 +98,7 @@
     <Compile Include="SecurityBasket.cs" />
     <Compile Include="Portfolio.cs" />
     <Compile Include="PriceTick.cs" />
+    <Compile Include="TimeSeriesExtensions.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="NewDataAvailableEventArgs.cs" />
     <Compile Include="Factories\PositionFactory.cs" />

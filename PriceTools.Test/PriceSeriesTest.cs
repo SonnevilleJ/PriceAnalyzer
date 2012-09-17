@@ -314,7 +314,7 @@ namespace Test.Sonneville.PriceTools
 
             var pricePeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
 
-            Assert.AreEqual(26, pricePeriods.Count);
+            Assert.AreEqual(26, pricePeriods.Count());
         }
 
         [TestMethod]
@@ -325,8 +325,8 @@ namespace Test.Sonneville.PriceTools
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
 
-            var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
-            var weeklyPeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
+            var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days).ToArray();
+            var weeklyPeriods = priceSeries.GetPricePeriods(Resolution.Weeks).ToArray();
 
             var weekHead = seriesHead.CurrentPeriodOpen(Resolution.Weeks);
             var weekTail = seriesHead.CurrentPeriodClose(Resolution.Weeks);
@@ -365,8 +365,8 @@ namespace Test.Sonneville.PriceTools
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
 
-            var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
-            var monthlyPeriods = priceSeries.GetPricePeriods(Resolution.Months);
+            var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days).ToArray();
+            var monthlyPeriods = priceSeries.GetPricePeriods(Resolution.Months).ToArray();
 
             var monthHead = seriesHead.CurrentPeriodOpen(Resolution.Months);
             var monthTail = seriesHead.CurrentPeriodClose(Resolution.Months);
@@ -729,7 +729,7 @@ namespace Test.Sonneville.PriceTools
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
 
-            CollectionAssert.AreEquivalent(target.PricePeriods.Cast<ITimePeriod>().ToList(), target.TimePeriods.ToList());
+            CollectionAssert.AreEquivalent(target.PricePeriods.Cast<ITimePeriod>().ToList(), target.GetTimePeriods().ToList());
         }
 
         [TestMethod]

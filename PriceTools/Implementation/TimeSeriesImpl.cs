@@ -1,24 +1,12 @@
 using System;
+using System.Collections.Generic;
 
 namespace Sonneville.PriceTools.Implementation
 {
-    /// <summary>
-    /// Represents a single period in a <see cref="ITimeSeries"/>.
-    /// </summary>
-    public struct SimplePeriodImpl : ITimePeriod
+    internal class TimeSeriesImpl : ITimeSeries
     {
-        private readonly DateTime _head;
-        private readonly DateTime _tail;
-        private readonly decimal _value;
-
-        internal SimplePeriodImpl(DateTime head, DateTime tail, decimal value)
-        {
-            _head = head;
-            if (tail < head) throw new ArgumentOutOfRangeException("tail", Strings.SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_);
-            _tail = tail;
-            _value = value;
-        }
-
+        private readonly IEnumerable<ITimePeriod> _periods = new List<ITimePeriod>();
+ 
         /// <summary>
         /// Gets a value stored at a given DateTime index of the ITimePeriod.
         /// </summary>
@@ -26,35 +14,30 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
         public decimal this[DateTime dateTime]
         {
-            get
-            {
-                if(HasValueInRange(dateTime)) return _value;
-                throw new IndexOutOfRangeException(String.Format("DateTime: {0} is out of range for this Period.", dateTime));
-            }
+            get { throw new NotImplementedException(); }
         }
 
         /// <summary>
         /// Gets the first DateTime in the ITimePeriod.
         /// </summary>
-        public DateTime Head
-        {
-            get { return _head; }
-        }
+        public DateTime Head { get; private set; }
 
         /// <summary>
         /// Gets the last DateTime in the ITimePeriod.
         /// </summary>
-        public DateTime Tail
-        {
-            get { return _tail; }
-        }
+        public DateTime Tail { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="ITimePeriod.Resolution"/> of price data stored within the ITimePeriod.
         /// </summary>
-        public Resolution Resolution
+        public Resolution Resolution { get; private set; }
+
+        /// <summary>
+        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
+        /// </summary>
+        public IEnumerable<ITimePeriod> TimePeriods
         {
-            get { return (Resolution) ((Tail - Head).Ticks); }
+            get { return _periods; }
         }
 
         /// <summary>
@@ -64,7 +47,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
-            return Head <= settlementDate && Tail >= settlementDate;
+            throw new NotImplementedException();
         }
     }
 }

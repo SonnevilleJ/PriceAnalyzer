@@ -225,4 +225,7 @@
     <data name="SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_">
         <value xml:space="preserve">Period's head must come before tail.</value>
     </data>
+    <data name="TimeSeriesExtensions_GetTimePeriods_Unable_to_get_time_periods_using_resolution__0___Best_supported_resolution_is__1__">
+        <value xml:space="preserve">Unable to get time periods using resolution {0}. Best supported resolution is {1}.</value>
+    </data>
 </root>

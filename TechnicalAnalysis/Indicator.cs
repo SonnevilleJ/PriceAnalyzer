@@ -105,48 +105,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Gets the <see cref="ITimePeriod"/> stored at a given index.
-        /// </summary>
-        /// <param name="index">The index of the <see cref="ITimePeriod"/> to get.</param>
-        /// <returns>The <see cref="ITimePeriod"/> stored at the given index.</returns>
-        ITimePeriod ITimeSeries.this[int index]
-        {
-            get { return this[index]; }
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
-        /// </summary>
-        /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IEnumerable<ITimePeriod> GetTimePeriods()
-        {
-            return GetTimePeriods(Resolution);
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries, in a specified <see cref="PriceTools.Resolution"/>.
-        /// </summary>
-        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
-        /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IEnumerable<ITimePeriod> GetTimePeriods(Resolution resolution)
-        {
-            return GetTimePeriods(resolution, Head, Tail);
-        }
-
-        /// <summary>
-        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries, in a specified <see cref="PriceTools.Resolution"/>.
-        /// </summary>
-        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
-        /// <param name="head">The head of the periods to retrieve.</param>
-        /// <param name="tail">The tail of the periods to retrieve.</param>
-        /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="ITimeSeries.Resolution"/> of this TimeSeries.</exception>
-        /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public IEnumerable<ITimePeriod> GetTimePeriods(Resolution resolution, DateTime head, DateTime tail)
-        {
-            throw new NotSupportedException();
-        }
-
-        /// <summary>
         /// Gets the <see cref="IPricePeriod"/> stored at a given index.
         /// </summary>
         /// <param name="index">The index of the <see cref="IPricePeriod"/> to get.</param>
@@ -212,7 +170,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             IndexedPriceSeriesValues = new Dictionary<int, decimal>();
 
-            var array = PriceSeries.GetPricePeriods();
+            var array = PriceSeries.GetPricePeriods().ToList();
             for (var i = 0; i < array.Count; i++)
             {
                 IndexedPriceSeriesValues.Add(i, array[i].Close);
@@ -242,7 +200,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             var periods = PriceSeries.GetPricePeriods().Where(period => period.Head <= dateTime).ToList();
             if (!periods.Any())
                 throw new ArgumentOutOfRangeException(String.Format("The underlying ITimePeriod does not have a value for DateTime: {0}.", dateTime));
-            return PriceSeries.GetPricePeriods().IndexOf(periods.Last());
+            return PriceSeries.GetPricePeriods().ToList().IndexOf(periods.Last());
         }
 
         /// <summary>
