@@ -9,7 +9,7 @@ namespace TestUtilities.Sonneville.PriceTools
         public static IPricePeriod CreatePeriod1()
         {
             var head = new DateTime(2011, 3, 14);
-            var tail = head.GetFollowingClose();
+            var tail = head.CurrentPeriodClose(Resolution.Days);
             const decimal open = 100.00m;
             const decimal high = 110.00m;
             const decimal low = 90.00m;
@@ -22,7 +22,7 @@ namespace TestUtilities.Sonneville.PriceTools
         public static IPricePeriod CreatePeriod2()
         {
             var head = new DateTime(2011, 3, 15);
-            var tail = head.GetFollowingClose();
+            var tail = head.CurrentPeriodClose(Resolution.Days);
             const decimal open = 100.00m;
             const decimal high = 120.00m;
             const decimal low = 100.00m;
@@ -34,7 +34,7 @@ namespace TestUtilities.Sonneville.PriceTools
         public static IPricePeriod CreatePeriod3()
         {
             var head = new DateTime(2011, 3, 16);
-            var tail = head.GetFollowingClose();
+            var tail = head.CurrentPeriodClose(Resolution.Days);
             const decimal open = 110.00m;
             const decimal high = 110.00m;
             const decimal low = 80.00m;

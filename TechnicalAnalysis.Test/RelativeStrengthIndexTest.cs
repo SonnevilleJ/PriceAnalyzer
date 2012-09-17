@@ -52,7 +52,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 
             var index = target.Head;
             var lookback = target.Lookback;
-            for (var i = lookback; i < results.Length + lookback; i++, index = index.GetFollowingOpen())
+            for (var i = lookback; i < results.Length + lookback; i++, index = index.NextPeriodOpen(target.Resolution))
             {
                 var expected = results[i - lookback];
                 var actual = target[index];
@@ -94,7 +94,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 
             var index = target.Head;
             var lookback = target.Lookback;
-            for (var i = lookback; i < results.Length + lookback; i++, index = index.GetFollowingOpen())
+            for (var i = lookback; i < results.Length + lookback; i++, index = index.NextPeriodOpen(target.Resolution))
             {
                 var expected = results[i - lookback];
                 var actual = target[index];

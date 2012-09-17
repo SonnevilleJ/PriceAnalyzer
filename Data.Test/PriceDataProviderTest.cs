@@ -156,7 +156,7 @@ namespace Test.Sonneville.PriceTools.Data
             IPriceDataProvider provider = GetTestObjectInstance();
 
             var head = new DateTime(2012, 6, 6);
-            var tail = new DateTime(2012, 6, 9).GetFollowingClose();
+            var tail = new DateTime(2012, 6, 9).CurrentPeriodClose(priceSeries.Resolution);
             provider.UpdatePriceSeries(priceSeries, head, tail);
 
             try

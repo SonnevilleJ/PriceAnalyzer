@@ -47,9 +47,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CashAccountFactoryTest.cs" />
-    <Compile Include="DateTimeExtensionsTest.cs" />
     <Compile Include="HoldingExtensionsTests.cs" />
     <Compile Include="MarginableCashAccountTest.cs" />
+    <Compile Include="DatesTest.cs" />
     <Compile Include="PortfolioCalculationTests.cs" />
     <Compile Include="PortfolioHoldingTests.cs" />
     <Compile Include="PositionCalculationTests.cs" />

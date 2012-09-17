@@ -211,7 +211,7 @@ namespace Sonneville.PriceTools.Data.Csv
         private PriceColumn ParseColumnHeader(string header)
         {
             var li = header.ToLowerInvariant();
-            var results = ColumnHeaders.Where(kvp => kvp.Value.ToLowerInvariant() == li).Select(kvp => kvp.Key);
+            var results = ColumnHeaders.Where(kvp => kvp.Value.ToLowerInvariant() == li).Select(kvp => kvp.Key).ToArray();
 
             return results.Count() == 1 ? results.First() : PriceColumn.None;
         }
@@ -234,43 +234,41 @@ namespace Sonneville.PriceTools.Data.Csv
                 if (i == 0 && impliedHead.HasValue)
                 {
                     // correct weekend
-                    if (impliedHead.Value.DayOfWeek == DayOfWeek.Sunday || impliedHead.Value.DayOfWeek == DayOfWeek.Saturday)
+                    if (!impliedHead.Value.IsInTradingPeriod())
                     {
-                        head = impliedHead.Value.GetFollowingOpen();
+                        head = impliedHead.Value.NextTradingPeriodOpen(resolution);
                     }
                     else
                     {
+                        // TODO: Replace else branch and introduce CalculateFirstSensibleHead()
                         head = impliedHead.Value;
                     }
                 }
                 else
                 {
-                    head = GetHead(stagedPeriod.Date, resolution);
+                    head = stagedPeriod.Date.CurrentPeriodOpen(resolution);
                 }
 
                 // last tail
                 if (i == stagedPeriods.Count - 1 && impliedTail.HasValue)
                 {
                     //correct weekend
-                    if (impliedTail.Value.DayOfWeek == DayOfWeek.Sunday || impliedTail.Value.DayOfWeek == DayOfWeek.Saturday)
+                    if (!impliedTail.Value.IsInTradingPeriod())
                     {
-                        impliedTail = impliedTail.Value.GetMostRecentClose();
+                        impliedTail = impliedTail.Value.PreviousTradingPeriodClose(resolution);
                     }
 
-                    // find the latest possible tail
-                    // TODO: create DateTime extension method to get the tail from a given resolution
-                    DateTime lastLogicalTail;
-                    if(pricePeriods.Count > 0)
-                        lastLogicalTail = pricePeriods[pricePeriods.Count - 1].Tail.AddPeriod(resolution);
-                    else
-                        lastLogicalTail = GetTail(stagedPeriod.Date, resolution);
+                    // find the latest possible tail which makes sense
+                    var lastSensibleTail = CalculateLastSensibleTail(pricePeriods, resolution, stagedPeriod);
 
                     // assign appropriate tail
-                    tail = impliedTail.Value > lastLogicalTail ? lastLogicalTail : impliedTail.Value;
+                    tail = impliedTail.Value > lastSensibleTail
+                        ? lastSensibleTail
+                        : impliedTail.Value;
                 }
                 else
                 {
-                    tail = GetTail(stagedPeriod.Date, resolution);
+                    tail = stagedPeriod.Date.CurrentPeriodClose(resolution);
                 }
 
                 if (head > tail) break; // provider gave us extra data beyond what we asked for, so stop here
@@ -281,30 +279,11 @@ namespace Sonneville.PriceTools.Data.Csv
             return pricePeriods;
         }
 
-        private static DateTime GetHead(DateTime date, Resolution resolution)
+        private static DateTime CalculateLastSensibleTail(IReadOnlyList<IPricePeriod> pricePeriods, Resolution resolution, SingleDatePeriod stagedPeriod)
         {
-            switch (resolution)
-            {
-                case Resolution.Days:
-                    return date.GetMostRecentOpen();
-                case Resolution.Weeks:
-                    return date.GetMostRecentWeeklyOpen();
-                default:
-                    throw new ArgumentOutOfRangeException(null, String.Format(Strings.PriceHistoryCsvFile_GetHead_Unable_to_get_head_using_Price_Series_Resolution, resolution));
-            }
-        }
-
-        private static DateTime GetTail(DateTime date, Resolution resolution)
-        {
-            switch (resolution)
-            {
-                case Resolution.Days:
-                    return date.GetFollowingClose();
-                case Resolution.Weeks:
-                    return date.GetFollowingWeeklyClose();
-                default:
-                    throw new ArgumentOutOfRangeException(null, String.Format(Strings.PriceHistoryCsvFile_GetTail_Unable_to_get_tail_using_Price_Series_Resolution, resolution));
-            }
+            return pricePeriods.Count > 0
+                       ? pricePeriods[pricePeriods.Count - 1].Tail.AddPeriod(resolution)
+                       : stagedPeriod.Date.CurrentPeriodClose(resolution);
         }
 
         private static Resolution SetResolution(IList<SingleDatePeriod> periods, Resolution? impliedResolution)

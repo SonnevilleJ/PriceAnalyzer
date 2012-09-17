@@ -138,7 +138,7 @@ namespace Test.Sonneville.PriceTools
             target.AddPriceData(p2);
             target.AddPriceData(p3);
 
-            decimal? expected = p2.High;
+            decimal? expected = new[] {p1.High, p2.High, p3.High}.Max();
             decimal? actual = target.High;
             Assert.AreEqual(expected, actual);
         }
@@ -308,7 +308,7 @@ namespace Test.Sonneville.PriceTools
         public void GetWeeklyPeriodsFromDailyPeriodsTestPeriodCount()
         {
             var head = new DateTime(2011, 1, 1);
-            var tail = new DateTime(2011, 6, 30, 23, 59, 59);
+            var tail = new DateTime(2011, 6, 30).CurrentPeriodClose(Resolution.Days);
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), head, tail).PricePeriods);
 
@@ -328,8 +328,8 @@ namespace Test.Sonneville.PriceTools
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var weeklyPeriods = priceSeries.GetPricePeriods(Resolution.Weeks);
 
-            var weekHead = seriesHead.GetFollowingOpen();
-            var weekTail = seriesHead.GetFollowingWeeklyClose();
+            var weekHead = seriesHead.CurrentPeriodOpen(Resolution.Weeks);
+            var weekTail = seriesHead.CurrentPeriodClose(Resolution.Weeks);
 
             var dtfi = DateTimeFormatInfo.CurrentInfo;
             if (dtfi == null) Assert.Inconclusive();
@@ -339,7 +339,7 @@ namespace Test.Sonneville.PriceTools
 
             do
             {
-                var periodsInWeek = dailyPeriods.Where(period => period.Head >= weekHead && period.Tail <= weekTail);
+                var periodsInWeek = dailyPeriods.Where(period => period.Head >= weekHead && period.Tail <= weekTail).ToArray();
                 var weeklyPeriod = weeklyPeriods.First(period => period.Head >= weekHead && period.Tail <= weekTail);
 
                 var head = periodsInWeek.Min(p => p.Head);
@@ -351,8 +351,8 @@ namespace Test.Sonneville.PriceTools
                 Assert.AreEqual(periodsInWeek.Min(p => p.Low), weeklyPeriod.Low);
                 Assert.AreEqual(periodsInWeek.Last().Close, weeklyPeriod.Close);
 
-                weekHead = weekTail.GetFollowingWeeklyOpen();
-                weekTail = weekHead.GetFollowingWeeklyClose();
+                weekHead = weekTail.NextPeriodOpen(Resolution.Weeks);
+                weekTail = weekHead.NextPeriodClose(Resolution.Weeks);
             } while (calendar.GetWeekOfYear(weekTail, calendarWeekRule, firstDayOfWeek) <=
                      calendar.GetWeekOfYear(seriesTail, calendarWeekRule, firstDayOfWeek));
         }
@@ -368,8 +368,8 @@ namespace Test.Sonneville.PriceTools
             var dailyPeriods = priceSeries.GetPricePeriods(Resolution.Days);
             var monthlyPeriods = priceSeries.GetPricePeriods(Resolution.Months);
 
-            var monthHead = seriesHead.GetFollowingOpen();
-            var monthTail = seriesHead.GetFollowingMonthlyClose();
+            var monthHead = seriesHead.CurrentPeriodOpen(Resolution.Months);
+            var monthTail = seriesHead.CurrentPeriodClose(Resolution.Months);
 
             var dtfi = DateTimeFormatInfo.CurrentInfo;
             if (dtfi == null) Assert.Inconclusive();
@@ -377,7 +377,7 @@ namespace Test.Sonneville.PriceTools
 
             do
             {
-                var periodsInMonth = dailyPeriods.Where(period => period.Head >= monthHead && period.Tail <= monthTail);
+                var periodsInMonth = dailyPeriods.Where(period => period.Head >= monthHead && period.Tail <= monthTail).ToArray();
                 var monthlyPeriod = monthlyPeriods.First(period => period.Head >= monthHead && period.Tail <= monthTail);
 
                 var head = periodsInMonth.Min(p => p.Head);
@@ -389,8 +389,8 @@ namespace Test.Sonneville.PriceTools
                 Assert.AreEqual(periodsInMonth.Min(p => p.Low), monthlyPeriod.Low);
                 Assert.AreEqual(periodsInMonth.Last().Close, monthlyPeriod.Close);
 
-                monthHead = monthTail.GetFollowingMonthlyOpen();
-                monthTail = monthHead.GetFollowingMonthlyClose();
+                monthHead = monthTail.NextPeriodOpen(Resolution.Months);
+                monthTail = monthHead.NextPeriodClose(Resolution.Months);
             } while (calendar.GetMonth(monthTail) <= calendar.GetMonth(seriesTail));
         }
 
@@ -399,15 +399,15 @@ namespace Test.Sonneville.PriceTools
             // this method is only used to test if two dates are in the same week of price data.
             // Implementing support for market holidays should remove the need for this method.
 
-            var periodStart = date1.GetMostRecentWeeklyOpen();
-            var periodEnd = date1.GetFollowingWeeklyClose();
+            var periodStart = date1.PreviousPeriodOpen(Resolution.Weeks);
+            var periodEnd = date1.NextPeriodClose(Resolution.Weeks);
             return date2 >= periodStart && date2 <= periodEnd;
         }
 
         private static bool DatesShareMonth(DateTime date1, DateTime date2)
         {
-            var periodStart = date1.GetMostRecentMonthlyOpen();
-            var periodEnd = date1.GetFollowingMonthlyClose();
+            var periodStart = date1.PreviousPeriodOpen(Resolution.Months);
+            var periodEnd = date1.NextPeriodClose(Resolution.Months);
             return date2 >= periodStart && date2 <= periodEnd;
         }
 
@@ -549,7 +549,7 @@ namespace Test.Sonneville.PriceTools
         {
             var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
             var head = new DateTime(2011, 12, 28);
-            var tail = head.GetFollowingClose();
+            var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
@@ -575,7 +575,7 @@ namespace Test.Sonneville.PriceTools
         {
             var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
             var head = new DateTime(2011, 12, 28);
-            var tail = head.GetFollowingClose();
+            var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
@@ -637,7 +637,7 @@ namespace Test.Sonneville.PriceTools
         {
             var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
             var head = new DateTime(2011, 12, 28);
-            var tail = head.GetFollowingClose();
+            var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
@@ -651,7 +651,7 @@ namespace Test.Sonneville.PriceTools
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
             var head = new DateTime(2011, 2, 28);
-            var tail = head.GetFollowingClose();
+            var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
@@ -676,8 +676,8 @@ namespace Test.Sonneville.PriceTools
         public void AddPricePeriodOverlapHeadTest()
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var tail = target.Head.GetFollowingClose();
-            var head = tail.AddDays(-1).GetMostRecentOpen();
+            var tail = target.Head.NextPeriodClose(target.Resolution);
+            var head = tail.AddDays(-1).PreviousPeriodOpen(target.Resolution);
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
@@ -702,8 +702,8 @@ namespace Test.Sonneville.PriceTools
         public void AddPricePeriodOverlapTailTest()
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var head = target.Tail.GetMostRecentOpen();
-            var tail = head.AddDays(1).GetFollowingClose();
+            var head = target.Tail.PreviousPeriodOpen(target.Resolution);
+            var tail = head.AddDays(1).NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
             var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 

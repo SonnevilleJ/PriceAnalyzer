@@ -16,10 +16,10 @@ namespace Test.Sonneville.PriceTools.Yahoo
         public void PriceHistoryCsvFileWillCorrectWeekendHeadTest()
         {
             var seriesHead = new DateTime(2011, 1, 1);                          // Saturday
-            var seriesTail = new DateTime(2011, 6, 30).GetFollowingClose();     // Thursday
+            var seriesTail = new DateTime(2011, 6, 30).CurrentPeriodClose(Resolution.Days);     // Thursday
             var pricePeriods = new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods;
 
-            var expected = seriesHead.GetFollowingOpen();
+            var expected = seriesHead.NextTradingPeriodOpen(Resolution.Days);
             var actual = pricePeriods.Min(p => p.Head);
             Assert.AreEqual(expected, actual);
         }
@@ -28,10 +28,10 @@ namespace Test.Sonneville.PriceTools.Yahoo
         public void PriceHistoryCsvFileWillCorrectOverestimatedTailTest()
         {
             var seriesHead = new DateTime(2011, 1, 3);                          // Monday
-            var seriesTail = new DateTime(2011, 7, 2, 23, 59, 59);              // Saturday
+            var seriesTail = new DateTime(2011, 7, 2).CurrentPeriodClose(Resolution.Days);              // Saturday
             var pricePeriods = new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods;
 
-            var expected = new DateTime(2011, 6, 29).GetFollowingClose();       // Thursday
+            var expected = new DateTime(2011, 6, 29).CurrentPeriodClose(Resolution.Days);       // Thursday
             var actual = pricePeriods.Max(p => p.Tail);
             Assert.AreEqual(expected, actual);
         }
@@ -40,10 +40,10 @@ namespace Test.Sonneville.PriceTools.Yahoo
         public void PriceHistoryCsvFileWillCorrectWeekendTailWeeklyTest()
         {
             var seriesHead = new DateTime(2011, 4, 1);                          // Friday
-            var seriesTail = new DateTime(2011, 7, 2, 23, 59, 59);              // Saturday
+            var seriesTail = new DateTime(2011, 7, 2).CurrentPeriodClose(Resolution.Days);              // Saturday
             var pricePeriods = new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.MSFT_Apr_June_2011_Weekly_Google), seriesHead, seriesTail).PricePeriods;
 
-            var expected = seriesTail.GetMostRecentWeeklyClose();               // Friday
+            var expected = seriesTail.PreviousPeriodClose(Resolution.Weeks);               // Friday
             var actual = pricePeriods.Max(p => p.Tail);
             Assert.AreEqual(expected, actual);
         }
@@ -52,7 +52,7 @@ namespace Test.Sonneville.PriceTools.Yahoo
         public void YahooDailyTestDates()
         {
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
+            var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
             var target = TestPriceHistoryCsvFiles.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo;
 
             Assert.AreEqual(head, target.PricePeriods.Min(p => p.Head));

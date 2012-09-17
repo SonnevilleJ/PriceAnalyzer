@@ -239,7 +239,7 @@ namespace Sonneville.PriceTools.Implementation
             var dataPeriods = _dataPeriods.Where(period => period.Head >= head && period.Tail <= tail).OrderBy(period => period.Head).ToList();
             if (resolution == Resolution) return dataPeriods;
 
-            var pairs = GetPairs(resolution, head, tail);
+            var pairs = GetResolutionDatePairs(resolution, head, tail);
 
             return (from pair in pairs
                     let periodHead = pair.Key
@@ -297,49 +297,22 @@ namespace Sonneville.PriceTools.Implementation
 
         #region Private Methods
 
-        private delegate DateTime GetDateTime(DateTime date);
-
-        private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetPairs(Resolution resolution, DateTime head, DateTime tail)
+        private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetResolutionDatePairs(Resolution resolution, DateTime head, DateTime tail)
         {
-            if (head.DayOfWeek == DayOfWeek.Saturday || head.DayOfWeek == DayOfWeek.Sunday)
+            if (!head.IsInTradingPeriod())
             {
-                head = head.GetFollowingOpen();
+                head = head.NextTradingPeriodOpen(resolution);
             }
             
-            GetDateTime getPeriodClose = null;
-            GetDateTime getNextOpen = null;
-            GetDelegates(resolution, ref getPeriodClose, ref getNextOpen);
-
             var list = new List<KeyValuePair<DateTime, DateTime>>();
             while (head < tail)
             {
-                var periodClose = getPeriodClose(head);
+                var periodClose = head.CurrentPeriodClose(resolution);
                 var lastDay = periodClose > tail ? tail : periodClose;
                 list.Add(new KeyValuePair<DateTime, DateTime>(head, lastDay));
-                head = getNextOpen(lastDay);
+                head = lastDay.NextPeriodOpen(resolution);
             }
             return list;
-        }
-
-        private static void GetDelegates(Resolution resolution, ref GetDateTime getPeriodClose, ref GetDateTime getNextOpen)
-        {
-            switch (resolution)
-            {
-                case Resolution.Days:
-                    getPeriodClose = DateTimeExtensions.GetFollowingClose;
-                    getNextOpen = DateTimeExtensions.GetFollowingOpen;
-                    break;
-                case Resolution.Weeks:
-                    getPeriodClose = DateTimeExtensions.GetFollowingWeeklyClose;
-                    getNextOpen = DateTimeExtensions.GetFollowingWeeklyOpen;
-                    break;
-                case Resolution.Months:
-                    getPeriodClose = DateTimeExtensions.GetFollowingMonthlyClose;
-                    getNextOpen = DateTimeExtensions.GetFollowingMonthlyOpen;
-                    break;
-                default:
-                    throw new NotSupportedException(String.Format(CultureInfo.InvariantCulture, Strings.PriceSeries_GetDelegates_Resolution__0__not_supported_, resolution));
-            }
         }
 
         /// <summary>
