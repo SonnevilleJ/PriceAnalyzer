@@ -299,7 +299,7 @@ namespace Sonneville.PriceTools.Implementation
 
         private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetResolutionDatePairs(Resolution resolution, DateTime head, DateTime tail)
         {
-            if (!head.IsInTradingPeriod())
+            if (!head.IsInTradingPeriod(resolution))
             {
                 head = head.NextTradingPeriodOpen(resolution);
             }

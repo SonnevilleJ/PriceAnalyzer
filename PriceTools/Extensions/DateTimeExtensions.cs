@@ -107,9 +107,13 @@ namespace Sonneville.PriceTools.Extensions
         /// Gets a value indicating if the DateTime is within market trading hours.
         /// </summary>
         /// <param name="dateTime"></param>
+        /// <param name="resolution"></param>
         /// <returns></returns>
-        public static bool IsInTradingPeriod(this DateTime dateTime)
+        public static bool IsInTradingPeriod(this DateTime dateTime, Resolution resolution)
         {
+            // Weeks, Months, Years, etc do not have "trading periods"
+            if (resolution >= Resolution.Weeks) return true;
+            
             return dateTime.DayOfWeek == DayOfWeek.Monday ||
                    dateTime.DayOfWeek == DayOfWeek.Tuesday ||
                    dateTime.DayOfWeek == DayOfWeek.Wednesday ||
@@ -125,10 +129,10 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime NextTradingPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
-            while (!dateTime.IsInTradingPeriod())
+            do
             {
                 dateTime = dateTime.NextPeriodOpen(resolution);
-            }
+            } while (!dateTime.IsInTradingPeriod(resolution));
             return dateTime;
         }
 
@@ -140,10 +144,10 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime NextTradingPeriodClose(this DateTime dateTime, Resolution resolution)
         {
-            while (!dateTime.IsInTradingPeriod())
+            do
             {
                 dateTime = dateTime.NextPeriodClose(resolution);
-            }
+            } while (!dateTime.IsInTradingPeriod(resolution));
             return dateTime;
         }
 
@@ -155,10 +159,10 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime PreviousTradingPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
-            while (!dateTime.IsInTradingPeriod())
+            do
             {
                 dateTime = dateTime.PreviousPeriodOpen(resolution);
-            }
+            } while (!dateTime.IsInTradingPeriod(resolution));
             return dateTime;
         }
 
@@ -170,10 +174,10 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime PreviousTradingPeriodClose(this DateTime dateTime, Resolution resolution)
         {
-            while (!dateTime.IsInTradingPeriod())
+            do
             {
                 dateTime = dateTime.PreviousPeriodClose(resolution);
-            }
+            } while (!dateTime.IsInTradingPeriod(resolution));
             return dateTime;
         }
     }

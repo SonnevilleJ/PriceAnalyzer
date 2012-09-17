@@ -18,7 +18,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public virtual void CurrentPeriodOpenTestFromOpen()
+        public void CurrentPeriodOpenTestFromOpen()
         {
             var start = PeriodHead;
 
@@ -28,17 +28,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public virtual void CurrentPeriodOpenTestFromBeforeOpen()
-        {
-            var start = PeriodHead.AddTicks(-1);
-
-            var expected = start.AddTicks(1 - (long) Resolution);
-            var actual = start.CurrentPeriodOpen(Resolution);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public virtual void CurrentPeriodOpenTestFromAfterOpen()
+        public void CurrentPeriodOpenTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
 
@@ -68,31 +58,11 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public virtual void CurrentPeriodOpenTestFromAfterClose()
-        {
-            var start = PeriodHead.AddTicks(0 + (long) Resolution);
-
-            var expected = start;
-            var actual = start.CurrentPeriodOpen(Resolution);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
         public virtual void CurrentPeriodCloseTestFromOpen()
         {
             var start = PeriodHead;
 
-            var expected = start.AddTicks(-1 + (long)Resolution);
-            var actual = start.CurrentPeriodClose(Resolution);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public virtual void CurrentPeriodCloseTestFromBeforeOpen()
-        {
-            var start = PeriodHead.AddTicks(-1);
-
-            var expected = start;
+            var expected = start.AddTicks(-1 + (long) Resolution);
             var actual = start.CurrentPeriodClose(Resolution);
             Assert.AreEqual(expected, actual);
         }
@@ -108,7 +78,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public virtual void CurrentPeriodCloseTestFromClose()
+        public void CurrentPeriodCloseTestFromClose()
         {
             var start = PeriodHead.AddTicks(-1);
 
@@ -118,7 +88,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public virtual void CurrentPeriodCloseTestFromBeforeClose()
+        public void CurrentPeriodCloseTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
 
@@ -128,31 +98,11 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public virtual void CurrentPeriodCloseTestFromAfterClose()
-        {
-            var start = PeriodHead;
-
-            var expected = start.AddTicks(-1 + (long) Resolution);
-            var actual = start.CurrentPeriodClose(Resolution);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
         public virtual void NextPeriodOpenTestFromOpen()
         {
             var start = PeriodHead;
 
-            var expected = start.AddTicks((long)Resolution);
-            var actual = start.NextPeriodOpen(Resolution);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public virtual void NextPeriodOpenTestFromBeforeOpen()
-        {
-            var start = PeriodHead.AddTicks(-1);
-
-            var expected = start.AddTicks(1 - (long)Resolution).AddTicks((long)Resolution);
+            var expected = start.AddTicks((long) Resolution);
             var actual = start.NextPeriodOpen(Resolution);
             Assert.AreEqual(expected, actual);
         }
@@ -162,37 +112,27 @@ namespace Test.Sonneville.PriceTools
         {
             var start = PeriodHead.AddTicks(1);
 
-            var expected = start.AddTicks(-1).AddTicks((long)Resolution);
+            var expected = start.AddTicks(-1).AddTicks((long) Resolution);
             var actual = start.NextPeriodOpen(Resolution);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public virtual void NextPeriodOpenTestFromClose()
+        public void NextPeriodOpenTestFromClose()
         {
-            var start = PeriodHead.AddTicks(-1 + (long)Resolution);
+            var start = PeriodHead.AddTicks(-1);
 
-            var expected = start.AddTicks(1 - (long)Resolution).AddTicks((long)Resolution);
+            var expected = start.AddTicks(1);
             var actual = start.NextPeriodOpen(Resolution);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public virtual void NextPeriodOpenTestFromBeforeClose()
+        public void NextPeriodOpenTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
 
-            var expected = start.AddTicks(2 - (long)Resolution).AddTicks((long)Resolution);
-            var actual = start.NextPeriodOpen(Resolution);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public virtual void NextPeriodOpenTestFromAfterClose()
-        {
-            var start = PeriodHead.AddTicks(0 + (long)Resolution);
-
-            var expected = start.AddTicks((long)Resolution);
+            var expected = start.AddTicks(2);
             var actual = start.NextPeriodOpen(Resolution);
             Assert.AreEqual(expected, actual);
         }
@@ -202,17 +142,7 @@ namespace Test.Sonneville.PriceTools
         {
             var start = PeriodHead;
 
-            var expected = start.AddTicks(-1 + (long)Resolution).AddTicks((long)Resolution);
-            var actual = start.NextPeriodClose(Resolution);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public virtual void NextPeriodCloseTestFromBeforeOpen()
-        {
-            var start = PeriodHead.AddTicks(-1);
-
-            var expected = start.AddTicks((long)Resolution);
+            var expected = start.AddTicks(-1 + (long) Resolution).AddTicks((long) Resolution);
             var actual = start.NextPeriodClose(Resolution);
             Assert.AreEqual(expected, actual);
         }
@@ -222,7 +152,7 @@ namespace Test.Sonneville.PriceTools
         {
             var start = PeriodHead.AddTicks(1);
 
-            var expected = start.AddTicks(-2 + (long)Resolution).AddTicks((long)Resolution);
+            var expected = start.AddTicks(-2 + (long) Resolution).AddTicks((long) Resolution);
             var actual = start.NextPeriodClose(Resolution);
             Assert.AreEqual(expected, actual);
         }
@@ -232,7 +162,7 @@ namespace Test.Sonneville.PriceTools
         {
             var start = PeriodHead.AddTicks(-1);
 
-            var expected = start.AddTicks((long)Resolution);
+            var expected = start.AddTicks((long) Resolution);
             var actual = start.NextPeriodClose(Resolution);
             Assert.AreEqual(expected, actual);
         }
@@ -242,17 +172,7 @@ namespace Test.Sonneville.PriceTools
         {
             var start = PeriodHead.AddTicks(-2);
 
-            var expected = start.AddTicks(1).AddTicks((long)Resolution);
-            var actual = start.NextPeriodClose(Resolution);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public virtual void NextPeriodCloseTestFromAfterClose()
-        {
-            var start = PeriodHead;
-
-            var expected = start.AddTicks(-1 + (long)Resolution).AddTicks((long)Resolution);
+            var expected = start.AddTicks(1).AddTicks((long) Resolution);
             var actual = start.NextPeriodClose(Resolution);
             Assert.AreEqual(expected, actual);
         }
@@ -263,16 +183,6 @@ namespace Test.Sonneville.PriceTools
             var start = PeriodHead;
 
             var expected = start.AddTicks(0 - (long) Resolution);
-            var actual = start.PreviousPeriodOpen(Resolution);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public virtual void PreviousPeriodOpenTestFromBeforeOpen()
-        {
-            var start = PeriodHead.AddTicks(-1);
-
-            var expected = start.AddTicks(1).AddTicks(0 - (long)Resolution).AddTicks(0 - (long)Resolution);
             var actual = start.PreviousPeriodOpen(Resolution);
             Assert.AreEqual(expected, actual);
         }
@@ -292,7 +202,7 @@ namespace Test.Sonneville.PriceTools
         {
             var start = PeriodHead.AddTicks(-1);
 
-            var expected = start.AddTicks(1).AddTicks(0 - (long)Resolution).AddTicks(0 - (long)Resolution);
+            var expected = start.AddTicks(1).AddTicks(0 - (long) Resolution).AddTicks(0 - (long) Resolution);
             var actual = start.PreviousPeriodOpen(Resolution);
             Assert.AreEqual(expected, actual);
         }
@@ -302,23 +212,13 @@ namespace Test.Sonneville.PriceTools
         {
             var start = PeriodHead.AddTicks(-2);
 
-            var expected = start.AddTicks(2).AddTicks(0 - (long)Resolution).AddTicks(0 - (long)Resolution);
+            var expected = start.AddTicks(2).AddTicks(0 - (long) Resolution).AddTicks(0 - (long) Resolution);
             var actual = start.PreviousPeriodOpen(Resolution);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public virtual void PreviousPeriodOpenTestFromAfterClose()
-        {
-            var start = PeriodHead;
-
-            var expected = start.AddTicks(0 - (long)Resolution);
-            var actual = start.PreviousPeriodOpen(Resolution);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public virtual void PreviousPeriodCloseTestFromOpen()
+        public void PreviousPeriodCloseTestFromOpen()
         {
             var start = PeriodHead;
 
@@ -328,17 +228,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public virtual void PreviousPeriodCloseTestFromBeforeOpen()
-        {
-            var start = PeriodHead.AddTicks(-1);
-
-            var expected = start.AddTicks(0 - (long)Resolution);
-            var actual = start.PreviousPeriodClose(Resolution);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public virtual void PreviousPeriodCloseTestFromAfterOpen()
+        public void PreviousPeriodCloseTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
 
@@ -352,7 +242,7 @@ namespace Test.Sonneville.PriceTools
         {
             var start = PeriodHead.AddTicks(-1);
 
-            var expected = start.AddTicks(0 - (long)Resolution);
+            var expected = start.AddTicks(0 - (long) Resolution);
             var actual = start.PreviousPeriodClose(Resolution);
             Assert.AreEqual(expected, actual);
         }
@@ -362,19 +252,441 @@ namespace Test.Sonneville.PriceTools
         {
             var start = PeriodHead.AddTicks(-2);
 
-            var expected = start.AddTicks(1).AddTicks(0 - (long)Resolution);
+            var expected = start.AddTicks(1).AddTicks(0 - (long) Resolution);
             var actual = start.PreviousPeriodClose(Resolution);
             Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public virtual void PreviousPeriodCloseTestFromAfterClose()
+        public void NextTradingPeriodOpenTestFromOpenIsFuture()
         {
-            var start = PeriodHead;
+            var target = PeriodHead;
 
-            var expected = start.AddTicks(-1);
-            var actual = start.PreviousPeriodClose(Resolution);
-            Assert.AreEqual(expected, actual);
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result > target);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodOpenTestFromOpenIsOpen()
+        {
+            var target = PeriodHead;
+
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodOpenTestFromOpenIsInTradingPeriod()
+        {
+            var target = PeriodHead;
+
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodOpenTestFromAfterOpenIsFuture()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result > target);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodOpenTestFromAfterOpenIsOpen()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodOpenTestFromAfterOpenIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodOpenTestFromCloseIsFuture()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result > target);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodOpenTestFromCloseIsOpen()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodOpenTestFromCloseIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodOpenTestFromBeforeCloseIsFuture()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result > target);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodOpenTestFromBeforeCloseIsOpen()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodOpenTestFromBeforeCloseIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.NextTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromOpenIsFuture()
+        {
+            var target = PeriodHead;
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.IsTrue(result > target);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromOpenIsOpen()
+        {
+            var target = PeriodHead;
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromOpenIsInTradingPeriod()
+        {
+            var target = PeriodHead;
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromAfterOpenIsFuture()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.IsTrue(result > target);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromAfterOpenIsOpen()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromAfterOpenIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromCloseIsFuture()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.IsTrue(result > target);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromCloseIsOpen()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromCloseIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromBeforeCloseIsFuture()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.IsTrue(result > target);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromBeforeCloseIsOpen()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
+        }
+
+        [TestMethod]
+        public void NextTradingPeriodCloseTestFromBeforeCloseIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.NextTradingPeriodClose(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromOpenIsFuture()
+        {
+            var target = PeriodHead;
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result < target);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromOpenIsOpen()
+        {
+            var target = PeriodHead;
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromOpenIsInTradingPeriod()
+        {
+            var target = PeriodHead;
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromAfterOpenIsFuture()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result < target);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromAfterOpenIsOpen()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromAfterOpenIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromCloseIsFuture()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result < target);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromCloseIsOpen()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromCloseIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromBeforeCloseIsFuture()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result < target);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromBeforeCloseIsOpen()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodOpenTestFromBeforeCloseIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.PreviousTradingPeriodOpen(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromOpenIsFuture()
+        {
+            var target = PeriodHead;
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.IsTrue(result < target);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromOpenIsOpen()
+        {
+            var target = PeriodHead;
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromOpenIsInTradingPeriod()
+        {
+            var target = PeriodHead;
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromAfterOpenIsFuture()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.IsTrue(result < target);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromAfterOpenIsOpen()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromAfterOpenIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(1);
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromCloseIsFuture()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.IsTrue(result < target);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromCloseIsOpen()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromCloseIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(-1);
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromBeforeCloseIsFuture()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.IsTrue(result < target);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromBeforeCloseIsOpen()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
+        }
+
+        [TestMethod]
+        public void PreviousTradingPeriodCloseTestFromBeforeCloseIsInTradingPeriod()
+        {
+            var target = PeriodHead.AddTicks(-2);
+
+            var result = target.PreviousTradingPeriodClose(Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
     }
 }

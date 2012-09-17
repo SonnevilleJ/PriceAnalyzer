@@ -234,7 +234,7 @@ namespace Sonneville.PriceTools.Data.Csv
                 if (i == 0 && impliedHead.HasValue)
                 {
                     // correct weekend
-                    if (!impliedHead.Value.IsInTradingPeriod())
+                    if (!impliedHead.Value.IsInTradingPeriod(resolution))
                     {
                         head = impliedHead.Value.NextTradingPeriodOpen(resolution);
                     }
@@ -253,7 +253,7 @@ namespace Sonneville.PriceTools.Data.Csv
                 if (i == stagedPeriods.Count - 1 && impliedTail.HasValue)
                 {
                     //correct weekend
-                    if (!impliedTail.Value.IsInTradingPeriod())
+                    if (!impliedTail.Value.IsInTradingPeriod(resolution))
                     {
                         impliedTail = impliedTail.Value.PreviousTradingPeriodClose(resolution);
                     }
