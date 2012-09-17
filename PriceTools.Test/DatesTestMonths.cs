@@ -13,6 +13,46 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
+        public override void CurrentPeriodOpenTestFromClose()
+        {
+            var start = PeriodHead.AddTicks(-1).AddMonths(1);
+
+            var expected = start.AddTicks(1).AddMonths(-1);
+            var actual = start.CurrentPeriodOpen(Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public override void CurrentPeriodOpenTestFromBeforeClose()
+        {
+            var start = PeriodHead.AddTicks(-2);
+
+            var expected = start.AddTicks(2).AddMonths(-1);
+            var actual = start.CurrentPeriodOpen(Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public override void CurrentPeriodCloseTestFromOpen()
+        {
+            var start = PeriodHead;
+
+            var expected = start.AddTicks(-1).AddMonths(1);
+            var actual = start.CurrentPeriodClose(Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public override void CurrentPeriodCloseTestFromAfterOpen()
+        {
+            var start = PeriodHead.AddTicks(1);
+
+            var expected = start.AddTicks(-2).AddMonths(1);
+            var actual = start.CurrentPeriodClose(Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
         public override void NextPeriodOpenTestFromOpen()
         {
             var start = PeriodHead;

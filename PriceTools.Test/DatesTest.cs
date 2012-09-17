@@ -17,6 +17,8 @@ namespace Test.Sonneville.PriceTools
             get { return new DateTime(2012, 1, 1, 0, 0, 0, 0); }
         }
 
+        #region CurrentPeriod Tests
+
         [TestMethod]
         public void CurrentPeriodOpenTestFromOpen()
         {
@@ -96,6 +98,10 @@ namespace Test.Sonneville.PriceTools
             var actual = start.CurrentPeriodClose(Resolution);
             Assert.AreEqual(expected, actual);
         }
+
+        #endregion
+
+        #region NextPeriod Tests
 
         [TestMethod]
         public virtual void NextPeriodOpenTestFromOpen()
@@ -177,6 +183,10 @@ namespace Test.Sonneville.PriceTools
             Assert.AreEqual(expected, actual);
         }
 
+        #endregion
+
+        #region PreviousPeriod Tests
+
         [TestMethod]
         public virtual void PreviousPeriodOpenTestFromOpen()
         {
@@ -256,6 +266,10 @@ namespace Test.Sonneville.PriceTools
             var actual = start.PreviousPeriodClose(Resolution);
             Assert.AreEqual(expected, actual);
         }
+
+        #endregion
+
+        #region NextTradingPeriod Tests
 
         [TestMethod]
         public void NextTradingPeriodOpenTestFromOpenIsFuture()
@@ -473,6 +487,10 @@ namespace Test.Sonneville.PriceTools
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
+        #endregion
+
+        #region PreviousTradingPeriod Tests
+
         [TestMethod]
         public void PreviousTradingPeriodOpenTestFromOpenIsFuture()
         {
@@ -688,5 +706,8 @@ namespace Test.Sonneville.PriceTools
             var result = target.PreviousTradingPeriodClose(Resolution);
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
+
+        #endregion
+
     }
 }
