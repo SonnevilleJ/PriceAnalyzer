@@ -61,6 +61,16 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to determine boundaries for an ITimePeriod with Resolution: {0}.
+        /// </summary>
+        internal static string DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_ {
+            get {
+                return ResourceManager.GetString("DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_" +
+                        "with_Resolution___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot calculate profit for a NULL holding..
         /// </summary>
         internal static string HoldingExtensions_GrossProfit_Cannot_calculate_profit_for_a_NULL_holding_ {

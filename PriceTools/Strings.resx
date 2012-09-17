@@ -228,4 +228,7 @@
     <data name="TimeSeriesExtensions_GetTimePeriods_Unable_to_get_time_periods_using_resolution__0___Best_supported_resolution_is__1__">
         <value xml:space="preserve">Unable to get time periods using resolution {0}. Best supported resolution is {1}.</value>
     </data>
+    <data name="DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_">
+        <value xml:space="preserve">Unable to determine boundaries for an ITimePeriod with Resolution: {0}</value>
+    </data>
 </root>

@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime NextPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
-            return dateTime.CurrentPeriodClose(resolution).AddTicks(1).CurrentPeriodOpen(resolution);
+            return dateTime.SeekPeriods(1, resolution).CurrentPeriodOpen(resolution);
         }
 
         /// <summary>
@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime NextPeriodClose(this DateTime dateTime, Resolution resolution)
         {
-            return dateTime.CurrentPeriodClose(resolution).AddTicks(1).CurrentPeriodClose(resolution);
+            return dateTime.SeekPeriods(1, resolution).CurrentPeriodClose(resolution);
         }
 
         /// <summary>
@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime PreviousPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
-            return dateTime.CurrentPeriodOpen(resolution).AddTicks(-1).CurrentPeriodOpen(resolution);
+            return dateTime.SeekPeriods(-1, resolution).CurrentPeriodOpen(resolution);
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime PreviousPeriodClose(this DateTime dateTime, Resolution resolution)
         {
-            return dateTime.CurrentPeriodOpen(resolution).AddTicks(-1).CurrentPeriodClose(resolution);
+            return dateTime.SeekPeriods(-1, resolution).CurrentPeriodClose(resolution);
         }
 
         /// <summary>
@@ -68,7 +68,7 @@ namespace Sonneville.PriceTools.Extensions
                 var firstDayOfMonth = new DateTime(dateTime.Year, dateTime.Month, 1);
                 return firstDayOfMonth.AddMonths(1).AddDays(-1).CurrentPeriodClose(Resolution.Days);
             }
-            throw new ArgumentOutOfRangeException("resolution", String.Format("Unable to determine boundaries for an ITimePeriod with Resolution: {0}", resolution));
+            throw new ArgumentOutOfRangeException("resolution", String.Format(Strings.DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_, resolution));
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace Sonneville.PriceTools.Extensions
             //if (resolution == resolution.Years)
             //{
             //}
-            throw new ArgumentOutOfRangeException("resolution", String.Format("Unable to determine boundaries for an ITimePeriod with Resolution: {0}", resolution));
+            throw new ArgumentOutOfRangeException("resolution", String.Format(Strings.DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_, resolution));
         }
 
         /// <summary>
@@ -129,11 +129,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime NextTradingPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
-            do
-            {
-                dateTime = dateTime.NextPeriodOpen(resolution);
-            } while (!dateTime.IsInTradingPeriod(resolution));
-            return dateTime;
+            return dateTime.SeekTradingPeriods(1, resolution).CurrentPeriodOpen(resolution);
         }
 
         /// <summary>
@@ -144,11 +140,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime NextTradingPeriodClose(this DateTime dateTime, Resolution resolution)
         {
-            do
-            {
-                dateTime = dateTime.NextPeriodClose(resolution);
-            } while (!dateTime.IsInTradingPeriod(resolution));
-            return dateTime;
+            return dateTime.SeekTradingPeriods(1, resolution).CurrentPeriodClose(resolution);
         }
 
         /// <summary>
@@ -159,11 +151,7 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime PreviousTradingPeriodOpen(this DateTime dateTime, Resolution resolution)
         {
-            do
-            {
-                dateTime = dateTime.PreviousPeriodOpen(resolution);
-            } while (!dateTime.IsInTradingPeriod(resolution));
-            return dateTime;
+            return dateTime.SeekTradingPeriods(-1, resolution).CurrentPeriodOpen(resolution);
         }
 
         /// <summary>
@@ -174,21 +162,55 @@ namespace Sonneville.PriceTools.Extensions
         /// <returns></returns>
         public static DateTime PreviousTradingPeriodClose(this DateTime dateTime, Resolution resolution)
         {
-            do
-            {
-                dateTime = dateTime.PreviousPeriodClose(resolution);
-            } while (!dateTime.IsInTradingPeriod(resolution));
-            return dateTime;
+            return dateTime.SeekTradingPeriods(-1, resolution).CurrentPeriodClose(resolution);
         }
 
-        public static DateTime SeekPeriods(this DateTime dateTime, int periods)
-        {
-            throw new NotImplementedException();
-        }
-
+        /// <summary>
+        /// Gets a point in time in another <see cref="ITimePeriod"/> a relative number of periods away.
+        /// </summary>
+        /// <param name="dateTime">The origin <see cref="DateTime"/>.</param>
+        /// <param name="periods">The number of <see cref="ITimePeriod"/> to seek. Positive numbers seek forward in time; negative numbers seek backward in time.</param>
+        /// <param name="resolution">The resolution of <see cref="ITimePeriod"/> to seek.</param>
+        /// <returns>A point in time with the same relative distance from the relative <see cref="ITimePeriod"/>'s <see cref="CurrentPeriodOpen"/> as the origin.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the resolution is unknown and <see cref="ITimePeriod"/> boundaries cannot be determined.</exception>
         public static DateTime SeekPeriods(this DateTime dateTime, int periods, Resolution resolution)
         {
-            throw new NotImplementedException();
+            if (resolution <= (Resolution) (4*(long) Resolution.Weeks))
+            {
+                return dateTime.AddTicks(periods*(long) resolution);
+            }
+            if (resolution <= Resolution.Months)
+            {
+                return dateTime.AddMonths(periods);
+            }
+            //if (resolution <= Resolution.Years)
+            //{
+            //    return dateTime.AddYears(1);
+            //}
+            throw new ArgumentOutOfRangeException("resolution", String.Format(Strings.DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_, resolution));
+        }
+
+        /// <summary>
+        /// Gets a point in time in another <see cref="ITimePeriod"/> a relative number of trading periods away.
+        /// </summary>
+        /// <param name="dateTime">The origin <see cref="DateTime"/>.</param>
+        /// <param name="periods">The number of <see cref="ITimePeriod"/> to seek. Positive numbers seek forward in time; negative numbers seek backward in time.</param>
+        /// <param name="resolution">The resolution of <see cref="ITimePeriod"/> to seek.</param>
+        /// <returns>A point in time with the same relative distance from the relative <see cref="ITimePeriod"/>'s <see cref="CurrentPeriodOpen"/> as the origin.</returns>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when the resolution is unknown and <see cref="ITimePeriod"/> boundaries cannot be determined.</exception>
+        public static DateTime SeekTradingPeriods(this DateTime dateTime, int periods, Resolution resolution)
+        {
+            var temp = dateTime;
+            var increment = periods < 0 ? -1 : 1;
+
+            for (var i = 0; i < Math.Abs(periods); i++)
+            {
+                do
+                {
+                    temp = temp.SeekPeriods(increment, resolution);
+                } while (!temp.IsInTradingPeriod(resolution));
+            }
+            return temp;
         }
     }
 }

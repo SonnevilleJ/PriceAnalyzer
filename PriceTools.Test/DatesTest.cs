@@ -5,6 +5,7 @@ using Sonneville.PriceTools.Extensions;
 
 namespace Test.Sonneville.PriceTools
 {
+    [TestClass]
     public abstract class DatesTest
     {
         protected abstract Resolution Resolution { get; }
@@ -492,7 +493,7 @@ namespace Test.Sonneville.PriceTools
         #region PreviousTradingPeriod Tests
 
         [TestMethod]
-        public void PreviousTradingPeriodOpenTestFromOpenIsFuture()
+        public void PreviousTradingPeriodOpenTestFromOpenIsPast()
         {
             var target = PeriodHead;
 
@@ -519,7 +520,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public void PreviousTradingPeriodOpenTestFromAfterOpenIsFuture()
+        public void PreviousTradingPeriodOpenTestFromAfterOpenIsPast()
         {
             var target = PeriodHead.AddTicks(1);
 
@@ -546,7 +547,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public void PreviousTradingPeriodOpenTestFromCloseIsFuture()
+        public void PreviousTradingPeriodOpenTestFromCloseIsPast()
         {
             var target = PeriodHead.AddTicks(-1);
 
@@ -573,7 +574,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public void PreviousTradingPeriodOpenTestFromBeforeCloseIsFuture()
+        public void PreviousTradingPeriodOpenTestFromBeforeCloseIsPast()
         {
             var target = PeriodHead.AddTicks(-2);
 
@@ -600,7 +601,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public void PreviousTradingPeriodCloseTestFromOpenIsFuture()
+        public void PreviousTradingPeriodCloseTestFromOpenIsPast()
         {
             var target = PeriodHead;
 
@@ -627,7 +628,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public void PreviousTradingPeriodCloseTestFromAfterOpenIsFuture()
+        public void PreviousTradingPeriodCloseTestFromAfterOpenIsPast()
         {
             var target = PeriodHead.AddTicks(1);
 
@@ -654,7 +655,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public void PreviousTradingPeriodCloseTestFromCloseIsFuture()
+        public void PreviousTradingPeriodCloseTestFromCloseIsPast()
         {
             var target = PeriodHead.AddTicks(-1);
 
@@ -681,7 +682,7 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public void PreviousTradingPeriodCloseTestFromBeforeCloseIsFuture()
+        public void PreviousTradingPeriodCloseTestFromBeforeCloseIsPast()
         {
             var target = PeriodHead.AddTicks(-2);
 
@@ -708,6 +709,5 @@ namespace Test.Sonneville.PriceTools
         }
 
         #endregion
-
     }
 }
