@@ -168,24 +168,24 @@ namespace Sonneville.PriceTools.Extensions
         /// <summary>
         /// Gets a point in time in another <see cref="ITimePeriod"/> a relative number of periods away.
         /// </summary>
-        /// <param name="dateTime">The origin <see cref="DateTime"/>.</param>
+        /// <param name="origin">The origin <see cref="DateTime"/>.</param>
         /// <param name="periods">The number of <see cref="ITimePeriod"/> to seek. Positive numbers seek forward in time; negative numbers seek backward in time.</param>
         /// <param name="resolution">The resolution of <see cref="ITimePeriod"/> to seek.</param>
         /// <returns>A point in time with the same relative distance from the relative <see cref="ITimePeriod"/>'s <see cref="CurrentPeriodOpen"/> as the origin.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the resolution is unknown and <see cref="ITimePeriod"/> boundaries cannot be determined.</exception>
-        public static DateTime SeekPeriods(this DateTime dateTime, int periods, Resolution resolution)
+        public static DateTime SeekPeriods(this DateTime origin, int periods, Resolution resolution)
         {
             if (resolution <= (Resolution) (4*(long) Resolution.Weeks))
             {
-                return dateTime.AddTicks(periods*(long) resolution);
+                return origin.AddTicks(periods*(long) resolution);
             }
             if (resolution <= Resolution.Months)
             {
-                return dateTime.AddMonths(periods);
+                return origin.AddMonths(periods);
             }
             //if (resolution <= Resolution.Years)
             //{
-            //    return dateTime.AddYears(1);
+            //    return origin.AddYears(1);
             //}
             throw new ArgumentOutOfRangeException("resolution", String.Format(Strings.DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_, resolution));
         }
@@ -193,14 +193,14 @@ namespace Sonneville.PriceTools.Extensions
         /// <summary>
         /// Gets a point in time in another <see cref="ITimePeriod"/> a relative number of trading periods away.
         /// </summary>
-        /// <param name="dateTime">The origin <see cref="DateTime"/>.</param>
+        /// <param name="origin">The origin <see cref="DateTime"/>.</param>
         /// <param name="periods">The number of <see cref="ITimePeriod"/> to seek. Positive numbers seek forward in time; negative numbers seek backward in time.</param>
         /// <param name="resolution">The resolution of <see cref="ITimePeriod"/> to seek.</param>
         /// <returns>A point in time with the same relative distance from the relative <see cref="ITimePeriod"/>'s <see cref="CurrentPeriodOpen"/> as the origin.</returns>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when the resolution is unknown and <see cref="ITimePeriod"/> boundaries cannot be determined.</exception>
-        public static DateTime SeekTradingPeriods(this DateTime dateTime, int periods, Resolution resolution)
+        public static DateTime SeekTradingPeriods(this DateTime origin, int periods, Resolution resolution)
         {
-            var temp = dateTime;
+            var temp = origin;
             var increment = periods < 0 ? -1 : 1;
 
             for (var i = 0; i < Math.Abs(periods); i++)

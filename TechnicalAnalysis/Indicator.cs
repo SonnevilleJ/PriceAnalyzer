@@ -11,6 +11,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// </summary>
     public abstract class Indicator : IIndicator
     {
+        #region Private Members
+
         private readonly ITimeSeries _cachedValues = TimeSeriesFactory.ConstructMutable();
         private readonly ITimeSeries _measuredTimeSeries;
 
@@ -21,6 +23,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             get { return _cachedValues; }
         }
+
+        #endregion
 
         #region Constructors
 
@@ -77,6 +81,25 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                 throw new InvalidOperationException(String.Format("Unable to calculate value for DateTime: {0}", index.ToString(CultureInfo.CurrentCulture)));
         }
 
+        /// <summary>
+        /// Gets the most recent <paramref name="count"/> <see cref="ITimePeriod"/>s starting from <paramref name="origin"/>.
+        /// </summary>
+        /// <param name="count"></param>
+        /// <param name="origin"></param>
+        /// <returns></returns>
+        protected IEnumerable<ITimePeriod> GetPreviousPeriods(int count, DateTime origin)
+        {
+            var periods = MeasuredTimeSeries.TimePeriods.Where(p => p.Head <= origin).ToArray();
+            if(periods.Count() < count) throw new InvalidOperationException("Not enough ITimePeriods to select.");
+
+            var results = new List<ITimePeriod>();
+            for (var i = periods.Count(); i > periods.Count() - count; i--)
+            {
+                results.Add(periods[i - 1]);
+            }
+            return results;
+        }
+
         #endregion
 
         #region Implementation of IIndicator
@@ -106,10 +129,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             get
             {
-                if (CachedValues.HasValueInRange(index)) return CachedValues[index];
-
-                CalculateAndCache(index);
-                return CachedValues[index];
+                return CachedValues.HasValueInRange(index) ? CachedValues[index] : CalculateAndCache(index);
             }
         }
 
@@ -156,11 +176,11 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         public virtual void CalculateAll()
         {
-            var dateTime = Head.SeekPeriods(Lookback - 1, Resolution);
-            while (dateTime <= Tail)
+            var firstPeriodHeadOfIndicator = MeasuredTimeSeries.TimePeriods.ElementAt(Lookback - 1).Head;
+            var timePeriods = MeasuredTimeSeries.TimePeriods.Where(p => p.Head >= firstPeriodHeadOfIndicator);
+            foreach(var period in timePeriods)
             {
-                CalculateAndCache(dateTime);
-                dateTime = dateTime.SeekPeriods(1, Resolution);
+                CalculateAndCache(period.Head);
             }
         }
 

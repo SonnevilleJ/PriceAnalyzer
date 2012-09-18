@@ -1,5 +1,5 @@
 ﻿using System;
-using Sonneville.PriceTools.Extensions;
+using System.Linq;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
@@ -32,13 +32,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             ThrowIfCannotCalculate(index);
 
-            var sum = 0m;
-            for (var i = 0; i < Lookback; i++)
-            {
-                var currentPeriodOpen = index.SeekPeriods(0 - (Lookback - 1 - i), Resolution).CurrentPeriodOpen(Resolution);
-                sum += MeasuredTimeSeries[currentPeriodOpen];
-            }
-            return sum/Lookback;
+            return GetPreviousPeriods(Lookback, index).Sum(period => period.Value())/Lookback;
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.TechnicalAnalysis;
 
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
@@ -28,7 +29,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         }
 
         [TestMethod]
-        public void RisingAndFallingMovingAverageReturnsCorrectValues()
+        public void DataInNonTradingPeriods()
         {
             var p1 = PricePeriodFactory.ConstructTickedPricePeriod();
             var p2 = PricePeriodFactory.ConstructTickedPricePeriod();
@@ -73,6 +74,55 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             Assert.AreEqual(4.0m, target[date.AddDays(6)]);
             Assert.AreEqual(3.5m, target[date.AddDays(7)]);
             Assert.AreEqual(2.5m, target[date.AddDays(8)]);
+        }
+
+        [TestMethod]
+        public void DataInTradingPeriods()
+        {
+            var p1 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p2 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p3 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p4 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p5 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p6 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p7 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p8 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p9 = PricePeriodFactory.ConstructTickedPricePeriod();
+
+            const Resolution resolution = Resolution.Days;
+            var date = new DateTime(2000, 1, 1);
+            p1.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(1, resolution), 1));
+            p2.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(2, resolution), 2));
+            p3.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(3, resolution), 3));
+            p4.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(4, resolution), 4));
+            p5.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(5, resolution), 5));
+            p6.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(6, resolution), 4));
+            p7.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(7, resolution), 3));
+            p8.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(8, resolution), 2));
+            p9.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(9, resolution), 1));
+
+            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            series.AddPriceData(p1);
+            series.AddPriceData(p2);
+            series.AddPriceData(p3);
+            series.AddPriceData(p4);
+            series.AddPriceData(p5);
+            series.AddPriceData(p6);
+            series.AddPriceData(p7);
+            series.AddPriceData(p8);
+            series.AddPriceData(p9);
+
+            // create 4 day moving average
+            const int lookback = 4;
+            var target = new SimpleMovingAverage(series, lookback);
+
+            target.CalculateAll();
+            Assert.AreEqual(2.5m, target[date.SeekTradingPeriods(4, resolution)]);
+            Assert.AreEqual(3.5m, target[date.SeekTradingPeriods(5, resolution)]);
+            Assert.AreEqual(4.0m, target[date.SeekTradingPeriods(6, resolution)]);
+            Assert.AreEqual(4.0m, target[date.SeekTradingPeriods(7, resolution)]);
+            Assert.AreEqual(3.5m, target[date.SeekTradingPeriods(8, resolution)]);
+            Assert.AreEqual(2.5m, target[date.SeekTradingPeriods(9, resolution)]);
         }
 
         private static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
