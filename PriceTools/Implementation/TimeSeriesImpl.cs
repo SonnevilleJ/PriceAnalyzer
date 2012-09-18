@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public IEnumerable<ITimePeriod> TimePeriods
         {
-            get { return _periods.OrderBy(p => p.Head); }
+            get { return _periods; }
         }
 
         /// <summary>
@@ -53,6 +53,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
+            if (!TimePeriods.Any()) return false;
             return Head <= settlementDate && Tail >= settlementDate;
         }
     }

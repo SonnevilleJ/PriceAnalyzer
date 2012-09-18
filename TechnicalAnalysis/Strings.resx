@@ -117,7 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator" xml:space="preserve">
-    <value>Argument index must be a date within the span of this Indicator.</value>
-  </data>
 </root>

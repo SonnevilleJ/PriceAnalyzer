@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Sonneville.PriceTools.Extensions;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
@@ -9,10 +11,16 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// </summary>
     public abstract class Indicator : IIndicator
     {
+        private readonly ITimeSeries _cachedValues = TimeSeriesFactory.ConstructMutable();
+        private readonly ITimeSeries _measuredTimeSeries;
+
         /// <summary>
-        /// Stores the calculated values for each period. These values are publically accessible through the <see cref="Indicator"/> indexer.
+        /// Stores the calculated values for each period.
         /// </summary>
-        private ITimeSeries Results { get; set; }
+        private ITimeSeries CachedValues
+        {
+            get { return _cachedValues; }
+        }
 
         #region Constructors
 
@@ -33,29 +41,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                 //throw new InvalidOperationException("The TimeSpan of timeSeries is too narrow for the given lookback duration.");
             }
 
-            MeasuredTimeSeries = timeSeries;
+            _measuredTimeSeries = timeSeries;
             Lookback = lookback;
-            Results = TimeSeriesFactory.ConstructMutable();
-        }
-
-        #endregion
-
-        #region Accessors
-
-        /// <summary>
-        /// Gets the first DateTime in the Indicator.
-        /// </summary>
-        public virtual DateTime Head
-        {
-            get { return MeasuredTimeSeries.Head.SeekPeriods(Lookback - 1); }
-        }
-
-        /// <summary>
-        /// Gets the last DateTime in the Indicator.
-        /// </summary>
-        public virtual DateTime Tail
-        {
-            get { return MeasuredTimeSeries.Tail; }
         }
 
         #endregion
@@ -66,9 +53,28 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// Calculates a single value of this Indicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
-        protected decimal? Calculate(int index)
+        protected abstract decimal Calculate(DateTime index);
+
+        /// <summary>
+        /// Gets a value indicating whether or not an indicator value is calculable for a given <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        protected virtual bool CanCalculate(DateTime index)
         {
-            throw new NotImplementedException();
+            var sufficientDates = index >= Head.SeekPeriods(Lookback - 1, Resolution);
+            var haveAllData = MeasuredTimeSeries.TimePeriods.Count(p => p.Tail <= index) >= Lookback;
+            return sufficientDates && haveAllData;
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> if a value cannot be calculated for the period ending on or before <see cref="index"/>.
+        /// </summary>
+        /// <param name="index"></param>
+        protected void ThrowIfCannotCalculate(DateTime index)
+        {
+            if (!CanCalculate(index))
+                throw new InvalidOperationException(String.Format("Unable to calculate value for DateTime: {0}", index.ToString(CultureInfo.CurrentCulture)));
         }
 
         #endregion
@@ -76,13 +82,35 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         #region Implementation of IIndicator
 
         /// <summary>
+        /// Gets the first DateTime in the Indicator.
+        /// </summary>
+        public virtual DateTime Head
+        {
+            get { return MeasuredTimeSeries.Head; }
+        }
+
+        /// <summary>
+        /// Gets the last DateTime in the Indicator.
+        /// </summary>
+        public virtual DateTime Tail
+        {
+            get { return MeasuredTimeSeries.Tail; }
+        }
+
+        /// <summary>
         /// Gets the value stored at a given index of this Indicator.
         /// </summary>
-        /// <param name="dateTime">The DateTime of the desired value.</param>
+        /// <param name="index">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
-        public decimal this[DateTime dateTime]
+        public decimal this[DateTime index]
         {
-            get { return Results[dateTime]; }
+            get
+            {
+                if (CachedValues.HasValueInRange(index)) return CachedValues[index];
+
+                CalculateAndCache(index);
+                return CachedValues[index];
+            }
         }
 
         /// <summary>
@@ -90,7 +118,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         public IEnumerable<ITimePeriod> TimePeriods
         {
-            get { return Results.TimePeriods; }
+            get { return CachedValues.TimePeriods.ToList().AsReadOnly(); }
         }
 
         /// <summary>
@@ -102,7 +130,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The underlying data which is to be analyzed by this Indicator.
         /// </summary>
-        public ITimeSeries MeasuredTimeSeries { get; private set; }
+        public ITimeSeries MeasuredTimeSeries
+        {
+            get { return _measuredTimeSeries; }
+        }
 
         /// <summary>
         /// The Resolution of this Indicator.
@@ -125,17 +156,45 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         public virtual void CalculateAll()
         {
+            var dateTime = Head.SeekPeriods(Lookback - 1, Resolution);
+            while (dateTime <= Tail)
+            {
+                CalculateAndCache(dateTime);
+                dateTime = dateTime.SeekPeriods(1, Resolution);
+            }
         }
 
         #endregion
 
         #region Private Methods
 
-        private void CalculateAndCache(DateTime index)
+        private decimal CalculateAndCache(DateTime index)
         {
-            if (!HasValueInRange(index)) throw new ArgumentOutOfRangeException("index", index, Strings.IndicatorError_Argument_index_must_be_a_date_within_the_span_of_this_Indicator);
+            ThrowIfCannotCalculate(index);
+            
+            var result = Calculate(index);
+            AddOrReplaceResult(index, result);
+            return result;
+        }
 
-            throw new NotImplementedException();
+        /// <summary>
+        /// Records values, storing them with the Tail of the period they represent.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="calculate"></param>
+        private void AddOrReplaceResult(DateTime index, decimal calculate)
+        {
+            var list = CachedValues.TimePeriods as List<ITimePeriod>;
+            if (list != null)
+            {
+                var head = index.CurrentPeriodOpen(Resolution);
+                var tail = index.CurrentPeriodClose(Resolution);
+                if(list.Any(p => p.Head == head && p.Tail == tail))
+                {
+                    list.RemoveAll(p => p.Head == head && p.Tail == tail);
+                }
+                list.Add(TimePeriodFactory.ConstructTimePeriod(head, tail, calculate));
+            }
         }
 
         #endregion

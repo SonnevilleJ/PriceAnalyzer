@@ -22,7 +22,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             const decimal expected = price;
             for (var i = lookback; i < series.PricePeriods.Count; i++)
             {
-                decimal? actual = ma[date.AddDays(i)];
+                var actual = ma[date.AddDays(i)];
                 Assert.AreEqual(expected, actual);
             }
         }
