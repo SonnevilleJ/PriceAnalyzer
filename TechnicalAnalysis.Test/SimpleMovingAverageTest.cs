@@ -23,7 +23,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             const decimal expected = price;
             for (var i = lookback; i < series.PricePeriods.Count; i++)
             {
-                var actual = ma[date.AddDays(i)];
+                var actual = ma[date.SeekPeriods(i, series.Resolution)];
                 Assert.AreEqual(expected, actual);
             }
         }
@@ -68,12 +68,13 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var target = new SimpleMovingAverage(series, lookback);
 
             target.CalculateAll();
-            Assert.AreEqual(2.5m, target[date.AddDays(3)]);
-            Assert.AreEqual(3.5m, target[date.AddDays(4)]);
-            Assert.AreEqual(4.0m, target[date.AddDays(5)]);
-            Assert.AreEqual(4.0m, target[date.AddDays(6)]);
-            Assert.AreEqual(3.5m, target[date.AddDays(7)]);
-            Assert.AreEqual(2.5m, target[date.AddDays(8)]);
+            var head = target.Head;
+            Assert.AreEqual(2.5m, target[head.SeekPeriods(0, target.Resolution)]);
+            Assert.AreEqual(3.5m, target[head.SeekPeriods(1, target.Resolution)]);
+            Assert.AreEqual(4.0m, target[head.SeekPeriods(2, target.Resolution)]);
+            Assert.AreEqual(4.0m, target[head.SeekPeriods(3, target.Resolution)]);
+            Assert.AreEqual(3.5m, target[head.SeekPeriods(4, target.Resolution)]);
+            Assert.AreEqual(2.5m, target[head.SeekPeriods(5, target.Resolution)]);
         }
 
         [TestMethod]

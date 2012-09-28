@@ -66,7 +66,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns></returns>
         protected virtual bool CanCalculate(DateTime index)
         {
-            var sufficientDates = index >= Head.SeekPeriods(Lookback - 1, Resolution);
+            var sufficientDates = index >= MeasuredTimeSeries.Head.SeekPeriods(Lookback - 1, Resolution);
             var haveAllData = MeasuredTimeSeries.TimePeriods.Count(p => p.Tail <= index) >= Lookback;
             return sufficientDates && haveAllData;
         }
@@ -82,20 +82,21 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Gets the most recent <paramref name="count"/> <see cref="ITimePeriod"/>s starting from <paramref name="origin"/>.
+        /// Gets the most recent <paramref name="maximumCount"/> <see cref="ITimePeriod"/>s starting from <paramref name="origin"/>.
         /// </summary>
-        /// <param name="count"></param>
+        /// <param name="maximumCount"></param>
         /// <param name="origin"></param>
         /// <returns></returns>
-        protected IEnumerable<ITimePeriod> GetPreviousPeriods(int count, DateTime origin)
+        protected IEnumerable<ITimePeriod> GetPreviousPeriods(int maximumCount, DateTime origin)
         {
-            var periods = MeasuredTimeSeries.TimePeriods.Where(p => p.Head <= origin).ToArray();
-            if(periods.Count() < count) throw new InvalidOperationException("Not enough ITimePeriods to select.");
+            var previousPeriods = MeasuredTimeSeries.TimePeriods.Where(p => p.Head <= origin).ToArray();
+            if (previousPeriods.Count() <= maximumCount) return previousPeriods;
 
+            // select most recent periods up to maximumCount
             var results = new List<ITimePeriod>();
-            for (var i = periods.Count(); i > periods.Count() - count; i--)
+            for (var i = 0; i < maximumCount; i++)
             {
-                results.Add(periods[i - 1]);
+                results.Add(previousPeriods[previousPeriods.Count() - (maximumCount - i)]);
             }
             return results;
         }
@@ -109,7 +110,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         public virtual DateTime Head
         {
-            get { return MeasuredTimeSeries.Head; }
+            get { return MeasuredTimeSeries.TimePeriods.ElementAt(Lookback - 1).Head; }
         }
 
         /// <summary>
@@ -176,9 +177,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         public virtual void CalculateAll()
         {
-            var firstPeriodHeadOfIndicator = MeasuredTimeSeries.TimePeriods.ElementAt(Lookback - 1).Head;
-            var timePeriods = MeasuredTimeSeries.TimePeriods.Where(p => p.Head >= firstPeriodHeadOfIndicator);
-            foreach(var period in timePeriods)
+            foreach(var period in MeasuredTimeSeries.TimePeriods.Where(p => p.Head >= Head))
             {
                 CalculateAndCache(period.Head);
             }
@@ -190,8 +189,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         private decimal CalculateAndCache(DateTime index)
         {
-            ThrowIfCannotCalculate(index);
-            
             var result = Calculate(index);
             AddOrReplaceResult(index, result);
             return result;
