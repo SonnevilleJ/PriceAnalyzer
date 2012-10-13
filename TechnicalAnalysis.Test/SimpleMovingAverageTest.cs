@@ -7,8 +7,13 @@ using Sonneville.PriceTools.TechnicalAnalysis;
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public class SimpleMovingAverageTest
+    public class SimpleMovingAverageTest : CommonIndicatorTests
     {
+        protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
+        {
+            return new SimpleMovingAverage(timeSeries, lookback);
+        }
+
         [TestMethod]
         public void FlatPeriodReturnsSameAverage()
         {

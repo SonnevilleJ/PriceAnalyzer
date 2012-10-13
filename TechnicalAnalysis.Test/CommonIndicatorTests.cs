@@ -1,13 +1,16 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.TechnicalAnalysis;
 
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public class CommonIndicatorTests
+    public abstract class CommonIndicatorTests
     {
+        protected abstract Indicator GetTestInstance(ITimeSeries timeSeries, int lookback);
+
         [TestMethod]
         public void ResolutionDaysMatchesPriceSeries()
         {
@@ -15,7 +18,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var priceSeries = CreateTestPriceSeries(20, date, 1);
 
             const int lookback = 5;
-            var target = new SimpleMovingAverage(priceSeries, lookback);
+            var target = GetTestInstance(priceSeries, lookback);
 
             var expected = priceSeries.Resolution;
             var actual = target.Resolution;
@@ -23,25 +26,28 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         }
 
         [TestMethod]
-        [ExpectedException(typeof (ArgumentOutOfRangeException))]
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void QueryBeforeHeadThrowsException()
         {
             var series = CreateTestPriceSeries(4, new DateTime(2011, 1, 6), 2);
-            var ma = new SimpleMovingAverage(series, 2);
+            var target = GetTestInstance(series, 2);
 
-            var result = ma[ma.Head.Subtract(new TimeSpan(1))];
+            var result = target[target.Head.AddTicks(-1)];
         }
 
         [TestMethod]
-        public void HeadTest()
+        [ExpectedException(typeof(ArgumentOutOfRangeException))]
+        public void QueryBeforeHeadCloseThrowsException()
         {
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(10, date, 1);
             const int lookback = 4;
 
-            var target = new SimpleMovingAverage(priceSeries, lookback);
+            var target = GetTestInstance(priceSeries, lookback);
 
-            Assert.IsNotNull(priceSeries.PricePeriods[target.Lookback - 1].Head);
+            // CreateTestPriceSeries above does NOT create a full period for the resolution (TickedPricePeriodImpl)
+            var tail = priceSeries.PricePeriods[lookback - 1].Tail;
+            var result = target[tail.AddTicks(-1)];
         }
 
         [TestMethod]
@@ -51,7 +57,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var priceSeries = CreateTestPriceSeries(10, date, 1);
             const int lookback = 4;
 
-            var target = new SimpleMovingAverage(priceSeries, lookback);
+            var target = GetTestInstance(priceSeries, lookback);
 
             target.CalculateAll();
         }
@@ -63,7 +69,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var priceSeries = CreateTestPriceSeries(10, date, 1);
             const int lookback = 4;
 
-            var target = new SimpleMovingAverage(priceSeries, lookback);
+            var target = GetTestInstance(priceSeries, lookback);
 
             var testDate = date.AddDays(lookback);
             var expected = priceSeries[testDate];

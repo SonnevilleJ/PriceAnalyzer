@@ -33,7 +33,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             ThrowIfCannotCalculate(index);
 
-            return MeasuredTimeSeries.GetPreviousTimePeriods(Lookback, index.CurrentPeriodOpen(Resolution)).Sum(period => period.Value())/Lookback;
+            return MeasuredTimeSeries.GetPreviousTimePeriods(Lookback, index.CurrentPeriodClose(Resolution).AddTicks(1)).Sum(period => period.Value())/Lookback;
         }
 
         #endregion
