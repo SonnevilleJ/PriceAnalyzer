@@ -9,49 +9,49 @@ namespace Sonneville.PriceTools.Implementation
     public abstract class PricePeriodImpl : IPricePeriod, IEquatable<PricePeriodImpl>
     {
         /// <summary>
-        /// Gets the closing price for the PricePeriod.
+        /// Gets the closing price for the IPricePeriod.
         /// </summary>
         public abstract decimal Close { get; }
 
         /// <summary>
-        /// Gets the highest price that occurred during the PricePeriod.
+        /// Gets the highest price that occurred during the IPricePeriod.
         /// </summary>
         public abstract decimal High { get; }
 
         /// <summary>
-        /// Gets the lowest price that occurred during the PricePeriod.
+        /// Gets the lowest price that occurred during the IPricePeriod.
         /// </summary>
         public abstract decimal Low { get; }
 
         /// <summary>
-        /// Gets the opening price for the PricePeriod.
+        /// Gets the opening price for the IPricePeriod.
         /// </summary>
         public abstract decimal Open { get; }
 
         /// <summary>
-        /// Gets the total volume of trades during the PricePeriod.
+        /// Gets the total volume of trades during the IPricePeriod.
         /// </summary>
         public abstract long? Volume { get; }
 
         /// <summary>
-        /// Gets a value stored at a given DateTime index of the ITimePeriod.
+        /// Gets a value stored at a given DateTime index of the IPricePeriod.
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
-        /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
+        /// <returns>The value of the IPricePeriod as of the given DateTime.</returns>
         public abstract decimal this[DateTime dateTime] { get; }
 
         /// <summary>
-        /// Gets the first DateTime in the ITimePeriod.
+        /// Gets the first DateTime in the IPricePeriod.
         /// </summary>
         public abstract DateTime Head { get; }
 
         /// <summary>
-        /// Gets the last DateTime in the ITimePeriod.
+        /// Gets the last DateTime in the IPricePeriod.
         /// </summary>
         public abstract DateTime Tail { get; }
 
         /// <summary>
-        /// Gets the <see cref="ITimePeriod.Resolution"/> of price data stored within the ITimePeriod.
+        /// Gets the <see cref="Resolution"/> of price data stored within the IPricePeriod.
         /// </summary>
         public virtual Resolution Resolution
         {
@@ -68,15 +68,15 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Determines if the PricePeriod has any data at all. PricePeriods with no data are not equal.
+        /// Determines if the IPricePeriod has any data at all. IPricePeriods with no data are not equal.
         /// </summary>
         protected abstract bool HasData { get; }
 
         /// <summary>
-        /// Determines if the PricePeriod has a valid value for a given date.
+        /// Determines if the IPricePeriod has a valid value for a given date.
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the PricePeriod has a valid value for the given date.</returns>
+        /// <returns>A value indicating if the IPricePeriod has a valid value for the given date.</returns>
         public virtual bool HasValueInRange(DateTime settlementDate)
         {
             return Head <= settlementDate && Tail >= settlementDate;
@@ -98,7 +98,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Event which is invoked when new price data is available for the PricePeriod.
+        ///   Event which is invoked when new data is available for the IPricePeriod.
         /// </summary>
         public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
 
@@ -188,5 +188,15 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         #endregion
+
+#if DEBUG
+
+        public override string ToString()
+        {
+            return string.Format("Head: {0}; Tail: {1}; Open: {2}; High: {3}; Low: {4}; Close: {5}; Volume: {6}",
+                                 Head.ToShortDateString(), Tail.ToShortDateString(), Open, High, Low, Close, Volume);
+        }
+
+#endif
     }
 }

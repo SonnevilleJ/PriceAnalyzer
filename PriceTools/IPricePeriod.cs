@@ -1,5 +1,3 @@
-using System;
-
 namespace Sonneville.PriceTools
 {
     /// <summary>
@@ -31,10 +29,5 @@ namespace Sonneville.PriceTools
         /// Gets the total volume of trades during the IPricePeriod.
         /// </summary>
         long? Volume { get; }
-
-        /// <summary>
-        ///   Event which is invoked when new price data is available for the IPricePeriod.
-        /// </summary>
-        event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
     }
 }

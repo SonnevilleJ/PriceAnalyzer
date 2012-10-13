@@ -30,20 +30,20 @@ namespace Sonneville.PriceTools.Implementation
 
         #endregion
 
-        #region Implementation of ITimePeriod
+        #region Implementation of IPortfolio
 
         /// <summary>
-        /// Gets a value stored at a given DateTime index of the ITimePeriod.
+        /// Gets a value stored at a given DateTime index of the IPortfolio.
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
-        /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
+        /// <returns>The value of the IPortfolio as of the given DateTime.</returns>
         public decimal this[DateTime dateTime]
         {
             get { return this.CalculateGrossProfit(dateTime); }
         }
 
         /// <summary>
-        /// Gets the first DateTime in the ITimePeriod.
+        /// Gets the first DateTime in the IPortfolio.
         /// </summary>
         public DateTime Head
         {
@@ -71,7 +71,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the last DateTime in the ITimePeriod.
+        /// Gets the last DateTime in the IPortfolio.
         /// </summary>
         public DateTime Tail
         {
@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the <see cref="ITimePeriod.Resolution"/> of price data stored within the ITimePeriod.
+        /// Gets the <see cref="IPortfolio.Resolution"/> of price data stored within the IPortfolio.
         /// </summary>
         public Resolution Resolution
         {
@@ -97,21 +97,26 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Determines if the ITimePeriod has a valid value for a given date.
+        /// Determines if the IPortfolio has a valid value for a given date.
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
+        /// <returns>A value indicating if the IPortfolio has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
             return settlementDate >= Head;
         }
+
+        /// <summary>
+        ///   Event which is invoked when new data is available for the IPortfolio.
+        /// </summary>
+        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
 
         #endregion
 
         #region Implementation of Portfolio
 
         /// <summary>
-        ///   Gets the amount of uninvested cash in this Portfolio.
+        ///   Gets the amount of uninvested cash in this IPortfolio.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetAvailableCash(DateTime settlementDate)
@@ -120,7 +125,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets or sets the ticker to use for the holding of cash in this Portfolio.
+        /// Gets or sets the ticker to use for the holding of cash in this IPortfolio.
         /// </summary>
         public string CashTicker { get; private set; }
 
@@ -143,7 +148,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Adds an <see cref="Transaction"/> to this Portfolio.
+        ///   Adds an <see cref="Transaction"/> to this IPortfolio.
         /// </summary>
         public void AddTransaction(Transaction transaction)
         {
@@ -200,7 +205,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Deposits cash to this Portfolio.
+        /// Deposits cash to this IPortfolio.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> of the deposit.</param>
         /// <param name="cashAmount">The amount of cash deposited.</param>
@@ -210,7 +215,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Deposits cash to this Portfolio.
+        /// Deposits cash to this IPortfolio.
         /// </summary>
         /// <param name="deposit">The <see cref="PriceTools.Deposit"/> to deposit.</param>
         public void Deposit(Deposit deposit)
@@ -219,7 +224,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Withdraws cash from this Portfolio. AvailableCash must be greater than or equal to the withdrawn amount.
+        /// Withdraws cash from this IPortfolio. AvailableCash must be greater than or equal to the withdrawn amount.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> of the withdrawal.</param>
         /// <param name="cashAmount">The amount of cash withdrawn.</param>
@@ -229,7 +234,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Withdraws cash from this Portfolio. Available cash must be greater than or equal to the withdrawn amount.
+        /// Withdraws cash from this IPortfolio. Available cash must be greater than or equal to the withdrawn amount.
         /// </summary>
         /// <param name="withdrawal">The <see cref="Withdrawal"/> to withdraw.</param>
         public void Withdraw(Withdrawal withdrawal)
@@ -238,7 +243,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Adds historical transactions to the Portfolio.
+        /// Adds historical transactions to the IPortfolio.
         /// </summary>
         /// <param name="transactionHistory">The historical transactions to add.</param>
         public void AddTransactionHistory(TransactionHistory transactionHistory)
@@ -252,7 +257,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Validates an <see cref="Transaction"/> without adding it to the Portfolio.
+        /// Validates an <see cref="Transaction"/> without adding it to the IPortfolio.
         /// </summary>
         /// <param name="transaction">The <see cref="ShareTransaction"/> to validate.</param>
         /// <returns></returns>
@@ -291,7 +296,7 @@ namespace Sonneville.PriceTools.Implementation
             }
 
         /// <summary>
-        ///   Gets an <see cref = "IList{T}" /> of positions held in this Portfolio.
+        ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
         /// </summary>
         public IList<Position> Positions
         {

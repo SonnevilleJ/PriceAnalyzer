@@ -36,5 +36,10 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
         bool HasValueInRange(DateTime settlementDate);
+
+        /// <summary>
+        ///   Event which is invoked when new data is available for the ITimePeriod.
+        /// </summary>
+        event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
     }
 }

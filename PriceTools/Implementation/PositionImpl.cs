@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.Implementation
         #region Position Members
 
         /// <summary>
-        ///   Gets the ticker symbol held by this Position.
+        ///   Gets the ticker symbol held by this IPosition.
         /// </summary>
         public string Ticker
         {
@@ -54,7 +54,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Buys shares of the ticker held by this Position.
+        ///   Buys shares of the ticker held by this IPosition.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
         /// <param name = "shares">The number of shares in this shareTransaction.</param>
@@ -78,7 +78,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Sells shares of the ticker held by this Position.
+        ///   Sells shares of the ticker held by this IPosition.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
         /// <param name = "shares">The number of shares in this shareTransaction. Shares connot exceed currently held shares.</param>
@@ -90,7 +90,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Sell short shares of the ticker held by this Position.
+        ///   Sell short shares of the ticker held by this IPosition.
         /// </summary>
         /// <param name = "settlementDate">The date of this shareTransaction.</param>
         /// <param name = "shares">The number of shares in this shareTransaction.</param>
@@ -111,7 +111,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the first DateTime in the ITimePeriod.
+        ///   Gets the first DateTime in the IPosition.
         /// </summary>
         public DateTime Head
         {
@@ -119,7 +119,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the last DateTime in the ITimePeriod.
+        ///   Gets the last DateTime in the IPosition.
         /// </summary>
         public DateTime Tail
         {
@@ -127,7 +127,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the <see cref="ITimePeriod.Resolution"/> of price data stored within the ITimePeriod.
+        /// Gets the <see cref="Resolution"/> of price data stored within the IPosition.
         /// </summary>
         public Resolution Resolution
         {
@@ -135,17 +135,22 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Determines if the ITimePeriod has a valid value for a given date.
+        ///   Determines if the IPosition has a valid value for a given date.
         /// </summary>
         /// <param name = "settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
+        /// <returns>A value indicating if the IPosition has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
             return settlementDate >= Head;
         }
 
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
+        ///   Event which is invoked when new data is available for the IPosition.
+        /// </summary>
+        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
+
+        /// <summary>
+        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IPosition.
         /// </summary>
         public IList<Transaction> Transactions
         {
@@ -153,19 +158,19 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Adds an ShareTransaction to the Position.
+        /// Adds an ShareTransaction to the IPosition.
         /// </summary>
         /// <param name="shareTransaction"></param>
         public void AddTransaction(ShareTransaction shareTransaction)
         {
-            // verify shareTransaction is apporpriate for this Position.
+            // verify shareTransaction is apporpriate for this IPosition.
             Validate(shareTransaction);
 
             _transactions.Add(shareTransaction);
         }
 
         /// <summary>
-        /// Validates a transaction without adding it to the Position.
+        /// Validates a transaction without adding it to the IPosition.
         /// </summary>
         /// <param name="shareTransaction"></param>
         public bool TransactionIsValid(ShareTransaction shareTransaction)

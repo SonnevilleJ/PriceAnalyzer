@@ -173,6 +173,11 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
+        ///   Event which is invoked when new data is available for the Indicator.
+        /// </summary>
+        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
+
+        /// <summary>
         /// Pre-caches all values for this Indicator.
         /// </summary>
         public virtual void CalculateAll()
@@ -186,6 +191,19 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         #endregion
 
         #region Private Methods
+
+        /// <summary>
+        /// Invokes the NewDataAvailable event.
+        /// </summary>
+        /// <param name="e">The NewPriceDataEventArgs to pass.</param>
+        private void InvokeNewDataAvailable(NewDataAvailableEventArgs e)
+        {
+            var eventHandler = NewDataAvailable;
+            if (eventHandler != null)
+            {
+                eventHandler(this, e);
+            }
+        }
 
         private decimal CalculateAndCache(DateTime index)
         {

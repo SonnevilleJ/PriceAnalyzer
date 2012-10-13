@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets a value stored at a given DateTime index of the ITimePeriod.
+        /// Gets a value stored at a given DateTime index of the ITimeSeries.
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools.Implementation
         public DateTime Tail { get { return TimePeriods.Last().Tail; } }
 
         /// <summary>
-        /// Gets the <see cref="ITimePeriod.Resolution"/> of price data stored within the ITimePeriod.
+        /// Gets the <see cref="ITimePeriod.Resolution"/> of price data stored within the ITimeSeries.
         /// </summary>
         public Resolution Resolution { get { return TimePeriods.Min(p => p.Resolution); } }
 
@@ -56,5 +56,10 @@ namespace Sonneville.PriceTools.Implementation
             if (!TimePeriods.Any()) return false;
             return Head <= settlementDate && Tail >= settlementDate;
         }
+
+        /// <summary>
+        ///   Event which is invoked when new data is available for the ITimeSeries.
+        /// </summary>
+        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
     }
 }
