@@ -9,6 +9,27 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
     [TestClass]
     public abstract class CommonIndicatorTests
     {
+        /// <summary>
+        /// The default lookback period to use when creating test instances.
+        /// </summary>
+        protected abstract int GetDefaultLookback();
+
+        /// <summary>
+        /// Gets an instance of the <see cref="Indicator"/> to test, using a default lookback period.
+        /// </summary>
+        /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
+        /// <returns></returns>
+        protected Indicator GetTestInstance(ITimeSeries timeSeries)
+        {
+            return GetTestInstance(timeSeries, GetDefaultLookback());
+        }
+
+        /// <summary>
+        /// Gets an instance of the <see cref="Indicator"/> to test, using a specific lookback period.
+        /// </summary>
+        /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
+        /// <param name="lookback">The lookback period the <see cref="Indicator"/> should use.</param>
+        /// <returns></returns>
         protected abstract Indicator GetTestInstance(ITimeSeries timeSeries, int lookback);
 
         [TestMethod]
@@ -17,8 +38,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(20, date, 1);
 
-            const int lookback = 5;
-            var target = GetTestInstance(priceSeries, lookback);
+            var target = GetTestInstance(priceSeries);
 
             var expected = priceSeries.Resolution;
             var actual = target.Resolution;
@@ -27,57 +47,43 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void QueryBeforeHeadThrowsException()
-        {
-            var series = CreateTestPriceSeries(4, new DateTime(2011, 1, 6), 2);
-            var target = GetTestInstance(series, 2);
-
-            var result = target[target.Head.AddTicks(-1)];
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void QueryBeforeHeadCloseThrowsException()
         {
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(10, date, 1);
-            const int lookback = 4;
 
-            var target = GetTestInstance(priceSeries, lookback);
+            var target = GetTestInstance(priceSeries);
 
             // CreateTestPriceSeries above does NOT create a full period for the resolution (TickedPricePeriodImpl)
-            var tail = priceSeries.PricePeriods[lookback - 1].Tail;
+            var tail = priceSeries.PricePeriods[target.Lookback - 1].Tail;
             var result = target[tail.AddTicks(-1)];
         }
 
         [TestMethod]
-        public void CalculateAllDoesNotThrow()
+        public void QueryAtTailDoesNotThrowException()
         {
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(10, date, 1);
-            const int lookback = 4;
 
-            var target = GetTestInstance(priceSeries, lookback);
+            var target = GetTestInstance(priceSeries);
+
+            // CreateTestPriceSeries above does NOT create a full period for the resolution (TickedPricePeriodImpl)
+            var tail = priceSeries.PricePeriods[target.Lookback - 1].Tail;
+            var result = target[tail];
+        }
+
+        [TestMethod]
+        public void CalculateAllCompletesWithoutThrowing()
+        {
+            var date = new DateTime(2011, 3, 1);
+            var priceSeries = CreateTestPriceSeries(10, date, 1);
+
+            var target = GetTestInstance(priceSeries);
 
             target.CalculateAll();
         }
 
-        [TestMethod]
-        public void IndexerTest()
-        {
-            var date = new DateTime(2011, 3, 1);
-            var priceSeries = CreateTestPriceSeries(10, date, 1);
-            const int lookback = 4;
-
-            var target = GetTestInstance(priceSeries, lookback);
-
-            var testDate = date.AddDays(lookback);
-            var expected = priceSeries[testDate];
-            var actual = target[testDate];
-            Assert.AreEqual(expected, actual);
-        }
-
-        private static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
+        protected static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
         {
             var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             for (var i = 0; i < count; i++)

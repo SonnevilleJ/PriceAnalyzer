@@ -9,9 +9,37 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
     [TestClass]
     public class SimpleMovingAverageTest : CommonIndicatorTests
     {
+        /// <summary>
+        /// The default lookback period to use when creating test instances.
+        /// </summary>
+        protected override int GetDefaultLookback()
+        {
+            return 4;
+        }
+
+        /// <summary>
+        /// Gets an instance of the <see cref="Indicator"/> to test, using a specific lookback period.
+        /// </summary>
+        /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
+        /// <param name="lookback">The lookback period the <see cref="Indicator"/> should use.</param>
+        /// <returns></returns>
         protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
         {
             return new SimpleMovingAverage(timeSeries, lookback);
+        }
+
+        [TestMethod]
+        public void IndexerTest()
+        {
+            var date = new DateTime(2011, 3, 1);
+            var priceSeries = CreateTestPriceSeries(10, date, 1);
+
+            var target = GetTestInstance(priceSeries);
+
+            var testDate = date.SeekPeriods(target.Lookback, priceSeries.Resolution);
+            var expected = priceSeries[testDate];
+            var actual = target[testDate];
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]

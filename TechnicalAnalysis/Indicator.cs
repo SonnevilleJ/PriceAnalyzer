@@ -13,16 +13,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     {
         #region Private Members
 
-        private readonly ITimeSeries _cachedValues = TimeSeriesFactory.ConstructMutable();
+        private ITimeSeries _cachedValues = TimeSeriesFactory.ConstructMutable();
         private readonly ITimeSeries _measuredTimeSeries;
-
-        /// <summary>
-        /// Stores the calculated values for each period.
-        /// </summary>
-        private ITimeSeries CachedValues
-        {
-            get { return _cachedValues; }
-        }
 
         #endregion
 
@@ -31,7 +23,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Constructs an Indicator for a given <see cref="MeasuredTimeSeries"/>.
         /// </summary>
-        /// <param name="timeSeries"> </param>
+        /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
         protected Indicator(ITimeSeries timeSeries, int lookback)
         {
@@ -51,12 +43,12 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         #endregion
 
-        #region Protected Members
+        #region Protected / Abstract Members
 
         /// <summary>
         /// Calculates a single value of this Indicator.
         /// </summary>
-        /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
+        /// <param name="index">The index of the value to calculate.</param>
         protected abstract decimal Calculate(DateTime index);
 
         /// <summary>
@@ -66,39 +58,19 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <returns></returns>
         protected virtual bool CanCalculate(DateTime index)
         {
-            var sufficientDates = index >= MeasuredTimeSeries.Head.SeekPeriods(Lookback - 1, Resolution);
+            var sufficientDates = index >= MeasuredTimeSeries.TimePeriods.ElementAt(Lookback - 1).Tail;
             var haveAllData = MeasuredTimeSeries.TimePeriods.Count(p => p.Tail <= index) >= Lookback;
             return sufficientDates && haveAllData;
         }
 
         /// <summary>
-        /// Throws an <see cref="InvalidOperationException"/> if a value cannot be calculated for the period ending on or before <see cref="index"/>.
+        /// Clears any cached data values so they will be recalculated.
         /// </summary>
-        /// <param name="index"></param>
-        protected void ThrowIfCannotCalculate(DateTime index)
+        /// <remarks>Overriding implementations should call the base method.</remarks>
+        protected virtual void ClearCachedValues()
         {
-            if (!CanCalculate(index))
-                throw new InvalidOperationException(String.Format("Unable to calculate value for DateTime: {0}", index.ToString(CultureInfo.CurrentCulture)));
-        }
-
-        /// <summary>
-        /// Gets the most recent <paramref name="maximumCount"/> <see cref="ITimePeriod"/>s starting from <paramref name="origin"/>.
-        /// </summary>
-        /// <param name="maximumCount"></param>
-        /// <param name="origin"></param>
-        /// <returns></returns>
-        protected IEnumerable<ITimePeriod> GetPreviousPeriods(int maximumCount, DateTime origin)
-        {
-            var previousPeriods = MeasuredTimeSeries.TimePeriods.Where(p => p.Head <= origin).ToArray();
-            if (previousPeriods.Count() <= maximumCount) return previousPeriods;
-
-            // select most recent periods up to maximumCount
-            var results = new List<ITimePeriod>();
-            for (var i = 0; i < maximumCount; i++)
-            {
-                results.Add(previousPeriods[previousPeriods.Count() - (maximumCount - i)]);
-            }
-            return results;
+            _cachedValues = TimeSeriesFactory.ConstructMutable();
+            InvokeNewDataAvailable(new NewDataAvailableEventArgs {Head = Head, Tail = Tail});
         }
 
         #endregion
@@ -193,6 +165,24 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         #region Private Methods
 
         /// <summary>
+        /// Stores the calculated values for each period.
+        /// </summary>
+        private ITimeSeries CachedValues
+        {
+            get { return _cachedValues; }
+        }
+
+        /// <summary>
+        /// Throws an <see cref="InvalidOperationException"/> if a value cannot be calculated for the period ending on or before <see cref="index"/>.
+        /// </summary>
+        /// <param name="index"></param>
+        private void ThrowIfCannotCalculate(DateTime index)
+        {
+            if (!CanCalculate(index))
+                throw new ArgumentOutOfRangeException("index", index, String.Format("Unable to calculate value for DateTime: {0}", index.ToString(CultureInfo.CurrentCulture)));
+        }
+
+        /// <summary>
         /// Invokes the NewDataAvailable event.
         /// </summary>
         /// <param name="e">The NewPriceDataEventArgs to pass.</param>
@@ -207,6 +197,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         private decimal CalculateAndCache(DateTime index)
         {
+            ThrowIfCannotCalculate(index);
+
             var result = Calculate(index);
             AddOrReplaceResult(index, result);
             return result;

@@ -31,8 +31,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="index">The index of the value to calculate.</param>
         protected override decimal Calculate(DateTime index)
         {
-            ThrowIfCannotCalculate(index);
-
             return MeasuredTimeSeries.GetPreviousTimePeriods(Lookback, index.CurrentPeriodClose(Resolution).AddTicks(1)).Sum(period => period.Value())/Lookback;
         }
 
