@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Sonneville.PriceTools.Extensions;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
@@ -27,12 +28,12 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Calculates a single value of this Indicator.
         /// </summary>
-        /// <param name="index">The index of the value to calculate. The index of the current period is 0.</param>
+        /// <param name="index">The index of the value to calculate.</param>
         protected override decimal Calculate(DateTime index)
         {
             ThrowIfCannotCalculate(index);
 
-            return GetPreviousPeriods(Lookback, index).Sum(period => period.Value())/Lookback;
+            return MeasuredTimeSeries.GetPreviousTimePeriods(Lookback, index.CurrentPeriodOpen(Resolution)).Sum(period => period.Value())/Lookback;
         }
 
         #endregion

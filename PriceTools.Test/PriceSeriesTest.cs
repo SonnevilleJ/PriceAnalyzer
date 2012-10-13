@@ -1,20 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.Test.PriceData;
 using Sonneville.PriceTools.Yahoo;
-using Sonneville.Utilities;
 using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools
 {
     /// <summary>
-    ///This is a test class for PriceSeriesTest and is intended
-    ///to contain all PriceSeriesTest Unit Tests
+    ///This is a test class for PriceSeriesTest and is intended to contain all PriceSeriesTest Unit Tests
     ///</summary>
     [TestClass]
     public class PriceSeriesTest
@@ -302,113 +299,6 @@ namespace Test.Sonneville.PriceTools
             Assert.IsTrue(target.PricePeriods.Contains(p1));
             Assert.IsTrue(target.PricePeriods.Contains(p2));
             Assert.IsTrue(target.PricePeriods.Contains(p3));
-        }
-
-        [TestMethod]
-        public void GetWeeklyPeriodsFromDailyPeriodsTestPeriodCount()
-        {
-            var head = new DateTime(2011, 1, 1);
-            var tail = new DateTime(2011, 6, 30).CurrentPeriodClose(Resolution.Days);
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
-            priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), head, tail).PricePeriods);
-
-            var pricePeriods = priceSeries.ResizePricePeriods(Resolution.Weeks);
-
-            Assert.AreEqual(26, pricePeriods.Count());
-        }
-
-        [TestMethod]
-        public void GetWeeklyPeriodsFromDailyPeriodsTestPeriodData()
-        {
-            var seriesHead = new DateTime(2011, 1, 1);
-            var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
-            priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
-
-            var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
-            var weeklyPeriods = priceSeries.ResizePricePeriods(Resolution.Weeks).ToArray();
-
-            var weekHead = seriesHead.CurrentPeriodOpen(Resolution.Weeks);
-            var weekTail = seriesHead.CurrentPeriodClose(Resolution.Weeks);
-
-            var dtfi = DateTimeFormatInfo.CurrentInfo;
-            if (dtfi == null) Assert.Inconclusive();
-            var calendar = dtfi.Calendar;
-            var calendarWeekRule = dtfi.CalendarWeekRule;
-            var firstDayOfWeek = dtfi.FirstDayOfWeek;
-
-            do
-            {
-                var periodsInWeek = dailyPeriods.Where(period => period.Head >= weekHead && period.Tail <= weekTail).ToArray();
-                var weeklyPeriod = weeklyPeriods.First(period => period.Head >= weekHead && period.Tail <= weekTail);
-
-                var head = periodsInWeek.Min(p => p.Head);
-                Assert.IsTrue(DatesShareWeek(head, weeklyPeriod.Head));
-                var tail = periodsInWeek.Max(p => p.Tail);
-                Assert.IsTrue(DatesShareWeek(tail, weeklyPeriod.Tail));
-                Assert.AreEqual(periodsInWeek.First().Open, weeklyPeriod.Open);
-                Assert.AreEqual(periodsInWeek.Max(p => p.High), weeklyPeriod.High);
-                Assert.AreEqual(periodsInWeek.Min(p => p.Low), weeklyPeriod.Low);
-                Assert.AreEqual(periodsInWeek.Last().Close, weeklyPeriod.Close);
-
-                weekHead = weekHead.NextPeriodOpen(Resolution.Weeks);
-                weekTail = weekTail.NextPeriodClose(Resolution.Weeks);
-            } while (calendar.GetWeekOfYear(weekTail, calendarWeekRule, firstDayOfWeek) <=
-                     calendar.GetWeekOfYear(seriesTail, calendarWeekRule, firstDayOfWeek));
-        }
-
-        [TestMethod]
-        public void GetMonthlyPeriodsFromDailyPeriodsTestPeriodData()
-        {
-            var seriesHead = new DateTime(2011, 1, 1);
-            var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
-            priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
-
-            var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
-            var monthlyPeriods = priceSeries.ResizePricePeriods(Resolution.Months).ToArray();
-
-            var monthHead = seriesHead.CurrentPeriodOpen(Resolution.Months);
-            var monthTail = seriesHead.CurrentPeriodClose(Resolution.Months);
-
-            var dtfi = DateTimeFormatInfo.CurrentInfo;
-            if (dtfi == null) Assert.Inconclusive();
-            var calendar = dtfi.Calendar;
-
-            do
-            {
-                var periodsInMonth = dailyPeriods.Where(period => period.Head >= monthHead && period.Tail <= monthTail).ToArray();
-                var monthlyPeriod = monthlyPeriods.First(period => period.Head >= monthHead && period.Tail <= monthTail);
-
-                var head = periodsInMonth.Min(p => p.Head);
-                Assert.IsTrue(DatesShareMonth(head, monthlyPeriod.Head));
-                var tail = periodsInMonth.Max(p => p.Tail);
-                Assert.IsTrue(DatesShareMonth(tail, monthlyPeriod.Tail));
-                Assert.AreEqual(periodsInMonth.First().Open, monthlyPeriod.Open);
-                Assert.AreEqual(periodsInMonth.Max(p => p.High), monthlyPeriod.High);
-                Assert.AreEqual(periodsInMonth.Min(p => p.Low), monthlyPeriod.Low);
-                Assert.AreEqual(periodsInMonth.Last().Close, monthlyPeriod.Close);
-
-                monthHead = monthHead.NextPeriodOpen(Resolution.Months);
-                monthTail = monthTail.NextPeriodClose(Resolution.Months);
-            } while (calendar.GetMonth(monthTail) <= calendar.GetMonth(seriesTail));
-        }
-
-        private static bool DatesShareWeek(DateTime date1, DateTime date2)
-        {
-            // this method is only used to test if two dates are in the same week of price data.
-            // Implementing support for market holidays should remove the need for this method.
-
-            var periodStart = date1.PreviousPeriodOpen(Resolution.Weeks);
-            var periodEnd = date1.NextPeriodClose(Resolution.Weeks);
-            return date2 >= periodStart && date2 <= periodEnd;
-        }
-
-        private static bool DatesShareMonth(DateTime date1, DateTime date2)
-        {
-            var periodStart = date1.PreviousPeriodOpen(Resolution.Months);
-            var periodEnd = date1.NextPeriodClose(Resolution.Months);
-            return date2 >= periodStart && date2 <= periodEnd;
         }
 
         [TestMethod]
@@ -730,26 +620,6 @@ namespace Test.Sonneville.PriceTools
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
 
             CollectionAssert.AreEquivalent(target.PricePeriods.Cast<ITimePeriod>().ToList(), target.TimePeriods.ToList());
-        }
-
-        [TestMethod]
-        public void ResizeTimePeriods1Test()
-        {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var resolution = target.Resolution;
-
-            CollectionAssert.AreEquivalent(target.ResizePricePeriods(resolution).Cast<ITimePeriod>().ToList(), target.ResizeTimePeriods(resolution).ToList());
-        }
-
-        [TestMethod]
-        public void ResizeTimePeriods2Test()
-        {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var resolution = target.Resolution;
-            var head = target.Head;
-            var tail = target.Tail;
-
-            CollectionAssert.AreEquivalent(target.ResizePricePeriods(resolution, head, tail).Cast<ITimePeriod>().ToList(), target.ResizeTimePeriods(resolution, head, tail).ToList());
         }
     }
 }

@@ -79,6 +79,7 @@
     <Compile Include="SimplePeriodFactoryTest.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
     <Compile Include="TickedPricePeriodEqualityTests.cs" />
+    <Compile Include="TimeSeriesExtensionsTest.cs" />
     <Compile Include="TransactionEqualityTests.cs" />
     <Compile Include="CashTransactionTestsBase.cs" />
     <Compile Include="CashAccountTest.cs" />

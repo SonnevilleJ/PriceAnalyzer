@@ -62,6 +62,55 @@ namespace Sonneville.PriceTools
                     select TimePeriodFactory.ConstructTimePeriod(periodHead, periodTail, value));
         }
 
+        /// <summary>
+        /// Gets the preceding <see cref="ITimePeriod"/>s previous to an <paramref name="origin" /> date.
+        /// </summary>
+        /// <param name="timeSeries"></param>
+        /// <param name="origin">The date of the current period.</param>
+        /// <returns></returns>
+        public static ITimePeriod GetPreviousTimePeriod(this ITimeSeries timeSeries, DateTime origin)
+        {
+            return GetPreviousTimePeriods(timeSeries, 1, origin).First();
+        }
+
+        /// <summary>
+        /// Gets a list of <see cref="ITimePeriod"/>s previous to an <paramref name="origin" /> date.
+        /// </summary>
+        /// <param name="timeSeries"></param>
+        /// <param name="maximumCount">The maximum number of periods to select.</param>
+        /// <param name="origin">The date which all period tail must precede.</param>
+        /// <returns></returns>
+        public static IEnumerable<ITimePeriod> GetPreviousTimePeriods(this ITimeSeries timeSeries, int maximumCount, DateTime origin)
+        {
+            return GetPreviousPeriods(maximumCount, origin, timeSeries.TimePeriods);
+        }
+
+        /// <summary>
+        /// Gets a list of <see cref="IPricePeriod"/>s previous to an <paramref name="origin" /> date.
+        /// </summary>
+        /// <param name="priceSeries"></param>
+        /// <param name="maximumCount">The maximum number of periods to select.</param>
+        /// <param name="origin">The date which all period tail must precede.</param>
+        /// <returns></returns>
+        public static IEnumerable<IPricePeriod> GetPreviousPricePeriods(this IPriceSeries priceSeries, int maximumCount, DateTime origin)
+        {
+            return GetPreviousPeriods(maximumCount, origin, priceSeries.PricePeriods);
+        }
+
+        private static IEnumerable<T> GetPreviousPeriods<T>(int maximumCount, DateTime origin, IEnumerable<T> periods) where T : ITimePeriod
+        {
+            var previousPeriods = periods.Where(p => p.Tail < origin).ToArray();
+            if (previousPeriods.Count() <= maximumCount) return previousPeriods;
+
+            // select most recent periods up to maximumCount
+            var results = new List<T>();
+            for (var i = 0; i < maximumCount; i++)
+            {
+                results.Add(previousPeriods[previousPeriods.Count() - (maximumCount - i)]);
+            }
+            return results;
+        }
+
         #endregion
 
         #region PriceSeries Extensions
