@@ -54,22 +54,18 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 
             var target = GetTestInstance(priceSeries);
 
-            // CreateTestPriceSeries above does NOT create a full period for the resolution (TickedPricePeriodImpl)
-            var tail = priceSeries.PricePeriods.ToArray()[target.Lookback - 1].Tail;
-            var result = target[tail.AddTicks(-1)];
+            var result = target[target.Head.AddTicks(-1)];
         }
 
         [TestMethod]
-        public void QueryAtFirstPeriodTailDoesNotThrowException()
+        public void QueryAtFirstPeriodHeadDoesNotThrowException()
         {
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(10, date, 1);
 
             var target = GetTestInstance(priceSeries);
 
-            // CreateTestPriceSeries above does NOT create a full period for the resolution (TickedPricePeriodImpl)
-            var tail = priceSeries.PricePeriods.ToArray()[target.Lookback - 1].Tail;
-            var result = target[tail];
+            var result = target[target.Head];
         }
 
         [TestMethod]
