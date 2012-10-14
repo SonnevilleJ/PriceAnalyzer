@@ -100,16 +100,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the <see cref="PricePeriodImpl"/> stored at a given index.
-        /// </summary>
-        /// <param name="index">The index of the <see cref="PricePeriodImpl"/> to get.</param>
-        /// <returns>The <see cref="PricePeriodImpl"/> stored at the given index.</returns>
-        public IPricePeriod this[int index]
-        {
-            get { return PricePeriods[index]; }
-        }
-
-        /// <summary>
         /// Gets the first DateTime in the PriceSeries.
         /// </summary>
         public override DateTime Head
@@ -159,7 +149,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries.
         /// </summary>
-        public IList<IPricePeriod> PricePeriods { get { return _dataPeriods; } }
+        public IEnumerable<IPricePeriod> PricePeriods { get { return _dataPeriods; } }
 
         /// <summary>
         /// Adds price data to the PriceSeries.
@@ -217,7 +207,7 @@ namespace Sonneville.PriceTools.Implementation
             var matchingPeriods = priceSeries.PricePeriods.Where(p => p.HasValueInRange(settlementDate)).ToList();
             if (matchingPeriods.Any()) return matchingPeriods.OrderBy(p => p.Tail).Last()[settlementDate];
 
-            if (priceSeries.PricePeriods.Count > 0) return priceSeries.PricePeriods.OrderBy(p => p.Tail).Last(p => p.Tail <= settlementDate).Close;
+            if (priceSeries.PricePeriods.Any()) return priceSeries.PricePeriods.OrderBy(p => p.Tail).Last(p => p.Tail <= settlementDate).Close;
 
             throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, Strings.PriceSeries_GetLatestPrice_No_price_data_available_for_settlement_date___0_, settlementDate));
         }

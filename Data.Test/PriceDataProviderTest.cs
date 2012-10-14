@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
@@ -55,7 +56,7 @@ namespace Test.Sonneville.PriceTools.Data
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
-            Assert.AreEqual(1, priceSeries.PricePeriods.Count);
+            Assert.AreEqual(1, priceSeries.PricePeriods.Count());
         }
 
         protected void DailyDownloadResolutionTest()
@@ -83,7 +84,7 @@ namespace Test.Sonneville.PriceTools.Data
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
-            Assert.AreEqual(50, priceSeries.PricePeriods.Count);
+            Assert.AreEqual(50, priceSeries.PricePeriods.Count());
         }
 
         protected void DailyDownloadDatesTest()
@@ -108,7 +109,7 @@ namespace Test.Sonneville.PriceTools.Data
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
 
-            Assert.AreEqual(11, priceSeries.PricePeriods.Count);
+            Assert.AreEqual(11, priceSeries.PricePeriods.Count());
         }
 
         protected void WeeklyDownloadResolutionTest()
@@ -121,8 +122,8 @@ namespace Test.Sonneville.PriceTools.Data
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
 
             Assert.AreEqual(Resolution.Weeks, priceSeries.Resolution);
-            var periods = priceSeries.PricePeriods;
-            for (var i = 1; i < periods.Count - 1; i++) // skip check on first and last periods
+            var periods = priceSeries.PricePeriods.ToArray();
+            for (var i = 1; i < periods.Count() - 1; i++) // skip check on first and last periods
             {
                 Assert.IsTrue(periods[i].Tail - periods[i].Head >= new TimeSpan(23, 59, 59));
                 Assert.IsTrue(periods[i].Tail - periods[i].Head < new TimeSpan(7, 0, 0, 0));

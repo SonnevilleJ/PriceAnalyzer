@@ -160,8 +160,8 @@ namespace Test.Sonneville.PriceTools
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
 
-            var pricePeriods = target.PricePeriods;
-            var expected = pricePeriods.Take(pricePeriods.Count - 1).ToArray();
+            var pricePeriods = target.PricePeriods.ToArray();
+            var expected = pricePeriods.Take(pricePeriods.Count() - 1).ToArray();
             var actual = target.GetPreviousTimePeriods(pricePeriods.Count(), target.Tail).ToArray();
             CollectionAssert.AreEquivalent(expected, actual);
         }
@@ -191,7 +191,7 @@ namespace Test.Sonneville.PriceTools
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
 
-            var totalPeriodCount = target.PricePeriods.Count;
+            var totalPeriodCount = target.PricePeriods.Count();
             var requestedCount = totalPeriodCount + 1;
             var previousPeriods = target.GetPreviousTimePeriods(requestedCount, target.Tail.AddTicks(1));
             Assert.AreEqual(totalPeriodCount, previousPeriods.Count());
@@ -206,9 +206,9 @@ namespace Test.Sonneville.PriceTools
             var previousPeriods = target.GetPreviousTimePeriods(requestedCount, target.Tail.AddTicks(1)).ToArray();
             for (var i = 0; i < requestedCount; i++)
             {
-                var count = target.PricePeriods.Count;
+                var count = target.PricePeriods.Count();
                 var targetIndex = count - 1 - i;
-                var period = target.PricePeriods[targetIndex];
+                var period = target.PricePeriods.ToArray()[targetIndex];
                 var periodsIndex = previousPeriods.Count() - 1 - i;
                 Assert.AreEqual(period, previousPeriods[periodsIndex]);
             }
@@ -218,10 +218,10 @@ namespace Test.Sonneville.PriceTools
         public void GetPreviousPeriodFromHead()
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var periodCount = target.PricePeriods.Count;
-            var origin = target[periodCount - 1].Head;
+            var periodCount = target.PricePeriods.Count();
+            var origin = target.PricePeriods.ToArray()[periodCount - 1].Head;
 
-            var expected = target[periodCount - 2];
+            var expected = target.PricePeriods.ToArray()[periodCount - 2];
             var actual = target.GetPreviousTimePeriod(origin);
             Assert.AreEqual(expected, actual);
         }
@@ -230,10 +230,10 @@ namespace Test.Sonneville.PriceTools
         public void GetPreviousPeriodFromTail()
         {
             var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var periodCount = target.PricePeriods.Count;
-            var origin = target[periodCount - 1].Tail;
+            var periodCount = target.PricePeriods.Count();
+            var origin = target.PricePeriods.ToArray()[periodCount - 1].Tail;
 
-            var expected = target[periodCount - 2];
+            var expected = target.PricePeriods.ToArray()[periodCount - 2];
             var actual = target.GetPreviousTimePeriod(origin);
             Assert.AreEqual(expected, actual);
         }

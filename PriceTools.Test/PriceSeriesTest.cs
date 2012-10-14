@@ -295,7 +295,7 @@ namespace Test.Sonneville.PriceTools
             target.AddPriceData(p2);
             target.AddPriceData(p3);
 
-            Assert.AreEqual(3, target.PricePeriods.Count);
+            Assert.AreEqual(3, target.PricePeriods.Count());
             Assert.IsTrue(target.PricePeriods.Contains(p1));
             Assert.IsTrue(target.PricePeriods.Contains(p2));
             Assert.IsTrue(target.PricePeriods.Contains(p3));

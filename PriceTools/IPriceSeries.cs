@@ -11,20 +11,13 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets the ticker symbol priced by this PriceSeries.
         /// </summary>
-        string Ticker { get; set; }
+        string Ticker { get; }
 
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries.
         /// </summary>
-        IList<IPricePeriod> PricePeriods { get; }
-
-        /// <summary>
-        /// Gets the <see cref="IPricePeriod"/> stored at a given index.
-        /// </summary>
-        /// <param name="index">The index of the <see cref="IPricePeriod"/> to get.</param>
-        /// <returns>The <see cref="IPricePeriod"/> stored at the given index.</returns>
-        IPricePeriod this[int index] { get; }
-
+        IEnumerable<IPricePeriod> PricePeriods { get; }
+        
         /// <summary>
         /// Adds price data to the PriceSeries.
         /// </summary>

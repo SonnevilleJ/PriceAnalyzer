@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.TechnicalAnalysis;
 
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
@@ -47,7 +47,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
-        public void QueryBeforeHeadCloseThrowsException()
+        public void QueryBeforeHeadThrowsException()
         {
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(10, date, 1);
@@ -55,12 +55,12 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var target = GetTestInstance(priceSeries);
 
             // CreateTestPriceSeries above does NOT create a full period for the resolution (TickedPricePeriodImpl)
-            var tail = priceSeries.PricePeriods[target.Lookback - 1].Tail;
+            var tail = priceSeries.PricePeriods.ToArray()[target.Lookback - 1].Tail;
             var result = target[tail.AddTicks(-1)];
         }
 
         [TestMethod]
-        public void QueryAtTailDoesNotThrowException()
+        public void QueryAtFirstPeriodTailDoesNotThrowException()
         {
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(10, date, 1);
@@ -68,7 +68,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var target = GetTestInstance(priceSeries);
 
             // CreateTestPriceSeries above does NOT create a full period for the resolution (TickedPricePeriodImpl)
-            var tail = priceSeries.PricePeriods[target.Lookback - 1].Tail;
+            var tail = priceSeries.PricePeriods.ToArray()[target.Lookback - 1].Tail;
             var result = target[tail];
         }
 

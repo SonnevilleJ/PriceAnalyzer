@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Sonneville.PriceTools.Extensions;
@@ -41,7 +42,7 @@ namespace Sonneville.PriceTools.Data
         {
             var resolution = priceSeries.Resolution;
             var tail = DateTime.Now.PreviousPeriodClose(resolution);
-            var head = (priceSeries.PricePeriods.Count > 0) ? priceSeries.Tail.NextPeriodOpen(resolution) : tail.PreviousPeriodOpen(resolution);
+            var head = (priceSeries.PricePeriods.Any()) ? priceSeries.Tail.NextPeriodOpen(resolution) : tail.PreviousPeriodOpen(resolution);
 
             UpdatePriceSeries(priceSeries, head, tail);
         }

@@ -123,7 +123,7 @@ namespace Sonneville.PriceTools
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public static IEnumerable<IPricePeriod> ResizePricePeriods(this IPriceSeries priceSeries, Resolution resolution)
         {
-            if (priceSeries.PricePeriods.Count > 0) return priceSeries.ResizePricePeriods(resolution, priceSeries.Head, priceSeries.Tail);
+            if (priceSeries.PricePeriods.Any()) return priceSeries.ResizePricePeriods(resolution, priceSeries.Head, priceSeries.Tail);
             if (resolution < priceSeries.Resolution)
                 throw new InvalidOperationException(
                     String.Format(Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__,

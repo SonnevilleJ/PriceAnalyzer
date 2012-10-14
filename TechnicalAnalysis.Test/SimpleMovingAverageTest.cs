@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Extensions;
@@ -54,7 +55,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var ma = new SimpleMovingAverage(series, lookback);
 
             const decimal expected = price;
-            for (var i = lookback; i < series.PricePeriods.Count; i++)
+            for (var i = lookback; i < series.PricePeriods.Count(); i++)
             {
                 var actual = ma[date.SeekPeriods(i, series.Resolution)];
                 Assert.AreEqual(expected, actual);
@@ -157,18 +158,6 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             Assert.AreEqual(4.0m, target[date.SeekTradingPeriods(7, resolution)]);
             Assert.AreEqual(3.5m, target[date.SeekTradingPeriods(8, resolution)]);
             Assert.AreEqual(2.5m, target[date.SeekTradingPeriods(9, resolution)]);
-        }
-
-        private static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price)
-        {
-            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
-            for (var i = 0; i < count; i++)
-            {
-                var period = PricePeriodFactory.ConstructTickedPricePeriod();
-                period.AddPriceTicks(PriceTickFactory.ConstructPriceTick(startDate.AddDays(i), price));
-                series.AddPriceData(period);
-            }
-            return series;
         }
     }
 }

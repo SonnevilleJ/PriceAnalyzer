@@ -23,8 +23,8 @@ namespace Sonneville.PriceTools.Extensions
             var yesterdayUp = false;
             var yesterdayDown = false;
 
-            var pricePeriods = priceSeries.PricePeriods;
-            for (var i = 1; i < pricePeriods.Count; i++)
+            var pricePeriods = priceSeries.PricePeriods.ToArray();
+            for (var i = 1; i < pricePeriods.Count(); i++)
             {
                 var yesterday = pricePeriods[i - 1];
                 var today = pricePeriods[i];
