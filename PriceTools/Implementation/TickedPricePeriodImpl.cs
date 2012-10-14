@@ -5,14 +5,14 @@ using System.Linq;
 namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
-    ///   A <see cref="PricePeriodImpl"/> made from <see cref="PriceTicks"/>.
+    ///   An <see cref="IPricePeriod"/> made from <see cref="PriceTicks"/>.
     /// </summary>
     internal class TickedPricePeriodImpl : TickedPricePeriod
     {
         private readonly List<PriceTick> _priceTicks = new List<PriceTick>();
         
         /// <summary>
-        /// The <see cref="PriceTickImpl"/>s contained within this TickedPricePeriod.
+        /// The <see cref="PriceTick"/>s contained within this TickedPricePeriod.
         /// </summary>
         public override IList<PriceTick> PriceTicks { get { return _priceTicks.AsReadOnly(); } }
 

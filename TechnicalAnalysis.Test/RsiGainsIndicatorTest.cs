@@ -47,9 +47,8 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var periods = priceSeries.PricePeriods;
 
             var target = GetTestInstance(priceSeries);
-            const int lookback = 1;
 
-            for (var i = lookback; i < 10; i++)
+            for (var i = 1; i < 10; i++)
             {
                 var previousPeriod = periods.ElementAt(i - 1);
                 var currentPeriod = periods.ElementAt(i);
