@@ -44,7 +44,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         public void CalculateDataCorrectly()
         {
             var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var periods = priceSeries.PricePeriods;
+            var periods = priceSeries.PricePeriods.ToArray();
 
             var target = GetTestInstance(priceSeries);
 

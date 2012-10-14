@@ -102,7 +102,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             get
             {
-                return CachedValues.HasValueInRange(index) ? CachedValues[index] : CalculateAndCache(index);
+                var dateTime = index.CurrentPeriodClose(Resolution);
+                return CachedValues.HasValueInRange(dateTime) ? CachedValues[dateTime] : CalculateAndCache(dateTime);
             }
         }
 
@@ -111,7 +112,11 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         public IEnumerable<ITimePeriod> TimePeriods
         {
-            get { return CachedValues.TimePeriods.ToList().AsReadOnly(); }
+            get
+            {
+                CalculateAll();
+                return CachedValues.TimePeriods.ToList().AsReadOnly();
+            }
         }
 
         /// <summary>
@@ -156,7 +161,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             foreach(var period in MeasuredTimeSeries.TimePeriods.Where(p => p.Head >= Head))
             {
-                CalculateAndCache(period.Head);
+                CalculateAndCache(period.Tail);
             }
         }
 
