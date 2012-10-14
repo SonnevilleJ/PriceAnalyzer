@@ -114,7 +114,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             get
             {
-                CalculateAll();
+                EnsureAllCalculated();
                 return CachedValues.TimePeriods.ToList().AsReadOnly();
             }
         }
@@ -168,6 +168,19 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         #endregion
 
         #region Private Methods
+
+        /// <summary>
+        /// Ensures values have been calculated for all possible periods.
+        /// </summary>
+        private void EnsureAllCalculated()
+        {
+            var cachedPeriods = CachedValues.TimePeriods.ToArray();
+            foreach (var period in MeasuredTimeSeries.TimePeriods.Where(p => p.Head >= Head))
+            {
+                if (cachedPeriods.All(p => p.Head != period.Head))
+                    CalculateAndCache(period.Tail);
+            }
+        }
 
         /// <summary>
         /// Stores the calculated values for each period.
