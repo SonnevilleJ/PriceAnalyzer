@@ -8,7 +8,7 @@ using Sonneville.PriceTools.Test.PriceData;
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public class RsiGainsIndicatorTest : CommonIndicatorTests
+    public class RsiLossesIndicatorTest : CommonIndicatorTests
     {
         #region Overrides of CommonIndicatorTests
 
@@ -28,7 +28,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         /// <returns></returns>
         protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
         {
-            return new RsiGainsIndicator(timeSeries);
+            return new RsiLossesIndicator(timeSeries);
         }
 
         #endregion
@@ -54,7 +54,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
                 var previousPeriod = periods.ElementAt(i - 1);
                 var currentPeriod = periods.ElementAt(i);
 
-                var expected = currentPeriod.Value() > previousPeriod.Value() ? currentPeriod.Value() - previousPeriod.Value() : 0;
+                var expected = currentPeriod.Value() < previousPeriod.Value() ? currentPeriod.Value() - previousPeriod.Value() : 0;
                 var actual = target[currentPeriod.Tail];
                 Assert.AreEqual(expected, actual);
             }
