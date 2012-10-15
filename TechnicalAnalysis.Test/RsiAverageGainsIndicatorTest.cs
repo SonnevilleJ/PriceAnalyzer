@@ -32,7 +32,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         /// <returns></returns>
         protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
         {
-            return new RsiAverageGainsLossesIndicator(new RsiGainsIndicator(timeSeries), lookback);
+            return new RsiGainsIndicator(timeSeries);
         }
 
         #endregion
