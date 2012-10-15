@@ -48,7 +48,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <param name="lookback">The lookback period the <see cref="Indicator"/> should use.</param>
         /// <returns></returns>
-        protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
+        protected override Indicator GetTestObjectInstance(ITimeSeries timeSeries, int lookback)
         {
             return new RelativeStrengthIndex(timeSeries, lookback);
         }

@@ -24,7 +24,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <param name="lookback">The lookback period the <see cref="Indicator"/> should use.</param>
         /// <returns></returns>
-        protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
+        protected override Indicator GetTestObjectInstance(ITimeSeries timeSeries, int lookback)
         {
             return new SimpleMovingAverage(timeSeries, lookback);
         }
@@ -35,7 +35,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(10, date, 1);
 
-            var target = GetTestInstance(priceSeries);
+            var target = GetTestObjectInstance(priceSeries);
 
             var testDate = date.SeekPeriods(target.Lookback, priceSeries.Resolution);
             var expected = priceSeries[testDate];

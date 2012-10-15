@@ -22,7 +22,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
 
             const int lookback = 14;
-            var target = GetTestInstance(priceSeries, lookback);
+            var target = GetTestObjectInstance(priceSeries, lookback);
 
             var expected = Get11ExpectedValues(lookback)[0];
             var actual = target[target.Head];
@@ -35,7 +35,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
 
             const int lookback = 14;
-            var target = GetTestInstance(priceSeries, lookback);
+            var target = GetTestObjectInstance(priceSeries, lookback);
             target.CalculateAll();
 
             for (var i = 1; i < Get11ExpectedValues(lookback).Length; i++)

@@ -26,7 +26,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <param name="lookback">The lookback period the <see cref="Indicator"/> should use.</param>
         /// <returns></returns>
-        protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
+        protected override Indicator GetTestObjectInstance(ITimeSeries timeSeries, int lookback)
         {
             return new RsiLosses(timeSeries);
         }
@@ -36,7 +36,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         [TestMethod]
         public void LookbackDefaultsTo2()
         {
-            var target = GetTestInstance(CreateTestPriceSeries(10, new DateTime(2012, 10, 15), 1), 10);
+            var target = GetTestObjectInstance(CreateTestPriceSeries(10, new DateTime(2012, 10, 15), 1), 10);
             Assert.AreEqual(2, target.Lookback);
         }
 
@@ -46,7 +46,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
             var periods = priceSeries.PricePeriods.ToArray();
 
-            var target = GetTestInstance(priceSeries);
+            var target = GetTestObjectInstance(priceSeries);
 
             for (var i = 1; i < 10; i++)
             {

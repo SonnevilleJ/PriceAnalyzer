@@ -30,9 +30,9 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <returns></returns>
-        protected Indicator GetTestInstance(ITimeSeries timeSeries)
+        protected Indicator GetTestObjectInstance(ITimeSeries timeSeries)
         {
-            return GetTestInstance(timeSeries, GetDefaultLookback());
+            return GetTestObjectInstance(timeSeries, GetDefaultLookback());
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <param name="lookback">The lookback period the <see cref="Indicator"/> should use.</param>
         /// <returns></returns>
-        protected abstract Indicator GetTestInstance(ITimeSeries timeSeries, int lookback);
+        protected abstract Indicator GetTestObjectInstance(ITimeSeries timeSeries, int lookback);
 
         [TestMethod]
         public void ResolutionMatchesPriceSeries()
@@ -49,7 +49,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(GetCumulativeLookback(), date, 1);
 
-            var target = GetTestInstance(priceSeries);
+            var target = GetTestObjectInstance(priceSeries);
 
             var expected = priceSeries.Resolution;
             var actual = target.Resolution;
@@ -61,7 +61,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         {
             var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
 
-            var target = GetTestInstance(priceSeries);
+            var target = GetTestObjectInstance(priceSeries);
 
             // must use MeasuredTimeSeries instead of priceSeries - target may be an indicator of an indicator, thus elongating the Lookback
             var expected = priceSeries.TimePeriods.ElementAt(GetCumulativeLookback() - 1).Head;
@@ -75,7 +75,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(GetCumulativeLookback() * 2, date, 1, Resolution.Days, true);
 
-            var target = GetTestInstance(priceSeries);
+            var target = GetTestObjectInstance(priceSeries);
 
             // must use MeasuredTimeSeries instead of priceSeries - target may be an indicator of an indicator, thus elongating the Lookback
             var expected = priceSeries.TimePeriods.ElementAt(GetCumulativeLookback() - 1).Head;
@@ -89,7 +89,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(GetCumulativeLookback() * 2, date, 1);
 
-            var target = GetTestInstance(priceSeries);
+            var target = GetTestObjectInstance(priceSeries);
 
             var dateTime = target.Head;
         }
@@ -101,7 +101,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(GetCumulativeLookback(), date, 1);
 
-            var target = GetTestInstance(priceSeries);
+            var target = GetTestObjectInstance(priceSeries);
 
             var result = target[target.Head.AddTicks(-1)];
         }
@@ -112,7 +112,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(GetCumulativeLookback() * 2, date, 1);
 
-            var target = GetTestInstance(priceSeries);
+            var target = GetTestObjectInstance(priceSeries);
 
             var result = target[target.Head];
         }
@@ -121,7 +121,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         public void PeriodsMatchMeasuredTimeSeries()
         {
             var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-            var target = GetTestInstance(priceSeries);
+            var target = GetTestObjectInstance(priceSeries);
 
             var psPeriods = priceSeries.PricePeriods.Where(p => p.Head >= target.Head);
             var tPeriods = target.TimePeriods.ToArray();
@@ -138,7 +138,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(GetCumulativeLookback() * 2, date, 1);
 
-            var target = GetTestInstance(priceSeries);
+            var target = GetTestObjectInstance(priceSeries);
 
             Assert.IsTrue(target.TimePeriods.Any());
         }
@@ -149,7 +149,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var date = new DateTime(2011, 3, 1);
             var priceSeries = CreateTestPriceSeries(GetCumulativeLookback() * 2, date, 1);
 
-            var target = GetTestInstance(priceSeries);
+            var target = GetTestObjectInstance(priceSeries);
 
             target.CalculateAll();
         }
