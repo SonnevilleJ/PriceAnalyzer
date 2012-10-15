@@ -27,7 +27,7 @@
 //        {
 //            timeSeries.NewDataAvailable += (sender, e) => ClearCachedValues();
 //            _averageGains = new RsiAverageGainsIndicator(timeSeries, Lookback);
-//            _averageLosses = new RsiAverageLossesIndicator(timeSeries, Lookback);
+//            _averageLosses = new RsiAverageGainsLossesIndicator(timeSeries, Lookback);
 //        }
 
 //        #endregion

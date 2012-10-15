@@ -3,10 +3,10 @@ using System.Linq;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
-    public class RsiAverageLossesIndicator : Indicator
+    public class RsiAverageGainsLossesIndicator : Indicator
     {
-        public RsiAverageLossesIndicator(ITimeSeries timeSeries, int lookback)
-            : base(new RsiLossesIndicator(timeSeries), lookback)
+        public RsiAverageGainsLossesIndicator(ITimeSeries timeSeries, int lookback)
+            : base(timeSeries, lookback)
         {
         }
 

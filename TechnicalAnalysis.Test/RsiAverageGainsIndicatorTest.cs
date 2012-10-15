@@ -1,4 +1,4 @@
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.TechnicalAnalysis;
@@ -7,7 +7,7 @@ using Sonneville.PriceTools.Test.PriceData;
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public class RsiAverageLossesIndicatorTest : CommonIndicatorTests
+    public class RsiAverageGainsIndicatorTest : CommonIndicatorTests
     {
         #region Overrides of CommonIndicatorTests
 
@@ -32,24 +32,24 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         /// <returns></returns>
         protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
         {
-            return new RsiAverageGainsLossesIndicator(new RsiLossesIndicator(timeSeries), lookback);
+            return new RsiAverageGainsLossesIndicator(new RsiGainsIndicator(timeSeries), lookback);
         }
 
         #endregion
 
         private readonly decimal[] _expected14 =
             {
-                -0.1378571428571428571428571429m,
-                -0.180153061224489795918367347m,
-                -0.1672849854227405247813411079m,
-                -0.1560503436068304872969596002m,
-                -0.2927610333491997382043196288m,
-                -0.2718495309671140426182967982m,
-                -0.252431707326605896716989884m,
-                -0.2344008710889911898086334637m,
-                -0.2612293802969203905365882163m,
-                -0.2618558531328546483554033437m,
-                -0.2431518636233650306157316763m
+                0.6042857142857142857142857143m,
+                0.5611224489795918367346938776m,
+                0.6353279883381924198250728864m,
+                0.5899474177426072469804248231m,
+                0.5478083164752781579103944786m,
+                0.6508220081556154323453663016m,
+                0.7514775790016429014635544229m,
+                0.7785148947872398370733005356m,
+                0.7229066880167227058537790688m,
+                0.671270496015528226864223421m,
+                0.6897511748715619249453503195m
             };
 
         [TestMethod]
@@ -59,7 +59,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 
             var target = GetTestInstance(priceSeries, 14);
 
-            Assert.AreEqual(priceSeries, ((Indicator) target.MeasuredTimeSeries).MeasuredTimeSeries);
+            Assert.AreEqual(priceSeries, ((Indicator)target.MeasuredTimeSeries).MeasuredTimeSeries);
         }
 
         [TestMethod]
@@ -82,7 +82,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var target = GetTestInstance(priceSeries, 14);
             target.CalculateAll();
 
-            for(var i = 1; i < _expected14.Length; i++)
+            for (var i = 1; i < _expected14.Length; i++)
             {
                 var expected = _expected14[i];
                 var actual = target.TimePeriods.ToArray()[i].Value();
