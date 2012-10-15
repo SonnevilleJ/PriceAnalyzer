@@ -1,3 +1,4 @@
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Extensions;
@@ -169,6 +170,46 @@ namespace Test.Sonneville.PriceTools
 
             var expected = start.AddTicks(1).AddMonths(-1);
             var actual = start.PreviousPeriodClose(Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public override void SeekForwardOneTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.AddMonths(1);
+            var actual = start.SeekPeriods(1, Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public override void SeekBackwardOneTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.AddMonths(-1);
+            var actual = start.SeekPeriods(-1, Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public override void SeekForwardTenTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.AddMonths(10);
+            var actual = start.SeekPeriods(10, Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public override void SeekBackwardTenTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.AddMonths(-10);
+            var actual = start.SeekPeriods(-10, Resolution);
             Assert.AreEqual(expected, actual);
         }
     }

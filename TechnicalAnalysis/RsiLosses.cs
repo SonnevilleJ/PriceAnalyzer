@@ -2,9 +2,9 @@ using System;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
-    public class RsiGainsIndicator : Indicator
+    public class RsiLosses : Indicator
     {
-        public RsiGainsIndicator(ITimeSeries timeSeries)
+        public RsiLosses(ITimeSeries timeSeries)
             : base(timeSeries, 2)
         {
             timeSeries.NewDataAvailable += (sender, e) => ClearCachedValues();
@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             var currentPeriodValue = MeasuredTimeSeries[index];
             var previousPeriodValue = MeasuredTimeSeries.GetPreviousTimePeriod(index).Value();
-            return currentPeriodValue > previousPeriodValue ? currentPeriodValue - previousPeriodValue : 0;
+            return currentPeriodValue < previousPeriodValue ? currentPeriodValue - previousPeriodValue : 0;
         }
 
         #endregion

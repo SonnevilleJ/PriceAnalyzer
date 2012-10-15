@@ -8,7 +8,7 @@ using Sonneville.PriceTools.Test.PriceData;
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public class RsiLossesIndicatorTest : CommonIndicatorTests
+    public class RsiLossesTest : CommonIndicatorTests
     {
         #region Overrides of CommonIndicatorTests
 
@@ -28,7 +28,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         /// <returns></returns>
         protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
         {
-            return new RsiLossesIndicator(timeSeries);
+            return new RsiLosses(timeSeries);
         }
 
         #endregion

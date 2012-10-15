@@ -1,9 +1,9 @@
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
-    class RsiAverageLosses : RsiAverageGainsLossesIndicator
+    public class RsiAverageLosses : RsiAverageGainsLosses
     {
         public RsiAverageLosses(ITimeSeries timeSeries, int lookback)
-            : base(new RsiLossesIndicator(timeSeries), lookback)
+            : base(new RsiLosses(timeSeries), lookback)
         {
         }
     }

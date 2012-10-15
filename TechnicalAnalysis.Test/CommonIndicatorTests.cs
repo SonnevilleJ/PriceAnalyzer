@@ -59,13 +59,12 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         [TestMethod]
         public void HeadIsCorrectForNoWeekendData()
         {
-            var date = new DateTime(2011, 3, 1);
-            var priceSeries = CreateTestPriceSeries(GetCumulativeLookback(), date, 1, Resolution.Days, false);
+            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
 
             var target = GetTestInstance(priceSeries);
 
             // must use MeasuredTimeSeries instead of priceSeries - target may be an indicator of an indicator, thus elongating the Lookback
-            var expected = target.MeasuredTimeSeries.Head.SeekTradingPeriods(target.Lookback - 1, target.Resolution);
+            var expected = priceSeries.TimePeriods.ElementAt(GetCumulativeLookback() - 1).Head;
             var actual = target.Head;
             Assert.AreEqual(expected, actual);
         }
@@ -79,7 +78,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             var target = GetTestInstance(priceSeries);
 
             // must use MeasuredTimeSeries instead of priceSeries - target may be an indicator of an indicator, thus elongating the Lookback
-            var expected = target.MeasuredTimeSeries.Head.SeekPeriods(target.Lookback - 1, target.Resolution);
+            var expected = priceSeries.TimePeriods.ElementAt(GetCumulativeLookback() - 1).Head;
             var actual = target.Head;
             Assert.AreEqual(expected, actual);
         }

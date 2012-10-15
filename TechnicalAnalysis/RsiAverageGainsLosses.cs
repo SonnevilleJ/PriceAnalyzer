@@ -3,9 +3,9 @@ using System.Linq;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
-    public class RsiAverageGainsLossesIndicator : Indicator
+    public class RsiAverageGainsLosses : Indicator
     {
-        public RsiAverageGainsLossesIndicator(ITimeSeries timeSeries, int lookback)
+        protected RsiAverageGainsLosses(ITimeSeries timeSeries, int lookback)
             : base(timeSeries, lookback)
         {
         }

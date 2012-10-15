@@ -1,13 +1,12 @@
-using System.Linq;
+using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.TechnicalAnalysis;
-using Sonneville.PriceTools.Test.PriceData;
 
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public class RsiAverageLossesIndicatorTest : CommonIndicatorTests
+    public class RsiAverageLossesTest : ParentIndicatorTestBase
     {
         #region Overrides of CommonIndicatorTests
 
@@ -19,6 +18,10 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             return 14;
         }
 
+        /// <summary>
+        /// The cumulative lookback period for this indicator and all sub-indicators.
+        /// </summary>
+        /// <returns></returns>
         protected override int GetCumulativeLookback()
         {
             return GetDefaultLookback() + 1;
@@ -32,7 +35,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         /// <returns></returns>
         protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
         {
-            return new RsiLossesIndicator(timeSeries);
+            return new RsiAverageLosses(timeSeries, lookback);
         }
 
         #endregion
@@ -52,42 +55,16 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
                 -0.2431518636233650306157316763m
             };
 
-        [TestMethod]
-        public void MeasuredTimeSeriesMeasuredTimeSeriesIsPriceSeries()
+        /// <summary>
+        /// Gets a list of expected values for a given lookback period.
+        /// </summary>
+        /// <param name="lookback"></param>
+        /// <returns></returns>
+        protected override decimal[] Get11ExpectedValues(int lookback)
         {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-
-            var target = GetTestInstance(priceSeries, 14);
-
-            Assert.AreEqual(priceSeries, ((Indicator) target.MeasuredTimeSeries).MeasuredTimeSeries);
-        }
-
-        [TestMethod]
-        public void CalculateFirstPeriodCorrectly()
-        {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-
-            var target = GetTestInstance(priceSeries, 14);
-
-            var expected = _expected14[0];
-            var actual = target[target.Head];
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void CalculateNext10PeriodsCorrectly()
-        {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
-
-            var target = GetTestInstance(priceSeries, 14);
-            target.CalculateAll();
-
-            for(var i = 1; i < _expected14.Length; i++)
-            {
-                var expected = _expected14[i];
-                var actual = target.TimePeriods.ToArray()[i].Value();
-                Assert.AreEqual(expected, actual);
-            }
+            if (lookback == 14) return _expected14;
+            throw new ArgumentOutOfRangeException("lookback", lookback,
+                                                  String.Format("Cannot return expected values for lookback period of length {0}", lookback));
         }
     }
 }

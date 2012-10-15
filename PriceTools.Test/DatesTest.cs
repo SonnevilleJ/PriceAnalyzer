@@ -709,5 +709,129 @@ namespace Test.Sonneville.PriceTools
         }
 
         #endregion
+
+        #region SeekPeriods Tests
+
+        [TestMethod]
+        public virtual void SeekForwardOneTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.AddTicks((long) Resolution);
+            var actual = start.SeekPeriods(1, Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public virtual void SeekBackwardOneTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.AddTicks(0 - (long) Resolution);
+            var actual = start.SeekPeriods(-1, Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public virtual void SeekForwardTenTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.AddTicks((long) Resolution*10);
+            var actual = start.SeekPeriods(10, Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public virtual void SeekBackwardTenTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.AddTicks(0 - ((long) Resolution*10));
+            var actual = start.SeekPeriods(-10, Resolution);
+            Assert.AreEqual(expected, actual);
+        }
+
+        #endregion
+
+        #region SeekTradingPeriods Tests
+
+        [TestMethod]
+        public void SeekTradingForwardOneTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.SeekPeriods(1, Resolution);
+            var actual = start.SeekTradingPeriods(1, Resolution);
+            Assert.IsTrue(actual >= expected);
+        }
+
+        [TestMethod]
+        public void SeekTradingForwardOneIsInTradingPeriodTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var result = start.SeekTradingPeriods(1, Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void SeekTradingBackwardOneTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.SeekPeriods(-1, Resolution);
+            var actual = start.SeekTradingPeriods(-1, Resolution);
+            Assert.IsTrue(actual <= expected);
+        }
+
+        [TestMethod]
+        public void SeekTradingBackwardOneIsInTradingPeriodTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var result = start.SeekTradingPeriods(-1, Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void SeekTradingForwardTenTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.SeekPeriods(10, Resolution);
+            var actual = start.SeekTradingPeriods(10, Resolution);
+            Assert.IsTrue(actual >= expected);
+        }
+
+        [TestMethod]
+        public void SeekTradingForwardTenIsInTradingPeriodTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var result = start.SeekTradingPeriods(10, Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        [TestMethod]
+        public void SeekTradingBackwardTenTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var expected = start.SeekPeriods(-10, Resolution);
+            var actual = start.SeekTradingPeriods(-10, Resolution);
+            Assert.IsTrue(actual <= expected);
+        }
+
+        [TestMethod]
+        public void SeekTradingBackwardTenIsInTradingPeriodTest()
+        {
+            var start = new DateTime(2012, 10, 15);
+
+            var result = start.SeekTradingPeriods(-10, Resolution);
+            Assert.IsTrue(result.IsInTradingPeriod(Resolution));
+        }
+
+        #endregion
     }
 }

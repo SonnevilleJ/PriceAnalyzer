@@ -1,122 +1,72 @@
-﻿//using System;
-//using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using Sonneville.PriceTools;
-//using Sonneville.PriceTools.Extensions;
-//using Sonneville.PriceTools.TechnicalAnalysis;
-//using Sonneville.PriceTools.Test.PriceData;
+﻿using System;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
+using Sonneville.PriceTools.TechnicalAnalysis;
 
-//namespace Test.Sonneville.PriceTools.TechnicalAnalysis
-//{
-//    /// <summary>
-//    /// Summary description for RelativeStrengthIndexTest
-//    /// </summary>
-//    [TestClass]
-//    public class RelativeStrengthIndexTest : CommonIndicatorTests
-//    {
-//        //
-//        // The algorithms in the RelativeStrengthIndicator class are based on an Excel calculator from the following article:
-//        // http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:relative_strength_index_rsi
-//        // See the cs-rsi.xls file in the Resources folder.
-//        //
+namespace Test.Sonneville.PriceTools.TechnicalAnalysis
+{
+    /// <summary>
+    /// Summary description for RelativeStrengthIndexTest
+    /// </summary>
+    [TestClass]
+    public class RelativeStrengthIndexTest : ParentIndicatorTestBase
+    {
+        //
+        // The algorithms in the RelativeStrengthIndex class are based on an Excel calculator from the following article:
+        // http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:relative_strength_index_rsi
+        // See the cs-rsi.xls file in the Resources folder.
+        //
 
-//        protected override int GetDefaultLookback()
-//        {
-//            return 14;
-//        }
+        private readonly decimal[] _expected14 =
+            {
+                81.42444658325312800769971126m,
+                75.69688209787321907908321288m,
+                79.157453107334371608766919273m,
+                79.081660603840080954001029371m,
+                65.171102966063162898061236594m,
+                70.536694864828394482539826322m,
+                74.855127772563689999935239674m,
+                76.858799222438717932028815194m,
+                73.455969280289921181866567785m,
+                71.937792414517368012939476741m,
+                73.935998320291967941371047445m
+            };
 
-//        /// <summary>
-//        /// Gets an instance of the <see cref="Indicator"/> to test, using a specific lookback period.
-//        /// </summary>
-//        /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
-//        /// <param name="lookback">The lookback period the <see cref="Indicator"/> should use.</param>
-//        /// <returns></returns>
-//        protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
-//        {
-//            return new RelativeStrengthIndex(timeSeries, lookback);
-//        }
+        protected override int GetDefaultLookback()
+        {
+            return 14;
+        }
 
-//        [TestMethod]
-//        public void Calculates14PeriodSingleCorrect()
-//        {
-//            var priceSeries = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-//            var target = new RelativeStrengthIndex(priceSeries);
+        protected override int GetCumulativeLookback()
+        {
+            return GetDefaultLookback() + 1;
+        }
 
-//            const decimal expected = 85.22m;
-//            var actual = target[target.Head.CurrentPeriodClose(target.Resolution)];
-//            Assert.AreEqual(expected, Math.Round(actual, 2));
-//        }
+        /// <summary>
+        /// Gets an instance of the <see cref="Indicator"/> to test, using a specific lookback period.
+        /// </summary>
+        /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
+        /// <param name="lookback">The lookback period the <see cref="Indicator"/> should use.</param>
+        /// <returns></returns>
+        protected override Indicator GetTestInstance(ITimeSeries timeSeries, int lookback)
+        {
+            return new RelativeStrengthIndex(timeSeries, lookback);
+        }
 
-//        [TestMethod]
-//        public void Calculates14PeriodAllCorrect()
-//        {
-//            var results = new[]
-//                              {
-//                                  85.22m,
-//                                  86.72m,
-//                                  84.67m,
-//                                  84.70m,
-//                                  75.16m,
-//                                  78.98m,
-//                                  80.77m,
-//                                  79.55m,
-//                                  79.84m,
-//                                  80.45m
-//                              };
-//            var priceSeries = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-//            var target = new RelativeStrengthIndex(priceSeries);
+        #region Overrides of ParentIndicatorTestBase
 
-//            target.CalculateAll();
+        /// <summary>
+        /// Gets a list of expected values for a given lookback period.
+        /// </summary>
+        /// <param name="lookback"></param>
+        /// <returns></returns>
+        protected override decimal[] Get11ExpectedValues(int lookback)
+        {
+            if (lookback == 14) return _expected14;
+            throw new ArgumentOutOfRangeException("lookback", lookback,
+                                                  String.Format("Cannot return expected values for lookback period of length {0}", lookback));
+        }
 
-//            var index = target.Head;
-//            var lookback = target.Lookback;
-//            for (var i = lookback; i < results.Length + lookback; i++, index = index.NextPeriodOpen(target.Resolution))
-//            {
-//                var expected = results[i - lookback];
-//                var actual = target[index];
-//                Assert.AreEqual(expected, Math.Round(actual, 2));
-//            }
-//        }
-
-//        [TestMethod]
-//        public void Calculates10PeriodSingleCorrect()
-//        {
-//            var priceSeries = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-//            var target = new RelativeStrengthIndex(priceSeries, 10);
-
-//            const decimal expected = 70.66m;
-//            var actual = target[target.Head.CurrentPeriodClose(target.Resolution)];
-//            Assert.AreEqual(expected, Math.Round(actual, 2));
-//        }
-
-//        [TestMethod]
-//        public void Calculates10PeriodAllCorrect()
-//        {
-//            var results = new[]
-//                              {
-//                                  70.66m,
-//                                  83.04m,
-//                                  83.22m,
-//                                  80.74m,
-//                                  86.77m,
-//                                  88.52m,
-//                                  85.73m,
-//                                  85.77m,
-//                                  72.68m,
-//                                  78.22m
-//                              };
-//            var priceSeries = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-//            var target = new RelativeStrengthIndex(priceSeries, 10);
-
-//            target.CalculateAll();
-
-//            var index = target.Head;
-//            var lookback = target.Lookback;
-//            for (var i = lookback; i < results.Length + lookback; i++, index = index.NextPeriodOpen(target.Resolution))
-//            {
-//                var expected = results[i - lookback];
-//                var actual = target[index];
-//                Assert.AreEqual(expected, Math.Round(actual, 2));
-//            }
-//        }
-//    }
-//}
+        #endregion
+    }
+}

@@ -1,53 +1,56 @@
-﻿//using System;
+﻿using System;
+using System.Linq;
 
-//namespace Sonneville.PriceTools.TechnicalAnalysis
-//{
-//    /// <summary>
-//    /// A momentum oscillator which measures the speed of changes in price movements.
-//    /// </summary>
-//    public class RelativeStrengthIndex : Indicator
-//    {
-//        //
-//        // The algorithms in the RelativeStrengthIndicator class are based on an Excel calculator from the following article:
-//        // http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:relative_strength_index_rsi
-//        //
+namespace Sonneville.PriceTools.TechnicalAnalysis
+{
+    /// <summary>
+    /// A momentum oscillator which measures the speed of changes in price movements.
+    /// </summary>
+    public class RelativeStrengthIndex : Indicator
+    {
+        //
+        // The algorithms in the RelativeStrengthIndex class are based on an Excel calculator from the following article:
+        // http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:relative_strength_index_rsi
+        //
+        private Indicator _avgGains;
+        private Indicator _avgLosses;
 
-//        private readonly Indicator _averageGains;
-//        private readonly Indicator _averageLosses;
+        public RelativeStrengthIndex(ITimeSeries timeSeries, int lookback = 14)
+            : base(timeSeries, lookback)
+        {
+            _avgGains = new RsiAverageGains(MeasuredTimeSeries, Lookback);
+            _avgLosses = new RsiAverageLosses(MeasuredTimeSeries, Lookback);
+        }
 
-//        #region Constructors
+        #region Overrides of Indicator
 
-//        /// <summary>
-//        /// Constructs a new RSI <see cref="IIndicator"/>.
-//        /// </summary>
-//        /// <param name="timeSeries">The <see cref="IPriceSeries"/> to measure.</param>
-//        /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
-//        public RelativeStrengthIndex(ITimeSeries timeSeries, int lookback = 14)
-//            : base(timeSeries, lookback)
-//        {
-//            timeSeries.NewDataAvailable += (sender, e) => ClearCachedValues();
-//            _averageGains = new RsiAverageGainsIndicator(timeSeries, Lookback);
-//            _averageLosses = new RsiAverageGainsLossesIndicator(timeSeries, Lookback);
-//        }
+        protected override void ClearCachedValues()
+        {
+            _avgGains = new RsiAverageGains(MeasuredTimeSeries, Lookback);
+            _avgLosses = new RsiAverageLosses(MeasuredTimeSeries, Lookback);
+            base.ClearCachedValues();
+        }
+        public override DateTime Head
+        {
+            get { return MeasuredTimeSeries.TimePeriods.ElementAt(Lookback).Head; }
+        }
 
-//        #endregion
+        /// <summary>
+        /// Calculates a single value of this Indicator.
+        /// </summary>
+        /// <param name="index">The index of the value to calculate.</param>
+        protected override decimal Calculate(DateTime index)
+        {
+            var avgGain = _avgGains[index];
+            var avgLoss = _avgLosses[index];
+            
+            if (avgLoss == 0) return 100m;
 
-//        #region Overrides of Indicator
+            var relativeStrength = Math.Abs(avgGain/avgLoss);
+            var relativeStrengthIndex = 100 - (100/(1 + relativeStrength));
+            return relativeStrengthIndex;
+        }
 
-//        /// <summary>
-//        /// Calculates a single value of this Indicator.
-//        /// </summary>
-//        /// <param name="index">The index of the value to calculate.</param>
-//        protected override decimal Calculate(DateTime index)
-//        {
-//            var previousGain = _averageGains[index];
-//            var previousLoss = _averageLosses[index];
-
-//            if (previousLoss == 0m) return 100m;
-//            var rs = previousGain/previousLoss;
-//            return 100 - (100/(1 + rs));
-//        }
-
-//        #endregion
-//    }
-//}
+        #endregion
+    }
+}
