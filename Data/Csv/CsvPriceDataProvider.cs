@@ -26,19 +26,6 @@ namespace Sonneville.PriceTools.Data.Csv
             return GetPriceHistoryCsvFile(ticker, head, tail, resolution).PricePeriods;
         }
 
-        /// <summary>
-        /// Gets a <see cref="IPriceSeries"/> containing price history.
-        /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> containing price history to be updated.</param>
-        /// <param name="head">The first date to price.</param>
-        /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
-        /// <returns></returns>
-        public override void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
-        {
-            priceSeries.AddPriceData(GetPriceData(priceSeries.Ticker, head, tail, resolution));
-        }
-
         #endregion
 
         #region Abstract / Virtual Methods

@@ -59,6 +59,19 @@ namespace Sonneville.PriceTools.Data
         }
 
         /// <summary>
+        /// Gets a <see cref="IPriceSeries"/> containing price history.
+        /// </summary>
+        /// <param name="priceSeries">The <see cref="IPriceSeries"/> containing price history to be updated.</param>
+        /// <param name="head">The first date to price.</param>
+        /// <param name="tail">The last date to price.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
+        /// <returns></returns>
+        public void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
+        {
+            priceSeries.AddPriceData(GetPriceData(priceSeries.Ticker, head, tail, resolution));
+        }
+
+        /// <summary>
         /// Instructs the IPriceDataProvider to periodically update the price data in the <paramref name="priceSeries"/>.
         /// </summary>
         /// <param name="priceSeries">The <see cref="IPriceSeries"/> to update.</param>
@@ -149,16 +162,6 @@ namespace Sonneville.PriceTools.Data
         /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns></returns>
         public abstract IEnumerable<IPricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail, Resolution resolution);
-
-        /// <summary>
-        /// Gets a <see cref="IPriceSeries"/> containing price history.
-        /// </summary>
-        /// <param name="priceSeries"> </param>
-        /// <param name="head">The first date to price.</param>
-        /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
-        /// <returns></returns>
-        public abstract void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
         /// Gets the ticker symbol for a given stock index.
