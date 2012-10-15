@@ -70,14 +70,7 @@ namespace Test.Sonneville.PriceTools
 
             for (var i = 0; i < iterations; i++)
             {
-                // workaround for bug with Entity Framework
-                // EF will call GetHashCode, which returns a random number (I think).
-                // Occasionally, two Transaction objects will return the same result for GetHashCode.
-                // This results in EF getting confused and thinking the new object is already in the collection
-                // and EF will not add the new object to the collection, thus changing the final count.
-                var settlementDate = dateTime.AddTicks(i);
-
-                var dividend = TransactionFactory.ConstructDeposit(settlementDate, amount / iterations);
+                var dividend = TransactionFactory.ConstructDeposit(dateTime, amount / iterations);
                 target.Deposit(dividend);
             }
             Assert.AreEqual(iterations, target.Transactions.Count);
@@ -93,23 +86,13 @@ namespace Test.Sonneville.PriceTools
 
             for (var i = 0; i < iterations; i++)
             {
-                // workaround for bug with Entity Framework
-                // EF will call GetHashCode, which returns a random number (I think).
-                // Occasionally, two Transaction objects will return the same result for GetHashCode.
-                // This results in EF getting confused and thinking the new object is already in the collection
-                // and EF will not add the new object to the collection, thus changing the final count.
-                var settlementDate = dateTime.AddTicks(i);
-
-                var dividend = TransactionFactory.ConstructDeposit(settlementDate, amount / iterations);
+                var dividend = TransactionFactory.ConstructDeposit(dateTime, amount / iterations);
                 target.Deposit(dividend);
             }
 
             for (var j = 0; j < iterations; j++)
             {
-                // see comment above about bug with Entity Framework
-                var settlementDate = dateTime.AddTicks(j);
-
-                var withdrawal = TransactionFactory.ConstructWithdrawal(settlementDate, amount / iterations);
+                var withdrawal = TransactionFactory.ConstructWithdrawal(dateTime, amount / iterations);
                 target.Withdraw(withdrawal);
             }
             Assert.AreEqual(iterations * 2, target.Transactions.Count);
@@ -125,23 +108,13 @@ namespace Test.Sonneville.PriceTools
 
             for (var i = 0; i < iterations; i++)
             {
-                // workaround for bug with Entity Framework
-                // EF will call GetHashCode, which returns a random number (I think).
-                // Occasionally, two Transaction objects will return the same result for GetHashCode.
-                // This results in EF getting confused and thinking the new object is already in the collection
-                // and EF will not add the new object to the collection, thus changing the final count.
-                var settlementDate = dateTime.AddTicks(i);
-
-                var dividend = TransactionFactory.ConstructDeposit(settlementDate, amount / iterations);
+                var dividend = TransactionFactory.ConstructDeposit(dateTime, amount / iterations);
                 target.Deposit(dividend);
             }
 
             for (var j = 0; j < iterations; j++)
             {
-                // see comment above about bug with Entity Framework
-                var settlementDate = dateTime.AddTicks(j);
-
-                var withdrawal = TransactionFactory.ConstructWithdrawal(settlementDate, amount / iterations);
+                var withdrawal = TransactionFactory.ConstructWithdrawal(dateTime, amount / iterations);
                 target.Withdraw(withdrawal);
             }
 
