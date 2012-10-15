@@ -37,18 +37,6 @@ namespace Test.Sonneville.PriceTools.Yahoo
         }
 
         [TestMethod]
-        public void PriceHistoryCsvFileWillCorrectWeekendTailWeeklyTest()
-        {
-            var seriesHead = new DateTime(2011, 4, 1);                          // Friday
-            var seriesTail = new DateTime(2011, 7, 2).CurrentPeriodClose(Resolution.Days);              // Saturday
-            var pricePeriods = new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.MSFT_Apr_June_2011_Weekly_Google), seriesHead, seriesTail).PricePeriods;
-
-            var expected = seriesTail.PreviousPeriodClose(Resolution.Weeks);               // Friday
-            var actual = pricePeriods.Max(p => p.Tail);
-            Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
         public void YahooDailyTestDates()
         {
             var head = new DateTime(2011, 1, 3);
@@ -68,15 +56,19 @@ namespace Test.Sonneville.PriceTools.Yahoo
         }
 
         [TestMethod]
-        public void YahooDailyTestResolution()
+        public void YahooDailyTestResolutionIsDays()
         {
             var target = TestPriceHistoryCsvFiles.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo;
 
-            foreach (var period in target.PricePeriods)
-            {
-                Assert.AreEqual(Resolution.Days, period.Resolution);
-                Assert.IsTrue(period.Tail - period.Head < new TimeSpan(24, 0, 0));
-            }
+            if (target.PricePeriods.Any(p => p.Resolution != Resolution.Days)) Assert.Fail();
+        }
+
+        [TestMethod]
+        public void YahooDailyTestResolutionIsLessThan24Hours()
+        {
+            var target = TestPriceHistoryCsvFiles.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo;
+
+            if (target.PricePeriods.Any(p => p.TimeSpan() > new TimeSpan(24, 0, 0))) Assert.Fail();
         }
     }
 }
