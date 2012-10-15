@@ -51,7 +51,7 @@ namespace Test.Sonneville.PriceTools.Data
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2012, 8, 7);
-            var tail = new DateTime(2012, 8, 7, 23, 59, 59);
+            var tail = new DateTime(2012, 8, 7).CurrentPeriodClose(Resolution.Days);
             var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
@@ -63,7 +63,7 @@ namespace Test.Sonneville.PriceTools.Data
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
+            var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
             var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
@@ -79,7 +79,7 @@ namespace Test.Sonneville.PriceTools.Data
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
+            var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
             var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
@@ -91,7 +91,7 @@ namespace Test.Sonneville.PriceTools.Data
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
+            var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
             var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
@@ -104,7 +104,7 @@ namespace Test.Sonneville.PriceTools.Data
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
+            var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
             var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
@@ -116,7 +116,7 @@ namespace Test.Sonneville.PriceTools.Data
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
+            var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
             var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker, Resolution.Weeks);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
@@ -134,7 +134,7 @@ namespace Test.Sonneville.PriceTools.Data
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
-            var tail = new DateTime(2011, 3, 15, 23, 59, 59);
+            var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
             var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
@@ -165,7 +165,7 @@ namespace Test.Sonneville.PriceTools.Data
                 priceSeries.NewDataAvailable += handler;
                 provider.StartAutoUpdate(priceSeries);
 
-                resetEvent.WaitOne();
+                resetEvent.WaitOne(new TimeSpan(0, 0, 30));
             }
             finally
             {
@@ -194,7 +194,7 @@ namespace Test.Sonneville.PriceTools.Data
                 priceSeries.NewDataAvailable += handler;
                 provider.StartAutoUpdate(priceSeries);
 
-                resetEvent.WaitOne(new TimeSpan(0, 2, 0));
+                resetEvent.WaitOne(new TimeSpan(0, 0, 30));
             }
             finally
             {
@@ -233,7 +233,7 @@ namespace Test.Sonneville.PriceTools.Data
 
             provider.StartAutoUpdate(ps1);
             provider.StartAutoUpdate(ps2);
-            countdown.Wait(new TimeSpan(0, 2, 0));
+            countdown.Wait(new TimeSpan(0, 0, 30));
 
             provider.StopAutoUpdate(ps1);
             provider.StopAutoUpdate(ps2);

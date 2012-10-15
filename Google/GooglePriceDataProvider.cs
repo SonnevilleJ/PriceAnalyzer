@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools.Google
         /// <returns>A partial URL query string containing the given ticker symbol.</returns>
         protected override string GetUrlTicker(string symbol)
         {
-            return String.Format("q=\"{0}\"&", symbol);
+            return String.Format("q={0}&", symbol);
         }
 
         /// <summary>
