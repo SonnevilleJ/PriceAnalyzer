@@ -17,8 +17,8 @@ namespace Test.Sonneville.PriceTools.PortfolioStatistics
         public void KellyPercentTest()
         {
             var holdings = SamplePortfolios.BrokerageLink_trades.CalculateHoldings(DateTime.Now);
-            var winPercentage = (decimal) holdings.Where(h => h.NetProfit() > 0).Count()/holdings.Count;
-            var lossPercentage = (decimal) holdings.Where(h => h.NetProfit() <= 0).Count()/holdings.Count;
+            var winPercentage = (decimal) holdings.Count(h => h.NetProfit() > 0)/holdings.Count;
+            var lossPercentage = (decimal) holdings.Count(h => h.NetProfit() <= 0)/holdings.Count;
             var averageWin = holdings.Where(h => h.NetProfit() > 0).Average(h => h.NetProfit());
             var averageLoss = holdings.Where(h => h.NetProfit() <= 0).Average(h => Math.Abs(h.NetProfit()));
 
