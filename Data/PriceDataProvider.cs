@@ -15,8 +15,8 @@ namespace Sonneville.PriceTools.Data
         #region Private Members
 
         private readonly object _syncroot = new object();
-        private readonly IDictionary<IPriceSeries, CancellationTokenSource> _tokens = new Dictionary<IPriceSeries, CancellationTokenSource>();
         private readonly IDictionary<IPriceSeries, Task> _tasks = new Dictionary<IPriceSeries, Task>();
+        private readonly IDictionary<string, bool> _resetEvent = new Dictionary<string, bool>();
 
         #endregion
 
@@ -83,13 +83,25 @@ namespace Sonneville.PriceTools.Data
                 {
                     throw new InvalidOperationException("Cannot execute duplicate tasks to update the same PriceSeries.");
                 }
-                var cts = new CancellationTokenSource();
-                var token = cts.Token;
-                var task = new Task(() => UpdateLoop(priceSeries, token), token, TaskCreationOptions.LongRunning);
-                _tokens.Add(priceSeries, cts);
+                var task = new Task(() => UpdateLoop(priceSeries), TaskCreationOptions.LongRunning);
                 _tasks.Add(priceSeries, task);
+                AddToUpdateList(priceSeries);
 
                 task.Start();
+            }
+        }
+
+        private void AddToUpdateList(IPriceSeries priceSeries)
+        {
+            var ticker = priceSeries.Ticker;
+            bool value;
+            if (_resetEvent.TryGetValue(ticker, out value))
+            {
+                _resetEvent[ticker] = true;
+            }
+            else
+            {
+                _resetEvent.Add(ticker, true);
             }
         }
 
@@ -99,26 +111,24 @@ namespace Sonneville.PriceTools.Data
         /// <param name="priceSeries">The <see cref="IPriceSeries"/> to stop updating.</param>
         public void StopAutoUpdate(IPriceSeries priceSeries)
         {
-            CancellationTokenSource cts;
-            if (_tokens.TryGetValue(priceSeries, out cts))
+            var task = _tasks[priceSeries];
+            lock (_syncroot)
             {
-                var task = _tasks[priceSeries];
-                lock (_syncroot)
+                // cleanup
+                _tasks.Remove(priceSeries);
+
+                // signal cancellation
+                _resetEvent[priceSeries.Ticker] = false;
+
+                // wake up sleeping tasks so they can terminate
+                lock (priceSeries)
                 {
-                    // cleanup
-                    _tokens.Remove(priceSeries);
-                    _tasks.Remove(priceSeries);
-
-                    // signal cancellation
-                    cts.Cancel();
-
-                    // wake up sleeping tasks so they can terminate
-                    lock(priceSeries) Monitor.PulseAll(priceSeries);
+                    Monitor.PulseAll(priceSeries);  
                 }
-
-                // wait for completion and throw exceptions
-                task.Wait();
             }
+
+            // wait for completion and throw exceptions
+            task.Wait();
         }
 
         #endregion
@@ -129,13 +139,12 @@ namespace Sonneville.PriceTools.Data
         /// Intended to be called asynchronously. Enters a loop which periodically updates the <paramref name="priceSeries"/>.
         /// </summary>
         /// <param name="priceSeries"></param>
-        /// <param name="token"></param>
-        private void UpdateLoop(IPriceSeries priceSeries, CancellationToken token)
+        private void UpdateLoop(IPriceSeries priceSeries)
         {
             var timeout = new TimeSpan((long) BestResolution);
-            while (!token.IsCancellationRequested)
+            lock (priceSeries)
             {
-                lock (priceSeries)
+                while (_resetEvent[priceSeries.Ticker])
                 {
                     UpdatePriceSeries(priceSeries);
 
