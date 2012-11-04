@@ -175,26 +175,6 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        ///   Gets the cumulative number of shares that have ever been owned before a given date.
-        /// </summary>
-        /// <param name="shareTransactions"></param>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        private static decimal GetOpenedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
-        {
-            return shareTransactions.AsParallel().Where(t => t is OpeningTransaction && t.SettlementDate <= date).Sum(t => t.Shares);
-        }
-
-        /// <summary>
-        ///   Gets the total number of shares that were owned but are no longer owned.
-        /// </summary>
-        /// <param name="shareTransactions"></param>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        private static decimal GetClosedShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
-        {
-            return shareTransactions.AsParallel().Where(t => t is ClosingTransaction && t.SettlementDate <= date).Sum(t => t.Shares);
-        }
-
-        /// <summary>
         ///   Gets the average cost of all held shares in a <see cref="Position"/> as of a given date.
         /// </summary>
         /// <param name="position">The <see cref="Position"/> for which to calculate average cost.</param>
@@ -282,7 +262,7 @@ namespace Sonneville.PriceTools
             if(basket == null) throw new ArgumentNullException("basket", Strings.SecurityBasketExtensions_CalculateAnnualGrossReturn_Parameter_basket_cannot_be_null_);
 
             var totalReturn = basket.CalculateGrossReturn(settlementDate);
-            return totalReturn == null ? null : Annualize(totalReturn.Value, basket.Tail, basket.Head);
+            return totalReturn == null ? null : Annualize(totalReturn.Value, basket.Transactions.Min(t => t.SettlementDate), basket.Transactions.Max(t => t.SettlementDate));
         }
 
         /// <summary>
@@ -296,10 +276,17 @@ namespace Sonneville.PriceTools
         public static decimal? CalculateAnnualNetReturn(this SecurityBasket basket, DateTime settlementDate)
         {
             var totalReturn = basket.CalculateNetReturn(settlementDate);
-            return totalReturn == null ? null : Annualize(totalReturn.Value, basket.Tail, basket.Head);
+            return totalReturn == null ? null : Annualize(totalReturn.Value, basket.Transactions.Min(t => t.SettlementDate), basket.Transactions.Max(t => t.SettlementDate));
         }
 
-        private static decimal? Annualize(decimal totalReturn, DateTime tail, DateTime head)
+        /// <summary>
+        /// Calculates an annual rate of return for a given date range.
+        /// </summary>
+        /// <param name="totalReturn"></param>
+        /// <param name="head"></param>
+        /// <param name="tail"></param>
+        /// <returns></returns>
+        private static decimal? Annualize(decimal totalReturn, DateTime head, DateTime tail)
         {
             // decimal division is imperfect around 25 decimal places. Round to 20 decimal places to reduce errors.
             var time = ((tail - head).Days / 365.0m);

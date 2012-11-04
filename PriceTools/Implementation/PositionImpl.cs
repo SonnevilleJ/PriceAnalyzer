@@ -111,19 +111,33 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Gets the first DateTime in the IPosition.
+        /// Gets the first DateTime for which a value exists.
         /// </summary>
         public DateTime Head
         {
-            get { return First.SettlementDate; }
+            get
+            {
+                if (Transactions.Any())
+                {
+                    return Transactions.Min(t => t.SettlementDate);
+                }
+                return DateTime.Now;
+            }
         }
 
         /// <summary>
-        ///   Gets the last DateTime in the IPosition.
+        /// Gets the last DateTime for which a value exists.
         /// </summary>
         public DateTime Tail
         {
-            get { return Last.SettlementDate; }
+            get
+            {
+                if (Transactions.Any())
+                {
+                    return Transactions.Max(t => t.SettlementDate);
+                }
+                return DateTime.Now;
+            }
         }
 
         /// <summary>
@@ -152,7 +166,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IPosition.
         /// </summary>
-        public IList<Transaction> Transactions
+        public IEnumerable<Transaction> Transactions
         {
             get { return new List<Transaction>(_transactions); }
         }

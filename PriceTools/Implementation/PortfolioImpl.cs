@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.Implementation
 {
@@ -43,73 +42,34 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the first DateTime in the IPortfolio.
+        /// Gets the first DateTime for which a value exists.
         /// </summary>
         public DateTime Head
         {
             get
             {
-                var earliest = DateTime.Now;
-                if (_cashAccount.Transactions.Count > 0)
+                if (Transactions.Any())
                 {
-                    var first = _cashAccount.Transactions.OrderBy(transaction => transaction.SettlementDate).First();
-
-                    earliest = first.SettlementDate;
+                    return Transactions.Min(t => t.SettlementDate);
                 }
-                // An opening deposit is required before transactions will be processed.
-                // Therefore, the below code should never be necessary.
-                //
-                //if (Positions.Count > 0)
-                //{
-                //    ShareTransaction first = Positions.OrderBy(position => position.Head).First().Transactions.OrderBy(trans => trans.SettlementDate).First();
-
-                //    earliest = first.SettlementDate;
-                //}
-
-                return earliest;
+                return DateTime.Now;
             }
         }
 
         /// <summary>
-        /// Gets the last DateTime in the IPortfolio.
+        /// Gets the last DateTime for which a value exists.
         /// </summary>
         public DateTime Tail
         {
             get
             {
-                DateTime? latest = null;
-                if (Positions.Count > 0)
-                    latest = Positions.OrderBy(position => position.Tail).Last().Transactions.OrderBy(trans => trans.SettlementDate).Last().SettlementDate;
-                var cashTransactions = _cashAccount.Transactions.Where(transaction => transaction.SettlementDate > (latest ?? DateTime.MinValue)).ToList();
-                if (cashTransactions.Any())
-                    latest = cashTransactions.Max(t=>t.SettlementDate);
-
-                return latest ?? DateTime.Now;
+                if (Transactions.Any())
+                {
+                    return Transactions.Max(t => t.SettlementDate);
+                }
+                return DateTime.Now;
             }
         }
-
-        /// <summary>
-        /// Gets the <see cref="IPortfolio.Resolution"/> of price data stored within the IPortfolio.
-        /// </summary>
-        public Resolution Resolution
-        {
-            get { return Positions.Min(p => p.Resolution); }
-        }
-
-        /// <summary>
-        /// Determines if the IPortfolio has a valid value for a given date.
-        /// </summary>
-        /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the IPortfolio has a valid value for the given date.</returns>
-        public bool HasValueInRange(DateTime settlementDate)
-        {
-            return settlementDate >= Head;
-        }
-
-        /// <summary>
-        ///   Event which is invoked when new data is available for the IPortfolio.
-        /// </summary>
-        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
 
         #endregion
 
@@ -132,7 +92,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
         /// </summary>
-        public IList<Transaction> Transactions
+        public IEnumerable<Transaction> Transactions
         {
             get
             {
@@ -245,12 +205,12 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Adds historical transactions to the IPortfolio.
         /// </summary>
-        /// <param name="transactionHistory">The historical transactions to add.</param>
-        public void AddTransactionHistory(TransactionHistory transactionHistory)
+        /// <param name="transactions">The historical transactions to add.</param>
+        public void AddTransactions(IEnumerable<Transaction> transactions)
         {
-            if (transactionHistory == null) throw new ArgumentNullException("transactionHistory", Strings.PortfolioImpl_AddTransactionHistory_Parameter_transactionHistory_cannot_be_null_);
+            if (transactions == null) throw new ArgumentNullException("transactions", Strings.PortfolioImpl_AddTransactionHistory_Parameter_transactionHistory_cannot_be_null_);
 
-            foreach (var transaction in transactionHistory.Transactions)
+            foreach (var transaction in transactions)
             {
                 AddTransaction(transaction);
             }
@@ -275,17 +235,17 @@ namespace Sonneville.PriceTools.Implementation
                     sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
                     return sufficientCash && GetPosition(buy.Ticker, false).TransactionIsValid(buy);
             }
-            if (transaction is SellShort)
+            if (transaction is OpeningTransaction && transaction is ShortTransaction)
             {
                     var sellShort = ((SellShort)transaction);
                     return GetPosition(sellShort.Ticker, false).TransactionIsValid(sellShort);
             }
-            if (transaction is Sell)
+            if (transaction is ClosingTransaction && transaction is LongTransaction)
             {
                     var sell = ((ShareTransaction)transaction);
                     return GetPosition(sell.Ticker, false).TransactionIsValid(sell);
             }
-            if (transaction is BuyToCover)
+            if (transaction is ClosingTransaction && transaction is ShortTransaction)
             {
                     var buyToCover = ((ShareTransaction)transaction);
                     sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
@@ -298,7 +258,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
         /// </summary>
-        public IList<Position> Positions
+        public IEnumerable<Position> Positions
         {
             get { return _positions; }
         }
@@ -330,7 +290,7 @@ namespace Sonneville.PriceTools.Implementation
             if (position == null)
             {
                 position = PositionFactory.CreatePosition(ticker);
-                Positions.Add(position);
+                _positions.Add(position);
             }
             position.AddTransaction(transaction);
         }

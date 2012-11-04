@@ -301,7 +301,7 @@ namespace Test.Sonneville.PriceTools.Fidelity
 
                 Portfolio portfolio = PortfolioFactory.ConstructPortfolio(target, "FDRXX");
 
-                Assert.AreEqual(12, portfolio.Positions.Count);
+                Assert.AreEqual(12, portfolio.Positions.Count());
             }
         }
 

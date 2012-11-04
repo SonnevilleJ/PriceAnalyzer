@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools
 {
@@ -12,7 +11,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this Portfolio.
         /// </summary>
-        IList<Position> Positions { get; }
+        IEnumerable<Position> Positions { get; }
 
         /// <summary>
         ///   Retrieves the <see cref="Position"/> with Ticker <paramref name="ticker"/>.
@@ -64,8 +63,8 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Adds historical transactions to the Portfolio.
         /// </summary>
-        /// <param name="transactionHistory">The historical transactions to add.</param>
-        void AddTransactionHistory(TransactionHistory transactionHistory);
+        /// <param name="transactions">The historical transactions to add.</param>
+        void AddTransactions(IEnumerable<Transaction> transactions);
 
         /// <summary>
         /// Validates an <see cref="Transaction"/> without adding it to the Portfolio.

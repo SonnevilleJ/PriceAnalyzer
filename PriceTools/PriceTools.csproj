@@ -64,7 +64,6 @@
     <Compile Include="Factories\TimeSeriesFactory.cs" />
     <Compile Include="HoldingExtensions.cs" />
     <Compile Include="Implementation\CashAccountImpl.cs" />
-    <Compile Include="Data\TransactionHistory.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="Implementation\TimePeriodImpl.cs" />
@@ -73,6 +72,7 @@
     <Compile Include="IPricePeriod.cs" />
     <Compile Include="IPriceSeries.cs" />
     <Compile Include="ITimeSeries.cs" />
+    <Compile Include="IVariableValue.cs" />
     <Compile Include="MarginableCashAccount.cs" />
     <Compile Include="Implementation\OrderImpl.cs" />
     <Compile Include="LongTransaction.cs" />

@@ -30,7 +30,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
 
-            Assert.AreEqual(0, target.Portfolio.Positions.Count);
+            Assert.AreEqual(0, target.Portfolio.Positions.Count());
         }
 
         [TestMethod]

@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.Data.Csv
     /// <summary>
     ///   Parses a single <see cref = "Portfolio" /> from CSV data for an investment portfolio.
     /// </summary>
-    public abstract class TransactionHistoryCsvFile : TransactionHistory
+    public abstract class TransactionHistoryCsvFile : SecurityBasket
     {
         #region Private Members
 
@@ -246,5 +246,45 @@ namespace Sonneville.PriceTools.Data.Csv
         }
 
         #endregion
+
+        /// <summary>
+        /// Gets a value stored at a given DateTime index of the ITimePeriod.
+        /// </summary>
+        /// <param name="dateTime">The DateTime of the desired value.</param>
+        /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
+        public decimal this[DateTime dateTime]
+        {
+            get { return this.CalculateGrossProfit(dateTime); }
+        }
+
+        /// <summary>
+        /// Gets the first DateTime for which a value exists.
+        /// </summary>
+        public DateTime Head
+        {
+            get
+            {
+                if (Transactions.Any())
+                {
+                    return Transactions.Min(t => t.SettlementDate);
+                }
+                return DateTime.Now;
+            }
+        }
+
+        /// <summary>
+        /// Gets the last DateTime for which a value exists.
+        /// </summary>
+        public DateTime Tail
+        {
+            get
+            {
+                if (Transactions.Any())
+                {
+                    return Transactions.Max(t => t.SettlementDate);
+                }
+                return DateTime.Now;
+            }
+        }
     }
 }

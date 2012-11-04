@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Yahoo;
@@ -20,7 +21,7 @@ namespace Test.Sonneville.PriceTools
 
             Assert.AreEqual(string.Empty, target.CashTicker);
             Assert.AreEqual(0, target.GetAvailableCash(DateTime.Now));
-            Assert.AreEqual(0, target.Positions.Count);
+            Assert.AreEqual(0, target.Positions.Count());
         }
 
         [TestMethod]
@@ -31,7 +32,7 @@ namespace Test.Sonneville.PriceTools
 
             Assert.AreEqual(ticker, target.CashTicker);
             Assert.AreEqual(0, target.GetAvailableCash(DateTime.Now));
-            Assert.AreEqual(0, target.Positions.Count);
+            Assert.AreEqual(0, target.Positions.Count());
         }
 
         [TestMethod]
@@ -44,7 +45,7 @@ namespace Test.Sonneville.PriceTools
 
             Assert.AreEqual(ticker, target.CashTicker);
             Assert.AreEqual(amount, target.GetAvailableCash(openDate));
-            Assert.AreEqual(0, target.Positions.Count);
+            Assert.AreEqual(0, target.Positions.Count());
         }
 
         [TestMethod]
@@ -502,7 +503,7 @@ namespace Test.Sonneville.PriceTools
             target.AddTransaction(buy2);
             
             const int expectedTransactions = 5;
-            var actualTransactions = target.Transactions.Count;
+            var actualTransactions = target.Transactions.Count();
             Assert.AreEqual(expectedTransactions, actualTransactions);
 
             Assert.IsTrue(target.Transactions.Contains(buy1));
@@ -654,20 +655,6 @@ namespace Test.Sonneville.PriceTools
             const string expected = ticker;
             var actual = target.CashTicker;
             Assert.AreEqual(expected, actual);
-        }
-
-        [TestMethod]
-        public void HasValueTest()
-        {
-            var testDate = new DateTime(2011, 1, 8);
-            var purchaseDate = testDate.AddDays(1);
-            const decimal amount = 10000m;
-            const string ticker = "FDRXX"; // Fidelity Cash Reserves
-            var target = PortfolioFactory.ConstructPortfolio(purchaseDate, amount, ticker);
-
-            Assert.AreEqual(true, target.HasValueInRange(purchaseDate));
-            Assert.AreEqual(false, target.HasValueInRange(testDate));
-            Assert.AreEqual(true, target.HasValueInRange(purchaseDate.AddDays(1)));
         }
     }
 }

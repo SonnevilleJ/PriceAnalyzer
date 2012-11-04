@@ -130,7 +130,7 @@ namespace Test.Sonneville.PriceTools.Fidelity
 
             var target = PortfolioFactory.ConstructPortfolio(csvFile, ticker);
 
-            Assert.AreEqual(5, target.Positions.Count);
+            Assert.AreEqual(5, target.Positions.Count());
         }
 
         [TestMethod]

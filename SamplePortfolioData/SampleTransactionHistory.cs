@@ -8,17 +8,17 @@ namespace Sonneville.PriceTools.SamplePortfolioData
         /// <summary>
         /// Consists of 6 months of trading activity investing in 4 stocks.
         /// </summary>
-        public static Data.TransactionHistory FidelityTransactions
+        public static SecurityBasket FidelityTransactions
         {
-            get { return new FidelityTransactionHistoryCsvFile(new ResourceStream(SamplePortfolioCsv.FidelityTransactions)); }
+            get { return new FidelityTransactionHistoryCsvFile(new ResourceStream(SampleTransactionHistoryCsvFiles.FidelityTransactions)); }
         }
 
         /// <summary>
         /// Consists of 15 months of trading activity in a retirement account.
         /// </summary>
-        public static Data.TransactionHistory BrokerageLink_trades
+        public static SecurityBasket BrokerageLinkTransactions
         {
-            get { return new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(SamplePortfolioCsv.BrokerageLink_trades)); }
+            get { return new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(SampleTransactionHistoryCsvFiles.BrokerageLinkTransactions)); }
         }
     }
 }

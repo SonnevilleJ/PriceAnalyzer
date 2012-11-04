@@ -1,5 +1,4 @@
 ﻿using System;
-using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
@@ -53,23 +52,23 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a Portfolio from a <see cref="TransactionHistory"/>.
+        /// Constructs a Portfolio from a <see cref="SecurityBasket"/>.
         /// </summary>
-        /// <param name="csvFile">The <see cref="TransactionHistory"/> containing transaction data.</param>
-        public static Portfolio ConstructPortfolio(TransactionHistory csvFile)
+        /// <param name="csvFile">The <see cref="SecurityBasket"/> containing transaction data.</param>
+        public static Portfolio ConstructPortfolio(SecurityBasket csvFile)
         {
             return ConstructPortfolio(csvFile, DefaultCashTicker);
         }
 
         /// <summary>
-        /// Constructs a Portfolio from a <see cref="TransactionHistory"/>.
+        /// Constructs a Portfolio from a <see cref="SecurityBasket"/>.
         /// </summary>
-        /// <param name="csvFile">The <see cref="TransactionHistory"/> containing transaction data.</param>
+        /// <param name="csvFile">The <see cref="SecurityBasket"/> containing transaction data.</param>
         /// <param name="ticker">The ticker symbol which is used as the <see cref="CashAccount"/>.</param>
-        public static Portfolio ConstructPortfolio(TransactionHistory csvFile, string ticker)
+        public static Portfolio ConstructPortfolio(SecurityBasket csvFile, string ticker)
         {
             var portfolio = ConstructPortfolio(ticker);
-            portfolio.AddTransactionHistory(csvFile);
+            portfolio.AddTransactions(csvFile.Transactions);
             return portfolio;
         }
     }

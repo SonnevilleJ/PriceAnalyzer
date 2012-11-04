@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Yahoo;
@@ -139,29 +140,10 @@ namespace Test.Sonneville.PriceTools
             shortPosition.BuyToCover(sellDate, shares, sellPrice, commission);
 
             const int expected = 2;
-            var longActual = longPosition.Transactions.Count;
-            var shortActual = shortPosition.Transactions.Count;
+            var longActual = longPosition.Transactions.Count();
+            var shortActual = shortPosition.Transactions.Count();
             Assert.AreEqual(expected, longActual);
             Assert.AreEqual(expected, shortActual);
-        }
-
-        [TestMethod]
-        public void HasValueTest()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var testDate = new DateTime(2001, 1, 1);
-            var purchaseDate = testDate.AddDays(1);
-            const decimal buyPrice = 100.00m;   // $100.00 per share
-            const decimal shares = 5;            // 5 shares
-            const decimal commission = 5.00m;   // with $5 commission
-
-            target.Buy(purchaseDate, shares, buyPrice, commission);
-
-            Assert.AreEqual(false, target.HasValueInRange(testDate));
-            Assert.AreEqual(true, target.HasValueInRange(purchaseDate));
-            Assert.AreEqual(true, target.HasValueInRange(purchaseDate.AddDays(1)));
         }
 
         /// <summary>
@@ -326,18 +308,6 @@ namespace Test.Sonneville.PriceTools
             const decimal expectedCommissions = 10.00m;
             var actualCommissions = target.CalculateCommissions(sellDate);
             Assert.AreEqual(expectedCommissions, actualCommissions);
-        }
-
-        [TestMethod]
-        public void ResolutionEqualsResolutionOfPriceSeriesTest()
-        {
-            const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var expected = PriceSeriesFactory.CreatePriceSeries(ticker).Resolution;
-            var actual = target.Resolution;
-
-            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
