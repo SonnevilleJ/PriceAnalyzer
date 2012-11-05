@@ -17,8 +17,6 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualGrossReturnOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
             const decimal buyPrice = 100.00m;       // $100.00 per share
@@ -26,8 +24,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            target.Buy(buyDate, shares, buyPrice, commission);
-            target.Sell(sellDate, shares, sellPrice, commission);
+            var target = PositionFactory.ConstructPosition(ticker,
+                                                           TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
+                                                           TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
             const decimal expectedReturn = -0.1m;    // -10% return; loss = $50 after commissions; initial investment = $500
             var actualReturn = target.CalculateGrossReturn(sellDate);
@@ -42,8 +41,6 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualGrossReturnOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
             const decimal buyPrice = 100.00m;       // $100.00 per share
@@ -51,8 +48,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            target.Buy(buyDate, shares, buyPrice, commission);
-            target.Sell(sellDate, shares, sellPrice, commission);
+            var target = PositionFactory.ConstructPosition(ticker,
+                                                           TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
+                                                           TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
             const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
             var actualReturn = target.CalculateGrossReturn(sellDate);
@@ -67,15 +65,13 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualGrossReturnOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
             const decimal price = 100.00m;          // $100.00 per share
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            target.Buy(buyDate, shares, price, commission);
+            var target = PositionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
             Assert.IsNull(target.CalculateAnnualGrossReturn(sellDate));
         }
@@ -88,8 +84,6 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualNetReturnOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
             const decimal buyPrice = 100.00m;       // $100.00 per share
@@ -97,8 +91,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            target.Buy(buyDate, shares, buyPrice, commission);
-            target.Sell(sellDate, shares, sellPrice, commission);
+            var target = PositionFactory.ConstructPosition(ticker,
+                                                           TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
+                                                           TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
             const decimal expectedReturn = -0.1m;    // -10% return; loss = $50 after commissions; initial investment = $500
             var actualReturn = target.CalculateNetReturn(sellDate);
@@ -113,8 +108,6 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualNetReturnOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
             const decimal buyPrice = 100.00m;       // $100.00 per share
@@ -122,8 +115,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            target.Buy(buyDate, shares, buyPrice, commission);
-            target.Sell(sellDate, shares, sellPrice, commission);
+            var target = PositionFactory.ConstructPosition(ticker,
+                                                           TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
+                                                           TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
             const decimal expectedReturn = 0.1m;    // 10% return; profit = $50 after commissions; initial investment = $500
             var actualReturn = target.CalculateNetReturn(sellDate);
@@ -138,15 +132,13 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualNetReturnOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
             const decimal price = 100.00m;          // $100.00 per share
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            target.Buy(buyDate, shares, price, commission);
+            var target = PositionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
             Assert.IsNull(target.CalculateAnnualNetReturn(sellDate));
         }
@@ -159,15 +151,13 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAverageCostBuy()
         {
             const string ticker = "DE";
-            const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const decimal sharesBought = 10;     // 10 shares
+            const decimal commission = 5.00m;   // with $5 commission
 
-            target.Buy(buyDate, sharesBought, buyPrice, commission);
+            var target = PositionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission));
 
             const decimal expectedAverageCost = buyPrice;
             var actualAverageCost = target.CalculateAverageCost(buyDate);
@@ -178,21 +168,18 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAverageCostBuySell()
         {
             const string ticker = "DE";
-            const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const decimal sharesBought = 10;     // 10 shares
-
-            target.Buy(buyDate, sharesBought, buyPrice, commission);
-
+            const decimal commission = 5.00m;   // with $5 commission
             var sellDate = testDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            target.Sell(sellDate, sharesSold, sellPrice, commission);
+            var target = PositionFactory.ConstructPosition(ticker,
+                                                           TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
+                                                           TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
             const decimal expectedAverageCost = buyPrice;
             var actualAverageCost = target.CalculateAverageCost(buyDate);
@@ -203,27 +190,24 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAverageCostBuySellBuyHigher()
         {
             const string ticker = "DE";
-            const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const decimal sharesBought = 10;     // 10 shares
-
-            target.Buy(buyDate, sharesBought, buyPrice, commission);
+            const decimal commission = 5.00m;   // with $5 commission
 
             var sellDate = testDate.AddDays(2);
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            target.Sell(sellDate, sharesSold, sellPrice, commission);
-
             var buyDate2 = testDate.AddDays(3);
             const decimal buyPrice2 = 100.00m;  // $100.00 per share
             const decimal sharesBought2 = 5;     // 5 shares
 
-            target.Buy(buyDate2, sharesBought2, buyPrice2, commission);
+            var target = PositionFactory.ConstructPosition(ticker,
+                                                           TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
+                                                           TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission),
+                                                           TransactionFactory.ConstructBuy(ticker, buyDate2, sharesBought2, buyPrice2, commission));
 
             const decimal originalShares = sharesBought - sharesSold;
             const decimal newShares = sharesBought2;
@@ -236,27 +220,24 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAverageCostBuySellBuyLower()
         {
             const string ticker = "DE";
-            const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
             const decimal buyPrice = 50.00m;    // $50.00 per share
             const decimal sharesBought = 10;     // 10 shares
-
-            target.Buy(buyDate, sharesBought, buyPrice, commission);
+            const decimal commission = 5.00m;   // with $5 commission
 
             var sellDate = testDate.AddDays(2);
             const decimal sellPrice = 25.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            target.Sell(sellDate, sharesSold, sellPrice, commission);
-
             var buyDate2 = testDate.AddDays(3);
             const decimal buyPrice2 = 20.00m;  // $100.00 per share
             const decimal sharesBought2 = 10;     // 5 shares
 
-            target.Buy(buyDate2, sharesBought2, buyPrice2, commission);
+            var target = PositionFactory.ConstructPosition(ticker,
+                                                           TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
+                                                           TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission),
+                                                           TransactionFactory.ConstructBuy(ticker, buyDate2, sharesBought2, buyPrice2, commission));
 
             const decimal originalShares = sharesBought - sharesSold;
             const decimal newShares = sharesBought2;
@@ -273,18 +254,18 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void PositionCalculateGrossReturnOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
-            const decimal priceBought = 100.00m;    // $100.00 per share
-            const decimal sharesBought = 10;         // 10 shares
+            const decimal buyPrice = 100.00m;       // $100.00 per share
+            const decimal sharesBought = 10;        // 10 shares
             const decimal commission = 7.95m;       // with $7.95 commission
             const decimal decrease = -0.10m;        // 10% price decrease when sold
-            const decimal priceSold = priceBought * (1 + decrease);
+            const decimal sellPrice = buyPrice * (1 + decrease);
             const decimal sharesSold = sharesBought - 2;
-            target.Buy(buyDate, sharesBought, priceBought, commission);
-            target.Sell(sellDate, sharesSold, priceSold, commission);
+
+            var target = PositionFactory.ConstructPosition(ticker,
+                                               TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
+                                               TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
             const decimal expected = decrease;
             var actual = target.CalculateGrossReturn(sellDate);
@@ -295,19 +276,19 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void PositionCalculateGrossReturnOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
-            const decimal priceBought = 100.00m;    // $100.00 per share
-            const decimal sharesBought = 10;         // 10 shares
+            const decimal buyPrice = 100.00m;       // $100.00 per share
+            const decimal sharesBought = 10;        // 10 shares
             const decimal commission = 7.95m;       // with $7.95 commission
             const decimal increase = 0.10m;         // 10% price increase when sold
-            const decimal priceSold = priceBought * (1 + increase);
+            const decimal sellPrice = buyPrice * (1 + increase);
             const decimal sharesSold = sharesBought - 2;
-            target.Buy(buyDate, sharesBought, priceBought, commission);
-            target.Sell(sellDate, sharesSold, priceSold, commission);
-            
+
+            var target = PositionFactory.ConstructPosition(ticker,
+                                               TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
+                                               TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
+
             const decimal expected = increase;
             var actual = target.CalculateGrossReturn(sellDate);
             Assert.AreEqual(expected, actual);
@@ -317,15 +298,14 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateGrossReturnOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;      // $100.00 per share
-            const decimal shares = 5;            // 5 shares
-            const decimal commission = 7.95m;   // with $7.95 commission
+            const decimal price = 100.00m;          // $100.00 per share
+            const decimal shares = 5;               // 5 shares
+            const decimal commission = 7.95m;       // with $7.95 commission
 
-            target.Buy(buyDate, shares, price, commission);
+            var target = PositionFactory.ConstructPosition(ticker,
+                                                           TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
             Assert.IsNull(target.CalculateGrossReturn(sellDate));
         }
@@ -338,18 +318,18 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void PositionCalculateNetReturnOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;       // $100.00 per share
-            const decimal shares = 5;             // 5 shares
-            const decimal commission = 5.00m;    // with $5 commission
+            const decimal buyPrice = 100.00m;       // $100.00 per share
+            const decimal shares = 5;               // 5 shares
+            const decimal commission = 5.00m;       // with $5 commission
+            const decimal sellPrice = buyPrice - 2.00m;
 
-            target.Buy(buyDate, shares, price, commission);
-            target.Sell(sellDate, shares, price - 2.00m, commission);
+            var target = PositionFactory.ConstructPosition(ticker,
+                                               TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
+                                               TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
-            const decimal expected = -0.04m;      // -4% return; 96% of original investment
+            const decimal expected = -0.04m;        // -4% return; 96% of original investment
             var actual = target.CalculateNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -358,18 +338,18 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void PositionCalculateNetReturnOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
-            const decimal price = 100.00m;       // $100.00 per share
-            const decimal shares = 5;             // 5 shares
-            const decimal commission = 5.00m;    // with $5 commission
+            const decimal buyPrice = 100.00m;       // $100.00 per share
+            const decimal shares = 5;               // 5 shares
+            const decimal commission = 5.00m;       // with $5 commission
+            const decimal sellPrice = buyPrice*2m;
 
-            target.Buy(buyDate, shares, price, commission);
-            target.Sell(sellDate, shares, price * 2m, commission);
+            var target = PositionFactory.ConstructPosition(ticker,
+                                               TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
+                                               TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
-            const decimal expected = 0.98m;      // 98% return; 198% of original investment
+            const decimal expected = 0.98m;         // 98% return; 198% of original investment
             var actual = target.CalculateNetReturn(sellDate);
             Assert.AreEqual(expected, actual);
         }
@@ -378,15 +358,14 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void PositionCalculateNetReturnOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
             const decimal price = 100.00m;       // $100.00 per share
             const decimal shares = 5;             // 5 shares
             const decimal commission = 5.00m;    // with $5 commission
 
-            target.Buy(buyDate, shares, price, commission);
+            var target = PositionFactory.ConstructPosition(ticker,
+                                                           TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
             Assert.IsNull(target.CalculateNetReturn(sellDate));
         }
@@ -399,13 +378,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateGrossProfitOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const decimal oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
-            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            var target = PositionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission));
 
             // CalculateGrossProfit does not consider open positions - it can only account for closed holdings
             const decimal expected = 0;
@@ -417,19 +395,19 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateGrossProfitOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const decimal oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
-            target.Buy(oDate, oShares, oPrice, oCommission);
 
             var cDate = new DateTime(2001, 1, 1);
             const decimal cPrice = 110.00m;     // sold at $110.00 per share
             const decimal cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
-            target.Sell(cDate, cShares, cPrice, cCommission);
+
+            var target = PositionFactory.ConstructPosition(ticker,
+                                                           TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission),
+                                                           TransactionFactory.ConstructSell(ticker, cDate, cShares, cPrice, cCommission));
 
             // No longer hold these shares, so CalculateGrossProfit should return total value without any commissions.
             var expected = GetExpectedGrossProfit(oPrice, cShares, cPrice);
@@ -441,19 +419,19 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateGrossProfitOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const decimal oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
-            target.Buy(oDate, oShares, oPrice, oCommission);
 
             var cDate = new DateTime(2001, 1, 1);
             const decimal cPrice = 90.00m;      // sold at $90.00 per share - $10 per share loss
             const decimal cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
-            target.Sell(cDate, cShares, cPrice, cCommission);
+
+            var target = PositionFactory.ConstructPosition(ticker,
+                                               TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission),
+                                               TransactionFactory.ConstructSell(ticker, cDate, cShares, cPrice, cCommission));
 
             // No longer hold these shares, so CalculateGrossProfit should return total value without any commissions.
             var expected = GetExpectedGrossProfit(oPrice, cShares, cPrice);
@@ -626,13 +604,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateNetProfitOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const decimal oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
-            target.Buy(oDate, oShares, oPrice, oCommission);
+
+            var target = PositionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission));
 
             // CalculateGrossProfit does not consider open positions - it can only account for closed holdings
             const decimal expected = 0;
@@ -644,19 +621,19 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateNetProfitOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const decimal oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
-            target.Buy(oDate, oShares, oPrice, oCommission);
 
             var cDate = new DateTime(2001, 1, 1);
             const decimal cPrice = 110.00m;     // sold at $110.00 per share
             const decimal cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
-            target.Sell(cDate, cShares, cPrice, cCommission);
+
+            var target = PositionFactory.ConstructPosition(ticker,
+                                               TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission),
+                                               TransactionFactory.ConstructSell(ticker, cDate, cShares, cPrice, cCommission));
 
             // No longer hold these shares, so CalculateNetProfit should return total profit with all commissions.
             var expected = GetExpectedNetProfit(oPrice, oCommission, cShares, cPrice, oCommission);
@@ -668,19 +645,19 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateNetProfitOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.ConstructPosition(ticker);
-
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
             const decimal oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
-            target.Buy(oDate, oShares, oPrice, oCommission);
 
             var cDate = new DateTime(2001, 1, 1);
             const decimal cPrice = 90.00m;      // sold at $90.00 per share - $10 per share loss
             const decimal cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
-            target.Sell(cDate, cShares, cPrice, cCommission);
+
+            var target = PositionFactory.ConstructPosition(ticker,
+                                               TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission),
+                                               TransactionFactory.ConstructSell(ticker, cDate, cShares, cPrice, cCommission));
 
             // No longer hold these shares, so CalculateNetProfit should return total profit with all commissions.
             var expected = GetExpectedNetProfit(oPrice, oCommission, cShares, cPrice, oCommission);
