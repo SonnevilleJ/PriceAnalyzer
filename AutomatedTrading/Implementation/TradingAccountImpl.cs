@@ -121,7 +121,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         {
             var commission = Features.CommissionSchedule.PriceCheck(order);
             var expectedTransaction = TransactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, DateTime.Now, order.Shares, order.Price, commission);
-            return Portfolio.TransactionIsValid(expectedTransaction);
+            return ((PortfolioImpl) Portfolio).TransactionIsValid(expectedTransaction);
         }
 
         private void ProcessFill(ShareTransaction transaction)

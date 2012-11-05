@@ -65,12 +65,5 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="transactions">The historical transactions to add.</param>
         void AddTransactions(IEnumerable<Transaction> transactions);
-
-        /// <summary>
-        /// Validates an <see cref="Transaction"/> without adding it to the Portfolio.
-        /// </summary>
-        /// <param name="transaction">The <see cref="Transaction"/> to validate.</param>
-        /// <returns></returns>
-        bool TransactionIsValid(Transaction transaction);
     }
 }
