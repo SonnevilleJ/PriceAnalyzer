@@ -61,12 +61,14 @@
     <Compile Include="HoldingExtensionsTests.cs" />
     <Compile Include="MarginableCashAccountTest.cs" />
     <Compile Include="DatesTest.cs" />
-    <Compile Include="PortfolioCalculationTests.cs" />
-    <Compile Include="PortfolioHoldingTests.cs" />
-    <Compile Include="PositionCalculationTests.cs" />
     <Compile Include="OrderFactoryTest.cs" />
     <Compile Include="OrderTest.cs" />
+    <Compile Include="PortfolioCalculationTests.cs" />
+    <Compile Include="PortfolioHoldingTests.cs" />
+    <Compile Include="PortfolioTest.cs" />
+    <Compile Include="PositionCalculationTests.cs" />
     <Compile Include="PositionHoldingTests.cs" />
+    <Compile Include="PositionTest.cs" />
     <Compile Include="PricePeriodEqualityTests.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteFactoryTest.cs" />
@@ -83,8 +85,6 @@
     <Compile Include="TransactionEqualityTests.cs" />
     <Compile Include="CashTransactionTestsBase.cs" />
     <Compile Include="CashAccountTest.cs" />
-    <Compile Include="PortfolioTest.cs" />
-    <Compile Include="PositionTest.cs" />
     <Compile Include="TickedPricePeriodTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WithdrawalTests.cs" />

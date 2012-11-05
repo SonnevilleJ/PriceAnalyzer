@@ -74,10 +74,6 @@
       <Project>{FDFCAAFD-3E23-46D4-9E3D-2B46C5344E56}</Project>
       <Name>TestPortfolioData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
-      <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
-      <Name>TestPriceData</Name>
-    </ProjectReference>
     <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
       <Project>{87F42318-0470-4F99-8AED-B9C0AFA72918}</Project>
       <Name>TestUtilities</Name>

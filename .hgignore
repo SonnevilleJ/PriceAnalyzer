@@ -8,3 +8,4 @@ _ReSharper.*
 *.user
 access.log
 error.log
+*.DotSettings

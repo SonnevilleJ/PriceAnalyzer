@@ -41,7 +41,6 @@
     <AssemblyOriginatorKeyFile>..\Sonneville.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
     <Reference Include="System" />
@@ -53,16 +52,6 @@
     <Compile Include="Environment.cs" />
     <Compile Include="ResourceStream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Data\Data.csproj">
-      <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
-      <Name>Data</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PriceTools\PriceTools.csproj">
-      <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
-      <Name>PriceTools</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml" />

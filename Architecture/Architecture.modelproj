@@ -63,26 +63,4 @@
       <DependentUpon>DataAssemblies.layerdiagram</DependentUpon>
     </Validate>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Data\Data.csproj">
-      <Name>Data</Name>
-      <Project>{157b3fce-e233-436a-b982-98a8bb693082}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Fidelity\Fidelity.csproj">
-      <Name>Fidelity</Name>
-      <Project>{e8795da4-fb2c-4ae2-a13e-187b5b8e4a39}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Google\Google.csproj">
-      <Name>Google</Name>
-      <Project>{241c2cf7-9a10-4b2f-bdd7-efc49e24ecae}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\PriceTools\PriceTools.csproj">
-      <Name>PriceTools</Name>
-      <Project>{fbe4a744-cacd-4ccc-9746-1692ab3b606b}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\Yahoo\Yahoo.csproj">
-      <Name>Yahoo</Name>
-      <Project>{657f02d4-7de6-4cbc-8e15-ad4466879e18}</Project>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

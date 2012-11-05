@@ -12,7 +12,6 @@ namespace Sonneville.PriceTools.Implementation
     {
         #region Private Members
 
-        private IPriceSeries _priceSeries;
         private string _ticker;
         private readonly ICollection<ShareTransaction> _transactions = new List<ShareTransaction>();
 
@@ -27,7 +26,6 @@ namespace Sonneville.PriceTools.Implementation
         internal PositionImpl(string ticker)
         {
             Ticker = ticker;
-            _priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker);
         }
 
         #endregion
@@ -141,29 +139,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets the <see cref="Resolution"/> of price data stored within the IPosition.
-        /// </summary>
-        public Resolution Resolution
-        {
-            get { return PriceSeries.Resolution; }
-        }
-
-        /// <summary>
-        ///   Determines if the IPosition has a valid value for a given date.
-        /// </summary>
-        /// <param name = "settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the IPosition has a valid value for the given date.</returns>
-        public bool HasValueInRange(DateTime settlementDate)
-        {
-            return settlementDate >= Head;
-        }
-
-        /// <summary>
-        ///   Event which is invoked when new data is available for the IPosition.
-        /// </summary>
-        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
-
-        /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IPosition.
         /// </summary>
         public IEnumerable<Transaction> Transactions
@@ -198,25 +173,6 @@ namespace Sonneville.PriceTools.Implementation
             {
                 return false;
             }
-        }
-
-        #endregion
-
-        #region Helper Properties
-
-        private ShareTransaction Last
-        {
-            get { return _transactions.OrderBy(t => t.SettlementDate).Last(); }
-        }
-
-        private ShareTransaction First
-        {
-            get { return _transactions.OrderBy(t => t.SettlementDate).First(); }
-        }
-
-        private IPriceSeries PriceSeries
-        {
-            get { return _priceSeries ?? (_priceSeries = PriceSeriesFactory.CreatePriceSeries(Ticker)); }
         }
 
         #endregion

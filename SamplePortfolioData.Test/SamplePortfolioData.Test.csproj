@@ -36,7 +36,6 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -49,16 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\PriceTools\PriceTools.csproj">
-      <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
-      <Name>PriceTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SamplePortfolioData\SamplePortfolioData.csproj">
-      <Project>{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}</Project>
-      <Name>SamplePortfolioData</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

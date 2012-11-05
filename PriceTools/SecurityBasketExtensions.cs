@@ -162,11 +162,11 @@ namespace Sonneville.PriceTools
         ///   Gets the net shares held at a given date.
         /// </summary>
         /// <param name="shareTransactions"></param>
-        /// <param name = "date">The <see cref = "DateTime" /> to use.</param>
-        public static decimal GetHeldShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime date)
+        /// <param name = "dateTime">The <see cref = "DateTime" /> to use.</param>
+        public static decimal GetHeldShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime dateTime)
         {
             var sum = 0m;
-            foreach (var transaction in shareTransactions)
+            foreach (var transaction in shareTransactions.Where(t=>t.SettlementDate <= dateTime))
             {
                 if (transaction is OpeningTransaction) sum += transaction.Shares;
                 if (transaction is ClosingTransaction) sum -= transaction.Shares;

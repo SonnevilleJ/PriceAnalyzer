@@ -2,8 +2,9 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Yahoo;
+using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePortfolioData;
+using Sonneville.PriceTools.Yahoo;
 
 namespace Test.Sonneville.PriceTools
 {
@@ -175,8 +176,7 @@ namespace Test.Sonneville.PriceTools
 
             // If the price date falls within a period, CalculateMarketValue will use price data from that period.
             // Because of this, I changed the price date to 11:59 pm rather than the next day (default of midnight).
-            // Todo: adding a "market open/close times" feature would be a better fix; more convenient for the client.
-            var priceDate = new DateTime(2011, 4, 25, 23, 59, 59);
+            var priceDate = new DateTime(2011, 4, 25).CurrentPeriodClose(Resolution.Days);
             
             const decimal expected = 189.44m; // closing price 25 April 2011 = $94.72 * 2 shares = 189.44
             var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), priceDate);
