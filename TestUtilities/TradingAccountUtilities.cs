@@ -62,8 +62,7 @@ namespace TestUtilities.Sonneville.PriceTools
         public static TradingAccount CreateSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, Deposit openingDeposit)
         {
             var tradingAccountFeatures = TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
-            var portfolio = PortfolioFactory.ConstructPortfolio();
-            portfolio.Deposit(openingDeposit);
+            var portfolio = PortfolioFactory.ConstructPortfolio(openingDeposit);
             return new SimulatedTradingAccountImpl {Features = tradingAccountFeatures, Portfolio = portfolio};
         }
 

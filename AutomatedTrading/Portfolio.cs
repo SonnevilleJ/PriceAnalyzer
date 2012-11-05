@@ -30,29 +30,5 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Gets or sets the ticker to use for the holding of cash in this Portfolio.
         /// </summary>
         string CashTicker { get; }
-
-        /// <summary>
-        /// Deposits cash to this Portfolio.
-        /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> of the deposit.</param>
-        /// <param name="cashAmount">The amount of cash deposited.</param>
-        void Deposit(DateTime settlementDate, decimal cashAmount);
-
-        /// <summary>
-        /// Deposits cash to this Portfolio.
-        /// </summary>
-        void Deposit(Deposit deposit);
-
-        /// <summary>
-        /// Withdraws cash from this Portfolio. AvailableCash must be greater than or equal to the withdrawn amount.
-        /// </summary>
-        /// <param name="settlementDate">The <see cref="DateTime"/> of the withdrawal.</param>
-        /// <param name="cashAmount">The amount of cash withdrawn.</param>
-        void Withdraw(DateTime settlementDate, decimal cashAmount);
-
-        /// <summary>
-        /// Withdraws cash from this Portfolio. Available cash must be greater than or equal to the withdrawn amount.
-        /// </summary>
-        void Withdraw(Withdrawal withdrawal);
     }
 }

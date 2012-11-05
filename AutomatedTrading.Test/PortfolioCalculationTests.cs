@@ -29,10 +29,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
+            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            target.Withdraw(withdrawalDate, amount);
+            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+            
+            var target = PortfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
             Assert.IsNull(target.CalculateAnnualNetReturn(dateTime));
         }
@@ -258,10 +260,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
+            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            target.Withdraw(withdrawalDate, amount);
+            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+
+            var target = PortfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
             Assert.IsNull(target.CalculateAnnualGrossReturn(dateTime));
         }
@@ -485,10 +489,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
+            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            target.Withdraw(withdrawalDate, amount);
+            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+
+            var target = PortfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
             Assert.IsNull(target.CalculateNetReturn(dateTime));
         }
@@ -715,10 +721,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
+            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            target.Withdraw(withdrawalDate, amount);
+            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+
+            var target = PortfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
             Assert.IsNull(target.CalculateGrossReturn(dateTime));
         }
@@ -949,10 +957,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
+            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            target.Withdraw(withdrawalDate, amount);
+            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+
+            var target = PortfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
             const decimal expectedValue = 0;
             var actualValue = target.CalculateNetProfit(withdrawalDate);
@@ -1188,10 +1198,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
+            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            target.Withdraw(withdrawalDate, amount);
+            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+
+            var target = PortfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
             const decimal expectedValue = 0;
             var actualValue = target.CalculateGrossProfit(withdrawalDate);
@@ -1465,10 +1477,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
+            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            target.Withdraw(withdrawalDate, amount);
+            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+
+            var target = PortfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
             var expected = GetExpectedMedianProfit(target.CalculateHoldings(withdrawalDate));
             var actual = target.CalculateMedianProfit(withdrawalDate);
