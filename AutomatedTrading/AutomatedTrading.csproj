@@ -49,6 +49,8 @@
     <Compile Include="AnalyzerEventArgs.cs" />
     <Compile Include="AnalyzerTriggerDelegate.cs" />
     <Compile Include="ContinuousTradingEngine.cs" />
+    <Compile Include="Factories\PortfolioFactory.cs" />
+    <Compile Include="Factories\PositionFactory.cs" />
     <Compile Include="Implementation\BacktestingTradingAccountImpl.cs" />
     <Compile Include="DailyTriggerTradingStrategy.cs" />
     <Compile Include="FlatCommissionSchedule.cs" />
@@ -56,7 +58,12 @@
     <Compile Include="IBrokerage.cs" />
     <Compile Include="ICommissionSchedule.cs" />
     <Compile Include="IMarginSchedule.cs" />
+    <Compile Include="Implementation\PortfolioImpl.cs" />
+    <Compile Include="Implementation\PositionImpl.cs" />
     <Compile Include="Implementation\TradingAccountImpl.cs" />
+    <Compile Include="Portfolio.cs" />
+    <Compile Include="Position.cs" />
+    <Compile Include="SecurityBasketExtensions.cs" />
     <Compile Include="TradingAccount.cs" />
     <Compile Include="LowerThanYesterdayAnalyzer.cs" />
     <Compile Include="MarginNotAllowed.cs" />
@@ -87,6 +94,10 @@
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Statistics\Statistics.csproj">
+      <Project>{8767BC88-6AD0-4A71-BC34-81D3409C8643}</Project>
+      <Name>Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\Yahoo\Yahoo.csproj">
       <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>

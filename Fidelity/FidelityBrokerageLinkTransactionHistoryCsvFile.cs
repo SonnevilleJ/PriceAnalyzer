@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Data.Csv;
 
 namespace Sonneville.PriceTools.Fidelity

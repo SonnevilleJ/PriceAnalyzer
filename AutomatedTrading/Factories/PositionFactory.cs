@@ -1,6 +1,6 @@
-﻿using Sonneville.PriceTools.Implementation;
+﻿using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.AutomatedTrading
 {
     /// <summary>
     /// Constructs <see cref="Position"/> objects.

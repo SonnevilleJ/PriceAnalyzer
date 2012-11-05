@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Fidelity;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.Utilities;

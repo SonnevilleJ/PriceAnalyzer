@@ -6,6 +6,7 @@ using System.Linq;
 using System.Windows;
 using Microsoft.Win32;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Fidelity;
 using Statistics;
 

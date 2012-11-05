@@ -37,7 +37,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
@@ -53,6 +52,12 @@
     <Compile Include="OrderCancelledEventArgsTest.cs" />
     <Compile Include="OrderExecutedEventArgsTest.cs" />
     <Compile Include="OrderExpiredEventArgsTest.cs" />
+    <Compile Include="PortfolioCalculationTests.cs" />
+    <Compile Include="PortfolioHoldingTests.cs" />
+    <Compile Include="PortfolioTest.cs" />
+    <Compile Include="PositionCalculationTests.cs" />
+    <Compile Include="PositionHoldingTests.cs" />
+    <Compile Include="PositionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimulatedTradingAccountTest.cs" />
     <Compile Include="TradingAccountFeaturesTest.cs">
@@ -67,9 +72,21 @@
       <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
       <Name>AutomatedTrading</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SamplePortfolioData\SamplePortfolioData.csproj">
+      <Project>{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}</Project>
+      <Name>SamplePortfolioData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Statistics\Statistics.csproj">
+      <Project>{8767BC88-6AD0-4A71-BC34-81D3409C8643}</Project>
+      <Name>Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
       <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
@@ -78,6 +95,10 @@
     <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
       <Project>{87F42318-0470-4F99-8AED-B9C0AFA72918}</Project>
       <Name>TestUtilities</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yahoo\Yahoo.csproj">
+      <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
+      <Name>Yahoo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

@@ -38,7 +38,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
-    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -63,12 +62,6 @@
     <Compile Include="DatesTest.cs" />
     <Compile Include="OrderFactoryTest.cs" />
     <Compile Include="OrderTest.cs" />
-    <Compile Include="PortfolioCalculationTests.cs" />
-    <Compile Include="PortfolioHoldingTests.cs" />
-    <Compile Include="PortfolioTest.cs" />
-    <Compile Include="PositionCalculationTests.cs" />
-    <Compile Include="PositionHoldingTests.cs" />
-    <Compile Include="PositionTest.cs" />
     <Compile Include="PricePeriodEqualityTests.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteFactoryTest.cs" />
@@ -97,14 +90,6 @@
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SamplePortfolioData\SamplePortfolioData.csproj">
-      <Project>{D566CF5C-CEE1-4EE4-9EF7-00D329CF969C}</Project>
-      <Name>SamplePortfolioData</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Statistics\Statistics.csproj">
-      <Project>{8767BC88-6AD0-4A71-BC34-81D3409C8643}</Project>
-      <Name>Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
       <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>

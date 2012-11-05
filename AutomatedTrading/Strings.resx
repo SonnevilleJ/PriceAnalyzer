@@ -117,6 +117,18 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="PortfolioImpl_AddTransactionHistory_Parameter_transactionHistory_cannot_be_null_" xml:space="preserve">
+    <value>Parameter transactionHistory cannot be null.</value>
+  </data>
+  <data name="Position_AddTransaction_Cannot_add_this_transaction_to_the_position_" xml:space="preserve">
+    <value>Cannot add this transaction to the position.</value>
+  </data>
+  <data name="Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_" xml:space="preserve">
+    <value>Ticker must not be null, empty, or whitespace.</value>
+  </data>
+  <data name="SecurityBasketExtensions_CalculateAnnualGrossReturn_Parameter_basket_cannot_be_null_" xml:space="preserve">
+    <value>Parameter basket cannot be null.</value>
+  </data>
   <data name="TradingAccount_Submit_Cannot_execute_this_order_" xml:space="preserve">
     <value>Cannot execute this order.</value>
   </data>

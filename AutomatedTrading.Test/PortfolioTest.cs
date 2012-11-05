@@ -2,11 +2,12 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.SamplePortfolioData;
 using Sonneville.PriceTools.Yahoo;
 
-namespace Test.Sonneville.PriceTools
+namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
     /// <summary>
     ///This is a test class for Portfolio and is intended

@@ -254,7 +254,21 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
         public decimal this[DateTime dateTime]
         {
-            get { return this.CalculateGrossProfit(dateTime); }
+            get
+            {
+                var allHoldings = this.CalculateHoldings(dateTime);
+                if (allHoldings.Count == 0) return 0;
+
+                var positionGroups = allHoldings.GroupBy(h => h.Ticker);
+
+                return (from holdings in positionGroups
+                        from holding in holdings
+                        let open = holding.OpenPrice
+                        let close = holding.ClosePrice
+                        let profit = close - open
+                        let shares = holding.Shares
+                        select profit*shares).Sum();
+            }
         }
 
         /// <summary>

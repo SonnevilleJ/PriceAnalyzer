@@ -61,6 +61,43 @@ namespace Sonneville.PriceTools.AutomatedTrading {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parameter transactionHistory cannot be null..
+        /// </summary>
+        internal static string PortfolioImpl_AddTransactionHistory_Parameter_transactionHistory_cannot_be_null_ {
+            get {
+                return ResourceManager.GetString("PortfolioImpl_AddTransactionHistory_Parameter_transactionHistory_cannot_be_null_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot add this transaction to the position..
+        /// </summary>
+        internal static string Position_AddTransaction_Cannot_add_this_transaction_to_the_position_ {
+            get {
+                return ResourceManager.GetString("Position_AddTransaction_Cannot_add_this_transaction_to_the_position_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ticker must not be null, empty, or whitespace..
+        /// </summary>
+        internal static string Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_ {
+            get {
+                return ResourceManager.GetString("Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Parameter basket cannot be null..
+        /// </summary>
+        internal static string SecurityBasketExtensions_CalculateAnnualGrossReturn_Parameter_basket_cannot_be_null_ {
+            get {
+                return ResourceManager.GetString("SecurityBasketExtensions_CalculateAnnualGrossReturn_Parameter_basket_cannot_be_nu" +
+                        "ll_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot execute this order..
         /// </summary>
         internal static string TradingAccount_Submit_Cannot_execute_this_order_ {

@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.AutomatedTrading;
 using Statistics;
 
-namespace Test.Sonneville.PriceTools
+namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
     [TestClass]
     public class PositionCalculationTests
@@ -1451,7 +1452,7 @@ namespace Test.Sonneville.PriceTools
         /// <returns></returns>
         private static decimal GetExpectedStandardDeviation(IEnumerable<IHolding> holdings)
         {
-            var values = holdings.Select(h => h.GrossProfit());
+            var values = holdings.Select(h => h.GrossProfit()).ToArray();
             if (values.Count() <= 1) return 0;
 
             var average = values.Average();

@@ -125,6 +125,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutomatedTrading\AutomatedTrading.csproj">
+      <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
+      <Name>AutomatedTrading</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Charting\Charting.csproj">
       <Project>{CA835214-9E28-4CB2-95BF-37D5D2927DB7}</Project>
       <Name>Charting</Name>

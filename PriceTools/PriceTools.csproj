@@ -58,8 +58,6 @@
     <Compile Include="DividendReinvestment.cs" />
     <Compile Include="Extensions\PriceSeriesReactionMovesExtensions.cs" />
     <Compile Include="Factories\CashAccountFactory.cs" />
-    <Compile Include="Factories\PortfolioFactory.cs" />
-    <Compile Include="Factories\PositionFactory.cs" />
     <Compile Include="Factories\PriceTickFactory.cs" />
     <Compile Include="Factories\TimePeriodFactory.cs" />
     <Compile Include="Factories\TimeSeriesFactory.cs" />
@@ -67,8 +65,6 @@
     <Compile Include="Implementation\CashAccountImpl.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
-    <Compile Include="Implementation\PortfolioImpl.cs" />
-    <Compile Include="Implementation\PositionImpl.cs" />
     <Compile Include="Implementation\TimePeriodImpl.cs" />
     <Compile Include="Implementation\TickedPricePeriodImpl.cs" />
     <Compile Include="Implementation\TimeSeriesImpl.cs" />
@@ -83,8 +79,6 @@
     <Compile Include="OpeningTransaction.cs" />
     <Compile Include="Implementation\PricePeriodImpl.cs" />
     <Compile Include="Implementation\PriceSeriesImpl.cs" />
-    <Compile Include="Portfolio.cs" />
-    <Compile Include="Position.cs" />
     <Compile Include="SecurityBasket.cs" />
     <Compile Include="SecurityBasketExtensions.cs" />
     <Compile Include="Sell.cs" />
@@ -123,12 +117,6 @@
     </Compile>
     <Compile Include="Factories\TransactionFactory.cs" />
     <Compile Include="Withdrawal.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Statistics\Statistics.csproj">
-      <Project>{8767BC88-6AD0-4A71-BC34-81D3409C8643}</Project>
-      <Name>Statistics</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config">

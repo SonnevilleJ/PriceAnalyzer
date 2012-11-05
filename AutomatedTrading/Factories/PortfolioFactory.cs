@@ -1,7 +1,7 @@
 ﻿using System;
-using Sonneville.PriceTools.Implementation;
+using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.AutomatedTrading
 {
     /// <summary>
     /// Constructs Portfolio objects.

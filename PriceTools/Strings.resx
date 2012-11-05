@@ -117,17 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Position_OnTickerChanging_Ticker_must_not_be_null__empty__or_whitespace_" xml:space="preserve">
-    <value>Ticker must not be null, empty, or whitespace.</value>
-  </data>
   <data name="ShareTransaction_Commission_Commission_must_be_greater_than_or_equal_to_0_" xml:space="preserve">
     <value>Commission must be greater than or equal to 0.</value>
   </data>
-	<data name="ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_" xml:space="preserve">
+  <data name="ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_" xml:space="preserve">
     <value>Shares must be greater than or equal to 0.</value>
-  </data>
-  <data name="Position_AddTransaction_Cannot_add_this_transaction_to_the_position_" xml:space="preserve">
-    <value>Cannot add this transaction to the position.</value>
   </data>
   <data name="Order_Order_Cannot_create_an_Order_with_an_expiration_date_before_the_issue_date_" xml:space="preserve">
     <value>Cannot create an Order with an expiration date before the issue date.</value>
@@ -147,88 +141,82 @@
   <data name="Order_Validate_Shares_must_be_a_positive_number_" xml:space="preserve">
     <value>Shares must be a positive number.</value>
   </data>
-	<data name="TransactionFactory_ConstructCashTransaction_Cannot_create_a_CashTransaction_for_an_OrderType_of__0__">
-		<value xml:space="preserve">Cannot create a CashTransaction for an OrderType of {0}.</value>
-	</data>
-	<data name="TransactionFactory_CreateTransaction_Unknown_OrderType___0_">
-		<value xml:space="preserve">Unknown OrderType: {0}</value>
-	</data>
-	<data name="PriceTickImpl_PriceTickImpl_Quoted_price_must_be_greater_than_zero_">
-		<value xml:space="preserve">Quoted price must be greater than zero.</value>
-	</data>
-	<data name="PriceTickImpl_PriceTickImpl_Quoted_volume__if_specified__must_be_greater_than_zero_">
-		<value xml:space="preserve">Quoted volume, if specified, must be greater than zero.</value>
-	</data>
-	<data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_must_be_greater_than_or_equal_to_zero_">
-		<value xml:space="preserve">Opening price must be greater than or equal to zero.</value>
-	</data>
-	<data name="StaticPricePeriodImpl_StaticPricePeriodImpl_High_price_must_be_greater_than_or_equal_to_zero_">
-		<value xml:space="preserve">High price must be greater than or equal to zero.</value>
-	</data>
-	<data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Low_price_must_be_greater_than_or_equal_to_zero_">
-		<value xml:space="preserve">Low price must be greater than or equal to zero.</value>
-	</data>
-	<data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_must_be_greater_than_or_equal_to_zero_">
-		<value xml:space="preserve">Closing price must be greater than or equal to zero.</value>
-	</data>
-	<data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Volume_must_be_greater_than_or_equal_to_zero_">
-		<value xml:space="preserve">Volume must be greater than or equal to zero.</value>
-	</data>
-	<data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Head_must_come_before_Tail_">
-		<value xml:space="preserve">Head must come before Tail.</value>
-	</data>
-	<data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_cannot_be_higher_than_High_price_">
-		<value xml:space="preserve">Opening price cannot be higher than High price.</value>
-	</data>
-	<data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_higher_than_High_price_">
-		<value xml:space="preserve">Closing price cannot be higher than High price.</value>
-	</data>
-	<data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_cannot_be_lower_than_Low_price_">
-		<value xml:space="preserve">Opening price cannot be lower than Low price.</value>
-	</data>
-	<data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_lower_than_Low_price_">
-		<value xml:space="preserve">Closing price cannot be lower than Low price.</value>
-	</data>
-	<data name="ShareTransactionImpl_Commission_Commission_for_dividend_reinvestments_must_be_0_">
-		<value xml:space="preserve">Commission for dividend receipts must be 0.</value>
-	</data>
-  <data name="PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__">
-    <value xml:space="preserve">Unable to get price periods using resolution {0}. Best supported resolution is {1}.</value>
+  <data name="TransactionFactory_ConstructCashTransaction_Cannot_create_a_CashTransaction_for_an_OrderType_of__0__" xml:space="preserve">
+    <value>Cannot create a CashTransaction for an OrderType of {0}.</value>
   </data>
-	<data name="HoldingExtensions_GrossProfit_Cannot_calculate_profit_for_a_NULL_holding_">
-		<value xml:space="preserve">Cannot calculate profit for a NULL holding.</value>
-	</data>
-	<data name="PriceSeriesReactionMovesExtensions_GetReactionMoves_Parameter_priceSeries_cannot_be_null_">
-		<value xml:space="preserve">Parameter priceSeries cannot be null.</value>
-	</data>
-	<data name="PriceSeriesRetrievalExtensions_UpdatePriceData_Paramter_priceSeries_cannot_be_null_">
-		<value xml:space="preserve">Paramter priceSeries cannot be null.</value>
-	</data>
-	<data name="PriceSeriesRetrievalExtensions_UpdatePriceData_Parameter_provider_cannot_be_null_">
-		<value xml:space="preserve">Parameter provider cannot be null.</value>
-	</data>
-	<data name="PortfolioImpl_AddTransactionHistory_Parameter_transactionHistory_cannot_be_null_">
-		<value xml:space="preserve">Parameter transactionHistory cannot be null.</value>
-	</data>
-	<data name="SecurityBasketExtensions_CalculateAnnualGrossReturn_Parameter_basket_cannot_be_null_">
-		<value xml:space="preserve">Parameter basket cannot be null.</value>
-	</data>
-	<data name="PriceSeries_GetLatestPrice_No_price_data_available_for_settlement_date___0_">
-		<value xml:space="preserve">No price data available for settlement date: {0}</value>
-	</data>
-	<data name="PriceSeries_GetDelegates_Resolution__0__not_supported_">
-		<value xml:space="preserve">Resolution {0} not supported.</value>
-	</data>
-	<data name="PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_providing_periods_of_resolution__0__or_better_">
-		<value xml:space="preserve">Provider must be capable of providing periods of resolution {0} or better.</value>
-	</data>
-    <data name="SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_">
-        <value xml:space="preserve">Period's head must come before tail.</value>
-    </data>
-    <data name="TimeSeriesExtensions_GetTimePeriods_Unable_to_get_time_periods_using_resolution__0___Best_supported_resolution_is__1__">
-        <value xml:space="preserve">Unable to get time periods using resolution {0}. Best supported resolution is {1}.</value>
-    </data>
-    <data name="DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_">
-        <value xml:space="preserve">Unable to determine boundaries for an ITimePeriod with Resolution: {0}</value>
-    </data>
+  <data name="TransactionFactory_CreateTransaction_Unknown_OrderType___0_" xml:space="preserve">
+    <value>Unknown OrderType: {0}</value>
+  </data>
+  <data name="PriceTickImpl_PriceTickImpl_Quoted_price_must_be_greater_than_zero_" xml:space="preserve">
+    <value>Quoted price must be greater than zero.</value>
+  </data>
+  <data name="PriceTickImpl_PriceTickImpl_Quoted_volume__if_specified__must_be_greater_than_zero_" xml:space="preserve">
+    <value>Quoted volume, if specified, must be greater than zero.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_must_be_greater_than_or_equal_to_zero_" xml:space="preserve">
+    <value>Opening price must be greater than or equal to zero.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_StaticPricePeriodImpl_High_price_must_be_greater_than_or_equal_to_zero_" xml:space="preserve">
+    <value>High price must be greater than or equal to zero.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Low_price_must_be_greater_than_or_equal_to_zero_" xml:space="preserve">
+    <value>Low price must be greater than or equal to zero.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_must_be_greater_than_or_equal_to_zero_" xml:space="preserve">
+    <value>Closing price must be greater than or equal to zero.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Volume_must_be_greater_than_or_equal_to_zero_" xml:space="preserve">
+    <value>Volume must be greater than or equal to zero.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Head_must_come_before_Tail_" xml:space="preserve">
+    <value>Head must come before Tail.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_cannot_be_higher_than_High_price_" xml:space="preserve">
+    <value>Opening price cannot be higher than High price.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_higher_than_High_price_" xml:space="preserve">
+    <value>Closing price cannot be higher than High price.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Opening_price_cannot_be_lower_than_Low_price_" xml:space="preserve">
+    <value>Opening price cannot be lower than Low price.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_lower_than_Low_price_" xml:space="preserve">
+    <value>Closing price cannot be lower than Low price.</value>
+  </data>
+  <data name="ShareTransactionImpl_Commission_Commission_for_dividend_reinvestments_must_be_0_" xml:space="preserve">
+    <value>Commission for dividend receipts must be 0.</value>
+  </data>
+  <data name="PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__" xml:space="preserve">
+    <value>Unable to get price periods using resolution {0}. Best supported resolution is {1}.</value>
+  </data>
+  <data name="HoldingExtensions_GrossProfit_Cannot_calculate_profit_for_a_NULL_holding_" xml:space="preserve">
+    <value>Cannot calculate profit for a NULL holding.</value>
+  </data>
+  <data name="PriceSeriesReactionMovesExtensions_GetReactionMoves_Parameter_priceSeries_cannot_be_null_" xml:space="preserve">
+    <value>Parameter priceSeries cannot be null.</value>
+  </data>
+  <data name="PriceSeriesRetrievalExtensions_UpdatePriceData_Paramter_priceSeries_cannot_be_null_" xml:space="preserve">
+    <value>Paramter priceSeries cannot be null.</value>
+  </data>
+  <data name="PriceSeriesRetrievalExtensions_UpdatePriceData_Parameter_provider_cannot_be_null_" xml:space="preserve">
+    <value>Parameter provider cannot be null.</value>
+  </data>
+  <data name="PriceSeries_GetLatestPrice_No_price_data_available_for_settlement_date___0_" xml:space="preserve">
+    <value>No price data available for settlement date: {0}</value>
+  </data>
+  <data name="PriceSeries_GetDelegates_Resolution__0__not_supported_" xml:space="preserve">
+    <value>Resolution {0} not supported.</value>
+  </data>
+  <data name="PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_providing_periods_of_resolution__0__or_better_" xml:space="preserve">
+    <value>Provider must be capable of providing periods of resolution {0} or better.</value>
+  </data>
+  <data name="SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_" xml:space="preserve">
+    <value>Period's head must come before tail.</value>
+  </data>
+  <data name="TimeSeriesExtensions_GetTimePeriods_Unable_to_get_time_periods_using_resolution__0___Best_supported_resolution_is__1__" xml:space="preserve">
+    <value>Unable to get time periods using resolution {0}. Best supported resolution is {1}.</value>
+  </data>
+  <data name="DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_" xml:space="preserve">
+    <value>Unable to determine boundaries for an ITimePeriod with Resolution: {0}</value>
+  </data>
 </root>

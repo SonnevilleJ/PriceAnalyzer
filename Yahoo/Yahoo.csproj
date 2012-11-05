@@ -41,7 +41,6 @@
     <AssemblyOriginatorKeyFile>..\Sonneville.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>

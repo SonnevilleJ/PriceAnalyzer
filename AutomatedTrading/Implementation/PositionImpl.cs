@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 
-namespace Sonneville.PriceTools.Implementation
+namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
     /// <summary>
     ///   A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.

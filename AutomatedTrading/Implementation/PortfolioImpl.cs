@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sonneville.PriceTools.Implementation
+namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
     /// <summary>
     /// Represents a portfolio of investments.

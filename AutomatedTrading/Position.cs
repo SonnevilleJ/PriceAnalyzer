@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.AutomatedTrading
 {
     /// <summary>
     ///   Represents a Position taken using one or more <see cref = "ShareTransaction" />s.
