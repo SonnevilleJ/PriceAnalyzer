@@ -56,7 +56,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var csvFile = SampleTransactionHistory.FidelityTransactions;
             var ticker = String.Empty;
 
-            var target = PortfolioFactory.ConstructPortfolio(csvFile);
+            var target = PortfolioFactory.ConstructPortfolio(csvFile.Transactions);
 
             Assert.AreEqual(ticker, target.CashTicker);
         }

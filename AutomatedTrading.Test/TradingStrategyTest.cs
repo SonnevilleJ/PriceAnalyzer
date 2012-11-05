@@ -11,7 +11,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void PriceSeriesBeforeStartTest()
         {
-            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker = TickerManager.GetUniqueTicker();
             var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
 
             var target = GetTradingStrategy();

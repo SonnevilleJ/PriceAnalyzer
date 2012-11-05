@@ -74,7 +74,7 @@ namespace Program
             using (var reader = File.Open(path, FileMode.Open))
             {
                 var data = new FidelityTransactionHistoryCsvFile(reader);
-                return PortfolioFactory.ConstructPortfolio(data, ticker);
+                return PortfolioFactory.ConstructPortfolio(data.Transactions, ticker);
             }
         }
     }

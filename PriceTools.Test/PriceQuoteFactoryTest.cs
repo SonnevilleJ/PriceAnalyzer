@@ -93,21 +93,6 @@ namespace Test.Sonneville.PriceTools
             PriceTickFactory.ConstructPriceTick(settlementDate, price, volume);
         }
 
-        [TestMethod]
-        public void ToStringTest()
-        {
-            var settlementDate = new DateTime(2011, 12, 28);
-            const decimal price = 10.00m;
-            const long volume = 300;
-
-            var target = PriceTickFactory.ConstructPriceTick(settlementDate, price, volume);
-
-            var actual = target.ToString();
-
-            Assert.IsTrue(actual.Contains(settlementDate.ToString()));
-            Assert.IsTrue(actual.Contains(price.ToString()));
-        }
-
         private static DateTime GetSettlementDate()
         {
             return new DateTime(2012, 1, 19);

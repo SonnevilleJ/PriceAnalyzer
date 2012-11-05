@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
@@ -54,21 +55,23 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// Constructs a Portfolio from a <see cref="SecurityBasket"/>.
         /// </summary>
-        /// <param name="csvFile">The <see cref="SecurityBasket"/> containing transaction data.</param>
-        public static Portfolio ConstructPortfolio(SecurityBasket csvFile)
+        /// <param name="transactions">The list of <see cref="Transaction"/>s currently in the <see cref="Portfolio"/>.</param>
+        public static Portfolio ConstructPortfolio(IEnumerable<Transaction> transactions)
         {
-            return ConstructPortfolio(csvFile, DefaultCashTicker);
+            var portfolio = ConstructPortfolio(DefaultCashTicker);
+            portfolio.AddTransactions(transactions);
+            return portfolio;
         }
 
         /// <summary>
         /// Constructs a Portfolio from a <see cref="SecurityBasket"/>.
         /// </summary>
-        /// <param name="csvFile">The <see cref="SecurityBasket"/> containing transaction data.</param>
+        /// <param name="transactions">The list of <see cref="Transaction"/>s currently in the <see cref="Portfolio"/>.</param>
         /// <param name="ticker">The ticker symbol which is used as the <see cref="CashAccount"/>.</param>
-        public static Portfolio ConstructPortfolio(SecurityBasket csvFile, string ticker)
+        public static Portfolio ConstructPortfolio(IEnumerable<Transaction> transactions, string ticker)
         {
             var portfolio = ConstructPortfolio(ticker);
-            portfolio.AddTransactions(csvFile.Transactions);
+            portfolio.AddTransactions(transactions);
             return portfolio;
         }
     }
