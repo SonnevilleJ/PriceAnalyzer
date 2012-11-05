@@ -126,7 +126,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         private void ProcessFill(ShareTransaction transaction)
         {
-            Portfolio.AddTransaction(transaction);
+            ((PortfolioImpl) Portfolio).AddTransaction(transaction);
         }
 
         private void TriggerFilled(OrderExecutedEventArgs e)

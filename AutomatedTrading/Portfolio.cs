@@ -32,11 +32,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         string CashTicker { get; }
 
         /// <summary>
-        ///   Adds an <see cref="Transaction"/> to this Portfolio.
-        /// </summary>
-        void AddTransaction(Transaction transaction);
-
-        /// <summary>
         /// Deposits cash to this Portfolio.
         /// </summary>
         /// <param name="settlementDate">The <see cref="DateTime"/> of the deposit.</param>

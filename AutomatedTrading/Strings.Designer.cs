@@ -61,11 +61,11 @@ namespace Sonneville.PriceTools.AutomatedTrading {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parameter transactionHistory cannot be null..
+        ///   Looks up a localized string similar to Parameter transactions cannot be null..
         /// </summary>
-        internal static string PortfolioImpl_AddTransactionHistory_Parameter_transactionHistory_cannot_be_null_ {
+        internal static string PortfolioFactory_ConstructPortfolio_Parameter_transactions_cannot_be_null_ {
             get {
-                return ResourceManager.GetString("PortfolioImpl_AddTransactionHistory_Parameter_transactionHistory_cannot_be_null_", resourceCulture);
+                return ResourceManager.GetString("PortfolioFactory_ConstructPortfolio_Parameter_transactions_cannot_be_null_", resourceCulture);
             }
         }
         

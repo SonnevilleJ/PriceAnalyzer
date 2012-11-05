@@ -164,16 +164,13 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 4, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 4, 25);
             const string ticker = "DE";
             const decimal price = 50.00m;
             const decimal shares = 2;
             const decimal commission = 7.95m;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
-
-            target.AddTransaction(buy);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
             // If the price date falls within a period, CalculateMarketValue will use price data from that period.
             // Because of this, I changed the price date to 11:59 pm rather than the next day (default of midnight).
@@ -189,8 +186,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
-
+            
             var buyDate = new DateTime(2011, 4, 25);
             var sellDate = buyDate.AddDays(1);
             const string ticker = "DE";
@@ -200,8 +196,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
             var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
 
-            target.AddTransaction(buy);
-            target.AddTransaction(sell);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             const decimal expected = 0.00m; // all shares sold = no value
             var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), sellDate);
@@ -221,7 +216,6 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 4, 25);
             var sellDate = buyDate.AddDays(1);
@@ -232,8 +226,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
             var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
 
-            target.AddTransaction(buy);
-            target.AddTransaction(sell);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             const decimal expected = 100.00m;
             var actual = target.CalculateCost(sellDate);
@@ -252,7 +245,6 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 4, 25);
             var sellDate = buyDate.AddDays(1);
@@ -263,8 +255,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
             var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
 
-            target.AddTransaction(buy);
-            target.AddTransaction(sell);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             const decimal expected = 100.00m;
             var actual = target.CalculateProceeds(sellDate);
@@ -283,7 +274,6 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 4, 25);
             var sellDate = buyDate.AddDays(1);
@@ -294,8 +284,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
             var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
 
-            target.AddTransaction(buy);
-            target.AddTransaction(sell);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             const decimal expected = 15.90m; // two $7.95 commissions paid
             var actual = target.CalculateCommissions(sellDate);
@@ -307,12 +296,11 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
             
             const string ticker = "DE";
             var buy = TransactionFactory.ConstructBuy(ticker, dateTime, 5, 0.00m);
-            
-            target.AddTransaction(buy);
+
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy);
 
             var position = target.GetPosition(ticker);
             Assert.IsTrue(position.Transactions.Contains(buy));
@@ -342,10 +330,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var date = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio();
-
             var deposit = TransactionFactory.ConstructDeposit(date, amount);
-            target.AddTransaction(deposit);
+
+            var target = PortfolioFactory.ConstructPortfolio(deposit);
 
             Assert.IsTrue(target.Transactions.Contains(deposit));
         }
@@ -355,10 +342,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var date = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio();
-
             var deposit = TransactionFactory.ConstructDeposit(date, amount);
-            target.AddTransaction(deposit);
+
+            var target = PortfolioFactory.ConstructPortfolio(deposit);
 
             Assert.IsTrue(target.Transactions.Contains(deposit));
         }
@@ -368,14 +354,14 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var date = new DateTime(2011, 1, 9);
             const string ticker = "DE";
             const decimal price = 50.00m;
             const decimal shares = 2;
             var buy = TransactionFactory.ConstructBuy(ticker, date, shares, price);
-            target.AddTransaction(buy);
+
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy);
 
             Assert.IsTrue(target.Transactions.Contains(buy));
         }
@@ -385,8 +371,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
-
+            
             var buyDate = new DateTime(2011, 1, 9);
             const string ticker = "DE";
             const decimal price = 50.00m;
@@ -394,8 +379,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price);
             var sell = TransactionFactory.ConstructSell(ticker, buyDate.AddDays(1), shares, price);
 
-            target.AddTransaction(buy);
-            target.AddTransaction(sell);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             Assert.IsTrue(target.Transactions.Contains(buy)); 
             Assert.IsTrue(target.Transactions.Contains(sell));
@@ -406,8 +390,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
-
+            
             var buyDate = new DateTime(2011, 1, 9);
             const string ticker = "DE";
             const decimal price = 50.00m;
@@ -415,8 +398,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var sellShort = TransactionFactory.ConstructSellShort(ticker, buyDate, shares, price);
             var buyToCover = TransactionFactory.ConstructBuyToCover(ticker, buyDate.AddDays(1), shares, price);
 
-            target.AddTransaction(sellShort);
-            target.AddTransaction(buyToCover);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, sellShort, buyToCover);
 
             Assert.IsTrue(target.Transactions.Contains(sellShort));
             Assert.IsTrue(target.Transactions.Contains(buyToCover));
@@ -427,14 +409,14 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
-
+            
             var date = new DateTime(2011, 1, 9);
             const string ticker = "DE";
             const decimal price = 50.00m;
             const decimal shares = 2;
             var sellShort = TransactionFactory.ConstructSellShort(ticker, date, shares, price);
-            target.AddTransaction(sellShort);
+
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, sellShort);
 
             Assert.IsTrue(target.Transactions.Contains(sellShort));
         }
@@ -444,8 +426,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
-
+            
             var buyDate = new DateTime(2011, 1, 9);
             const string ticker = "DE";
             const decimal price = 50.00m;
@@ -453,8 +434,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price);
             var dividendReceipt = TransactionFactory.ConstructDividendReceipt(buyDate.AddDays(1), shares);
 
-            target.AddTransaction(buy);
-            target.AddTransaction(dividendReceipt);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy, dividendReceipt);
 
             Assert.IsTrue(target.Transactions.Contains(buy));
             Assert.IsTrue(target.Transactions.Contains(dividendReceipt));
@@ -465,7 +445,6 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);
 
             var buyDate = new DateTime(2011, 1, 9);
             const string ticker = "DE";
@@ -474,8 +453,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price);
             var dividendReinvestment = TransactionFactory.ConstructDividendReinvestment(ticker, buyDate.AddDays(1), shares, 1);
 
-            target.AddTransaction(buy);
-            target.AddTransaction(dividendReinvestment);
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy, dividendReinvestment);
 
             Assert.IsTrue(target.Transactions.Contains(buy));
             Assert.IsTrue(target.Transactions.Contains(dividendReinvestment));
@@ -486,7 +464,6 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal deposit = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit);   // first transaction: deposit
 
             var buyDate = new DateTime(2011, 1, 9);
             const string de = "DE";
@@ -494,15 +471,16 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal price = 50.00m;
             const decimal shares = 2;
 
+            // first transaction: opening deposit
             // second transaction: implicit withdrawal from buy1
             // third transaction: buy1
             // fourth transaction: implicit withdrawal from buy2
             // fifth transaction: buy2
             var buy1 = TransactionFactory.ConstructBuy(de, buyDate, shares, price);
             var buy2 = TransactionFactory.ConstructBuy(msft, buyDate, shares, price);
-            target.AddTransaction(buy1);
-            target.AddTransaction(buy2);
-            
+
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy1, buy2);
+
             const int expectedTransactions = 5;
             var actualTransactions = target.Transactions.Count();
             Assert.AreEqual(expectedTransactions, actualTransactions);
@@ -516,18 +494,18 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void WithdrawWithoutAvailableCash()
         {
             var dateTime = new DateTime(2011, 1, 8);
-            const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, amount);
-
+            const decimal deposit = 10000m;
+            
             var buyDate = new DateTime(2011, 1, 9);
             const string ticker = "DE";
             const decimal price = 50.00m;
             const decimal shares = 2;
             var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price);
-            target.AddTransaction(buy);
+
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy);
 
             var withdrawalDate = dateTime.AddDays(1);
-            target.Withdraw(withdrawalDate, amount);
+            target.Withdraw(withdrawalDate, deposit);
         }
 
         [TestMethod]
@@ -545,14 +523,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void HeadTestWithPosition()
         {
             var dateTime = new DateTime(2011, 1, 8);
-            const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio();
-
-            target.Deposit(dateTime, amount);
-
+            const decimal deposit = 10000m;
+            
             var buyDate = dateTime.AddDays(1);
             var buy = TransactionFactory.ConstructBuy("DE", buyDate, 10, 100.00m, 7.95m);
-            target.AddTransaction(buy);
+
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy);
 
             var expected = dateTime;
             var actual = target.Head;
@@ -603,14 +579,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void TailTestWithPosition()
         {
             var dateTime = new DateTime(2011, 1, 8);
-            const decimal amount = 10000m;
-            var target = PortfolioFactory.ConstructPortfolio();
-
-            target.Deposit(dateTime, amount);
-
+            const decimal deposit = 10000m;
+            
             var buyDate = dateTime.AddDays(1);
             var buy = TransactionFactory.ConstructBuy("DE", buyDate, 10, 100.00m, 7.95m);
-            target.AddTransaction(buy);
+
+            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy);
 
             var expected = buyDate;
             var actual = target.Tail;

@@ -203,20 +203,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         }
 
         /// <summary>
-        /// Adds historical transactions to the IPortfolio.
-        /// </summary>
-        /// <param name="transactions">The historical transactions to add.</param>
-        public void AddTransactions(IEnumerable<Transaction> transactions)
-        {
-            if (transactions == null) throw new ArgumentNullException("transactions", Strings.PortfolioImpl_AddTransactionHistory_Parameter_transactionHistory_cannot_be_null_);
-
-            foreach (var transaction in transactions)
-            {
-                AddTransaction(transaction);
-            }
-        }
-
-        /// <summary>
         /// Validates an <see cref="Transaction"/> without adding it to the IPortfolio.
         /// </summary>
         /// <param name="transaction">The <see cref="ShareTransaction"/> to validate.</param>
