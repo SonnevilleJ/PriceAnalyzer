@@ -223,37 +223,40 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <returns></returns>
         public bool TransactionIsValid(Transaction transaction)
         {
-            bool sufficientCash;
-            if (transaction is CashTransaction)
+            var cashTransaction = transaction as CashTransaction;
+            if (cashTransaction != null)
             {
-                    var cashTransaction = (CashTransaction) transaction;
-                    return _cashAccount.TransactionIsValid(cashTransaction);
+                return _cashAccount.TransactionIsValid(cashTransaction);
             }
+
+            bool sufficientCash;
             if (transaction is OpeningTransaction && transaction is LongTransaction)
             {
-                    var buy = ((ShareTransaction)transaction);
-                    sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
-                    return sufficientCash && ((PositionImpl) GetPosition(buy.Ticker, false)).TransactionIsValid(buy);
+                var buy = ((ShareTransaction) transaction);
+                sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
+                return sufficientCash && ((PositionImpl) GetPosition(buy.Ticker, false)).TransactionIsValid(buy);
             }
             if (transaction is OpeningTransaction && transaction is ShortTransaction)
             {
-                    var sellShort = ((SellShort)transaction);
-                    return ((PositionImpl) GetPosition(sellShort.Ticker, false)).TransactionIsValid(sellShort);
+                var sellShort = ((SellShort) transaction);
+                return ((PositionImpl) GetPosition(sellShort.Ticker, false)).TransactionIsValid(sellShort);
             }
             if (transaction is ClosingTransaction && transaction is LongTransaction)
             {
-                    var sell = ((ShareTransaction)transaction);
-                    return ((PositionImpl) GetPosition(sell.Ticker, false)).TransactionIsValid(sell);
+                var sell = ((ShareTransaction) transaction);
+                return ((PositionImpl) GetPosition(sell.Ticker, false)).TransactionIsValid(sell);
             }
             if (transaction is ClosingTransaction && transaction is ShortTransaction)
             {
-                    var buyToCover = ((ShareTransaction)transaction);
-                    sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
-                    return sufficientCash && ((PositionImpl) GetPosition(buyToCover.Ticker, false)).TransactionIsValid(buyToCover);
+                var buyToCover = ((ShareTransaction) transaction);
+                sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
+                return sufficientCash &&
+                       ((PositionImpl) GetPosition(buyToCover.Ticker, false)).TransactionIsValid(buyToCover);
             }
-                    // unknown order type
-                    return false;
-            }
+
+            // unknown order type
+            return false;
+        }
 
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
@@ -292,7 +295,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                 position = PositionFactory.ConstructPosition(ticker);
                 _positions.Add(position);
             }
-            position.AddTransaction(transaction);
+            ((PositionImpl) position).AddTransaction(transaction);
         }
 
         #endregion
