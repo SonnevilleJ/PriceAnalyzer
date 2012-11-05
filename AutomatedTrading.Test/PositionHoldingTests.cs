@@ -13,7 +13,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -38,7 +38,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -75,7 +75,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var firstBuyDate = testDate.AddDays(1);
@@ -102,7 +102,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var firstBuyDate = testDate.AddDays(1);
@@ -153,7 +153,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -180,7 +180,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -233,7 +233,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var firstBuyDate = testDate.AddDays(1);
@@ -262,7 +262,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var firstBuyDate = new DateTime(2001, 1, 1);
             var secondBuyDate = firstBuyDate.AddDays(1);
@@ -312,7 +312,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var firstBuyDate = testDate.AddDays(1);
@@ -341,7 +341,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var firstBuyDate = testDate.AddDays(1);
@@ -395,7 +395,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var firstBuyDate = testDate.AddDays(1);
@@ -425,7 +425,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var firstBuyDate = testDate.AddDays(1);
@@ -492,7 +492,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var firstBuyDate = testDate.AddDays(1);
@@ -522,7 +522,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var firstBuyDate = testDate.AddDays(1);

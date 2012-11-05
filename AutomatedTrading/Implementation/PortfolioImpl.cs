@@ -233,23 +233,23 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             {
                     var buy = ((ShareTransaction)transaction);
                     sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
-                    return sufficientCash && GetPosition(buy.Ticker, false).TransactionIsValid(buy);
+                    return sufficientCash && ((PositionImpl) GetPosition(buy.Ticker, false)).TransactionIsValid(buy);
             }
             if (transaction is OpeningTransaction && transaction is ShortTransaction)
             {
                     var sellShort = ((SellShort)transaction);
-                    return GetPosition(sellShort.Ticker, false).TransactionIsValid(sellShort);
+                    return ((PositionImpl) GetPosition(sellShort.Ticker, false)).TransactionIsValid(sellShort);
             }
             if (transaction is ClosingTransaction && transaction is LongTransaction)
             {
                     var sell = ((ShareTransaction)transaction);
-                    return GetPosition(sell.Ticker, false).TransactionIsValid(sell);
+                    return ((PositionImpl) GetPosition(sell.Ticker, false)).TransactionIsValid(sell);
             }
             if (transaction is ClosingTransaction && transaction is ShortTransaction)
             {
                     var buyToCover = ((ShareTransaction)transaction);
                     sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
-                    return sufficientCash && GetPosition(buyToCover.Ticker, false).TransactionIsValid(buyToCover);
+                    return sufficientCash && ((PositionImpl) GetPosition(buyToCover.Ticker, false)).TransactionIsValid(buyToCover);
             }
                     // unknown order type
                     return false;
@@ -280,7 +280,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         private Position GetPosition(string ticker, bool nullAcceptable)
         {
             var firstOrDefault = Positions.FirstOrDefault(p => p.Ticker == ticker);
-            return firstOrDefault == null && !nullAcceptable ? PositionFactory.CreatePosition(ticker) : firstOrDefault;
+            return firstOrDefault == null && !nullAcceptable ? PositionFactory.ConstructPosition(ticker) : firstOrDefault;
         }
 
         private void AddToPosition(ShareTransaction transaction)
@@ -289,7 +289,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             var position = GetPosition(ticker, true);
             if (position == null)
             {
-                position = PositionFactory.CreatePosition(ticker);
+                position = PositionFactory.ConstructPosition(ticker);
                 _positions.Add(position);
             }
             position.AddTransaction(transaction);

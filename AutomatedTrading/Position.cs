@@ -53,11 +53,5 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name = "shareTransaction"></param>
         void AddTransaction(ShareTransaction shareTransaction);
-
-        /// <summary>
-        /// Validates a transaction without adding it to the Position.
-        /// </summary>
-        /// <param name="shareTransaction"></param>
-        bool TransactionIsValid(ShareTransaction shareTransaction);
     }
 }

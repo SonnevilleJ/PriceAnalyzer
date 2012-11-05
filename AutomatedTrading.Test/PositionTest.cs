@@ -18,7 +18,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void IndexerReturnsCalculateGrossProfit()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
@@ -35,14 +35,14 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullTickerThrowsException()
         {
-            PositionFactory.CreatePosition(null);
+            PositionFactory.ConstructPosition(null);
         }
 
         [TestMethod]
         public void CalculateMarketValueTestBuy()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2000, 12, 29);
             const decimal price = 100.00m;      // $100.00 per share
@@ -63,7 +63,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateMarketValueTestSellHalf()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 1, 2);
@@ -86,7 +86,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateMarketValueTestSellAll()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
@@ -107,7 +107,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void SellTooManySharesTest()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
@@ -125,8 +125,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const string longTicker = "DE";
             const string shortTicker = "GM";
             // Must create different positions because all transactions must use same ticker
-            var longPosition = PositionFactory.CreatePosition(longTicker);
-            var shortPosition = PositionFactory.CreatePosition(shortTicker);
+            var longPosition = PositionFactory.ConstructPosition(longTicker);
+            var shortPosition = PositionFactory.ConstructPosition(shortTicker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
@@ -154,7 +154,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void TickerTest()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             const string expectedTicker = ticker;
             var actualTicker = target.Ticker;
@@ -169,7 +169,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -191,7 +191,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -219,7 +219,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -241,7 +241,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -269,7 +269,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -291,7 +291,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -309,38 +309,6 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal expectedCommissions = 10.00m;
             var actualCommissions = target.CalculateCommissions(sellDate);
             Assert.AreEqual(expectedCommissions, actualCommissions);
-        }
-
-        [TestMethod]
-        public void TransactionIsValidBuyWithSufficientCash()
-        {
-            const string ticker = "DE";
-            const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var buyDate = new DateTime(2011, 12, 25);
-            const decimal buyPrice = 50.00m;    // $50.00 per share
-            const decimal shares = 9;
-
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
-
-            Assert.IsTrue(target.TransactionIsValid(buy));
-        }
-
-        [TestMethod]
-        public void TransactionIsValidFalse()
-        {
-            const string ticker = "DE";
-            const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
-
-            var buyDate = new DateTime(2011, 12, 25);
-            const decimal buyPrice = 50.00m;    // $50.00 per share
-            const decimal shares = 9;
-
-            var sell = TransactionFactory.ConstructSell(ticker, buyDate, shares, buyPrice, commission);
-
-            Assert.IsFalse(target.TransactionIsValid(sell));
         }
     }
 }

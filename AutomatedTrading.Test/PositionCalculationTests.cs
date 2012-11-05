@@ -17,7 +17,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualGrossReturnOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
@@ -42,7 +42,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualGrossReturnOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
@@ -67,7 +67,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualGrossReturnOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
@@ -88,7 +88,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualNetReturnOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
@@ -113,7 +113,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualNetReturnOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
@@ -138,7 +138,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateAnnualNetReturnOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = new DateTime(2001, 3, 15); // sellDate is 0.20 * 365 = 73 days after buyDate
@@ -160,7 +160,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -179,7 +179,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -204,7 +204,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -237,7 +237,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             const string ticker = "DE";
             const decimal commission = 5.00m;   // with $5 commission
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var testDate = new DateTime(2001, 1, 1);
             var buyDate = testDate.AddDays(1);
@@ -273,7 +273,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void PositionCalculateGrossReturnOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -295,7 +295,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void PositionCalculateGrossReturnOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -317,7 +317,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateGrossReturnOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
@@ -338,7 +338,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void PositionCalculateNetReturnOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
@@ -358,7 +358,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void PositionCalculateNetReturnOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
@@ -378,7 +378,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void PositionCalculateNetReturnOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var buyDate = new DateTime(2001, 1, 1);
             var sellDate = buyDate.AddDays(1);
@@ -399,7 +399,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateGrossProfitOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
@@ -417,7 +417,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateGrossProfitOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
@@ -441,7 +441,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateGrossProfitOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
@@ -464,7 +464,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateGrossProfitTwoGains()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -500,7 +500,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateGrossProfitTwoGainsFIFO()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -537,7 +537,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateGrossProfitOneGainOneLoss()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -573,7 +573,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateGrossProfitTwoLosses()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -609,7 +609,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateGrossProfitTwoLossesFIFO()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -651,7 +651,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateNetProfitOpenPosition()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
@@ -669,7 +669,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateNetProfitOneGain()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
@@ -693,7 +693,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void CalculateNetProfitOneLoss()
         {
             const string ticker = "DE";
-            var target = PositionFactory.CreatePosition(ticker);
+            var target = PositionFactory.ConstructPosition(ticker);
 
             var oDate = new DateTime(2000, 1, 1);
             const decimal oPrice = 100.00m;     // bought at $100.00 per share
@@ -716,7 +716,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateNetProfitTwoGains()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -752,7 +752,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateNetProfitTwoGainsFIFO()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -789,7 +789,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateNetProfitOneGainOneLoss()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -825,7 +825,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateNetProfitTwoLosses()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -861,7 +861,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateNetProfitTwoLossesFIFO()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -902,7 +902,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateAverageProfitOneGain()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -929,7 +929,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateAverageProfitOneLoss()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -956,7 +956,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateAverageProfitTwoGains()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -992,7 +992,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateAverageProfitOneGainOneLoss()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1028,7 +1028,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateAverageProfitTwoLosses()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1068,7 +1068,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateMedianProfitOneGain()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1093,7 +1093,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateMedianProfitOneLoss()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1118,7 +1118,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateMedianProfitTwoGains()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1151,7 +1151,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateMedianProfitOneGainOneLoss()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1184,7 +1184,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateMedianProfitTwoLosses()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1217,7 +1217,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateMedianProfitThreeHoldings()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1258,7 +1258,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateStandardDeviationOneGain()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1283,7 +1283,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateStandardDeviationOneLoss()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1308,7 +1308,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateStandardDeviationTwoGains()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1341,7 +1341,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateStandardDeviationOneGainOneLoss()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1374,7 +1374,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateStandardDeviationTwoLosses()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
@@ -1407,7 +1407,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void CalculateStandardDeviationThreeHoldings()
         {
-            var target = PositionFactory.CreatePosition("DE");
+            var target = PositionFactory.ConstructPosition("DE");
 
             var buyDate = new DateTime(2011, 1, 10);
             var sellDate = buyDate.AddDays(1);
