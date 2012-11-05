@@ -59,11 +59,5 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Withdraws cash from this Portfolio. Available cash must be greater than or equal to the withdrawn amount.
         /// </summary>
         void Withdraw(Withdrawal withdrawal);
-
-        /// <summary>
-        /// Adds historical transactions to the Portfolio.
-        /// </summary>
-        /// <param name="transactions">The historical transactions to add.</param>
-        void AddTransactions(IEnumerable<Transaction> transactions);
     }
 }

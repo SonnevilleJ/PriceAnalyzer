@@ -43,7 +43,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var openDate = new DateTime(2011, 2, 20);
             const decimal amount = 10000m;
             const string ticker = "FDRXX";  // Fidelity Cash Reserves
-            var target = PortfolioFactory.ConstructPortfolio(openDate, amount, ticker);
+            var target = PortfolioFactory.ConstructPortfolio(ticker, openDate, amount);
 
             Assert.AreEqual(ticker, target.CashTicker);
             Assert.AreEqual(amount, target.GetAvailableCash(openDate));
