@@ -1,7 +1,7 @@
 ﻿namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Represents a transaction used for a long position, using funds upon accumulation and yielding funds upon distribution.
+    /// Represents a transaction used for a long position which profits from an increase in share price.
     /// </summary>
     public interface LongTransaction
     {

@@ -6,24 +6,23 @@
   <MessageClass Name="Error" Label="Error" Option="Show errors" />
   <MessageClass Name="Property" Label="Property" Option="Show metadata" />
   <MessageClass Name="Diagnostic" Label="Message" Option="Show diagnostic messages" />
-  <Message Timestamp="2012-09-05T14:14:23" Importance="High" Text="Reverse Engineering Started." />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'a4491dd8-ad84-47f4-8653-69d0e5317f09' -  (ClassifierTemplateParameter)" />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville' -  (Package)" />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville::PriceTools' -  (Package)" />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Medium" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville::PriceTools::PriceTick' -  (Interface)" />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville::PriceTools::PriceTick::Price' -  (Property)" />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville::PriceTools::PriceTick::SettlementDate' -  (Property)" />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville::PriceTools::PriceTick::Volume' -  (Property)" />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::System' -  (Package)" />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::System::DateTime' -  (Class)   (partially reverse engineered - definition not updated) " />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::System::Decimal' -  (Class)   (partially reverse engineered - definition not updated) " />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::System::Int64' -  (Class)   (partially reverse engineered - definition not updated) " />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::System::Nullable' -  (Class)   (partially reverse engineered - definition not updated) " />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::System::Nullable&lt;Int64‎&gt;' -  (Class)   (partially reverse engineered - definition not updated) " />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Relationship reverse engineered into the UML model: Architecture::Sonneville::PriceTools::PriceTick to Architecture::System::DateTime (Association)" />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Relationship reverse engineered into the UML model: Architecture::Sonneville::PriceTools::PriceTick to Architecture::System::Decimal (Association)" />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="Diagnostic" Text="Relationship reverse engineered into the UML model: Architecture::Sonneville::PriceTools::PriceTick to Architecture::System::Nullable&lt;Int64‎&gt; (Association)" />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="High" Text="(1) type(s) fully reverse engineered." />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="High" Text="(5) type(s) partially reverse engineered.  These types were not included in the original selection so their full definitions are not reverse engineered.  Instead, this shallow operation has simply ensured these types exist in the UML model because they are needed in order to fully describe other elements." />
-  <Message Timestamp="2012-09-05T14:14:29" Importance="High" Text="The reverse engineering operation completed with (0) error(s), and (0) warning(s)." />
+  <Message Timestamp="2012-11-05T17:31:15" Importance="High" Text="Reverse Engineering Started." />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville' -  (Package)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville::PriceTools' -  (Package)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville::PriceTools::CashTransaction' -  (Class)   (partially reverse engineered - definition not updated) " />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Medium" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville::PriceTools::Withdrawal' -  (Class)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville::PriceTools::Withdrawal::Withdrawal' -  (Operation)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville::PriceTools::Withdrawal::Withdrawal::amount' -  (Parameter)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::Sonneville::PriceTools::Withdrawal::Withdrawal::settlementDate' -  (Parameter)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::System' -  (Package)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::System::DateTime' -  (Class)   (partially reverse engineered - definition not updated) " />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Element reverse engineered into the UML model: 'Architecture::System::Decimal' -  (Class)   (partially reverse engineered - definition not updated) " />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Relationship reverse engineered into the UML model: Architecture::Sonneville::PriceTools::Withdrawal to Architecture::Sonneville::PriceTools::CashTransaction (Generalization)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Relationship reverse engineered into the UML model: Architecture::Sonneville::PriceTools::CashTransaction to Architecture::System::IEquatable&lt;CashTransaction‎&gt; (InterfaceRealization)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Relationship reverse engineered into the UML model: Architecture::Sonneville::PriceTools::CashTransaction to Architecture::Sonneville::PriceTools::Transaction (Generalization)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Relationship reverse engineered into the UML model: Architecture::Sonneville::PriceTools::Deposit to Architecture::Sonneville::PriceTools::CashTransaction (Generalization)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="Diagnostic" Text="Relationship reverse engineered into the UML model: Architecture::Sonneville::PriceTools::DividendReceipt to Architecture::Sonneville::PriceTools::CashTransaction (Generalization)" />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="High" Text="(1) type(s) fully reverse engineered." />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="High" Text="(3) type(s) partially reverse engineered.  These types were not included in the original selection so their full definitions are not reverse engineered.  Instead, this shallow operation has simply ensured these types exist in the UML model because they are needed in order to fully describe other elements." />
+  <Message Timestamp="2012-11-05T17:31:16" Importance="High" Text="The reverse engineering operation completed with (0) error(s), and (0) warning(s)." />
 </Log>

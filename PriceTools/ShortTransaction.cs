@@ -1,7 +1,7 @@
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Represents a transaction used for a short position, yielding funds upon accumulation and using funds upon distribution.
+    /// Represents a transaction used for a short position which profits from a decrease in share price.
     /// </summary>
     public interface ShortTransaction
     {

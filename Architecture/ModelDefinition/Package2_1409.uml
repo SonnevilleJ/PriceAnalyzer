@@ -730,5 +730,145 @@
         </signatures>
       </Interface>
     </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="7abda7d4-44e9-40b2-b4ee-03b9057d49c8"
+        name="IEquatable&lt;CashTransaction‎&gt;"
+        isAbstract="false"
+        isLeaf="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="07cd8c5b-9a39-4425-8ac8-5d8998520074"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="d87e111b-0170-4ea2-af6a-7feefb86df63">
+                <propertyInstance
+                  Id="95dfa673-940a-4adf-ac1a-cdf9cb9e19fd"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="51738921-5550-4ebf-a328-e2049707768a">
+                <propertyInstance
+                  Id="43f562f5-ff79-45c7-aac2-a0e3ad35e92f"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="66061fe3-ccec-4022-935c-85cb57b9fa4e">
+                <propertyInstance
+                  Id="b90219e3-3f55-4e51-9efe-6161503fe922"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="e26002fa-5553-4be8-b36e-18b2eb68d406">
+                <propertyInstance
+                  Id="c2aab88d-3b43-4310-a7af-22c7bec8d5cd"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <signatures>
+          <templateBinding
+            Id="7b39bed3-1816-48a6-a6cb-3220ed82a1eb">
+            <redefinableTemplateSignatureMoniker
+              Id="03a8ca3d-f379-4ab2-bbb9-ae7f20833223"
+              LastKnownLocation="Package2_1409.uml" />
+            <relationshipOwnedElementsInternal>
+              <templateBindingHasTemplateParameterSubstitution>
+                <templateParameterSubstitution
+                  Id="db77e602-f27f-41ff-9b5c-1b73a4290654">
+                  <actuals>
+                    <classMoniker
+                      Id="1080f441-d67e-4227-8faf-a56916abfd3a"
+                      LastKnownName="CashTransaction"
+                      LastKnownLocation="Package1_1409.uml" />
+                  </actuals>
+                  <formal>
+                    <classifierTemplateParameterMoniker
+                      Id="dbf1f0f4-cde3-4e1e-a27d-63fd997c6463"
+                      LastKnownLocation="Package2_1409.uml" />
+                  </formal>
+                </templateParameterSubstitution>
+              </templateBindingHasTemplateParameterSubstitution>
+            </relationshipOwnedElementsInternal>
+          </templateBinding>
+        </signatures>
+      </Interface>
+    </packageHasNamedElement>
+    <packageHasNamedElement>
+      <Interface
+        Id="39ec0cc7-59ca-4106-9b9b-e0a8711b3b9e"
+        name="IEquatable&lt;ShareTransaction‎&gt;"
+        isAbstract="false"
+        isLeaf="false">
+        <appliedStereotypesInternal>
+          <stereotypeInstance
+            Id="97a968b6-2ea2-43f9-9c55-4a4946a06a65"
+            name="interface"
+            profile="CSharpProfile">
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="8d2a12b9-51e3-4637-8227-bc7026307314">
+                <propertyInstance
+                  Id="97e01a8d-79d9-499b-b86e-9bd757a936fb"
+                  name="ClrAttributes" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="158eaa45-4d39-41e2-b0b8-e17559ced5a8">
+                <propertyInstance
+                  Id="ad78dfae-1d54-4f06-974e-f186adb311f0"
+                  name="IsPartial"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="0cda8c92-ade2-4615-9deb-68b59ff0f197">
+                <propertyInstance
+                  Id="a9d77f41-8293-4531-ac19-f23a9a87aca3"
+                  name="IsUnsafe"
+                  value="false" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances
+                Id="09e68ae2-e05d-4980-bb50-723d344cc0ba">
+                <propertyInstance
+                  Id="e1adbbf5-913a-4fe9-856e-bb94337e06c2"
+                  name="PackageVisibility"
+                  value="internal" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <signatures>
+          <templateBinding
+            Id="64f8165a-c797-41d3-bc38-e5bae804e521">
+            <redefinableTemplateSignatureMoniker
+              Id="03a8ca3d-f379-4ab2-bbb9-ae7f20833223"
+              LastKnownLocation="Package2_1409.uml" />
+            <relationshipOwnedElementsInternal>
+              <templateBindingHasTemplateParameterSubstitution>
+                <templateParameterSubstitution
+                  Id="38d504bb-4440-43fb-8fcc-f61620faca2b">
+                  <actuals>
+                    <classMoniker
+                      Id="4879d56d-93e4-4618-b8c1-e0be7193a9aa"
+                      LastKnownName="ShareTransaction"
+                      LastKnownLocation="Package1_1409.uml" />
+                  </actuals>
+                  <formal>
+                    <classifierTemplateParameterMoniker
+                      Id="dbf1f0f4-cde3-4e1e-a27d-63fd997c6463"
+                      LastKnownLocation="Package2_1409.uml" />
+                  </formal>
+                </templateParameterSubstitution>
+              </templateBindingHasTemplateParameterSubstitution>
+            </relationshipOwnedElementsInternal>
+          </templateBinding>
+        </signatures>
+      </Interface>
+    </packageHasNamedElement>
   </packagedElements>
 </package>
