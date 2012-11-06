@@ -42,6 +42,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         public void Submit(Order order)
         {
             if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, Strings.TradingAccount_Submit_Cannot_execute_this_order_);
+
+            var cts = new CancellationTokenSource();
+            _tokenSources.GetOrAdd(order, cts);
             _orders.Add(order);
         }
 
@@ -110,9 +113,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             while (true)
             {
                 var order = _orders.Take();
-
-                var cts = new CancellationTokenSource();
-                _tokenSources.GetOrAdd(order, cts);
+                var cts = _tokenSources[order];
                 Task.Factory.StartNew(() => ProcessOrder(order, cts.Token));
             }
         }
