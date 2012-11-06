@@ -51,6 +51,7 @@
     <Compile Include="ContinuousTradingEngine.cs" />
     <Compile Include="Factories\PortfolioFactory.cs" />
     <Compile Include="Factories\PositionFactory.cs" />
+    <Compile Include="Factories\TradingAccountFactory.cs" />
     <Compile Include="Implementation\BacktestingTradingAccountImpl.cs" />
     <Compile Include="DailyTriggerTradingStrategy.cs" />
     <Compile Include="FlatCommissionSchedule.cs" />

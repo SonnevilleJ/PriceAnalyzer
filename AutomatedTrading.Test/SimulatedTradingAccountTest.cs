@@ -18,7 +18,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void TradingAccountFeaturesSupportedOrderTypesTest()
         {
-            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountFactory.CreateSimulatedTradingAccount();
 
             var expected = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures().SupportedOrderTypes;
             var actual = target.Features.SupportedOrderTypes;
@@ -28,7 +28,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void EmptyPositionsByDefault()
         {
-            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountFactory.CreateSimulatedTradingAccount();
 
             Assert.AreEqual(0, target.Portfolio.Positions.Count());
         }
@@ -36,7 +36,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void EventsTestFilled()
         {
-            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountFactory.CreateSimulatedTradingAccount();
             var syncroot = new object();
 
             var expiredRaised = false;
@@ -96,7 +96,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void EventsTestExpired()
         {
-            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountFactory.CreateSimulatedTradingAccount();
             var syncroot = new object();
 
             var expiredRaised = false;
@@ -155,7 +155,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void EventsTestCancelled()
         {
-            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountFactory.CreateSimulatedTradingAccount();
             var syncroot = new object();
 
             var expiredRaised = false;
@@ -253,7 +253,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
         private static void VerifyOrderFillsCorrectly(params OrderType[] orderTypes)
         {
-            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountFactory.CreateSimulatedTradingAccount();
 
             var ticker = TickerManager.GetUniqueTicker();
             foreach (var orderType in orderTypes)
@@ -330,7 +330,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void MultipleEventsTestFilled()
         {
-            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountFactory.CreateSimulatedTradingAccount();
 
             const int count = 5;
             var syncroot = new object();
@@ -366,7 +366,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void MultipleEventsTestCancelled()
         {
-            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountFactory.CreateSimulatedTradingAccount();
 
             const int count = 5;
             var syncroot = new object();
@@ -403,7 +403,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void MultipleEventsTestExpired()
         {
-            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountFactory.CreateSimulatedTradingAccount();
 
             const int count = 5;
             var syncroot = new object();
@@ -439,7 +439,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void HistoricalOrderFilledReturnsCorrectTransaction()
         {
-            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountFactory.CreateSimulatedTradingAccount();
 
             ShareTransaction expected = null;
             ShareTransaction actual = null;
@@ -480,7 +480,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void FilledAddsToPortfolioCorrectly()
         {
-            var target = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var target = TradingAccountFactory.CreateSimulatedTradingAccount();
 
             ShareTransaction expected = null;
             var syncroot = new object();

@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
-    public class SimulatedTradingAccountImpl : BacktestingTradingAccountImpl
+    internal class SimulatedTradingAccountImpl : BacktestingTradingAccountImpl
     {
         protected override void ProcessOrder(Order order, CancellationToken token)
         {

@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     /// <summary>
     /// A trading account which simulates the execution of orders.
     /// </summary>
-    public class BacktestingTradingAccountImpl : TradingAccountImpl
+    internal class BacktestingTradingAccountImpl : TradingAccountImpl
     {
         /// <summary>
         /// Submits an order for execution by the brokerage.

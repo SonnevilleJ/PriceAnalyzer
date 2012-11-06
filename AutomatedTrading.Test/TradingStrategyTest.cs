@@ -24,7 +24,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void TradingAccountBeforeStartTest()
         {
-            var tradingAccount = TradingAccountUtilities.CreateSimulatedTradingAccount();
+            var tradingAccount = TradingAccountFactory.CreateSimulatedTradingAccount();
 
             var target = GetTradingStrategy();
 
