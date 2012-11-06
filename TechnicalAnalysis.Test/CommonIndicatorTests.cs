@@ -156,7 +156,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 
         protected static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price, Resolution resolution = Resolution.Days, bool weekendData = false)
         {
-            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var series = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             for (var i = 0; i < count; i++)
             {
                 var period = PricePeriodFactory.ConstructTickedPricePeriod();

@@ -75,7 +75,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             {
                 if (i % 10 == 0 && token.IsCancellationRequested) return;
 
-                var priceSeries = PriceSeriesFactory.CreatePriceSeries(_tradableTickers[i]);
+                var priceSeries = PriceSeriesFactory.ConstructPriceSeries(_tradableTickers[i]);
                 priceSeries.NewDataAvailable += (sender, e) => _semaphore.Release();
                 provider.StartAutoUpdate(priceSeries);
             }

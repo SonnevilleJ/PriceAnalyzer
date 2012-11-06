@@ -69,7 +69,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 var heldShares = transactions.GetHeldShares(settlementDate);
                 if (heldShares == 0) continue;
 
-                var priceSeries = PriceSeriesFactory.CreatePriceSeries(transactions.First().Ticker);
+                var priceSeries = PriceSeriesFactory.ConstructPriceSeries(transactions.First().Ticker);
                 if (!priceSeries.HasValueInRange(settlementDate)) priceSeries.UpdatePriceData(provider, settlementDate);
                 var price = priceSeries[settlementDate];
                 total += heldShares * price;

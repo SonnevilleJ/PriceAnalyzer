@@ -86,7 +86,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             p8.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(7), 2));
             p9.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(8), 1));
 
-            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var series = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             series.AddPriceData(p1);
             series.AddPriceData(p2);
             series.AddPriceData(p3);
@@ -136,7 +136,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             p8.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(8, resolution), 2));
             p9.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(9, resolution), 1));
 
-            var series = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var series = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             series.AddPriceData(p1);
             series.AddPriceData(p2);
             series.AddPriceData(p3);

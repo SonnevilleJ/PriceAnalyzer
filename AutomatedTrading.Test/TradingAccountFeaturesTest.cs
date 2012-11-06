@@ -220,7 +220,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             // the ultimate suck account - you can deposit money and trade, but never withdraw!
             const OrderType orderTypes = OrderType.Deposit | OrderType.Buy | OrderType.Sell | OrderType.SellShort | OrderType.BuyToCover;
 
-            var target = TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes);
+            var target = TradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes);
 
             var actual = target.SupportedOrderTypes;
             Assert.AreEqual(orderTypes, actual);
@@ -228,17 +228,17 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
         private static TradingAccountFeatures GetBasicTradingAccountFeatures()
         {
-            return TradingAccountFeaturesFactory.CreateBasicTradingAccountFeatures();
+            return TradingAccountFeaturesFactory.ConstructBasicTradingAccountFeatures();
         }
 
         private static TradingAccountFeatures GetShortTradingAccountFeatures()
         {
-            return TradingAccountFeaturesFactory.CreateShortTradingAccountFeatures();
+            return TradingAccountFeaturesFactory.ConstructShortTradingAccountFeatures();
         }
 
         private static TradingAccountFeatures GetFullTradingAccountFeatures()
         {
-            return TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures();
+            return TradingAccountFeaturesFactory.ConstructFullTradingAccountFeatures();
         }
     }
 }

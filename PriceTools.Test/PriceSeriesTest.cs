@@ -26,7 +26,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -46,7 +46,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p3);
             target.AddPriceData(p2);
             target.AddPriceData(p1);
@@ -59,7 +59,7 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void HasValue1Test()
         {
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             Assert.IsFalse(target.HasValueInRange(DateTime.Now));
         }
 
@@ -70,7 +70,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -85,7 +85,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -103,7 +103,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -117,7 +117,7 @@ namespace Test.Sonneville.PriceTools
         [ExpectedException(typeof(InvalidOperationException))]
         public void HeadEmptyTest()
         {
-            var test = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker()).Head;
+            var test = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker()).Head;
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -150,7 +150,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -170,7 +170,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -190,7 +190,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -210,7 +210,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -230,7 +230,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -250,7 +250,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -270,7 +270,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p3);
             target.AddPriceData(p2);
             target.AddPriceData(p1);
@@ -290,7 +290,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -305,7 +305,7 @@ namespace Test.Sonneville.PriceTools
         [ExpectedException(typeof(InvalidOperationException))]
         public void GetDailyPeriodsFromWeeklyPeriodsTest()
         {
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker(), Resolution.Weeks);
+            var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker(), Resolution.Weeks);
             priceSeries.ResizePricePeriods(Resolution.Days);
         }
 
@@ -319,7 +319,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -333,7 +333,7 @@ namespace Test.Sonneville.PriceTools
         [ExpectedException(typeof(InvalidOperationException))]
         public void TailEmptyTest()
         {
-            var test = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker()).Tail;
+            var test = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker()).Tail;
         }
 
         /// <summary>
@@ -343,7 +343,7 @@ namespace Test.Sonneville.PriceTools
         public void TickerTest()
         {
             var ticker = TickerManager.GetUniqueTicker();
-            var target = PriceSeriesFactory.CreatePriceSeries(ticker);
+            var target = PriceSeriesFactory.ConstructPriceSeries(ticker);
 
             var expected = ticker;
             var actual = target.Ticker;
@@ -360,7 +360,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -377,7 +377,7 @@ namespace Test.Sonneville.PriceTools
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
 
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             target.AddPriceData(p1);
             target.AddPriceData(p2);
             target.AddPriceData(p3);
@@ -391,7 +391,7 @@ namespace Test.Sonneville.PriceTools
         public void TestDownloadPriceDataHead()
         {
             var dateTime = new DateTime(2011, 4, 1);
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
 
             var provider = new YahooPriceDataProvider();
             target.UpdatePriceData(provider, dateTime);
@@ -404,7 +404,7 @@ namespace Test.Sonneville.PriceTools
         {
             var head = new DateTime(2011, 4, 1);
             var tail = head.AddMonths(1);
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
 
             var provider = new YahooPriceDataProvider();
             target.UpdatePriceData(provider, head, tail);
@@ -419,7 +419,7 @@ namespace Test.Sonneville.PriceTools
             var provider = new WeeklyProvider();
             var head = new DateTime(2011, 4, 1);
             var tail = head.AddMonths(1);
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
 
             target.UpdatePriceData(provider, head, tail);
         }
@@ -427,7 +427,7 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void DefaultResolutionTest()
         {
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
 
             const Resolution expected = Resolution.Days;
             var actual = target.Resolution;
@@ -437,7 +437,7 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void AddPricePeriodEventTest()
         {
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             var head = new DateTime(2011, 12, 28);
             var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
@@ -463,7 +463,7 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void AddPricePeriodEventArgsTest()
         {
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             var head = new DateTime(2011, 12, 28);
             var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
@@ -493,7 +493,7 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void AddPricePeriodsEventArgsTest()
         {
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             var p1 = PricePeriodUtilities.CreatePeriod1();
             var p2 = PricePeriodUtilities.CreatePeriod2();
             var p3 = PricePeriodUtilities.CreatePeriod3();
@@ -525,7 +525,7 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void AddPricePeriodAddsToPricePeriodsTest()
         {
-            var target = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             var head = new DateTime(2011, 12, 28);
             var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;

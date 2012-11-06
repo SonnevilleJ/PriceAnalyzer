@@ -3,15 +3,33 @@ using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
-    public class TradingAccountFactory
+    /// <summary>
+    /// Constructs <see cref="TradingAccount"/> objects.
+    /// </summary>
+    public static class TradingAccountFactory
     {
+        private static readonly MarginNotAllowed DefaultMarginSchedule = new MarginNotAllowed();
+        private static readonly FlatCommissionSchedule DefaultCommissionSchedule = new FlatCommissionSchedule(5.00m);
+        private static readonly OrderType DefaultOrderTypes = TradingAccountFeaturesFactory.ConstructFullTradingAccountFeatures().SupportedOrderTypes;
+        private static readonly Deposit DefaultDeposit = TransactionFactory.ConstructDeposit(new DateTime(1900, 1, 1), 1000000.00m);
+
         /// <summary>
         /// Creates a simulated <see cref="TradingAccount"/> which accepts all <see cref="OrderType"/>s, does not allow margin trading, imposes a flat commission of $5.00 per transaction, and has an opening deposit of $1,000,000.00.
         /// </summary>
         /// <returns></returns>
-        public static TradingAccount CreateSimulatedTradingAccount()
+        public static TradingAccount ConstructSimulatedTradingAccount()
         {
-            return CreateSimulatedTradingAccount(new MarginNotAllowed());
+            return ConstructSimulatedTradingAccount(DefaultMarginSchedule);
+        }
+
+        /// <summary>
+        /// Creates a simulated <see cref="TradingAccount"/> which accepts all <see cref="OrderType"/>s, does not allow margin trading, and has an opening deposit of $1,000,000.00.
+        /// </summary>
+        /// <param name="commissionSchedule">The <see cref="ICommissionSchedule"/> which should be used by the <see cref="TradingAccount"/>.</param>
+        /// <returns></returns>
+        public static TradingAccount ConstructSimulatedTradingAccount(ICommissionSchedule commissionSchedule)
+        {
+            return ConstructSimulatedTradingAccount(commissionSchedule, DefaultMarginSchedule);
         }
 
         /// <summary>
@@ -19,9 +37,9 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="marginSchedule">The <see cref="IMarginSchedule"/> which should be used by the <see cref="TradingAccount"/>.</param>
         /// <returns></returns>
-        public static TradingAccount CreateSimulatedTradingAccount(IMarginSchedule marginSchedule)
+        public static TradingAccount ConstructSimulatedTradingAccount(IMarginSchedule marginSchedule)
         {
-            return CreateSimulatedTradingAccount(new FlatCommissionSchedule(5.00m), marginSchedule);
+            return ConstructSimulatedTradingAccount(DefaultCommissionSchedule, marginSchedule);
         }
 
         /// <summary>
@@ -30,10 +48,9 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="commissionSchedule">The <see cref="ICommissionSchedule"/> which should be used by the <see cref="TradingAccount"/>.</param>
         /// <param name="marginSchedule">The <see cref="IMarginSchedule"/> which should be used by the <see cref="TradingAccount"/>.</param>
         /// <returns></returns>
-        public static TradingAccount CreateSimulatedTradingAccount(ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
+        public static TradingAccount ConstructSimulatedTradingAccount(ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
         {
-            var orderTypes = TradingAccountFeaturesFactory.CreateFullTradingAccountFeatures().SupportedOrderTypes;
-            return CreateSimulatedTradingAccount(orderTypes, commissionSchedule, marginSchedule);
+            return ConstructSimulatedTradingAccount(DefaultOrderTypes, commissionSchedule, marginSchedule);
         }
 
         /// <summary>
@@ -43,11 +60,9 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="commissionSchedule">The <see cref="ICommissionSchedule"/> which should be used by the <see cref="TradingAccount"/>.</param>
         /// <param name="marginSchedule">The <see cref="IMarginSchedule"/> which should be used by the <see cref="TradingAccount"/>.</param>
         /// <returns></returns>
-        public static TradingAccount CreateSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
+        public static TradingAccount ConstructSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
         {
-            // default deposit of $1,000,000
-            var deposit = TransactionFactory.ConstructDeposit(new DateTime(1900, 1, 1), 1000000.00m);
-            return CreateSimulatedTradingAccount(orderTypes, commissionSchedule, marginSchedule, deposit);
+            return ConstructSimulatedTradingAccount(orderTypes, commissionSchedule, marginSchedule, DefaultDeposit);
         }
 
         /// <summary>
@@ -58,9 +73,9 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="marginSchedule">The <see cref="IMarginSchedule"/> which should be used by the <see cref="TradingAccount"/>.</param>
         /// <param name="openingDeposit">The opening deposit to place in the <see cref="Portfolio"/> used by the <see cref="TradingAccount"/>.</param>
         /// <returns></returns>
-        public static TradingAccount CreateSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, Deposit openingDeposit)
+        public static TradingAccount ConstructSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, Deposit openingDeposit)
         {
-            var tradingAccountFeatures = TradingAccountFeaturesFactory.CreateTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
+            var tradingAccountFeatures = TradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
             var portfolio = PortfolioFactory.ConstructPortfolio(openingDeposit);
             return new SimulatedTradingAccountImpl { Features = tradingAccountFeatures, Portfolio = portfolio };
         }

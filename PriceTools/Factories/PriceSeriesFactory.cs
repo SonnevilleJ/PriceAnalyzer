@@ -17,7 +17,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="ticker">The ticker symbol of the <see cref="PriceSeriesImpl"/>.</param>
         /// <returns>The <see cref="PriceSeriesImpl"/> for the given ticker.</returns>
-        public static IPriceSeries CreatePriceSeries(string ticker)
+        public static IPriceSeries ConstructPriceSeries(string ticker)
         {
             lock (Syncroot)
             {
@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools
         /// <param name="ticker">The ticker symbol of the <see cref="PriceSeriesImpl"/>.</param>
         /// <param name="resolution">The <see cref="Resolution"/> of the <see cref="PricePeriodImpl"/>s contained in the <see cref="PriceSeriesImpl"/>.</param>
         /// <returns>The <see cref="PriceSeriesImpl"/> for the given ticker.</returns>
-        public static IPriceSeries CreatePriceSeries(string ticker, Resolution resolution)
+        public static IPriceSeries ConstructPriceSeries(string ticker, Resolution resolution)
         {
             lock (Syncroot)
             {

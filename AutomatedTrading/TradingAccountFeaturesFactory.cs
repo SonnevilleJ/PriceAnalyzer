@@ -8,32 +8,32 @@
         private const OrderType FullOrderTypes = BasicOrderTypes | ShortOrderTypes;
         private const decimal DefaultPrice = 9.95m;
 
-        public static TradingAccountFeatures CreateBasicTradingAccountFeatures()
+        public static TradingAccountFeatures ConstructBasicTradingAccountFeatures()
         {
-            return CreateTradingAccountFeatures(BasicOrderTypes);
+            return ConstructTradingAccountFeatures(BasicOrderTypes);
         }
 
-        public static TradingAccountFeatures CreateShortTradingAccountFeatures()
+        public static TradingAccountFeatures ConstructShortTradingAccountFeatures()
         {
-            return CreateTradingAccountFeatures(ShortOrderTypes);
+            return ConstructTradingAccountFeatures(ShortOrderTypes);
         }
 
-        public static TradingAccountFeatures CreateFullTradingAccountFeatures()
+        public static TradingAccountFeatures ConstructFullTradingAccountFeatures()
         {
-            return CreateTradingAccountFeatures(FullOrderTypes);
+            return ConstructTradingAccountFeatures(FullOrderTypes);
         }
 
-        public static TradingAccountFeatures CreateTradingAccountFeatures(OrderType orderTypes)
+        public static TradingAccountFeatures ConstructTradingAccountFeatures(OrderType orderTypes)
         {
-            return CreateTradingAccountFeatures(orderTypes, new FlatCommissionSchedule(DefaultPrice));
+            return ConstructTradingAccountFeatures(orderTypes, new FlatCommissionSchedule(DefaultPrice));
         }
 
-        public static TradingAccountFeatures CreateTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule)
+        public static TradingAccountFeatures ConstructTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule)
         {
-            return CreateTradingAccountFeatures(orderTypes, commissionSchedule, new MarginNotAllowed());
+            return ConstructTradingAccountFeatures(orderTypes, commissionSchedule, new MarginNotAllowed());
         }
 
-        public static TradingAccountFeatures CreateTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
+        public static TradingAccountFeatures ConstructTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
         {
             return new TradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
         }

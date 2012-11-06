@@ -22,7 +22,7 @@ namespace Test.Sonneville.PriceTools
         {
             var head = new DateTime(2011, 1, 1);
             var tail = new DateTime(2011, 6, 30).CurrentPeriodClose(Resolution.Days);
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), head, tail).PricePeriods);
 
             var pricePeriods = priceSeries.ResizePricePeriods(Resolution.Weeks);
@@ -35,7 +35,7 @@ namespace Test.Sonneville.PriceTools
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
 
             var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
@@ -76,7 +76,7 @@ namespace Test.Sonneville.PriceTools
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(TickerManager.GetUniqueTicker());
+            var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
 
             var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();

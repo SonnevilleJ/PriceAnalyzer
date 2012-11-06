@@ -6,7 +6,7 @@
         {
             get
             {
-                var priceSeries = PriceSeriesFactory.CreatePriceSeries("IBM");
+                var priceSeries = PriceSeriesFactory.ConstructPriceSeries("IBM");
                 var pricePeriods = SamplePriceHistoryCsvFiles.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo.PricePeriods;
                 priceSeries.AddPriceData(pricePeriods);
                 return priceSeries;
@@ -17,7 +17,7 @@
         {
             get
             {
-                var priceSeries = PriceSeriesFactory.CreatePriceSeries("DE");
+                var priceSeries = PriceSeriesFactory.ConstructPriceSeries("DE");
                 var pricePeriods = SamplePriceHistoryCsvFiles.DE_1_1_2011_to_6_30_2011.PricePeriods;
                 priceSeries.AddPriceData(pricePeriods);
                 return priceSeries;
@@ -28,7 +28,7 @@
         {
             get
             {
-                var priceSeries = PriceSeriesFactory.CreatePriceSeries("MSFT");
+                var priceSeries = PriceSeriesFactory.ConstructPriceSeries("MSFT");
                 var pricePeriods = SamplePriceHistoryCsvFiles.MSFT_Apr_June_2011_Weekly_Google.PricePeriods;
                 priceSeries.AddPriceData(pricePeriods);
                 return priceSeries;

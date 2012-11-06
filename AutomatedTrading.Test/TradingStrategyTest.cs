@@ -12,7 +12,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void PriceSeriesBeforeStartTest()
         {
             var ticker = TickerManager.GetUniqueTicker();
-            var priceSeries = PriceSeriesFactory.CreatePriceSeries(ticker);
+            var priceSeries = PriceSeriesFactory.ConstructPriceSeries(ticker);
 
             var target = GetTradingStrategy();
 
@@ -24,7 +24,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void TradingAccountBeforeStartTest()
         {
-            var tradingAccount = TradingAccountFactory.CreateSimulatedTradingAccount();
+            var tradingAccount = TradingAccountFactory.ConstructSimulatedTradingAccount();
 
             var target = GetTradingStrategy();
 

@@ -6,7 +6,7 @@
         {
             get
             {
-                var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+                var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
                 var pricePeriods = TestPriceHistoryCsvFiles.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo.PricePeriods;
                 priceSeries.AddPriceData(pricePeriods);
                 return priceSeries;
@@ -17,7 +17,7 @@
         {
             get
             {
-                var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+                var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
                 var pricePeriods = TestPriceHistoryCsvFiles.DE_1_1_2011_to_6_30_2011.PricePeriods;
                 priceSeries.AddPriceData(pricePeriods);
                 return priceSeries;
@@ -28,7 +28,7 @@
         {
             get
             {
-                var priceSeries = PriceSeriesFactory.CreatePriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+                var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
                 var pricePeriods = TestPriceHistoryCsvFiles.MSFT_Apr_June_2011_Weekly_Google.PricePeriods;
                 priceSeries.AddPriceData(pricePeriods);
                 return priceSeries;
