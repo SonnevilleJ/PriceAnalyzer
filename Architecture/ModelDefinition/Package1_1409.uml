@@ -8298,6 +8298,402 @@
             </propertyInstances>
           </stereotypeInstance>
         </appliedStereotypesInternal>
+        <targetEnds>
+          <association
+            Id="36c8461e-2574-4f14-86ed-d6b4850a0675"
+            isDerived="false"
+            sourceEndRoleName="IVariableValue"
+            targetEndRoleName="Head"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="d393c7fa-5849-4a48-91b0-094e4af4fa24"
+              LastKnownName="DateTime"
+              LastKnownLocation="Package2_1409.uml" />
+            <description>Property Head references type DateTime.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="a25a435e-e350-4ea7-a094-28d03583f3a7"
+                  name="IVariableValue"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="eedbf094-aff3-4472-b252-8e9f2d51cf50"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="4aca8113-ebe2-4fc5-a57a-91e306d1fc14"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="ebe0e4e4-e7bd-463e-8a48-b83fe42c8a6d"
+                  name="Head"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="a6a83b14-745a-427f-bc38-089aa6f706a3"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="32babf01-aa85-4f74-b1d0-9fc51f273f63"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+          <association
+            Id="d3a5a750-4e9b-4568-a7cf-2a1577eb946e"
+            isDerived="false"
+            sourceEndRoleName="IVariableValue"
+            targetEndRoleName="Tail"
+            isLeaf="false"
+            isAbstract="false">
+            <classMoniker
+              Id="d393c7fa-5849-4a48-91b0-094e4af4fa24"
+              LastKnownName="DateTime"
+              LastKnownLocation="Package2_1409.uml" />
+            <description>Property Tail references type DateTime.</description>
+            <relationshipOwnedElementsInternal>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="d6cd0e1e-07fd-4ed3-af60-1114c47477d7"
+                  name="IVariableValue"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false"
+                  isNavigableOwned="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="3390f668-b21b-4c39-aa27-73e481ff762e"
+                      name="Lower"
+                      value="*" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="7a5a4f5e-1a14-43ec-9d31-daa43f4510a8"
+                      name="Upper"
+                      value="*" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+              <associationHasOwnedEnds>
+                <memberEnd
+                  Id="e3b000db-d326-4664-820a-70c5ce2fe0a1"
+                  name="Tail"
+                  isLeaf="false"
+                  isStatic="false"
+                  isReadOnly="false"
+                  isDerived="false"
+                  isDerivedUnion="false"
+                  aggregation="None"
+                  isComposite="false">
+                  <lowerValueInternal>
+                    <literalString
+                      Id="37b8bdfb-820a-4252-bb78-a40f10051e4e"
+                      name="Lower"
+                      value="1" />
+                  </lowerValueInternal>
+                  <upperValueInternal>
+                    <literalString
+                      Id="81f73654-e8de-4a06-a7ca-258e81d3b72a"
+                      name="Upper"
+                      value="1" />
+                  </upperValueInternal>
+                </memberEnd>
+              </associationHasOwnedEnds>
+            </relationshipOwnedElementsInternal>
+          </association>
+        </targetEnds>
+        <ownedAttributes>
+          <property
+            Id="6f29b2d2-2c95-4d68-91fd-8bc59dd99ea1"
+            name="Head"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="5567841f-c31e-4b1f-983f-3b62ac3b7bdf"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPriceAnalyzer%2FPriceTools%2Fbin%2FDebug%2FPriceTools.dll Namespace%3DSonneville.PriceTools Type%3DIVariableValue Member%3DHead"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="a033db80-7816-48d8-82ea-23ba02e71d28"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="6d54341f-d133-4ef8-9e5e-dcebea43900b">
+                    <propertyInstance
+                      Id="1803e3b8-d32e-4f7e-885d-820f83f65fe7"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a6e2af4e-5ca7-46a1-9c4a-15dbaff8b105">
+                    <propertyInstance
+                      Id="eac65ca1-e819-4310-86f8-4da9be12021d"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="548356ec-33ff-4415-a172-034b5420a79b">
+                    <propertyInstance
+                      Id="7d51b425-8f46-4742-aa49-77193b567599"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="513d1501-ce5a-450a-b343-e04bd05bf422">
+                    <propertyInstance
+                      Id="5a4b099a-ac81-46b2-9c1f-c55465e4ea7d"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="045192e5-cc76-487c-b5d0-0620c3a41456">
+                    <propertyInstance
+                      Id="8cc7de7c-5a46-4852-891d-9c280140a708"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="f4e2763f-4529-4670-bfd6-286c30734bc8">
+                    <propertyInstance
+                      Id="0f94cadd-dd78-466d-91ee-3f7ceaf1cb16"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="2e8669e6-b179-4214-ba15-0b249f116768">
+                    <propertyInstance
+                      Id="f2a1d773-a602-48a6-aa24-285daea30fec"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="d393c7fa-5849-4a48-91b0-094e4af4fa24"
+                LastKnownName="DateTime"
+                LastKnownLocation="Package2_1409.uml" />
+            </type_NamedElement>
+          </property>
+          <property
+            Id="9474da7c-ee35-4865-a903-708a7e6b5184"
+            name="Tail"
+            isLeaf="false"
+            isStatic="false"
+            isReadOnly="true"
+            isDerived="false"
+            isDerivedUnion="false"
+            aggregation="None"
+            isComposite="false">
+            <referencesInternal>
+              <reference
+                Id="51de6553-ab2c-46bf-b5c9-5221b1372fb7"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPriceAnalyzer%2FPriceTools%2Fbin%2FDebug%2FPriceTools.dll Namespace%3DSonneville.PriceTools Type%3DIVariableValue Member%3DTail"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="ff9c4c11-628e-49b3-b801-560d2271a8e9"
+                name="property"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="53a72238-1d41-47aa-8f41-048f0f47e0e2">
+                    <propertyInstance
+                      Id="f3ddb2ff-7748-4876-900d-a817f3a98e2d"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="3dcd2baa-7466-47c0-a233-4a51e3647990">
+                    <propertyInstance
+                      Id="e8e3f517-3322-4aae-a701-9da045f1af70"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="578599a9-a6d8-4e01-bfe3-b0428aec7c3b">
+                    <propertyInstance
+                      Id="02a77367-937c-4ffb-828d-5d2c9243b95c"
+                      name="HasBody"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="9735719d-8f39-401d-bfcf-739761761a11">
+                    <propertyInstance
+                      Id="426ab3ab-73d8-4877-a54e-92e4d7279b80"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="7dccbc48-beae-44ae-afb2-7eb2bb829f2f">
+                    <propertyInstance
+                      Id="98d6e6cc-72e0-45f1-a14d-f7fdd8a7f9ef"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="12257e01-df7d-417a-8f94-5c2395d0f143">
+                    <propertyInstance
+                      Id="292db3fa-5924-4100-ade0-f69fadbe26d7"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="ae24c768-275a-4055-8863-589ce2e4b9ed">
+                    <propertyInstance
+                      Id="bdd06e37-b3c3-44f7-a6d8-540b3e47e051"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <type_NamedElement>
+              <classMoniker
+                Id="d393c7fa-5849-4a48-91b0-094e4af4fa24"
+                LastKnownName="DateTime"
+                LastKnownLocation="Package2_1409.uml" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributes>
+        <ownedOperations>
+          <operation
+            Id="56521436-3b76-4821-9696-71a4eb5a95f8"
+            name="this"
+            isLeaf="false"
+            isStatic="false"
+            isAbstract="true"
+            concurrency="Sequential"
+            isQuery="false">
+            <referencesInternal>
+              <reference
+                Id="6b8338b6-4dec-4468-9a1d-2445fe0b9a60"
+                handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPriceAnalyzer%2FPriceTools%2Fbin%2FDebug%2FPriceTools.dll Namespace%3DSonneville.PriceTools Type%3DIVariableValue Member%3D(Name%3DItem OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DDateTime)])"
+                tag="ViewCode" />
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance
+                Id="2b67c9d4-0bf8-441c-9d51-3858aa0b0dea"
+                name="indexer"
+                profile="CSharpProfile">
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="92eeb06e-bc88-4c16-ab28-677cd1c19cc2">
+                    <propertyInstance
+                      Id="85ca46fc-2e1a-4c18-bb40-e203e457ffdb"
+                      name="ClrAttributes" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c8496578-6a6f-410e-84a1-40b6ee98879d">
+                    <propertyInstance
+                      Id="01ab7d1b-2356-4808-9104-efb3d0effbcd"
+                      name="IsUnsafe"
+                      value="false" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="c9b34710-564b-4d7d-9cfa-d11dea52724d">
+                    <propertyInstance
+                      Id="66c67d9b-056c-4530-93e1-c8598db5f1a0"
+                      name="Get"
+                      value="public" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="292700d1-656f-4b9e-9ff9-26117af2d541">
+                    <propertyInstance
+                      Id="77454a1d-02fd-4548-bc72-ed74cdae6503"
+                      name="Inheritance"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="a519cc9b-2307-4d52-a38c-e672e7c24ee5">
+                    <propertyInstance
+                      Id="ecac1860-28a8-479e-bc19-b92f5d5514b7"
+                      name="PackageVisibility"
+                      value="internal" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances
+                    Id="ea65ebf9-8c78-48e1-b67c-287b1476e735">
+                    <propertyInstance
+                      Id="130f274c-ec0e-4c56-9791-acffb55a8461"
+                      name="Set"
+                      value="none" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="01c2922e-ee57-4c18-bd70-d7b1ad4d66ca"
+                  direction="Return">
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="cd53da43-05a0-4ccd-8a74-5d60c0251bce"
+                      LastKnownName="Decimal"
+                      LastKnownLocation="Package2_1409.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter
+                  Id="3e9b52cd-4b4b-4f68-91c8-7c4f11ba3f77"
+                  name="dateTime"
+                  direction="In">
+                  <referencesInternal>
+                    <reference
+                      Id="8129355d-e3fd-4f88-8ed0-03ab8a1399b8"
+                      handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPriceAnalyzer%2FPriceTools%2Fbin%2FDebug%2FPriceTools.dll Namespace%3DSonneville.PriceTools Type%3DIVariableValue Member%3D(Name%3DItem OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DDateTime)]) ParameterIdentifier%3DdateTime"
+                      tag="ViewCode" />
+                  </referencesInternal>
+                  <type_NamedElement>
+                    <classMoniker
+                      Id="d393c7fa-5849-4a48-91b0-094e4af4fa24"
+                      LastKnownName="DateTime"
+                      LastKnownLocation="Package2_1409.uml" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
       </Interface>
     </packageHasNamedElement>
     <packageHasNamedElement>

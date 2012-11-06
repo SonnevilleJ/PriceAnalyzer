@@ -419,6 +419,12 @@
           </stereotypeInstance>
         </appliedStereotypesInternal>
         <elementDefinition Id="54523987-48eb-4806-8a9c-9784c8089a30" />
+        <generalsInternal>
+          <generalization Id="9c9fbf0d-24de-4ef7-b0db-119816febbe8" isSubstitutable="false">
+            <interfaceMoniker Id="78fdd449-d6dc-4977-89c7-c68f5911a2c2" LastKnownName="IVariableValue" />
+            <elementDefinition Id="c4372b8f-1f0d-4c3d-8404-ad8e79fd3367" />
+          </generalization>
+        </generalsInternal>
         <ownedAttributes>
           <property Id="ce29aded-8273-4078-a74b-635a2c66170c" name="Resolution" isLeaf="false" isStatic="false" isReadOnly="true" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
             <referencesInternal>
@@ -1295,6 +1301,245 @@
         <elementDefinition Id="c352fec3-dbd9-41e1-9880-afd467b0130e" />
       </referencedType>
     </packageHasNamedElement>
+    <logicalClassDesignerModelHasTypes>
+      <Interface Id="78fdd449-d6dc-4977-89c7-c68f5911a2c2" name="IVariableValue" isAbstract="false" isLeaf="false">
+        <referencesInternal>
+          <reference Id="ee3147fd-6663-4355-8d19-1162aa61cf24" handle="viewcode://./CodeSchema_Interface?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPriceAnalyzer%2FPriceTools%2Fbin%2FDebug%2FPriceTools.dll Namespace%3DSonneville.PriceTools Type%3DIVariableValue" tag="ViewCode">
+            <elementDefinition Id="f9691c20-0dc0-492f-a5e5-736966acd8a5" />
+          </reference>
+        </referencesInternal>
+        <appliedStereotypesInternal>
+          <stereotypeInstance Id="16e4028a-7822-406d-9697-7db11dc35bfa" name="interface" profile="CSharpProfile">
+            <elementDefinition Id="26e6f45d-218a-4c1d-a107-538db5abcc28" />
+            <propertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="e641667f-4f89-4372-a3de-106cc9ab4234">
+                <propertyInstance Id="883d159e-0ef5-4f32-85e8-9d2b0fc270e6" name="ClrAttributes">
+                  <elementDefinition Id="86fe3a1f-7572-4ecf-8262-dfc757084ff1" />
+                </propertyInstance>
+                <elementDefinition Id="c6650715-bd92-409e-85a7-a80a3e706dfd" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="3f7fd6b5-d1a8-471b-905b-c3f77ff75741">
+                <propertyInstance Id="2a577cc0-2740-40c6-b116-518d263bf38a" name="IsPartial" value="false">
+                  <elementDefinition Id="2642c220-c716-48eb-905e-eabc22238f15" />
+                </propertyInstance>
+                <elementDefinition Id="ba926e0b-27a3-48bd-8a03-d062b9383f04" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="8f588cee-79f9-4943-945a-444533715b82">
+                <propertyInstance Id="3765e3a8-48cc-4422-b357-80a058561479" name="IsUnsafe" value="false">
+                  <elementDefinition Id="f10ccd26-5fba-4346-9019-30781a52bdc3" />
+                </propertyInstance>
+                <elementDefinition Id="bdc8930a-a0f5-4794-8fb7-ea663a3ff70c" />
+              </stereotypeInstanceHasPropertyInstances>
+              <stereotypeInstanceHasPropertyInstances Id="e2380633-080c-48b6-b0d7-2127d0674202">
+                <propertyInstance Id="647eecc8-f2bd-4b03-b106-6b4813229235" name="PackageVisibility" value="internal">
+                  <elementDefinition Id="f91f425c-1acb-440a-8611-0f393bfdc2a6" />
+                </propertyInstance>
+                <elementDefinition Id="7254921e-3780-4fc2-a929-b84e914052c7" />
+              </stereotypeInstanceHasPropertyInstances>
+            </propertyInstances>
+          </stereotypeInstance>
+        </appliedStereotypesInternal>
+        <elementDefinition Id="6d402b63-7387-4f12-9fd4-9dad3f241ae9" />
+        <ownedAttributes>
+          <property Id="30d57cc9-ecda-4c3c-affd-1233cf4824ed" name="Head" isLeaf="false" isStatic="false" isReadOnly="true" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="14bfeca0-c04f-41ed-86c5-73e1d0fcbbb4" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPriceAnalyzer%2FPriceTools%2Fbin%2FDebug%2FPriceTools.dll Namespace%3DSonneville.PriceTools Type%3DIVariableValue Member%3DHead" tag="ViewCode">
+                <elementDefinition Id="5567841f-c31e-4b1f-983f-3b62ac3b7bdf" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="c9bfa1d0-d32b-4dd1-927f-e8b054832584" name="property" profile="CSharpProfile">
+                <elementDefinition Id="a033db80-7816-48d8-82ea-23ba02e71d28" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="e271fa93-313e-4d6d-bfdb-6a722fb432e3">
+                    <propertyInstance Id="80272663-4fb3-480c-a6c1-a9990dd4cfbe" name="ClrAttributes">
+                      <elementDefinition Id="1803e3b8-d32e-4f7e-885d-820f83f65fe7" />
+                    </propertyInstance>
+                    <elementDefinition Id="6d54341f-d133-4ef8-9e5e-dcebea43900b" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="d8f0de83-780f-41fa-8f0c-7ea25f0a188a">
+                    <propertyInstance Id="dfeeba2b-9018-471d-8bf6-c1c61757b043" name="Get" value="public">
+                      <elementDefinition Id="eac65ca1-e819-4310-86f8-4da9be12021d" />
+                    </propertyInstance>
+                    <elementDefinition Id="a6e2af4e-5ca7-46a1-9c4a-15dbaff8b105" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="bb991bf3-6e40-43e9-b094-b1fb8b0e3f0d">
+                    <propertyInstance Id="7342dd03-99e7-4565-ab1c-e3df4900c422" name="HasBody" value="false">
+                      <elementDefinition Id="7d51b425-8f46-4742-aa49-77193b567599" />
+                    </propertyInstance>
+                    <elementDefinition Id="548356ec-33ff-4415-a172-034b5420a79b" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="da096a0d-371f-46a3-864c-a20939101971">
+                    <propertyInstance Id="74e2b154-c7a6-48d5-a2e9-6d734a80ac3d" name="IsUnsafe" value="false">
+                      <elementDefinition Id="5a4b099a-ac81-46b2-9c1f-c55465e4ea7d" />
+                    </propertyInstance>
+                    <elementDefinition Id="513d1501-ce5a-450a-b343-e04bd05bf422" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="1b154898-8770-4353-aa60-ef981a36faa0">
+                    <propertyInstance Id="c68d92c3-c330-4993-a243-70b9d24b1b74" name="Inheritance" value="none">
+                      <elementDefinition Id="8cc7de7c-5a46-4852-891d-9c280140a708" />
+                    </propertyInstance>
+                    <elementDefinition Id="045192e5-cc76-487c-b5d0-0620c3a41456" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="5902f220-2e88-4b8f-bb7a-9abe56fbf399">
+                    <propertyInstance Id="d97ea970-4e56-452a-8bce-8a6b6f5310e1" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="0f94cadd-dd78-466d-91ee-3f7ceaf1cb16" />
+                    </propertyInstance>
+                    <elementDefinition Id="f4e2763f-4529-4670-bfd6-286c30734bc8" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="4724c791-0b6a-4d79-b789-985c0364f73d">
+                    <propertyInstance Id="fb0c5878-7132-41f3-b91a-3b70fb20f8f0" name="Set" value="none">
+                      <elementDefinition Id="f2a1d773-a602-48a6-aa24-285daea30fec" />
+                    </propertyInstance>
+                    <elementDefinition Id="2e8669e6-b179-4214-ba15-0b249f116768" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="6f29b2d2-2c95-4d68-91fd-8bc59dd99ea1" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="62ee313a-375e-4e50-96b3-d299f5cb4c9c" LastKnownName="DateTime" />
+            </type_NamedElement>
+          </property>
+          <property Id="d5138332-fa36-4b8c-9ec0-94b5b46c47b0" name="Tail" isLeaf="false" isStatic="false" isReadOnly="true" isDerived="false" isDerivedUnion="false" aggregation="None" isComposite="false">
+            <referencesInternal>
+              <reference Id="1f9e332f-f036-41d0-9e73-bbd4087a8a23" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPriceAnalyzer%2FPriceTools%2Fbin%2FDebug%2FPriceTools.dll Namespace%3DSonneville.PriceTools Type%3DIVariableValue Member%3DTail" tag="ViewCode">
+                <elementDefinition Id="51de6553-ab2c-46bf-b5c9-5221b1372fb7" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="423a79fc-b227-4c31-8ad2-58a042682266" name="property" profile="CSharpProfile">
+                <elementDefinition Id="ff9c4c11-628e-49b3-b801-560d2271a8e9" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="77050535-01b2-4e99-8ea8-fd5818f74d86">
+                    <propertyInstance Id="e9050440-a908-4d32-a3c5-8bb6a9cfa8a2" name="ClrAttributes">
+                      <elementDefinition Id="f3ddb2ff-7748-4876-900d-a817f3a98e2d" />
+                    </propertyInstance>
+                    <elementDefinition Id="53a72238-1d41-47aa-8f41-048f0f47e0e2" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="d85e7515-37ed-4b1d-92b3-87199ebe59e6">
+                    <propertyInstance Id="f7d3d202-d316-47ed-95ae-01e369b38fa1" name="Get" value="public">
+                      <elementDefinition Id="e8e3f517-3322-4aae-a701-9da045f1af70" />
+                    </propertyInstance>
+                    <elementDefinition Id="3dcd2baa-7466-47c0-a233-4a51e3647990" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="eb1ee387-1f76-462f-be2c-b5524d75eaf3">
+                    <propertyInstance Id="7faa57e3-bb81-4fe5-a174-96f02fdfd04f" name="HasBody" value="false">
+                      <elementDefinition Id="02a77367-937c-4ffb-828d-5d2c9243b95c" />
+                    </propertyInstance>
+                    <elementDefinition Id="578599a9-a6d8-4e01-bfe3-b0428aec7c3b" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="6fe391cd-8e2d-4d06-ad1e-66aa2d6fd84b">
+                    <propertyInstance Id="3c07ebba-a208-46de-b6ad-d6253995939a" name="IsUnsafe" value="false">
+                      <elementDefinition Id="426ab3ab-73d8-4877-a54e-92e4d7279b80" />
+                    </propertyInstance>
+                    <elementDefinition Id="9735719d-8f39-401d-bfcf-739761761a11" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="53300f0e-17a1-473c-9528-1af923f0b43e">
+                    <propertyInstance Id="4252d1d6-aa4c-4100-9d35-b2f2ceb96df3" name="Inheritance" value="none">
+                      <elementDefinition Id="98d6e6cc-72e0-45f1-a14d-f7fdd8a7f9ef" />
+                    </propertyInstance>
+                    <elementDefinition Id="7dccbc48-beae-44ae-afb2-7eb2bb829f2f" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="0ce80e36-8707-4099-a876-4684582dfb0d">
+                    <propertyInstance Id="fe271fd0-859d-4ed8-b711-93a90a5f0841" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="292db3fa-5924-4100-ade0-f69fadbe26d7" />
+                    </propertyInstance>
+                    <elementDefinition Id="12257e01-df7d-417a-8f94-5c2395d0f143" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="1d481120-38db-4ef2-b2a1-e047cc4e4663">
+                    <propertyInstance Id="cba76e35-4c01-44e0-9d79-38a14da0e604" name="Set" value="none">
+                      <elementDefinition Id="bdd06e37-b3c3-44f7-a6d8-540b3e47e051" />
+                    </propertyInstance>
+                    <elementDefinition Id="ae24c768-275a-4055-8863-589ce2e4b9ed" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="9474da7c-ee35-4865-a903-708a7e6b5184" />
+            <type_NamedElement>
+              <referencedTypeMoniker Id="62ee313a-375e-4e50-96b3-d299f5cb4c9c" LastKnownName="DateTime" />
+            </type_NamedElement>
+          </property>
+        </ownedAttributes>
+        <ownedOperations>
+          <operation Id="228bc250-ab19-4504-9f41-daa8529bb503" name="this" isLeaf="false" isStatic="false" isAbstract="true" concurrency="Sequential" isQuery="false">
+            <referencesInternal>
+              <reference Id="77715db6-0bd2-40c6-8042-904754880ee6" handle="viewcode://./CodeSchema_Property?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPriceAnalyzer%2FPriceTools%2Fbin%2FDebug%2FPriceTools.dll Namespace%3DSonneville.PriceTools Type%3DIVariableValue Member%3D(Name%3DItem OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DDateTime)])" tag="ViewCode">
+                <elementDefinition Id="6b8338b6-4dec-4468-9a1d-2445fe0b9a60" />
+              </reference>
+            </referencesInternal>
+            <appliedStereotypesInternal>
+              <stereotypeInstance Id="b7ab5263-5e5c-4df1-bb3e-547839df9ffd" name="indexer" profile="CSharpProfile">
+                <elementDefinition Id="2b67c9d4-0bf8-441c-9d51-3858aa0b0dea" />
+                <propertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="79f27aa8-4415-443b-9ea1-48b22807f059">
+                    <propertyInstance Id="b48b0489-0c30-40bb-bebf-37259ee11c7e" name="ClrAttributes">
+                      <elementDefinition Id="85ca46fc-2e1a-4c18-bb40-e203e457ffdb" />
+                    </propertyInstance>
+                    <elementDefinition Id="92eeb06e-bc88-4c16-ab28-677cd1c19cc2" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="98829a5e-5302-47b6-9166-c4d26283247a">
+                    <propertyInstance Id="91cff734-cdb5-4d81-b6d8-cbdc50c8f9b6" name="IsUnsafe" value="false">
+                      <elementDefinition Id="01ab7d1b-2356-4808-9104-efb3d0effbcd" />
+                    </propertyInstance>
+                    <elementDefinition Id="c8496578-6a6f-410e-84a1-40b6ee98879d" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="f5c09df8-fe97-499c-ab2a-899968e71d8c">
+                    <propertyInstance Id="d37e08b3-09e6-472c-b39c-1ae2c0a1d5a2" name="Get" value="public">
+                      <elementDefinition Id="66c67d9b-056c-4530-93e1-c8598db5f1a0" />
+                    </propertyInstance>
+                    <elementDefinition Id="c9b34710-564b-4d7d-9cfa-d11dea52724d" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="eb92d988-1a5a-435c-b94f-2fab5d22b5ee">
+                    <propertyInstance Id="8d577638-943e-4ab8-bb72-aac944ab7377" name="Inheritance" value="none">
+                      <elementDefinition Id="77454a1d-02fd-4548-bc72-ed74cdae6503" />
+                    </propertyInstance>
+                    <elementDefinition Id="292700d1-656f-4b9e-9ff9-26117af2d541" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="0a2ce017-5139-4ac4-859f-5b480a404af3">
+                    <propertyInstance Id="08aa4302-e31c-4c4c-a3fd-c9f667f0936e" name="PackageVisibility" value="internal">
+                      <elementDefinition Id="ecac1860-28a8-479e-bc19-b92f5d5514b7" />
+                    </propertyInstance>
+                    <elementDefinition Id="a519cc9b-2307-4d52-a38c-e672e7c24ee5" />
+                  </stereotypeInstanceHasPropertyInstances>
+                  <stereotypeInstanceHasPropertyInstances Id="f22016c9-59c4-4eb3-ba85-a6a5c281d20a">
+                    <propertyInstance Id="71de7a3e-c73d-42ed-874e-0fdacbadd877" name="Set" value="none">
+                      <elementDefinition Id="130f274c-ec0e-4c56-9791-acffb55a8461" />
+                    </propertyInstance>
+                    <elementDefinition Id="ea65ebf9-8c78-48e1-b67c-287b1476e735" />
+                  </stereotypeInstanceHasPropertyInstances>
+                </propertyInstances>
+              </stereotypeInstance>
+            </appliedStereotypesInternal>
+            <elementDefinition Id="56521436-3b76-4821-9696-71a4eb5a95f8" />
+            <ownedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="6beabced-cfe6-4351-8340-b812145a7b3c" direction="Return">
+                  <elementDefinition Id="01c2922e-ee57-4c18-bd70-d7b1ad4d66ca" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="4e76707b-d1d6-4b0c-819f-7eec16f79801" LastKnownName="Decimal" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+              <operationHasOwnedParameters>
+                <parameter Id="cf4cd621-3118-471f-be54-2729e666dd22" name="dateTime" direction="In">
+                  <referencesInternal>
+                    <reference Id="814e3154-3505-4170-8966-c4566c6f0b76" handle="viewcode://./CodeSchema_Parameter?Assembly%3Dfile:%2F%2F%2FC:%2FDev%2FPriceAnalyzer%2FPriceTools%2Fbin%2FDebug%2FPriceTools.dll Namespace%3DSonneville.PriceTools Type%3DIVariableValue Member%3D(Name%3DItem OverloadingParameters%3D[(Assembly%3D&quot;file:%2F%2F%2FC:%2FProgram Files (x86)%2FReference Assemblies%2FMicrosoft%2FFramework%2F.NETFramework%2Fv4.5%2Fmscorlib.dll&quot; Namespace%3DSystem Type%3DDateTime)]) ParameterIdentifier%3DdateTime" tag="ViewCode">
+                      <elementDefinition Id="8129355d-e3fd-4f88-8ed0-03ab8a1399b8" />
+                    </reference>
+                  </referencesInternal>
+                  <elementDefinition Id="3e9b52cd-4b4b-4f68-91c8-7c4f11ba3f77" />
+                  <type_NamedElement>
+                    <referencedTypeMoniker Id="62ee313a-375e-4e50-96b3-d299f5cb4c9c" LastKnownName="DateTime" />
+                  </type_NamedElement>
+                </parameter>
+              </operationHasOwnedParameters>
+            </ownedParameters>
+          </operation>
+        </ownedOperations>
+      </Interface>
+    </logicalClassDesignerModelHasTypes>
   </packagedElements>
   <package Id="05dc9b13-0f46-48e3-bce6-22446e557c0f" name="Architecture">
     <elementDefinition Id="da801b87-fe06-4a32-a531-acad61bc6f8a" />
