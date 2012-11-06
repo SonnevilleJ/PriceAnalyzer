@@ -9,9 +9,6 @@ using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
-    /// <summary>
-    /// Summary description for SimulatedTradingAccountTest
-    /// </summary>
     [TestClass]
     public class SimulatedTradingAccountTest
     {
@@ -311,7 +308,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
         private static void AssertSameTransactions(IEnumerable<ShareTransaction> expected, IEnumerable<ShareTransaction> actual)
         {
-            foreach (var transaction in expected)
+            var expectedArray = expected.ToArray();
+            var actualArray = actual.ToArray();
+
+            foreach (var transaction in expectedArray)
             {
                 var local = transaction;
                 Func<ShareTransaction, bool> predicate = t => t.SettlementDate == local.SettlementDate &&
@@ -320,8 +320,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                                                                //t.Price == local.Price &&
                                                                t.Shares == local.Shares &&
                                                                t.Commission == local.Commission;
-                var actualCount = actual.Where(predicate).Count();
-                var expectedCount = expected.Where(predicate).Count();
+                var actualCount = actualArray.Where(predicate).Count();
+                var expectedCount = expectedArray.Where(predicate).Count();
 
                 Assert.AreEqual(expectedCount, actualCount);
             }
@@ -369,15 +369,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var target = TradingAccountFactory.ConstructSimulatedTradingAccount();
 
             const int count = 5;
-            var syncroot = new object();
             var cancelled = new bool[count];
             EventHandler<OrderCancelledEventArgs> cancelledHandler = (sender, e) =>
-                                                                         {
-                                                                             lock (syncroot)
-                                                                             {
-                                                                                 cancelled[(int) e.Order.Shares] = true;
-                                                                             }
-                                                                         };
+                {
+                    cancelled[(int) e.Order.Shares] = true;
+                };
+
             try
             {
                 target.OrderCancelled += cancelledHandler;
@@ -392,7 +389,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                 }
 
                 Thread.Sleep(500);
-                lock (syncroot) Assert.AreEqual(count, cancelled.Count(b => b));
+                if (cancelled.Any(b => !b)) Assert.Fail();
             }
             finally
             {
