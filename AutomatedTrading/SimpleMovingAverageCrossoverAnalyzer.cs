@@ -1,0 +1,30 @@
+using System;
+using Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Extensions;
+using Sonneville.PriceTools.TechnicalAnalysis;
+
+namespace Sonneville.PriceTools.AutomatedTrading
+{
+    public class SimpleMovingAverageCrossoverAnalyzer : ContinuousAnalyzer
+    {
+        private readonly SimpleMovingAverage _simpleMovingAverage;
+
+        public SimpleMovingAverageCrossoverAnalyzer(IPriceSeries priceSeries, ISignalProcessor signalProcessor, PriceDataProvider priceDataProvider, int indicatorRange)
+            : base(priceSeries, signalProcessor, priceDataProvider)
+        {
+            _simpleMovingAverage = new SimpleMovingAverage(priceSeries, indicatorRange);
+        }
+
+        protected override void AnalyzePeriodo()
+        {
+            var currentDateTime = DateTime.Now;
+            var previousDateTime = currentDateTime.PreviousPeriodClose(PriceSeries.Resolution);
+
+            var previousBelow = PriceSeries[previousDateTime] - _simpleMovingAverage[previousDateTime] < 0;
+            var currentBelow = PriceSeries[currentDateTime] - _simpleMovingAverage[currentDateTime] < 0;
+
+            if(previousBelow && !currentBelow) SignalProcessor.Signal(PriceSeries, 1, 1);
+            else if (!previousBelow && currentBelow) SignalProcessor.Signal(PriceSeries, -1, 1);
+        }
+    }
+}
