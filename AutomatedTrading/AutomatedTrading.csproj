@@ -48,6 +48,7 @@
     <Compile Include="Analyzer.cs" />
     <Compile Include="AnalyzerEventArgs.cs" />
     <Compile Include="AnalyzerTriggerDelegate.cs" />
+    <Compile Include="ContinuousAnalyzer.cs" />
     <Compile Include="ContinuousTradingEngine.cs" />
     <Compile Include="Factories\PortfolioFactory.cs" />
     <Compile Include="Factories\PositionFactory.cs" />
@@ -62,6 +63,7 @@
     <Compile Include="Implementation\PortfolioImpl.cs" />
     <Compile Include="Implementation\PositionImpl.cs" />
     <Compile Include="Implementation\TradingAccountImpl.cs" />
+    <Compile Include="ISignalProcessor.cs" />
     <Compile Include="Portfolio.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="SecurityBasketExtensions.cs" />
