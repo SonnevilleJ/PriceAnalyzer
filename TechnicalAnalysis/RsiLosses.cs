@@ -2,7 +2,7 @@ using System;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
-    public class RsiLosses : Indicator
+    public class RsiLosses : TimeSeriesIndicator
     {
         public RsiLosses(ITimeSeries timeSeries)
             : base(timeSeries, 2)
@@ -10,10 +10,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             timeSeries.NewDataAvailable += (sender, e) => ClearCachedValues();
         }
 
-        #region Overrides of Indicator
+        #region Overrides of TimeSeriesIndicator
 
         /// <summary>
-        /// Calculates a single value of this Indicator.
+        /// Calculates a single value of this TimeSeriesIndicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate.</param>
         protected override decimal Calculate(DateTime index)

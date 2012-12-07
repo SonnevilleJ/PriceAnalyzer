@@ -6,22 +6,28 @@ using Sonneville.PriceTools.TechnicalAnalysis;
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public class RsiAverageGainsTest : ParentIndicatorTestBase
+    public class RsiAverageGainsTest : CommonIndicatorTests<TimeSeriesIndicator>
     {
-        private readonly decimal[] _expected14 =
+        private decimal[] _expected14
+        {
+            get
             {
-                0.6042857142857142857142857143m,
-                0.5611224489795918367346938776m,
-                0.6353279883381924198250728864m,
-                0.5899474177426072469804248231m,
-                0.5478083164752781579103944786m,
-                0.6508220081556154323453663016m,
-                0.7514775790016429014635544229m,
-                0.7785148947872398370733005356m,
-                0.7229066880167227058537790688m,
-                0.671270496015528226864223421m,
-                0.6897511748715619249453503195m
-            };
+                return new[]
+                           {
+                               0.6042857142857142857142857143m,
+                               0.5611224489795918367346938776m,
+                               0.6353279883381924198250728864m,
+                               0.5899474177426072469804248231m,
+                               0.5478083164752781579103944786m,
+                               0.6508220081556154323453663016m,
+                               0.7514775790016429014635544229m,
+                               0.7785148947872398370733005356m,
+                               0.7229066880167227058537790688m,
+                               0.671270496015528226864223421m,
+                               0.6897511748715619249453503195m
+                           };
+            }
+        }
 
         #region Overrides of CommonIndicatorTests
 
@@ -43,17 +49,17 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Gets an instance of the <see cref="Indicator"/> to test, using a specific lookback period.
+        /// Gets an instance of the <see cref="TimeSeriesIndicator"/> to test, using a specific lookback period.
         /// </summary>
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
-        /// <param name="lookback">The lookback period the <see cref="Indicator"/> should use.</param>
+        /// <param name="lookback">The lookback period the <see cref="TimeSeriesIndicator"/> should use.</param>
         /// <returns></returns>
-        protected override Indicator GetTestObjectInstance(ITimeSeries timeSeries, int lookback)
+        protected override TimeSeriesIndicator GetTestObjectInstance(ITimeSeries timeSeries, int lookback)
         {
             return new RsiAverageGains(timeSeries, lookback);
         }
 
-        protected override decimal[] Get11ExpectedValues(int lookback)
+        protected override decimal[] GetExpectedValues(int lookback)
         {
             if(lookback == 14) return _expected14;
             throw new ArgumentOutOfRangeException("lookback", lookback,

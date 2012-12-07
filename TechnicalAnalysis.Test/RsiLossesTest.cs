@@ -8,8 +8,28 @@ using Sonneville.PriceTools.Test.PriceData;
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public class RsiLossesTest : CommonIndicatorTests
+    public class RsiLossesTest : CommonIndicatorTests<RsiLosses>
     {
+        private decimal[] _expected2
+        {
+            get
+            {
+                return new[]
+                           {
+                               -0.57m,
+                               0.0m,
+                               0.0m,
+                               0.0m,
+                               0.0m,
+                               0.0m,
+                               0.0m,
+                               0.0m,
+                               0.0m,
+                               0.0m
+                           };
+            }
+        }
+
         #region Overrides of CommonIndicatorTests
 
         /// <summary>
@@ -21,14 +41,26 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Gets an instance of the <see cref="Indicator"/> to test, using a specific lookback period.
+        /// Gets an instance of the <see cref="TimeSeriesIndicator"/> to test, using a specific lookback period.
         /// </summary>
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
-        /// <param name="lookback">The lookback period the <see cref="Indicator"/> should use.</param>
+        /// <param name="lookback">The lookback period the <see cref="TimeSeriesIndicator"/> should use.</param>
         /// <returns></returns>
-        protected override Indicator GetTestObjectInstance(ITimeSeries timeSeries, int lookback)
+        protected override RsiLosses GetTestObjectInstance(ITimeSeries timeSeries, int lookback)
         {
             return new RsiLosses(timeSeries);
+        }
+
+        protected override decimal[] GetExpectedValues(int lookback)
+        {
+            switch (lookback)
+            {
+                case 2:
+                    return _expected2;
+                default:
+                    Assert.Inconclusive("Expected values for lookback period of {0} are unknown.", lookback);
+                    return null;
+            }
         }
 
         #endregion

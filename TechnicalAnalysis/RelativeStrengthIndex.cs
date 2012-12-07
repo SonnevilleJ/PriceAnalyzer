@@ -6,14 +6,14 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// <summary>
     /// A momentum oscillator which measures the speed of changes in price movements.
     /// </summary>
-    public class RelativeStrengthIndex : Indicator
+    public class RelativeStrengthIndex : TimeSeriesIndicator
     {
         //
         // The algorithms in the RelativeStrengthIndex class are based on an Excel calculator from the following article:
         // http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:relative_strength_index_rsi
         //
-        private Indicator _avgGains;
-        private Indicator _avgLosses;
+        private TimeSeriesIndicator _avgGains;
+        private TimeSeriesIndicator _avgLosses;
 
         public RelativeStrengthIndex(ITimeSeries timeSeries, int lookback = 14)
             : base(timeSeries, lookback)
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             _avgLosses = new RsiAverageLosses(MeasuredTimeSeries, Lookback);
         }
 
-        #region Overrides of Indicator
+        #region Overrides of TimeSeriesIndicator
 
         protected override void ClearCachedValues()
         {
@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Calculates a single value of this Indicator.
+        /// Calculates a single value of this TimeSeriesIndicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate.</param>
         protected override decimal Calculate(DateTime index)

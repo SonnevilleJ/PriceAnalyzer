@@ -9,7 +9,7 @@ using Sonneville.PriceTools.Test.PriceData;
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public abstract class CommonIndicatorTests
+    public abstract class CommonIndicatorTests<T> where T : TimeSeriesIndicator
     {
         /// <summary>
         /// The default lookback period to use when creating test instances.
@@ -26,22 +26,22 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Gets an instance of the <see cref="Indicator"/> to test, using a default lookback period.
+        /// Gets an instance of the <see cref="TimeSeriesIndicator"/> to test, using a default lookback period.
         /// </summary>
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <returns></returns>
-        protected Indicator GetTestObjectInstance(ITimeSeries timeSeries)
+        protected T GetTestObjectInstance(ITimeSeries timeSeries)
         {
             return GetTestObjectInstance(timeSeries, GetDefaultLookback());
         }
 
         /// <summary>
-        /// Gets an instance of the <see cref="Indicator"/> to test, using a specific lookback period.
+        /// Gets an instance of the <see cref="TimeSeriesIndicator"/> to test, using a specific lookback period.
         /// </summary>
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
-        /// <param name="lookback">The lookback period the <see cref="Indicator"/> should use.</param>
+        /// <param name="lookback">The lookback period the <see cref="TimeSeriesIndicator"/> should use.</param>
         /// <returns></returns>
-        protected abstract Indicator GetTestObjectInstance(ITimeSeries timeSeries, int lookback);
+        protected abstract T GetTestObjectInstance(ITimeSeries timeSeries, int lookback);
 
         [TestMethod]
         public void ResolutionMatchesPriceSeries()
@@ -169,5 +169,40 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             }
             return series;
         }
+
+        [TestMethod]
+        public void CalculateFirstPeriodCorrectly()
+        {
+            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+
+            var target = GetTestObjectInstance(priceSeries);
+
+            var expected = GetExpectedValues(target.Lookback)[0];
+            var actual = target[target.Head];
+            Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void CalculateNext10PeriodsCorrectly()
+        {
+            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+
+            var target = GetTestObjectInstance(priceSeries);
+
+            var lookback = target.Lookback;
+            for (var i = 1; i < 10; i++)
+            {
+                var expected = GetExpectedValues(lookback)[i];
+                var actual = target.TimePeriods.ToArray()[i].Value();
+                Assert.AreEqual(expected, actual);
+            }
+        }
+
+        /// <summary>
+        /// Gets a list of expected values for a given lookback period.
+        /// </summary>
+        /// <param name="lookback"></param>
+        /// <returns></returns>
+        protected abstract decimal[] GetExpectedValues(int lookback);
     }
 }

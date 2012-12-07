@@ -9,23 +9,22 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// <summary>
     /// A generic indicator used to transform <see cref="PriceTools.ITimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying data series.
     /// </summary>
-    public abstract class Indicator : IIndicator
+    public abstract class TimeSeriesIndicator : ITimeSeriesIndicator
     {
         #region Private Members
 
         private ITimeSeries _cachedValues = TimeSeriesFactory.ConstructMutable();
-        private readonly ITimeSeries _measuredTimeSeries;
 
         #endregion
 
         #region Constructors
 
         /// <summary>
-        /// Constructs an Indicator for a given <see cref="MeasuredTimeSeries"/>.
+        /// Constructs an TimeSeriesIndicator for a given <see cref="MeasuredTimeSeries"/>.
         /// </summary>
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
-        /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
-        protected Indicator(ITimeSeries timeSeries, int lookback)
+        /// <param name="lookback">The lookback of this TimeSeriesIndicator which specifies how many periods are required for the first indicator value.</param>
+        protected TimeSeriesIndicator(ITimeSeries timeSeries, int lookback)
         {
             if (timeSeries == null)
             {
@@ -37,8 +36,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                 //throw new InvalidOperationException("The TimeSpan of timeSeries is too narrow for the given lookback duration.");
             }
 
-            _measuredTimeSeries = timeSeries;
+            // Set Lookback first because MeasuredTimeSeries is virtual and may in fact set up another indicator based on this one, such as StochasticOscillator's %D.
+            // Any child indicators might rely on Lookback being set already.
             Lookback = lookback;
+            MeasuredTimeSeries = timeSeries;
         }
 
         #endregion
@@ -46,7 +47,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         #region Protected / Abstract Members
 
         /// <summary>
-        /// Calculates a single value of this Indicator.
+        /// Calculates a single value of this TimeSeriesIndicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate.</param>
         protected abstract decimal Calculate(DateTime index);
@@ -75,10 +76,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         #endregion
 
-        #region Implementation of IIndicator
+        #region Implementation of ITimeSeriesIndicator
 
         /// <summary>
-        /// Gets the first DateTime in the Indicator.
+        /// Gets the first DateTime in the TimeSeriesIndicator.
         /// </summary>
         public virtual DateTime Head
         {
@@ -86,7 +87,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Gets the last DateTime in the Indicator.
+        /// Gets the last DateTime in the TimeSeriesIndicator.
         /// </summary>
         public virtual DateTime Tail
         {
@@ -94,7 +95,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Gets the value stored at a given index of this Indicator.
+        /// Gets the value stored at a given index of this TimeSeriesIndicator.
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
@@ -120,42 +121,39 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         }
 
         /// <summary>
-        /// Gets the lookback of this Indicator which specifies how many periods are required for the first indicator value.
+        /// Gets the lookback of this TimeSeriesIndicator which specifies how many periods are required for the first indicator value.
         /// </summary>
         /// <example>A 50-period MovingAverage has a Lookback of 50.</example>
         public int Lookback { get; private set; }
 
         /// <summary>
-        /// The underlying data which is to be analyzed by this Indicator.
+        /// The underlying data which is to be analyzed by this TimeSeriesIndicator.
         /// </summary>
-        public ITimeSeries MeasuredTimeSeries
-        {
-            get { return _measuredTimeSeries; }
-        }
+        public virtual ITimeSeries MeasuredTimeSeries { get; protected set; }
 
         /// <summary>
-        /// The Resolution of this Indicator.
+        /// The Resolution of this TimeSeriesIndicator.
         /// </summary>
         public Resolution Resolution { get { return MeasuredTimeSeries.Resolution; } }
 
         /// <summary>
-        /// Determines if the Indicator has a valid value for a given date.
+        /// Determines if the TimeSeriesIndicator has a valid value for a given date.
         /// </summary>
-        /// <remarks>Assumes the Indicator has a valid value for every date of the underlying MeasuredTimeSeries.</remarks>
+        /// <remarks>Assumes the TimeSeriesIndicator has a valid value for every date of the underlying MeasuredTimeSeries.</remarks>
         /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the Indicator has a valid value for the given date.</returns>
+        /// <returns>A value indicating if the TimeSeriesIndicator has a valid value for the given date.</returns>
         public bool HasValueInRange(DateTime settlementDate)
         {
             return (settlementDate >= Head && settlementDate <= Tail);
         }
 
         /// <summary>
-        ///   Event which is invoked when new data is available for the Indicator.
+        ///   Event which is invoked when new data is available for the TimeSeriesIndicator.
         /// </summary>
         public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
 
         /// <summary>
-        /// Pre-caches all values for this Indicator.
+        /// Pre-caches all values for this TimeSeriesIndicator.
         /// </summary>
         public virtual void CalculateAll()
         {

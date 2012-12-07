@@ -3,17 +3,17 @@ using System.Linq;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
-    public class RsiAverageGainsLosses : Indicator
+    public class RsiAverageGainsLosses : TimeSeriesIndicator
     {
         protected RsiAverageGainsLosses(ITimeSeries timeSeries, int lookback)
             : base(timeSeries, lookback)
         {
         }
 
-        #region Overrides of Indicator
+        #region Overrides of TimeSeriesIndicator
         
         /// <summary>
-        /// Calculates a single value of this Indicator.
+        /// Calculates a single value of this TimeSeriesIndicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate.</param>
         protected override decimal Calculate(DateTime index)

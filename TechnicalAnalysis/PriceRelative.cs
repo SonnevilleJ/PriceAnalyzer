@@ -3,13 +3,13 @@
 //    /// <summary>
 //    /// Indicates the relative price of two securities.
 //    /// </summary>
-//    public class PriceRelative : Indicator
+//    public class PriceRelative : TimeSeriesIndicator
 //    {
 //        /// <summary>
-//        /// Constructs an Indicator for a given <see cref="ITimeSeries"/>.
+//        /// Constructs an TimeSeriesIndicator for a given <see cref="ITimeSeries"/>.
 //        /// </summary>
 //        /// <param name="timeSeries">The <see cref="ITimeSeries"/> to measure.</param>
-//        /// <param name="lookback">The lookback of this Indicator which specifies how many periods are required for the first indicator value.</param>
+//        /// <param name="lookback">The lookback of this TimeSeriesIndicator which specifies how many periods are required for the first indicator value.</param>
 //        public PriceRelative(ITimeSeries timeSeries, int lookback) : base(timeSeries, lookback)
 //        {
 //        }

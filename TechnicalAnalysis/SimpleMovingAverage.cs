@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// <summary>
     ///   A moving average indicator using the simple moving average method.
     /// </summary>
-    public class SimpleMovingAverage : Indicator
+    public class SimpleMovingAverage : TimeSeriesIndicator
     {
         #region Constructors
 
@@ -15,18 +15,18 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         ///   Constructs a new Simple Moving Average.
         /// </summary>
         /// <param name = "timeSeries">The <see cref="ITimeSeries"/> containing the data to be averaged.</param>
-        /// <param name = "range">The number of periods to average together.</param>
-        public SimpleMovingAverage(ITimeSeries timeSeries, int range)
-            : base(timeSeries, range)
+        /// <param name = "lookback">The number of periods to average together.</param>
+        public SimpleMovingAverage(ITimeSeries timeSeries, int lookback)
+            : base(timeSeries, lookback)
         {
         }
 
         #endregion
 
-        #region Overrides of Indicator
+        #region Overrides of TimeSeriesIndicator
 
         /// <summary>
-        /// Calculates a single value of this Indicator.
+        /// Calculates a single value of this TimeSeriesIndicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate.</param>
         protected override decimal Calculate(DateTime index)
