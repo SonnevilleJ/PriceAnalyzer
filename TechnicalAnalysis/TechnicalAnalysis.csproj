@@ -85,17 +85,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Correlation.cs" />
+    <Compile Include="IPriceSeriesIndicator.cs" />
+    <Compile Include="PriceSeriesIndicator.cs" />
     <Compile Include="RsiAverageGains.cs" />
     <Compile Include="RsiAverageGainsLosses.cs" />
     <Compile Include="RsiAverageLosses.cs" />
     <Compile Include="RsiGains.cs" />
-    <Compile Include="IIndicator.cs" />
-    <Compile Include="Indicator.cs" />
+    <Compile Include="ITimeSeriesIndicator.cs" />
+    <Compile Include="TimeSeriesIndicator.cs" />
     <Compile Include="RsiLosses.cs" />
     <Compile Include="OHLC.cs" />
     <Compile Include="PriceRelative.cs" />
     <Compile Include="RelativeStrengthIndex.cs" />
     <Compile Include="SimpleMovingAverage.cs" />
+    <Compile Include="StochasticOscillator.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

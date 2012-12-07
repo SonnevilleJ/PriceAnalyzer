@@ -8,7 +8,7 @@
 //    /// <summary>
 //    /// Indicates the level of correlation between two <see cref="ITimePeriod"/>.
 //    /// </summary>
-//    public class Correlation : Indicator
+//    public class Correlation : TimeSeriesIndicator
 //    {
 //        //
 //        // The algorithms in the Correlation class are based on the following article:

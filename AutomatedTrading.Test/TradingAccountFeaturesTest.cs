@@ -141,11 +141,11 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         }
 
         [TestMethod]
-        public void ShortDoesSupportMarginTest()
+        public void ShortDoesNotSupportMarginTest()
         {
             var target = GetShortTradingAccountFeatures();
 
-            Assert.IsTrue(target.IsMarginAccount);
+            Assert.IsFalse(target.IsMarginAccount);
         }
 
         [TestMethod]
@@ -207,11 +207,11 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         }
 
         [TestMethod]
-        public void FullDoesSupportMarginTest()
+        public void FullDoesNotSupportMarginTest()
         {
             var target = GetFullTradingAccountFeatures();
 
-            Assert.IsTrue(target.IsMarginAccount);
+            Assert.IsFalse(target.IsMarginAccount);
         }
 
         [TestMethod]
