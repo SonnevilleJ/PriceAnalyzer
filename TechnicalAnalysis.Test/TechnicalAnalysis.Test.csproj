@@ -57,6 +57,7 @@
     <Compile Include="RsiLossesTest.cs" />
     <Compile Include="SimpleMovingAverageTest.cs" />
     <Compile Include="StochasticOscillatorTest.cs" />
+    <Compile Include="StochRSITest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">

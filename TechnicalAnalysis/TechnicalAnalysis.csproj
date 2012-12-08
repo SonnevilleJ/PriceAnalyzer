@@ -92,6 +92,7 @@
     <Compile Include="RsiAverageLosses.cs" />
     <Compile Include="RsiGains.cs" />
     <Compile Include="ITimeSeriesIndicator.cs" />
+    <Compile Include="StochRSI.cs" />
     <Compile Include="TimeSeriesIndicator.cs" />
     <Compile Include="RsiLosses.cs" />
     <Compile Include="OHLC.cs" />
