@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text;
@@ -25,20 +26,13 @@ namespace Sonneville.PriceTools.Yahoo
         /// Gets the ticker symbol for a <see cref="StockIndex"/> used by this <see cref="PriceDataProvider"/>.
         /// </summary>
         /// <param name="index">The <see cref="StockIndex"/> to retrieve.</param>
+        /// <param name="head">The first date to price.</param>
+        /// <param name="tail">The last date to price.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns>A string representing the ticker symbol of the requested <see cref="StockIndex"/>.</returns>
-        public override string GetIndexTicker(StockIndex index)
+        public override IEnumerable<IPricePeriod> GetPriceData(StockIndex index, DateTime head, DateTime tail, Resolution resolution)
         {
-            switch (index)
-            {
-                case StockIndex.StandardAndPoors500:
-                    return "^GSPC";
-                case StockIndex.DowJonesIndustrialAverage:
-                    return "^DJI";
-                case StockIndex.NasdaqCompositeIndex:
-                    return "^IXIC";
-                default:
-                    throw new NotSupportedException(String.Format(CultureInfo.CurrentCulture, "Unknown Stock Index: {0}.", index));
-            }
+            return GetPriceData(GetIndexTicker(index), head, tail, resolution);
         }
 
         /// <summary>
@@ -162,5 +156,20 @@ namespace Sonneville.PriceTools.Yahoo
         #endregion
 
         #endregion
+
+        private static string GetIndexTicker(StockIndex index)
+        {
+            switch (index)
+            {
+                case StockIndex.StandardAndPoors500:
+                    return "^GSPC";
+                case StockIndex.DowJonesIndustrialAverage:
+                    return "^DJI";
+                case StockIndex.NasdaqCompositeIndex:
+                    return "^IXIC";
+                default:
+                    throw new NotSupportedException(String.Format(CultureInfo.CurrentCulture, "Unknown Stock Index: {0}.", index));
+            }
+        }
     }
 }
