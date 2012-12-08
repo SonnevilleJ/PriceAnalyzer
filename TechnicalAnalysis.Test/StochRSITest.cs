@@ -6,6 +6,13 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     class StochRSITest : CommonIndicatorTests<StochRSI>
     {
+
+        //
+        // The algorithms in the StochRSI class are based on an Excel calculator from the following article:
+        // http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:stochrsi
+        // See the cs-stochrsi.xls file in the Resources folder.
+        //
+
         private ITimeSeries _timeSeries;
 
         #region Overrides of CommonIndicatorTests<StochRSI>
