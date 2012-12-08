@@ -14,6 +14,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         #region Private Members
 
         private ITimeSeries _cachedValues = TimeSeriesFactory.ConstructMutable();
+        private int _lookback;
 
         #endregion
 
@@ -38,7 +39,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
             // Set Lookback first because MeasuredTimeSeries is virtual and may in fact set up another indicator based on this one, such as StochasticOscillator's %D.
             // Any child indicators might rely on Lookback being set already.
-            Lookback = lookback;
+            _lookback = lookback;
             MeasuredTimeSeries = timeSeries;
         }
 
@@ -124,7 +125,15 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// Gets the lookback of this TimeSeriesIndicator which specifies how many periods are required for the first indicator value.
         /// </summary>
         /// <example>A 50-period MovingAverage has a Lookback of 50.</example>
-        public int Lookback { get; private set; }
+        public int Lookback
+        {
+            get { return _lookback; }
+            set
+            {
+                ClearCachedValues();
+                _lookback = value;
+            }
+        }
 
         /// <summary>
         /// The underlying data which is to be analyzed by this TimeSeriesIndicator.

@@ -6,48 +6,53 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// <summary>
     /// A momentum indicator that shows the location of the close relative to the high-low range over a set number of periods.
     /// </summary>
-    public class StochasticOscillator : PriceSeriesIndicator
+    public class StochasticOscillator : TimeSeriesIndicator
     {
-        private SimpleMovingAverage _signalLine;
+        private readonly SimpleMovingAverage _signalLine;
 
-        public StochasticOscillator(IPriceSeries timeSeries, int lookback)
+        public StochasticOscillator(ITimeSeries timeSeries, int lookback)
             : base(timeSeries, lookback)
         {
             _signalLine = new SimpleMovingAverage(this, 3);
         }
 
+        public override void CalculateAll()
+        {
+            base.CalculateAll();
+            _signalLine.CalculateAll();
+        }
+
         protected override decimal Calculate(DateTime index)
         {
             var runDate = index.AddTicks(1);
-            var highestHigh = MeasuredPriceSeries.GetPreviousPricePeriods(Lookback, runDate).Max(p => p.High);
-            var lowestLow = MeasuredPriceSeries.GetPreviousPricePeriods(Lookback, runDate).Min(p => p.Low);
-            var currentClose = MeasuredPriceSeries[index];
+            decimal highestHigh;
+            decimal lowestLow;
+
+            var measuredPriceSeries = MeasuredTimeSeries as IPriceSeries;
+            if (measuredPriceSeries != null)
+            {
+                highestHigh = measuredPriceSeries.GetPreviousPricePeriods(Lookback, runDate).Max(p => p.High);
+                lowestLow = measuredPriceSeries.GetPreviousPricePeriods(Lookback, runDate).Min(p => p.Low);
+            }
+            else
+            {
+                highestHigh = MeasuredTimeSeries.GetPreviousTimePeriods(Lookback, runDate).Max(p => p.Value());
+                lowestLow = MeasuredTimeSeries.GetPreviousTimePeriods(Lookback, runDate).Min(p => p.Value());
+            }
+            var currentClose = MeasuredTimeSeries[index];
 
             if (highestHigh == lowestLow) return 50.0m;
             return (currentClose - lowestLow)/(highestHigh - lowestLow)*100m;
         }
 
-        public TimeSeriesIndicator K
+        public ITimeSeriesIndicator K
         {
             get { return this; }
         }
 
-        public TimeSeriesIndicator D
+        public ITimeSeriesIndicator D
         {
             get { return _signalLine; }
-        }
-
-        /// <summary>
-        /// Gets or sets the lookback period for the signal line - a <see cref="SimpleMovingAverage"/> of the <see cref="StochasticOscillator"/>.
-        /// </summary>
-        public int SignalLineLookback
-        {
-            get { return _signalLine.Lookback; }
-            set
-            {
-                ClearCachedValues();
-                _signalLine = new SimpleMovingAverage(this, value);
-            }
         }
     }
 }

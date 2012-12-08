@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using Sonneville.PriceTools.Data.Csv;
 
@@ -15,8 +16,11 @@ namespace Sonneville.PriceTools.Google
         /// Gets the ticker symbol for a given stock index.
         /// </summary>
         /// <param name="index">The stock index to lookup.</param>
+        /// <param name="head">The first date to price.</param>
+        /// <param name="tail">The last date to price.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns>The ticker symbol of <paramref name="index"/> for this PriceDataProvider.</returns>
-        public override string GetIndexTicker(StockIndex index)
+        public override IEnumerable<IPricePeriod> GetPriceData(StockIndex index, DateTime head, DateTime tail, Resolution resolution)
         {
             throw new NotImplementedException();
         }

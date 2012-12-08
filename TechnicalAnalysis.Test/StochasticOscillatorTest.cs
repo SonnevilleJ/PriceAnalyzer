@@ -64,7 +64,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         private void TestD(int lookback)
         {
             var target = GetTestObjectInstance(TestPriceSeries.DE_1_1_2011_to_6_30_2011);
-            target.SignalLineLookback = lookback;
+            target.D.Lookback = lookback;
             var smaD = new SimpleMovingAverage(target, lookback);
 
             for (var i = 0; i < 10; i++)
