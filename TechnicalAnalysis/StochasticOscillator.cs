@@ -27,12 +27,12 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             return (currentClose - lowestLow)/(highestHigh - lowestLow)*100m;
         }
 
-        public TimeSeriesIndicator K
+        public ITimeSeriesIndicator K
         {
             get { return this; }
         }
 
-        public TimeSeriesIndicator D
+        public ITimeSeriesIndicator D
         {
             get { return _signalLine; }
         }

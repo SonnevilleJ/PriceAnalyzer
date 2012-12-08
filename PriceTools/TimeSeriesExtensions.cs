@@ -123,12 +123,7 @@ namespace Sonneville.PriceTools
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public static IEnumerable<IPricePeriod> ResizePricePeriods(this IPriceSeries priceSeries, Resolution resolution)
         {
-            if (priceSeries.PricePeriods.Any()) return priceSeries.ResizePricePeriods(resolution, priceSeries.Head, priceSeries.Tail);
-            if (resolution < priceSeries.Resolution)
-                throw new InvalidOperationException(
-                    String.Format(Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__,
-                                  resolution, priceSeries.Resolution));
-            return new List<IPricePeriod>();
+            return priceSeries.PricePeriods.ResizePricePeriods(resolution);
         }
 
         /// <summary>
@@ -142,12 +137,48 @@ namespace Sonneville.PriceTools
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
         public static IEnumerable<IPricePeriod> ResizePricePeriods(this IPriceSeries priceSeries, Resolution resolution, DateTime head, DateTime tail)
         {
-            if (resolution < priceSeries.Resolution)
+            return priceSeries.PricePeriods.ResizePricePeriods(resolution, head, tail);
+        }
+
+        #endregion
+
+        #region IEnumerable<PricePeriod> Extensions
+
+        /// <summary>
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// </summary>
+        /// <param name="pricePeriods"></param>
+        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
+        public static IEnumerable<IPricePeriod> ResizePricePeriods(this IEnumerable<IPricePeriod> pricePeriods, Resolution resolution)
+        {
+            var periods = pricePeriods.ToArray();
+            if (periods.Any()) return periods.ResizePricePeriods(resolution, periods.Min(p => p.Head), periods.Max(p => p.Tail));
+            if (resolution < periods.Max(p => p.Resolution))
                 throw new InvalidOperationException(
                     String.Format(Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__,
-                                  resolution, priceSeries.Resolution));
-            var dataPeriods = priceSeries.PricePeriods.Where(period => period.Head >= head && period.Tail <= tail).OrderBy(period => period.Head).ToList();
-            if (resolution == priceSeries.Resolution) return dataPeriods;
+                                  resolution, periods.Max(p => p.Resolution)));
+            return new List<IPricePeriod>();
+        }
+
+        /// <summary>
+        /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
+        /// </summary>
+        /// <param name="pricePeriods"></param>
+        /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
+        /// <param name="head">The head of the periods to retrieve.</param>
+        /// <param name="tail">The tail of the periods to retrieve.</param>
+        /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this PriceSeries.</exception>
+        /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
+        public static IEnumerable<IPricePeriod> ResizePricePeriods(this IEnumerable<IPricePeriod> pricePeriods, Resolution resolution, DateTime head, DateTime tail)
+        {
+            var periods = pricePeriods.ToArray();
+            if (resolution < periods.Max(p => p.Resolution))
+                throw new InvalidOperationException(
+                    String.Format(Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__,
+                                  resolution, periods.Max(p => p.Resolution)));
+            var dataPeriods = periods.Where(period => period.Head >= head && period.Tail <= tail).OrderBy(period => period.Head).ToList();
+            if (resolution == periods.Max(p => p.Resolution)) return dataPeriods;
 
             var pairs = GetResolutionDatePairs(resolution, head, tail);
 

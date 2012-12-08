@@ -12,8 +12,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         // The algorithms in the RelativeStrengthIndex class are based on an Excel calculator from the following article:
         // http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:relative_strength_index_rsi
         //
-        private TimeSeriesIndicator _avgGains;
-        private TimeSeriesIndicator _avgLosses;
+        private ITimeSeriesIndicator _avgGains;
+        private ITimeSeriesIndicator _avgLosses;
 
         public RelativeStrengthIndex(ITimeSeries timeSeries, int lookback = 14)
             : base(timeSeries, lookback)
