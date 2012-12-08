@@ -198,6 +198,23 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             }
         }
 
+        [TestMethod]
+        public void SetLookbackClearsAllCachedValues()
+        {
+            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = GetTestObjectInstance(priceSeries);
+
+            target.CalculateAll();
+            var expected = target.TimePeriods.ToArray();
+
+            target.Lookback = target.Lookback + 1;
+
+            target.CalculateAll();
+            var actual = target.TimePeriods.ToArray();
+
+            CollectionAssert.AreNotEqual(expected, actual);
+        }
+
         /// <summary>
         /// Gets a list of expected values for a given lookback period.
         /// </summary>
