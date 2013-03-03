@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
     {
         private readonly SimpleMovingAverage _simpleMovingAverage;
 
-        public SimpleMovingAverageCrossoverAnalyzer(IPriceSeries priceSeries, ISignalProcessor signalProcessor, PriceDataProvider priceDataProvider, int indicatorRange)
+        public SimpleMovingAverageCrossoverAnalyzer(IPriceSeries priceSeries, ISignalProcessor signalProcessor, IPriceDataProvider priceDataProvider, int indicatorRange)
             : base(priceSeries, signalProcessor, priceDataProvider)
         {
             // ensure sufficient starting price data
