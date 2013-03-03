@@ -12,6 +12,9 @@ namespace Sonneville.PriceTools.AutomatedTrading
         public SimpleMovingAverageCrossoverAnalyzer(IPriceSeries priceSeries, ISignalProcessor signalProcessor, PriceDataProvider priceDataProvider, int indicatorRange)
             : base(priceSeries, signalProcessor, priceDataProvider)
         {
+            // ensure sufficient starting price data
+            PriceDataProvider.UpdatePriceSeries(PriceSeries, DateTime.Now.SeekTradingPeriods(indicatorRange, priceDataProvider.BestResolution), DateTime.Now);
+
             _simpleMovingAverage = new SimpleMovingAverage(priceSeries, indicatorRange);
         }
 

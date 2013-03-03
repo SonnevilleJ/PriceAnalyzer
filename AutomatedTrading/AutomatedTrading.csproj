@@ -54,7 +54,6 @@
     <Compile Include="Factories\PositionFactory.cs" />
     <Compile Include="Factories\TradingAccountFactory.cs" />
     <Compile Include="Implementation\BacktestingTradingAccountImpl.cs" />
-    <Compile Include="DailyTriggerTradingStrategy.cs" />
     <Compile Include="FlatCommissionSchedule.cs" />
     <Compile Include="HigherThanYesterdayAnalyzer.cs" />
     <Compile Include="IBrokerage.cs" />
@@ -87,7 +86,6 @@
     </Compile>
     <Compile Include="TradingAccountFeatures.cs" />
     <Compile Include="TradingAccountFeaturesFactory.cs" />
-    <Compile Include="TradingStrategy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

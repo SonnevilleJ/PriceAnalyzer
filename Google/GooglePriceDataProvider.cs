@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Generic;
 using System.IO;
 using Sonneville.PriceTools.Data.Csv;
 
@@ -11,6 +12,11 @@ namespace Sonneville.PriceTools.Google
     public sealed class GooglePriceDataProvider : CsvPriceDataProvider
     {
         #region Overrides of PriceDataProvider
+
+        public override IEnumerable<IPricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail, Resolution resolution)
+        {
+            return base.GetPriceData(ticker, head, tail, BestResolution).ResizePricePeriods(resolution);
+        }
 
         /// <summary>
         /// Gets the ticker symbol for a given stock index.

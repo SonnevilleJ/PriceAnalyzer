@@ -1,21 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Threading;
+using System.Linq;
 using System.Threading.Tasks;
 using Sonneville.PriceTools.Yahoo;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
-    public class ContinuousTradingEngine
+    /// <summary>
+    /// A trading engine which monitors price signals and issues orders to buy and sell a security.
+    /// </summary>
+    public class ContinuousTradingEngine : ISignalProcessor
     {
         #region Private Members
 
         private readonly object _syncroot = new object();
+        private bool _isRunning;
         private readonly IList<string> _tradableTickers = new List<string> {"DE", "MSFT", "IBM", "GOOG", "AAPL"};
-        private CancellationTokenSource _cts;
-        private Task _engineTask;
-        private readonly SemaphoreSlim _semaphore = new SemaphoreSlim(1);
+        private readonly IList<ContinuousAnalyzer> _analyzers = new List<ContinuousAnalyzer>(); 
 
         #endregion
 
@@ -25,11 +26,16 @@ namespace Sonneville.PriceTools.AutomatedTrading
         {
             lock(_syncroot)
             {
-                if (_engineTask == null)
+                if (_isRunning) throw new InvalidOperationException("Cannot start execution of the ContinuousTradingEngine because it has already been started.");
+
+                _isRunning = true;
+                foreach (var analyzer in _tradableTickers.Select(PriceSeriesFactory.ConstructPriceSeries)
+                    .Select(priceSeries => new SimpleMovingAverageCrossoverAnalyzer(priceSeries, this, new YahooPriceDataProvider(), 20)))
                 {
-                    _cts = new CancellationTokenSource();
-                    _engineTask = Task.Factory.StartNew(() => Execute(_cts.Token));
+                    _analyzers.Add(analyzer);
+                    analyzer.Start();
                 }
+                
             }
         }
 
@@ -37,65 +43,21 @@ namespace Sonneville.PriceTools.AutomatedTrading
         {
             lock(_syncroot)
             {
-                if (_engineTask != null)
+                while (_analyzers.Any())
                 {
-                    _cts.Cancel();
-                    try
-                    {
-                        _semaphore.Release();
-                        _engineTask.Wait();
-                    }
-                    finally
-                    {
-                        _cts = null;
-                        _engineTask = null;
-                    }
+                    var analyzer = _analyzers.First();
+                    _analyzers.RemoveAt(0);
+                    analyzer.Stop();
                 }
+                _isRunning = false;
             }
         }
 
         #endregion
 
-        private void Execute(CancellationToken token)
+        public void Signal(IPriceSeries priceSeries, double direction, double magnitude)
         {
-            SubscribeToPriceUpdates(token);
-            while (true)
-            {
-                if (token.IsCancellationRequested) break;
-
-                Iterate();
-                _semaphore.Wait(token);
-            }
-        }
-
-        private void SubscribeToPriceUpdates(CancellationToken token)
-        {
-            var provider = new YahooPriceDataProvider();
-            for (int i = 0; i < _tradableTickers.Count; i++)
-            {
-                if (i % 10 == 0 && token.IsCancellationRequested) return;
-
-                var priceSeries = PriceSeriesFactory.ConstructPriceSeries(_tradableTickers[i]);
-                priceSeries.NewDataAvailable += (sender, e) => _semaphore.Release();
-                provider.StartAutoUpdate(priceSeries);
-            }
-        }
-
-        private void Iterate()
-        {
-            var message = String.Format("{0}: Iterating...", DateTime.Now);
-            Log(message);
-
-            // make money here
-            //throw new NotImplementedException();
-        }
-
-        private static void Log(string message)
-        {
-            using(var writer = new StreamWriter(File.OpenWrite(@"C:\Users\Mediacenter\Documents\output.txt")))
-            {
-                writer.WriteLine(message);
-            }
+            throw new NotImplementedException();
         }
     }
 }

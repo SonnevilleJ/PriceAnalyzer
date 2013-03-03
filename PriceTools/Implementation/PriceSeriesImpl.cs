@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public override decimal Close
         {
-            get { return _dataPeriods.OrderBy(p => p.Tail).Last().Close; }
+            get { return DataPeriods.OrderBy(p => p.Tail).Last().Close; }
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public override decimal High
         {
-            get { return _dataPeriods.Max(p => p.High); }
+            get { return DataPeriods.Max(p => p.High); }
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public override decimal Low
         {
-            get { return _dataPeriods.Min(p => p.Low); }
+            get { return DataPeriods.Min(p => p.Low); }
         }
 
         /// <summary>
@@ -67,7 +67,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public override decimal Open
         {
-            get { return _dataPeriods.OrderBy(p => p.Head).First().Open; }
+            get { return DataPeriods.OrderBy(p => p.Head).First().Open; }
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public override long? Volume
         {
-            get { return _dataPeriods.Sum(p => p.Volume); }
+            get { return DataPeriods.Sum(p => p.Volume); }
         }
 
         /// <summary>
@@ -106,8 +106,8 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                if(_dataPeriods.Count == 0) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
-                return _dataPeriods.Min(p => p.Head);
+                if(!HasData) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
+                return DataPeriods.Min(p => p.Head);
             }
         }
 
@@ -118,8 +118,8 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                if (_dataPeriods.Count == 0) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
-                return _dataPeriods.Max(p => p.Tail);
+                if (!HasData) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
+                return DataPeriods.Max(p => p.Tail);
             }
         }
 
@@ -128,7 +128,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         protected override bool HasData
         {
-            get { return _dataPeriods.Count > 0; }
+            get { return DataPeriods.Any(); }
         }
 
         /// <summary>
@@ -138,7 +138,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>A value indicating if the PriceSeries has a valid value for the given date.</returns>
         public override bool HasValueInRange(DateTime settlementDate)
         {
-            return _dataPeriods.Count > 0 && base.HasValueInRange(settlementDate);
+            return HasData && base.HasValueInRange(settlementDate);
         }
 
         /// <summary>
@@ -149,7 +149,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries.
         /// </summary>
-        public IEnumerable<IPricePeriod> PricePeriods { get { return _dataPeriods; } }
+        public IEnumerable<IPricePeriod> PricePeriods { get { return DataPeriods; } }
 
         /// <summary>
         /// Adds price data to the PriceSeries.
@@ -189,6 +189,11 @@ namespace Sonneville.PriceTools.Implementation
         public override Resolution Resolution
         {
             get { return _resolution; }
+        }
+
+        private ParallelQuery<IPricePeriod> DataPeriods
+        {
+            get { return _dataPeriods.AsParallel(); }
         }
 
         #endregion
