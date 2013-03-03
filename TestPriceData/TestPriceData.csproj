@@ -52,6 +52,7 @@
       <DependentUpon>CsvPriceData.resx</DependentUpon>
     </Compile>
     <Compile Include="TestPriceHistoryCsvFiles.cs" />
+    <Compile Include="TestPricePeriods.cs" />
     <Compile Include="TestPriceSeries.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

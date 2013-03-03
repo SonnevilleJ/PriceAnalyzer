@@ -1,4 +1,6 @@
-﻿using Sonneville.PriceTools.Google;
+﻿using System;
+using Sonneville.PriceTools.Data.Csv;
+using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.Utilities;
 
@@ -19,6 +21,11 @@ namespace Sonneville.PriceTools.Test.PriceData
         public static GooglePriceHistoryCsvFile MSFT_Apr_June_2011_Weekly_Google
         {
             get { return new GooglePriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.MSFT_Apr_June_2011_Weekly_Google)); }
+        }
+
+        public static PriceHistoryCsvFile Build_DE_1_1_2011_to_6_30_2011(DateTime head, DateTime tail)
+        {
+            return new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), head, tail);
         }
     }
 }

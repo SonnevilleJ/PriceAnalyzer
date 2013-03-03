@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data;
 
-namespace Test.Sonneville.PriceTools
+namespace Test.Sonneville.PriceTools.Yahoo
 {
     public class MockProvider : PriceDataProvider
     {

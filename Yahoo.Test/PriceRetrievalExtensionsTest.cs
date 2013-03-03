@@ -5,7 +5,7 @@ using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Yahoo;
 using TestUtilities.Sonneville.PriceTools;
 
-namespace Test.Sonneville.PriceTools
+namespace Test.Sonneville.PriceTools.Yahoo
 {
     [TestClass]
     public class PriceRetrievalExtensionsTest

@@ -4,8 +4,6 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Test.PriceData;
-using Sonneville.PriceTools.Yahoo;
-using Sonneville.Utilities;
 using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools
@@ -22,7 +20,7 @@ namespace Test.Sonneville.PriceTools
             var head = new DateTime(2011, 1, 1);
             var tail = new DateTime(2011, 6, 30).CurrentPeriodClose(Resolution.Days);
             var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
-            priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), head, tail).PricePeriods);
+            priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(head, tail));
 
             var pricePeriods = priceSeries.ResizePricePeriods(Resolution.Weeks);
 
@@ -35,7 +33,7 @@ namespace Test.Sonneville.PriceTools
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
             var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
-            priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
+            priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(seriesHead, seriesTail));
 
             var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
             var weeklyPeriods = priceSeries.ResizePricePeriods(Resolution.Weeks).ToArray();
@@ -76,7 +74,7 @@ namespace Test.Sonneville.PriceTools
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
             var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
-            priceSeries.AddPriceData(new YahooPriceHistoryCsvFile(new ResourceStream(TestCsvPriceHistory.DE_1_1_2011_to_6_30_2011), seriesHead, seriesTail).PricePeriods);
+            priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(seriesHead, seriesTail));
 
             var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
             var monthlyPeriods = priceSeries.ResizePricePeriods(Resolution.Months).ToArray();
