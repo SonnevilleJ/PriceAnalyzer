@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.Implementation
     {
         #region Private Members
 
-        private readonly IList<CashTransaction> _transactions = new List<CashTransaction>();
+        private readonly IList<ICashTransaction> _transactions = new List<ICashTransaction>();
         private readonly object _padlock = new object();
 
         #endregion
@@ -75,13 +75,13 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets a <see cref="List{T}"/> of <see cref="CashTransaction"/>s in this CashAccount.
         /// </summary>
-        public ICollection<CashTransaction> Transactions
+        public ICollection<ICashTransaction> Transactions
         {
             get
             {
                 lock(_padlock)
                 {
-                    return new List<CashTransaction>(_transactions);
+                    return new List<ICashTransaction>(_transactions);
                 }
             }
         }
@@ -105,7 +105,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         /// <param name="cashTransaction">The <see cref="CashAccount"/> to validate.</param>
         /// <returns></returns>
-        public virtual bool TransactionIsValid(CashTransaction cashTransaction)
+        public virtual bool TransactionIsValid(ICashTransaction cashTransaction)
         {
             if (cashTransaction is Deposit)
             {

@@ -2,6 +2,9 @@
 
 namespace Sonneville.PriceTools
 {
+    /// <summary>
+    ///   Represents a transaction for a share of equity.
+    /// </summary>
     public interface IShareTransaction : ITransaction, IEquatable<IShareTransaction>
     {
         /// <summary>
@@ -28,10 +31,5 @@ namespace Sonneville.PriceTools
         ///   Gets the total value of this ShareTransaction, including commissions.
         /// </summary>
         decimal TotalValue { get; }
-
-        /// <summary>
-        ///    Gets the DateTime that the Transaction occurred.
-        ///  </summary>
-        DateTime SettlementDate { get; }
     }
 }

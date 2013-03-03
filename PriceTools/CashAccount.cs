@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Gets a <see cref="List{T}"/> of <see cref="CashTransaction"/>s in this CashAccount.
         /// </summary>
-        ICollection<CashTransaction> Transactions { get; }
+        ICollection<ICashTransaction> Transactions { get; }
 
         /// <summary>
         ///   Gets the balance of cash in this CashAccount.
@@ -54,6 +54,6 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="cashTransaction">The <see cref="CashAccount"/> to validate.</param>
         /// <returns></returns>
-        bool TransactionIsValid(CashTransaction cashTransaction);
+        bool TransactionIsValid(ICashTransaction cashTransaction);
     }
 }

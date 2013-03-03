@@ -62,6 +62,7 @@
     <Compile Include="Factories\TimePeriodFactory.cs" />
     <Compile Include="Factories\TimeSeriesFactory.cs" />
     <Compile Include="HoldingExtensions.cs" />
+    <Compile Include="ICashTransaction.cs" />
     <Compile Include="Implementation\CashAccountImpl.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />

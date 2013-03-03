@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         /// <param name="cashTransaction">The <see cref="CashAccount"/> to validate.</param>
         /// <returns></returns>
-        public override bool TransactionIsValid(CashTransaction cashTransaction)
+        public override bool TransactionIsValid(ICashTransaction cashTransaction)
         {
             if (cashTransaction is Withdrawal)
             {

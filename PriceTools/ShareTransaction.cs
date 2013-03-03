@@ -3,7 +3,7 @@
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    ///   Represents a transaction for a financial security.
+    ///   Represents a transaction for a share of equity.
     /// </summary>
     [Serializable]
     public abstract class ShareTransaction : Transaction, IShareTransaction

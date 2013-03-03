@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Generic;
 using System.IO;
 using Sonneville.PriceTools.Data.Csv;
 

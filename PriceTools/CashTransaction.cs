@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// Represents a transaction for cash.
     /// </summary>
     [Serializable]
-    public abstract class CashTransaction : Transaction, IEquatable<CashTransaction>
+    public abstract class CashTransaction : Transaction, ICashTransaction
     {
         #region Constructors
         
@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(CashTransaction other)
+        public bool Equals(ICashTransaction other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools
         /// <param name="obj">An object to compare with this object.</param>
         public override bool Equals(object obj)
         {
-            return Equals(obj as CashTransaction);
+            return Equals(obj as ICashTransaction);
         }
 
         /// <summary>

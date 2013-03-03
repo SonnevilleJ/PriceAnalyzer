@@ -2,6 +2,9 @@
 
 namespace Sonneville.PriceTools
 {
+    /// <summary>
+    /// Represents a financial transaction.
+    /// </summary>
     public interface ITransaction : IEquatable<ITransaction>
     {
         /// <summary>
