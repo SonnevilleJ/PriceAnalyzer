@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Sonneville.PriceTools.Yahoo;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         #region Client Control
 
-        public void Start()
+        public void Start(IPriceDataProvider priceDataProvider)
         {
             lock(_syncroot)
             {
@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
                 _isRunning = true;
                 foreach (var analyzer in _tradableTickers.Select(PriceSeriesFactory.ConstructPriceSeries)
-                    .Select(priceSeries => new SimpleMovingAverageCrossoverAnalyzer(priceSeries, this, new YahooPriceDataProvider(), 20)))
+                    .Select(priceSeries => new SimpleMovingAverageCrossoverAnalyzer(priceSeries, this, priceDataProvider, 20)))
                 {
                     _analyzers.Add(analyzer);
                     analyzer.Start();

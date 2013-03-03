@@ -105,10 +105,6 @@
       <Project>{459025C7-F4B6-40D6-B94C-D927950D076E}</Project>
       <Name>TechnicalAnalysis</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Yahoo\Yahoo.csproj">
-      <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
-      <Name>Yahoo</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml" />
