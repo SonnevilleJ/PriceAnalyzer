@@ -1,6 +1,4 @@
-﻿using Sonneville.PriceTools.AutomatedTrading.Implementation;
-
-namespace Sonneville.PriceTools.AutomatedTrading
+﻿namespace Sonneville.PriceTools.AutomatedTrading
 {
     public interface IBrokerage
     {
@@ -17,9 +15,9 @@ namespace Sonneville.PriceTools.AutomatedTrading
         void LogIn(string username, string password);
 
         /// <summary>
-        /// Gets the <see cref="TradingAccountImpl"/> associated with the user's brokerage account.
+        /// Gets the <see cref="ITradingAccount"/> associated with the user's brokerage account.
         /// </summary>
-        /// <returns>The <see cref="TradingAccountImpl"/> associated with the user's brokerage account.</returns>
-        TradingAccount GetTradingAccount();
+        /// <returns>The <see cref="ITradingAccount"/> associated with the user's brokerage account.</returns>
+        ITradingAccount GetTradingAccount();
     }
 }

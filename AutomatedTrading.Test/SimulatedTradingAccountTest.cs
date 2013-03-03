@@ -269,7 +269,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             }
         }
 
-        private static void VerifyOrderFillsCorrectly(TradingAccount target, IOrder order)
+        private static void VerifyOrderFillsCorrectly(ITradingAccount target, IOrder order)
         {
             IShareTransaction expected = null;
             IShareTransaction actual = null;
@@ -517,7 +517,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             }
         }
 
-        private static bool TargetContainsTransaction(TradingAccount target, IShareTransaction transaction)
+        private static bool TargetContainsTransaction(ITradingAccount target, IShareTransaction transaction)
         {
             return target.Portfolio.Transactions.Where(t=>t is IShareTransaction).Cast<IShareTransaction>().Select(
                 trans => (

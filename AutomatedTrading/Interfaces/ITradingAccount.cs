@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
     /// <summary>
     /// A brokerage account used for trading financial securities.
     /// </summary>
-    public interface TradingAccount
+    public interface ITradingAccount
     {
         /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.

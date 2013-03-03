@@ -14,12 +14,12 @@
         #endregion
 
         /// <summary>
-        /// Gets the <see cref="OrderType"/>s supported by the <see cref="TradingAccount"/>.
+        /// Gets the <see cref="OrderType"/>s supported by the <see cref="ITradingAccount"/>.
         /// </summary>
         public OrderType SupportedOrderTypes { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="ICommissionSchedule"/> used by the <see cref="TradingAccount"/>.
+        /// Gets the <see cref="ICommissionSchedule"/> used by the <see cref="ITradingAccount"/>.
         /// </summary>
         public ICommissionSchedule CommissionSchedule { get; private set; }
 
@@ -29,12 +29,12 @@
         public bool IsMarginAccount { get { return MarginSchedule.IsMarginAllowed; } }
 
         /// <summary>
-        /// Gets the <see cref="IMarginSchedule"/> used by the <see cref="TradingAccount"/>
+        /// Gets the <see cref="IMarginSchedule"/> used by the <see cref="ITradingAccount"/>
         /// </summary>
         public IMarginSchedule MarginSchedule { get; private set; }
 
         /// <summary>
-        /// Gets a value indicating if a particular <see cref="OrderType"/> is supported by the <see cref="TradingAccount"/>.
+        /// Gets a value indicating if a particular <see cref="OrderType"/> is supported by the <see cref="ITradingAccount"/>.
         /// </summary>
         /// <param name="orderType">The desired <see cref="OrderType"/>.</param>
         /// <returns>A value indicating if the <see cref="OrderType"/> is supported.</returns>
