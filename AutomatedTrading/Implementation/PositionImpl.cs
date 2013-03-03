@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     /// <summary>
     ///   A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.
     /// </summary>
-    internal class PositionImpl : Position
+    internal class PositionImpl : IPosition
     {
         #region Private Members
 
@@ -139,7 +139,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         }
 
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IPosition.
+        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this IPosition.
         /// </summary>
         public IEnumerable<ITransaction> Transactions
         {

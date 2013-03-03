@@ -8,7 +8,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     [TestClass]
     public class OrderCancelledEventArgsTest
     {
-        private static void GetObjects(out DateTime cancelled, out Order order, out OrderCancelledEventArgs target)
+        private static void GetObjects(out DateTime cancelled, out IOrder order, out OrderCancelledEventArgs target)
         {
             var issued = new DateTime(2011, 12, 6);
             cancelled = issued.AddMinutes(3);
@@ -26,7 +26,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void ExpiredTest()
         {
             DateTime cancelled;
-            Order order;
+            IOrder order;
             OrderCancelledEventArgs target;
             GetObjects(out cancelled, out order, out target);
 
@@ -39,7 +39,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void OrderTest()
         {
             DateTime cancelled;
-            Order order;
+            IOrder order;
             OrderCancelledEventArgs target;
             GetObjects(out cancelled, out order, out target);
 

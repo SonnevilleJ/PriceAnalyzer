@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="executed">The DateTime at which the Order was executed.</param>
         /// <param name="order">The Order which was executed.</param>
         /// <param name="transaction">The resulting ShareTransaction from the execution of the order.</param>
-        public OrderExecutedEventArgs(DateTime executed, Order order, ShareTransaction transaction)
+        public OrderExecutedEventArgs(DateTime executed, IOrder order, IShareTransaction transaction)
         {
             Executed = executed;
             Order = order;
@@ -29,12 +29,12 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// The Order which was executed.
         /// </summary>
-        public Order Order { get; private set; }
+        public IOrder Order { get; private set; }
 
         /// <summary>
         /// The resulting ShareTransaction from the execution of the order.
         /// </summary>
-        public ShareTransaction Transaction { get; private set; }
+        public IShareTransaction Transaction { get; private set; }
 
         private void Validate()
         {

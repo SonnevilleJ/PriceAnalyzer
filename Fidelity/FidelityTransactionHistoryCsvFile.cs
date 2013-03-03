@@ -8,7 +8,7 @@ using Sonneville.PriceTools.Data.Csv;
 namespace Sonneville.PriceTools.Fidelity
 {
     /// <summary>
-    ///   Parses an <see cref = "Portfolio" /> from Fidelity CSV data.
+    ///   Parses an <see cref = "IPortfolio" /> from Fidelity CSV data.
     /// </summary>
     public class FidelityTransactionHistoryCsvFile : TransactionHistoryCsvFile
     {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -44,13 +45,13 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a transaction where cash is exchanged.
         /// </summary>
-        /// <param name="transactionType">The type of <see cref="CashTransaction"/> to construct.</param>
+        /// <param name="transactionType">The type of <see cref="CashTransactionImpl"/> to construct.</param>
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds in the transaction.</param>
         /// <returns></returns>
-        public static CashTransaction ConstructCashTransaction(OrderType transactionType, DateTime settlementDate, decimal amount)
+        public static CashTransactionImpl ConstructCashTransaction(OrderType transactionType, DateTime settlementDate, decimal amount)
         {
-            return (CashTransaction) ConstructTransaction(transactionType, settlementDate, String.Empty, amount, 0, 0);
+            return (CashTransactionImpl) ConstructTransaction(transactionType, settlementDate, String.Empty, amount, 0, 0);
         }
 
         /// <summary>
@@ -126,9 +127,9 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a ShareTransaction.
         /// </summary>
-        public static ShareTransaction ConstructShareTransaction(OrderType type, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
+        public static ShareTransactionImpl ConstructShareTransaction(OrderType type, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
         {
-            return (ShareTransaction) ConstructTransaction(type, settlementDate, ticker, price, shares, commission);
+            return (ShareTransactionImpl) ConstructTransaction(type, settlementDate, ticker, price, shares, commission);
         }
 
         /// <summary>

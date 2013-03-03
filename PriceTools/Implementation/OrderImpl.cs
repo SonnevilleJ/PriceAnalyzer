@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// An order to take a position on a financial security. This class cannot be inherited.
     /// </summary>
     [Serializable]
-    internal sealed class OrderImpl : Order
+    internal sealed class OrderImpl : IOrder
     {
         /// <summary>
         /// The DateTime this order was issued.

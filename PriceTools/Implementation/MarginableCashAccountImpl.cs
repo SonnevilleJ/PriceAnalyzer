@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.Implementation
         private decimal _maximumMargin = 2000.00m;
 
         /// <summary>
-        /// Validates a <see cref="CashTransaction"/> without adding it to the CashAccount.
+        /// Validates a <see cref="CashTransactionImpl"/> without adding it to the CashAccount.
         /// </summary>
         /// <param name="cashTransaction">The <see cref="CashAccount"/> to validate.</param>
         /// <returns></returns>

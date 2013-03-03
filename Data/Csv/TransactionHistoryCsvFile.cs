@@ -45,7 +45,7 @@ namespace Sonneville.PriceTools.Data.Csv
         #region Public Properties
 
         /// <summary>
-        /// Gets a list of all <see cref="Transaction"/>s in the file.
+        /// Gets a list of all <see cref="ITransaction"/>s in the file.
         /// </summary>
         public IEnumerable<ITransaction> Transactions
         {

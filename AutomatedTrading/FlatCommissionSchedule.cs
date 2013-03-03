@@ -9,7 +9,7 @@
             _price = price;
         }
 
-        public virtual decimal PriceCheck(Order order)
+        public virtual decimal PriceCheck(IOrder order)
         {
             return _price;
         }

@@ -69,7 +69,7 @@ namespace Program
             tDistribution.Text = portfolio.CalculateHoldings(date).Select(h => h.GrossProfit()).StudentTDistribution().ToString("P");
         }
 
-        private static Portfolio ImportPortfolio(string path, string ticker)
+        private static IPortfolio ImportPortfolio(string path, string ticker)
         {
             using (var reader = File.Open(path, FileMode.Open))
             {

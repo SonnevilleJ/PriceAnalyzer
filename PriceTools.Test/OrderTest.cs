@@ -24,7 +24,7 @@ namespace Test.Sonneville.PriceTools
             var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             var xml = Serializer.SerializeToXml(target);
-            var result = Serializer.DeserializeFromXml<Order>(xml);
+            var result = Serializer.DeserializeFromXml<IOrder>(xml);
 
             GenericTestUtilities.AssertSameState(target, result);
         }

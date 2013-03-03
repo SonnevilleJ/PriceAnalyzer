@@ -7,12 +7,12 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     /// <summary>
     /// Represents a portfolio of investments.
     /// </summary>
-    internal class PortfolioImpl : Portfolio
+    internal class PortfolioImpl : IPortfolio
     {
         #region Private Members
 
         private readonly CashAccount _cashAccount = CashAccountFactory.ConstructCashAccount();
-        private readonly IList<Position> _positions = new List<Position>();
+        private readonly IList<IPosition> _positions = new List<IPosition>();
 
         #endregion
 
@@ -90,7 +90,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         public string CashTicker { get; private set; }
 
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
+        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this Position.
         /// </summary>
         public IEnumerable<ITransaction> Transactions
         {
@@ -108,7 +108,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         }
 
         /// <summary>
-        ///   Adds an <see cref="Transaction"/> to this IPortfolio.
+        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
         /// </summary>
         public void AddTransaction(ITransaction transaction)
         {
@@ -203,13 +203,13 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         }
 
         /// <summary>
-        /// Validates an <see cref="Transaction"/> without adding it to the IPortfolio.
+        /// Validates an <see cref="ITransaction"/> without adding it to the IPortfolio.
         /// </summary>
-        /// <param name="transaction">The <see cref="ShareTransaction"/> to validate.</param>
+        /// <param name="transaction">The <see cref="IShareTransaction"/> to validate.</param>
         /// <returns></returns>
         public bool TransactionIsValid(ITransaction transaction)
         {
-            var cashTransaction = transaction as CashTransaction;
+            var cashTransaction = transaction as ICashTransaction;
             if (cashTransaction != null)
             {
                 return _cashAccount.TransactionIsValid(cashTransaction);
@@ -218,7 +218,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             bool sufficientCash;
             if (transaction is OpeningTransaction && transaction is LongTransaction)
             {
-                var buy = ((ShareTransaction) transaction);
+                var buy = ((IShareTransaction) transaction);
                 sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
                 return sufficientCash && ((PositionImpl) GetPosition(buy.Ticker, false)).TransactionIsValid(buy);
             }
@@ -229,12 +229,12 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
             if (transaction is ClosingTransaction && transaction is LongTransaction)
             {
-                var sell = ((ShareTransaction) transaction);
+                var sell = ((IShareTransaction) transaction);
                 return ((PositionImpl) GetPosition(sell.Ticker, false)).TransactionIsValid(sell);
             }
             if (transaction is ClosingTransaction && transaction is ShortTransaction)
             {
-                var buyToCover = ((ShareTransaction) transaction);
+                var buyToCover = ((IShareTransaction) transaction);
                 sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
                 return sufficientCash &&
                        ((PositionImpl) GetPosition(buyToCover.Ticker, false)).TransactionIsValid(buyToCover);
@@ -247,17 +247,17 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
         /// </summary>
-        public IEnumerable<Position> Positions
+        public IEnumerable<IPosition> Positions
         {
             get { return _positions; }
         }
 
         /// <summary>
-        ///   Retrieves the <see cref="Position"/> with Ticker <paramref name="ticker"/>.
+        ///   Retrieves the <see cref="IPosition"/> with Ticker <paramref name="ticker"/>.
         /// </summary>
         /// <param name="ticker">The Ticker symbol of the position to retrieve.</param>
-        /// <returns>The <see cref="Position"/> with the requested Ticker. Returns null if no <see cref="Position"/> is found with the requested Ticker.</returns>
-        public Position GetPosition(string ticker)
+        /// <returns>The <see cref="IPosition"/> with the requested Ticker. Returns null if no <see cref="IPosition"/> is found with the requested Ticker.</returns>
+        public IPosition GetPosition(string ticker)
         {
             return GetPosition(ticker, true);
         }
@@ -266,13 +266,13 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         #region Private Methods
 
-        private Position GetPosition(string ticker, bool nullAcceptable)
+        private IPosition GetPosition(string ticker, bool nullAcceptable)
         {
             var firstOrDefault = Positions.FirstOrDefault(p => p.Ticker == ticker);
             return firstOrDefault == null && !nullAcceptable ? PositionFactory.ConstructPosition(ticker) : firstOrDefault;
         }
 
-        private void AddToPosition(ShareTransaction transaction)
+        private void AddToPosition(IShareTransaction transaction)
         {
             var ticker = transaction.Ticker;
             var position = GetPosition(ticker, true);

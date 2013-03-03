@@ -8,7 +8,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     [TestClass]
     public class OrderExpiredEventArgsTest
     {
-        private static void GetObjects(out Order order, out OrderExpiredEventArgs target)
+        private static void GetObjects(out IOrder order, out OrderExpiredEventArgs target)
         {
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
@@ -24,7 +24,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void ExpiredTest()
         {
-            Order order;
+            IOrder order;
             OrderExpiredEventArgs target;
             GetObjects(out order, out target);
 
@@ -36,7 +36,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void OrderTest()
         {
-            Order order;
+            IOrder order;
             OrderExpiredEventArgs target;
             GetObjects(out order, out target);
 

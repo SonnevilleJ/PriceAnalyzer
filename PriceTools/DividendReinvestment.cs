@@ -1,4 +1,5 @@
 ﻿using System;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -6,7 +7,7 @@ namespace Sonneville.PriceTools
     /// Represents a transaction to reinvest dividends.
     /// </summary>
     [Serializable]
-    public sealed class DividendReinvestment : ShareTransaction, LongTransaction, AccumulationTransaction, OpeningTransaction
+    public sealed class DividendReinvestment : ShareTransactionImpl, LongTransaction, AccumulationTransaction, OpeningTransaction
     {
         /// <summary>
         /// Constructs a DividendReinvestment.

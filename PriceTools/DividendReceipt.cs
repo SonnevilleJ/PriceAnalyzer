@@ -1,4 +1,5 @@
 ﻿using System;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -6,7 +7,7 @@ namespace Sonneville.PriceTools
     /// Represents a transaction for the receipt of a dividend.
     /// </summary>
     [Serializable]
-    public sealed class DividendReceipt : CashTransaction
+    public sealed class DividendReceipt : CashTransactionImpl
     {
         /// <summary>
         /// Constructs a dividend-type transaction where funds were received.

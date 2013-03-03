@@ -40,7 +40,7 @@ namespace Test.Sonneville.PriceTools
             var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
 
             var xml = Serializer.SerializeToXml(target);
-            var result = Serializer.DeserializeFromXml<CashTransaction>(xml);
+            var result = Serializer.DeserializeFromXml<ICashTransaction>(xml);
 
             GenericTestUtilities.AssertSameState(target, result);
         }

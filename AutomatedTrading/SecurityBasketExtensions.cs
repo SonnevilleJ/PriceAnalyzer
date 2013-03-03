@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="basket"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
-        /// <returns>The total amount of commissions from <see cref = "ShareTransaction" />s as a negative number.</returns>
+        /// <returns>The total amount of commissions from <see cref = "IShareTransaction" />s as a negative number.</returns>
         public static decimal CalculateCommissions(this SecurityBasket basket, DateTime settlementDate)
         {
             return basket.Transactions.AsParallel().Where(t=>t is IShareTransaction).Cast<IShareTransaction>()
@@ -94,13 +94,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
         }
 
         /// <summary>
-        ///   Gets the average cost of all held shares in a <see cref="Position"/> as of a given date.
+        ///   Gets the average cost of all held shares in a <see cref="IPosition"/> as of a given date.
         /// </summary>
-        /// <param name="position">The <see cref="Position"/> for which to calculate average cost.</param>
+        /// <param name="position">The <see cref="IPosition"/> for which to calculate average cost.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The average cost of all shares held at <paramref name = "settlementDate" />.</returns>
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
-        public static decimal CalculateAverageCost(this Position position, DateTime settlementDate)
+        public static decimal CalculateAverageCost(this IPosition position, DateTime settlementDate)
         {
             var transactions = position.Transactions.Cast<IShareTransaction>()
                 .Where(transaction => transaction.SettlementDate <= settlementDate)

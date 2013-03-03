@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -39,7 +40,7 @@ namespace Sonneville.PriceTools
         void Withdraw(Withdrawal withdrawal);
 
         /// <summary>
-        /// Gets a <see cref="List{T}"/> of <see cref="CashTransaction"/>s in this CashAccount.
+        /// Gets a <see cref="List{T}"/> of <see cref="CashTransactionImpl"/>s in this CashAccount.
         /// </summary>
         ICollection<ICashTransaction> Transactions { get; }
 
@@ -50,7 +51,7 @@ namespace Sonneville.PriceTools
         decimal GetCashBalance(DateTime asOfDate);
 
         /// <summary>
-        /// Validates an <see cref="CashTransaction"/> without adding it to the CashAccount.
+        /// Validates an <see cref="CashTransactionImpl"/> without adding it to the CashAccount.
         /// </summary>
         /// <param name="cashTransaction">The <see cref="CashAccount"/> to validate.</param>
         /// <returns></returns>

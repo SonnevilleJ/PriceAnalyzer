@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
     internal class SimulatedTradingAccountImpl : BacktestingTradingAccountImpl
     {
-        protected override void ProcessOrder(Order order, CancellationToken token)
+        protected override void ProcessOrder(IOrder order, CancellationToken token)
         {
             DelayProcessing();
             base.ProcessOrder(order, token);

@@ -1,9 +1,9 @@
 ﻿namespace Sonneville.PriceTools.AutomatedTrading
 {
     /// <summary>
-    ///   Represents a Position taken using one or more <see cref = "ShareTransaction" />s.
+    ///   Represents a Position taken using one or more <see cref = "IShareTransaction" />s.
     /// </summary>
-    public interface Position : SecurityBasket
+    public interface IPosition : SecurityBasket
     {
         /// <summary>
         ///   Gets the ticker symbol held by this Position.

@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Constructs a new OrderExpiredEventArgs object.
         /// </summary>
         /// <param name="order">The Order which was executed.</param>
-        public OrderExpiredEventArgs(Order order)
+        public OrderExpiredEventArgs(IOrder order)
         {
             Order = order;
         }
@@ -24,6 +24,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// The Order which expired.
         /// </summary>
-        public Order Order { get; private set; }
+        public IOrder Order { get; private set; }
     }
 }

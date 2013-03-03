@@ -9,8 +9,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     {
         #region Private Members
 
-        private readonly ConcurrentDictionary<Order, CancellationTokenSource> _tokenSources = new ConcurrentDictionary<Order, CancellationTokenSource>();
-        private readonly BlockingCollection<Order> _orders = new BlockingCollection<Order>();
+        private readonly ConcurrentDictionary<IOrder, CancellationTokenSource> _tokenSources = new ConcurrentDictionary<IOrder, CancellationTokenSource>();
+        private readonly BlockingCollection<IOrder> _orders = new BlockingCollection<IOrder>();
 
         #endregion
 
@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.
         /// </summary>
-        public Portfolio Portfolio { get; set; }
+        public IPortfolio Portfolio { get; set; }
 
         /// <summary>
         /// Gets the list of features supported by this TradingAccount.
@@ -38,8 +38,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         /// Submits an order for execution by the brokerage.
         /// </summary>
-        /// <param name="order">The <see cref="Order"/> to execute.</param>
-        public void Submit(Order order)
+        /// <param name="order">The <see cref="IOrder"/> to execute.</param>
+        public void Submit(IOrder order)
         {
             if (!ValidateOrder(order)) throw new ArgumentOutOfRangeException("order", order, Strings.TradingAccount_Submit_Cannot_execute_this_order_);
 
@@ -49,10 +49,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         }
 
         /// <summary>
-        /// Attempts to cancel an <see cref="Order"/> before it is filled.
+        /// Attempts to cancel an <see cref="IOrder"/> before it is filled.
         /// </summary>
-        /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
-        public void TryCancelOrder(Order order)
+        /// <param name="order">The <see cref="IOrder"/> to attempt to cancel.</param>
+        public void TryCancelOrder(IOrder order)
         {
             CancellationTokenSource cts;
             if (_tokenSources.TryRemove(order, out cts)) cts.Cancel();
@@ -100,9 +100,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         /// Submits an order for execution by the brokerage.
         /// </summary>
-        /// <param name="order">The <see cref="Order"/> to execute.</param>
+        /// <param name="order">The <see cref="IOrder"/> to execute.</param>
         /// <param name="token"></param>
-        protected abstract void ProcessOrder(Order order, CancellationToken token);
+        protected abstract void ProcessOrder(IOrder order, CancellationToken token);
 
         #endregion
 
@@ -118,14 +118,14 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
         }
 
-        private bool ValidateOrder(Order order)
+        private bool ValidateOrder(IOrder order)
         {
             var commission = Features.CommissionSchedule.PriceCheck(order);
             var expectedTransaction = TransactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, DateTime.Now, order.Shares, order.Price, commission);
             return ((PortfolioImpl) Portfolio).TransactionIsValid(expectedTransaction);
         }
 
-        private void ProcessFill(ShareTransaction transaction)
+        private void ProcessFill(IShareTransaction transaction)
         {
             ((PortfolioImpl) Portfolio).AddTransaction(transaction);
         }

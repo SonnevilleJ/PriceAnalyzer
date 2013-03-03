@@ -1,4 +1,5 @@
 ﻿using System;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -6,7 +7,7 @@ namespace Sonneville.PriceTools
     /// Represents a transaction to sell shares.
     /// </summary>
     [Serializable]
-    public sealed class Sell : ShareTransaction, LongTransaction, DistributionTransaction, ClosingTransaction
+    public sealed class Sell : ShareTransactionImpl, LongTransaction, DistributionTransaction, ClosingTransaction
     {
         /// <summary>
         /// Constructs a Sell.

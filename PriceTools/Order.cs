@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// An order to take a position on a financial security.
     /// </summary>
-    public interface Order
+    public interface IOrder
     {
         /// <summary>
         /// The DateTime this order was issued.

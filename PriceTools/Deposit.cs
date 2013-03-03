@@ -1,4 +1,5 @@
 ﻿using System;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -6,7 +7,7 @@ namespace Sonneville.PriceTools
     /// Represents a transaction for deposit.
     /// </summary>
     [Serializable]
-    public sealed class Deposit : CashTransaction
+    public sealed class Deposit : CashTransactionImpl
     {
         /// <summary>
         /// Constructs a deposit-type transaction.

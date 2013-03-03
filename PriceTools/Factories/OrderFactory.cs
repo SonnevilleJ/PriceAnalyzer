@@ -5,12 +5,12 @@ using Sonneville.PriceTools.Implementation;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Constructs <see cref="Order"/> objects.
+    /// Constructs <see cref="IOrder"/> objects.
     /// </summary>
     public static class OrderFactory
     {
         /// <summary>
-        /// Constructs a new <see cref="Order"/> object from parameters.
+        /// Constructs a new <see cref="IOrder"/> object from parameters.
         /// </summary>
         /// <param name="issued"></param>
         /// <param name="expiration"></param>
@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools
         /// <param name="price"></param>
         /// <param name="pricingType"></param>
         /// <returns></returns>
-        public static Order ConstructOrder(DateTime issued, DateTime expiration, OrderType orderType, string ticker, decimal shares, decimal price, PricingType pricingType = PricingType.Market)
+        public static IOrder ConstructOrder(DateTime issued, DateTime expiration, OrderType orderType, string ticker, decimal shares, decimal price, PricingType pricingType = PricingType.Market)
         {
             if (issued >= expiration)
                 throw new ArgumentOutOfRangeException("expiration", expiration, Strings.Order_Order_Cannot_create_an_Order_with_an_expiration_date_before_the_issue_date_);

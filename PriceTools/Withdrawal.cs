@@ -1,4 +1,5 @@
 ﻿using System;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -6,7 +7,7 @@ namespace Sonneville.PriceTools
     /// Represents a transaction for a cash withdrawal.
     /// </summary>
     [Serializable]
-    public sealed class Withdrawal : CashTransaction
+    public sealed class Withdrawal : CashTransactionImpl
     {
         /// <summary>
         /// Constructs a withdrawal-type transaction.
