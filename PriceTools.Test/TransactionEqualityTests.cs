@@ -77,8 +77,8 @@ namespace Test.Sonneville.PriceTools
             var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
             var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
-            var list1 = new List<Transaction> {t1, t2};
-            var list2 = new List<Transaction> {t3, t4};
+            var list1 = new List<ITransaction> {t1, t2};
+            var list2 = new List<ITransaction> {t3, t4};
 
             CollectionAssert.AreEquivalent(list1, list2);
         }
@@ -96,8 +96,8 @@ namespace Test.Sonneville.PriceTools
             var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares + 1, price);
             var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
-            var list1 = new List<Transaction> { t1, t2 };
-            var list2 = new List<Transaction> { t3, t4 };
+            var list1 = new List<ITransaction> { t1, t2 };
+            var list2 = new List<ITransaction> { t3, t4 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -116,8 +116,8 @@ namespace Test.Sonneville.PriceTools
             var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
             var t5 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
-            var list1 = new List<Transaction> { t1, t2 };
-            var list2 = new List<Transaction> { t3, t4, t5 };
+            var list1 = new List<ITransaction> { t1, t2 };
+            var list2 = new List<ITransaction> { t3, t4, t5 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -134,8 +134,8 @@ namespace Test.Sonneville.PriceTools
             var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
             var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
-            var list1 = new List<Transaction> { t1, t2 };
-            var list2 = new List<Transaction> { t3 };
+            var list1 = new List<ITransaction> { t1, t2 };
+            var list2 = new List<ITransaction> { t3 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -153,8 +153,8 @@ namespace Test.Sonneville.PriceTools
             var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
             var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
 
-            var list1 = new List<Transaction> { t1, t2 };
-            var list2 = new List<Transaction> { t3, t4 };
+            var list1 = new List<ITransaction> { t1, t2 };
+            var list2 = new List<ITransaction> { t3, t4 };
 
             CollectionAssert.AreEquivalent(list1, list2);
         }
@@ -172,8 +172,8 @@ namespace Test.Sonneville.PriceTools
             var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
             var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
-            var list1 = new List<Transaction> { t1, t2 };
-            var list2 = new List<Transaction> { t3, t4 };
+            var list1 = new List<ITransaction> { t1, t2 };
+            var list2 = new List<ITransaction> { t3, t4 };
 
             CollectionAssert.AreEqual(list1, list2);
         }
@@ -191,8 +191,8 @@ namespace Test.Sonneville.PriceTools
             var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares + 1, price);
             var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
-            var list1 = new List<Transaction> { t1, t2 };
-            var list2 = new List<Transaction> { t3, t4 };
+            var list1 = new List<ITransaction> { t1, t2 };
+            var list2 = new List<ITransaction> { t3, t4 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }
@@ -211,8 +211,8 @@ namespace Test.Sonneville.PriceTools
             var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
             var t5 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
-            var list1 = new List<Transaction> { t1, t2 };
-            var list2 = new List<Transaction> { t3, t4, t5 };
+            var list1 = new List<ITransaction> { t1, t2 };
+            var list2 = new List<ITransaction> { t3, t4, t5 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }
@@ -229,8 +229,8 @@ namespace Test.Sonneville.PriceTools
             var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
             var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
-            var list1 = new List<Transaction> { t1, t2 };
-            var list2 = new List<Transaction> { t3 };
+            var list1 = new List<ITransaction> { t1, t2 };
+            var list2 = new List<ITransaction> { t3 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }
@@ -248,8 +248,8 @@ namespace Test.Sonneville.PriceTools
             var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
             var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
 
-            var list1 = new List<Transaction> { t1, t2 };
-            var list2 = new List<Transaction> { t3, t4 };
+            var list1 = new List<ITransaction> { t1, t2 };
+            var list2 = new List<ITransaction> { t3, t4 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }

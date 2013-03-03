@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// Represents a financial transaction.
     /// </summary>
     [Serializable]
-    public abstract class Transaction : IEquatable<Transaction>
+    public abstract class Transaction : ITransaction
     {
         /// <summary>
         ///    Gets the DateTime that the Transaction occurred.
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public virtual bool Equals(Transaction other)
+        public virtual bool Equals(ITransaction other)
         {
             if (ReferenceEquals(null, other))
                 return false;

@@ -140,7 +140,7 @@ namespace Sonneville.PriceTools
         /// <param name="price">The price at which the ShareTransaction took place.</param>
         /// <param name="shares">The optional number of shares which were traded. Default = 1</param>
         /// <param name="commission">The optional commission paid for this ShareTransaction. Default = $0.00</param>
-        public static Transaction ConstructTransaction(OrderType type, DateTime date, string ticker, decimal price, decimal shares, decimal commission)
+        public static ITransaction ConstructTransaction(OrderType type, DateTime date, string ticker, decimal price, decimal shares, decimal commission)
         {
             switch (type)
             {

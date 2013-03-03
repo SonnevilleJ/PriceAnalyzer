@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools
     public static class SecurityBasketExtensions
     {
         /// <summary>
-        /// Gets an <see cref="IList{T}"/> from the transactions in the Position.
+        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Position.
         /// </summary>
         /// <param name="basket"></param>
         /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools
         /// <param name="transactions"></param>
         /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
         /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Position.</returns>
-        public static IList<IHolding> CalculateHoldings(this IEnumerable<Transaction> transactions, DateTime settlementDate)
+        public static IList<IHolding> CalculateHoldings(this IEnumerable<ITransaction> transactions, DateTime settlementDate)
         {
             var result = new List<IHolding>();
             var groups = transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().GroupBy(t => t.Ticker);
