@@ -106,7 +106,7 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                if(!HasData) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
+                if(!HasData) throw new InvalidOperationException(Strings.PriceSeriesImpl_Price_series_contains_no_price_periods_);
                 return DataPeriods.Min(p => p.Head);
             }
         }
@@ -118,7 +118,7 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                if (!HasData) throw new InvalidOperationException("PriceSeries contains no PricePeriods.");
+                if (!HasData) throw new InvalidOperationException(Strings.PriceSeriesImpl_Price_series_contains_no_price_periods_);
                 return DataPeriods.Max(p => p.Tail);
             }
         }

@@ -210,4 +210,19 @@
   <data name="DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_" xml:space="preserve">
     <value>Unable to determine boundaries for an ITimePeriod with Resolution: {0}</value>
   </data>
+  <data name="PriceSeriesImpl_Price_series_contains_no_price_periods_" xml:space="preserve">
+    <value>Price series contains no price periods.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_ConstructTail_Unable_to_identify_the_period_tail_for_resolution__0__" xml:space="preserve">
+    <value>Unable to identify the period tail for resolution {0}.</value>
+  </data>
+  <data name="StaticPricePeriodImpl_this_Index_was_before_the_head_of_the_price_period_" xml:space="preserve">
+    <value>Index was before the head of the price period.</value>
+  </data>
+  <data name="StockIndexInfo_GetTickers_Unknown_stock_index___0_" xml:space="preserve">
+    <value>Unknown stock index: {0}</value>
+  </data>
+  <data name="TimePeriodImpl_this_Date_time___0__is_out_of_range_for_this_price_period_" xml:space="preserve">
+    <value>Date/time: {0} is out of range for this price period.</value>
+  </data>
 </root>

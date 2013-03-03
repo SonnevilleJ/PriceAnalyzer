@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools
                 }
                 var existing = ExistingPriceSeries[ticker];
                 if (existing.Resolution > resolution)
-                    throw new NotSupportedException("Existing PriceSeries has a resolution larger than requested.");
+                    throw new NotSupportedException("Existing price series has a resolution larger than requested.");
                 return existing;
             }
         }

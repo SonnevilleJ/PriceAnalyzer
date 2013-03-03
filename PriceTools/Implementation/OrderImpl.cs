@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Sonneville.PriceTools.Implementation
 {
@@ -52,7 +53,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return String.Format("{0}: {1} {2} shares of {3} at {4}", Issued, OrderType, Shares, Ticker, Price);
+            return String.Format(CultureInfo.InvariantCulture, "{0}: {1} {2} shares of {3} at {4}", Issued, OrderType, Shares, Ticker, Price);
         }
     }
 }

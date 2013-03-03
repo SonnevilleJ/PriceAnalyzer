@@ -2,9 +2,10 @@
 <Dictionary>
   <Words>
     <Recognized>
+      <Word>Nasdaq</Word>
+      <Word>Poors<!-- Standard and Poors --></Word>
       <Word>Sonneville</Word>
-        <Word>whitespace</Word>
-        <Word>Poors<!-- Standard and Poors --></Word>
+      <Word>whitespace</Word>
     </Recognized>
   </Words>
 </Dictionary>

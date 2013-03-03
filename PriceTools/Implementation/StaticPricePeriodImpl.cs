@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Sonneville.PriceTools.Implementation
 {
@@ -92,8 +93,7 @@ namespace Sonneville.PriceTools.Implementation
                     }
                     break;
                 default:
-                    throw new ArgumentOutOfRangeException("resolution", resolution,
-                                                          String.Format("Unable to identify the period tail for resolution {0}.", resolution));
+                    throw new ArgumentOutOfRangeException("resolution", resolution, String.Format(CultureInfo.InvariantCulture, Strings.StaticPricePeriodImpl_ConstructTail_Unable_to_identify_the_period_tail_for_resolution__0__, resolution));
             }
             return result.Subtract(new TimeSpan(0, 0, 0, 0, 1));
         }
@@ -152,7 +152,7 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                if (dateTime < Head) throw new InvalidOperationException("Index was before the Head of the PricePeriod.");
+                if (dateTime < Head) throw new InvalidOperationException(Strings.StaticPricePeriodImpl_this_Index_was_before_the_head_of_the_price_period_);
 
                 return Close;
             }

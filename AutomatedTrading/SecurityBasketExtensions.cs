@@ -98,7 +98,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="position">The <see cref="IPosition"/> for which to calculate average cost.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The average cost of all shares held at <paramref name = "settlementDate" />.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public static decimal CalculateAverageCost(this IPosition position, DateTime settlementDate)
         {
             var transactions = position.Transactions.Cast<IShareTransaction>()

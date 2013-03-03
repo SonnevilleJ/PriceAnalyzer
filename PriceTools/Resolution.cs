@@ -5,7 +5,6 @@ namespace Sonneville.PriceTools
     /// <summary>
     ///   Specifies the resolution of a PriceSeries.
     /// </summary>
-    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1028:EnumStorageShouldBeInt32")]
     public enum Resolution : long
     {
         /// <summary>

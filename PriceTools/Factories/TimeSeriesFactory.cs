@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools
         public static ITimeSeries ConstructImmutable(IEnumerable<ITimePeriod> timePeriods)
         {
             
-            return new TimeSeriesImpl(new List<ITimePeriod>().AsReadOnly());
+            return new TimeSeriesImpl(new List<ITimePeriod>(timePeriods).AsReadOnly());
         }
     }
 }

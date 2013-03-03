@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         private readonly object _syncRoot = new object();
 
-        private readonly PriceDataProvider _priceDataProvider;
+        private readonly IPriceDataProvider _priceDataProvider;
         private readonly IPriceSeries _priceSeries;
         private readonly ISignalProcessor _signalProcessor;
 
@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         
         #region Constructors
 
-        protected ContinuousAnalyzer(IPriceSeries priceSeries, ISignalProcessor signalProcessor, PriceDataProvider priceDataProvider)
+        protected ContinuousAnalyzer(IPriceSeries priceSeries, ISignalProcessor signalProcessor, IPriceDataProvider priceDataProvider)
         {
             _priceSeries = priceSeries;
             _signalProcessor = signalProcessor;
@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             get { return _priceSeries; }
         }
 
-        protected PriceDataProvider PriceDataProvider
+        protected IPriceDataProvider PriceDataProvider
         {
             get { return _priceDataProvider; }
         }

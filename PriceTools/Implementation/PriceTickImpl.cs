@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Sonneville.PriceTools.Implementation
 {
@@ -35,7 +36,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return string.Format("{0}: {1} shares @ {2:c}", SettlementDate, Volume, Price);
+            return string.Format(CultureInfo.InvariantCulture, "{0}: {1} shares @ {2:c}", SettlementDate, Volume, Price);
         }
 
         #region Implementation of PriceTick

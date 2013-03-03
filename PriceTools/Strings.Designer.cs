@@ -163,6 +163,15 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Price series contains no price periods..
+        /// </summary>
+        internal static string PriceSeriesImpl_Price_series_contains_no_price_periods_ {
+            get {
+                return ResourceManager.GetString("PriceSeriesImpl_Price_series_contains_no_price_periods_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameter priceSeries cannot be null..
         /// </summary>
         internal static string PriceSeriesReactionMovesExtensions_GetReactionMoves_Parameter_priceSeries_cannot_be_null_ {
@@ -224,6 +233,16 @@ namespace Sonneville.PriceTools {
         internal static string SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_ {
             get {
                 return ResourceManager.GetString("SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unable to identify the period tail for resolution {0}..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_ConstructTail_Unable_to_identify_the_period_tail_for_resolution__0__ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_ConstructTail_Unable_to_identify_the_period_tail_for_resolu" +
+                        "tion__0__", resourceCulture);
             }
         }
         
@@ -323,6 +342,33 @@ namespace Sonneville.PriceTools {
             get {
                 return ResourceManager.GetString("StaticPricePeriodImpl_StaticPricePeriodImpl_Volume_must_be_greater_than_or_equal_" +
                         "to_zero_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Index was before the head of the price period..
+        /// </summary>
+        internal static string StaticPricePeriodImpl_this_Index_was_before_the_head_of_the_price_period_ {
+            get {
+                return ResourceManager.GetString("StaticPricePeriodImpl_this_Index_was_before_the_head_of_the_price_period_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown stock index: {0}.
+        /// </summary>
+        internal static string StockIndexInfo_GetTickers_Unknown_stock_index___0_ {
+            get {
+                return ResourceManager.GetString("StockIndexInfo_GetTickers_Unknown_stock_index___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date/time: {0} is out of range for this price period..
+        /// </summary>
+        internal static string TimePeriodImpl_this_Date_time___0__is_out_of_range_for_this_price_period_ {
+            get {
+                return ResourceManager.GetString("TimePeriodImpl_this_Date_time___0__is_out_of_range_for_this_price_period_", resourceCulture);
             }
         }
         

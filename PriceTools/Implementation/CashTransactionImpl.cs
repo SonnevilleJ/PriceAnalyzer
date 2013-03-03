@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Sonneville.PriceTools.Implementation
 {
@@ -110,7 +111,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return String.Format("{0} {1:c} on {2}", GetType().Name.ToUpperInvariant(), Amount, SettlementDate);
+            return String.Format(CultureInfo.InvariantCulture, "{0} {1:c} on {2}", GetType().Name.ToUpperInvariant(), Amount, SettlementDate);
         }
     }
 }

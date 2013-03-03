@@ -12,7 +12,6 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1043:UseIntegralOrStringArgumentForIndexers")]
         decimal this[DateTime dateTime] { get; }
 
         /// <summary>

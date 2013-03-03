@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace Sonneville.PriceTools
 {
@@ -68,7 +69,7 @@ namespace Sonneville.PriceTools
                 var firstDayOfMonth = new DateTime(dateTime.Year, dateTime.Month, 1);
                 return firstDayOfMonth.AddMonths(1).AddDays(-1).CurrentPeriodClose(Resolution.Days);
             }
-            throw new ArgumentOutOfRangeException("resolution", String.Format(Strings.DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_, resolution));
+            throw new ArgumentOutOfRangeException("resolution", String.Format(CultureInfo.InvariantCulture, Strings.DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_, resolution));
         }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace Sonneville.PriceTools
             //if (resolution == resolution.Years)
             //{
             //}
-            throw new ArgumentOutOfRangeException("resolution", String.Format(Strings.DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_, resolution));
+            throw new ArgumentOutOfRangeException("resolution", String.Format(CultureInfo.InvariantCulture, Strings.DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_, resolution));
         }
 
         /// <summary>
@@ -187,7 +188,7 @@ namespace Sonneville.PriceTools
             //{
             //    return origin.AddYears(1);
             //}
-            throw new ArgumentOutOfRangeException("resolution", String.Format(Strings.DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_, resolution));
+            throw new ArgumentOutOfRangeException("resolution", String.Format(CultureInfo.InvariantCulture, Strings.DateTimeExtensions_SeekPeriods_Unable_to_determine_boundaries_for_an_ITimePeriod_with_Resolution___0_, resolution));
         }
 
         /// <summary>

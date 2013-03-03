@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace Sonneville.PriceTools
 {
@@ -522,7 +523,7 @@ namespace Sonneville.PriceTools
                                 #endregion
                                };
                 default:
-                    throw new NotSupportedException(String.Format("Unknown StockIndex: {0}", stockIndex));
+                    throw new NotSupportedException(String.Format(CultureInfo.InvariantCulture, Strings.StockIndexInfo_GetTickers_Unknown_stock_index___0_, stockIndex));
             }
         }
     }

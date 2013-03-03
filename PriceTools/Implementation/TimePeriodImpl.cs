@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 
 namespace Sonneville.PriceTools.Implementation
 {
@@ -30,7 +31,7 @@ namespace Sonneville.PriceTools.Implementation
             get
             {
                 if(HasValueInRange(dateTime)) return _value;
-                throw new IndexOutOfRangeException(String.Format("DateTime: {0} is out of range for this Period.", dateTime));
+                throw new IndexOutOfRangeException(String.Format(CultureInfo.InvariantCulture, Strings.TimePeriodImpl_this_Date_time___0__is_out_of_range_for_this_price_period_, dateTime));
             }
         }
 
@@ -84,7 +85,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return string.Format("Head: {0}; Tail: {1}; Value: {2}", Head.ToShortDateString(), Tail.ToShortDateString(), this.Value());
+            return string.Format(CultureInfo.InvariantCulture, "Head: {0}; Tail: {1}; Value: {2}", Head.ToShortDateString(), Tail.ToShortDateString(), this.Value());
         }
 
 #endif
