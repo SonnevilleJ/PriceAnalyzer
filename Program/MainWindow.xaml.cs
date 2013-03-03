@@ -1,6 +1,6 @@
 ﻿using System;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.SamplePriceData;
+using Sonneville.PriceTools.Test.PriceData;
 
 namespace Program
 {

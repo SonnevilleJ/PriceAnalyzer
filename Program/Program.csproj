@@ -145,13 +145,13 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SamplePriceData\SamplePriceData.csproj">
-      <Project>{0C6B87C5-6D7F-43A7-9E42-456DFC558004}</Project>
-      <Name>SamplePriceData</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Statistics\Statistics.csproj">
       <Project>{8767BC88-6AD0-4A71-BC34-81D3409C8643}</Project>
       <Name>Statistics</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
+      <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
+      <Name>TestPriceData</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

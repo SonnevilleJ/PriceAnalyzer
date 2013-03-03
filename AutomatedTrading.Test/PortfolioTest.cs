@@ -3,8 +3,8 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
-using Sonneville.PriceTools.SamplePortfolioData;
 using Sonneville.PriceTools.Yahoo;
+using Test.Sonneville.PriceTools.PortfolioData;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
@@ -52,7 +52,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void Constructor4Test()
         {
-            var csvFile = SampleTransactionHistory.FidelityTransactions;
+            var csvFile = TestTransactionHistory.FidelityTransactions;
             var ticker = String.Empty;
 
             var target = PortfolioFactory.ConstructPortfolio(csvFile.Transactions);

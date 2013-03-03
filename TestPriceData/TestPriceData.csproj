@@ -45,6 +45,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="SamplePriceHistoryCsvFiles.cs" />
+    <Compile Include="SamplePriceSeries.cs" />
     <Compile Include="TestCsvPriceHistory.cs" />
     <Compile Include="CsvPriceData.Designer.cs">
       <AutoGen>True</AutoGen>

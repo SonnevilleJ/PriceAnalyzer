@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.PortfolioStatistics;
-using Sonneville.PriceTools.SamplePortfolioData;
+using Test.Sonneville.PriceTools.PortfolioData;
 
 namespace Test.Sonneville.PriceTools.PortfolioStatistics
 {
@@ -16,7 +16,7 @@ namespace Test.Sonneville.PriceTools.PortfolioStatistics
         [TestMethod]
         public void KellyPercentTest()
         {
-            var holdings = SampleTransactionHistory.BrokerageLinkTransactions.CalculateHoldings(DateTime.Now);
+            var holdings = TestTransactionHistory.BrokerageLinkTransactions.CalculateHoldings(DateTime.Now);
             var winPercentage = (decimal) holdings.Count(h => h.NetProfit() > 0)/holdings.Count;
             var lossPercentage = (decimal) holdings.Count(h => h.NetProfit() <= 0)/holdings.Count;
             var averageWin = holdings.Where(h => h.NetProfit() > 0).Average(h => h.NetProfit());
