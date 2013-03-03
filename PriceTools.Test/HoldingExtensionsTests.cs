@@ -9,7 +9,7 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void GrossProfitTest()
         {
-            var target = new Holding {Shares = 5, OpenPrice = 10, ClosePrice = 20, OpenCommission = 2, CloseCommission = 3};
+            var target = HoldingFactory.ConstructHolding(5, 10, 20, 2, 3);
 
             var expected = (target.Shares*(target.ClosePrice - target.OpenPrice));
             var actual = target.GrossProfit();
@@ -19,7 +19,7 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void NetProfitTest()
         {
-            var target = new Holding {Shares = 5, OpenPrice = 10, ClosePrice = 20, OpenCommission = 2, CloseCommission = 3};
+            var target = HoldingFactory.ConstructHolding(5, 10, 20, 2, 3);
 
             var expected = (target.Shares * (target.ClosePrice - target.OpenPrice)) - target.OpenCommission - target.CloseCommission;
             var actual = target.NetProfit();

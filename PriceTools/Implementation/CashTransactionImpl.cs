@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction for cash.
     /// </summary>
     [Serializable]
-    public abstract class CashTransactionImpl : TransactionImpl, ICashTransaction
+    internal abstract class CashTransactionImpl : TransactionImpl, ICashTransaction
     {
         #region Constructors
         

@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The commission paid for the opening transaction.
         /// </summary>
-        decimal OpenCommission { get; set; }
+        decimal OpenCommission { get; }
 
         /// <summary>
         /// The per-share price of the closing transaction.
@@ -45,6 +45,6 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// The commission paid for the closing transaction.
         /// </summary>
-        decimal CloseCommission { get; set; }
+        decimal CloseCommission { get; }
     }
 }

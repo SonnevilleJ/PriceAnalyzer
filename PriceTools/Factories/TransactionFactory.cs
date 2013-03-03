@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds in the transaction.</param>
         /// <returns></returns>
-        public static CashTransactionImpl ConstructCashTransaction(OrderType transactionType, DateTime settlementDate, decimal amount)
+        public static ICashTransaction ConstructCashTransaction(OrderType transactionType, DateTime settlementDate, decimal amount)
         {
             return (CashTransactionImpl) ConstructTransaction(transactionType, settlementDate, String.Empty, amount, 0, 0);
         }

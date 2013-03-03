@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a financial transaction.
     /// </summary>
     [Serializable]
-    public abstract class TransactionImpl : ITransaction
+    internal abstract class TransactionImpl : ITransaction
     {
         /// <summary>
         ///    Gets the DateTime that the Transaction occurred.

@@ -29,15 +29,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var holdings = target.CalculateHoldings(sellDate);
 
             Assert.AreEqual(1, holdings.Count);
-            var expected = new Holding
-                               {
-                                   Ticker = ticker,
-                                   Head = buyDate,
-                                   Tail = sellDate,
-                                   Shares = shares,
-                                   OpenPrice = buyPrice,
-                                   ClosePrice = sellPrice
-                               };
+            var expected = HoldingFactory.ConstructHolding(ticker, buyDate, sellDate, shares, buyPrice, sellPrice);
 
             Assert.IsTrue(holdings.Contains(expected));
         }
@@ -72,28 +64,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             Assert.AreEqual(2, holdings.Count);
 
             const decimal sharesInHolding = sharesSold;
-            var expected1 = new Holding
-                                {
-                                    Ticker = ticker,
-                                    Head = secondBuyDate,
-                                    Tail = secondSellDate,
-                                    Shares = sharesInHolding,
-                                    OpenPrice = buyPrice,
-                                    OpenCommission = commission,
-                                    ClosePrice = sellPrice,
-                                    CloseCommission = commission
-                                };
-            var expected2 = new Holding
-                                {
-                                    Ticker = ticker,
-                                    Head = firstBuyDate,
-                                    Tail = firstSellDate,
-                                    Shares = sharesInHolding,
-                                    OpenPrice = buyPrice,
-                                    OpenCommission = commission,
-                                    ClosePrice = sellPrice,
-                                    CloseCommission = commission
-                                };
+            var expected1 = HoldingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
+            var expected2 = HoldingFactory.ConstructHolding(ticker, firstBuyDate, firstSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
 
             Assert.IsTrue(holdings.Contains(expected1));
             Assert.IsTrue(holdings.Contains(expected2));
@@ -130,28 +102,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             Assert.AreEqual(2, holdings.Count);
 
             const decimal sharesInHolding = sharesSold;
-            var expected1 = new Holding
-                                {
-                                    Ticker = secondTicker,
-                                    Head = secondBuyDate,
-                                    Tail = secondSellDate,
-                                    Shares = sharesInHolding,
-                                    OpenPrice = buyPrice,
-                                    OpenCommission = commission,
-                                    ClosePrice = sellPrice,
-                                    CloseCommission = commission
-                                };
-            var expected2 = new Holding
-                                {
-                                    Ticker = firstTicker,
-                                    Head = firstBuyDate,
-                                    Tail = firstSellDate,
-                                    Shares = sharesInHolding,
-                                    OpenPrice = buyPrice,
-                                    OpenCommission = commission,
-                                    ClosePrice = sellPrice,
-                                    CloseCommission = commission
-                                };
+            var expected1 = HoldingFactory.ConstructHolding(secondTicker, secondBuyDate, secondSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
+            var expected2 = HoldingFactory.ConstructHolding(firstTicker, firstBuyDate, firstSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
 
             Assert.IsTrue(holdings.Contains(expected1));
             Assert.IsTrue(holdings.Contains(expected2));
@@ -188,28 +140,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             Assert.AreEqual(2, holdings.Count);
 
             const decimal sharesInHolding = sharesSold;
-            var expected1 = new Holding
-                                {
-                                    Ticker = firstTicker,
-                                    Head = firstBuyDate,
-                                    Tail = firstSellDate,
-                                    Shares = sharesInHolding,
-                                    OpenPrice = buyPrice,
-                                    OpenCommission = commission,
-                                    ClosePrice = sellPrice,
-                                    CloseCommission = commission
-                                };
-            var expected2 = new Holding
-                                {
-                                    Ticker = secondTicker,
-                                    Head = secondBuyDate,
-                                    Tail = secondSellDate,
-                                    Shares = sharesInHolding,
-                                    OpenPrice = buyPrice,
-                                    OpenCommission = commission,
-                                    ClosePrice = sellPrice,
-                                    CloseCommission = commission
-                                };
+            var expected1 = HoldingFactory.ConstructHolding(firstTicker, firstBuyDate, firstSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
+            var expected2 = HoldingFactory.ConstructHolding(secondTicker, secondBuyDate, secondSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
             var holding1 = holdings[0];
             var holding2 = holdings[1];
             Assert.AreEqual(expected1, holding1);

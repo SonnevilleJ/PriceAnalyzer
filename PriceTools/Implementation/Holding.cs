@@ -1,11 +1,11 @@
 using System;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// A prior ownership of a financial security.
     /// </summary>
-    public struct Holding : IHolding
+    internal struct Holding : IHolding
     {
         #region Implementation of IHolding
 

@@ -69,17 +69,7 @@ namespace Sonneville.PriceTools
                                 unusedSharesInCurrentBuy -= shares;
                                 buysUsed++;
                             }
-                            var holding = new Holding
-                            {
-                                Ticker = sell.Ticker,
-                                Head = buy.SettlementDate,
-                                Tail = sell.SettlementDate,
-                                Shares = shares,
-                                OpenPrice = buy.Price,
-                                OpenCommission = buy.Commission,
-                                ClosePrice = -1 * sell.Price,
-                                CloseCommission = sell.Commission
-                            };
+                            var holding = HoldingFactory.ConstructHolding(sell.Ticker, buy.SettlementDate, sell.SettlementDate, shares, buy.Price, buy.Commission, -1*sell.Price, sell.Commission);
                             result.Add(holding);
 
                             sharesToMatch -= shares;

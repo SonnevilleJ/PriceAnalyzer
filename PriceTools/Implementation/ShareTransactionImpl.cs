@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     ///   Represents a transaction for a share of equity.
     /// </summary>
     [Serializable]
-    public abstract class ShareTransactionImpl : TransactionImpl, IShareTransaction
+    internal abstract class ShareTransactionImpl : TransactionImpl, IShareTransaction
     {
         #region Constructors
 

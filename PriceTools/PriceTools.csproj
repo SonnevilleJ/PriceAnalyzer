@@ -47,6 +47,7 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Factories\HoldingFactory.cs" />
     <Compile Include="IAccumulationTransaction.cs" />
     <Compile Include="IClosingTransaction.cs" />
     <Compile Include="IDistributionTransaction.cs" />
@@ -71,6 +72,7 @@
     <Compile Include="Implementation\DepositImpl.cs" />
     <Compile Include="Implementation\DividendReceiptImpl.cs" />
     <Compile Include="Implementation\DividendReinvestmentImpl.cs" />
+    <Compile Include="Implementation\Holding.cs" />
     <Compile Include="Implementation\SellImpl.cs" />
     <Compile Include="Implementation\SellShortImpl.cs" />
     <Compile Include="Implementation\ShareTransactionImpl.cs" />
@@ -106,7 +108,6 @@
     <Compile Include="PricingType.cs" />
     <Compile Include="TimePeriodExtensions.cs" />
     <Compile Include="HighLow.cs" />
-    <Compile Include="Holding.cs" />
     <Compile Include="ICashAccount.cs" />
     <Compile Include="IHolding.cs" />
     <Compile Include="IPriceTick.cs" />
