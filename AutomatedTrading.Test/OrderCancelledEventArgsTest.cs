@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
+using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
@@ -14,7 +15,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             cancelled = issued.AddMinutes(3);
             var expired = issued.AddMinutes(30);
             const OrderType orderType = OrderType.Buy;
-            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker = TickerManager.GetUniqueTicker();
             const decimal shares = 5;
             const decimal price = 100.00m;
 

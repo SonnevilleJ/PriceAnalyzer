@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data;
 
-namespace TestUtilities.Sonneville.PriceTools
+namespace Test.Sonneville.PriceTools
 {
-    public abstract class MockProvider : PriceDataProvider
+    public class MockProvider : PriceDataProvider
     {
         public Func<string, DateTime, DateTime, Resolution, IEnumerable<IPricePeriod>> UpdateAction { get; set; }
+        public override Resolution BestResolution { get { return Resolution.Weeks; } }
 
         /// <summary>
         /// Gets a list of <see cref="IPricePeriod"/>s containing price data for the requested DateTime range.

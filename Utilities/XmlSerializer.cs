@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 
-namespace Sonneville.PriceTools.Data
+namespace Sonneville.Utilities
 {
-    public static class Serializer
+    public static class XmlSerializer
     {
         /// <summary>
         /// Serializes an object to XML.
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.Data
             // try deserializing to compatible types
             if (GetMatchingClasses(typeof (T)).Any(matchingClass => TryDeserialize(matchingClass, xml, out result))) return result;
 
-            throw new TypeLoadException(string.Format(Strings.Serializer_DeserializeFromXml_Could_not_find_a_compatible_type_to_implement_interface___0__, typeof (T).FullName));
+            throw new TypeLoadException(string.Format("Could not find a compatible type to implement interface: {0}.", typeof (T).FullName));
         }
 
         /// <summary>

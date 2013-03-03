@@ -60,11 +60,13 @@
     <Compile Include="HoldingExtensionsTests.cs" />
     <Compile Include="MarginableCashAccountTest.cs" />
     <Compile Include="DatesTest.cs" />
+    <Compile Include="MockProvider.cs" />
     <Compile Include="OrderFactoryTest.cs" />
     <Compile Include="OrderTest.cs" />
     <Compile Include="PricePeriodEqualityTests.cs" />
     <Compile Include="PricePeriodFactoryTest.cs" />
     <Compile Include="PriceQuoteFactoryTest.cs" />
+    <Compile Include="PriceRetrievalExtensionsTest.cs" />
     <Compile Include="PriceSeriesEqualityTests.cs" />
     <Compile Include="PriceSeriesTest.cs" />
     <Compile Include="ReactionMovesTest.cs" />

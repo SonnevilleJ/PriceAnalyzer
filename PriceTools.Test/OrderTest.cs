@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Data;
+using Sonneville.Utilities;
 using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools
@@ -23,8 +23,8 @@ namespace Test.Sonneville.PriceTools
 
             var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
-            var xml = Serializer.SerializeToXml(target);
-            var result = Serializer.DeserializeFromXml<IOrder>(xml);
+            var xml = XmlSerializer.SerializeToXml(target);
+            var result = XmlSerializer.DeserializeFromXml<IOrder>(xml);
 
             GenericTestUtilities.AssertSameState(target, result);
         }

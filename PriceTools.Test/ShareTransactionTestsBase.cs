@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Data;
+using Sonneville.Utilities;
 using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools
@@ -97,8 +97,8 @@ namespace Test.Sonneville.PriceTools
 
             var target = TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
 
-            var xml = Serializer.SerializeToXml(target);
-            var result = Serializer.DeserializeFromXml<IShareTransaction>(xml);
+            var xml = XmlSerializer.SerializeToXml(target);
+            var result = XmlSerializer.DeserializeFromXml<IShareTransaction>(xml);
 
             GenericTestUtilities.AssertSameState(target, result);
         }

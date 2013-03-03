@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools.Data
             if(provider == null) throw new ArgumentNullException("provider", Strings.PriceSeriesRetrievalExtensions_UpdatePriceData_Parameter_provider_cannot_be_null_);
 
             if (provider.BestResolution > priceSeries.Resolution) throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, Strings.PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_providing_periods_of_resolution__0__or_better_, priceSeries.Resolution), "provider");
-            provider.UpdatePriceSeries(priceSeries, head, tail, priceSeries.Resolution);    
+            provider.UpdatePriceSeries(priceSeries, head, tail, priceSeries.Resolution);
         }
     }
 }
