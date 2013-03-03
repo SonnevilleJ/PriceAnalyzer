@@ -109,6 +109,36 @@ namespace Sonneville.PriceTools.Data {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Parameter provider cannot be null..
+        /// </summary>
+        internal static string PriceSeriesRetrievalExtensions_UpdatePriceData_Parameter_provider_cannot_be_null_ {
+            get {
+                return ResourceManager.GetString("PriceSeriesRetrievalExtensions_UpdatePriceData_Parameter_provider_cannot_be_null_" +
+                        "", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paramter priceSeries cannot be null..
+        /// </summary>
+        internal static string PriceSeriesRetrievalExtensions_UpdatePriceData_Paramter_priceSeries_cannot_be_null_ {
+            get {
+                return ResourceManager.GetString("PriceSeriesRetrievalExtensions_UpdatePriceData_Paramter_priceSeries_cannot_be_nul" +
+                        "l_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Provider must be capable of providing periods of resolution {0} or better..
+        /// </summary>
+        internal static string PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_providing_periods_of_resolution__0__or_better_ {
+            get {
+                return ResourceManager.GetString("PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_provid" +
+                        "ing_periods_of_resolution__0__or_better_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Could not find a compatible type to implement interface: {0}..
         /// </summary>
         internal static string Serializer_DeserializeFromXml_Could_not_find_a_compatible_type_to_implement_interface___0__ {

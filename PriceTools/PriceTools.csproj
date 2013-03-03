@@ -70,7 +70,6 @@
     <Compile Include="Implementation\BuyToCoverImpl.cs" />
     <Compile Include="Implementation\CashAccountImpl.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
-    <Compile Include="Extensions\PriceSeriesRetrievalExtensions.cs" />
     <Compile Include="Implementation\CashTransactionImpl.cs" />
     <Compile Include="Implementation\DepositImpl.cs" />
     <Compile Include="Implementation\DividendReceiptImpl.cs" />
@@ -105,7 +104,6 @@
     <Compile Include="Interfaces\IShortTransaction.cs" />
     <Compile Include="StockIndexInfo.cs" />
     <Compile Include="Interfaces\IOrder.cs" />
-    <Compile Include="Data\IPriceDataProvider.cs" />
     <Compile Include="Factories\OrderFactory.cs" />
     <Compile Include="PricingType.cs" />
     <Compile Include="HighLow.cs" />

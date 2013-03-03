@@ -173,36 +173,6 @@ namespace Sonneville.PriceTools {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Parameter provider cannot be null..
-        /// </summary>
-        internal static string PriceSeriesRetrievalExtensions_UpdatePriceData_Parameter_provider_cannot_be_null_ {
-            get {
-                return ResourceManager.GetString("PriceSeriesRetrievalExtensions_UpdatePriceData_Parameter_provider_cannot_be_null_" +
-                        "", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Paramter priceSeries cannot be null..
-        /// </summary>
-        internal static string PriceSeriesRetrievalExtensions_UpdatePriceData_Paramter_priceSeries_cannot_be_null_ {
-            get {
-                return ResourceManager.GetString("PriceSeriesRetrievalExtensions_UpdatePriceData_Paramter_priceSeries_cannot_be_nul" +
-                        "l_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Provider must be capable of providing periods of resolution {0} or better..
-        /// </summary>
-        internal static string PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_providing_periods_of_resolution__0__or_better_ {
-            get {
-                return ResourceManager.GetString("PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_provid" +
-                        "ing_periods_of_resolution__0__or_better_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Quoted price must be greater than zero..
         /// </summary>
         internal static string PriceTickImpl_PriceTickImpl_Quoted_price_must_be_greater_than_zero_ {

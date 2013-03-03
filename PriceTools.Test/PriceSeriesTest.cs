@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Test.PriceData;
 using Sonneville.PriceTools.Yahoo;
 using TestUtilities.Sonneville.PriceTools;

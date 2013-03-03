@@ -141,4 +141,13 @@
 	<data name="Serializer_DeserializeFromXml_Could_not_find_a_compatible_type_to_implement_interface___0__">
 		<value xml:space="preserve">Could not find a compatible type to implement interface: {0}.</value>
 	</data>
+  <data name="PriceSeriesRetrievalExtensions_UpdatePriceData_Paramter_priceSeries_cannot_be_null_" xml:space="preserve">
+    <value>Paramter priceSeries cannot be null.</value>
+  </data>
+  <data name="PriceSeriesRetrievalExtensions_UpdatePriceData_Parameter_provider_cannot_be_null_" xml:space="preserve">
+    <value>Parameter provider cannot be null.</value>
+  </data>
+  <data name="PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_providing_periods_of_resolution__0__or_better_" xml:space="preserve">
+    <value>Provider must be capable of providing periods of resolution {0} or better.</value>
+  </data>
 </root>
