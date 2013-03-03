@@ -1,18 +1,17 @@
 ﻿using System;
-using Sonneville.PriceTools.Implementation;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a transaction to sell shares.
     /// </summary>
     [Serializable]
-    public sealed class Sell : ShareTransactionImpl, LongTransaction, DistributionTransaction, ClosingTransaction
+    internal sealed class SellImpl : ShareTransactionImpl, ISell
     {
         /// <summary>
         /// Constructs a Sell.
         /// </summary>
-        internal Sell(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
+        internal SellImpl(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
             : base(ticker, settlementDate, shares, -Math.Abs(price), commission)
         {
         }

@@ -6,12 +6,12 @@ using Sonneville.PriceTools.Implementation;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Constructs <see cref="PricePeriodImpl"/> objects.
+    /// Constructs <see cref="IPricePeriod"/> objects.
     /// </summary>
     public static class PricePeriodFactory
     {
         /// <summary>
-        /// Constructs a <see cref="PricePeriodImpl"/> with static data.
+        /// Constructs a <see cref="IPricePeriod"/> with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="tail">The last DateTime of the period.</param>
@@ -24,7 +24,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a <see cref="PricePeriodImpl"/> with static data.
+        /// Constructs a <see cref="IPricePeriod"/> with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="resolution">The resolution of the period.</param>
@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a <see cref="PricePeriodImpl"/> with static data.
+        /// Constructs a <see cref="IPricePeriod"/> with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="tail">The last DateTime of the period.</param>
@@ -53,7 +53,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a <see cref="PricePeriodImpl"/> with static data.
+        /// Constructs a <see cref="IPricePeriod"/> with static data.
         /// </summary>
         /// <param name="head">The first DateTime of the period.</param>
         /// <param name="resolution">The resolution of the period.</param>
@@ -69,30 +69,30 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a <see cref="PricePeriodImpl"/> which aggregates price data from <see cref="PriceTick"/>s.
+        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
         /// </summary>
         /// <returns></returns>
-        public static TickedPricePeriod ConstructTickedPricePeriod()
+        public static ITickedPricePeriod ConstructTickedPricePeriod()
         {
             return new TickedPricePeriodImpl();
         }
 
         /// <summary>
-        /// Constructs a <see cref="PricePeriodImpl"/> which aggregates price data from <see cref="PriceTick"/>s.
+        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
         /// </summary>
         /// <param name="priceTicks"></param>
         /// <returns></returns>
-        public static TickedPricePeriod ConstructTickedPricePeriod(IEnumerable<PriceTick> priceTicks)
+        public static ITickedPricePeriod ConstructTickedPricePeriod(IEnumerable<IPriceTick> priceTicks)
         {
             return ConstructTickedPricePeriod(priceTicks.ToArray());
         }
 
         /// <summary>
-        /// Constructs a <see cref="PricePeriodImpl"/> which aggregates price data from <see cref="PriceTick"/>s.
+        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
         /// </summary>
         /// <param name="priceTickArray"></param>
         /// <returns></returns>
-        public static TickedPricePeriod ConstructTickedPricePeriod(params PriceTick[] priceTickArray)
+        public static ITickedPricePeriod ConstructTickedPricePeriod(params IPriceTick[] priceTickArray)
         {
             var period = new TickedPricePeriodImpl();
             period.AddPriceTicks(priceTickArray);

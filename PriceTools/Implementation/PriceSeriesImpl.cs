@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    internal class PriceSeriesImpl : PricePeriodImpl, IEquatable<PriceSeriesImpl>, IPriceSeries
+    internal class PriceSeriesImpl : PricePeriodImpl, IEquatable<IPriceSeries>, IPriceSeries
     {
         /// <summary>
         /// The default <see cref="Resolution"/> of a PriceSeries.
@@ -228,7 +228,7 @@ namespace Sonneville.PriceTools.Implementation
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(PriceSeriesImpl other)
+        public bool Equals(IPriceSeries other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -248,7 +248,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="obj">An object to compare with this object.</param>
         public override bool Equals(object obj)
         {
-            return Equals(obj as PriceSeriesImpl);
+            return Equals(obj as IPriceSeries);
         }
 
         /// <summary>

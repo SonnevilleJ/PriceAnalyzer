@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
     /// <summary>
     ///   Represents a portfolio of investments.
     /// </summary>
-    public interface IPortfolio : SecurityBasket
+    public interface IPortfolio : ISecurityBasket
     {
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this Portfolio.

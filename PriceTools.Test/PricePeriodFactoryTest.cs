@@ -1074,7 +1074,7 @@ namespace Test.Sonneville.PriceTools
 
             public abstract void ConstructQuotedPricePeriodVolumeTest();
 
-            public abstract TickedPricePeriod CallFactoryMethod();
+            public abstract ITickedPricePeriod CallFactoryMethod();
         }
 
         [TestClass]
@@ -1152,7 +1152,7 @@ namespace Test.Sonneville.PriceTools
                 Assert.AreEqual(expected, actual);
             }
 
-            public override TickedPricePeriod CallFactoryMethod()
+            public override ITickedPricePeriod CallFactoryMethod()
             {
                 return PricePeriodFactory.ConstructTickedPricePeriod();
             }
@@ -1239,12 +1239,12 @@ namespace Test.Sonneville.PriceTools
                 Assert.AreEqual(expected, actual);
             }
 
-            public override TickedPricePeriod CallFactoryMethod()
+            public override ITickedPricePeriod CallFactoryMethod()
             {
                 return PricePeriodFactory.ConstructTickedPricePeriod(PriceTicks);
             }
 
-            private static IEnumerable<PriceTick> PriceTicks
+            private static IEnumerable<IPriceTick> PriceTicks
             {
                 get
                 {

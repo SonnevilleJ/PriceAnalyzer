@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     {
         #region Private Members
 
-        private readonly CashAccount _cashAccount = CashAccountFactory.ConstructCashAccount();
+        private readonly ICashAccount _cashAccount = CashAccountFactory.ConstructCashAccount();
         private readonly IList<IPosition> _positions = new List<IPosition>();
 
         #endregion
@@ -19,9 +19,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         #region Constructors
 
         /// <summary>
-        /// Constructs a Portfolio and assigns a ticker symbol to use as the Portfolio's <see cref="CashAccount"/>.
+        /// Constructs a Portfolio and assigns a ticker symbol to use as the Portfolio's <see cref="ICashAccount"/>.
         /// </summary>
-        /// <param name="ticker">The ticker symbol which is used as the <see cref="CashAccount"/>.</param>
+        /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
         internal PortfolioImpl(string ticker)
         {
             CashTicker = ticker;
@@ -112,21 +112,21 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// </summary>
         public void AddTransaction(ITransaction transaction)
         {
-            if (transaction is DividendReceipt)
+            if (transaction is IDividendReceipt)
             {
-                    _cashAccount.Deposit((DividendReceipt)transaction);
+                    _cashAccount.Deposit((IDividendReceipt)transaction);
             }
-            else if (transaction is Deposit)
+            else if (transaction is IDeposit)
             {
-                    Deposit((Deposit)transaction);
+                    Deposit((IDeposit)transaction);
             }
-            else if (transaction is Withdrawal)
+            else if (transaction is IWithdrawal)
             {
-                    Withdraw((Withdrawal)transaction);
+                    Withdraw((IWithdrawal)transaction);
             }
-            else if (transaction is DividendReinvestment)
+            else if (transaction is IDividendReinvestment)
             {
-                    var dr = ((DividendReinvestment)transaction);
+                    var dr = ((IDividendReinvestment)transaction);
                     if (dr.Ticker == CashTicker)
                     {
                         // DividendReceipt already deposited into cash account,
@@ -138,27 +138,27 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                         AddToPosition(dr);
                     }
             }
-            else if (transaction is Buy)
+            else if (transaction is IBuy)
             {
-                    var buy = ((Buy)transaction);
+                    var buy = ((IBuy)transaction);
                     Withdraw(buy.SettlementDate, buy.TotalValue);
                     AddToPosition(buy);
             }
-            else if (transaction is SellShort)
+            else if (transaction is ISellShort)
             {
-                    var sellShort = ((SellShort)transaction);
+                    var sellShort = ((ISellShort)transaction);
                     Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
                     AddToPosition(sellShort);
             }
-            else if (transaction is Sell)
+            else if (transaction is ISell)
             {
-                    var sell = ((Sell)transaction);
+                    var sell = ((ISell)transaction);
                     AddToPosition(sell);
                     Deposit(sell.SettlementDate, sell.TotalValue);
             }
-            else if (transaction is BuyToCover)
+            else if (transaction is IBuyToCover)
             {
-                    var buyToCover = ((BuyToCover)transaction);
+                    var buyToCover = ((IBuyToCover)transaction);
                     AddToPosition(buyToCover);
                     Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
             }
@@ -177,8 +177,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         /// Deposits cash to this IPortfolio.
         /// </summary>
-        /// <param name="deposit">The <see cref="PriceTools.Deposit"/> to deposit.</param>
-        public void Deposit(Deposit deposit)
+        /// <param name="deposit">The <see cref="IDeposit"/> to deposit.</param>
+        public void Deposit(IDeposit deposit)
         {
             _cashAccount.Deposit(deposit);
         }
@@ -196,8 +196,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         /// Withdraws cash from this IPortfolio. Available cash must be greater than or equal to the withdrawn amount.
         /// </summary>
-        /// <param name="withdrawal">The <see cref="Withdrawal"/> to withdraw.</param>
-        public void Withdraw(Withdrawal withdrawal)
+        /// <param name="withdrawal">The <see cref="IWithdrawal"/> to withdraw.</param>
+        public void Withdraw(IWithdrawal withdrawal)
         {
             _cashAccount.Withdraw(withdrawal);
         }
@@ -216,25 +216,25 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
 
             bool sufficientCash;
-            if (transaction is OpeningTransaction && transaction is LongTransaction)
+            if (transaction is IBuy)
             {
-                var buy = ((IShareTransaction) transaction);
+                var buy = ((IBuy)transaction);
                 sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
                 return sufficientCash && ((PositionImpl) GetPosition(buy.Ticker, false)).TransactionIsValid(buy);
             }
-            if (transaction is OpeningTransaction && transaction is ShortTransaction)
+            if (transaction is ISellShort)
             {
-                var sellShort = ((SellShort) transaction);
+                var sellShort = ((ISellShort) transaction);
                 return ((PositionImpl) GetPosition(sellShort.Ticker, false)).TransactionIsValid(sellShort);
             }
-            if (transaction is ClosingTransaction && transaction is LongTransaction)
+            if (transaction is ISell)
             {
-                var sell = ((IShareTransaction) transaction);
+                var sell = ((ISell)transaction);
                 return ((PositionImpl) GetPosition(sell.Ticker, false)).TransactionIsValid(sell);
             }
-            if (transaction is ClosingTransaction && transaction is ShortTransaction)
+            if (transaction is IBuyToCover)
             {
-                var buyToCover = ((IShareTransaction) transaction);
+                var buyToCover = ((IBuyToCover)transaction);
                 sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
                 return sufficientCash &&
                        ((PositionImpl) GetPosition(buyToCover.Ticker, false)).TransactionIsValid(buyToCover);

@@ -9,9 +9,9 @@ using LumenWorks.Framework.IO.Csv;
 namespace Sonneville.PriceTools.Data.Csv
 {
     /// <summary>
-    ///   Parses a single <see cref = "SecurityBasket" /> from CSV data for an investment portfolio.
+    ///   Parses a single <see cref = "ISecurityBasket" /> from CSV data for an investment portfolio.
     /// </summary>
-    public abstract class TransactionHistoryCsvFile : SecurityBasket
+    public abstract class TransactionHistoryCsvFile : ISecurityBasket
     {
         #region Private Members
 
@@ -59,14 +59,14 @@ namespace Sonneville.PriceTools.Data.Csv
             // Second, any transactions which use funds
             // This appropriately ensures funds are available for use
 
-            if (transaction is Deposit) return 0;
-            if (transaction is DividendReceipt) return 1;
-            if (transaction is DividendReinvestment) return 2;
-            if (transaction is Sell) return 3;
-            if (transaction is BuyToCover) return 4;
-            if (transaction is Buy) return 5;
-            if (transaction is SellShort) return 6;
-            if (transaction is Withdrawal) return 7;
+            if (transaction is IDeposit) return 0;
+            if (transaction is IDividendReceipt) return 1;
+            if (transaction is IDividendReinvestment) return 2;
+            if (transaction is ISell) return 3;
+            if (transaction is IBuyToCover) return 4;
+            if (transaction is IBuy) return 5;
+            if (transaction is ISellShort) return 6;
+            if (transaction is IWithdrawal) return 7;
             return int.MaxValue;
         }
 

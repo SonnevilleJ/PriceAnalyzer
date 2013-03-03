@@ -1,18 +1,17 @@
 ﻿using System;
-using Sonneville.PriceTools.Implementation;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a transaction to buy shares.
     /// </summary>
     [Serializable]
-    public sealed class Buy : ShareTransactionImpl, LongTransaction, AccumulationTransaction, OpeningTransaction
+    internal sealed class BuyImpl : ShareTransactionImpl, IBuy
     {
         /// <summary>
         /// Constructs a Buy.
         /// </summary>
-        internal Buy(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
+        internal BuyImpl(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
             : base(ticker, settlementDate, shares, Math.Abs(price), commission)
         {
         }

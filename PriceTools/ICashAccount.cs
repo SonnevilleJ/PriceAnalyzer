@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a single account used to hold cash.
     /// </summary>
-    public interface CashAccount
+    public interface ICashAccount
     {
         /// <summary>
         /// Deposits cash into the CashAccount.
@@ -19,13 +18,13 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Deposits cash into the CashAccount.
         /// </summary>
-        void Deposit(Deposit deposit);
+        void Deposit(IDeposit deposit);
 
         /// <summary>
         /// Deposits a cash dividend into the CashAccount.
         /// </summary>
         /// <param name="dividendReceipt"></param>
-        void Deposit(DividendReceipt dividendReceipt);
+        void Deposit(IDividendReceipt dividendReceipt);
 
         /// <summary>
         /// Withdraws cash from the CashAccount.
@@ -37,10 +36,10 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Withdraws cash from the CashAccount.
         /// </summary>
-        void Withdraw(Withdrawal withdrawal);
+        void Withdraw(IWithdrawal withdrawal);
 
         /// <summary>
-        /// Gets a <see cref="List{T}"/> of <see cref="CashTransactionImpl"/>s in this CashAccount.
+        /// Gets a <see cref="List{T}"/> of <see cref="ICashTransaction"/>s in this CashAccount.
         /// </summary>
         ICollection<ICashTransaction> Transactions { get; }
 
@@ -51,9 +50,9 @@ namespace Sonneville.PriceTools
         decimal GetCashBalance(DateTime asOfDate);
 
         /// <summary>
-        /// Validates an <see cref="CashTransactionImpl"/> without adding it to the CashAccount.
+        /// Validates an <see cref="ICashTransaction"/> without adding it to the CashAccount.
         /// </summary>
-        /// <param name="cashTransaction">The <see cref="CashAccount"/> to validate.</param>
+        /// <param name="cashTransaction">The <see cref="ICashAccount"/> to validate.</param>
         /// <returns></returns>
         bool TransactionIsValid(ICashTransaction cashTransaction);
     }

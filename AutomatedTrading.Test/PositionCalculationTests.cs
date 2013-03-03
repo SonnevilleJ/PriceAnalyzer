@@ -1298,7 +1298,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         #region Helper methods
 
         /// <summary>
-        /// Calculates the expected result of a call to CalculateStandardDeviation on a <see cref="SecurityBasket"/>.
+        /// Calculates the expected result of a call to CalculateStandardDeviation on a <see cref="ISecurityBasket"/>.
         /// </summary>
         /// <param name="holdings"></param>
         /// <returns></returns>
@@ -1314,7 +1314,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         }
 
         /// <summary>
-        /// Calculates the expected result of a call to CalculateMedianProfit on a <see cref="SecurityBasket"/>.
+        /// Calculates the expected result of a call to CalculateMedianProfit on a <see cref="ISecurityBasket"/>.
         /// </summary>
         /// <param name="holdings"></param>
         /// <returns></returns>

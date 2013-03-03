@@ -1,13 +1,12 @@
 ﻿using System;
-using Sonneville.PriceTools.Implementation;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a transaction for a cash withdrawal.
     /// </summary>
     [Serializable]
-    public sealed class Withdrawal : CashTransactionImpl
+    internal sealed class WithdrawalImpl : CashTransactionImpl, IWithdrawal
     {
         /// <summary>
         /// Constructs a withdrawal-type transaction.
@@ -15,7 +14,7 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds withdrawn.</param>
         /// <returns></returns>
-        internal Withdrawal(DateTime settlementDate, decimal amount)
+        internal WithdrawalImpl(DateTime settlementDate, decimal amount)
             : base(settlementDate, -Math.Abs(amount))
         {
         }

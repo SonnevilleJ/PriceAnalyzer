@@ -68,7 +68,7 @@ namespace Test.Sonneville.PriceTools
             const decimal close = 100.00m;
 
             var period1 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = PricePeriodFactory.ConstructTickedPricePeriod(new List<PriceTick>
+            var period2 = PricePeriodFactory.ConstructTickedPricePeriod(new List<IPriceTick>
                                                                             {
                                                                                 PriceTickFactory.ConstructPriceTick(head, close),
                                                                                 PriceTickFactory.ConstructPriceTick(tail, close)

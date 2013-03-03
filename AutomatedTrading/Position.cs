@@ -3,7 +3,7 @@
     /// <summary>
     ///   Represents a Position taken using one or more <see cref = "IShareTransaction" />s.
     /// </summary>
-    public interface IPosition : SecurityBasket
+    public interface IPosition : ISecurityBasket
     {
         /// <summary>
         ///   Gets the ticker symbol held by this Position.

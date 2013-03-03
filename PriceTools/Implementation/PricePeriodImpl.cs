@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    public abstract class PricePeriodImpl : IPricePeriod, IEquatable<PricePeriodImpl>
+    internal abstract class PricePeriodImpl : IPricePeriod, IEquatable<PricePeriodImpl>
     {
         /// <summary>
         /// Gets the closing price for the IPricePeriod.

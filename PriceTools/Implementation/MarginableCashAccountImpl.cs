@@ -6,18 +6,18 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a single account used to hold cash. The account is marginable and allows a negative balance.
     /// </summary>
     [Serializable]
-    internal class MarginableCashAccountImpl : CashAccountImpl, MarginableCashAccount
+    internal class MarginableCashAccountImpl : CashAccountImpl, IMarginableCashAccount
     {
         private decimal _maximumMargin = 2000.00m;
 
         /// <summary>
         /// Validates a <see cref="CashTransactionImpl"/> without adding it to the CashAccount.
         /// </summary>
-        /// <param name="cashTransaction">The <see cref="CashAccount"/> to validate.</param>
+        /// <param name="cashTransaction">The <see cref="ICashAccount"/> to validate.</param>
         /// <returns></returns>
         public override bool TransactionIsValid(ICashTransaction cashTransaction)
         {
-            if (cashTransaction is Withdrawal)
+            if (cashTransaction is WithdrawalImpl)
             {
                 var balance = GetCashBalance(cashTransaction.SettlementDate);
                 var required = Math.Abs(cashTransaction.Amount);

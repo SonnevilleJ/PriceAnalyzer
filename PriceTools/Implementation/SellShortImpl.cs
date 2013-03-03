@@ -1,18 +1,17 @@
 ﻿using System;
-using Sonneville.PriceTools.Implementation;
 
-namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a transaction to short-sell shares.
     /// </summary>
     [Serializable]
-    public sealed class SellShort : ShareTransactionImpl, ShortTransaction, DistributionTransaction, OpeningTransaction
+    internal sealed class SellShortImpl : ShareTransactionImpl, ISellShort
     {
         /// <summary>
         /// Constructs a SellShort.
         /// </summary>
-        internal SellShort(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
+        internal SellShortImpl(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
             : base(ticker, settlementDate, shares, Math.Abs(price), commission)
         {
         }

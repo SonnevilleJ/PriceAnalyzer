@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a single account used to hold cash.
     /// </summary>
     [Serializable]
-    internal class CashAccountImpl : CashAccount
+    internal class CashAccountImpl : ICashAccount
     {
         #region Private Members
 
@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Deposits cash into the CashAccount.
         /// </summary>
-        public void Deposit(Deposit deposit)
+        public void Deposit(IDeposit deposit)
         {
             lock(_padlock)
             {
@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.Implementation
         /// Deposits a cash dividend into the CashAccount.
         /// </summary>
         /// <param name="dividendReceipt"></param>
-        public void Deposit(DividendReceipt dividendReceipt)
+        public void Deposit(IDividendReceipt dividendReceipt)
         {
             lock(_padlock)
             {
@@ -63,7 +63,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Withdraws cash from the CashAccount.
         /// </summary>
-        public void Withdraw(Withdrawal withdrawal)
+        public void Withdraw(IWithdrawal withdrawal)
         {
             lock (_padlock)
             {
@@ -103,22 +103,22 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Validates a <see cref="CashTransactionImpl"/> without adding it to the CashAccount.
         /// </summary>
-        /// <param name="cashTransaction">The <see cref="CashAccount"/> to validate.</param>
+        /// <param name="cashTransaction">The <see cref="ICashAccount"/> to validate.</param>
         /// <returns></returns>
         public virtual bool TransactionIsValid(ICashTransaction cashTransaction)
         {
-            if (cashTransaction is Deposit)
+            if (cashTransaction is DepositImpl)
             {
                 return true;
             }
-            if (cashTransaction is Withdrawal)
+            if (cashTransaction is WithdrawalImpl)
             {
                 return GetCashBalance(cashTransaction.SettlementDate) >= Math.Abs(cashTransaction.Amount);
             }
             return false;
         }
 
-        private void VerifySufficientFunds(Withdrawal withdrawal)
+        private void VerifySufficientFunds(IWithdrawal withdrawal)
         {
             if (!TransactionIsValid(withdrawal))
             {

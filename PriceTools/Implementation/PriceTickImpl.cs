@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a price quote for a financial security.
     /// </summary>
     [Serializable]
-    internal class PriceTickImpl : PriceTick, IEquatable<PriceTickImpl>
+    internal class PriceTickImpl : IPriceTick, IEquatable<PriceTickImpl>
     {
         /// <summary>
         /// Constructs a PriceTick.

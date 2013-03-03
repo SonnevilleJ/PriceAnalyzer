@@ -64,7 +64,7 @@ namespace Test.Sonneville.PriceTools
             const decimal close = 100.00m;
 
             var period1 = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = PricePeriodFactory.ConstructTickedPricePeriod(new List<PriceTick>
+            var period2 = PricePeriodFactory.ConstructTickedPricePeriod(new List<IPriceTick>
                                                                             {
                                                                                 PriceTickFactory.ConstructPriceTick(head, close),
                                                                                 PriceTickFactory.ConstructPriceTick(tail, close)
@@ -84,8 +84,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
             var period4 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
 
-            var list1 = new List<TickedPricePeriod> { period1, period2 };
-            var list2 = new List<TickedPricePeriod> { period3, period4 };
+            var list1 = new List<ITickedPricePeriod> { period1, period2 };
+            var list2 = new List<ITickedPricePeriod> { period3, period4 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -101,8 +101,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
             var period4 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
 
-            var list1 = new List<TickedPricePeriod> { period1, period2 };
-            var list2 = new List<TickedPricePeriod> { period3, period4 };
+            var list1 = new List<ITickedPricePeriod> { period1, period2 };
+            var list2 = new List<ITickedPricePeriod> { period3, period4 };
 
             CollectionAssert.AreEquivalent(list1, list2);
         }
@@ -119,8 +119,8 @@ namespace Test.Sonneville.PriceTools
             var period4 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
             var period5 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
 
-            var list1 = new List<TickedPricePeriod> { period1, period2 };
-            var list2 = new List<TickedPricePeriod> { period3, period4, period5 };
+            var list1 = new List<ITickedPricePeriod> { period1, period2 };
+            var list2 = new List<ITickedPricePeriod> { period3, period4, period5 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -135,8 +135,8 @@ namespace Test.Sonneville.PriceTools
             var period2 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
             var period3 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
 
-            var list1 = new List<TickedPricePeriod> { period1, period2 };
-            var list2 = new List<TickedPricePeriod> { period3 };
+            var list1 = new List<ITickedPricePeriod> { period1, period2 };
+            var list2 = new List<ITickedPricePeriod> { period3 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
@@ -152,8 +152,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
             var period4 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
 
-            var list1 = new List<TickedPricePeriod> { period1, period2 };
-            var list2 = new List<TickedPricePeriod> { period3, period4 };
+            var list1 = new List<ITickedPricePeriod> { period1, period2 };
+            var list2 = new List<ITickedPricePeriod> { period3, period4 };
 
             CollectionAssert.AreEquivalent(list1, list2);
         }
@@ -169,8 +169,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
             var period4 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
 
-            var list1 = new List<TickedPricePeriod> { period1, period2 };
-            var list2 = new List<TickedPricePeriod> { period3, period4 };
+            var list1 = new List<ITickedPricePeriod> { period1, period2 };
+            var list2 = new List<ITickedPricePeriod> { period3, period4 };
 
             Assert.IsFalse(list1.Equals(list2));
         }
@@ -186,8 +186,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
             var period4 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
 
-            var list1 = new List<TickedPricePeriod> { period1, period2 };
-            var list2 = new List<TickedPricePeriod> { period3, period4 };
+            var list1 = new List<ITickedPricePeriod> { period1, period2 };
+            var list2 = new List<ITickedPricePeriod> { period3, period4 };
 
             CollectionAssert.AreEqual(list1, list2);
         }
@@ -204,8 +204,8 @@ namespace Test.Sonneville.PriceTools
             var period4 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
             var period5 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
 
-            var list1 = new List<TickedPricePeriod> { period1, period2 };
-            var list2 = new List<TickedPricePeriod> { period3, period4, period5 };
+            var list1 = new List<ITickedPricePeriod> { period1, period2 };
+            var list2 = new List<ITickedPricePeriod> { period3, period4, period5 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }
@@ -220,8 +220,8 @@ namespace Test.Sonneville.PriceTools
             var period2 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
             var period3 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
 
-            var list1 = new List<TickedPricePeriod> { period1, period2 };
-            var list2 = new List<TickedPricePeriod> { period3 };
+            var list1 = new List<ITickedPricePeriod> { period1, period2 };
+            var list2 = new List<ITickedPricePeriod> { period3 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }
@@ -237,8 +237,8 @@ namespace Test.Sonneville.PriceTools
             var period3 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
             var period4 = PricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
 
-            var list1 = new List<TickedPricePeriod> { period1, period2 };
-            var list2 = new List<TickedPricePeriod> { period3, period4 };
+            var list1 = new List<ITickedPricePeriod> { period1, period2 };
+            var list2 = new List<ITickedPricePeriod> { period3, period4 };
 
             CollectionAssert.AreNotEqual(list1, list2);
         }

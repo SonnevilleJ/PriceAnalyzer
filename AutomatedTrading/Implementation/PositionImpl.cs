@@ -188,11 +188,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         private void Validate(IShareTransaction shareTransaction)
         {
             // Validate OrderType
-            if (shareTransaction is OpeningTransaction)
+            if (shareTransaction is IOpeningTransaction)
             {
                     // new holdings are OK
             }
-            else if (shareTransaction is ClosingTransaction)
+            else if (shareTransaction is IClosingTransaction)
             {
                     var date = shareTransaction.SettlementDate;
                     var heldShares = _transactions.GetHeldShares(date);

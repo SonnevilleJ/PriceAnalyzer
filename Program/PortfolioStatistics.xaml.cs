@@ -57,7 +57,7 @@ namespace Program
             dataGrid.UpdateLayout();
         }
 
-        private void CalculateStatistics(SecurityBasket portfolio)
+        private void CalculateStatistics(ISecurityBasket portfolio)
         {
             var date = portfolio.Tail;
             grossProfit.Text = portfolio.CalculateGrossProfit(date).ToString("C");

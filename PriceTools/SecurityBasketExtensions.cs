@@ -5,7 +5,7 @@ using System.Linq;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// A class which holds extension methods for <see cref="SecurityBasket"/>.
+    /// A class which holds extension methods for <see cref="ISecurityBasket"/>.
     /// </summary>
     public static class SecurityBasketExtensions
     {
@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools
         /// <param name="basket"></param>
         /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
         /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Position.</returns>
-        public static IList<IHolding> CalculateHoldings(this SecurityBasket basket, DateTime settlementDate)
+        public static IList<IHolding> CalculateHoldings(this ISecurityBasket basket, DateTime settlementDate)
         {
             return CalculateHoldings(basket.Transactions, settlementDate);
         }
@@ -32,12 +32,12 @@ namespace Sonneville.PriceTools
             var groups = transactions.Where(t => t is IShareTransaction).Cast<IShareTransaction>().GroupBy(t => t.Ticker);
             foreach (var grouping in groups)
             {
-                var buys = grouping.Where(t => t is OpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderBy(t => t.SettlementDate);
+                var buys = grouping.Where(t => t is IOpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderBy(t => t.SettlementDate);
                 var buysUsed = 0;
                 var unusedSharesInCurrentBuy = 0.0m;
                 IShareTransaction buy = null;
 
-                var sells = grouping.Where(t => t is ClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderBy(t => t.SettlementDate);
+                var sells = grouping.Where(t => t is IClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderBy(t => t.SettlementDate);
                 foreach (var sell in sells)
                 {
                     // collect shares from most recent buy

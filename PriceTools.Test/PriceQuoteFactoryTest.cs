@@ -19,7 +19,7 @@ namespace Test.Sonneville.PriceTools
             var target = PriceTickFactory.ConstructPriceTick(settlementDate, price, volume);
 
             var xml = Serializer.SerializeToXml(target);
-            var result = Serializer.DeserializeFromXml<PriceTick>(xml);
+            var result = Serializer.DeserializeFromXml<IPriceTick>(xml);
 
             GenericTestUtilities.AssertSameState(target, result);
         }
