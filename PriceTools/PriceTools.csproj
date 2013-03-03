@@ -70,6 +70,7 @@
     <Compile Include="Implementation\TimeSeriesImpl.cs" />
     <Compile Include="IPricePeriod.cs" />
     <Compile Include="IPriceSeries.cs" />
+    <Compile Include="IShareTransaction.cs" />
     <Compile Include="ITimeSeries.cs" />
     <Compile Include="ITransaction.cs" />
     <Compile Include="IVariableValue.cs" />

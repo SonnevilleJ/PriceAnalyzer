@@ -268,8 +268,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
         private static void VerifyOrderFillsCorrectly(TradingAccount target, Order order)
         {
-            ShareTransaction expected = null;
-            ShareTransaction actual = null;
+            IShareTransaction expected = null;
+            IShareTransaction actual = null;
             var syncroot = new object();
 
             EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
@@ -299,14 +299,14 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             }
         }
 
-        private static void AssertSameTransaction(ShareTransaction expected, ShareTransaction actual)
+        private static void AssertSameTransaction(IShareTransaction expected, IShareTransaction actual)
         {
-            var expectedList = new List<ShareTransaction> {expected};
-            var actualList = new List<ShareTransaction> {actual};
+            var expectedList = new List<IShareTransaction> {expected};
+            var actualList = new List<IShareTransaction> {actual};
             AssertSameTransactions(expectedList, actualList);
         }
 
-        private static void AssertSameTransactions(IEnumerable<ShareTransaction> expected, IEnumerable<ShareTransaction> actual)
+        private static void AssertSameTransactions(IEnumerable<IShareTransaction> expected, IEnumerable<IShareTransaction> actual)
         {
             var expectedArray = expected.ToArray();
             var actualArray = actual.ToArray();
@@ -314,7 +314,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             foreach (var transaction in expectedArray)
             {
                 var local = transaction;
-                Func<ShareTransaction, bool> predicate = t => t.SettlementDate == local.SettlementDate &&
+                Func<IShareTransaction, bool> predicate = t => t.SettlementDate == local.SettlementDate &&
                                                                t.Ticker == local.Ticker &&
                                                                // we may simulate price fluctuations, so ignore price
                                                                //t.Price == local.Price &&
@@ -438,8 +438,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var target = TradingAccountFactory.ConstructSimulatedTradingAccount();
 
-            ShareTransaction expected = null;
-            ShareTransaction actual = null;
+            IShareTransaction expected = null;
+            IShareTransaction actual = null;
             var syncroot = new object();
 
             EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
@@ -516,7 +516,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
         private static bool TargetContainsTransaction(TradingAccount target, ShareTransaction transaction)
         {
-            return target.Portfolio.Transactions.Where(t=>t is ShareTransaction).Cast<ShareTransaction>().Select(
+            return target.Portfolio.Transactions.Where(t=>t is IShareTransaction).Cast<ShareTransaction>().Select(
                 trans => (
                              trans.GetType() == transaction.GetType() &&
                              trans.Commission == transaction.Commission &&

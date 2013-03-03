@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     ///   Represents a transaction for a financial security.
     /// </summary>
     [Serializable]
-    public abstract class ShareTransaction : Transaction, IEquatable<ShareTransaction>
+    public abstract class ShareTransaction : Transaction, IShareTransaction
     {
         #region Constructors
 
@@ -78,7 +78,7 @@ namespace Sonneville.PriceTools
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ShareTransaction other)
+        public bool Equals(IShareTransaction other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -100,7 +100,7 @@ namespace Sonneville.PriceTools
         /// <param name="obj">An object to compare with this object.</param>
         public override bool Equals(object obj)
         {
-            return Equals(obj as ShareTransaction);
+            return Equals(obj as IShareTransaction);
         }
 
         /// <summary>

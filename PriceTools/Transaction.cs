@@ -40,7 +40,7 @@ namespace Sonneville.PriceTools
         /// <param name="obj">An object to compare with this object.</param>
         public override bool Equals(object obj)
         {
-            return Equals(obj as Transaction);
+            return Equals(obj as ITransaction);
         }
 
         /// <summary>

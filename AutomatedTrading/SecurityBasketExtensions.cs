@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>The total amount spent on share purchases as a negative number.</returns>
         public static decimal CalculateCost(this SecurityBasket basket, DateTime settlementDate)
         {
-            return basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t is OpeningTransaction)
+            return basket.Transactions.AsParallel().Where(t => t is IShareTransaction).Cast<IShareTransaction>().Where(t => t is OpeningTransaction)
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .Sum(transaction => transaction.Price * transaction.Shares);
         }
@@ -33,7 +33,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
         public static decimal CalculateProceeds(this SecurityBasket basket, DateTime settlementDate)
         {
-            return -1 * basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t is ClosingTransaction)
+            return -1 * basket.Transactions.AsParallel().Where(t => t is IShareTransaction).Cast<IShareTransaction>().Where(t => t is ClosingTransaction)
                    .Where(transaction => transaction.SettlementDate <= settlementDate)
                    .Sum(transaction => transaction.Price * transaction.Shares);
         }
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>The total amount of commissions from <see cref = "ShareTransaction" />s as a negative number.</returns>
         public static decimal CalculateCommissions(this SecurityBasket basket, DateTime settlementDate)
         {
-            return basket.Transactions.AsParallel().Where(t=>t is ShareTransaction).Cast<ShareTransaction>()
+            return basket.Transactions.AsParallel().Where(t=>t is IShareTransaction).Cast<IShareTransaction>()
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .Sum(transaction => transaction.Commission);
         }
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>The value of the shares held in the Position as of the given date.</returns>
         public static decimal CalculateMarketValue(this SecurityBasket basket, IPriceDataProvider provider, DateTime settlementDate)
         {
-            var allTransactions = basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>();
+            var allTransactions = basket.Transactions.AsParallel().Where(t => t is IShareTransaction).Cast<IShareTransaction>();
             var groups = allTransactions.GroupBy(t => t.Ticker);
 
             var total = 0.00m;
@@ -82,7 +82,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="shareTransactions"></param>
         /// <param name = "dateTime">The <see cref = "DateTime" /> to use.</param>
-        public static decimal GetHeldShares(this IEnumerable<ShareTransaction> shareTransactions, DateTime dateTime)
+        public static decimal GetHeldShares(this IEnumerable<IShareTransaction> shareTransactions, DateTime dateTime)
         {
             var sum = 0m;
             foreach (var transaction in shareTransactions.Where(t=>t.SettlementDate <= dateTime))
@@ -102,7 +102,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1011:ConsiderPassingBaseTypesAsParameters")]
         public static decimal CalculateAverageCost(this Position position, DateTime settlementDate)
         {
-            var transactions = position.Transactions.Cast<ShareTransaction>()
+            var transactions = position.Transactions.Cast<IShareTransaction>()
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .OrderBy(transaction => transaction.SettlementDate).ToList();
             var count = transactions.Count();

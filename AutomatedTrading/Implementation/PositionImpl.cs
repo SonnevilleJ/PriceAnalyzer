@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         #region Private Members
 
         private string _ticker;
-        private readonly ICollection<ShareTransaction> _transactions = new List<ShareTransaction>();
+        private readonly ICollection<IShareTransaction> _transactions = new List<IShareTransaction>();
 
         #endregion
 
@@ -150,7 +150,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// Adds an ShareTransaction to the IPosition.
         /// </summary>
         /// <param name="shareTransaction"></param>
-        public void AddTransaction(ShareTransaction shareTransaction)
+        public void AddTransaction(IShareTransaction shareTransaction)
         {
             // verify shareTransaction is apporpriate for this IPosition.
             Validate(shareTransaction);
@@ -162,7 +162,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// Validates a transaction without adding it to the IPosition.
         /// </summary>
         /// <param name="shareTransaction"></param>
-        public bool TransactionIsValid(ShareTransaction shareTransaction)
+        public bool TransactionIsValid(IShareTransaction shareTransaction)
         {
             try
             {
@@ -185,7 +185,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             AddTransaction(shareTransaction);
         }
 
-        private void Validate(ShareTransaction shareTransaction)
+        private void Validate(IShareTransaction shareTransaction)
         {
             // Validate OrderType
             if (shareTransaction is OpeningTransaction)

@@ -287,7 +287,7 @@ namespace Test.Sonneville.PriceTools
             return -GetValidCommission(transactionType);
         }
 
-        protected static bool ShareTransactionInheritanceTest(ShareTransaction transaction, Type expected)
+        protected static bool ShareTransactionInheritanceTest(IShareTransaction transaction, Type expected)
         {
             return transaction.GetType().GetInterfaces().Any(type => type == expected);
         }
