@@ -1,6 +1,5 @@
 using System;
 using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Extensions;
 using Sonneville.PriceTools.TechnicalAnalysis;
 
 namespace Sonneville.PriceTools.AutomatedTrading

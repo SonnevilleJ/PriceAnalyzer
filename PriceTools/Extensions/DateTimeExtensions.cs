@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Sonneville.PriceTools.Extensions
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// A class which holds extension methods for the DateTime class.

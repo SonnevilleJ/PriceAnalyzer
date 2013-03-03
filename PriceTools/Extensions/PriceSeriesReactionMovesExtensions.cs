@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Sonneville.PriceTools.Extensions
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Contains extension methods for calculating reaction moves.

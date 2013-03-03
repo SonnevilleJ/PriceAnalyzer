@@ -5,7 +5,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using LumenWorks.Framework.IO.Csv;
-using Sonneville.PriceTools.Extensions;
 
 namespace Sonneville.PriceTools.Data.Csv
 {

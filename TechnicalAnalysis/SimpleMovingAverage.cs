@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using Sonneville.PriceTools.Extensions;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {

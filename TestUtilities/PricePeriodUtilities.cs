@@ -1,6 +1,5 @@
 ﻿using System;
 using Sonneville.PriceTools;
-using Sonneville.PriceTools.Extensions;
 
 namespace TestUtilities.Sonneville.PriceTools
 {

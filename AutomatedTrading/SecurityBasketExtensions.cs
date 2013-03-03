@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Extensions;
 using Statistics;
 
 namespace Sonneville.PriceTools.AutomatedTrading

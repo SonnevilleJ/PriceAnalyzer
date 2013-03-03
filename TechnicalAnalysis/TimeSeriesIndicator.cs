@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Sonneville.PriceTools.Extensions;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {

@@ -2,7 +2,7 @@
 using System.Globalization;
 using Sonneville.PriceTools.Data;
 
-namespace Sonneville.PriceTools.Extensions
+namespace Sonneville.PriceTools
 {
     /// <summary>
     /// A class which holds extension methods for <see cref="IPriceSeries"/> classes.
