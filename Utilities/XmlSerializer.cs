@@ -60,25 +60,25 @@ namespace Sonneville.Utilities
         /// <exception cref="NotSupportedException">Thrown when deserialization fails.</exception>
         private static bool TryDeserialize<T>(Type type, string xml, out T result)
         {
-            using (var stream = new MemoryStream())
+            try
             {
-                using (var textWriter = new StreamWriter(stream))
+                using (var stream = new MemoryStream())
                 {
-                    try
+                    using (var textWriter = new StreamWriter(stream))
                     {
                         var deserializer = new DataContractSerializer(type);
                         textWriter.Write(xml);
                         textWriter.Flush();
                         stream.Position = 0;
-                        result = (T)deserializer.ReadObject(stream);
+                        result = (T) deserializer.ReadObject(stream);
                         return true;
                     }
-                    catch
-                    {
-                        result = default(T);
-                        return false;
-                    }
                 }
+            }
+            catch
+            {
+                result = default(T);
+                return false;
             }
         }
 
