@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -53,7 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutomatedTrading\AutomatedTrading.csproj">
-      <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
+      <Project>{55c455ec-22fc-47a6-a467-c57b9edccec0}</Project>
       <Name>AutomatedTrading</Name>
     </ProjectReference>
     <ProjectReference Include="..\Data\Data.csproj">
