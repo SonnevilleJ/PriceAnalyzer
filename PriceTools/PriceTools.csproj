@@ -85,6 +85,7 @@
     <Compile Include="Implementation\WithdrawalImpl.cs" />
     <Compile Include="Interfaces\IPricePeriod.cs" />
     <Compile Include="Interfaces\IPriceSeries.cs" />
+    <Compile Include="Interfaces\ISecurityBasket.cs" />
     <Compile Include="Interfaces\ISell.cs" />
     <Compile Include="Interfaces\ISellShort.cs" />
     <Compile Include="Interfaces\IShareTransaction.cs" />
@@ -100,7 +101,6 @@
     <Compile Include="Interfaces\IOpeningTransaction.cs" />
     <Compile Include="Implementation\PricePeriodImpl.cs" />
     <Compile Include="Implementation\PriceSeriesImpl.cs" />
-    <Compile Include="SecurityBasket.cs" />
     <Compile Include="Interfaces\IShortTransaction.cs" />
     <Compile Include="StockIndexInfo.cs" />
     <Compile Include="Interfaces\IOrder.cs" />
