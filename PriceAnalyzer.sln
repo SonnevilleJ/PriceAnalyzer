@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtilities", "TestUtilit
 EndProject
 Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Architecture", "Architecture\Architecture.modelproj", "{6CB36167-4DF2-400E-9533-B37A09ADC66E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAnalyzer", "PriceAnalyzer\PriceAnalyzer.csproj", "{38151461-5A2A-4351-BCD6-C818FFBDFB77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -208,6 +210,12 @@ Global
 		{6CB36167-4DF2-400E-9533-B37A09ADC66E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CB36167-4DF2-400E-9533-B37A09ADC66E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{6CB36167-4DF2-400E-9533-B37A09ADC66E}.Release|x86.ActiveCfg = Release|Any CPU
+		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
