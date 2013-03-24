@@ -8,6 +8,13 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     [TestClass]
     public class OrderExpiredEventArgsTest
     {
+        private static readonly IOrderFactory _orderFactory;
+
+        static OrderExpiredEventArgsTest()
+        {
+            _orderFactory = new OrderFactory();
+        }
+
         private static void GetObjects(out IOrder order, out OrderExpiredEventArgs target)
         {
             var issued = new DateTime(2011, 12, 6);
@@ -17,7 +24,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;
             const decimal price = 100.00m;
             
-            order = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            order = _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
             target = new OrderExpiredEventArgs(order);
         }
 

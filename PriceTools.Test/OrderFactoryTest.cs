@@ -7,6 +7,13 @@ namespace Test.Sonneville.PriceTools
     [TestClass]
     public class OrderFactoryTest
     {
+        private readonly IOrderFactory _orderFactory;
+
+        public OrderFactoryTest()
+        {
+            _orderFactory = new OrderFactory();
+        }
+
         [TestMethod]
         public void IssuedTest()
         {
@@ -18,7 +25,7 @@ namespace Test.Sonneville.PriceTools
             var price = GetValidPrice();
             var pricingType = GetPricingType();
 
-            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            var target = _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
             Assert.AreEqual(issued, target.Issued);
         }
@@ -34,7 +41,7 @@ namespace Test.Sonneville.PriceTools
             var price = GetValidPrice();
             var pricingType = GetPricingType();
 
-            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            var target = _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
             Assert.AreEqual(expired, target.Expiration);
         }
@@ -51,7 +58,7 @@ namespace Test.Sonneville.PriceTools
             var price = GetValidPrice();
             var pricingType = GetPricingType();
 
-            OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
         }
 
         [TestMethod]
@@ -65,7 +72,7 @@ namespace Test.Sonneville.PriceTools
             var price = GetValidPrice();
             var pricingType = GetPricingType();
 
-            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            var target = _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
             Assert.AreEqual(orderType, target.OrderType);
         }
@@ -81,7 +88,7 @@ namespace Test.Sonneville.PriceTools
             var price = GetValidPrice();
             var pricingType = GetPricingType();
 
-            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            var target = _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
             Assert.AreEqual(ticker, target.Ticker);
         }
@@ -97,7 +104,7 @@ namespace Test.Sonneville.PriceTools
             var price = GetValidPrice();
             var pricingType = GetPricingType();
 
-            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            var target = _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
             Assert.AreEqual(shares, target.Shares);
         }
@@ -114,7 +121,7 @@ namespace Test.Sonneville.PriceTools
             var price = GetValidPrice();
             var pricingType = GetPricingType();
 
-            OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
         }
 
         [TestMethod]
@@ -128,7 +135,7 @@ namespace Test.Sonneville.PriceTools
             var price = GetValidPrice();
             var pricingType = GetPricingType();
 
-            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            var target = _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
             Assert.AreEqual(price, target.Price);
         }
@@ -145,7 +152,7 @@ namespace Test.Sonneville.PriceTools
             var price = GetInvalidPrice();
             var pricingType = GetPricingType();
 
-            OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
         }
 
         [TestMethod]
@@ -158,7 +165,7 @@ namespace Test.Sonneville.PriceTools
             var shares = GetValidShares();
             var price = GetValidPrice();
 
-            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var target = _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
 
             Assert.AreEqual(PricingType.Market, target.PricingType);
         }
@@ -174,7 +181,7 @@ namespace Test.Sonneville.PriceTools
             var price = GetValidPrice();
             var pricingType = GetPricingType();
 
-            var target = OrderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
+            var target = _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
 
             Assert.AreEqual(pricingType, target.PricingType);
         }

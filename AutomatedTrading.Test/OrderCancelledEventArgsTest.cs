@@ -9,6 +9,13 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     [TestClass]
     public class OrderCancelledEventArgsTest
     {
+        private static readonly IOrderFactory OrderFactory;
+
+        static OrderCancelledEventArgsTest()
+        {
+            OrderFactory = new OrderFactory();
+        }
+
         private static void GetObjects(out DateTime cancelled, out IOrder order, out OrderCancelledEventArgs target)
         {
             var issued = new DateTime(2011, 12, 6);
