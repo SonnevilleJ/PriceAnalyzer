@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    internal class PriceSeriesImpl : PricePeriodImpl, IEquatable<IPriceSeries>, IPriceSeries
+    internal class PriceSeriesImpl : PricePeriodImpl, IPriceSeries
     {
         /// <summary>
         /// The default <see cref="Resolution"/> of a PriceSeries.

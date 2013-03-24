@@ -14,12 +14,19 @@ namespace Test.Sonneville.PriceTools
     [TestClass]
     public class TimeSeriesExtensionsTest
     {
+        private readonly IPriceSeriesFactory _priceSeriesFactory;
+
+        public TimeSeriesExtensionsTest()
+        {
+            _priceSeriesFactory = new PriceSeriesFactory();
+        }
+
         [TestMethod]
         public void ResizePricePeriodsWeeklyResolutionCount()
         {
             var head = new DateTime(2011, 1, 1);
             var tail = new DateTime(2011, 6, 30).CurrentPeriodClose(Resolution.Days);
-            var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(head, tail));
 
             var pricePeriods = priceSeries.ResizePricePeriods(Resolution.Weeks);
@@ -32,7 +39,7 @@ namespace Test.Sonneville.PriceTools
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(seriesHead, seriesTail));
 
             var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
@@ -73,7 +80,7 @@ namespace Test.Sonneville.PriceTools
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(seriesHead, seriesTail));
 
             var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();

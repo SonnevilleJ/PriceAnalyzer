@@ -10,13 +10,25 @@ namespace Test.Sonneville.PriceTools.Yahoo
     [TestClass]
     public class PriceRetrievalExtensionsTest
     {
+        private readonly IPriceSeriesFactory _priceSeriesFactory;
+
+        public PriceRetrievalExtensionsTest()
+        {
+            _priceSeriesFactory = new PriceSeriesFactory();
+        }
+
+        private YahooPriceDataProvider GetTestObject()
+        {
+            return new YahooPriceDataProvider();
+        }
+
         [TestMethod]
         public void TestDownloadPriceDataHead()
         {
             var dateTime = new DateTime(2011, 4, 1);
-            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            var target = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
 
-            var provider = new YahooPriceDataProvider();
+            var provider = GetTestObject();
             target.UpdatePriceData(provider, dateTime);
 
             Assert.IsNotNull(target[dateTime.AddHours(12)]);    // add 12 hours because no price is available at midnight.
@@ -27,7 +39,7 @@ namespace Test.Sonneville.PriceTools.Yahoo
         {
             var head = new DateTime(2011, 4, 1);
             var tail = head.AddMonths(1);
-            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            var target = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
 
             var provider = new YahooPriceDataProvider();
             target.UpdatePriceData(provider, head, tail);
@@ -42,7 +54,7 @@ namespace Test.Sonneville.PriceTools.Yahoo
             var provider = new MockProvider();
             var head = new DateTime(2011, 4, 1);
             var tail = head.AddMonths(1);
-            var target = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            var target = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
 
             target.UpdatePriceData(provider, head, tail);
         }

@@ -9,18 +9,20 @@ namespace Test.Sonneville.PriceTools
     public class PriceSeriesEqualityTests
     {
         private readonly IPricePeriodFactory _pricePeriodFactory;
+        private readonly IPriceSeriesFactory _priceSeriesFactory;
 
         public PriceSeriesEqualityTests()
         {
             _pricePeriodFactory = new PricePeriodFactory();
+            _priceSeriesFactory = new PriceSeriesFactory();
         }
 
         [TestMethod]
         public void EqualsEmptyPriceSeries()
         {
             var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var ps1 = PriceSeriesFactory.ConstructPriceSeries(ticker);
-            var ps2 = PriceSeriesFactory.ConstructPriceSeries(ticker);
+            var ps1 = _priceSeriesFactory.ConstructPriceSeries(ticker);
+            var ps2 = _priceSeriesFactory.ConstructPriceSeries(ticker);
 
             Assert.IsTrue(ps1.Equals(ps2));
         }
@@ -29,8 +31,8 @@ namespace Test.Sonneville.PriceTools
         public void EqualsTestSameTicker()
         {
             var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var ps1 = PriceSeriesFactory.ConstructPriceSeries(ticker);
-            var ps2 = PriceSeriesFactory.ConstructPriceSeries(ticker);
+            var ps1 = _priceSeriesFactory.ConstructPriceSeries(ticker);
+            var ps2 = _priceSeriesFactory.ConstructPriceSeries(ticker);
 
             Assert.IsTrue(ps1.Equals(ps2));
         }
@@ -38,8 +40,8 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void EqualsTestDifferentTicker()
         {
-            var ps1 = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
-            var ps2 = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var ps1 = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var ps2 = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
 
             Assert.IsFalse(ps1.Equals(ps2));
         }
@@ -48,8 +50,8 @@ namespace Test.Sonneville.PriceTools
         public void ReferenceEqualsTestSameTicker()
         {
             var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var ps1 = PriceSeriesFactory.ConstructPriceSeries(ticker);
-            var ps2 = PriceSeriesFactory.ConstructPriceSeries(ticker);
+            var ps1 = _priceSeriesFactory.ConstructPriceSeries(ticker);
+            var ps2 = _priceSeriesFactory.ConstructPriceSeries(ticker);
 
             Assert.IsTrue(ReferenceEquals(ps1, ps2));
         }
@@ -57,8 +59,8 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void ReferenceEqualsTestDifferentTicker()
         {
-            var ps1 = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
-            var ps2 = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var ps1 = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var ps2 = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
 
             Assert.IsFalse(ReferenceEquals(ps1, ps2));
         }
@@ -67,8 +69,8 @@ namespace Test.Sonneville.PriceTools
         public void GetHashCodeTestSameTicker()
         {
             var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var ps1 = PriceSeriesFactory.ConstructPriceSeries(ticker);
-            var ps2 = PriceSeriesFactory.ConstructPriceSeries(ticker);
+            var ps1 = _priceSeriesFactory.ConstructPriceSeries(ticker);
+            var ps2 = _priceSeriesFactory.ConstructPriceSeries(ticker);
 
             Assert.IsTrue(ReferenceEquals(ps1, ps2));
         }
@@ -76,8 +78,8 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void GetHashCodeTestDifferentTicker()
         {
-            var ps1 = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
-            var ps2 = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var ps1 = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var ps2 = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
 
             Assert.IsFalse(ReferenceEquals(ps1, ps2));
         }
@@ -88,10 +90,10 @@ namespace Test.Sonneville.PriceTools
             var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker3 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var series1 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series4 = PriceSeriesFactory.ConstructPriceSeries(ticker3);
+            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series4 = _priceSeriesFactory.ConstructPriceSeries(ticker3);
             var dateTime = DateTime.Now;
             series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
             series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
@@ -108,10 +110,10 @@ namespace Test.Sonneville.PriceTools
         {
             var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var series1 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series4 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series4 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
             var dateTime = DateTime.Now;
             series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
             series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
@@ -128,11 +130,11 @@ namespace Test.Sonneville.PriceTools
             var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker3 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var series1 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series4 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series5 = PriceSeriesFactory.ConstructPriceSeries(ticker3);
+            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series4 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series5 = _priceSeriesFactory.ConstructPriceSeries(ticker3);
             var dateTime = DateTime.Now;
             series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
             series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
@@ -149,9 +151,9 @@ namespace Test.Sonneville.PriceTools
         {
             var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var series1 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
             var dateTime = DateTime.Now;
             series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
             series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
@@ -167,10 +169,10 @@ namespace Test.Sonneville.PriceTools
         {
             var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var series1 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series4 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series4 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
             var dateTime = DateTime.Now;
             series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
             series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
@@ -187,10 +189,10 @@ namespace Test.Sonneville.PriceTools
             var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker3 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var series1 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = PriceSeriesFactory.ConstructPriceSeries(ticker3);
-            var series4 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker3);
+            var series4 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
             var dateTime = DateTime.Now;
             series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
             series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
@@ -207,10 +209,10 @@ namespace Test.Sonneville.PriceTools
         {
             var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var series1 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series4 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series4 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
             var dateTime = DateTime.Now;
             series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
             series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
@@ -227,11 +229,11 @@ namespace Test.Sonneville.PriceTools
             var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker3 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var series1 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series4 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series5 = PriceSeriesFactory.ConstructPriceSeries(ticker3);
+            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series4 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series5 = _priceSeriesFactory.ConstructPriceSeries(ticker3);
             var dateTime = DateTime.Now;
             series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
             series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
@@ -248,9 +250,9 @@ namespace Test.Sonneville.PriceTools
         {
             var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var series1 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
             var dateTime = DateTime.Now;
             series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
             series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
@@ -266,10 +268,10 @@ namespace Test.Sonneville.PriceTools
         {
             var ticker1 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
             var ticker2 = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
-            var series1 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = PriceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series4 = PriceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
+            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
+            var series4 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
             var dateTime = DateTime.Now;
             series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
             series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));

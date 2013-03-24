@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace Sonneville.PriceTools
@@ -5,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a time-series of price data.
     /// </summary>
-    public interface IPriceSeries : IPricePeriod, ITimeSeries
+    public interface IPriceSeries : IPricePeriod, ITimeSeries, IEquatable<IPriceSeries>
     {
         /// <summary>
         /// Gets the ticker symbol priced by this PriceSeries.

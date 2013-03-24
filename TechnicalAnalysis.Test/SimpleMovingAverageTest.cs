@@ -96,15 +96,15 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         [TestMethod]
         public void DataInNonTradingPeriods()
         {
-            var p1 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p2 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p3 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p4 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p5 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p6 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p7 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p8 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p9 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p1 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p2 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p3 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p4 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p5 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p6 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p7 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p8 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p9 = _pricePeriodFactory.ConstructTickedPricePeriod();
 
             var date = new DateTime(2000, 1, 1);
             p1.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date, 1));
@@ -117,7 +117,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             p8.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(7), 2));
             p9.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.AddDays(8), 1));
 
-            var series = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var series = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             series.AddPriceData(p1);
             series.AddPriceData(p2);
             series.AddPriceData(p3);
@@ -145,15 +145,15 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         [TestMethod]
         public void DataInTradingPeriods()
         {
-            var p1 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p2 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p3 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p4 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p5 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p6 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p7 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p8 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p9 = PricePeriodFactory.ConstructTickedPricePeriod();
+            var p1 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p2 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p3 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p4 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p5 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p6 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p7 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p8 = _pricePeriodFactory.ConstructTickedPricePeriod();
+            var p9 = _pricePeriodFactory.ConstructTickedPricePeriod();
 
             const Resolution resolution = Resolution.Days;
             var date = new DateTime(2000, 1, 1);
@@ -167,7 +167,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             p8.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(8, resolution), 2));
             p9.AddPriceTicks(PriceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(9, resolution), 1));
 
-            var series = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var series = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             series.AddPriceData(p1);
             series.AddPriceData(p2);
             series.AddPriceData(p3);
