@@ -12,6 +12,13 @@ namespace Test.Sonneville.PriceTools
     [TestClass]
     public class TickedPricePeriodTest
     {
+        private readonly IPricePeriodFactory _pricePeriodFactory;
+
+        public TickedPricePeriodTest()
+        {
+            _pricePeriodFactory = new PricePeriodFactory();
+        }
+
         [TestMethod]
         public void TimeSpanTest()
         {
@@ -19,7 +26,7 @@ namespace Test.Sonneville.PriceTools
             var q2 = PriceQuoteUtilities.CreateTick2();
             var q3 = PriceQuoteUtilities.CreateTick3();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
 
             Assert.AreEqual(new TimeSpan(2, 4, 30, 0), target.TimeSpan());
@@ -32,7 +39,7 @@ namespace Test.Sonneville.PriceTools
             var q2 = PriceQuoteUtilities.CreateTick2();
             var q3 = PriceQuoteUtilities.CreateTick3();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
 
             Assert.AreEqual(q1.Price, target.Open);
@@ -45,7 +52,7 @@ namespace Test.Sonneville.PriceTools
             var q2 = PriceQuoteUtilities.CreateTick2();
             var q3 = PriceQuoteUtilities.CreateTick3();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
 
             Assert.AreEqual(q3.Price, target.High);
@@ -58,7 +65,7 @@ namespace Test.Sonneville.PriceTools
             var q2 = PriceQuoteUtilities.CreateTick2();
             var q3 = PriceQuoteUtilities.CreateTick3();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
 
             Assert.AreEqual(q2.Price, target.Low);
@@ -71,7 +78,7 @@ namespace Test.Sonneville.PriceTools
             var q2 = PriceQuoteUtilities.CreateTick2();
             var q3 = PriceQuoteUtilities.CreateTick3();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
 
             Assert.AreEqual(q3.Price, target.Close);
@@ -84,7 +91,7 @@ namespace Test.Sonneville.PriceTools
             var q2 = PriceQuoteUtilities.CreateTick2();
             var q3 = PriceQuoteUtilities.CreateTick3();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
 
             Assert.AreEqual(q1.Volume + q2.Volume + q3.Volume, target.Volume);
@@ -98,7 +105,7 @@ namespace Test.Sonneville.PriceTools
             var q3 = PriceQuoteUtilities.CreateTick3();
             var q4 = PriceQuoteUtilities.CreateTick4();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
 
             target.AddPriceTicks(q1, q2, q3);
             Assert.AreEqual(new TimeSpan(2, 4, 30, 0), target.TimeSpan());
@@ -115,7 +122,7 @@ namespace Test.Sonneville.PriceTools
             var q3 = PriceQuoteUtilities.CreateTick3();
             var q4 = PriceQuoteUtilities.CreateTick4();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
 
             target.AddPriceTicks(q1, q2, q3);
             Assert.AreEqual(q1.Price, target.Open);
@@ -132,7 +139,7 @@ namespace Test.Sonneville.PriceTools
             var q3 = PriceQuoteUtilities.CreateTick3();
             var q4 = PriceQuoteUtilities.CreateTick4();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
 
             target.AddPriceTicks(q1, q2, q3);
             Assert.AreEqual(q3.Price, target.High);
@@ -149,7 +156,7 @@ namespace Test.Sonneville.PriceTools
             var q3 = PriceQuoteUtilities.CreateTick3();
             var q4 = PriceQuoteUtilities.CreateTick4();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
 
             target.AddPriceTicks(q1, q2, q3);
             Assert.AreEqual(q2.Price, target.Low);
@@ -166,7 +173,7 @@ namespace Test.Sonneville.PriceTools
             var q3 = PriceQuoteUtilities.CreateTick3();
             var q4 = PriceQuoteUtilities.CreateTick4();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
 
             target.AddPriceTicks(q1, q2, q3);
             Assert.AreEqual(q3.Price, target.Close);
@@ -183,7 +190,7 @@ namespace Test.Sonneville.PriceTools
             var q3 = PriceQuoteUtilities.CreateTick3();
             var q4 = PriceQuoteUtilities.CreateTick4();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
 
             target.AddPriceTicks(q1, q2, q3);
             Assert.AreEqual(q1.Volume + q2.Volume + q3.Volume, target.Volume);
@@ -199,7 +206,7 @@ namespace Test.Sonneville.PriceTools
             var q2 = PriceQuoteUtilities.CreateTick2();
             var q3 = PriceQuoteUtilities.CreateTick3();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
 
             target.AddPriceTicks(q2, q3);
             Assert.AreEqual(q2.Price, target.Open);
@@ -215,7 +222,7 @@ namespace Test.Sonneville.PriceTools
             var q2 = PriceQuoteUtilities.CreateTick2();
             var q3 = PriceQuoteUtilities.CreateTick3();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
 
             Assert.AreEqual(q2.Price, target[q2.SettlementDate]);
@@ -233,7 +240,7 @@ namespace Test.Sonneville.PriceTools
             var q2 = PriceQuoteUtilities.CreateTick2();
             var q3 = PriceQuoteUtilities.CreateTick3();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
             target.AddPriceTicks(q1, q2, q3);
 
             Assert.AreEqual(3, target.PriceTicks.Count);
@@ -248,7 +255,7 @@ namespace Test.Sonneville.PriceTools
         {
             var q1 = PriceQuoteUtilities.CreateTick1();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
             target.PriceTicks.Add(q1);
 
             Assert.AreEqual(0, target.PriceTicks.Count);
@@ -261,14 +268,14 @@ namespace Test.Sonneville.PriceTools
             var q2 = PriceQuoteUtilities.CreateTick2();
             var q3 = PriceQuoteUtilities.CreateTick3();
 
-            var target = PricePeriodFactory.ConstructTickedPricePeriod();
+            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
             int[] count = {0}; // int is value type. array is reference type. value types are subject to modified closures
             EventHandler<NewDataAvailableEventArgs> handler = delegate { Interlocked.Increment(ref count[0]); };
             target.NewDataAvailable += handler;
             target.AddPriceTicks(q1, q2, q3);
             Assert.AreEqual(1, count[0]);
 
-            target = PricePeriodFactory.ConstructTickedPricePeriod();
+            target = _pricePeriodFactory.ConstructTickedPricePeriod();
             count[0] = 0;
             target.NewDataAvailable += handler;
             target.AddPriceTicks(q1);

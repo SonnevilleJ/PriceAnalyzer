@@ -16,6 +16,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     public class AnalyzerTest
     {
         private static IPriceSeries _priceSeries;
+        private readonly IPricePeriodFactory _pricePeriodFactory;
+
+        public AnalyzerTest()
+        {
+            _pricePeriodFactory = new PricePeriodFactory();
+        }
 
         [ClassInitialize]
         public static void ClassInitialize(TestContext context)
@@ -30,7 +36,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var head = new DateTime(2011, 7, 1);
             var tail = head;
             const decimal close = 5.0m;
-            ITimePeriod period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            ITimePeriod period = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             new HigherThanYesterdayAnalyzer {TimePeriod = period};
         }

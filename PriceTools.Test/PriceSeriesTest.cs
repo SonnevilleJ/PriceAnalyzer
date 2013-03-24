@@ -14,6 +14,13 @@ namespace Test.Sonneville.PriceTools
     [TestClass]
     public class PriceSeriesTest
     {
+        private readonly IPricePeriodFactory _pricePeriodFactory;
+
+        public PriceSeriesTest()
+        {
+            _pricePeriodFactory = new PricePeriodFactory();
+        }
+
         /// <summary>
         ///A test for Close
         ///</summary>
@@ -402,7 +409,7 @@ namespace Test.Sonneville.PriceTools
             var head = new DateTime(2011, 12, 28);
             var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             var raised = false;
             EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { raised = true; };
@@ -428,7 +435,7 @@ namespace Test.Sonneville.PriceTools
             var head = new DateTime(2011, 12, 28);
             var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             NewDataAvailableEventArgs args = null;
             EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { args = e; };
@@ -490,7 +497,7 @@ namespace Test.Sonneville.PriceTools
             var head = new DateTime(2011, 12, 28);
             var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             target.AddPriceData(period);
 
@@ -504,7 +511,7 @@ namespace Test.Sonneville.PriceTools
             var head = new DateTime(2011, 2, 28);
             var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             var triggered = false;
             EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { triggered = true; };
@@ -530,7 +537,7 @@ namespace Test.Sonneville.PriceTools
             var tail = target.Head.NextPeriodClose(target.Resolution);
             var head = tail.AddDays(-1).PreviousPeriodOpen(target.Resolution);
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             var triggered = false;
             EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { triggered = true; };
@@ -556,7 +563,7 @@ namespace Test.Sonneville.PriceTools
             var head = target.Tail.PreviousPeriodOpen(target.Resolution);
             var tail = head.AddDays(1).NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
-            var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             var triggered = false;
             EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { triggered = true; };

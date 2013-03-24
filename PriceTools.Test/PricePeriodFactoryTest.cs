@@ -12,6 +12,13 @@ namespace Test.Sonneville.PriceTools
     {
         public abstract class StaticPricePeriodFactoryConstructorTestsBase
         {
+            protected readonly IPricePeriodFactory PricePeriodFactory;
+
+            protected StaticPricePeriodFactoryConstructorTestsBase()
+            {
+                PricePeriodFactory = new PricePeriodFactory();
+            }
+
             public abstract void CreateStaticPricePeriodHeadTest();
 
             public abstract void CreateStaticPricePeriodTailTest();
@@ -1058,6 +1065,13 @@ namespace Test.Sonneville.PriceTools
         
         public abstract class TickedPricePeriodFactoryTestsBase
         {
+            protected readonly IPricePeriodFactory PricePeriodFactory;
+
+            protected TickedPricePeriodFactoryTestsBase()
+            {
+                PricePeriodFactory = new PricePeriodFactory();
+            }
+
             public abstract void ConstructQuotedPricePeriodQuotesCountTest();
 
             public abstract void ConstructQuotedPricePeriodHeadTest();

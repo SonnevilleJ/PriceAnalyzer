@@ -55,6 +55,7 @@
     <Compile Include="Factories\ICashAccountFactory.cs" />
     <Compile Include="Factories\IHoldingFactory.cs" />
     <Compile Include="Factories\IOrderFactory.cs" />
+    <Compile Include="Factories\IPricePeriodFactory.cs" />
     <Compile Include="Interfaces\IAccumulationTransaction.cs" />
     <Compile Include="Interfaces\IClosingTransaction.cs" />
     <Compile Include="Interfaces\IDistributionTransaction.cs" />

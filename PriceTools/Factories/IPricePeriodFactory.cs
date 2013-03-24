@@ -1,14 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
-    /// <summary>
-    /// Constructs <see cref="IPricePeriod"/> objects.
-    /// </summary>
-    public class PricePeriodFactory : IPricePeriodFactory
+    public interface IPricePeriodFactory
     {
         /// <summary>
         /// Constructs a <see cref="IPricePeriod"/> with data.
@@ -18,10 +13,7 @@ namespace Sonneville.PriceTools
         /// <param name="close">The per-share price of the last transaction in the period.</param>
         /// <param name="volume">The total number of shares traded during the period.</param>
         /// <returns>A PricePeriod object with only a close.</returns>
-        public IPricePeriod ConstructStaticPricePeriod(DateTime head, DateTime tail, decimal close, long? volume = null)
-        {
-            return ConstructStaticPricePeriod(head, tail, null, null, null, close, volume);
-        }
+        IPricePeriod ConstructStaticPricePeriod(DateTime head, DateTime tail, decimal close, long? volume = null);
 
         /// <summary>
         /// Constructs a <see cref="IPricePeriod"/> with data.
@@ -31,10 +23,7 @@ namespace Sonneville.PriceTools
         /// <param name="close">The per-share price of the last transaction in the period.</param>
         /// <param name="volume">The total number of shares traded during the period.</param>
         /// <returns>A PricePeriod object with only a close.</returns>
-        public IPricePeriod ConstructStaticPricePeriod(DateTime head, Resolution resolution, decimal close, long? volume = null)
-        {
-            return ConstructStaticPricePeriod(head, resolution, null, null, null, close, volume);
-        }
+        IPricePeriod ConstructStaticPricePeriod(DateTime head, Resolution resolution, decimal close, long? volume = null);
 
         /// <summary>
         /// Constructs a <see cref="IPricePeriod"/> with data.
@@ -47,10 +36,7 @@ namespace Sonneville.PriceTools
         /// <param name="close">The per-share price of the last transaction in the period.</param>
         /// <param name="volume">The total number of shares traded during the period.</param>
         /// <returns>A PricePeriod object with only a close.</returns>
-        public IPricePeriod ConstructStaticPricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
-        {
-            return new StaticPricePeriodImpl(head, tail, open, high, low, close, volume);
-        }
+        IPricePeriod ConstructStaticPricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null);
 
         /// <summary>
         /// Constructs a <see cref="IPricePeriod"/> with data.
@@ -63,40 +49,26 @@ namespace Sonneville.PriceTools
         /// <param name="close">The per-share price of the last transaction in the period.</param>
         /// <param name="volume">The total number of shares traded during the period.</param>
         /// <returns>A PricePeriod object with only a close.</returns>
-        public IPricePeriod ConstructStaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
-        {
-            return new StaticPricePeriodImpl(head, resolution, open, high, low, close, volume);
-        }
+        IPricePeriod ConstructStaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null);
 
         /// <summary>
         /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
         /// </summary>
         /// <returns></returns>
-        public ITickedPricePeriod ConstructTickedPricePeriod()
-        {
-            return new TickedPricePeriodImpl();
-        }
+        ITickedPricePeriod ConstructTickedPricePeriod();
 
         /// <summary>
         /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
         /// </summary>
         /// <param name="priceTicks"></param>
         /// <returns></returns>
-        public ITickedPricePeriod ConstructTickedPricePeriod(IEnumerable<IPriceTick> priceTicks)
-        {
-            return ConstructTickedPricePeriod(priceTicks.ToArray());
-        }
+        ITickedPricePeriod ConstructTickedPricePeriod(IEnumerable<IPriceTick> priceTicks);
 
         /// <summary>
         /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
         /// </summary>
         /// <param name="priceTickArray"></param>
         /// <returns></returns>
-        public ITickedPricePeriod ConstructTickedPricePeriod(params IPriceTick[] priceTickArray)
-        {
-            var period = new TickedPricePeriodImpl();
-            period.AddPriceTicks(priceTickArray);
-            return period;
-        }
+        ITickedPricePeriod ConstructTickedPricePeriod(params IPriceTick[] priceTickArray);
     }
 }

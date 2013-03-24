@@ -8,8 +8,15 @@ using Sonneville.PriceTools.Test.PriceData;
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public abstract class CommonIndicatorTests<T> where T : TimeSeriesIndicator
+    public abstract class CommonIndicatorTests<T> where T : ITimeSeriesIndicator
     {
+        protected static readonly IPricePeriodFactory PricePeriodFactory;
+
+        static CommonIndicatorTests()
+        {
+            PricePeriodFactory = new PricePeriodFactory();
+        }
+
         /// <summary>
         /// The default lookback period to use when creating test instances.
         /// </summary>
