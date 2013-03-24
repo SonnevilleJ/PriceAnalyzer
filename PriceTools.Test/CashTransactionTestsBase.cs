@@ -8,6 +8,13 @@ namespace Test.Sonneville.PriceTools
 {
     public abstract class CashTransactionTestsBase
     {
+        private static readonly ITransactionFactory _transactionFactory;
+
+        static CashTransactionTestsBase()
+        {
+            _transactionFactory = new TransactionFactory();
+        }
+
         /// <summary>
         /// A test for serialization
         /// </summary>
@@ -37,7 +44,7 @@ namespace Test.Sonneville.PriceTools
             var date = GetSettlementDate();
             var amount = GetValidAmount(transactionType);
 
-            var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
+            var target = _transactionFactory.ConstructCashTransaction(transactionType, date, amount);
 
             var xml = XmlSerializer.SerializeToXml(target);
             var result = XmlSerializer.DeserializeFromXml<ICashTransaction>(xml);
@@ -50,7 +57,7 @@ namespace Test.Sonneville.PriceTools
             var date = GetSettlementDate();
             var amount = GetValidAmount(transactionType);
 
-            var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
+            var target = _transactionFactory.ConstructCashTransaction(transactionType, date, amount);
 
             var expected = date;
             var actual = target.SettlementDate;
@@ -62,7 +69,7 @@ namespace Test.Sonneville.PriceTools
             var date = GetSettlementDate();
             var amount = GetInversePrice(transactionType);
 
-            var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
+            var target = _transactionFactory.ConstructCashTransaction(transactionType, date, amount);
 
             var expected = GetValidAmount(transactionType);
             var actual = target.Amount;
@@ -74,7 +81,7 @@ namespace Test.Sonneville.PriceTools
             var date = GetSettlementDate();
             var amount = GetValidAmount(transactionType);
 
-            var target = TransactionFactory.ConstructCashTransaction(transactionType, date, amount);
+            var target = _transactionFactory.ConstructCashTransaction(transactionType, date, amount);
 
             var expected = GetValidAmount(transactionType);
             var actual = target.Amount;

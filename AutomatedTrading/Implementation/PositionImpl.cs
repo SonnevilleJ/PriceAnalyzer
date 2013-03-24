@@ -14,6 +14,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         private string _ticker;
         private readonly ICollection<IShareTransaction> _transactions = new List<IShareTransaction>();
+        private readonly ITransactionFactory _transactionFactory;
 
         #endregion
 
@@ -25,6 +26,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <param name = "ticker">The ticker symbol that this Position will hold. All transactions will use this ticker symbol.</param>
         internal PositionImpl(string ticker)
         {
+            _transactionFactory = new TransactionFactory();
             Ticker = ticker;
         }
 
@@ -181,7 +183,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         private void AddTransaction(decimal shares, OrderType type, DateTime settlementDate, decimal price, decimal commission)
         {
-            var shareTransaction = TransactionFactory.ConstructShareTransaction(type, Ticker, settlementDate, shares, price, commission);
+            var shareTransaction = _transactionFactory.ConstructShareTransaction(type, Ticker, settlementDate, shares, price, commission);
             AddTransaction(shareTransaction);
         }
 
@@ -200,7 +202,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                     {
                         throw new InvalidOperationException(
                             String.Format(CultureInfo.CurrentCulture,
-                                          "This Transaction requires {0} shares, but only {1} shares are held by this Position as of {2}.",
+                                          Strings.PositionImpl_Validate_This_Transaction_requires__0__shares__but_only__1__shares_are_held_by_this_Position_as_of__2__,
                                           shareTransaction.Shares, heldShares, date));
                     }
             }

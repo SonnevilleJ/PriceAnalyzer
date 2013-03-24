@@ -10,11 +10,13 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     {
         private readonly IHoldingFactory _holdingFactory;
         private readonly IPortfolioFactory _portfolioFactory;
+        private readonly ITransactionFactory _transactionFactory;
 
         public PortfolioHoldingTests()
         {
             _holdingFactory = new HoldingFactory();
             _portfolioFactory = new PortfolioFactory();
+            _transactionFactory = new TransactionFactory();
         }
 
         [TestMethod]
@@ -27,11 +29,11 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const string ticker = "DE";
             const decimal buyPrice = 50.00m;
             const decimal shares = 2;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice);
 
             var sellDate = new DateTime(2011, 9, 26);
             const decimal sellPrice = 75.00m;
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice);
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
@@ -61,10 +63,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var firstBuy = TransactionFactory.ConstructBuy(ticker, firstBuyDate, sharesBought, buyPrice, commission);
-            var secondBuy = TransactionFactory.ConstructBuy(ticker, secondBuyDate, sharesBought, buyPrice, commission);
-            var firstSell = TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission);
-            var secondSell = TransactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission);
+            var firstBuy = _transactionFactory.ConstructBuy(ticker, firstBuyDate, sharesBought, buyPrice, commission);
+            var secondBuy = _transactionFactory.ConstructBuy(ticker, secondBuyDate, sharesBought, buyPrice, commission);
+            var firstSell = _transactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission);
+            var secondSell = _transactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
 
@@ -99,10 +101,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var firstBuy = TransactionFactory.ConstructBuy(firstTicker, firstBuyDate, sharesBought, buyPrice, commission);
-            var secondBuy = TransactionFactory.ConstructBuy(secondTicker, secondBuyDate, sharesBought, buyPrice, commission);
-            var firstSell = TransactionFactory.ConstructSell(firstTicker, firstSellDate, sharesSold, sellPrice, commission);
-            var secondSell = TransactionFactory.ConstructSell(secondTicker, secondSellDate, sharesSold, sellPrice, commission);
+            var firstBuy = _transactionFactory.ConstructBuy(firstTicker, firstBuyDate, sharesBought, buyPrice, commission);
+            var secondBuy = _transactionFactory.ConstructBuy(secondTicker, secondBuyDate, sharesBought, buyPrice, commission);
+            var firstSell = _transactionFactory.ConstructSell(firstTicker, firstSellDate, sharesSold, sellPrice, commission);
+            var secondSell = _transactionFactory.ConstructSell(secondTicker, secondSellDate, sharesSold, sellPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
 
@@ -137,10 +139,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var firstBuy = TransactionFactory.ConstructBuy(firstTicker, firstBuyDate, sharesBought, buyPrice, commission);
-            var secondBuy = TransactionFactory.ConstructBuy(secondTicker, secondBuyDate, sharesBought, buyPrice, commission);
-            var firstSell = TransactionFactory.ConstructSell(firstTicker, firstSellDate, sharesSold, sellPrice, commission);
-            var secondSell = TransactionFactory.ConstructSell(secondTicker, secondSellDate, sharesSold, sellPrice, commission);
+            var firstBuy = _transactionFactory.ConstructBuy(firstTicker, firstBuyDate, sharesBought, buyPrice, commission);
+            var secondBuy = _transactionFactory.ConstructBuy(secondTicker, secondBuyDate, sharesBought, buyPrice, commission);
+            var firstSell = _transactionFactory.ConstructSell(firstTicker, firstSellDate, sharesSold, sellPrice, commission);
+            var secondSell = _transactionFactory.ConstructSell(secondTicker, secondSellDate, sharesSold, sellPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
 

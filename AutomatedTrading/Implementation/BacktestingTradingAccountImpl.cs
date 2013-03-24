@@ -8,9 +8,12 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     /// </summary>
     internal class BacktestingTradingAccountImpl : TradingAccountImpl
     {
+        private readonly ITransactionFactory _transactionFactory;
+
         internal BacktestingTradingAccountImpl()
         {
             MaximumSlippage = 0.01m;
+            _transactionFactory = new TransactionFactory();
         }
 
         /// <summary>
@@ -35,7 +38,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                 // fill the order with slippage
                 var price = Math.Round(order.Price*(1 + CalculateSlippage()), 2);
                 var commission = Features.CommissionSchedule.PriceCheck(order);
-                var transaction = TransactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, now, order.Shares, price, commission);
+                var transaction = _transactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, now, order.Shares, price, commission);
 
                 // signal the order has been filled
                 InvokeOrderFilled(new OrderExecutedEventArgs(now, order, transaction));

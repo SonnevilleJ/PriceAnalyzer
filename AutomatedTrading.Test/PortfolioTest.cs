@@ -16,10 +16,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     public class PortfolioTest
     {
         private readonly IPortfolioFactory _portfolioFactory;
+        private readonly ITransactionFactory _transactionFactory;
 
         public PortfolioTest()
         {
             _portfolioFactory = new PortfolioFactory();
+            _transactionFactory = new TransactionFactory();
         }
 
         [TestMethod]
@@ -72,7 +74,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var openDate = new DateTime(2011, 2, 20);
             const decimal amount = 10000m;
-            var deposit = TransactionFactory.ConstructDeposit(openDate, amount);
+            var deposit = _transactionFactory.ConstructDeposit(openDate, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit);
             
@@ -85,8 +87,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var openDate = new DateTime(2011, 2, 20);
             const decimal amount = 10000m;
 
-            var deposit = TransactionFactory.ConstructDeposit(openDate, amount);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(openDate, amount);
+            var deposit = _transactionFactory.ConstructDeposit(openDate, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(openDate, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
@@ -120,10 +122,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
+            var deposit = _transactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(withdrawalDate, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
@@ -150,7 +152,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal price = 50.00m;
             const decimal shares = 2;
             const decimal commission = 7.95m;
-            var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
+            var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, _transactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
             // If the price date falls within a period, CalculateMarketValue will use price data from that period.
             // Because of this, I changed the price date to 11:59 pm rather than the next day (default of midnight).
@@ -173,8 +175,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal price = 50.00m;
             const decimal shares = 2;
             const decimal commission = 7.95m;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
@@ -203,8 +205,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal price = 50.00m;
             const decimal shares = 2;
             const decimal commission = 7.95m;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
@@ -232,8 +234,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal price = 50.00m;
             const decimal shares = 2;
             const decimal commission = 7.95m;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
@@ -261,8 +263,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal price = 50.00m;
             const decimal shares = 2;
             const decimal commission = 7.95m;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission);
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, shares, price, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
@@ -278,7 +280,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal deposit = 10000m;
             
             const string ticker = "DE";
-            var buy = TransactionFactory.ConstructBuy(ticker, dateTime, 5, 0.00m);
+            var buy = _transactionFactory.ConstructBuy(ticker, dateTime, 5, 0.00m);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy);
 
@@ -310,7 +312,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var date = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var deposit = TransactionFactory.ConstructDeposit(date, amount);
+            var deposit = _transactionFactory.ConstructDeposit(date, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit);
 
@@ -322,7 +324,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var date = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var deposit = TransactionFactory.ConstructDeposit(date, amount);
+            var deposit = _transactionFactory.ConstructDeposit(date, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit);
 
@@ -339,7 +341,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const string ticker = "DE";
             const decimal price = 50.00m;
             const decimal shares = 2;
-            var buy = TransactionFactory.ConstructBuy(ticker, date, shares, price);
+            var buy = _transactionFactory.ConstructBuy(ticker, date, shares, price);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy);
 
@@ -356,8 +358,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const string ticker = "DE";
             const decimal price = 50.00m;
             const decimal shares = 2;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price);
-            var sell = TransactionFactory.ConstructSell(ticker, buyDate.AddDays(1), shares, price);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, price);
+            var sell = _transactionFactory.ConstructSell(ticker, buyDate.AddDays(1), shares, price);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
@@ -375,8 +377,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const string ticker = "DE";
             const decimal price = 50.00m;
             const decimal shares = 2;
-            var sellShort = TransactionFactory.ConstructSellShort(ticker, buyDate, shares, price);
-            var buyToCover = TransactionFactory.ConstructBuyToCover(ticker, buyDate.AddDays(1), shares, price);
+            var sellShort = _transactionFactory.ConstructSellShort(ticker, buyDate, shares, price);
+            var buyToCover = _transactionFactory.ConstructBuyToCover(ticker, buyDate.AddDays(1), shares, price);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, sellShort, buyToCover);
 
@@ -394,7 +396,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const string ticker = "DE";
             const decimal price = 50.00m;
             const decimal shares = 2;
-            var sellShort = TransactionFactory.ConstructSellShort(ticker, date, shares, price);
+            var sellShort = _transactionFactory.ConstructSellShort(ticker, date, shares, price);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, sellShort);
 
@@ -411,8 +413,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const string ticker = "DE";
             const decimal price = 50.00m;
             const decimal shares = 2;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price);
-            var dividendReceipt = TransactionFactory.ConstructDividendReceipt(buyDate.AddDays(1), shares);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, price);
+            var dividendReceipt = _transactionFactory.ConstructDividendReceipt(buyDate.AddDays(1), shares);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, dividendReceipt);
 
@@ -430,8 +432,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const string ticker = "DE";
             const decimal price = 50.00m;
             const decimal shares = 2;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price);
-            var dividendReinvestment = TransactionFactory.ConstructDividendReinvestment(ticker, buyDate.AddDays(1), shares, 1);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, price);
+            var dividendReinvestment = _transactionFactory.ConstructDividendReinvestment(ticker, buyDate.AddDays(1), shares, 1);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, dividendReinvestment);
 
@@ -456,8 +458,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             // third transaction: buy1
             // fourth transaction: implicit withdrawal from buy2
             // fifth transaction: buy2
-            var buy1 = TransactionFactory.ConstructBuy(de, buyDate, shares, price);
-            var buy2 = TransactionFactory.ConstructBuy(msft, buyDate, shares, price);
+            var buy1 = _transactionFactory.ConstructBuy(de, buyDate, shares, price);
+            var buy2 = _transactionFactory.ConstructBuy(msft, buyDate, shares, price);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy1, buy2);
 
@@ -480,10 +482,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const string ticker = "DE";
             const decimal price = 50.00m;
             const decimal shares = 2;
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, price);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, price);
 
             var withdrawalDate = dateTime.AddDays(1);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, deposit);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(withdrawalDate, deposit);
 
             _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, withdrawal);
         }
@@ -506,7 +508,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal deposit = 10000m;
             
             var buyDate = dateTime.AddDays(1);
-            var buy = TransactionFactory.ConstructBuy("DE", buyDate, 10, 100.00m, 7.95m);
+            var buy = _transactionFactory.ConstructBuy("DE", buyDate, 10, 100.00m, 7.95m);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy);
 
@@ -533,8 +535,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var originalDate = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
 
-            var deposit = TransactionFactory.ConstructDeposit(originalDate, amount);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(originalDate.AddDays(10), amount);
+            var deposit = _transactionFactory.ConstructDeposit(originalDate, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(originalDate.AddDays(10), amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
@@ -561,7 +563,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal deposit = 10000m;
             
             var buyDate = dateTime.AddDays(1);
-            var buy = TransactionFactory.ConstructBuy("DE", buyDate, 10, 100.00m, 7.95m);
+            var buy = _transactionFactory.ConstructBuy("DE", buyDate, 10, 100.00m, 7.95m);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy);
 
@@ -587,9 +589,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var originalDate = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var deposit1 = TransactionFactory.ConstructDeposit(originalDate, amount);
+            var deposit1 = _transactionFactory.ConstructDeposit(originalDate, amount);
             var nextDate = originalDate.AddDays(10);
-            var deposit2 = TransactionFactory.ConstructDeposit(nextDate, amount);
+            var deposit2 = _transactionFactory.ConstructDeposit(nextDate, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit1, deposit2);
 

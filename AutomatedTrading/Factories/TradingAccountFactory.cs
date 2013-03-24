@@ -11,15 +11,18 @@ namespace Sonneville.PriceTools.AutomatedTrading
         private readonly MarginNotAllowed _defaultMarginSchedule = new MarginNotAllowed();
         private readonly FlatCommissionSchedule _defaultCommissionSchedule = new FlatCommissionSchedule(5.00m);
         private readonly OrderType _defaultOrderTypes;
-        private readonly IDeposit _defaultDeposit = TransactionFactory.ConstructDeposit(new DateTime(1900, 1, 1), 1000000.00m);
+        private readonly IDeposit _defaultDeposit;
         private readonly IPortfolioFactory _portfolioFactory;
         private readonly ITradingAccountFeaturesFactory _tradingAccountFeaturesFactory;
+        private readonly ITransactionFactory _transactionFactory;
 
         public TradingAccountFactory()
         {
+            _transactionFactory = new TransactionFactory();
             _portfolioFactory = new PortfolioFactory();
             _tradingAccountFeaturesFactory = new TradingAccountFeaturesFactory();
             _defaultOrderTypes = _tradingAccountFeaturesFactory.ConstructFullTradingAccountFeatures().SupportedOrderTypes;
+            _defaultDeposit = _transactionFactory.ConstructDeposit(new DateTime(1900, 1, 1), 1000000.00m);
         }
 
         #region BacktestingTradingAccount

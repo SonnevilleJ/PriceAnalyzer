@@ -13,10 +13,12 @@ namespace Test.Sonneville.PriceTools
     public class CashAccountTest
     {
         private readonly ICashAccountFactory _cashAccountFactory;
+        private readonly ITransactionFactory _transactionFactory;
 
         public CashAccountTest()
         {
             _cashAccountFactory = new CashAccountFactory();
+            _transactionFactory = new TransactionFactory();
         }
 
         /// <summary>
@@ -77,7 +79,7 @@ namespace Test.Sonneville.PriceTools
 
             for (var i = 0; i < iterations; i++)
             {
-                var dividend = TransactionFactory.ConstructDeposit(dateTime, amount / iterations);
+                var dividend = _transactionFactory.ConstructDeposit(dateTime, amount / iterations);
                 target.Deposit(dividend);
             }
             Assert.AreEqual(iterations, target.Transactions.Count);
@@ -93,13 +95,13 @@ namespace Test.Sonneville.PriceTools
 
             for (var i = 0; i < iterations; i++)
             {
-                var dividend = TransactionFactory.ConstructDeposit(dateTime, amount / iterations);
+                var dividend = _transactionFactory.ConstructDeposit(dateTime, amount / iterations);
                 target.Deposit(dividend);
             }
 
             for (var j = 0; j < iterations; j++)
             {
-                var withdrawal = TransactionFactory.ConstructWithdrawal(dateTime, amount / iterations);
+                var withdrawal = _transactionFactory.ConstructWithdrawal(dateTime, amount / iterations);
                 target.Withdraw(withdrawal);
             }
             Assert.AreEqual(iterations * 2, target.Transactions.Count);
@@ -115,13 +117,13 @@ namespace Test.Sonneville.PriceTools
 
             for (var i = 0; i < iterations; i++)
             {
-                var dividend = TransactionFactory.ConstructDeposit(dateTime, amount / iterations);
+                var dividend = _transactionFactory.ConstructDeposit(dateTime, amount / iterations);
                 target.Deposit(dividend);
             }
 
             for (var j = 0; j < iterations; j++)
             {
-                var withdrawal = TransactionFactory.ConstructWithdrawal(dateTime, amount / iterations);
+                var withdrawal = _transactionFactory.ConstructWithdrawal(dateTime, amount / iterations);
                 target.Withdraw(withdrawal);
             }
 
@@ -136,7 +138,7 @@ namespace Test.Sonneville.PriceTools
             var target = _cashAccountFactory.ConstructCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
-            var dividendReceipt = TransactionFactory.ConstructDividendReceipt(dateTime, amount);
+            var dividendReceipt = _transactionFactory.ConstructDividendReceipt(dateTime, amount);
             target.Deposit(dividendReceipt);
             target.Withdraw(dateTime, amount);
 
@@ -172,7 +174,7 @@ namespace Test.Sonneville.PriceTools
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
-            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
+            var deposit = _transactionFactory.ConstructDeposit(dateTime, amount);
 
             Assert.IsTrue(target.TransactionIsValid(deposit));
         }
@@ -187,7 +189,7 @@ namespace Test.Sonneville.PriceTools
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
-            var withdrawal = TransactionFactory.ConstructWithdrawal(dateTime, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(dateTime, amount);
 
             Assert.IsFalse(target.TransactionIsValid(withdrawal));
         }
@@ -202,8 +204,8 @@ namespace Test.Sonneville.PriceTools
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
-            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(dateTime, amount);
+            var deposit = _transactionFactory.ConstructDeposit(dateTime, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(dateTime, amount);
             target.Deposit(deposit);
             
             Assert.IsTrue(target.TransactionIsValid(withdrawal));
@@ -221,7 +223,7 @@ namespace Test.Sonneville.PriceTools
             target.Deposit(dateTime, amount);
             target.Withdraw(dateTime, amount);
 
-            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
+            var deposit = _transactionFactory.ConstructDeposit(dateTime, amount);
             target.Transactions.Add(deposit);
 
             const int expectedTransactions = 2;
@@ -237,7 +239,7 @@ namespace Test.Sonneville.PriceTools
             const decimal amount = 50000.00m;
             const int iterations = 100000;     // $0.05 transactions
 
-            Parallel.For(0, iterations, i => target.Deposit(TransactionFactory.ConstructDeposit(dateTime.AddTicks(i), amount / iterations)));
+            Parallel.For(0, iterations, i => target.Deposit(_transactionFactory.ConstructDeposit(dateTime.AddTicks(i), amount / iterations)));
 
             Assert.AreEqual(iterations, target.Transactions.Count);
         }

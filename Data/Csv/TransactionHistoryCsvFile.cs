@@ -19,6 +19,7 @@ namespace Sonneville.PriceTools.Data.Csv
         private readonly bool _useTotalBasis;
         private bool _tableParsed;
         private readonly List<ITransaction> _transactions = new List<ITransaction>();
+        private readonly ITransactionFactory _transactionFactory;
 
         #endregion
 
@@ -31,6 +32,7 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="useTotalBasis">A value indicating whether or not TotalBasis should be used to calculate price.</param>
         protected TransactionHistoryCsvFile(Stream csvStream, bool useTotalBasis = false)
         {
+            _transactionFactory = new TransactionFactory();
             if (csvStream == null)
             {
                 throw new ArgumentNullException("csvStream");
@@ -147,7 +149,7 @@ namespace Sonneville.PriceTools.Data.Csv
                         default:
                             throw new NotSupportedException();
                     }
-                    _transactions.Add(TransactionFactory.ConstructTransaction(
+                    _transactions.Add(_transactionFactory.ConstructTransaction(
                         orderType,
                         settlementDate,
                         ticker,

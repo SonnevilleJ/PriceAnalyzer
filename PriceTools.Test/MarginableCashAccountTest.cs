@@ -8,10 +8,12 @@ namespace Test.Sonneville.PriceTools
     public class MarginableCashAccountTest
     {
         private readonly ICashAccountFactory _cashAccountFactory;
+        private readonly ITransactionFactory _transactionFactory;
 
         public MarginableCashAccountTest()
         {
             _cashAccountFactory = new CashAccountFactory();
+            _transactionFactory = new TransactionFactory();
         }
 
         /// <summary>
@@ -57,7 +59,7 @@ namespace Test.Sonneville.PriceTools
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
-            var withdrawal = TransactionFactory.ConstructWithdrawal(dateTime, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(dateTime, amount);
 
             Assert.IsTrue(target.TransactionIsValid(withdrawal));
         }

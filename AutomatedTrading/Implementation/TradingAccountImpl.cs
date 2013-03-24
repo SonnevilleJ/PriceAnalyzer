@@ -11,6 +11,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         private readonly ConcurrentDictionary<IOrder, CancellationTokenSource> _tokenSources = new ConcurrentDictionary<IOrder, CancellationTokenSource>();
         private readonly BlockingCollection<IOrder> _orders = new BlockingCollection<IOrder>();
+        private readonly ITransactionFactory _transactionFactory;
 
         #endregion
 
@@ -19,6 +20,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         protected TradingAccountImpl()
         {
             Task.Factory.StartNew(Consumer);
+            _transactionFactory = new TransactionFactory();
         }
 
         #endregion
@@ -121,7 +123,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         private bool ValidateOrder(IOrder order)
         {
             var commission = Features.CommissionSchedule.PriceCheck(order);
-            var expectedTransaction = TransactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, DateTime.Now, order.Shares, order.Price, commission);
+            var expectedTransaction = _transactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, DateTime.Now, order.Shares, order.Price, commission);
             return ((PortfolioImpl) Portfolio).TransactionIsValid(expectedTransaction);
         }
 

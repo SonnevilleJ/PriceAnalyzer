@@ -5,6 +5,13 @@ namespace TestUtilities.Sonneville.PriceTools
 {
     public static class TradingAccountUtilities
     {
+        private static readonly ITransactionFactory TransactionFactory;
+
+        static TradingAccountUtilities()
+        {
+            TransactionFactory = new TransactionFactory();
+        }
+
         /// <summary>
         /// Creates an <see cref="IShareTransaction"/> which would result from the perfect execution of <paramref name="order"/>.
         /// </summary>

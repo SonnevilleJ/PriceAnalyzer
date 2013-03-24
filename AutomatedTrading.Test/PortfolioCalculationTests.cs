@@ -10,10 +10,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     public class PortfolioCalculationTests
     {
         private readonly IPortfolioFactory _portfolioFactory;
+        private readonly ITransactionFactory _transactionFactory;
 
         public PortfolioCalculationTests()
         {
             _portfolioFactory = new PortfolioFactory();
+            _transactionFactory = new TransactionFactory();
         }
 
         #region Annual Net Return
@@ -36,10 +38,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
+            var deposit = _transactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(withdrawalDate, amount);
             
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
@@ -60,8 +62,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
 
             var target = _portfolioFactory.ConstructPortfolio(ticker,
-                                                             TransactionFactory.ConstructDeposit(dateTime, openingDeposit),
-                                                             TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission));
+                                                             _transactionFactory.ConstructDeposit(dateTime, openingDeposit),
+                                                             _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission));
 
             Assert.IsNull(target.CalculateAnnualNetReturn(calculateDate));
         }
@@ -82,9 +84,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
 
             var target = _portfolioFactory.ConstructPortfolio(ticker,
-                                                             TransactionFactory.ConstructDeposit(dateTime, openingDeposit),
-                                                             TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
-                                                             TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
+                                                             _transactionFactory.ConstructDeposit(dateTime, openingDeposit),
+                                                             _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
+                                                             _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
             var expected = target.GetPosition(ticker).CalculateAnnualNetReturn(calculateDate);
             var actual = target.CalculateAnnualNetReturn(calculateDate);
@@ -108,10 +110,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -140,10 +142,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -172,10 +174,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -203,9 +205,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy);
 
@@ -232,9 +234,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, msftBuy, msftSell);
 
@@ -267,10 +269,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
+            var deposit = _transactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(withdrawalDate, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
@@ -290,7 +292,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy);
 
@@ -313,8 +315,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy, sell);
 
@@ -340,10 +342,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -372,10 +374,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -404,10 +406,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -435,9 +437,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy);
 
@@ -464,9 +466,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, msftBuy, msftSell);
 
@@ -496,10 +498,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
+            var deposit = _transactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(withdrawalDate, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
@@ -519,7 +521,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy);
 
@@ -541,8 +543,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy, sell);
 
@@ -569,10 +571,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -602,10 +604,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -635,10 +637,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
             
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -667,9 +669,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy);
 
@@ -696,9 +698,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, msftBuy, msftSell);
 
@@ -728,10 +730,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
+            var deposit = _transactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(withdrawalDate, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
@@ -751,7 +753,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy);
 
@@ -774,8 +776,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy, sell);
 
@@ -802,10 +804,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -835,10 +837,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -868,10 +870,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -900,9 +902,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
             
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy);
 
@@ -930,9 +932,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
             
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, msftBuy, msftSell);
 
@@ -964,10 +966,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
+            var deposit = _transactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(withdrawalDate, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
@@ -989,7 +991,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy);
 
@@ -1014,8 +1016,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy, sell);
 
@@ -1042,10 +1044,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -1075,10 +1077,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -1108,10 +1110,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -1140,9 +1142,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy);
 
@@ -1170,9 +1172,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, msftBuy, msftSell);
 
@@ -1205,10 +1207,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
+            var deposit = _transactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(withdrawalDate, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
@@ -1230,7 +1232,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy);
 
@@ -1255,8 +1257,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy, sell);
 
@@ -1283,10 +1285,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -1316,10 +1318,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
             
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -1349,10 +1351,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
             
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -1381,9 +1383,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
             
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy);
 
@@ -1412,9 +1414,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, msftBuy, msftSell);
 
@@ -1448,10 +1450,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -1484,10 +1486,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             var dateTime = new DateTime(2011, 1, 8);
             const decimal amount = 10000m;
-            var deposit = TransactionFactory.ConstructDeposit(dateTime, amount);
+            var deposit = _transactionFactory.ConstructDeposit(dateTime, amount);
 
             var withdrawalDate = dateTime.AddDays(1);
-            var withdrawal = TransactionFactory.ConstructWithdrawal(withdrawalDate, amount);
+            var withdrawal = _transactionFactory.ConstructWithdrawal(withdrawalDate, amount);
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
@@ -1509,7 +1511,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy);
 
@@ -1534,8 +1536,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const int shares = 5;
             const decimal commission = 7.95m;
 
-            var buy = TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
-            var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission);
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy, sell);
 
@@ -1562,10 +1564,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -1592,10 +1594,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -1622,10 +1624,10 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
@@ -1651,9 +1653,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
 
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var deSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var deSell = _transactionFactory.ConstructSell(de, sellDate, sharesSold, dePriceSold, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy);
 
@@ -1678,9 +1680,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;
             const decimal commission = 7.95m;
             const decimal sharesSold = sharesBought - 2;
-            var deBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
-            var msftBuy = TransactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
-            var msftSell = TransactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
+            var deBuy = _transactionFactory.ConstructBuy(de, buyDate, sharesBought, dePriceBought, commission);
+            var msftBuy = _transactionFactory.ConstructBuy(msft, buyDate, sharesBought, msftPriceBought, commission);
+            var msftSell = _transactionFactory.ConstructSell(msft, sellDate, sharesSold, msftPriceSold, commission);
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, msftBuy, msftSell);
 

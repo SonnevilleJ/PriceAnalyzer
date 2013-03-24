@@ -14,6 +14,12 @@ namespace Sonneville.PriceTools.Implementation
 
         private readonly IList<ICashTransaction> _transactions = new List<ICashTransaction>();
         private readonly object _padlock = new object();
+        private readonly ITransactionFactory _transactionFactory;
+
+        public CashAccountImpl()
+        {
+            _transactionFactory = new TransactionFactory();
+        }
 
         #endregion
 
@@ -24,7 +30,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="amount">The amount of cash deposited into the CashAccount.</param>
         public void Deposit(DateTime dateTime, decimal amount)
         {
-            Deposit(TransactionFactory.ConstructDeposit(dateTime, amount));
+            Deposit(_transactionFactory.ConstructDeposit(dateTime, amount));
         }
 
         /// <summary>
@@ -57,7 +63,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="amount">The amount of cash withdrawn from the CashAccount.</param>
         public void Withdraw(DateTime dateTime, decimal amount)
         {
-            Withdraw(TransactionFactory.ConstructWithdrawal(dateTime, amount));
+            Withdraw(_transactionFactory.ConstructWithdrawal(dateTime, amount));
         }
 
         /// <summary>

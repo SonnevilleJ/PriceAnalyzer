@@ -11,6 +11,12 @@ namespace Sonneville.PriceTools.AutomatedTrading
     public class PortfolioFactory : IPortfolioFactory
     {
         private readonly string _defaultCashTicker = String.Empty;
+        private readonly ITransactionFactory _transactionFactory;
+
+        public PortfolioFactory()
+        {
+            _transactionFactory = new TransactionFactory();
+        }
 
         /// <summary>
         /// Constructs a Portfolio.
@@ -100,7 +106,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="transactions">The list of <see cref="ITransaction"/>s currently in the <see cref="IPortfolio"/>.</param>
         public IPortfolio ConstructPortfolio(string ticker, DateTime dateTime, decimal openingDeposit, IEnumerable<ITransaction> transactions)
         {
-            var deposit = new ITransaction[] {TransactionFactory.ConstructDeposit(dateTime, openingDeposit)};
+            var deposit = new ITransaction[] {_transactionFactory.ConstructDeposit(dateTime, openingDeposit)};
             var concat = deposit.Concat(transactions);
             return ConstructPortfolio(ticker, concat);
         }

@@ -9,10 +9,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     public class OrderExecutedEventArgsTest
     {
         private static readonly IOrderFactory OrderFactory;
+        private static readonly ITransactionFactory TransactionFactory;
 
         static OrderExecutedEventArgsTest()
         {
             OrderFactory = new OrderFactory();
+            TransactionFactory = new TransactionFactory();
         }
 
         private static void GetObjects(out DateTime executed, out IOrder order, out IShareTransaction transaction, out OrderExecutedEventArgs target)

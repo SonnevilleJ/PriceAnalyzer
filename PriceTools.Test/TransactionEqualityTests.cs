@@ -8,6 +8,13 @@ namespace Test.Sonneville.PriceTools
     [TestClass]
     public class TransactionEqualityTests
     {
+        private readonly ITransactionFactory _transactionFactory;
+
+        public TransactionEqualityTests()
+        {
+            _transactionFactory = new TransactionFactory();
+        }
+
         [TestMethod]
         public void TransactionEqualsWithSameData()
         {
@@ -16,8 +23,8 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
             
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
             Assert.IsTrue(t1.Equals(t2));
         }
@@ -30,8 +37,8 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
 
             Assert.IsFalse(t1.Equals(t2));
         }
@@ -44,8 +51,8 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
             Assert.AreEqual(t1.GetHashCode(), t2.GetHashCode());
         }
@@ -58,8 +65,8 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
 
             Assert.AreNotEqual(t1.GetHashCode(), t2.GetHashCode());
         }
@@ -72,10 +79,10 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t3 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t4 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
             var list1 = new List<ITransaction> {t1, t2};
             var list2 = new List<ITransaction> {t3, t4};
@@ -91,10 +98,10 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares + 1, price);
-            var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t3 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares + 1, price);
+            var t4 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
             var list1 = new List<ITransaction> { t1, t2 };
             var list2 = new List<ITransaction> { t3, t4 };
@@ -110,11 +117,11 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t5 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t3 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t4 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t5 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
             var list1 = new List<ITransaction> { t1, t2 };
             var list2 = new List<ITransaction> { t3, t4, t5 };
@@ -130,9 +137,9 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t3 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
             var list1 = new List<ITransaction> { t1, t2 };
             var list2 = new List<ITransaction> { t3 };
@@ -148,10 +155,10 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t3 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t4 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
 
             var list1 = new List<ITransaction> { t1, t2 };
             var list2 = new List<ITransaction> { t3, t4 };
@@ -167,10 +174,10 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t3 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t4 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
             var list1 = new List<ITransaction> { t1, t2 };
             var list2 = new List<ITransaction> { t3, t4 };
@@ -186,10 +193,10 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares + 1, price);
-            var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t3 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares + 1, price);
+            var t4 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
             var list1 = new List<ITransaction> { t1, t2 };
             var list2 = new List<ITransaction> { t3, t4 };
@@ -205,11 +212,11 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t5 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t3 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t4 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t5 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
             var list1 = new List<ITransaction> { t1, t2 };
             var list2 = new List<ITransaction> { t3, t4, t5 };
@@ -225,9 +232,9 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t3 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
             var list1 = new List<ITransaction> { t1, t2 };
             var list2 = new List<ITransaction> { t3 };
@@ -243,10 +250,10 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t3 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t4 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t3 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t4 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares * 2, price);
 
             var list1 = new List<ITransaction> { t1, t2 };
             var list2 = new List<ITransaction> { t3, t4 };
@@ -262,8 +269,8 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
 
             Assert.AreEqual(t1.GetHashCode(), t2.GetHashCode());
         }
@@ -276,8 +283,8 @@ namespace Test.Sonneville.PriceTools
             const decimal shares = 5.0m;
             const decimal price = 100.00m;
 
-            var t1 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
-            var t2 = TransactionFactory.ConstructBuy(ticker, settlementDate, shares + 1, price);
+            var t1 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares, price);
+            var t2 = _transactionFactory.ConstructBuy(ticker, settlementDate, shares + 1, price);
 
             Assert.AreNotEqual(t1.GetHashCode(), t2.GetHashCode());
         }
