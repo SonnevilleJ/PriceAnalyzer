@@ -5,6 +5,13 @@ namespace TestUtilities.Sonneville.PriceTools
 {
     public static class PriceQuoteUtilities
     {
+        private static readonly IPriceTickFactory PriceTickFactory;
+
+        static PriceQuoteUtilities()
+        {
+            PriceTickFactory = new PriceTickFactory();
+        }
+
         public static IPriceTick CreateTick1()
         {
             return PriceTickFactory.ConstructPriceTick(DateTime.Parse("2/28/2011 9:30 AM"), 10, 50);

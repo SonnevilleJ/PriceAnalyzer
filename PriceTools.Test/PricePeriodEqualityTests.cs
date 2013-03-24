@@ -9,10 +9,12 @@ namespace Test.Sonneville.PriceTools
     public class PricePeriodEqualityTests
     {
         private readonly IPricePeriodFactory _pricePeriodFactory;
+        private readonly IPriceTickFactory _priceTickFactory;
 
         public PricePeriodEqualityTests()
         {
             _pricePeriodFactory = new PricePeriodFactory();
+            _priceTickFactory = new PriceTickFactory();
         }
 
         [TestMethod]
@@ -77,8 +79,8 @@ namespace Test.Sonneville.PriceTools
             var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
             var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(new List<IPriceTick>
                                                                             {
-                                                                                PriceTickFactory.ConstructPriceTick(head, close),
-                                                                                PriceTickFactory.ConstructPriceTick(tail, close)
+                                                                                _priceTickFactory.ConstructPriceTick(head, close),
+                                                                                _priceTickFactory.ConstructPriceTick(tail, close)
                                                                             });
 
             Assert.IsFalse(period1.Equals(period2));

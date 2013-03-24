@@ -9,10 +9,12 @@ namespace Test.Sonneville.PriceTools
     public class TickedPricePeriodEqualityTests
     {
         private readonly IPricePeriodFactory _pricePeriodFactory;
+        private readonly IPriceTickFactory _priceTickFactory;
 
         public TickedPricePeriodEqualityTests()
         {
             _pricePeriodFactory = new PricePeriodFactory();
+            _priceTickFactory = new PriceTickFactory();
         }
 
         [TestMethod]
@@ -21,8 +23,8 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price + 1));
 
             Assert.IsFalse(period1.Equals(period2));
         }
@@ -33,8 +35,8 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             Assert.IsTrue(period1.Equals(period2));
         }
@@ -45,8 +47,8 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price + 1));
 
             Assert.AreNotEqual(period1.GetHashCode(), period2.GetHashCode());
         }
@@ -57,8 +59,8 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             Assert.AreEqual(period1.GetHashCode(), period2.GetHashCode());
         }
@@ -73,8 +75,8 @@ namespace Test.Sonneville.PriceTools
             var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
             var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(new List<IPriceTick>
                                                                             {
-                                                                                PriceTickFactory.ConstructPriceTick(head, close),
-                                                                                PriceTickFactory.ConstructPriceTick(tail, close)
+                                                                                _priceTickFactory.ConstructPriceTick(head, close),
+                                                                                _priceTickFactory.ConstructPriceTick(tail, close)
                                                                             });
 
             Assert.IsFalse(period1.Equals(period2));
@@ -86,10 +88,10 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
-            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price + 1));
+            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             var list1 = new List<ITickedPricePeriod> { period1, period2 };
             var list2 = new List<ITickedPricePeriod> { period3, period4 };
@@ -103,10 +105,10 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             var list1 = new List<ITickedPricePeriod> { period1, period2 };
             var list2 = new List<ITickedPricePeriod> { period3, period4 };
@@ -120,11 +122,11 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period5 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period5 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             var list1 = new List<ITickedPricePeriod> { period1, period2 };
             var list2 = new List<ITickedPricePeriod> { period3, period4, period5 };
@@ -138,9 +140,9 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             var list1 = new List<ITickedPricePeriod> { period1, period2 };
             var list2 = new List<ITickedPricePeriod> { period3 };
@@ -154,10 +156,10 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
-            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
-            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price + 1));
+            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price + 1));
+            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             var list1 = new List<ITickedPricePeriod> { period1, period2 };
             var list2 = new List<ITickedPricePeriod> { period3, period4 };
@@ -171,10 +173,10 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
-            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price + 1));
+            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             var list1 = new List<ITickedPricePeriod> { period1, period2 };
             var list2 = new List<ITickedPricePeriod> { period3, period4 };
@@ -188,10 +190,10 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             var list1 = new List<ITickedPricePeriod> { period1, period2 };
             var list2 = new List<ITickedPricePeriod> { period3, period4 };
@@ -205,11 +207,11 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period5 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period5 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             var list1 = new List<ITickedPricePeriod> { period1, period2 };
             var list2 = new List<ITickedPricePeriod> { period3, period4, period5 };
@@ -223,9 +225,9 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             var list1 = new List<ITickedPricePeriod> { period1, period2 };
             var list2 = new List<ITickedPricePeriod> { period3 };
@@ -239,10 +241,10 @@ namespace Test.Sonneville.PriceTools
             var settlementDate = new DateTime(2012, 6, 16);
             const decimal price = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
-            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price + 1));
-            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(PriceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period1 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price + 1));
+            var period3 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price + 1));
+            var period4 = _pricePeriodFactory.ConstructTickedPricePeriod(_priceTickFactory.ConstructPriceTick(settlementDate, price));
 
             var list1 = new List<ITickedPricePeriod> { period1, period2 };
             var list2 = new List<ITickedPricePeriod> { period3, period4 };

@@ -10,13 +10,15 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
     [TestClass]
     public abstract class CommonIndicatorTests<T> where T : ITimeSeriesIndicator
     {
-        protected static readonly IPricePeriodFactory _pricePeriodFactory;
-        protected static readonly IPriceSeriesFactory _priceSeriesFactory;
+        protected static readonly IPricePeriodFactory PricePeriodFactory;
+        protected static readonly IPriceSeriesFactory PriceSeriesFactory;
+        private static readonly IPriceTickFactory PriceTickFactory;
 
         static CommonIndicatorTests()
         {
-            _pricePeriodFactory = new PricePeriodFactory();
-            _priceSeriesFactory = new PriceSeriesFactory();
+            PricePeriodFactory = new PricePeriodFactory();
+            PriceSeriesFactory = new PriceSeriesFactory();
+            PriceTickFactory = new PriceTickFactory();
         }
 
         /// <summary>
@@ -164,10 +166,10 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 
         protected static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price, Resolution resolution = Resolution.Days, bool weekendData = false)
         {
-            var series = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var series = PriceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
             for (var i = 0; i < count; i++)
             {
-                var period = _pricePeriodFactory.ConstructTickedPricePeriod();
+                var period = PricePeriodFactory.ConstructTickedPricePeriod();
                 var weekdayDateShifter = new Func<DateTime, int, Resolution, DateTime>((origin, periods, res) => origin.SeekTradingPeriods(periods, res));
                 var weekendDateShifter = new Func<DateTime, int, Resolution, DateTime>((origin, periods, res) => origin.SeekPeriods(periods, res));
 
