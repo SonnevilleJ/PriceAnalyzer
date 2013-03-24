@@ -58,6 +58,8 @@ Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Architecture", "Architectur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAnalyzer", "PriceAnalyzer\PriceAnalyzer.csproj", "{38151461-5A2A-4351-BCD6-C818FFBDFB77}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAnalyzerTest", "PriceAnalyzerTest\PriceAnalyzerTest.csproj", "{3352DD25-54E4-44E1-B25B-7B40A647EBE9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -216,6 +218,12 @@ Global
 		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Release|Any CPU.Build.0 = Release|Any CPU
 		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Release|x86.ActiveCfg = Release|Any CPU
+		{3352DD25-54E4-44E1-B25B-7B40A647EBE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3352DD25-54E4-44E1-B25B-7B40A647EBE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3352DD25-54E4-44E1-B25B-7B40A647EBE9}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3352DD25-54E4-44E1-B25B-7B40A647EBE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3352DD25-54E4-44E1-B25B-7B40A647EBE9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3352DD25-54E4-44E1-B25B-7B40A647EBE9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

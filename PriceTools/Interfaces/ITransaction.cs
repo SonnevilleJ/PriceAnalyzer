@@ -11,5 +11,7 @@ namespace Sonneville.PriceTools
         ///    Gets the DateTime that the Transaction occurred.
         ///  </summary>
         DateTime SettlementDate { get; }
+
+        Guid Id { get; set; }
     }
 }

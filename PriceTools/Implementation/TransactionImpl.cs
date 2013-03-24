@@ -13,6 +13,8 @@ namespace Sonneville.PriceTools.Implementation
         ///  </summary>
         public DateTime SettlementDate { get; protected set; }
 
+        public Guid Id { get; set; }
+
         #region Equality
 
         /// <summary>
