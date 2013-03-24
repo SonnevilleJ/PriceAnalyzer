@@ -69,6 +69,7 @@
     <Compile Include="Interfaces\ITradingAccount.cs" />
     <Compile Include="IPortfolio.cs" />
     <Compile Include="IPosition.cs" />
+    <Compile Include="ITradingAccountFeaturesFactory.cs" />
     <Compile Include="SecurityBasketExtensions.cs" />
     <Compile Include="SimpleMovingAverageCrossoverAnalyzer.cs" />
     <Compile Include="LowerThanYesterdayAnalyzer.cs" />

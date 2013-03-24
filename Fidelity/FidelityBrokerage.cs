@@ -6,6 +6,13 @@ namespace Sonneville.PriceTools.Fidelity
 {
     public class FidelityBrokerage : IBrokerage
     {
+        private readonly ITradingAccountFeaturesFactory _tradingAccountFeaturesFactory;
+
+        public FidelityBrokerage()
+        {
+            _tradingAccountFeaturesFactory = new TradingAccountFeaturesFactory();
+        }
+
         /// <summary>
         /// Collects credentials from the user and logs the user into the brokerage.
         /// </summary>
@@ -32,7 +39,7 @@ namespace Sonneville.PriceTools.Fidelity
         {
             var commissionSchedule = GetCommissionSchedule();
             var marginSchedule = GetMarginSchedule();
-            var features = TradingAccountFeaturesFactory.ConstructTradingAccountFeatures(GetSupportedOrderTypes(), commissionSchedule, marginSchedule);
+            var features = _tradingAccountFeaturesFactory.ConstructTradingAccountFeatures(GetSupportedOrderTypes(), commissionSchedule, marginSchedule);
             var tradingAccount = new FidelityTradingAccount {Features = features};
             return tradingAccount;
         }

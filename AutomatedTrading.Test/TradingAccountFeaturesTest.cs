@@ -8,6 +8,13 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     [TestClass]
     public class TradingAccountFeaturesTest
     {
+        private static readonly ITradingAccountFeaturesFactory _tradingAccountFeaturesFactory;
+
+        static TradingAccountFeaturesTest()
+        {
+            _tradingAccountFeaturesFactory = new TradingAccountFeaturesFactory();
+        }
+
         [TestMethod]
         public void FactoryConstructorBasicSupportedOrderTypesTest()
         {
@@ -220,7 +227,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             // the ultimate suck account - you can deposit money and trade, but never withdraw!
             const OrderType orderTypes = OrderType.Deposit | OrderType.Buy | OrderType.Sell | OrderType.SellShort | OrderType.BuyToCover;
 
-            var target = TradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes);
+            var target = _tradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes);
 
             var actual = target.SupportedOrderTypes;
             Assert.AreEqual(orderTypes, actual);
@@ -228,17 +235,17 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
         private static TradingAccountFeatures GetBasicTradingAccountFeatures()
         {
-            return TradingAccountFeaturesFactory.ConstructBasicTradingAccountFeatures();
+            return _tradingAccountFeaturesFactory.ConstructBasicTradingAccountFeatures();
         }
 
         private static TradingAccountFeatures GetShortTradingAccountFeatures()
         {
-            return TradingAccountFeaturesFactory.ConstructShortTradingAccountFeatures();
+            return _tradingAccountFeaturesFactory.ConstructShortTradingAccountFeatures();
         }
 
         private static TradingAccountFeatures GetFullTradingAccountFeatures()
         {
-            return TradingAccountFeaturesFactory.ConstructFullTradingAccountFeatures();
+            return _tradingAccountFeaturesFactory.ConstructFullTradingAccountFeatures();
         }
     }
 }

@@ -10,13 +10,16 @@ namespace Sonneville.PriceTools.AutomatedTrading
     {
         private readonly MarginNotAllowed _defaultMarginSchedule = new MarginNotAllowed();
         private readonly FlatCommissionSchedule _defaultCommissionSchedule = new FlatCommissionSchedule(5.00m);
-        private readonly OrderType _defaultOrderTypes = TradingAccountFeaturesFactory.ConstructFullTradingAccountFeatures().SupportedOrderTypes;
+        private readonly OrderType _defaultOrderTypes;
         private readonly IDeposit _defaultDeposit = TransactionFactory.ConstructDeposit(new DateTime(1900, 1, 1), 1000000.00m);
         private readonly IPortfolioFactory _portfolioFactory;
+        private readonly ITradingAccountFeaturesFactory _tradingAccountFeaturesFactory;
 
         public TradingAccountFactory()
         {
             _portfolioFactory = new PortfolioFactory();
+            _tradingAccountFeaturesFactory = new TradingAccountFeaturesFactory();
+            _defaultOrderTypes = _tradingAccountFeaturesFactory.ConstructFullTradingAccountFeatures().SupportedOrderTypes;
         }
 
         #region BacktestingTradingAccount
@@ -83,7 +86,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns></returns>
         public ITradingAccount ConstructBacktestingTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, IDeposit openingDeposit)
         {
-            var tradingAccountFeatures = TradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
+            var tradingAccountFeatures = _tradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
             var portfolio = _portfolioFactory.ConstructPortfolio(openingDeposit);
             return new BacktestingTradingAccountImpl { Features = tradingAccountFeatures, Portfolio = portfolio };
         }
@@ -154,7 +157,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns></returns>
         public ITradingAccount ConstructSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, IDeposit openingDeposit)
         {
-            var tradingAccountFeatures = TradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
+            var tradingAccountFeatures = _tradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
             var portfolio = _portfolioFactory.ConstructPortfolio(openingDeposit);
             return new SimulatedTradingAccountImpl {Features = tradingAccountFeatures, Portfolio = portfolio};
         }

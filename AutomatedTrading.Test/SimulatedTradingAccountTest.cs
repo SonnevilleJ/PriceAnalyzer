@@ -14,6 +14,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     {
         private static readonly IOrderFactory OrderFactory;
         private static readonly ITradingAccountFactory TradingAccountFactory;
+        private readonly ITradingAccountFeaturesFactory _tradingAccountFeaturesFactory;
 
         static SimulatedTradingAccountTest()
         {
@@ -21,12 +22,17 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             TradingAccountFactory = new TradingAccountFactory();
         }
 
+        public SimulatedTradingAccountTest()
+        {
+            _tradingAccountFeaturesFactory = new TradingAccountFeaturesFactory();
+        }
+
         [TestMethod]
         public void TradingAccountFeaturesSupportedOrderTypesTest()
         {
             var target = TradingAccountFactory.ConstructSimulatedTradingAccount();
 
-            var expected = TradingAccountFeaturesFactory.ConstructFullTradingAccountFeatures().SupportedOrderTypes;
+            var expected = _tradingAccountFeaturesFactory.ConstructFullTradingAccountFeatures().SupportedOrderTypes;
             var actual = target.Features.SupportedOrderTypes;
             Assert.AreEqual(expected, actual);
         }

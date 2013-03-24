@@ -1,6 +1,6 @@
 ﻿namespace Sonneville.PriceTools.AutomatedTrading
 {
-    public static class TradingAccountFeaturesFactory
+    public class TradingAccountFeaturesFactory : ITradingAccountFeaturesFactory
     {
         private const OrderType CashOnlyOrderTypes = OrderType.Deposit | OrderType.Withdrawal;
         private const OrderType BasicOrderTypes = CashOnlyOrderTypes | OrderType.Buy | OrderType.Sell;
@@ -8,32 +8,32 @@
         private const OrderType FullOrderTypes = BasicOrderTypes | ShortOrderTypes;
         private const decimal DefaultPrice = 9.95m;
 
-        public static TradingAccountFeatures ConstructBasicTradingAccountFeatures()
+        public TradingAccountFeatures ConstructBasicTradingAccountFeatures()
         {
             return ConstructTradingAccountFeatures(BasicOrderTypes);
         }
 
-        public static TradingAccountFeatures ConstructShortTradingAccountFeatures()
+        public TradingAccountFeatures ConstructShortTradingAccountFeatures()
         {
             return ConstructTradingAccountFeatures(ShortOrderTypes);
         }
 
-        public static TradingAccountFeatures ConstructFullTradingAccountFeatures()
+        public TradingAccountFeatures ConstructFullTradingAccountFeatures()
         {
             return ConstructTradingAccountFeatures(FullOrderTypes);
         }
 
-        public static TradingAccountFeatures ConstructTradingAccountFeatures(OrderType orderTypes)
+        public TradingAccountFeatures ConstructTradingAccountFeatures(OrderType orderTypes)
         {
             return ConstructTradingAccountFeatures(orderTypes, new FlatCommissionSchedule(DefaultPrice));
         }
 
-        public static TradingAccountFeatures ConstructTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule)
+        public TradingAccountFeatures ConstructTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule)
         {
             return ConstructTradingAccountFeatures(orderTypes, commissionSchedule, new MarginNotAllowed());
         }
 
-        public static TradingAccountFeatures ConstructTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
+        public TradingAccountFeatures ConstructTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
         {
             return new TradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
         }
