@@ -8,6 +8,13 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     [TestClass]
     public class PositionHoldingTests
     {
+        private readonly HoldingFactory _holdingFactory;
+
+        public PositionHoldingTests()
+        {
+            _holdingFactory = new HoldingFactory();
+        }
+
         [TestMethod]
         public void CalculateHoldingsTestWithOneBuyOneSellCount()
         {
@@ -52,7 +59,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
             var holdings = target.CalculateHoldings(sellDate);
 
-            var expected = HoldingFactory.ConstructHolding(ticker, buyDate, sellDate, sharesSold, buyPrice, commission, sellPrice, commission);
+            var expected = _holdingFactory.ConstructHolding(ticker, buyDate, sellDate, sharesSold, buyPrice, commission, sellPrice, commission);
 
             Assert.IsTrue(holdings.Contains(expected));
         }
@@ -106,8 +113,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
             var holdings = target.CalculateHoldings(sellDate);
 
-            var expected1 = HoldingFactory.ConstructHolding(ticker, firstBuyDate, sellDate, sharesBought, buyPrice, commission, sellPrice, commission);
-            var expected2 = HoldingFactory.ConstructHolding(ticker, secondBuyDate, sellDate, sharesBought, buyPrice, commission, sellPrice, commission);
+            var expected1 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, sellDate, sharesBought, buyPrice, commission, sellPrice, commission);
+            var expected2 = _holdingFactory.ConstructHolding(ticker, secondBuyDate, sellDate, sharesBought, buyPrice, commission, sellPrice, commission);
 
             Assert.IsTrue(holdings.Contains(expected1));
             Assert.IsTrue(holdings.Contains(expected2));
@@ -164,8 +171,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
             const decimal sharesInHolding = sharesSold;
 
-            var expected1 = HoldingFactory.ConstructHolding(ticker, buyDate, secondSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
-            var expected2 = HoldingFactory.ConstructHolding(ticker, buyDate, firstSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
+            var expected1 = _holdingFactory.ConstructHolding(ticker, buyDate, secondSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
+            var expected2 = _holdingFactory.ConstructHolding(ticker, buyDate, firstSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
 
             Assert.IsTrue(holdings.Contains(expected1));
             Assert.IsTrue(holdings.Contains(expected2));
@@ -222,8 +229,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
             var holdings = target.CalculateHoldings(secondSellDate);
 
-            var expected1 = HoldingFactory.ConstructHolding(ticker, firstBuyDate, firstSellDate, sharesSold, buyPrice, commission, sellPrice, commission);
-            var expected2 = HoldingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, sharesSold, buyPrice, commission, sellPrice, commission);
+            var expected1 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, firstSellDate, sharesSold, buyPrice, commission, sellPrice, commission);
+            var expected2 = _holdingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, sharesSold, buyPrice, commission, sellPrice, commission);
 
             Assert.IsTrue(holdings.Contains(expected1));
             Assert.IsTrue(holdings.Contains(expected2));
@@ -283,8 +290,8 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var holdings = target.CalculateHoldings(secondSellDate);
 
             const decimal sharesInHolding = sharesSold;
-            var expected1 = HoldingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
-            var expected2 = HoldingFactory.ConstructHolding(ticker, firstBuyDate, firstSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
+            var expected1 = _holdingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
+            var expected2 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, firstSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
 
             Assert.IsTrue(holdings.Contains(expected1));
             Assert.IsTrue(holdings.Contains(expected2));
@@ -345,9 +352,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
             var holdings = target.CalculateHoldings(secondSellDate);
 
-            var expected1 = HoldingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, 1, buyPrice, commission, sellPrice, commission);
-            var expected2 = HoldingFactory.ConstructHolding(ticker, firstBuyDate, secondSellDate, 4, buyPrice, commission, sellPrice, commission);
-            var expected3 = HoldingFactory.ConstructHolding(ticker, firstBuyDate, firstSellDate, 5, buyPrice, commission, sellPrice, commission);
+            var expected1 = _holdingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, 1, buyPrice, commission, sellPrice, commission);
+            var expected2 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, secondSellDate, 4, buyPrice, commission, sellPrice, commission);
+            var expected3 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, firstSellDate, 5, buyPrice, commission, sellPrice, commission);
 
 
             Assert.IsTrue(holdings.Contains(expected1));
@@ -410,9 +417,9 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
             var holdings = target.CalculateHoldings(secondSellDate);
 
-            var expected1 = HoldingFactory.ConstructHolding(ticker, firstBuyDate, firstSellDate, 5, buyPrice, commission, sellPrice, commission);
-            var expected2 = HoldingFactory.ConstructHolding(ticker, firstBuyDate, secondSellDate, 4, buyPrice, commission, sellPrice, commission);
-            var expected3 = HoldingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, 1, buyPrice, commission, sellPrice, commission);
+            var expected1 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, firstSellDate, 5, buyPrice, commission, sellPrice, commission);
+            var expected2 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, secondSellDate, 4, buyPrice, commission, sellPrice, commission);
+            var expected3 = _holdingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, 1, buyPrice, commission, sellPrice, commission);
             var holding1 = holdings[0];
             var holding2 = holdings[1];
             var holding3 = holdings[2];

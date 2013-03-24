@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Constructs <see cref="IHolding"/> objects.
     /// </summary>
-    public static class HoldingFactory
+    public class HoldingFactory : IHoldingFactory
     {
         /// <summary>
         /// Constructs a new <see cref="IHolding"/> object.
@@ -17,7 +17,7 @@ namespace Sonneville.PriceTools
         /// <param name="closePrice"></param>
         /// <param name="closeCommission"></param>
         /// <returns></returns>
-        public static IHolding ConstructHolding(decimal shares, decimal openPrice, decimal openCommission, decimal closePrice, decimal closeCommission)
+        public IHolding ConstructHolding(decimal shares, decimal openPrice, decimal openCommission, decimal closePrice, decimal closeCommission)
         {
             return new Holding
             {
@@ -40,7 +40,7 @@ namespace Sonneville.PriceTools
         /// <param name="openPrice"></param>
         /// <param name="closePrice"></param>
         /// <returns></returns>
-        public static IHolding ConstructHolding(string ticker, DateTime head, DateTime tail, decimal shares, decimal openPrice, decimal closePrice)
+        public IHolding ConstructHolding(string ticker, DateTime head, DateTime tail, decimal shares, decimal openPrice, decimal closePrice)
         {
             return new Holding
                 {
@@ -65,7 +65,7 @@ namespace Sonneville.PriceTools
         /// <param name="closePrice"></param>
         /// <param name="closeCommission"></param>
         /// <returns></returns>
-        public static IHolding ConstructHolding(string ticker, DateTime head, DateTime tail, decimal shares, decimal openPrice, decimal openCommission, decimal closePrice, decimal closeCommission)
+        public IHolding ConstructHolding(string ticker, DateTime head, DateTime tail, decimal shares, decimal openPrice, decimal openCommission, decimal closePrice, decimal closeCommission)
         {
             return new Holding
                 {

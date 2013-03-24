@@ -6,10 +6,17 @@ namespace Test.Sonneville.PriceTools
     [TestClass]
     public class HoldingExtensionsTests
     {
+        private readonly HoldingFactory _holdingFactory;
+
+        public HoldingExtensionsTests()
+        {
+            _holdingFactory = new HoldingFactory();
+        }
+
         [TestMethod]
         public void GrossProfitTest()
         {
-            var target = HoldingFactory.ConstructHolding(5, 10, 20, 2, 3);
+            var target = _holdingFactory.ConstructHolding(5, 10, 20, 2, 3);
 
             var expected = (target.Shares*(target.ClosePrice - target.OpenPrice));
             var actual = target.GrossProfit();
@@ -19,7 +26,7 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void NetProfitTest()
         {
-            var target = HoldingFactory.ConstructHolding(5, 10, 20, 2, 3);
+            var target = _holdingFactory.ConstructHolding(5, 10, 20, 2, 3);
 
             var expected = (target.Shares * (target.ClosePrice - target.OpenPrice)) - target.OpenCommission - target.CloseCommission;
             var actual = target.NetProfit();

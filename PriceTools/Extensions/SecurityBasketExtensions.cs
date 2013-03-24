@@ -9,6 +9,13 @@ namespace Sonneville.PriceTools
     /// </summary>
     public static class SecurityBasketExtensions
     {
+        private static readonly HoldingFactory HoldingFactory;
+
+        static SecurityBasketExtensions()
+        {
+            HoldingFactory = new HoldingFactory();
+        }
+
         /// <summary>
         /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Position.
         /// </summary>
