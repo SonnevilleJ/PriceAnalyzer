@@ -12,6 +12,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     {
         #region Private Members
 
+        private readonly ITimePeriodFactory _timePeriodFactory;
         private ITimeSeries _cachedValues = TimeSeriesFactory.ConstructMutable();
         private int _lookback;
 
@@ -40,6 +41,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             // Any child indicators might rely on Lookback being set already.
             _lookback = lookback;
             MeasuredTimeSeries = timeSeries;
+            _timePeriodFactory = new TimePeriodFactory();
         }
 
         #endregion
@@ -244,7 +246,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                 {
                     list.RemoveAll(p => p.Head == head && p.Tail == tail);
                 }
-                list.Add(TimePeriodFactory.ConstructTimePeriod(head, tail, calculate));
+                list.Add(_timePeriodFactory.ConstructTimePeriod(head, tail, calculate));
             }
         }
 

@@ -11,10 +11,12 @@ namespace Sonneville.PriceTools
     public static class TimeSeriesExtensions
     {
         private static readonly IPricePeriodFactory PricePeriodFactory;
+        private static readonly ITimePeriodFactory TimePeriodFactory;
 
         static TimeSeriesExtensions()
         {
             PricePeriodFactory = new PricePeriodFactory();
+            TimePeriodFactory = new TimePeriodFactory();
         }
 
         #region TimeSeries Extensions

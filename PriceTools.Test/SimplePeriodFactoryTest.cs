@@ -7,6 +7,13 @@ namespace Test.Sonneville.PriceTools
     [TestClass]
     public class SimplePeriodFactoryTest
     {
+        private readonly ITimePeriodFactory _timePeriodFactory;
+
+        public SimplePeriodFactoryTest()
+        {
+            _timePeriodFactory = new TimePeriodFactory();
+        }
+
         [TestMethod]
         public void TestHead()
         {
@@ -14,7 +21,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.AreEqual(head, target.Head);
         }
@@ -26,7 +33,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.AreEqual(tail, target.Tail);
         }
@@ -38,7 +45,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.AreEqual(value, target[head]);
         }
@@ -50,7 +57,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.AreEqual(value, target[head.AddTicks(1)]);
         }
@@ -63,7 +70,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             var actual = target[head.AddTicks(-1)];
         }
@@ -75,7 +82,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.AreEqual(value, target[tail]);
         }
@@ -88,7 +95,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             var actual = target[tail.AddTicks(1)];
         }
@@ -100,7 +107,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.AreEqual(value, target[tail.AddTicks(-1)]);
         }
@@ -112,7 +119,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.IsTrue(target.HasValueInRange(head));
         }
@@ -124,7 +131,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.IsTrue(target.HasValueInRange(head.AddTicks(1)));
         }
@@ -136,7 +143,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.IsFalse(target.HasValueInRange(head.AddTicks(-1)));
         }
@@ -148,7 +155,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.IsTrue(target.HasValueInRange(tail));
         }
@@ -160,7 +167,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.IsFalse(target.HasValueInRange(tail.AddTicks(1)));
         }
@@ -172,7 +179,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             Assert.IsTrue(target.HasValueInRange(tail.AddTicks(-1)));
         }
@@ -184,7 +191,7 @@ namespace Test.Sonneville.PriceTools
             var tail = new DateTime(2012, 9, 14);
             const decimal value = 5m;
 
-            var target = TimePeriodFactory.ConstructTimePeriod(head, tail, value);
+            var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             var expected = (Resolution) ((tail - head).Ticks);
             var actual = target.Resolution;
