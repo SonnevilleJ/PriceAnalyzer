@@ -9,10 +9,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     public class PortfolioHoldingTests
     {
         private readonly IHoldingFactory _holdingFactory;
+        private readonly IPortfolioFactory _portfolioFactory;
 
         public PortfolioHoldingTests()
         {
             _holdingFactory = new HoldingFactory();
+            _portfolioFactory = new PortfolioFactory();
         }
 
         [TestMethod]
@@ -31,7 +33,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;
             var sell = TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice);
 
-            var target = PortfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
+            var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             var holdings = target.CalculateHoldings(sellDate);
 
@@ -64,7 +66,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var firstSell = TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission);
             var secondSell = TransactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission);
 
-            var target = PortfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
+            var target = _portfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
 
             var holdings = target.CalculateHoldings(secondSellDate);
 
@@ -102,7 +104,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var firstSell = TransactionFactory.ConstructSell(firstTicker, firstSellDate, sharesSold, sellPrice, commission);
             var secondSell = TransactionFactory.ConstructSell(secondTicker, secondSellDate, sharesSold, sellPrice, commission);
 
-            var target = PortfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
+            var target = _portfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
 
             var holdings = target.CalculateHoldings(secondSellDate);
 
@@ -140,7 +142,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var firstSell = TransactionFactory.ConstructSell(firstTicker, firstSellDate, sharesSold, sellPrice, commission);
             var secondSell = TransactionFactory.ConstructSell(secondTicker, secondSellDate, sharesSold, sellPrice, commission);
 
-            var target = PortfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
+            var target = _portfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
 
             var holdings = target.CalculateHoldings(secondSellDate);
 

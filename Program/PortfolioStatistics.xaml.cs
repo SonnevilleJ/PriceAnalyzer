@@ -18,11 +18,17 @@ namespace Program
     public partial class PortfolioStatistics
     {
         private ObservableCollection<IHolding> _collection = new ObservableCollection<IHolding>();
+        private static readonly IPortfolioFactory _portfolioFactory;
 
         public PortfolioStatistics()
         {
             InitializeComponent();
             dataGrid.ItemsSource = _collection;
+        }
+
+        static PortfolioStatistics()
+        {
+            _portfolioFactory = new PortfolioFactory();
         }
 
         private void BrowseClick(object sender, RoutedEventArgs e)
@@ -74,7 +80,7 @@ namespace Program
             using (var reader = File.Open(path, FileMode.Open))
             {
                 var data = new FidelityTransactionHistoryCsvFile(reader);
-                return PortfolioFactory.ConstructPortfolio(ticker, data.Transactions);
+                return _portfolioFactory.ConstructPortfolio(ticker, data.Transactions);
             }
         }
     }

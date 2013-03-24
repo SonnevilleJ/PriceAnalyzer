@@ -50,6 +50,7 @@
     <Compile Include="AnalyzerTriggerDelegate.cs" />
     <Compile Include="ContinuousAnalyzer.cs" />
     <Compile Include="ContinuousTradingEngine.cs" />
+    <Compile Include="Factories\IPortfolioFactory.cs" />
     <Compile Include="Factories\PortfolioFactory.cs" />
     <Compile Include="Factories\PositionFactory.cs" />
     <Compile Include="Factories\TradingAccountFactory.cs" />

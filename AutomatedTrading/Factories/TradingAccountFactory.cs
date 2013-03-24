@@ -12,6 +12,12 @@ namespace Sonneville.PriceTools.AutomatedTrading
         private static readonly FlatCommissionSchedule DefaultCommissionSchedule = new FlatCommissionSchedule(5.00m);
         private static readonly OrderType DefaultOrderTypes = TradingAccountFeaturesFactory.ConstructFullTradingAccountFeatures().SupportedOrderTypes;
         private static readonly IDeposit DefaultDeposit = TransactionFactory.ConstructDeposit(new DateTime(1900, 1, 1), 1000000.00m);
+        private static readonly IPortfolioFactory _portfolioFactory;
+
+        static TradingAccountFactory()
+        {
+            _portfolioFactory = new PortfolioFactory();
+        }
 
         #region BacktestingTradingAccount
 
@@ -78,7 +84,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         public static ITradingAccount ConstructBacktestingTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, IDeposit openingDeposit)
         {
             var tradingAccountFeatures = TradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
-            var portfolio = PortfolioFactory.ConstructPortfolio(openingDeposit);
+            var portfolio = _portfolioFactory.ConstructPortfolio(openingDeposit);
             return new BacktestingTradingAccountImpl { Features = tradingAccountFeatures, Portfolio = portfolio };
         }
 
@@ -149,7 +155,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         public static ITradingAccount ConstructSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, IDeposit openingDeposit)
         {
             var tradingAccountFeatures = TradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
-            var portfolio = PortfolioFactory.ConstructPortfolio(openingDeposit);
+            var portfolio = _portfolioFactory.ConstructPortfolio(openingDeposit);
             return new SimulatedTradingAccountImpl {Features = tradingAccountFeatures, Portfolio = portfolio};
         }
 
