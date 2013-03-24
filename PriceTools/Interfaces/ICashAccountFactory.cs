@@ -1,4 +1,4 @@
-﻿namespace Sonneville.PriceTools
+namespace Sonneville.PriceTools
 {
     public interface ICashAccountFactory
     {

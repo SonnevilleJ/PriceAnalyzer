@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
