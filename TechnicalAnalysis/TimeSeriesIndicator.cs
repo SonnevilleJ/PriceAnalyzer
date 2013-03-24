@@ -13,7 +13,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         #region Private Members
 
         private readonly ITimePeriodFactory _timePeriodFactory;
-        private ITimeSeries _cachedValues = TimeSeriesFactory.ConstructMutable();
+        private readonly ITimeSeriesFactory _timeSeriesFactory;
+        private ITimeSeries _cachedValues;
         private int _lookback;
 
         #endregion
@@ -27,6 +28,9 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="lookback">The lookback of this TimeSeriesIndicator which specifies how many periods are required for the first indicator value.</param>
         protected TimeSeriesIndicator(ITimeSeries timeSeries, int lookback)
         {
+            _timePeriodFactory = new TimePeriodFactory();
+            _timeSeriesFactory = new TimeSeriesFactory();
+            _cachedValues = _timeSeriesFactory.ConstructMutable();
             if (timeSeries == null)
             {
                 throw new ArgumentNullException("timeSeries");
@@ -41,7 +45,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             // Any child indicators might rely on Lookback being set already.
             _lookback = lookback;
             MeasuredTimeSeries = timeSeries;
-            _timePeriodFactory = new TimePeriodFactory();
         }
 
         #endregion
@@ -72,7 +75,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <remarks>Overriding implementations should call the base method.</remarks>
         protected virtual void ClearCachedValues()
         {
-            _cachedValues = TimeSeriesFactory.ConstructMutable();
+            _cachedValues = _timeSeriesFactory.ConstructMutable();
             InvokeNewDataAvailable(new NewDataAvailableEventArgs {Head = Head, Tail = Tail});
         }
 

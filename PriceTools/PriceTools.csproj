@@ -59,6 +59,7 @@
     <Compile Include="Factories\IPriceSeriesFactory.cs" />
     <Compile Include="Factories\IPriceTickFactory.cs" />
     <Compile Include="Factories\ITimePeriodFactory.cs" />
+    <Compile Include="Factories\ITimeSeriesFactory.cs" />
     <Compile Include="Interfaces\IAccumulationTransaction.cs" />
     <Compile Include="Interfaces\IClosingTransaction.cs" />
     <Compile Include="Interfaces\IDistributionTransaction.cs" />

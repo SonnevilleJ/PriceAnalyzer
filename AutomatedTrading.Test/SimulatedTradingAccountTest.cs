@@ -13,10 +13,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     public class SimulatedTradingAccountTest
     {
         private static readonly IOrderFactory OrderFactory;
+        private static readonly ITradingAccountFactory TradingAccountFactory;
 
         static SimulatedTradingAccountTest()
         {
             OrderFactory = new OrderFactory();
+            TradingAccountFactory = new TradingAccountFactory();
         }
 
         [TestMethod]
