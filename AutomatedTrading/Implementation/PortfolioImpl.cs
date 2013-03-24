@@ -11,8 +11,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     {
         #region Private Members
 
-        private readonly ICashAccount _cashAccount = CashAccountFactory.ConstructCashAccount();
-        private readonly IList<IPosition> _positions = new List<IPosition>();
+        private readonly CashAccountFactory _cashAccountFactory;
+        private readonly ICashAccount _cashAccount;
+        private readonly IList<IPosition> _positions;
 
         #endregion
 
@@ -24,6 +25,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
         internal PortfolioImpl(string ticker)
         {
+            _cashAccountFactory = new CashAccountFactory();
+            _cashAccount = _cashAccountFactory.ConstructCashAccount();
+            _positions = new List<IPosition>();
             CashTicker = ticker;
         }
 

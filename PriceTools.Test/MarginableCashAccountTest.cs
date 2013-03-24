@@ -7,13 +7,20 @@ namespace Test.Sonneville.PriceTools
     [TestClass]
     public class MarginableCashAccountTest
     {
+        private readonly CashAccountFactory _cashAccountFactory;
+
+        public MarginableCashAccountTest()
+        {
+            _cashAccountFactory = new CashAccountFactory();
+        }
+
         /// <summary>
         ///A test for Withdraw
         ///</summary>
         [TestMethod]
         public void WithdrawBeforeDepositTest()
         {
-            var target = CashAccountFactory.ConstructMarginableCashAccount();
+            var target = _cashAccountFactory.ConstructMarginableCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
@@ -28,7 +35,7 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void WithdrawAfterDepositTest()
         {
-            var target = CashAccountFactory.ConstructMarginableCashAccount();
+            var target = _cashAccountFactory.ConstructMarginableCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 
@@ -46,7 +53,7 @@ namespace Test.Sonneville.PriceTools
         [TestMethod]
         public void WithdrawalIsValidBeforeDepositTest()
         {
-            var target = CashAccountFactory.ConstructMarginableCashAccount();
+            var target = _cashAccountFactory.ConstructMarginableCashAccount();
             var dateTime = new DateTime(2010, 1, 16);
             const decimal amount = 500.00m;
 

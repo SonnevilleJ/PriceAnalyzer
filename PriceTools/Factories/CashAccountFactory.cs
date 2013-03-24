@@ -5,13 +5,13 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Constructs CashAccount objects.
     /// </summary>
-    public static class CashAccountFactory
+    public class CashAccountFactory : ICashAccountFactory
     {
         /// <summary>
         /// Constructs a new CashAccount.
         /// </summary>
         /// <returns></returns>
-        public static ICashAccount ConstructCashAccount()
+        public ICashAccount ConstructCashAccount()
         {
             return new CashAccountImpl();
         }
@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools
         /// Constructs a new CashAccount which supports borrowing on margin.
         /// </summary>
         /// <returns></returns>
-        public static IMarginableCashAccount ConstructMarginableCashAccount()
+        public IMarginableCashAccount ConstructMarginableCashAccount()
         {
             return new MarginableCashAccountImpl();
         }
@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="maximumMargin">The maximum amount of margin allowed on the account.</param>
         /// <returns></returns>
-        public static IMarginableCashAccount ConstructMarginableCashAccount(decimal maximumMargin)
+        public IMarginableCashAccount ConstructMarginableCashAccount(decimal maximumMargin)
         {
             var target = ConstructMarginableCashAccount();
             target.MaximumMargin = maximumMargin;
