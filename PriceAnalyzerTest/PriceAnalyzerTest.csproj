@@ -68,10 +68,6 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestPortfolioData\TestPortfolioData.csproj">
-      <Project>{FDFCAAFD-3E23-46D4-9E3D-2B46C5344E56}</Project>
-      <Name>TestPortfolioData</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

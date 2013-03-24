@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a price quote for a financial security.
     /// </summary>
     [Serializable]
-    internal class PriceTickImpl : IPriceTick, IEquatable<PriceTickImpl>
+    internal class PriceTickImpl : IPriceTick
     {
         /// <summary>
         /// Constructs a PriceTick.
@@ -67,7 +67,7 @@ namespace Sonneville.PriceTools.Implementation
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(PriceTickImpl other)
+        public bool Equals(IPriceTick other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -87,7 +87,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return Equals(obj as PriceTickImpl);
+            return Equals(obj as IPriceTick);
         }
 
         /// <summary>

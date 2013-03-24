@@ -106,8 +106,9 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                if(!HasData) throw new InvalidOperationException(Strings.PriceSeriesImpl_Price_series_contains_no_price_periods_);
-                return DataPeriods.Min(p => p.Head);
+                var dataPeriods = DataPeriods;
+                if(!dataPeriods.Any()) throw new InvalidOperationException(Strings.PriceSeriesImpl_Price_series_contains_no_price_periods_);
+                return dataPeriods.Min(p => p.Head);
             }
         }
 
@@ -118,17 +119,10 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                if (!HasData) throw new InvalidOperationException(Strings.PriceSeriesImpl_Price_series_contains_no_price_periods_);
-                return DataPeriods.Max(p => p.Tail);
+                var dataPeriods = DataPeriods;
+                if (!dataPeriods.Any()) throw new InvalidOperationException(Strings.PriceSeriesImpl_Price_series_contains_no_price_periods_);
+                return dataPeriods.Max(p => p.Tail);
             }
-        }
-
-        /// <summary>
-        /// Determines if the PricePeriod has any data at all. PricePeriods with no data are not equal.
-        /// </summary>
-        protected override bool HasData
-        {
-            get { return DataPeriods.Any(); }
         }
 
         /// <summary>
@@ -138,7 +132,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <returns>A value indicating if the PriceSeries has a valid value for the given date.</returns>
         public override bool HasValueInRange(DateTime settlementDate)
         {
-            return HasData && base.HasValueInRange(settlementDate);
+            return DataPeriods.Any() && base.HasValueInRange(settlementDate);
         }
 
         /// <summary>
@@ -228,13 +222,25 @@ namespace Sonneville.PriceTools.Implementation
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
+        public override bool Equals(IPricePeriod other)
+        {
+            return Equals(other as IPriceSeries);
+        }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
         public bool Equals(IPriceSeries other)
         {
             if (ReferenceEquals(null, other))
                 return false;
             if (ReferenceEquals(this, other))
                 return true;
-            return base.Equals(other) &&
+            return Resolution == other.Resolution &&
                    Ticker == other.Ticker &&
                    other.PricePeriods.All(pricePeriod => PricePeriods.Contains(pricePeriod));
         }

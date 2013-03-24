@@ -1,11 +1,12 @@
 ﻿using System;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
     /// Represents a price quote for a financial security.
     /// </summary>
-    public interface IPriceTick
+    public interface IPriceTick : IEquatable<IPriceTick>
     {
         /// <summary>
         /// The <see cref="DateTime"/> which the price quote is made.

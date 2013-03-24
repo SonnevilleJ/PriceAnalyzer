@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    internal abstract class PricePeriodImpl : IPricePeriod, IEquatable<PricePeriodImpl>
+    internal abstract class PricePeriodImpl : IPricePeriod
     {
         /// <summary>
         /// Gets the closing price for the IPricePeriod.
@@ -68,11 +68,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Determines if the IPricePeriod has any data at all. IPricePeriods with no data are not equal.
-        /// </summary>
-        protected abstract bool HasData { get; }
-
-        /// <summary>
         /// Determines if the IPricePeriod has a valid value for a given date.
         /// </summary>
         /// <param name="settlementDate">The date to check.</param>
@@ -113,14 +108,13 @@ namespace Sonneville.PriceTools.Implementation
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(PricePeriodImpl other)
+        public virtual bool Equals(IPricePeriod  other)
         {
             if (ReferenceEquals(null, other))
                 return false;
             if (ReferenceEquals(this, other))
                 return true;
-            return HasData && HasData == other.HasData &&
-                   Resolution == other.Resolution &&
+            return Resolution == other.Resolution &&
                    Head == other.Head &&
                    Tail == other.Tail &&
                    Open == other.Open &&
@@ -139,7 +133,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return Equals(obj as PricePeriodImpl);
+            return Equals(obj as IPricePeriod);
         }
 
         /// <summary>

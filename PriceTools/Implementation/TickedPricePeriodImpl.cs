@@ -43,14 +43,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Determines if the PricePeriod has any data at all. PricePeriods with no data are not equal.
-        /// </summary>
-        protected override bool HasData
-        {
-            get { return PriceTicks.Count > 0; }
-        }
-
-        /// <summary>
         ///   Adds one or more <see cref = "IPriceTick" />s to the PriceSeries.
         /// </summary>
         /// <param name = "priceTicks">The <see cref = "IPriceTick" />s to add.</param>
