@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     {
         #region Private Members
 
-        private readonly CashAccountFactory _cashAccountFactory;
+        private readonly ICashAccountFactory _cashAccountFactory;
         private readonly ICashAccount _cashAccount;
         private readonly IList<IPosition> _positions;
 

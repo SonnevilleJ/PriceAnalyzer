@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools
     /// </summary>
     public static class SecurityBasketExtensions
     {
-        private static readonly HoldingFactory HoldingFactory;
+        private static readonly IHoldingFactory HoldingFactory;
 
         static SecurityBasketExtensions()
         {

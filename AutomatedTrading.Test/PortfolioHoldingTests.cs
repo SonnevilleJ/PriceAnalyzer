@@ -8,7 +8,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     [TestClass]
     public class PortfolioHoldingTests
     {
-        private readonly HoldingFactory _holdingFactory;
+        private readonly IHoldingFactory _holdingFactory;
 
         public PortfolioHoldingTests()
         {

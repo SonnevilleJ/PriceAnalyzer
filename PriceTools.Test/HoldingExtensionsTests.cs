@@ -6,7 +6,7 @@ namespace Test.Sonneville.PriceTools
     [TestClass]
     public class HoldingExtensionsTests
     {
-        private readonly HoldingFactory _holdingFactory;
+        private readonly IHoldingFactory _holdingFactory;
 
         public HoldingExtensionsTests()
         {

@@ -6,7 +6,7 @@ namespace Test.Sonneville.PriceTools
     [TestClass]
     public class CashAccountFactoryTest
     {
-        private readonly CashAccountFactory _cashAccountFactory;
+        private readonly ICashAccountFactory _cashAccountFactory;
 
         public CashAccountFactoryTest()
         {
