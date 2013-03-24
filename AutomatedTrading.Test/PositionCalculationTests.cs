@@ -11,6 +11,13 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     [TestClass]
     public class PositionCalculationTests
     {
+        private readonly IPositionFactory _positionFactory;
+
+        public PositionCalculationTests()
+        {
+            _positionFactory = new PositionFactory();
+        }
+
         #region Annual Gross Return
 
         [TestMethod]
@@ -24,7 +31,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
@@ -48,7 +55,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
@@ -71,7 +78,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            var target = PositionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
+            var target = _positionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
             Assert.IsNull(target.CalculateAnnualGrossReturn(sellDate));
         }
@@ -91,7 +98,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
@@ -115,7 +122,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
@@ -138,7 +145,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;                // 5 shares
             const decimal commission = 5.00m;       // with $5 commission
 
-            var target = PositionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
+            var target = _positionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
             Assert.IsNull(target.CalculateAnnualNetReturn(sellDate));
         }
@@ -157,7 +164,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sharesBought = 10;     // 10 shares
             const decimal commission = 5.00m;   // with $5 commission
 
-            var target = PositionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission));
+            var target = _positionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission));
 
             const decimal expectedAverageCost = buyPrice;
             var actualAverageCost = target.CalculateAverageCost(buyDate);
@@ -177,7 +184,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
@@ -204,7 +211,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal buyPrice2 = 100.00m;  // $100.00 per share
             const decimal sharesBought2 = 5;     // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, buyDate2, sharesBought2, buyPrice2, commission));
@@ -234,7 +241,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal buyPrice2 = 20.00m;  // $100.00 per share
             const decimal sharesBought2 = 10;     // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, buyDate2, sharesBought2, buyPrice2, commission));
@@ -263,7 +270,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = buyPrice * (1 + decrease);
             const decimal sharesSold = sharesBought - 2;
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
                                                TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
@@ -285,7 +292,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = buyPrice * (1 + increase);
             const decimal sharesSold = sharesBought - 2;
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
                                                TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
@@ -304,7 +311,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;               // 5 shares
             const decimal commission = 7.95m;       // with $7.95 commission
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
             Assert.IsNull(target.CalculateGrossReturn(sellDate));
@@ -325,7 +332,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 5.00m;       // with $5 commission
             const decimal sellPrice = buyPrice - 2.00m;
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
                                                TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
@@ -345,7 +352,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal commission = 5.00m;       // with $5 commission
             const decimal sellPrice = buyPrice*2m;
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                TransactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission),
                                                TransactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
@@ -364,7 +371,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal shares = 5;             // 5 shares
             const decimal commission = 5.00m;    // with $5 commission
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
             Assert.IsNull(target.CalculateNetReturn(sellDate));
@@ -383,7 +390,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
 
-            var target = PositionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission));
+            var target = _positionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission));
 
             // CalculateGrossProfit does not consider open positions - it can only account for closed holdings
             const decimal expected = 0;
@@ -405,7 +412,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission),
                                                            TransactionFactory.ConstructSell(ticker, cDate, cShares, cPrice, cCommission));
 
@@ -429,7 +436,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission),
                                                TransactionFactory.ConstructSell(ticker, cDate, cShares, cPrice, cCommission));
 
@@ -460,7 +467,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
             var secondProfit = GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
@@ -491,7 +498,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             // both holdings will use the original shares, so both must use firstPriceBought
             var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
@@ -523,7 +530,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
             var secondProfit = GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
@@ -554,7 +561,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
             var secondProfit = GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
@@ -585,7 +592,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             // both holdings will use the original shares, so both must use firstPriceBought
             var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
@@ -609,7 +616,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal oShares = 5;           // bought 5 shares
             const decimal oCommission = 7.95m;  // bought with $7.95 commission
 
-            var target = PositionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission));
+            var target = _positionFactory.ConstructPosition(ticker, TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission));
 
             // CalculateGrossProfit does not consider open positions - it can only account for closed holdings
             const decimal expected = 0;
@@ -631,7 +638,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission),
                                                TransactionFactory.ConstructSell(ticker, cDate, cShares, cPrice, cCommission));
 
@@ -655,7 +662,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal cShares = 5;           // sold 5 shares
             const decimal cCommission = 7.95m;  // sold with $7.95 commission
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                TransactionFactory.ConstructBuy(ticker, oDate, oShares, oPrice, oCommission),
                                                TransactionFactory.ConstructSell(ticker, cDate, cShares, cPrice, cCommission));
 
@@ -686,7 +693,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var firstProfit = GetExpectedNetProfit(firstPriceBought, commission, sharesSold, firstPriceSold, commission);
             var secondProfit = GetExpectedNetProfit(secondPriceBought, commission, sharesSold, secondPriceSold, commission);
@@ -717,7 +724,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             // both holdings will use the original shares, so both must use firstPriceBought
             var firstProfit = GetExpectedNetProfit(firstPriceBought, commission, sharesSold, firstPriceSold, commission);
@@ -749,7 +756,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var firstProfit = GetExpectedNetProfit(firstPriceBought, commission, sharesSold, firstPriceSold, commission);
             var secondProfit = GetExpectedNetProfit(secondPriceBought, commission, sharesSold, secondPriceSold, commission);
@@ -780,7 +787,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var firstProfit = GetExpectedNetProfit(firstPriceBought, commission, sharesSold, firstPriceSold, commission);
             var secondProfit = GetExpectedNetProfit(secondPriceBought, commission, sharesSold, secondPriceSold, commission);
@@ -811,7 +818,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             // both holdings will use the original shares, so both must use firstPriceBought
             var firstProfit = GetExpectedNetProfit(firstPriceBought, commission, sharesSold, firstPriceSold, commission);
@@ -841,7 +848,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
             var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell);
 
             var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
 
@@ -865,7 +872,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
             var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell);
 
             var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
 
@@ -895,7 +902,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
             var secondProfit = GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
@@ -926,7 +933,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
             var secondProfit = GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
@@ -957,7 +964,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var firstProfit = GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
             var secondProfit = GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
@@ -986,7 +993,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
             var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell);
 
             var expected = GetExpectedMedianProfit(target.CalculateHoldings(sellDate));
             var actual = target.CalculateMedianProfit(sellDate);
@@ -1008,7 +1015,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
             var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell);
 
             var expected = GetExpectedMedianProfit(target.CalculateHoldings(sellDate));
             var actual = target.CalculateMedianProfit(sellDate);
@@ -1036,7 +1043,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var expected = GetExpectedMedianProfit(target.CalculateHoldings(secondSellDate));
             var actual = target.CalculateMedianProfit(secondSellDate);
@@ -1064,7 +1071,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var expected = GetExpectedMedianProfit(target.CalculateHoldings(secondSellDate));
             var actual = target.CalculateMedianProfit(secondSellDate);
@@ -1092,7 +1099,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var expected = GetExpectedMedianProfit(target.CalculateHoldings(sellDate));
             var actual = target.CalculateMedianProfit(secondSellDate);
@@ -1123,7 +1130,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
             var thirdSell = TransactionFactory.ConstructSell(de, thirdSellDate, ((sharesBought*2) - (sharesSold*2)), thirdPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell, thirdSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell, thirdSell);
 
             var expected = GetExpectedMedianProfit(target.CalculateHoldings(thirdSellDate));
             var actual = target.CalculateMedianProfit(thirdSellDate);
@@ -1149,7 +1156,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
             var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell);
 
             var expected = GetExpectedStandardDeviation(target.CalculateHoldings(sellDate));
             var actual = target.CalculateStandardDeviation(sellDate);
@@ -1171,7 +1178,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var firstBuy = TransactionFactory.ConstructBuy(de, buyDate, sharesBought, firstPriceBought, commission);
             var firstSell = TransactionFactory.ConstructSell(de, sellDate, sharesSold, firstPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell);
 
             var expected = GetExpectedStandardDeviation(target.CalculateHoldings(sellDate));
             var actual = target.CalculateStandardDeviation(sellDate);
@@ -1199,7 +1206,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var expected = GetExpectedStandardDeviation(target.CalculateHoldings(secondSellDate));
             var actual = target.CalculateStandardDeviation(secondSellDate);
@@ -1227,7 +1234,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var expected = GetExpectedStandardDeviation(target.CalculateHoldings(secondSellDate));
             var actual = target.CalculateStandardDeviation(secondSellDate);
@@ -1255,7 +1262,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondBuy = TransactionFactory.ConstructBuy(de, secondBuyDate, sharesBought, secondPriceBought, commission);
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell);
 
             var expected = GetExpectedStandardDeviation(target.CalculateHoldings(sellDate));
             var actual = target.CalculateStandardDeviation(secondSellDate);
@@ -1286,7 +1293,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var secondSell = TransactionFactory.ConstructSell(de, secondSellDate, sharesSold, secondPriceSold, commission);
             var thirdSell = TransactionFactory.ConstructSell(de, thirdSellDate, ((sharesBought*2) - (sharesSold*2)), thirdPriceSold, commission);
 
-            var target = PositionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell, thirdSell);
+            var target = _positionFactory.ConstructPosition(de, firstBuy, firstSell, secondBuy, secondSell, thirdSell);
 
             var expected = GetExpectedStandardDeviation(target.CalculateHoldings(thirdSellDate));
             var actual = target.CalculateStandardDeviation(thirdSellDate);

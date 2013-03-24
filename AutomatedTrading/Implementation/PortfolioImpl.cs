@@ -14,6 +14,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         private readonly ICashAccountFactory _cashAccountFactory;
         private readonly ICashAccount _cashAccount;
         private readonly IList<IPosition> _positions;
+        private readonly IPositionFactory _positionFactory;
 
         #endregion
 
@@ -29,6 +30,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             _cashAccount = _cashAccountFactory.ConstructCashAccount();
             _positions = new List<IPosition>();
             CashTicker = ticker;
+            _positionFactory = new PositionFactory();
         }
 
         #endregion
@@ -273,7 +275,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         private IPosition GetPosition(string ticker, bool nullAcceptable)
         {
             var firstOrDefault = Positions.FirstOrDefault(p => p.Ticker == ticker);
-            return firstOrDefault == null && !nullAcceptable ? PositionFactory.ConstructPosition(ticker) : firstOrDefault;
+            return firstOrDefault == null && !nullAcceptable ? _positionFactory.ConstructPosition(ticker) : firstOrDefault;
         }
 
         private void AddToPosition(IShareTransaction transaction)
@@ -282,7 +284,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             var position = GetPosition(ticker, true);
             if (position == null)
             {
-                position = PositionFactory.ConstructPosition(ticker);
+                position = _positionFactory.ConstructPosition(ticker);
                 _positions.Add(position);
             }
             ((PositionImpl) position).AddTransaction(transaction);

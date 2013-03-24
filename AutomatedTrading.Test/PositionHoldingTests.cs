@@ -9,10 +9,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
     public class PositionHoldingTests
     {
         private readonly IHoldingFactory _holdingFactory;
+        private readonly IPositionFactory _positionFactory;
 
         public PositionHoldingTests()
         {
             _holdingFactory = new HoldingFactory();
+            _positionFactory = new PositionFactory();
         }
 
         [TestMethod]
@@ -29,7 +31,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
@@ -53,7 +55,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
@@ -80,7 +82,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 6;        // 6 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, firstBuyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, secondBuyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
@@ -106,7 +108,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 6;        // 6 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, firstBuyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, secondBuyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
@@ -136,7 +138,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
@@ -162,7 +164,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
@@ -195,7 +197,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, firstBuyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, secondBuyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, buyPrice, commission),
@@ -221,7 +223,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, firstBuyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, secondBuyDate, sharesBought, buyPrice, commission),
@@ -253,7 +255,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, firstBuyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, secondBuyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, buyPrice, commission),
@@ -281,7 +283,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, firstBuyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, secondBuyDate, sharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
@@ -315,7 +317,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, firstBuyDate, firstSharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, secondBuyDate, secondSharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, buyPrice, commission),
@@ -344,7 +346,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, firstBuyDate, firstSharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, secondBuyDate, secondSharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
@@ -380,7 +382,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, firstBuyDate, firstSharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, secondBuyDate, secondSharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
@@ -409,7 +411,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             const decimal sellPrice = 75.00m;   // $75.00 per share
             const decimal sharesSold = 5;        // 5 shares
 
-            var target = PositionFactory.ConstructPosition(ticker,
+            var target = _positionFactory.ConstructPosition(ticker,
                                                            TransactionFactory.ConstructBuy(ticker, firstBuyDate, firstSharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructBuy(ticker, secondBuyDate, secondSharesBought, buyPrice, commission),
                                                            TransactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
