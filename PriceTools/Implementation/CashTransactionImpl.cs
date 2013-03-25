@@ -19,9 +19,9 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="amount"></param>
         protected CashTransactionImpl(Guid factoryGuid, DateTime settlementDate, decimal amount)
         {
-            Id = CalculateTransactionID(factoryGuid);
             SettlementDate = settlementDate;
             Amount = amount;
+            Id = CalculateTransactionID(factoryGuid);
         }
 
         #endregion

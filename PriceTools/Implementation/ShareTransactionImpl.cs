@@ -22,8 +22,8 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="commission"></param>
         protected ShareTransactionImpl(Guid factoryGuid, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
         {
-            Ticker = ticker;
             SettlementDate = settlementDate;
+            Ticker = ticker;
 
             if (shares < 0)
                 throw new ArgumentOutOfRangeException("shares", shares, Strings.ShareTransaction_OnSharesChanging_Shares_must_be_greater_than_or_equal_to_0_);
