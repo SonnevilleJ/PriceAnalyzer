@@ -13,6 +13,16 @@ namespace Sonneville.PriceTools.Fidelity
             _tradingAccountFeaturesFactory = new TradingAccountFeaturesFactory();
         }
 
+        public Guid BrokerageID
+        {
+            get { return Guid.Parse("54B3E2BA-93F3-4FE3-B70E-58016D13C681"); }
+        }
+
+        private static string GetAccountNumber()
+        {
+            return "1234";
+        }
+
         /// <summary>
         /// Logs the user into the brokerage.
         /// </summary>
@@ -24,7 +34,7 @@ namespace Sonneville.PriceTools.Fidelity
             var commissionSchedule = GetCommissionSchedule();
             var marginSchedule = GetMarginSchedule();
             var features = _tradingAccountFeaturesFactory.ConstructTradingAccountFeatures(GetSupportedOrderTypes(), commissionSchedule, marginSchedule);
-            var tradingAccount = new FidelityTradingAccount { Features = features };
+            var tradingAccount = new FidelityTradingAccount(BrokerageID, GetAccountNumber()) { Features = features };
             return tradingAccount;
         }
 

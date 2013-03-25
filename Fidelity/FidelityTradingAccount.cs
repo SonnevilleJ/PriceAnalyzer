@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools.Fidelity
     /// </summary>
     public class FidelityTradingAccount : TradingAccountImpl
     {
-        public FidelityTradingAccount() : base(Guid.Parse("54B3E2BA-93F3-4FE3-B70E-58016D13C681"))
+        public FidelityTradingAccount(Guid brokerageGuid, string accountNumber) : base(brokerageGuid, accountNumber)
         {
         }
 

@@ -11,15 +11,15 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         private readonly ConcurrentDictionary<IOrder, CancellationTokenSource> _tokenSources = new ConcurrentDictionary<IOrder, CancellationTokenSource>();
         private readonly BlockingCollection<IOrder> _orders = new BlockingCollection<IOrder>();
-        protected readonly ITransactionFactory _transactionFactory;
 
         #endregion
 
         #region Constructors
 
-        protected TradingAccountImpl(Guid accountGuid)
+        protected TradingAccountImpl(Guid brokerageGuid, string accountNumber)
         {
-            _transactionFactory = new TransactionFactory(accountGuid);
+            AccountNumber = accountNumber;
+            TransactionFactory = new TransactionFactory(brokerageGuid);
             Task.Factory.StartNew(Consumer);
         }
 
@@ -30,16 +30,18 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         /// Gets the <see cref="ITransactionFactory"/> associated with the user's brokerage account.
         /// </summary>
-        /// <returns>The <see cref="ITransactionFactory"/> associated with the user's brokerage account.</returns>
-        public ITransactionFactory GetTransactionFactory()
-        {
-            throw new NotImplementedException();
-        }
+        /// <value>The <see cref="ITransactionFactory"/> associated with the user's brokerage account.</value>
+        public ITransactionFactory TransactionFactory { get; private set; }
 
         /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.
         /// </summary>
         public IPortfolio Portfolio { get; set; }
+
+        /// <summary>
+        /// The account number identifying this account at the <see cref="IBrokerage"/>.
+        /// </summary>
+        public string AccountNumber { get; private set; }
 
         /// <summary>
         /// Gets the list of features supported by this TradingAccount.
@@ -132,7 +134,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         private bool ValidateOrder(IOrder order)
         {
             var commission = Features.CommissionSchedule.PriceCheck(order);
-            var expectedTransaction = _transactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, DateTime.Now, order.Shares, order.Price, commission);
+            var expectedTransaction = TransactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, DateTime.Now, order.Shares, order.Price, commission);
             return ((PortfolioImpl) Portfolio).TransactionIsValid(expectedTransaction);
         }
 
