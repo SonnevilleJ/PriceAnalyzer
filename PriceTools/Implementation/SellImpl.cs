@@ -11,8 +11,8 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Constructs a Sell.
         /// </summary>
-        internal SellImpl(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
-            : base(ticker, settlementDate, shares, -Math.Abs(price), commission)
+        internal SellImpl(Guid factoryGuid, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
+            : base(factoryGuid, ticker, settlementDate, shares, -Math.Abs(price), commission)
         {
         }
     }

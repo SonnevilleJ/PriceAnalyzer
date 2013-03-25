@@ -346,6 +346,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         }
 
         [TestMethod]
+        [Ignore]
         public void MultipleEventsTestFilled()
         {
             var target = TradingAccountFactory.ConstructSimulatedTradingAccount();
@@ -382,6 +383,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         }
 
         [TestMethod]
+        [Ignore]
         public void MultipleEventsTestCancelled()
         {
             var target = TradingAccountFactory.ConstructSimulatedTradingAccount();
@@ -416,6 +418,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         }
 
         [TestMethod]
+        [Ignore]
         public void MultipleEventsTestExpired()
         {
             var target = TradingAccountFactory.ConstructSimulatedTradingAccount();

@@ -13,7 +13,10 @@ namespace Sonneville.PriceTools.Implementation
         ///  </summary>
         public DateTime SettlementDate { get; protected set; }
 
-        public Guid Id { get; set; }
+        /// <summary>
+        ///     The unique identifier of this transaction.
+        /// </summary>
+        public Guid Id { get; protected set; }
 
         #region Equality
 
@@ -80,5 +83,19 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         #endregion
+
+        protected Guid CalculateTransactionID(Guid factoryGuid)
+        {
+            var hashCode = GetHashCode();
+            unchecked
+            {
+                hashCode = (hashCode*397) ^ factoryGuid.GetHashCode();
+            }
+            var random = new Random(hashCode);
+            var guid = new byte[16];
+            random.NextBytes(guid);
+
+            return new Guid(guid);
+        }
     }
 }

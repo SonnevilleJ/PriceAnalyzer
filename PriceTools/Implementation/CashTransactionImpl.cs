@@ -10,14 +10,16 @@ namespace Sonneville.PriceTools.Implementation
     internal abstract class CashTransactionImpl : TransactionImpl, ICashTransaction
     {
         #region Constructors
-        
+
         /// <summary>
         /// Constructs a CashTransaction with a given SettlemendDate and Amount.
         /// </summary>
+        /// <param name="factoryGuid"></param>
         /// <param name="settlementDate"></param>
         /// <param name="amount"></param>
-        protected internal CashTransactionImpl(DateTime settlementDate, decimal amount)
+        protected CashTransactionImpl(Guid factoryGuid, DateTime settlementDate, decimal amount)
         {
+            Id = CalculateTransactionID(factoryGuid);
             SettlementDate = settlementDate;
             Amount = amount;
         }

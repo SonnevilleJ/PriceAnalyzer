@@ -12,6 +12,9 @@ namespace Sonneville.PriceTools
         ///  </summary>
         DateTime SettlementDate { get; }
 
-        Guid Id { get; set; }
+        /// <summary>
+        ///     The unique identifier of this transaction.
+        /// </summary>
+        Guid Id { get; }
     }
 }

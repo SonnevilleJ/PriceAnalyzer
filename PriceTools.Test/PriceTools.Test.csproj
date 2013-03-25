@@ -84,6 +84,7 @@
     <Compile Include="CashAccountTest.cs" />
     <Compile Include="TickedPricePeriodTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TransactionFactoryTests.cs" />
     <Compile Include="WithdrawalTests.cs" />
   </ItemGroup>
   <ItemGroup>

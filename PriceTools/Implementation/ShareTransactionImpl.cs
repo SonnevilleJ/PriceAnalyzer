@@ -14,12 +14,13 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Constructs a ShareTransaction object.
         /// </summary>
+        /// <param name="factoryGuid"></param>
         /// <param name="ticker"></param>
         /// <param name="settlementDate"></param>
         /// <param name="shares"></param>
         /// <param name="price"></param>
         /// <param name="commission"></param>
-        protected internal ShareTransactionImpl(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
+        protected ShareTransactionImpl(Guid factoryGuid, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
         {
             Ticker = ticker;
             SettlementDate = settlementDate;
@@ -33,6 +34,8 @@ namespace Sonneville.PriceTools.Implementation
             if (commission < 0)
                 throw new ArgumentOutOfRangeException("commission", commission, Strings.ShareTransaction_Commission_Commission_must_be_greater_than_or_equal_to_0_);
             Commission = commission;
+
+            Id = CalculateTransactionID(factoryGuid);
         }
 
 

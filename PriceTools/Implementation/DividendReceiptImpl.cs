@@ -11,11 +11,12 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Constructs a dividend-type transaction where funds were received.
         /// </summary>
+        /// <param name="factoryGuid"></param>
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds received.</param>
         /// <returns></returns>
-        internal DividendReceiptImpl(DateTime settlementDate, decimal amount)
-            : base(settlementDate, Math.Abs(amount))
+        internal DividendReceiptImpl(Guid factoryGuid, DateTime settlementDate, decimal amount)
+            : base(factoryGuid, settlementDate, Math.Abs(amount))
         {
         }
     }
