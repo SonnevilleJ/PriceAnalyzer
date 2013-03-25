@@ -45,6 +45,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="Utilities">
+      <HintPath>..\..\John\Assemblies\Utilities.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\HoldingExtensions.cs" />
@@ -52,7 +55,6 @@
     <Compile Include="Extensions\VariableValueExtensions.cs" />
     <Compile Include="Extensions\TimeSeriesExtensions.cs" />
     <Compile Include="Factories\HoldingFactory.cs" />
-    <Compile Include="Implementation\GuidSeeder.cs" />
     <Compile Include="Interfaces\IAccumulationTransaction.cs" />
     <Compile Include="Interfaces\ICashAccountFactory.cs" />
     <Compile Include="Interfaces\IClosingTransaction.cs" />
