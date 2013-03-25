@@ -8,6 +8,11 @@ namespace Sonneville.PriceTools.Implementation
     [Serializable]
     internal abstract class TransactionImpl : ITransaction
     {
+        protected TransactionImpl()
+        {
+            GuidSeeder = new GuidSeeder();
+        }
+
         /// <summary>
         ///    Gets the DateTime that the Transaction occurred.
         ///  </summary>
@@ -17,6 +22,8 @@ namespace Sonneville.PriceTools.Implementation
         ///     The unique identifier of this transaction.
         /// </summary>
         public Guid Id { get; protected set; }
+
+        protected GuidSeeder GuidSeeder { get; private set; }
 
         #region Equality
 
@@ -57,7 +64,9 @@ namespace Sonneville.PriceTools.Implementation
         /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
-            return SettlementDate.GetHashCode();
+            var result = GetType().GetHashCode();
+            result = (result * 397) ^ SettlementDate.GetHashCode();
+            return result;
         }
 
         /// <summary>
@@ -83,19 +92,5 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         #endregion
-
-        protected Guid CalculateTransactionID(Guid factoryGuid)
-        {
-            var hashCode = GetHashCode();
-            unchecked
-            {
-                hashCode = (hashCode*397) ^ factoryGuid.GetHashCode();
-            }
-            var random = new Random(hashCode);
-            var guid = new byte[16];
-            random.NextBytes(guid);
-
-            return new Guid(guid);
-        }
     }
 }

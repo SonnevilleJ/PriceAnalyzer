@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.Implementation
                 throw new ArgumentOutOfRangeException("commission", commission, Strings.ShareTransaction_Commission_Commission_must_be_greater_than_or_equal_to_0_);
             Commission = commission;
 
-            Id = CalculateTransactionID(factoryGuid);
+            Id = GuidSeeder.SeedGuid(GetHashCode(), factoryGuid);
         }
 
 

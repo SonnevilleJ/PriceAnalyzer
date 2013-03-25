@@ -52,6 +52,7 @@
     <Compile Include="Extensions\VariableValueExtensions.cs" />
     <Compile Include="Extensions\TimeSeriesExtensions.cs" />
     <Compile Include="Factories\HoldingFactory.cs" />
+    <Compile Include="Implementation\GuidSeeder.cs" />
     <Compile Include="Interfaces\IAccumulationTransaction.cs" />
     <Compile Include="Interfaces\ICashAccountFactory.cs" />
     <Compile Include="Interfaces\IClosingTransaction.cs" />

@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.Implementation
         {
             SettlementDate = settlementDate;
             Amount = amount;
-            Id = CalculateTransactionID(factoryGuid);
+            Id = GuidSeeder.SeedGuid(GetHashCode(), factoryGuid);
         }
 
         #endregion
