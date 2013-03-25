@@ -8,12 +8,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     /// </summary>
     internal class BacktestingTradingAccountImpl : TradingAccountImpl
     {
-        private readonly ITransactionFactory _transactionFactory;
-
-        internal BacktestingTradingAccountImpl()
+        internal BacktestingTradingAccountImpl() : base(Guid.Parse("DBE826D1-C5C3-476C-A665-80D920E2321E"))
         {
             MaximumSlippage = 0.01m;
-            _transactionFactory = new TransactionFactory();
         }
 
         /// <summary>

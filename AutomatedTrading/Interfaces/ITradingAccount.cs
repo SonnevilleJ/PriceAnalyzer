@@ -8,6 +8,12 @@ namespace Sonneville.PriceTools.AutomatedTrading
     public interface ITradingAccount
     {
         /// <summary>
+        /// Gets the <see cref="ITransactionFactory"/> associated with the user's brokerage account.
+        /// </summary>
+        /// <returns>The <see cref="ITransactionFactory"/> associated with the user's brokerage account.</returns>
+        ITransactionFactory GetTransactionFactory();
+
+        /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.
         /// </summary>
         IPortfolio Portfolio { get; }

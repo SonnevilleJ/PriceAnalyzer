@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Security.Authentication;
 using Sonneville.PriceTools.AutomatedTrading;
-using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
 namespace Sonneville.PriceTools.Fidelity
 {
@@ -14,35 +14,21 @@ namespace Sonneville.PriceTools.Fidelity
         }
 
         /// <summary>
-        /// Collects credentials from the user and logs the user into the brokerage.
-        /// </summary>
-        public void LogIn()
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
         /// Logs the user into the brokerage.
         /// </summary>
         /// <param name="username"></param>
         /// <param name="password"></param>
-        public void LogIn(string username, string password)
-        {
-            throw new NotImplementedException();
-        }
-
-        /// <summary>
-        /// Gets the <see cref="TradingAccountImpl"/> associated with the user's brokerage account.
-        /// </summary>
-        /// <returns>The <see cref="TradingAccountImpl"/> associated with the user's brokerage account.</returns>
-        public ITradingAccount GetTradingAccount()
+        /// <exception cref="AuthenticationException">Thrown when the supplied credentials are incorrect.</exception>
+        public ITradingAccount LogIn(string username, string password)
         {
             var commissionSchedule = GetCommissionSchedule();
             var marginSchedule = GetMarginSchedule();
             var features = _tradingAccountFeaturesFactory.ConstructTradingAccountFeatures(GetSupportedOrderTypes(), commissionSchedule, marginSchedule);
-            var tradingAccount = new FidelityTradingAccount {Features = features};
+            var tradingAccount = new FidelityTradingAccount { Features = features };
             return tradingAccount;
         }
+
+        #region Private Methods
 
         private IMarginSchedule GetMarginSchedule()
         {
@@ -62,5 +48,7 @@ namespace Sonneville.PriceTools.Fidelity
 
             return basic;
         }
+
+        #endregion
     }
 }

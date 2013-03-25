@@ -1,23 +1,13 @@
-﻿namespace Sonneville.PriceTools.AutomatedTrading
+﻿using System.Security.Authentication;
+
+namespace Sonneville.PriceTools.AutomatedTrading
 {
     public interface IBrokerage
     {
         /// <summary>
-        /// Collects credentials from the user and logs the user into the brokerage.
-        /// </summary>
-        void LogIn();
-
-        /// <summary>
         /// Logs the user into the brokerage.
         /// </summary>
-        /// <param name="username"></param>
-        /// <param name="password"></param>
-        void LogIn(string username, string password);
-
-        /// <summary>
-        /// Gets the <see cref="ITradingAccount"/> associated with the user's brokerage account.
-        /// </summary>
-        /// <returns>The <see cref="ITradingAccount"/> associated with the user's brokerage account.</returns>
-        ITradingAccount GetTradingAccount();
+        /// <exception cref="AuthenticationException">Thrown when the supplied credentials are incorrect.</exception>
+        ITradingAccount LogIn(string username, string password);
     }
 }

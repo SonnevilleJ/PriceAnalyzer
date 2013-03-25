@@ -11,21 +11,30 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         private readonly ConcurrentDictionary<IOrder, CancellationTokenSource> _tokenSources = new ConcurrentDictionary<IOrder, CancellationTokenSource>();
         private readonly BlockingCollection<IOrder> _orders = new BlockingCollection<IOrder>();
-        private readonly ITransactionFactory _transactionFactory;
+        protected readonly ITransactionFactory _transactionFactory;
 
         #endregion
 
         #region Constructors
 
-        protected TradingAccountImpl()
+        protected TradingAccountImpl(Guid accountGuid)
         {
+            _transactionFactory = new TransactionFactory(accountGuid);
             Task.Factory.StartNew(Consumer);
-            _transactionFactory = new TransactionFactory();
         }
 
         #endregion
 
         #region Implementation of TradingAccount
+
+        /// <summary>
+        /// Gets the <see cref="ITransactionFactory"/> associated with the user's brokerage account.
+        /// </summary>
+        /// <returns>The <see cref="ITransactionFactory"/> associated with the user's brokerage account.</returns>
+        public ITransactionFactory GetTransactionFactory()
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.
