@@ -14,7 +14,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         private string _ticker;
         private readonly ICollection<IShareTransaction> _transactions = new List<IShareTransaction>();
-        private readonly ITransactionFactory _transactionFactory;
 
         #endregion
 
@@ -26,7 +25,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <param name = "ticker">The ticker symbol that this Position will hold. All transactions will use this ticker symbol.</param>
         internal PositionImpl(string ticker)
         {
-            _transactionFactory = new TransactionFactory();
             Ticker = ticker;
         }
 
@@ -51,54 +49,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                 }
                 _ticker = value;
             }
-        }
-
-        /// <summary>
-        ///   Buys shares of the ticker held by this IPosition.
-        /// </summary>
-        /// <param name = "settlementDate">The date of this shareTransaction.</param>
-        /// <param name = "shares">The number of shares in this shareTransaction.</param>
-        /// <param name = "price">The per-share price of this shareTransaction.</param>
-        /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        public void Buy(DateTime settlementDate, decimal shares, decimal price, decimal commission)
-        {
-            AddTransaction(shares, OrderType.Buy, settlementDate, price, commission);
-        }
-
-        /// <summary>
-        ///   Buys shares of the ticker held by this Position to cover a previous ShortSell.
-        /// </summary>
-        /// <param name = "settlementDate">The date of this shareTransaction.</param>
-        /// <param name = "shares">The number of shares in this shareTransaction. Shares cannot exceed currently shorted shares.</param>
-        /// <param name = "price">The per-share price of this shareTransaction.</param>
-        /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        public void BuyToCover(DateTime settlementDate, decimal shares, decimal price, decimal commission)
-        {
-            AddTransaction(shares, OrderType.BuyToCover, settlementDate, price, commission);
-        }
-
-        /// <summary>
-        ///   Sells shares of the ticker held by this IPosition.
-        /// </summary>
-        /// <param name = "settlementDate">The date of this shareTransaction.</param>
-        /// <param name = "shares">The number of shares in this shareTransaction. Shares connot exceed currently held shares.</param>
-        /// <param name = "price">The per-share price of this shareTransaction.</param>
-        /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        public void Sell(DateTime settlementDate, decimal shares, decimal price, decimal commission)
-        {
-            AddTransaction(shares, OrderType.Sell, settlementDate, price, commission);
-        }
-
-        /// <summary>
-        ///   Sell short shares of the ticker held by this IPosition.
-        /// </summary>
-        /// <param name = "settlementDate">The date of this shareTransaction.</param>
-        /// <param name = "shares">The number of shares in this shareTransaction.</param>
-        /// <param name = "price">The per-share price of this shareTransaction.</param>
-        /// <param name = "commission">The commission paid for this shareTransaction.</param>
-        public void SellShort(DateTime settlementDate, decimal shares, decimal price, decimal commission)
-        {
-            AddTransaction(shares, OrderType.SellShort, settlementDate, price, commission);
         }
 
         /// <summary>
@@ -180,12 +130,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         #endregion
 
         #region Helper Methods
-
-        private void AddTransaction(decimal shares, OrderType type, DateTime settlementDate, decimal price, decimal commission)
-        {
-            var shareTransaction = _transactionFactory.ConstructShareTransaction(type, Ticker, settlementDate, shares, price, commission);
-            AddTransaction(shareTransaction);
-        }
 
         private void Validate(IShareTransaction shareTransaction)
         {
