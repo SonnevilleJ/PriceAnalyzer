@@ -78,8 +78,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\cs-corrcoef.xls" />
     <None Include="Resources\cs-rsi.xls" />
     <None Include="Resources\cs-soo.xls" />
+    <None Include="Resources\cs-stochrsi.xls" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
