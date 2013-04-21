@@ -48,6 +48,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CorrelationTest.cs" />
     <Compile Include="RsiAverageGainsTest.cs" />
     <Compile Include="CommonIndicatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,6 +64,10 @@
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Statistics\Statistics.csproj">
+      <Project>{8767BC88-6AD0-4A71-BC34-81D3409C8643}</Project>
+      <Name>Statistics</Name>
     </ProjectReference>
     <ProjectReference Include="..\TechnicalAnalysis\TechnicalAnalysis.csproj">
       <Project>{459025C7-F4B6-40D6-B94C-D927950D076E}</Project>
