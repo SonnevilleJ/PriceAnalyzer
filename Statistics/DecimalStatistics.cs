@@ -37,6 +37,25 @@ namespace Statistics
             return squaresAverage - average*average;
         }
 
+        public static decimal Covariance(this IEnumerable<decimal> one, IEnumerable<decimal> two)
+        {
+            var d1 = one.ToArray();
+            var d2 = two.ToArray();
+            var multiples = MultiplyBy(d1, d2);
+            return multiples.Average() - (d1.Average()*d2.Average());
+        }
+
+        public static IEnumerable<decimal> MultiplyBy(this IEnumerable<decimal> one, IEnumerable<decimal> two)
+        {
+            //return Enumerable.Range(0, two.Count()).Select(x => two.Skip(x).Select(y => one.ElementAt(x)*y));
+            //var multiples = new List<decimal>();
+            for (var i = 0; i < one.Count(); i++)
+            {
+                yield return one.ElementAt(i) * two.ElementAt(i);
+            }
+            //return multiples;
+        }
+
         /// <summary>
         /// Returns the standard deviation of a series.
         /// </summary>
