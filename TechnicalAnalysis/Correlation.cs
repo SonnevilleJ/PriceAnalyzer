@@ -36,5 +36,14 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             var otherPeriods = _target.GetPreviousTimePeriods(Lookback, index).Select(x => x[index]);
             return myPeriods.Correlation(otherPeriods);
         }
+
+        protected override bool CanCalculate(DateTime index)
+        {
+            if (MeasuredTimeSeries.HasValueInRange(index) && _target.HasValueInRange(index))
+            {
+                return base.CanCalculate(index);
+            }
+            return false;
+        }
     }
 }
