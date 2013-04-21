@@ -28,6 +28,15 @@ namespace Statistics
             return list.ElementAt(midpoint);
         }
 
+        public static decimal Variance(this IEnumerable<decimal> decimals)
+        {
+            var array = decimals.ToArray();
+            var average = array.Average();
+            var squares = array.Select(x => x*x);
+            var squaresAverage = squares.Average();
+            return squaresAverage - average*average;
+        }
+
         /// <summary>
         /// Returns the standard deviation of a series.
         /// </summary>

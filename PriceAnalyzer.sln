@@ -60,6 +60,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAnalyzer", "PriceAnaly
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAnalyzerTest", "PriceAnalyzerTest\PriceAnalyzerTest.csproj", "{3352DD25-54E4-44E1-B25B-7B40A647EBE9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Statistics.Test", "Statistics.Test\Statistics.Test.csproj", "{706B4164-96CF-4F78-9A13-B1CE5E057F11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -224,6 +226,12 @@ Global
 		{3352DD25-54E4-44E1-B25B-7B40A647EBE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3352DD25-54E4-44E1-B25B-7B40A647EBE9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3352DD25-54E4-44E1-B25B-7B40A647EBE9}.Release|x86.ActiveCfg = Release|Any CPU
+		{706B4164-96CF-4F78-9A13-B1CE5E057F11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{706B4164-96CF-4F78-9A13-B1CE5E057F11}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{706B4164-96CF-4F78-9A13-B1CE5E057F11}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{706B4164-96CF-4F78-9A13-B1CE5E057F11}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{706B4164-96CF-4F78-9A13-B1CE5E057F11}.Release|Any CPU.Build.0 = Release|Any CPU
+		{706B4164-96CF-4F78-9A13-B1CE5E057F11}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
