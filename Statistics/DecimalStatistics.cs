@@ -56,6 +56,15 @@ namespace Statistics
             //return multiples;
         }
 
+        public static decimal Correlation(this IEnumerable<decimal> one, IEnumerable<decimal> two)
+        {
+            var numerator = Covariance(one, two);
+            var v1 = one.Variance();
+            var v2 = two.Variance();
+            var denominator = SquareRoot(v1*v2);
+            return numerator/denominator;
+        }
+
         /// <summary>
         /// Returns the standard deviation of a series.
         /// </summary>
@@ -72,52 +81,62 @@ namespace Statistics
             return ((sum / parallel.Count()) - 1).SquareRoot();
         }
 
-        /// <summary>
-        /// Returns the square root of a specified number.
-        /// </summary>
-        /// <param name="d">A <see cref="decimal"/> number.</param>
-        /// <param name="epsilon">The tolerance of the function. Must be greater than or equal to zero.</param>
-        /// <returns></returns>
-        public static decimal SquareRoot(this decimal d, decimal epsilon = 0M)
+        public static decimal SquareRoot(this decimal x, decimal? guess = null)
         {
-            if (d < 0)
-            {
-                // throw new OverflowException("Cannot calculate square root from a negative number");
-                return 0;   // imaginary number
-            }
-            if (epsilon < 0m) throw new ArgumentOutOfRangeException("epsilon", epsilon, "Epsilon must be greater than or equal to zero.");
+            var ourGuess = guess.GetValueOrDefault(x / 2m);
+            var result = x / ourGuess;
+            var average = (ourGuess + result) / 2m;
 
-            decimal current = (decimal)Math.Sqrt((double)d), previous;
-            do
-            {
-                previous = current;
-                if (previous == 0.0M) return 0;
-                current = (previous + d / previous) / 2;
-            }
-            while (Math.Abs(previous - current) > epsilon);
-            return current;
+            if (average == ourGuess) // This checks for the maximum precision possible with a decimal.
+                return average;
+            else
+                return SquareRoot(x, average);
         }
+
+        ///// <summary>
+        ///// Returns the square root of a specified number.
+        ///// </summary>
+        ///// <param name="d">A <see cref="decimal"/> number.</param>
+        ///// <param name="epsilon">The tolerance of the function. Must be greater than or equal to zero.</param>
+        ///// <returns></returns>
+        //public static decimal SquareRoot(this decimal d, decimal epsilon = 0M)
+        //{
+        //    if (d < 0)
+        //    {
+        //        // throw new OverflowException("Cannot calculate square root from a negative number");
+        //        return 0;   // imaginary number
+        //    }
+        //    if (epsilon < 0m) throw new ArgumentOutOfRangeException("epsilon", epsilon, "Epsilon must be greater than or equal to zero.");
+
+        //    decimal current = (decimal)Math.Sqrt((double)d), previous;
+        //    do
+        //    {
+        //        previous = current;
+        //        if (previous == 0.0M) return 0;
+        //        current = (previous + d / previous) / 2;
+        //    }
+        //    while (Math.Abs(previous - current) > epsilon);
+        //    return current;
+        //}
 
         /// <summary>
         /// Returns the square root of a specified number.
         /// </summary>
         /// <param name="i">A <see cref="int"/> number.</param>
-        /// <param name="epsilon">The tolerance of the function. Must be greater than or equal to zero.</param>
         /// <returns></returns>
-        public static decimal SquareRoot(this int i, decimal epsilon = 0m)
+        public static decimal SquareRoot(this int i)
         {
-            return ((decimal) i).SquareRoot(epsilon);
+            return ((decimal)i).SquareRoot();
         }
 
         /// <summary>
         /// Returns the square root of a specified number.
         /// </summary>
         /// <param name="l">A <see cref="long"/> number.</param>
-        /// <param name="epsilon">The tolerance of the function. Must be greater than or equal to zero.</param>
         /// <returns></returns>
-        public static decimal SquareRoot(this long l, decimal epsilon = 0m)
+        public static decimal SquareRoot(this long l)
         {
-            return ((decimal) l).SquareRoot(epsilon);
+            return ((decimal)l).SquareRoot();
         }
 
         /// <summary>
