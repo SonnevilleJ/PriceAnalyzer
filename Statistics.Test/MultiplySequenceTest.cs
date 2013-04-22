@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Statistics;
 
-namespace Statistics.Test
+namespace Test.Statistics
 {
     [TestClass]
     public class MultiplySequenceTest

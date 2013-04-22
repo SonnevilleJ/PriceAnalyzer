@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Statistics.Test
+namespace Test.Statistics
 {
     public static class StatisticsTestUtilities
     {
