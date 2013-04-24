@@ -78,11 +78,20 @@ namespace Statistics
             var mean = parallel.Average();
             var squares = parallel.Select(holding => holding - mean).Select(deviation => deviation*deviation);
             var sum = squares.Sum();
+            if (sum == 0m)
+            {
+                return 0m;
+            }
             return ((sum / parallel.Count()) - 1).SquareRoot();
         }
 
         public static decimal SquareRoot(this decimal x, decimal? guess = null)
         {
+            if (x < 0)
+            {
+                throw new OverflowException("Cannot calculate square root from a negative number");
+            }
+
             var ourGuess = guess.GetValueOrDefault(x / 2m);
             var result = x / ourGuess;
             var average = (ourGuess + result) / 2m;
