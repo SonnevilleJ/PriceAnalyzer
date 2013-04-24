@@ -2,7 +2,7 @@
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
-    public static class ExtensionImplementations
+    public static class CorrelationExtensions
     {
         private const int DefaultCorrelationLookback = 20;
 

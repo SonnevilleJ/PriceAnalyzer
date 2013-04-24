@@ -8,7 +8,7 @@ using Statistics;
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public class ExtensionsTest
+    public class CorrelationExtensionsTest
     {
         private readonly IPriceSeries _ibm = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
         private readonly IPriceSeries _de = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
