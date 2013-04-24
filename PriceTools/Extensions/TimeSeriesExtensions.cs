@@ -196,16 +196,16 @@ namespace Sonneville.PriceTools
 
             var pairs = GetResolutionDatePairs(resolution, head, tail);
 
-            return (from pair in pairs
-                    let periodHead = pair.Key
-                    let periodTail = pair.Value
-                    let periodsInRange = dataPeriods.Where(period => period.Head >= periodHead && period.Tail <= periodTail).ToList()
-                    let open = periodsInRange.First().Open
-                    let high = periodsInRange.Max(p => p.High)
-                    let low = periodsInRange.Min(p => p.Low)
-                    let close = periodsInRange.Last().Close
-                    let volume = periodsInRange.Sum(p => p.Volume)
-                    select PricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume));
+            return from pair in pairs
+                   let periodHead = pair.Key
+                   let periodTail = pair.Value
+                   let periodsInRange = dataPeriods.Where(period => period.Head >= periodHead && period.Tail <= periodTail).ToList()
+                   let open = periodsInRange.First().Open
+                   let high = periodsInRange.Max(p => p.High)
+                   let low = periodsInRange.Min(p => p.Low)
+                   let close = periodsInRange.Last().Close
+                   let volume = periodsInRange.Sum(p => p.Volume)
+                   select PricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume);
         }
 
         #endregion

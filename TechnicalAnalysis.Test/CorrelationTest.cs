@@ -30,11 +30,11 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void CorrelationMsftDeereTest()
         {
+            var ibm = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
             var msft = TestPriceSeries.MSFT_Apr_June_2011_Weekly_Google;
-            var de = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
 
             const int lookback = 20;
-            var actual = new Correlation(msft, lookback, de)[msft.Tail];
+            var actual = new Correlation(ibm, lookback, msft)[ibm.Tail];
         }
     }
 }
