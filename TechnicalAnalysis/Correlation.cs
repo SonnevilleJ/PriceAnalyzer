@@ -9,6 +9,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// </summary>
     public class Correlation : TimeSeriesIndicator
     {
+        public const int DefaultLookback = 20;
+
         //
         // The algorithms in the Correlation class are based on the following article:
         // http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:correlation_coeffici

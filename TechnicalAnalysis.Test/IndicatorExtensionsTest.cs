@@ -8,7 +8,7 @@ using Statistics;
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
     [TestClass]
-    public class CorrelationExtensionsTest
+    public class IndicatorExtensionsTest
     {
         private readonly IPriceSeries _ibm = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
         private readonly IPriceSeries _de = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
@@ -17,8 +17,8 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         public void CorrelationIbmDeereTest()
         {
             const int lookback = 20;
-            var expected = GetExpected(lookback);
-            var actual = _ibm.Correlation(_de, _ibm.Tail);
+            var expected = GetExpectedCorrelation(lookback);
+            var actual = _ibm.Correlation(_de)[_ibm.Tail];
             Assert.AreEqual(expected, actual);
         }
 
@@ -26,8 +26,8 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         public void CorrelationIbmDeereTestWithLookback()
         {
             const int lookback = 10;
-            var expected = GetExpected(lookback);
-            var actual = _ibm.Correlation(_de, _ibm.Tail, lookback);
+            var expected = GetExpectedCorrelation(lookback);
+            var actual = _ibm.Correlation(_de, lookback)[_ibm.Tail];
             Assert.AreEqual(expected, actual);
         }
 
@@ -35,12 +35,12 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         public void CorrelationIbmDeereTestAllValues()
         {
             const int lookback = 10;
-            var expected = GetExpected(lookback);
+            var expected = GetExpectedCorrelation(lookback);
             var actual = _ibm.Correlation(_de, lookback).TimePeriods.Last().Value();
             Assert.AreEqual(expected, actual);
         }
 
-        private decimal GetExpected(int lookback)
+        private decimal GetExpectedCorrelation(int lookback)
         {
             var ibmDecimals = _ibm.GetPreviousPricePeriods(lookback, _ibm.Tail).Select(x => x.Close);
             var deDecimals = _de.GetPreviousPricePeriods(lookback, _ibm.Tail).Select(x => x.Close);

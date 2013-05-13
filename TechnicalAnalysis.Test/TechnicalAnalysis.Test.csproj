@@ -49,7 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CorrelationTest.cs" />
-    <Compile Include="CorrelationExtensionsTest.cs" />
+    <Compile Include="IndicatorExtensionsTest.cs" />
     <Compile Include="RsiAverageGainsTest.cs" />
     <Compile Include="CommonIndicatorTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
