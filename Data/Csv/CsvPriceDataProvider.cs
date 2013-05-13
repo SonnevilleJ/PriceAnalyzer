@@ -11,6 +11,18 @@ namespace Sonneville.PriceTools.Data.Csv
     /// </summary>
     public abstract class CsvPriceDataProvider : PriceDataProvider
     {
+        private readonly IWebClient _webClient;
+
+        public CsvPriceDataProvider()
+            : this(new WebClientWrapper())
+        {
+        }
+
+        public CsvPriceDataProvider(IWebClient webClient)
+        {
+            _webClient = webClient;
+        }
+
         #region Overrides of PriceDataProvider
 
         /// <summary>
@@ -145,8 +157,7 @@ namespace Sonneville.PriceTools.Data.Csv
             try
             {
                 var url = FormUrlQuery(ticker, head, tail, resolution);
-                var client = new WebClient { Proxy = { Credentials = CredentialCache.DefaultNetworkCredentials } };
-                return client.OpenRead(url);
+                return _webClient.OpenRead(url);
             }
             catch (WebException e)
             {

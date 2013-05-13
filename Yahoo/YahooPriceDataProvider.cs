@@ -13,6 +13,15 @@ namespace Sonneville.PriceTools.Yahoo
     /// </summary>
     public sealed class YahooPriceDataProvider : CsvPriceDataProvider
     {
+        public YahooPriceDataProvider()
+        {
+        }
+
+        public YahooPriceDataProvider(IWebClient webClient)
+            : base(webClient)
+        {
+        }
+
         //
         // Yahoo has many features beyond price history - i.e. fundamental indicators.
         // See http://www.codeproject.com/KB/aspnet/StockQuote.aspx for details.

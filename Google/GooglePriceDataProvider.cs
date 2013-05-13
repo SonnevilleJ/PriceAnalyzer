@@ -10,6 +10,15 @@ namespace Sonneville.PriceTools.Google
     /// </summary>
     public sealed class GooglePriceDataProvider : CsvPriceDataProvider
     {
+        public GooglePriceDataProvider()
+        {
+        }
+
+        public GooglePriceDataProvider(IWebClient webClient)
+            : base(webClient)
+        {
+        }
+
         #region Overrides of PriceDataProvider
 
         public override IEnumerable<IPricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail, Resolution resolution)

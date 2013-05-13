@@ -114,6 +114,7 @@
     <Compile Include="Implementation\PricePeriodImpl.cs" />
     <Compile Include="Implementation\PriceSeriesImpl.cs" />
     <Compile Include="Interfaces\IShortTransaction.cs" />
+    <Compile Include="IWebClient.cs" />
     <Compile Include="StockIndexInfo.cs" />
     <Compile Include="Interfaces\IOrder.cs" />
     <Compile Include="Factories\OrderFactory.cs" />
@@ -139,6 +140,7 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="Factories\TransactionFactory.cs" />
+    <Compile Include="WebClientWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.Config">
