@@ -57,13 +57,8 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                foreach (var resolution in
-                    Enum.GetValues(typeof(Resolution)).Cast<long>().Where(ticks => this.TimeSpan().Ticks <= ticks).OrderBy(ticks => ticks))
-                {
-                    return (Resolution)Enum.ToObject(typeof(Resolution), new TimeSpan(resolution).Ticks);
-                }
-
-                throw new OverflowException();
+                var resolutions = Enum.GetValues(typeof (Resolution)).Cast<long>().OrderBy(ticks => ticks);
+                return (Resolution) Enum.ToObject(typeof (Resolution), resolutions.First(ticks => this.TimeSpan().Ticks <= ticks));
             }
         }
 
