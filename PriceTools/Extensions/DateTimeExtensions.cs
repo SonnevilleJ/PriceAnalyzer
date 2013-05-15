@@ -114,12 +114,15 @@ namespace Sonneville.PriceTools
         {
             // Weeks, Months, Years, etc do not have "trading periods"
             if (resolution >= Resolution.Weeks) return true;
-            
-            return dateTime.DayOfWeek == DayOfWeek.Monday ||
-                   dateTime.DayOfWeek == DayOfWeek.Tuesday ||
-                   dateTime.DayOfWeek == DayOfWeek.Wednesday ||
-                   dateTime.DayOfWeek == DayOfWeek.Thursday ||
-                   dateTime.DayOfWeek == DayOfWeek.Friday;
+
+            if (resolution >= Resolution.Days)
+                return dateTime.DayOfWeek == DayOfWeek.Monday ||
+                       dateTime.DayOfWeek == DayOfWeek.Tuesday ||
+                       dateTime.DayOfWeek == DayOfWeek.Wednesday ||
+                       dateTime.DayOfWeek == DayOfWeek.Thursday ||
+                       dateTime.DayOfWeek == DayOfWeek.Friday;
+
+            throw new NotImplementedException();
         }
 
         /// <summary>
