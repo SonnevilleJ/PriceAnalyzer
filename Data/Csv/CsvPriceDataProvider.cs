@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Text;
 
 namespace Sonneville.PriceTools.Data.Csv
 {
@@ -12,14 +11,11 @@ namespace Sonneville.PriceTools.Data.Csv
     public abstract class CsvPriceDataProvider : PriceDataProvider
     {
         private readonly IWebClient _webClient;
+        private readonly IUrlManager _urlManager;
 
-        public CsvPriceDataProvider()
-            : this(new WebClientWrapper())
+        protected CsvPriceDataProvider(IWebClient webClient, IUrlManager urlManager)
         {
-        }
-
-        public CsvPriceDataProvider(IWebClient webClient)
-        {
+            _urlManager = urlManager;
             _webClient = webClient;
         }
 
@@ -45,52 +41,6 @@ namespace Sonneville.PriceTools.Data.Csv
         #region URL Management
 
         /// <summary>
-        /// Gets the base component of the URL used to retrieve the PriceHistoryCsvFile.
-        /// </summary>
-        /// <returns>A URL scheme, host, path, and miscellaneous query string.</returns>
-        protected abstract string GetUrlBase();
-
-        /// <summary>
-        /// Gets the ticker symbol component of the URL query string used to retrieve the PriceHistoryCsvFile.
-        /// </summary>
-        /// <param name="symbol">The ticker symbol to retrieve.</param>
-        /// <returns>A partial URL query string containing the given ticker symbol.</returns>
-        protected abstract string GetUrlTicker(string symbol);
-
-        /// <summary>
-        /// Gets the beginning date component of the URL query string used to retrieve the PriceHistoryCsvFile.
-        /// </summary>
-        /// <param name="head">The first period for which to request price history.</param>
-        /// <returns>A partial URL query string containing the given beginning date.</returns>
-        protected abstract string GetUrlHeadDate(DateTime head);
-
-        /// <summary>
-        /// Gets the ending date component of the URL query string used to retrieve the PriceHistoryCsvFile.
-        /// </summary>
-        /// <param name="tail">The last period for which to request price history.</param>
-        /// <returns>A partial URL query string containing the given ending date.</returns>
-        protected abstract string GetUrlTailDate(DateTime tail);
-
-        /// <summary>
-        /// Gets the <see cref="Resolution"/> component of the URL query string used to retrieve price history.
-        /// </summary>
-        /// <param name="resolution">The <see cref="Resolution"/> to request.</param>
-        /// <returns>A partial URL query string containing a marker which requests the given <see cref="Resolution"/>.</returns>
-        protected abstract string GetUrlResolution(Resolution resolution);
-
-        /// <summary>
-        /// Gets the dividend component of the URL query string used to retrieve the PriceHistoryCsvFile.
-        /// </summary>
-        /// <returns>A partial URL query string containing a marker which requests dividend data.</returns>
-        protected abstract string GetUrlDividends();
-
-        /// <summary>
-        /// Gets the CSV marker component of the URL query string used to retrieve the PriceHistoryCsvFile.
-        /// </summary>
-        /// <returns>A partial URL qery string containing a marker which requests CSV data.</returns>
-        protected abstract string GetUrlCsvMarker();
-
-        /// <summary>
         /// Formulates a URL that when queried returns a CSV data stream containing the requested price history.
         /// </summary>
         /// <param name="ticker">The ticker symbol to request.</param>
@@ -98,17 +48,9 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="tail">The last date to request.</param>
         /// <param name="resolution"></param>
         /// <returns>A fully formed URL.</returns>
-        protected virtual string FormUrlQuery(string ticker, DateTime head, DateTime tail, Resolution resolution)
+        private string FormUrlQuery(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
-            var builder = new StringBuilder();
-            builder.Append(GetUrlBase());
-            builder.Append(GetUrlTicker(ticker));
-            builder.Append(GetUrlHeadDate(head));
-            builder.Append(GetUrlTailDate(tail));
-            builder.Append(GetUrlResolution(resolution));
-            builder.Append(GetUrlCsvMarker());
-
-            return builder.ToString();
+            return _urlManager.FormUrlQuery(ticker, head, tail, resolution);
         }
 
         #endregion
