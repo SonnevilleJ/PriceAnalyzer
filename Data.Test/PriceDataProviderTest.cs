@@ -4,73 +4,43 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data;
+using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools.Data
 {
     [TestClass]
     public abstract class PriceDataProviderTest
     {
-        private readonly IPriceSeriesFactory _priceSeriesFactory;
+        private IPriceSeriesFactory _priceSeriesFactory;
 
-        protected PriceDataProviderTest()
+        protected abstract PriceDataProvider GetTestObjectInstance();
+
+        [TestInitialize]
+        public void Initialize()
         {
             _priceSeriesFactory = new PriceSeriesFactory();
         }
 
-        protected abstract PriceDataProvider GetTestObjectInstance();
-
         [TestMethod]
-        public abstract void DailyDownloadSingleDay();
-
-        [TestMethod]
-        public abstract void DailyDownloadTestResolution();
-
-        [TestMethod]
-        public abstract void DailyDownloadTestPeriods();
-
-        [TestMethod]
-        public abstract void DailyDownloadDates();
-
-        [TestMethod]
-        public abstract void WeeklyDownloadPeriods();
-
-        [TestMethod]
-        public abstract void WeeklyDownloadResolution();
-
-        [TestMethod]
-        public abstract void WeeklyDownloadDates();
-
-        [TestMethod]
-        public abstract void AutoUpdatePopulatedPriceSeries();
-
-        [TestMethod]
-        public abstract void AutoUpdateEmptyPriceSeries();
-
-        [TestMethod]
-        public abstract void AutoUpdateTwoTickers();
-
-        [TestMethod]
-        [ExpectedException(typeof(InvalidOperationException))]
-        public abstract void AutoUpdateSamePriceSeriesTwice();
-
-        protected void DailyDownloadSingleDayTest()
+        public void DailyDownloadSingleDay()
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2012, 8, 7);
             var tail = new DateTime(2012, 8, 7).CurrentPeriodClose(Resolution.Days);
-            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker = TickerManager.GetUniqueTicker();
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
             Assert.AreEqual(1, priceSeries.PricePeriods.Count());
         }
 
-        protected void DailyDownloadResolutionTest()
+        [TestMethod]
+        public void DailyDownloadTestResolution()
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
-            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker = TickerManager.GetUniqueTicker();
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
@@ -81,24 +51,26 @@ namespace Test.Sonneville.PriceTools.Data
             }
         }
 
-        protected void DailyDownloadPeriodsTest()
+        [TestMethod]
+        public void DailyDownloadTestPeriods()
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
-            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker = TickerManager.GetUniqueTicker();
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
             Assert.AreEqual(50, priceSeries.PricePeriods.Count());
         }
 
-        protected void DailyDownloadDatesTest()
+        [TestMethod]
+        public void DailyDownloadDates()
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
-            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker = TickerManager.GetUniqueTicker();
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Days);
 
@@ -106,24 +78,26 @@ namespace Test.Sonneville.PriceTools.Data
             Assert.AreEqual(tail, priceSeries.Tail);
         }
 
-        protected void WeeklyDownloadPeriodsTest()
+        [TestMethod]
+        public void WeeklyDownloadPeriods()
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
-            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker = TickerManager.GetUniqueTicker();
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
 
             Assert.AreEqual(11, priceSeries.PricePeriods.Count());
         }
 
-        protected void WeeklyDownloadResolutionTest()
+        [TestMethod]
+        public void WeeklyDownloadResolution()
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
-            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker = TickerManager.GetUniqueTicker();
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries(ticker, Resolution.Weeks);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
 
@@ -136,12 +110,13 @@ namespace Test.Sonneville.PriceTools.Data
             }
         }
 
-        protected void WeeklyDownloadDatesTest()
+        [TestMethod]
+        public void WeeklyDownloadDates()
         {
             var provider = GetTestObjectInstance();
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
-            var ticker = TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker();
+            var ticker = TickerManager.GetUniqueTicker();
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries(ticker);
             provider.UpdatePriceSeries(priceSeries, head, tail, Resolution.Weeks);
 
@@ -149,17 +124,18 @@ namespace Test.Sonneville.PriceTools.Data
             Assert.AreEqual(tail, priceSeries.Tail);
         }
 
-        protected void AutoUpdatePopulatedPriceSeriesTest()
+        [TestMethod]
+        public void AutoUpdatePopulatedPriceSeries()
         {
-            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             var updateCount = 0;
             var resetEvent = new AutoResetEvent(false);
 
             EventHandler<NewDataAvailableEventArgs> handler = (sender, args) =>
-            {
-                Interlocked.Increment(ref updateCount);
-                resetEvent.Set();
-            };
+                {
+                    Interlocked.Increment(ref updateCount);
+                    resetEvent.Set();
+                };
             IPriceDataProvider provider = GetTestObjectInstance();
 
             var head = new DateTime(2012, 6, 6);
@@ -182,17 +158,18 @@ namespace Test.Sonneville.PriceTools.Data
             Assert.IsTrue(updateCount >= 1);
         }
 
-        protected void AutoUpdateEmptyPriceSeriesTest()
+        [TestMethod]
+        public void AutoUpdateEmptyPriceSeries()
         {
-            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             var updateCount = 0;
             var resetEvent = new AutoResetEvent(false);
 
             EventHandler<NewDataAvailableEventArgs> handler = (sender, args) =>
-            {
-                Interlocked.Increment(ref updateCount);
-                resetEvent.Set();
-            };
+                {
+                    Interlocked.Increment(ref updateCount);
+                    resetEvent.Set();
+                };
             IPriceDataProvider provider = GetTestObjectInstance();
 
             try
@@ -211,30 +188,31 @@ namespace Test.Sonneville.PriceTools.Data
             Assert.IsTrue(updateCount >= 1);
         }
 
-        protected void AutoUpdateTwoTickersTest()
+        [TestMethod]
+        public void AutoUpdateTwoTickers()
         {
-            var ps1 = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
-            var ps2 = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var ps1 = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            var ps2 = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             var deereUpdates = 0;
             var microsoftUpdates = 0;
             var countdown = new CountdownEvent(2);
 
             ps1.NewDataAvailable += (o, args) =>
-                                        {
-                                            if (deereUpdates == 0)
-                                            {
-                                                Interlocked.Increment(ref deereUpdates);
-                                                countdown.Signal();
-                                            }
-                                        };
+                {
+                    if (deereUpdates == 0)
+                    {
+                        Interlocked.Increment(ref deereUpdates);
+                        countdown.Signal();
+                    }
+                };
             ps2.NewDataAvailable += (o, args) =>
-                                        {
-                                            if (microsoftUpdates == 0)
-                                            {
-                                                Interlocked.Increment(ref microsoftUpdates);
-                                                countdown.Signal();
-                                            }
-                                        };
+                {
+                    if (microsoftUpdates == 0)
+                    {
+                        Interlocked.Increment(ref microsoftUpdates);
+                        countdown.Signal();
+                    }
+                };
             var provider = GetTestObjectInstance();
 
             provider.StartAutoUpdate(ps1);
@@ -247,9 +225,11 @@ namespace Test.Sonneville.PriceTools.Data
             Assert.IsTrue(deereUpdates >= 1 && microsoftUpdates >= 1);
         }
 
-        protected void AutoUpdateSamePriceSeriesTwiceTest()
+        [TestMethod]
+        [ExpectedException(typeof(InvalidOperationException))]
+        public void AutoUpdateSamePriceSeriesTwice()
         {
-            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TestUtilities.Sonneville.PriceTools.TickerManager.GetUniqueTicker());
+            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
 
             var provider = GetTestObjectInstance();
 

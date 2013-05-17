@@ -40,10 +40,6 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3afe5ff2e45d1b62, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\John\Assemblies\Utilities.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDependentAssemblyPaths Condition=" '$(VS100COMNTOOLS)' != '' " Include="$(VS100COMNTOOLS)..\IDE\PrivateAssemblies">
@@ -65,12 +61,8 @@
       <Name>Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
-      <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
+      <Project>{fbe4a744-cacd-4ccc-9746-1692ab3b606b}</Project>
       <Name>PriceTools</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
-      <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
-      <Name>TestPriceData</Name>
     </ProjectReference>
     <ProjectReference Include="..\Yahoo\Yahoo.csproj">
       <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
