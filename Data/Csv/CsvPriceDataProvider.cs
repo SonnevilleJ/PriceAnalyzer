@@ -19,8 +19,6 @@ namespace Sonneville.PriceTools.Data.Csv
             _webClient = webClient;
         }
 
-        #region Overrides of PriceDataProvider
-
         /// <summary>
         /// Gets a list of <see cref="IPricePeriod"/>s containing price data for the requested DateTime range.
         /// </summary>
@@ -34,27 +32,6 @@ namespace Sonneville.PriceTools.Data.Csv
             return GetPriceHistoryCsvFile(ticker, head, tail, resolution).PricePeriods;
         }
 
-        #endregion
-
-        #region Abstract / Virtual Methods
-
-        #region URL Management
-
-        /// <summary>
-        /// Formulates a URL that when queried returns a CSV data stream containing the requested price history.
-        /// </summary>
-        /// <param name="ticker">The ticker symbol to request.</param>
-        /// <param name="head">The first date to request.</param>
-        /// <param name="tail">The last date to request.</param>
-        /// <param name="resolution"></param>
-        /// <returns>A fully formed URL.</returns>
-        private string FormUrlQuery(string ticker, DateTime head, DateTime tail, Resolution resolution)
-        {
-            return _urlManager.FormUrlQuery(ticker, head, tail, resolution);
-        }
-
-        #endregion
-
         /// <summary>
         /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
         /// </summary>
@@ -64,10 +41,6 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="impliedResolution">The <see cref="Resolution"/> of price data to retrieve.</param>
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
         protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail, Resolution? impliedResolution = null);
-
-        #endregion
-
-        #region Private Methods
 
         /// <summary>
         /// Gets a <see cref="PriceHistoryCsvFile"/> containing price history.
@@ -98,7 +71,7 @@ namespace Sonneville.PriceTools.Data.Csv
         {
             try
             {
-                var url = FormUrlQuery(ticker, head, tail, resolution);
+                var url = _urlManager.FormUrlQuery(ticker, head, tail, resolution);
                 return _webClient.OpenRead(url);
             }
             catch (WebException e)
@@ -106,8 +79,5 @@ namespace Sonneville.PriceTools.Data.Csv
                 throw new WebException(Strings.DownloadPricesToCsv_InternetAccessFailed, e, e.Status, e.Response);
             }
         }
-
-        #endregion
-
     }
 }
