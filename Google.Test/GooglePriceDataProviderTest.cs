@@ -8,7 +8,7 @@ namespace Test.Sonneville.PriceTools.Google
     [TestClass]
     public class GooglePriceDataProviderTest : PriceDataProviderTest
     {
-        protected override PriceDataProvider GetTestObjectInstance()
+        protected override IPriceDataProvider GetTestObjectInstance()
         {
             return new GooglePriceDataProvider();
         }

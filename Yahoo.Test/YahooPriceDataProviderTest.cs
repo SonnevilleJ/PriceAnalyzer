@@ -8,7 +8,7 @@ namespace Test.Sonneville.PriceTools.Yahoo
     [TestClass]
     public class YahooPriceDataProviderTest : PriceDataProviderTest
     {
-        protected override PriceDataProvider GetTestObjectInstance()
+        protected override IPriceDataProvider GetTestObjectInstance()
         {
             return new YahooPriceDataProvider();
         }

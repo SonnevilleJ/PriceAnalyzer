@@ -15,7 +15,7 @@ namespace Test.Sonneville.PriceTools.Data
         private IPriceSeries _priceSeries;
         private string _ticker;
 
-        protected abstract PriceDataProvider GetTestObjectInstance();
+        protected abstract IPriceDataProvider GetTestObjectInstance();
 
         [TestInitialize]
         public void Initialize()
@@ -133,7 +133,7 @@ namespace Test.Sonneville.PriceTools.Data
                     Interlocked.Increment(ref updateCount);
                     resetEvent.Set();
                 };
-            IPriceDataProvider provider = GetTestObjectInstance();
+            var provider = GetTestObjectInstance();
 
             var head = new DateTime(2012, 6, 6);
             var tail = new DateTime(2012, 6, 9).CurrentPeriodClose(_priceSeries.Resolution);
@@ -166,7 +166,7 @@ namespace Test.Sonneville.PriceTools.Data
                     Interlocked.Increment(ref updateCount);
                     resetEvent.Set();
                 };
-            IPriceDataProvider provider = GetTestObjectInstance();
+            var provider = GetTestObjectInstance();
 
             try
             {
