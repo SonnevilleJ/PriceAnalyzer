@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools.Data.Csv
                                                                                                 {PriceColumn.Volume, "Volume"}
                                                                                             };
 
-        private static readonly IPricePeriodFactory _pricePeriodFactory;
+        private static readonly IPricePeriodFactory PricePeriodFactory;
 
         #endregion
 
@@ -52,7 +52,7 @@ namespace Sonneville.PriceTools.Data.Csv
 
         static PriceHistoryCsvFile()
         {
-            _pricePeriodFactory = new PricePeriodFactory();
+            PricePeriodFactory = new PricePeriodFactory();
         }
 
         #endregion
@@ -279,7 +279,7 @@ namespace Sonneville.PriceTools.Data.Csv
 
                 if (head > tail) break; // provider gave us extra data beyond what we asked for, so stop here
 
-                var period = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
+                var period = PricePeriodFactory.ConstructStaticPricePeriod(head, tail, stagedPeriod.Open, stagedPeriod.High, stagedPeriod.Low, stagedPeriod.Close, stagedPeriod.Volume);
                 pricePeriods.Add(period);
             }
             return pricePeriods;

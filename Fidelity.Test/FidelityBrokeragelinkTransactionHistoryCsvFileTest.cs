@@ -19,9 +19,10 @@ namespace Test.Sonneville.PriceTools.Fidelity
     [TestClass]
     public class FidelityBrokeragelinkTransactionHistoryCsvFileTest
     {
-        private readonly IPortfolioFactory _portfolioFactory;
+        private IPortfolioFactory _portfolioFactory;
 
-        public FidelityBrokeragelinkTransactionHistoryCsvFileTest()
+        [TestInitialize]
+        public void Initialize()
         {
             _portfolioFactory = new PortfolioFactory();
         }

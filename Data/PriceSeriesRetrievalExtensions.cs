@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 
 namespace Sonneville.PriceTools.Data
 {
@@ -30,10 +29,10 @@ namespace Sonneville.PriceTools.Data
         /// <exception cref="ArgumentNullException">A parameter is equal to null.</exception>
         public static void UpdatePriceData(this IPriceSeries priceSeries, IPriceDataProvider provider, DateTime head, DateTime tail)
         {
-            if(priceSeries == null) throw new ArgumentNullException("priceSeries", Strings.PriceSeriesRetrievalExtensions_UpdatePriceData_Paramter_priceSeries_cannot_be_null_);
-            if(provider == null) throw new ArgumentNullException("provider", Strings.PriceSeriesRetrievalExtensions_UpdatePriceData_Parameter_provider_cannot_be_null_);
+            if (priceSeries == null) throw new ArgumentNullException("priceSeries", Strings.PriceSeriesRetrievalExtensions_UpdatePriceData_Paramter_priceSeries_cannot_be_null_);
+            if (provider == null) throw new ArgumentNullException("provider", Strings.PriceSeriesRetrievalExtensions_UpdatePriceData_Parameter_provider_cannot_be_null_);
+            if (provider.BestResolution > priceSeries.Resolution) throw new ArgumentException(String.Format(Strings.PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_providing_periods_of_resolution__0__or_better_, priceSeries.Resolution), "provider");
 
-            if (provider.BestResolution > priceSeries.Resolution) throw new ArgumentException(String.Format(CultureInfo.InvariantCulture, Strings.PriceSeriesRetrievalExtensions_UpdatePriceData_Provider_must_be_capable_of_providing_periods_of_resolution__0__or_better_, priceSeries.Resolution), "provider");
             provider.UpdatePriceSeries(priceSeries, head, tail, priceSeries.Resolution);
         }
     }
