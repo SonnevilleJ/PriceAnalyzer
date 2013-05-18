@@ -61,7 +61,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         [TestMethod]
         public void Constructor4Test()
         {
-            var csvFile = TestTransactionHistory.FidelityTransactions;
+            var csvFile = TestPortfolios.FidelityTaxable.TransactionHistory;
             var ticker = String.Empty;
 
             var target = _portfolioFactory.ConstructPortfolio(csvFile.Transactions);
