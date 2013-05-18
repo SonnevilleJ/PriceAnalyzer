@@ -132,17 +132,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public static decimal CalculateNetProfit(this ISecurityBasket basket, DateTime settlementDate)
         {
-            var allHoldings = basket.CalculateHoldings(settlementDate);
-            if (allHoldings.Count == 0) return 0;
-
-            var positionGroups = allHoldings.GroupBy(h => h.Ticker);
-            return (from holdings in positionGroups
-                    from holding in holdings
-                    let open = holding.OpenPrice
-                    let close = holding.ClosePrice
-                    let profit = close - open
-                    let shares = holding.Shares
-                    select (profit*shares) - holding.OpenCommission - holding.CloseCommission).Sum();
+            return basket.CalculateHoldings(settlementDate).AsParallel().Sum(holding => ((holding.ClosePrice - holding.OpenPrice)*holding.Shares) - holding.OpenCommission - holding.CloseCommission);
         }
 
         /// <summary>
@@ -152,18 +142,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public static decimal CalculateGrossProfit(this ISecurityBasket basket, DateTime settlementDate)
         {
-            var allHoldings = basket.CalculateHoldings(settlementDate);
-            if (allHoldings.Count == 0) return 0;
-
-            var positionGroups = allHoldings.GroupBy(h => h.Ticker);
-
-            return (from holdings in positionGroups
-                    from holding in holdings
-                    let open = holding.OpenPrice
-                    let close = holding.ClosePrice
-                    let profit = close - open
-                    let shares = holding.Shares
-                    select profit*shares).Sum();
+            return basket.CalculateHoldings(settlementDate).AsParallel().Sum(holding => (holding.ClosePrice - holding.OpenPrice)*holding.Shares);
         }
 
         /// <summary>
