@@ -145,6 +145,10 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SampleData\SampleData.csproj">
+      <Project>{E12C0FC1-733B-4DEC-A7D7-EA0A9F1CFA9B}</Project>
+      <Name>SampleData</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Statistics\Statistics.csproj">
       <Project>{8767BC88-6AD0-4A71-BC34-81D3409C8643}</Project>
       <Name>Statistics</Name>

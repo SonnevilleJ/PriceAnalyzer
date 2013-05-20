@@ -63,9 +63,9 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestPortfolioData\TestPortfolioData.csproj">
-      <Project>{FDFCAAFD-3E23-46D4-9E3D-2B46C5344E56}</Project>
-      <Name>TestPortfolioData</Name>
+    <ProjectReference Include="..\SampleData\SampleData.csproj">
+      <Project>{E12C0FC1-733B-4DEC-A7D7-EA0A9F1CFA9B}</Project>
+      <Name>SampleData</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

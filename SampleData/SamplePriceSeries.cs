@@ -1,4 +1,6 @@
-﻿namespace Sonneville.PriceTools.Test.PriceData
+using Sonneville.PriceTools;
+
+namespace SampleData
 {
     public static class SamplePriceSeries
     {
@@ -14,7 +16,7 @@
             get
             {
                 var priceSeries = _priceSeriesFactory.ConstructPriceSeries("IBM");
-                var pricePeriods = SamplePriceHistoryCsvFiles.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo.PricePeriods;
+                var pricePeriods = SamplePriceDatas.IBM.PriceHistory.PricePeriods;
                 priceSeries.AddPriceData(pricePeriods);
                 return priceSeries;
             }
@@ -25,7 +27,7 @@
             get
             {
                 var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
-                var pricePeriods = SamplePriceHistoryCsvFiles.DE_1_1_2011_to_6_30_2011.PricePeriods;
+                var pricePeriods = SamplePriceDatas.Deere.PriceHistory.PricePeriods;
                 priceSeries.AddPriceData(pricePeriods);
                 return priceSeries;
             }
@@ -36,7 +38,7 @@
             get
             {
                 var priceSeries = _priceSeriesFactory.ConstructPriceSeries("MSFT");
-                var pricePeriods = SamplePriceHistoryCsvFiles.MSFT_Apr_June_2011_Weekly_Google.PricePeriods;
+                var pricePeriods = SamplePriceDatas.MSFT.PriceHistory.PricePeriods;
                 priceSeries.AddPriceData(pricePeriods);
                 return priceSeries;
             }

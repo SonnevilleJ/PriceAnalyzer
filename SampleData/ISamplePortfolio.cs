@@ -1,9 +1,9 @@
-﻿using Sonneville.PriceTools;
+using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
 
-namespace Test.Sonneville.PriceTools.PortfolioData
+namespace SampleData
 {
-    public interface ITestPortfolio
+    public interface ISamplePortfolio
     {
         IPortfolio Portfolio { get; }
         string CsvString { get; }

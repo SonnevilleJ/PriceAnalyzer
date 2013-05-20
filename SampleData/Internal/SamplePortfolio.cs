@@ -1,10 +1,9 @@
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
-using Sonneville.PriceTools.Data.Csv;
 
-namespace Test.Sonneville.PriceTools.PortfolioData.Internal
+namespace SampleData.Internal
 {
-    internal class TestPortfolio : ITestPortfolio
+    internal class SamplePortfolio : ISamplePortfolio
     {
         public IPortfolio Portfolio
         {

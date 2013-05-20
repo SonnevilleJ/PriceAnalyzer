@@ -1,19 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{905DFF66-3320-4F3F-A924-7E5793EF1663}</ProjectGuid>
+    <ProjectGuid>{E12C0FC1-733B-4DEC-A7D7-EA0A9F1CFA9B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sonneville.PriceTools.Test.PriceData</RootNamespace>
-    <AssemblyName>PriceTools.Test.PriceData</AssemblyName>
+    <RootNamespace>SampleData</RootNamespace>
+    <AssemblyName>SampleData</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile>
-    </TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -23,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -32,53 +28,59 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>..\Sonneville.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3afe5ff2e45d1b62, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\John\Assemblies\Utilities.dll</HintPath>
+    <Reference Include="Utilities">
+      <HintPath>..\PriceTools\bin\Debug\Utilities.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TestCsvPriceHistory.cs" />
     <Compile Include="CsvPriceData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>CsvPriceData.resx</DependentUpon>
     </Compile>
-    <Compile Include="TestPriceHistoryCsvFiles.cs" />
-    <Compile Include="TestPricePeriods.cs" />
-    <Compile Include="TestPriceSeries.cs" />
+    <Compile Include="Internal\FidelityData.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>FidelityData.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Internal\SamplePortfolio.cs" />
+    <Compile Include="ISamplePriceData.cs" />
+    <Compile Include="ISamplePortfolio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SamplePortfolios.cs" />
+    <Compile Include="SamplePriceData.cs" />
+    <Compile Include="SamplePriceDatas.cs" />
+    <Compile Include="SamplePriceSeries.cs" />
   </ItemGroup>
   <ItemGroup>
-    <CodeAnalysisDictionary Include="..\CustomDictionary.xml" />
+    <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
+      <Link>CustomDictionary.xml</Link>
+    </CodeAnalysisDictionary>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="CsvPriceData.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>CsvPriceData.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Resources\BrokerageLink_trades.csv" />
+    <None Include="Resources\BrokerageLink_TransactionPriceRounding.csv" />
     <None Include="Resources\DE 1-1-2011 to 6-30-2011.csv" />
+    <None Include="Resources\FidelityTransactions.csv" />
     <None Include="Resources\IBM 1-1-2011 to 3-15-2011 Daily Yahoo.csv" />
     <None Include="Resources\MSFT Apr-June 2011 Weekly Google.csv" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutomatedTrading\AutomatedTrading.csproj">
+      <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
+      <Name>AutomatedTrading</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fidelity\Fidelity.csproj">
+      <Project>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</Project>
+      <Name>Fidelity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Google\Google.csproj">
       <Project>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</Project>
@@ -88,14 +90,24 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
-      <Project>{87F42318-0470-4F99-8AED-B9C0AFA72918}</Project>
-      <Name>TestUtilities</Name>
+    <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
+      <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
+      <Name>TestPriceData</Name>
     </ProjectReference>
     <ProjectReference Include="..\Yahoo\Yahoo.csproj">
       <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
       <Name>Yahoo</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="CsvPriceData.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CsvPriceData.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Internal\FidelityData.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>FidelityData.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

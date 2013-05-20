@@ -49,25 +49,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Internal\FidelityData.Designer.cs">
-      <DependentUpon>FidelityData.resx</DependentUpon>
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-    </Compile>
-    <Compile Include="Internal\TestPortfolio.cs" />
-    <Compile Include="ITestPortfolio.cs" />
-    <Compile Include="TestPortfolios.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <CodeAnalysisDictionary Include="..\CustomDictionary.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Internal\FidelityData.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>FidelityData.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutomatedTrading\AutomatedTrading.csproj">
@@ -86,11 +68,6 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\BrokerageLink_trades.csv" />
-    <None Include="Resources\BrokerageLink_TransactionPriceRounding.csv" />
-    <None Include="Resources\FidelityTransactions.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
