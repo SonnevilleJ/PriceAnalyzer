@@ -45,7 +45,6 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Analyzer.cs" />
     <Compile Include="AnalyzerEventArgs.cs" />
     <Compile Include="AnalyzerTriggerDelegate.cs" />
     <Compile Include="ContinuousAnalyzer.cs" />
@@ -58,7 +57,6 @@
     <Compile Include="Factories\TradingAccountFactory.cs" />
     <Compile Include="Implementation\BacktestingTradingAccountImpl.cs" />
     <Compile Include="FlatCommissionSchedule.cs" />
-    <Compile Include="HigherThanYesterdayAnalyzer.cs" />
     <Compile Include="Implementation\PortfolioImpl.cs" />
     <Compile Include="Implementation\PositionImpl.cs" />
     <Compile Include="Implementation\TradingAccountImpl.cs" />
@@ -72,17 +70,11 @@
     <Compile Include="ITradingAccountFeaturesFactory.cs" />
     <Compile Include="SecurityBasketExtensions.cs" />
     <Compile Include="SimpleMovingAverageCrossoverAnalyzer.cs" />
-    <Compile Include="LowerThanYesterdayAnalyzer.cs" />
     <Compile Include="MarginNotAllowed.cs" />
     <Compile Include="OrderCancelledEventArgs.cs" />
     <Compile Include="OrderExecutedEventArgs.cs" />
     <Compile Include="OrderExpiredEventArgs.cs" />
-    <Compile Include="PriceOverThresholdAnalyzer.cs" />
-    <Compile Include="PriceSeriesAnalyzer.cs" />
-    <Compile Include="PriceThresholdAnalyzer.cs" />
-    <Compile Include="PriceUnderThresholdAnalyzer.cs" />
     <Compile Include="Implementation\SimulatedTradingAccountImpl.cs" />
-    <Compile Include="SinglePeriodAnalyzer.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

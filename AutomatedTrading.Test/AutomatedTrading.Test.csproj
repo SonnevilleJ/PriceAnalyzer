@@ -47,7 +47,6 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AnalyzerTest.cs" />
     <Compile Include="ContinuousTradingEngineTest.cs" />
     <Compile Include="OrderCancelledEventArgsTest.cs" />
     <Compile Include="OrderExecutedEventArgsTest.cs" />
