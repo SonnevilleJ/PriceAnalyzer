@@ -15,7 +15,6 @@ namespace Sonneville.PriceTools.Data.Csv
     {
         #region Private Members
 
-        private readonly IDictionary<TransactionColumn, int> _map = new Dictionary<TransactionColumn, int>(5);
         private readonly bool _useTotalBasis;
         private bool _tableParsed;
         private readonly List<ITransaction> _transactions = new List<ITransaction>();
@@ -76,17 +75,19 @@ namespace Sonneville.PriceTools.Data.Csv
 
         #region Private Methods
 
-        private void MapHeaders(CsvReader reader)
+        private IDictionary<TransactionColumn, int> MapHeaders(CsvReader reader)
         {
+            var map = new Dictionary<TransactionColumn, int>(5);
             var headers = reader.GetFieldHeaders();
             for (var i = 0; i < headers.Length; i++)
             {
                 var column = ParseColumnHeader(headers[i]);
                 if (column != TransactionColumn.None)
                 {
-                    _map.Add(column, i);
+                    map.Add(column, i);
                 }
             }
+            return map;
         }
 
         /// <summary>
@@ -97,54 +98,54 @@ namespace Sonneville.PriceTools.Data.Csv
             if (_tableParsed) return;
             using (var reader = new CsvReader(new StreamReader(stream), true))
             {
-                MapHeaders(reader);
+                var map = MapHeaders(reader);
 
                 while (reader.ReadNextRecord())
                 {
                     var ticker = string.Empty;
                     decimal price;
 
-                    if(!IsValidRow(reader[_map[TransactionColumn.OrderType]])) continue;
+                    if(!IsValidRow(reader[map[TransactionColumn.OrderType]])) continue;
 
-                    var orderType = ParseOrderTypeColumn(reader[_map[TransactionColumn.OrderType]]);
-                    var settlementDate = ParseDateColumn(reader[_map[TransactionColumn.Date]]);
-                    var shares = ParseSharesColumn(reader[_map[TransactionColumn.Shares]]);
-                    var commission = ParsePriceColumn(reader[_map[TransactionColumn.Commission]]);
+                    var orderType = ParseOrderTypeColumn(reader[map[TransactionColumn.OrderType]]);
+                    var settlementDate = ParseDateColumn(reader[map[TransactionColumn.Date]]);
+                    var shares = ParseSharesColumn(reader[map[TransactionColumn.Shares]]);
+                    var commission = ParsePriceColumn(reader[map[TransactionColumn.Commission]]);
 
                     if (orderType != OrderType.Deposit &&
                         orderType != OrderType.Withdrawal &&
                         orderType != OrderType.DividendReceipt)
                     {
                         // Portfolio currently can't support ticker symbols for cash transactions, so ignore
-                        ticker = ParseSymbolColumn(reader[_map[TransactionColumn.Symbol]]);
+                        ticker = ParseSymbolColumn(reader[map[TransactionColumn.Symbol]]);
                     }
                     switch (orderType)
                     {
                         case OrderType.Buy:
                             price = _useTotalBasis
-                                        ? (ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) - commission) / shares
-                                        : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                                        ? (ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]]) - commission) / shares
+                                        : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
                             break;
                         case OrderType.Sell:
                             price = _useTotalBasis
-                                        ? (ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) + commission) / shares
-                                        : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                                        ? (ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]]) + commission) / shares
+                                        : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
                             break;
                         case OrderType.DividendReceipt:
                             price = _useTotalBasis
-                                        ? ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]])
-                                        : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                                        ? ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]])
+                                        : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
                             break;
                         case OrderType.DividendReinvestment:
                             price = _useTotalBasis
-                                        ? ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]]) / shares
-                                        : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                                        ? ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]]) / shares
+                                        : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
                             break;
                         case OrderType.Deposit:
                         case OrderType.Withdrawal:
                             price = _useTotalBasis
-                                        ? ParsePriceColumn(reader[_map[TransactionColumn.TotalBasis]])
-                                        : ParsePriceColumn(reader[_map[TransactionColumn.PricePerShare]]);
+                                        ? ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]])
+                                        : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
                             break;
                         default:
                             throw new NotSupportedException();
