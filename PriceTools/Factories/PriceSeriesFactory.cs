@@ -19,15 +19,7 @@ namespace Sonneville.PriceTools
         /// <returns>The <see cref="IPriceSeries"/> for the given ticker.</returns>
         public IPriceSeries ConstructPriceSeries(string ticker)
         {
-            lock (_syncroot)
-            {
-                if (!_existingPriceSeries.ContainsKey(ticker))
-                {
-                    var priceSeries = new PriceSeriesImpl {Ticker = ticker};
-                    _existingPriceSeries.Add(ticker, priceSeries);
-                }
-                return _existingPriceSeries[ticker];
-            }
+            return ConstructPriceSeries(ticker, Resolution.Days);
         }
 
         /// <summary>
