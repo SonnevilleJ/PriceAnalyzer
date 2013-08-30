@@ -70,26 +70,6 @@ namespace Sonneville.PriceTools.Data
             priceSeries.AddPriceData(GetPriceData(priceSeries.Ticker, head, tail, resolution));
         }
 
-        /// <summary>
-        /// Instructs the IPriceDataProvider to periodically update the price data in the <paramref name="priceSeries"/>.
-        /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to update.</param>
-        public void StartAutoUpdate(IPriceSeries priceSeries)
-        {
-            lock (_syncroot)
-            {
-                if (_tasks.ContainsKey(priceSeries))
-                {
-                    throw new InvalidOperationException("Cannot execute duplicate tasks to update the same PriceSeries.");
-                }
-                var task = new Task(() => UpdateLoop(priceSeries), TaskCreationOptions.LongRunning);
-                _tasks.Add(priceSeries, task);
-                AddToUpdateList(priceSeries);
-
-                task.Start();
-            }
-        }
-
         private void AddToUpdateList(IPriceSeries priceSeries)
         {
             var ticker = priceSeries.Ticker;
@@ -102,32 +82,6 @@ namespace Sonneville.PriceTools.Data
             {
                 _resetEvent.Add(ticker, true);
             }
-        }
-
-        /// <summary>
-        /// Instructs the IPriceDataProvider to stop periodically updating the price data in <paramref name="priceSeries"/>.
-        /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to stop updating.</param>
-        public void StopAutoUpdate(IPriceSeries priceSeries)
-        {
-            var task = _tasks[priceSeries];
-            lock (_syncroot)
-            {
-                // cleanup
-                _tasks.Remove(priceSeries);
-
-                // signal cancellation
-                _resetEvent[priceSeries.Ticker] = false;
-
-                // wake up sleeping tasks so they can terminate
-                lock (priceSeries)
-                {
-                    Monitor.PulseAll(priceSeries);  
-                }
-            }
-
-            // wait for completion and throw exceptions
-            task.Wait();
         }
 
         #endregion

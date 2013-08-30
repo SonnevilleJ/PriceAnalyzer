@@ -22,12 +22,12 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Data.Common;
-using Debug = System.Diagnostics.Debug;
+using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-
 using LumenWorks.Framework.IO.Csv.Resources;
 
 namespace LumenWorks.Framework.IO.Csv
@@ -343,7 +343,7 @@ namespace LumenWorks.Framework.IO.Csv
 		public CsvReader(TextReader reader, bool hasHeaders, char delimiter, char quote, char escape, char comment, ValueTrimmingOptions trimmingOptions, int bufferSize)
 		{
 #if DEBUG
-			_allocStack = new System.Diagnostics.StackTrace();
+			_allocStack = new StackTrace();
 #endif
 
 			if (reader == null)
@@ -922,7 +922,7 @@ namespace LumenWorks.Framework.IO.Csv
 				if (c <= '\x00ff')
 					return (c == ' ' || c == '\t');
 				else
-					return (System.Globalization.CharUnicodeInfo.GetUnicodeCategory(c) == System.Globalization.UnicodeCategory.SpaceSeparator);
+					return (CharUnicodeInfo.GetUnicodeCategory(c) == UnicodeCategory.SpaceSeparator);
 			}
 		}
 
@@ -2268,9 +2268,9 @@ namespace LumenWorks.Framework.IO.Csv
 		/// <exception cref="T:System.ComponentModel.ObjectDisposedException">
 		///	The instance has been disposed of.
 		/// </exception>
-		public CsvReader.RecordEnumerator GetEnumerator()
+		public RecordEnumerator GetEnumerator()
 		{
-			return new CsvReader.RecordEnumerator(this);
+			return new RecordEnumerator(this);
 		}
 
 		/// <summary>
@@ -2309,7 +2309,7 @@ namespace LumenWorks.Framework.IO.Csv
 		/// <summary>
 		/// Contains the stack when the object was allocated.
 		/// </summary>
-		private System.Diagnostics.StackTrace _allocStack;
+		private StackTrace _allocStack;
 #endif
 
 		/// <summary>
@@ -2333,7 +2333,7 @@ namespace LumenWorks.Framework.IO.Csv
 		/// <value>
 		/// 	<see langword="true"/> if the instance has been disposed of; otherwise, <see langword="false"/>.
 		/// </value>
-		[System.ComponentModel.Browsable(false)]
+		[Browsable(false)]
 		public bool IsDisposed
 		{
 			get { return _isDisposed; }

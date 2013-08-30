@@ -22,8 +22,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using Debug = System.Diagnostics.Debug;
+using System.Diagnostics;
 using System.Globalization;
+using LumenWorks.Framework.IO.Csv.Resources;
 
 namespace LumenWorks.Framework.IO.Csv
 {
@@ -60,7 +61,7 @@ namespace LumenWorks.Framework.IO.Csv
 			public CsvRecordComparer(int field, ListSortDirection direction)
 			{
 				if (field < 0)
-					throw new ArgumentOutOfRangeException("field", field, string.Format(CultureInfo.InvariantCulture, Resources.ExceptionMessage.FieldIndexOutOfRange, field));
+					throw new ArgumentOutOfRangeException("field", field, string.Format(CultureInfo.InvariantCulture, ExceptionMessage.FieldIndexOutOfRange, field));
 
 				_field = field;
 				_direction = direction;

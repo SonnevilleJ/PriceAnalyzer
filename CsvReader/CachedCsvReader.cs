@@ -20,11 +20,11 @@
 //	ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.IO;
-
 using LumenWorks.Framework.IO.Csv.Resources;
 
 namespace LumenWorks.Framework.IO.Csv
@@ -397,7 +397,7 @@ namespace LumenWorks.Framework.IO.Csv
 			get { return false; }
 		}
 
-		System.Collections.IList IListSource.GetList()
+		IList IListSource.GetList()
 		{
 			if (_bindingList == null)
 				_bindingList = new CsvBindingList(this);

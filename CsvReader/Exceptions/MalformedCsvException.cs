@@ -202,7 +202,7 @@ namespace LumenWorks.Framework.IO.Csv
 		/// </summary>
 		/// <param name="info">The <see cref="T:SerializationInfo"/> that holds the serialized object data about the exception being thrown.</param>
 		/// <param name="context">The <see cref="T:StreamingContext"/> that contains contextual information about the source or destination.</param>
-		public override void GetObjectData(System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context)
+		public override void GetObjectData(SerializationInfo info, StreamingContext context)
 		{
 			base.GetObjectData(info, context);
 

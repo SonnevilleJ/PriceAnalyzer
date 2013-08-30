@@ -52,18 +52,6 @@ namespace Sonneville.PriceTools.Data
         void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
-        /// Instructs the IPriceDataProvider to periodically update the price data in the <paramref name="priceSeries"/>.
-        /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to update.</param>
-        void StartAutoUpdate(IPriceSeries priceSeries);
-
-        /// <summary>
-        /// Instructs the IPriceDataProvider to stop periodically updating the price data in <paramref name="priceSeries"/>.
-        /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to stop updating.</param>
-        void StopAutoUpdate(IPriceSeries priceSeries);
-
-        /// <summary>
         /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
         /// </summary>
         Resolution BestResolution { get; }

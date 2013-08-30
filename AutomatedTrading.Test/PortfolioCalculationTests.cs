@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using Sonneville.PriceTools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading

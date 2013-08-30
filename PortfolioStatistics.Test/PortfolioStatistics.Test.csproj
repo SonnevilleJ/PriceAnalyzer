@@ -51,10 +51,6 @@
     <Compile Include="PortfolioStatisticsTest.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Data\Data.csproj">
-      <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
-      <Name>Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PortfolioStatistics\PortfolioStatistics.csproj">
       <Project>{DA236F97-799B-47AD-BFDA-325B594350E7}</Project>
       <Name>PortfolioStatistics</Name>

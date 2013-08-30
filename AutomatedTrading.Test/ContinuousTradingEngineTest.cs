@@ -1,7 +1,4 @@
-﻿using System.Threading;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.AutomatedTrading;
-using Sonneville.PriceTools.Yahoo;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
 {

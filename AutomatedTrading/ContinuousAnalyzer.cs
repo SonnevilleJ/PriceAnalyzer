@@ -105,7 +105,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
             try
             {
                 PriceSeries.NewDataAvailable += handler;
-                PriceDataProvider.StartAutoUpdate(_priceSeries);
 
                 while (true)
                 {
@@ -117,7 +116,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
             }
             catch (TaskCanceledException)
             {
-                PriceDataProvider.StopAutoUpdate(_priceSeries);
                 PriceSeries.NewDataAvailable -= handler;
             }
         }
