@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -18,7 +19,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Deposits cash into the CashAccount.
         /// </summary>
-        void Deposit(IDeposit deposit);
+        void Deposit(Deposit deposit);
 
         /// <summary>
         /// Deposits a cash dividend into the CashAccount.

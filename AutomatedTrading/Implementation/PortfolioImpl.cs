@@ -123,9 +123,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             {
                     _cashAccount.Deposit((IDividendReceipt)transaction);
             }
-            else if (transaction is IDeposit)
+            else if (transaction is Deposit)
             {
-                    Deposit((IDeposit)transaction);
+                    Deposit((Deposit)transaction);
             }
             else if (transaction is IWithdrawal)
             {
@@ -184,8 +184,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         /// Deposits cash to this IPortfolio.
         /// </summary>
-        /// <param name="deposit">The <see cref="IDeposit"/> to deposit.</param>
-        public void Deposit(IDeposit deposit)
+        /// <param name="deposit">The <see cref="PriceTools.Implementation.Deposit"/> to deposit.</param>
+        public void Deposit(Deposit deposit)
         {
             _cashAccount.Deposit(deposit);
         }

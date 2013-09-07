@@ -65,7 +65,6 @@
     <Compile Include="Factories\TimePeriodFactory.cs" />
     <Compile Include="Factories\TimeSeriesFactory.cs" />
     <Compile Include="Interfaces\ICashTransaction.cs" />
-    <Compile Include="Interfaces\IDeposit.cs" />
     <Compile Include="Interfaces\IDividendReceipt.cs" />
     <Compile Include="Interfaces\IDividendReinvestment.cs" />
     <Compile Include="Implementation\Buy.cs" />

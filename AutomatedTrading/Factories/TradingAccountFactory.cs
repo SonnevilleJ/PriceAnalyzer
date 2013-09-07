@@ -1,5 +1,6 @@
 ﻿using System;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
@@ -11,7 +12,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         private readonly MarginNotAllowed _defaultMarginSchedule = new MarginNotAllowed();
         private readonly FlatCommissionSchedule _defaultCommissionSchedule = new FlatCommissionSchedule(5.00m);
         private readonly OrderType _defaultOrderTypes;
-        private readonly IDeposit _defaultDeposit;
+        private readonly Deposit _defaultDeposit;
         private readonly IPortfolioFactory _portfolioFactory;
         private readonly ITradingAccountFeaturesFactory _tradingAccountFeaturesFactory;
         private readonly ITransactionFactory _transactionFactory;
@@ -87,7 +88,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="marginSchedule">The <see cref="IMarginSchedule"/> which should be used by the <see cref="ITradingAccount"/>.</param>
         /// <param name="openingDeposit">The opening deposit to place in the <see cref="IPortfolio"/> used by the <see cref="ITradingAccount"/>.</param>
         /// <returns></returns>
-        public ITradingAccount ConstructBacktestingTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, IDeposit openingDeposit)
+        public ITradingAccount ConstructBacktestingTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, Deposit openingDeposit)
         {
             var tradingAccountFeatures = _tradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
             var portfolio = _portfolioFactory.ConstructPortfolio(openingDeposit);
@@ -158,7 +159,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="marginSchedule">The <see cref="IMarginSchedule"/> which should be used by the <see cref="ITradingAccount"/>.</param>
         /// <param name="openingDeposit">The opening deposit to place in the <see cref="IPortfolio"/> used by the <see cref="ITradingAccount"/>.</param>
         /// <returns></returns>
-        public ITradingAccount ConstructSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, IDeposit openingDeposit)
+        public ITradingAccount ConstructSimulatedTradingAccount(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule, Deposit openingDeposit)
         {
             var tradingAccountFeatures = _tradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
             var portfolio = _portfolioFactory.ConstructPortfolio(openingDeposit);
