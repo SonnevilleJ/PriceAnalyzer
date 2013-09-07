@@ -65,7 +65,7 @@ namespace Sonneville.PriceTools.Data.Csv
             if (transaction is IDividendReceipt) return 1;
             if (transaction is IDividendReinvestment) return 2;
             if (transaction is ISell) return 3;
-            if (transaction is IBuyToCover) return 4;
+            if (transaction is BuyToCover) return 4;
             if (transaction is Buy) return 5;
             if (transaction is ISellShort) return 6;
             if (transaction is IWithdrawal) return 7;

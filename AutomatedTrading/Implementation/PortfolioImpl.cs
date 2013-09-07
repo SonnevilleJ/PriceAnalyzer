@@ -163,9 +163,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                     AddToPosition(sell);
                     Deposit(sell.SettlementDate, sell.TotalValue);
             }
-            else if (transaction is IBuyToCover)
+            else if (transaction is BuyToCover)
             {
-                    var buyToCover = ((IBuyToCover)transaction);
+                    var buyToCover = ((BuyToCover)transaction);
                     AddToPosition(buyToCover);
                     Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
             }
@@ -239,9 +239,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                 var sell = ((ISell)transaction);
                 return ((PositionImpl) GetPosition(sell.Ticker, false)).TransactionIsValid(sell);
             }
-            if (transaction is IBuyToCover)
+            if (transaction is BuyToCover)
             {
-                var buyToCover = ((IBuyToCover)transaction);
+                var buyToCover = ((BuyToCover)transaction);
                 sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
                 return sufficientCash &&
                        ((PositionImpl) GetPosition(buyToCover.Ticker, false)).TransactionIsValid(buyToCover);

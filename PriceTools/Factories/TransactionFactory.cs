@@ -123,7 +123,7 @@ namespace Sonneville.PriceTools
         /// <param name="price"></param>
         /// <param name="commission"></param>
         /// <returns></returns>
-        public IBuyToCover ConstructBuyToCover(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
+        public BuyToCover ConstructBuyToCover(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
             return new BuyToCover(_factoryGuid, ticker, settlementDate, shares, price, commission);
         }
