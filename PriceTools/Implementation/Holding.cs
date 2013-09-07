@@ -5,9 +5,9 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// A prior ownership of a financial security.
     /// </summary>
-    internal struct Holding : IHolding
+    public struct Holding
     {
-        #region Implementation of IHolding
+        #region Implementation of Holding
 
         /// <summary>
         /// The ticker symbol held.

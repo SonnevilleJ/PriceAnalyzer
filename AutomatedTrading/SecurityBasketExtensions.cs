@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Implementation;
 using Statistics;
 
 namespace Sonneville.PriceTools.AutomatedTrading
@@ -236,7 +237,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         }
 
         /// <summary>
-        /// Calculates the mean gross profit of a basket's <see cref="IHolding"/>s.
+        /// Calculates the mean gross profit of a basket's <see cref="Holding"/>s.
         /// </summary>
         /// <param name="basket"></param>
         /// <param name="settlementDate">The <see cref = "DateTime" /> to use.</param>
@@ -247,7 +248,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         }
 
         /// <summary>
-        /// Calculates the median gross profit of a basket's <see cref="IHolding"/>s.
+        /// Calculates the median gross profit of a basket's <see cref="Holding"/>s.
         /// </summary>
         /// <param name="basket"></param>
         /// <param name="settlementDate">The <see cref = "DateTime" /> to use.</param>

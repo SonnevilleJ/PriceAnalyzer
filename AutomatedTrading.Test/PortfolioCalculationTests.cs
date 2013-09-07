@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.Implementation;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
 {
@@ -1700,7 +1701,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="holdings"></param>
         /// <returns></returns>
-        private static decimal GetExpectedMedianProfit(IList<IHolding> holdings)
+        private static decimal GetExpectedMedianProfit(IList<Holding> holdings)
         {
             if (holdings.Count == 0) return 0.00m;
 

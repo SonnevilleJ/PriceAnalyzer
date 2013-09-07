@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.Implementation;
 using Statistics;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
@@ -1311,7 +1312,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="holdings"></param>
         /// <returns></returns>
-        private static decimal GetExpectedStandardDeviation(IEnumerable<IHolding> holdings)
+        private static decimal GetExpectedStandardDeviation(IEnumerable<Holding> holdings)
         {
             var values = holdings.Select(h => h.GrossProfit()).ToArray();
             if (values.Count() <= 1) return 0;
@@ -1327,7 +1328,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="holdings"></param>
         /// <returns></returns>
-        private static decimal GetExpectedMedianProfit(IEnumerable<IHolding> holdings)
+        private static decimal GetExpectedMedianProfit(IEnumerable<Holding> holdings)
         {
             var list = holdings.OrderBy(holding => holding.GrossProfit()).ToList();
             if (list.Count == 0) return 0.00m;

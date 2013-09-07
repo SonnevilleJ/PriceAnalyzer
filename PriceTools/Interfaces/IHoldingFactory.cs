@@ -1,11 +1,12 @@
 using System;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
     public interface IHoldingFactory
     {
         /// <summary>
-        /// Constructs a new <see cref="IHolding"/> object.
+        /// Constructs a new <see cref="Holding"/> object.
         /// </summary>
         /// <param name="shares"></param>
         /// <param name="openPrice"></param>
@@ -13,10 +14,10 @@ namespace Sonneville.PriceTools
         /// <param name="closePrice"></param>
         /// <param name="closeCommission"></param>
         /// <returns></returns>
-        IHolding ConstructHolding(decimal shares, decimal openPrice, decimal openCommission, decimal closePrice, decimal closeCommission);
+        Holding ConstructHolding(decimal shares, decimal openPrice, decimal openCommission, decimal closePrice, decimal closeCommission);
 
         /// <summary>
-        /// Constructs a new <see cref="IHolding"/> object.
+        /// Constructs a new <see cref="Holding"/> object.
         /// </summary>
         /// <param name="ticker"></param>
         /// <param name="head"></param>
@@ -25,10 +26,10 @@ namespace Sonneville.PriceTools
         /// <param name="openPrice"></param>
         /// <param name="closePrice"></param>
         /// <returns></returns>
-        IHolding ConstructHolding(string ticker, DateTime head, DateTime tail, decimal shares, decimal openPrice, decimal closePrice);
+        Holding ConstructHolding(string ticker, DateTime head, DateTime tail, decimal shares, decimal openPrice, decimal closePrice);
 
         /// <summary>
-        /// Constructs a new <see cref="IHolding"/> object.
+        /// Constructs a new <see cref="Holding"/> object.
         /// </summary>
         /// <param name="ticker"></param>
         /// <param name="head"></param>
@@ -39,6 +40,6 @@ namespace Sonneville.PriceTools
         /// <param name="closePrice"></param>
         /// <param name="closeCommission"></param>
         /// <returns></returns>
-        IHolding ConstructHolding(string ticker, DateTime head, DateTime tail, decimal shares, decimal openPrice, decimal openCommission, decimal closePrice, decimal closeCommission);
+        Holding ConstructHolding(string ticker, DateTime head, DateTime tail, decimal shares, decimal openPrice, decimal openCommission, decimal closePrice, decimal closeCommission);
     }
 }

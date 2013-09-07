@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -17,25 +18,25 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Position.
+        /// Gets an <see cref="IList{Holding}"/> from the transactions in the Position.
         /// </summary>
         /// <param name="basket"></param>
         /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
-        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Position.</returns>
-        public static IList<IHolding> CalculateHoldings(this ISecurityBasket basket, DateTime settlementDate)
+        /// <returns>An <see cref="IList{Holding}"/> of the transactions in the Position.</returns>
+        public static IList<Holding> CalculateHoldings(this ISecurityBasket basket, DateTime settlementDate)
         {
             return CalculateHoldings(basket.Transactions, settlementDate);
         }
 
         /// <summary>
-        /// Gets an <see cref="IList{IHolding}"/> from the transactions in the Position.
+        /// Gets an <see cref="IList{Holding}"/> from the transactions in the Position.
         /// </summary>
         /// <param name="transactions"></param>
         /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
-        /// <returns>An <see cref="IList{IHolding}"/> of the transactions in the Position.</returns>
-        public static IList<IHolding> CalculateHoldings(this IEnumerable<ITransaction> transactions, DateTime settlementDate)
+        /// <returns>An <see cref="IList{Holding}"/> of the transactions in the Position.</returns>
+        public static IList<Holding> CalculateHoldings(this IEnumerable<ITransaction> transactions, DateTime settlementDate)
         {
-            var result = new List<IHolding>();
+            var result = new List<Holding>();
             var groups = transactions.Where(t => t is IShareTransaction).Cast<IShareTransaction>().GroupBy(t => t.Ticker);
             foreach (var grouping in groups)
             {

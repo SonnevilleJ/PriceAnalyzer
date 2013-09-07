@@ -8,6 +8,7 @@ using Microsoft.Win32;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Fidelity;
+using Sonneville.PriceTools.Implementation;
 using Statistics;
 
 namespace Program
@@ -17,7 +18,7 @@ namespace Program
     /// </summary>
     public partial class PortfolioStatistics
     {
-        private ObservableCollection<IHolding> _collection = new ObservableCollection<IHolding>();
+        private ObservableCollection<Holding> _collection = new ObservableCollection<Holding>();
         private static readonly IPortfolioFactory _portfolioFactory;
 
         public PortfolioStatistics()
@@ -57,9 +58,9 @@ namespace Program
             PopulateHoldings(portfolio.CalculateHoldings(DateTime.Now));
         }
 
-        private void PopulateHoldings(IEnumerable<IHolding> holdings)
+        private void PopulateHoldings(IEnumerable<Holding> holdings)
         {
-            _collection = new ObservableCollection<IHolding>(holdings);
+            _collection = new ObservableCollection<Holding>(holdings);
             dataGrid.UpdateLayout();
         }
 

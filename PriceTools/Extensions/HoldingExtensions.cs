@@ -1,9 +1,9 @@
-﻿using System;
+﻿using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// A class which holds extension methods for <see cref="IHolding"/>.
+    /// A class which holds extension methods for <see cref="Holding"/>.
     /// </summary>
     public static class HoldingExtensions
     {
@@ -12,10 +12,8 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="holding"></param>
         /// <returns></returns>
-        public static decimal GrossProfit(this IHolding holding)
+        public static decimal GrossProfit(this Holding holding)
         {
-            if (holding == null) throw new ArgumentNullException("holding", Strings.HoldingExtensions_GrossProfit_Cannot_calculate_profit_for_a_NULL_holding_);
-            
             return (holding.ClosePrice - holding.OpenPrice)*holding.Shares;
         }
 
@@ -24,10 +22,8 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="holding"></param>
         /// <returns></returns>
-        public static decimal NetProfit(this IHolding holding)
+        public static decimal NetProfit(this Holding holding)
         {
-            if (holding == null) throw new ArgumentNullException("holding", Strings.HoldingExtensions_GrossProfit_Cannot_calculate_profit_for_a_NULL_holding_);
-            
             return holding.GrossProfit() - holding.OpenCommission - holding.CloseCommission;
         }
     }

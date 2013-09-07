@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.PortfolioStatistics
 {
     public static class PortfolioStatistics
     {
-        public static decimal KellyPercentage(this IEnumerable<IHolding> holdings)
+        public static decimal KellyPercentage(this IEnumerable<Holding> holdings)
         {
             var netProfits = holdings.Select(holding => holding.NetProfit());
             var wins = netProfits.Where(x => x > 0);
