@@ -151,9 +151,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                     Withdraw(buy.SettlementDate, buy.TotalValue);
                     AddToPosition(buy);
             }
-            else if (transaction is ISellShort)
+            else if (transaction is SellShort)
             {
-                    var sellShort = ((ISellShort)transaction);
+                    var sellShort = ((SellShort)transaction);
                     Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
                     AddToPosition(sellShort);
             }
@@ -229,9 +229,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                 sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
                 return sufficientCash && ((PositionImpl) GetPosition(buy.Ticker, false)).TransactionIsValid(buy);
             }
-            if (transaction is ISellShort)
+            if (transaction is SellShort)
             {
-                var sellShort = ((ISellShort) transaction);
+                var sellShort = ((SellShort) transaction);
                 return ((PositionImpl) GetPosition(sellShort.Ticker, false)).TransactionIsValid(sellShort);
             }
             if (transaction is Sell)
