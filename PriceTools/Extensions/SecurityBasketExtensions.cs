@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools
         /// <param name="transactions"></param>
         /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
         /// <returns>An <see cref="IList{Holding}"/> of the transactions in the Position.</returns>
-        public static IList<Holding> CalculateHoldings(this IEnumerable<ITransaction> transactions, DateTime settlementDate)
+        public static IList<Holding> CalculateHoldings(this IEnumerable<Transaction> transactions, DateTime settlementDate)
         {
             var result = new List<Holding>();
             var groups = transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().GroupBy(t => t.Ticker);

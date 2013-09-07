@@ -99,11 +99,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
         /// </summary>
-        public IEnumerable<ITransaction> Transactions
+        public IEnumerable<Transaction> Transactions
         {
             get
             {
-                var list = new List<ITransaction>();
+                var list = new List<Transaction>();
                 foreach (var p in Positions)
                 {
                     list.AddRange(p.Transactions);
@@ -115,9 +115,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         }
 
         /// <summary>
-        ///   Adds an <see cref="ITransaction"/> to this IPortfolio.
+        ///   Adds an <see cref="Transaction"/> to this IPortfolio.
         /// </summary>
-        public void AddTransaction(ITransaction transaction)
+        public void AddTransaction(Transaction transaction)
         {
             if (transaction is DividendReceipt)
             {
@@ -210,11 +210,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         }
 
         /// <summary>
-        /// Validates an <see cref="ITransaction"/> without adding it to the IPortfolio.
+        /// Validates an <see cref="Transaction"/> without adding it to the IPortfolio.
         /// </summary>
         /// <param name="transaction">The <see cref="ShareTransaction"/> to validate.</param>
         /// <returns></returns>
-        public bool TransactionIsValid(ITransaction transaction)
+        public bool TransactionIsValid(Transaction transaction)
         {
             var cashTransaction = transaction as CashTransaction;
             if (cashTransaction != null)

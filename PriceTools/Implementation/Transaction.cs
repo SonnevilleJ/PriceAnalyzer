@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a financial transaction.
     /// </summary>
     [Serializable]
-    public abstract class Transaction : ITransaction
+    public abstract class Transaction : IEquatable<Transaction>
     {
         protected Transaction()
         {
@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.Implementation
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public virtual bool Equals(ITransaction other)
+        public virtual bool Equals(Transaction other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -53,7 +53,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="obj">An object to compare with this object.</param>
         public override bool Equals(object obj)
         {
-            return Equals(obj as ITransaction);
+            return Equals(obj as Transaction);
         }
 
         /// <summary>

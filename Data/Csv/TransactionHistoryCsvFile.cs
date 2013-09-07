@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.Data.Csv
 
         private readonly bool _useTotalBasis;
         private bool _tableParsed;
-        private readonly List<ITransaction> _transactions = new List<ITransaction>();
+        private readonly List<Transaction> _transactions = new List<Transaction>();
         private readonly ITransactionFactory _transactionFactory;
 
         #endregion
@@ -47,14 +47,14 @@ namespace Sonneville.PriceTools.Data.Csv
         #region Public Properties
 
         /// <summary>
-        /// Gets a list of all <see cref="ITransaction"/>s in the file.
+        /// Gets a list of all <see cref="Transaction"/>s in the file.
         /// </summary>
-        public IEnumerable<ITransaction> Transactions
+        public IEnumerable<Transaction> Transactions
         {
             get { return _transactions.OrderBy(t => t.SettlementDate).ThenBy(GetSortIndex); }
         }
 
-        private static int GetSortIndex(ITransaction transaction)
+        private static int GetSortIndex(Transaction transaction)
         {
             // must sort transactions in order
             // First, any transactions which yield proceeds

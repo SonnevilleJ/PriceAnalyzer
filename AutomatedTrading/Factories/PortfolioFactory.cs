@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
@@ -21,8 +22,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// Constructs a Portfolio.
         /// </summary>
-        /// <param name="transactions">The list of <see cref="ITransaction"/>s currently in the <see cref="IPortfolio"/>.</param>
-        public IPortfolio ConstructPortfolio(params ITransaction[] transactions)
+        /// <param name="transactions">The list of <see cref="Transaction"/>s currently in the <see cref="IPortfolio"/>.</param>
+        public IPortfolio ConstructPortfolio(params Transaction[] transactions)
         {
             return ConstructPortfolio(transactions.AsEnumerable());
         }
@@ -30,8 +31,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// Constructs a Portfolio from a <see cref="ISecurityBasket"/>.
         /// </summary>
-        /// <param name="transactions">The list of <see cref="ITransaction"/>s currently in the <see cref="IPortfolio"/>.</param>
-        public IPortfolio ConstructPortfolio(IEnumerable<ITransaction> transactions)
+        /// <param name="transactions">The list of <see cref="Transaction"/>s currently in the <see cref="IPortfolio"/>.</param>
+        public IPortfolio ConstructPortfolio(IEnumerable<Transaction> transactions)
         {
             return ConstructPortfolio(_defaultCashTicker, transactions);
         }
@@ -40,8 +41,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Constructs a Portfolio and assigns a ticker symbol to use as the Portfolio's <see cref="ICashAccount"/>.
         /// </summary>
         /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
-        /// <param name="transactions">The list of <see cref="ITransaction"/>s currently in the <see cref="IPortfolio"/>.</param>
-        public IPortfolio ConstructPortfolio(string ticker, params ITransaction[] transactions)
+        /// <param name="transactions">The list of <see cref="Transaction"/>s currently in the <see cref="IPortfolio"/>.</param>
+        public IPortfolio ConstructPortfolio(string ticker, params Transaction[] transactions)
         {
             return ConstructPortfolio(ticker, transactions.AsEnumerable());
         }
@@ -50,8 +51,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Constructs a Portfolio from a <see cref="ISecurityBasket"/>.
         /// </summary>
         /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
-        /// <param name="transactions">The list of <see cref="ITransaction"/>s currently in the <see cref="IPortfolio"/>.</param>
-        public IPortfolio ConstructPortfolio(string ticker, IEnumerable<ITransaction> transactions)
+        /// <param name="transactions">The list of <see cref="Transaction"/>s currently in the <see cref="IPortfolio"/>.</param>
+        public IPortfolio ConstructPortfolio(string ticker, IEnumerable<Transaction> transactions)
         {
             var portfolio = new PortfolioImpl(ticker);
 
@@ -68,8 +69,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="dateTime">The <see cref="DateTime"/> cash is deposit in the Portfolio.</param>
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
-        /// <param name="transactions">The list of <see cref="ITransaction"/>s currently in the <see cref="IPortfolio"/>.</param>
-        public IPortfolio ConstructPortfolio(DateTime dateTime, decimal openingDeposit, params ITransaction[] transactions)
+        /// <param name="transactions">The list of <see cref="Transaction"/>s currently in the <see cref="IPortfolio"/>.</param>
+        public IPortfolio ConstructPortfolio(DateTime dateTime, decimal openingDeposit, params Transaction[] transactions)
         {
             return ConstructPortfolio(dateTime, openingDeposit, transactions.AsEnumerable());
         }
@@ -79,8 +80,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="dateTime">The <see cref="DateTime"/> cash is deposit in the Portfolio.</param>
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
-        /// <param name="transactions">The list of <see cref="ITransaction"/>s currently in the <see cref="IPortfolio"/>.</param>
-        public IPortfolio ConstructPortfolio(DateTime dateTime, decimal openingDeposit, IEnumerable<ITransaction> transactions)
+        /// <param name="transactions">The list of <see cref="Transaction"/>s currently in the <see cref="IPortfolio"/>.</param>
+        public IPortfolio ConstructPortfolio(DateTime dateTime, decimal openingDeposit, IEnumerable<Transaction> transactions)
         {
             return ConstructPortfolio(_defaultCashTicker, dateTime, openingDeposit, transactions.AsEnumerable());
         }
@@ -91,8 +92,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="ticker">The ticker symbol the deposit is invested in.</param>
         /// <param name="dateTime">The <see cref="DateTime"/> cash is deposit in the Portfolio.</param>
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
-        /// <param name="transactions">The list of <see cref="ITransaction"/>s currently in the <see cref="IPortfolio"/>.</param>
-        public IPortfolio ConstructPortfolio(string ticker, DateTime dateTime, decimal openingDeposit, params ITransaction[] transactions)
+        /// <param name="transactions">The list of <see cref="Transaction"/>s currently in the <see cref="IPortfolio"/>.</param>
+        public IPortfolio ConstructPortfolio(string ticker, DateTime dateTime, decimal openingDeposit, params Transaction[] transactions)
         {
             return ConstructPortfolio(ticker, dateTime, openingDeposit, transactions.AsEnumerable());
         }
@@ -103,10 +104,10 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="ticker">The ticker symbol the deposit is invested in.</param>
         /// <param name="dateTime">The <see cref="DateTime"/> cash is deposit in the Portfolio.</param>
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
-        /// <param name="transactions">The list of <see cref="ITransaction"/>s currently in the <see cref="IPortfolio"/>.</param>
-        public IPortfolio ConstructPortfolio(string ticker, DateTime dateTime, decimal openingDeposit, IEnumerable<ITransaction> transactions)
+        /// <param name="transactions">The list of <see cref="Transaction"/>s currently in the <see cref="IPortfolio"/>.</param>
+        public IPortfolio ConstructPortfolio(string ticker, DateTime dateTime, decimal openingDeposit, IEnumerable<Transaction> transactions)
         {
-            var deposit = new ITransaction[] {_transactionFactory.ConstructDeposit(dateTime, openingDeposit)};
+            var deposit = new Transaction[] {_transactionFactory.ConstructDeposit(dateTime, openingDeposit)};
             var concat = deposit.Concat(transactions);
             return ConstructPortfolio(ticker, concat);
         }
