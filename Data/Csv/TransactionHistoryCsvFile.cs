@@ -62,7 +62,7 @@ namespace Sonneville.PriceTools.Data.Csv
             // This appropriately ensures funds are available for use
 
             if (transaction is Deposit) return 0;
-            if (transaction is IDividendReceipt) return 1;
+            if (transaction is DividendReceipt) return 1;
             if (transaction is IDividendReinvestment) return 2;
             if (transaction is ISell) return 3;
             if (transaction is BuyToCover) return 4;

@@ -119,9 +119,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// </summary>
         public void AddTransaction(ITransaction transaction)
         {
-            if (transaction is IDividendReceipt)
+            if (transaction is DividendReceipt)
             {
-                    _cashAccount.Deposit((IDividendReceipt)transaction);
+                    _cashAccount.Deposit((DividendReceipt)transaction);
             }
             else if (transaction is Deposit)
             {

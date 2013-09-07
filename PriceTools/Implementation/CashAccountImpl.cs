@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools.Implementation
         /// Deposits a cash dividend into the CashAccount.
         /// </summary>
         /// <param name="dividendReceipt"></param>
-        public void Deposit(IDividendReceipt dividendReceipt)
+        public void Deposit(DividendReceipt dividendReceipt)
         {
             lock(_padlock)
             {

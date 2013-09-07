@@ -55,7 +55,7 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds received.</param>
         /// <returns></returns>
-        public IDividendReceipt ConstructDividendReceipt(DateTime settlementDate, decimal amount)
+        public DividendReceipt ConstructDividendReceipt(DateTime settlementDate, decimal amount)
         {
             return new DividendReceipt(_factoryGuid, settlementDate, amount);
         }
