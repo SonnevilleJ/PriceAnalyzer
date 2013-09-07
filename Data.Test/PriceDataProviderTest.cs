@@ -7,7 +7,6 @@ using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools.Data
 {
-    [TestClass]
     public abstract class PriceDataProviderTest
     {
         private IPriceSeriesFactory _priceSeriesFactory;
