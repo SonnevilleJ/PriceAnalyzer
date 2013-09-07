@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Implementation;
 using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools
@@ -1255,7 +1256,7 @@ namespace Test.Sonneville.PriceTools
             return PricePeriodFactory.ConstructTickedPricePeriod(PriceTicks);
         }
 
-        private static IEnumerable<IPriceTick> PriceTicks
+        private static IEnumerable<PriceTick> PriceTicks
         {
             get
             {

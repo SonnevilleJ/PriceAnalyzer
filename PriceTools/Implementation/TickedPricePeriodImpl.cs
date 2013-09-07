@@ -9,12 +9,12 @@ namespace Sonneville.PriceTools.Implementation
     /// </summary>
     internal class TickedPricePeriodImpl : PricePeriodImpl, ITickedPricePeriod
     {
-        private readonly List<IPriceTick> _priceTicks = new List<IPriceTick>();
+        private readonly List<PriceTick> _priceTicks = new List<PriceTick>();
         
         /// <summary>
-        /// The <see cref="IPriceTick"/>s contained within this ITickedPricePeriod.
+        /// The <see cref="PriceTick"/>s contained within this ITickedPricePeriod.
         /// </summary>
-        public IList<IPriceTick> PriceTicks { get { return _priceTicks.AsReadOnly(); } }
+        public IList<PriceTick> PriceTicks { get { return _priceTicks.AsReadOnly(); } }
 
         #region Overrides of PricePeriod
 
@@ -43,10 +43,10 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        ///   Adds one or more <see cref = "IPriceTick" />s to the PriceSeries.
+        ///   Adds one or more <see cref = "PriceTick" />s to the PriceSeries.
         /// </summary>
-        /// <param name = "priceTicks">The <see cref = "IPriceTick" />s to add.</param>
-        public void AddPriceTicks(params IPriceTick[] priceTicks)
+        /// <param name = "priceTicks">The <see cref = "PriceTick" />s to add.</param>
+        public void AddPriceTicks(params PriceTick[] priceTicks)
         {
             foreach (var quote in priceTicks)
             {

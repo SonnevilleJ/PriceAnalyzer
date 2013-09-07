@@ -120,13 +120,12 @@
     <Compile Include="PricingType.cs" />
     <Compile Include="HighLow.cs" />
     <Compile Include="Interfaces\ICashAccount.cs" />
-    <Compile Include="Interfaces\IPriceTick.cs" />
     <Compile Include="NewDataAvailableEventArgs.cs" />
     <Compile Include="Factories\PricePeriodFactory.cs" />
     <Compile Include="Factories\PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
     <Compile Include="Implementation\StaticPricePeriodImpl.cs" />
-    <Compile Include="Implementation\PriceTickImpl.cs" />
+    <Compile Include="Implementation\PriceTick.cs" />
     <Compile Include="Interfaces\ITimePeriod.cs" />
     <Compile Include="OrderType.cs" />
     <Compile Include="Resolution.cs" />

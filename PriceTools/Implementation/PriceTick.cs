@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a price quote for a financial security.
     /// </summary>
     [Serializable]
-    internal class PriceTickImpl : IPriceTick
+    public class PriceTick : IEquatable<PriceTick>
     {
         /// <summary>
         /// Constructs a PriceTick.
@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="settlementDate">The <see cref="DateTime"/> for which the quote is valid.</param>
         /// <param name="price">The quoted price.</param>
         /// <param name="volume">The number of shares for which the quote is valid.</param>
-        internal PriceTickImpl(DateTime settlementDate, decimal price, long? volume = null)
+        internal PriceTick(DateTime settlementDate, decimal price, long? volume = null)
         {
             if (price <= 0)
                 throw new ArgumentOutOfRangeException("price", price, Strings.PriceTickImpl_PriceTickImpl_Quoted_price_must_be_greater_than_zero_);
@@ -67,7 +67,7 @@ namespace Sonneville.PriceTools.Implementation
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(IPriceTick other)
+        public bool Equals(PriceTick other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -87,7 +87,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return Equals(obj as IPriceTick);
+            return Equals(obj as PriceTick);
         }
 
         /// <summary>
@@ -114,7 +114,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(PriceTickImpl left, PriceTickImpl right)
+        public static bool operator ==(PriceTick left, PriceTick right)
         {
             return Equals(left, right);
         }
@@ -125,7 +125,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(PriceTickImpl left, PriceTickImpl right)
+        public static bool operator !=(PriceTick left, PriceTick right)
         {
             return !Equals(left, right);
         }

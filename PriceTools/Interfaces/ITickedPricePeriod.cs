@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -9,13 +10,13 @@ namespace Sonneville.PriceTools
     public interface ITickedPricePeriod : IPricePeriod, IEquatable<ITickedPricePeriod>
     {
         /// <summary>
-        ///  The <see cref="IPriceTick" />s contained within this ITickedPricePeriod.
+        ///  The <see cref="PriceTick" />s contained within this ITickedPricePeriod.
         ///  </summary>
-        IList<IPriceTick> PriceTicks { get; }
+        IList<PriceTick> PriceTicks { get; }
 
         /// <summary>
-        ///    Adds one or more <see cref="IPriceTick" />s to the PriceSeries.
-        ///  </summary><param name="priceTicks">The <see cref="IPriceTick" />s to add.</param>
-        void AddPriceTicks(params IPriceTick[] priceTicks);
+        ///    Adds one or more <see cref="PriceTick" />s to the PriceSeries.
+        ///  </summary><param name="priceTicks">The <see cref="PriceTick" />s to add.</param>
+        void AddPriceTicks(params PriceTick[] priceTicks);
     }
 }

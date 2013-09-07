@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Implementation;
 
 namespace Test.Sonneville.PriceTools
 {
@@ -73,7 +74,7 @@ namespace Test.Sonneville.PriceTools
             const decimal close = 100.00m;
 
             var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(new List<IPriceTick>
+            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(new List<PriceTick>
                                                                             {
                                                                                 _priceTickFactory.ConstructPriceTick(head, close),
                                                                                 _priceTickFactory.ConstructPriceTick(tail, close)

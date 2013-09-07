@@ -69,7 +69,7 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
+        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
         /// </summary>
         /// <returns></returns>
         public ITickedPricePeriod ConstructTickedPricePeriod()
@@ -78,25 +78,25 @@ namespace Sonneville.PriceTools
         }
 
         /// <summary>
-        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
+        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
         /// </summary>
         /// <param name="priceTicks"></param>
         /// <returns></returns>
-        public ITickedPricePeriod ConstructTickedPricePeriod(IEnumerable<IPriceTick> priceTicks)
+        public ITickedPricePeriod ConstructTickedPricePeriod(IEnumerable<PriceTick> priceTicks)
         {
-            return ConstructTickedPricePeriod(priceTicks.ToArray());
+            var period = new TickedPricePeriodImpl();
+            period.AddPriceTicks(priceTicks.ToArray());
+            return period;
         }
 
         /// <summary>
-        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
+        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
         /// </summary>
-        /// <param name="priceTickArray"></param>
+        /// <param name="priceTick"></param>
         /// <returns></returns>
-        public ITickedPricePeriod ConstructTickedPricePeriod(params IPriceTick[] priceTickArray)
+        public ITickedPricePeriod ConstructTickedPricePeriod(PriceTick priceTick)
         {
-            var period = new TickedPricePeriodImpl();
-            period.AddPriceTicks(priceTickArray);
-            return period;
+            return ConstructTickedPricePeriod(new[] {priceTick});
         }
     }
 }

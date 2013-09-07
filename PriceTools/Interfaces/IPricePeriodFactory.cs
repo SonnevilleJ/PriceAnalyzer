@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -52,23 +53,23 @@ namespace Sonneville.PriceTools
         IPricePeriod ConstructStaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null);
 
         /// <summary>
-        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
+        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
         /// </summary>
         /// <returns></returns>
         ITickedPricePeriod ConstructTickedPricePeriod();
 
         /// <summary>
-        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
+        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
         /// </summary>
         /// <param name="priceTicks"></param>
         /// <returns></returns>
-        ITickedPricePeriod ConstructTickedPricePeriod(IEnumerable<IPriceTick> priceTicks);
+        ITickedPricePeriod ConstructTickedPricePeriod(IEnumerable<PriceTick> priceTicks);
 
         /// <summary>
-        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="IPriceTick"/>s.
+        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
         /// </summary>
-        /// <param name="priceTickArray"></param>
+        /// <param name="priceTick"></param>
         /// <returns></returns>
-        ITickedPricePeriod ConstructTickedPricePeriod(params IPriceTick[] priceTickArray);
+        ITickedPricePeriod ConstructTickedPricePeriod(PriceTick priceTick);
     }
 }
