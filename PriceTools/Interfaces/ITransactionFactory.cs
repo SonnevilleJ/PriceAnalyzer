@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds in the transaction.</param>
         /// <returns></returns>
-        ICashTransaction ConstructCashTransaction(OrderType transactionType, DateTime settlementDate, decimal amount);
+        CashTransaction ConstructCashTransaction(OrderType transactionType, DateTime settlementDate, decimal amount);
 
         /// <summary>
         /// Constructs a DividendReinvestment.

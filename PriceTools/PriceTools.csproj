@@ -64,7 +64,6 @@
     <Compile Include="Factories\PriceTickFactory.cs" />
     <Compile Include="Factories\TimePeriodFactory.cs" />
     <Compile Include="Factories\TimeSeriesFactory.cs" />
-    <Compile Include="Interfaces\ICashTransaction.cs" />
     <Compile Include="Implementation\Buy.cs" />
     <Compile Include="Implementation\BuyToCover.cs" />
     <Compile Include="Implementation\CashAccountImpl.cs" />

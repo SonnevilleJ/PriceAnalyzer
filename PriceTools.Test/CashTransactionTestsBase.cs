@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Implementation;
 using Sonneville.Utilities.Serialization;
 using TestUtilities.Sonneville.PriceTools;
 
@@ -47,7 +48,7 @@ namespace Test.Sonneville.PriceTools
             var target = _transactionFactory.ConstructCashTransaction(transactionType, date, amount);
 
             var xml = XmlSerializer.SerializeToXml(target);
-            var result = XmlSerializer.DeserializeFromXml<ICashTransaction>(xml);
+            var result = XmlSerializer.DeserializeFromXml<CashTransaction>(xml);
 
             GenericTestUtilities.AssertSameState(target, result);
         }

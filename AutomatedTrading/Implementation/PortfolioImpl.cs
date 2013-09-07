@@ -216,7 +216,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <returns></returns>
         public bool TransactionIsValid(ITransaction transaction)
         {
-            var cashTransaction = transaction as ICashTransaction;
+            var cashTransaction = transaction as CashTransaction;
             if (cashTransaction != null)
             {
                 return _cashAccount.TransactionIsValid(cashTransaction);

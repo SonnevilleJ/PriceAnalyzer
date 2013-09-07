@@ -40,9 +40,9 @@ namespace Sonneville.PriceTools
         void Withdraw(Withdrawal withdrawal);
 
         /// <summary>
-        /// Gets a <see cref="List{T}"/> of <see cref="ICashTransaction"/>s in this CashAccount.
+        /// Gets a <see cref="List{T}"/> of <see cref="CashTransaction"/>s in this CashAccount.
         /// </summary>
-        ICollection<ICashTransaction> Transactions { get; }
+        ICollection<CashTransaction> Transactions { get; }
 
         /// <summary>
         ///   Gets the balance of cash in this CashAccount.
@@ -51,10 +51,10 @@ namespace Sonneville.PriceTools
         decimal GetCashBalance(DateTime asOfDate);
 
         /// <summary>
-        /// Validates an <see cref="ICashTransaction"/> without adding it to the CashAccount.
+        /// Validates an <see cref="CashTransaction"/> without adding it to the CashAccount.
         /// </summary>
         /// <param name="cashTransaction">The <see cref="ICashAccount"/> to validate.</param>
         /// <returns></returns>
-        bool TransactionIsValid(ICashTransaction cashTransaction);
+        bool TransactionIsValid(CashTransaction cashTransaction);
     }
 }
