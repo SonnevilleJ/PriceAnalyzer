@@ -1,4 +1,5 @@
 ﻿using System;
+using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
@@ -16,7 +17,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.
         /// </summary>
-        IPortfolio Portfolio { get; }
+        Portfolio Portfolio { get; }
 
         /// <summary>
         /// The account number identifying this account at the <see cref="IBrokerage"/>.

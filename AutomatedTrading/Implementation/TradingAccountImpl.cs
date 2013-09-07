@@ -27,7 +27,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.
         /// </summary>
-        public IPortfolio Portfolio { get; set; }
+        public Portfolio Portfolio { get; set; }
 
         /// <summary>
         /// The account number identifying this account at the <see cref="IBrokerage"/>.
@@ -114,12 +114,12 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         {
             var commission = Features.CommissionSchedule.PriceCheck(order);
             var expectedTransaction = TransactionFactory.ConstructShareTransaction(order.OrderType, order.Ticker, DateTime.Now, order.Shares, order.Price, commission);
-            return ((PortfolioImpl) Portfolio).TransactionIsValid(expectedTransaction);
+            return Portfolio.TransactionIsValid(expectedTransaction);
         }
 
         private void ProcessFill(ShareTransaction transaction)
         {
-            ((PortfolioImpl) Portfolio).AddTransaction(transaction);
+            Portfolio.AddTransaction(transaction);
         }
 
         private void TriggerFilled(OrderExecutedEventArgs e)

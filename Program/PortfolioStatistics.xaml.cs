@@ -7,6 +7,7 @@ using System.Windows;
 using Microsoft.Win32;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Fidelity;
 using Sonneville.PriceTools.Implementation;
 using Statistics;
@@ -76,7 +77,7 @@ namespace Program
             tDistribution.Text = portfolio.CalculateHoldings(date).Select(h => h.GrossProfit()).StudentTDistribution().ToString("P");
         }
 
-        private static IPortfolio ImportPortfolio(string path, string ticker)
+        private static Portfolio ImportPortfolio(string path, string ticker)
         {
             using (var reader = File.Open(path, FileMode.Open))
             {

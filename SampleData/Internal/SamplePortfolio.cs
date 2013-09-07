@@ -1,11 +1,12 @@
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
 namespace SampleData.Internal
 {
     internal class SamplePortfolio : ISamplePortfolio
     {
-        public IPortfolio Portfolio
+        public Portfolio Portfolio
         {
             get { return new PortfolioFactory().ConstructPortfolio(TransactionHistory.Transactions); }
         }

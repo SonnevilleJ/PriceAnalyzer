@@ -57,7 +57,7 @@
     <Compile Include="Factories\TradingAccountFactory.cs" />
     <Compile Include="Implementation\BacktestingTradingAccountImpl.cs" />
     <Compile Include="FlatCommissionSchedule.cs" />
-    <Compile Include="Implementation\PortfolioImpl.cs" />
+    <Compile Include="Implementation\Portfolio.cs" />
     <Compile Include="Implementation\Position.cs" />
     <Compile Include="Implementation\TradingAccountImpl.cs" />
     <Compile Include="Interfaces\IBrokerage.cs" />
@@ -65,7 +65,6 @@
     <Compile Include="Interfaces\IMarginSchedule.cs" />
     <Compile Include="Interfaces\ISignalProcessor.cs" />
     <Compile Include="Interfaces\ITradingAccount.cs" />
-    <Compile Include="IPortfolio.cs" />
     <Compile Include="ITradingAccountFeaturesFactory.cs" />
     <Compile Include="SecurityBasketExtensions.cs" />
     <Compile Include="SimpleMovingAverageCrossoverAnalyzer.cs" />

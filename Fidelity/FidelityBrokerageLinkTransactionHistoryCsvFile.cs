@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
-using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Data.Csv;
 
 namespace Sonneville.PriceTools.Fidelity
 {
     /// <summary>
-    ///   Parses an <see cref = "IPortfolio" /> from Fidelity CSV data.
+    ///   Parses an <see cref = "Portfolio" /> from Fidelity CSV data.
     /// </summary>
     public class FidelityBrokerageLinkTransactionHistoryCsvFile : TransactionHistoryCsvFile
     {
