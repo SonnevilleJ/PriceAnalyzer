@@ -11,7 +11,6 @@ namespace Test.Sonneville.PriceTools.Data
     {
         private IPriceSeriesFactory _priceSeriesFactory;
         private IPriceSeries _priceSeries;
-        private string _ticker;
 
         protected abstract IPriceDataProvider GetTestObjectInstance();
 
@@ -19,8 +18,7 @@ namespace Test.Sonneville.PriceTools.Data
         public void Initialize()
         {
             _priceSeriesFactory = new PriceSeriesFactory();
-            _ticker = TickerManager.GetUniqueTicker();
-            _priceSeries = _priceSeriesFactory.ConstructPriceSeries(_ticker);
+            _priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
         }
 
         [TestMethod]
@@ -73,10 +71,11 @@ namespace Test.Sonneville.PriceTools.Data
         [TestMethod]
         public void WeeklyDownloadResolution()
         {
+            _priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker(), Resolution.Weeks);
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
-            var minTimeSpan = new TimeSpan(7, 0, 0, 0);
-            var maxTimeSpan = new TimeSpan(23, 59, 59);
+            var minTimeSpan = new TimeSpan(1, 0, 0, 0);
+            var maxTimeSpan = new TimeSpan(7, 0, 0, 0);
 
             DownloadResolutionTest(head, tail, minTimeSpan, maxTimeSpan, Resolution.Weeks);
         }
