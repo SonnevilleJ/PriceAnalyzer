@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds withdrawn.</param>
         /// <returns></returns>
-        IWithdrawal ConstructWithdrawal(DateTime settlementDate, decimal amount);
+        Withdrawal ConstructWithdrawal(DateTime settlementDate, decimal amount);
 
         /// <summary>
         /// Constructs a dividend-type transaction where funds were received.

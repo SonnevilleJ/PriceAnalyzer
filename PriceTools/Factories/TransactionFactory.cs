@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds withdrawn.</param>
         /// <returns></returns>
-        public IWithdrawal ConstructWithdrawal(DateTime settlementDate, decimal amount)
+        public Withdrawal ConstructWithdrawal(DateTime settlementDate, decimal amount)
         {
             return new Withdrawal(_factoryGuid, settlementDate, amount);
         }

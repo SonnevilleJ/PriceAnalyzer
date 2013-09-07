@@ -68,7 +68,7 @@ namespace Sonneville.PriceTools.Data.Csv
             if (transaction is BuyToCover) return 4;
             if (transaction is Buy) return 5;
             if (transaction is SellShort) return 6;
-            if (transaction is IWithdrawal) return 7;
+            if (transaction is Withdrawal) return 7;
             return int.MaxValue;
         }
 

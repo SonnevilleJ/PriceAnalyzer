@@ -127,9 +127,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             {
                     Deposit((Deposit)transaction);
             }
-            else if (transaction is IWithdrawal)
+            else if (transaction is Withdrawal)
             {
-                    Withdraw((IWithdrawal)transaction);
+                    Withdraw((Withdrawal)transaction);
             }
             else if (transaction is DividendReinvestment)
             {
@@ -203,8 +203,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         /// Withdraws cash from this IPortfolio. Available cash must be greater than or equal to the withdrawn amount.
         /// </summary>
-        /// <param name="withdrawal">The <see cref="IWithdrawal"/> to withdraw.</param>
-        public void Withdraw(IWithdrawal withdrawal)
+        /// <param name="withdrawal">The <see cref="Withdrawal"/> to withdraw.</param>
+        public void Withdraw(Withdrawal withdrawal)
         {
             _cashAccount.Withdraw(withdrawal);
         }

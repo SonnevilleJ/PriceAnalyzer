@@ -98,7 +98,6 @@
     <Compile Include="Interfaces\ITransaction.cs" />
     <Compile Include="Interfaces\ITransactionFactory.cs" />
     <Compile Include="Interfaces\IVariableValue.cs" />
-    <Compile Include="Interfaces\IWithdrawal.cs" />
     <Compile Include="Interfaces\IMarginableCashAccount.cs" />
     <Compile Include="Implementation\Order.cs" />
     <Compile Include="Interfaces\ILongTransaction.cs" />
