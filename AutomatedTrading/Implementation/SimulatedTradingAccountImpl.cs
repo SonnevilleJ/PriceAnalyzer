@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
@@ -9,7 +10,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         {
         }
 
-        protected override void ProcessOrder(IOrder order, CancellationToken token)
+        protected override void ProcessOrder(Order order, CancellationToken token)
         {
             DelayProcessing();
             base.ProcessOrder(order, token);

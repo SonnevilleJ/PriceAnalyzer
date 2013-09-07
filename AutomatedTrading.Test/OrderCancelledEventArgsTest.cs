@@ -2,6 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.Implementation;
 using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
@@ -16,7 +17,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             OrderFactory = new OrderFactory();
         }
 
-        private static void GetObjects(out DateTime cancelled, out IOrder order, out OrderCancelledEventArgs target)
+        private static void GetObjects(out DateTime cancelled, out Order order, out OrderCancelledEventArgs target)
         {
             var issued = new DateTime(2011, 12, 6);
             cancelled = issued.AddMinutes(3);
@@ -34,7 +35,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void ExpiredTest()
         {
             DateTime cancelled;
-            IOrder order;
+            Order order;
             OrderCancelledEventArgs target;
             GetObjects(out cancelled, out order, out target);
 
@@ -47,7 +48,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void OrderTest()
         {
             DateTime cancelled;
-            IOrder order;
+            Order order;
             OrderCancelledEventArgs target;
             GetObjects(out cancelled, out order, out target);
 

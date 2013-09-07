@@ -1,4 +1,6 @@
-﻿namespace Sonneville.PriceTools.AutomatedTrading
+﻿using Sonneville.PriceTools.Implementation;
+
+namespace Sonneville.PriceTools.AutomatedTrading
 {
     public class FlatCommissionSchedule : ICommissionSchedule
     {
@@ -9,7 +11,7 @@
             _price = price;
         }
 
-        public virtual decimal PriceCheck(IOrder order)
+        public virtual decimal PriceCheck(Order order)
         {
             return _price;
         }

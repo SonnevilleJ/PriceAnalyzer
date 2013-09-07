@@ -1,4 +1,5 @@
 ﻿using System;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
@@ -12,7 +13,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="cancelled">The DateTime at which the Order was cancelled.</param>
         /// <param name="order">The Order which was executed.</param>
-        public OrderCancelledEventArgs(DateTime cancelled, IOrder order)
+        public OrderCancelledEventArgs(DateTime cancelled, Order order)
         {
             Cancelled = cancelled;
             Order = order;
@@ -26,6 +27,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// The Order which was cancelled.
         /// </summary>
-        public IOrder Order { get; private set; }
+        public Order Order { get; private set; }
     }
 }

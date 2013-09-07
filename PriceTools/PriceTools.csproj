@@ -107,7 +107,7 @@
     <Compile Include="Interfaces\IVariableValue.cs" />
     <Compile Include="Interfaces\IWithdrawal.cs" />
     <Compile Include="Interfaces\IMarginableCashAccount.cs" />
-    <Compile Include="Implementation\OrderImpl.cs" />
+    <Compile Include="Implementation\Order.cs" />
     <Compile Include="Interfaces\ILongTransaction.cs" />
     <Compile Include="Implementation\MarginableCashAccountImpl.cs" />
     <Compile Include="Interfaces\IOpeningTransaction.cs" />
@@ -116,7 +116,6 @@
     <Compile Include="Interfaces\IShortTransaction.cs" />
     <Compile Include="IWebClient.cs" />
     <Compile Include="StockIndexInfo.cs" />
-    <Compile Include="Interfaces\IOrder.cs" />
     <Compile Include="Factories\OrderFactory.cs" />
     <Compile Include="PricingType.cs" />
     <Compile Include="HighLow.cs" />

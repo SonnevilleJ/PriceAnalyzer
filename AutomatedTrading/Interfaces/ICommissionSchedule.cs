@@ -1,3 +1,5 @@
+using Sonneville.PriceTools.Implementation;
+
 namespace Sonneville.PriceTools.AutomatedTrading
 {
     /// <summary>
@@ -5,6 +7,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
     /// </summary>
     public interface ICommissionSchedule
     {
-        decimal PriceCheck(IOrder order);
+        decimal PriceCheck(Order order);
     }
 }

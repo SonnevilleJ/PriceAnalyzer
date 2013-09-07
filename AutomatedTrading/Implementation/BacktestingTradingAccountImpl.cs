@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
@@ -23,9 +24,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         /// Submits an order for execution by the brokerage.
         /// </summary>
-        /// <param name="order">The <see cref="IOrder"/> to execute.</param>
+        /// <param name="order">The <see cref="Order"/> to execute.</param>
         /// <param name="token"></param>
-        protected override void ProcessOrder(IOrder order, CancellationToken token)
+        protected override void ProcessOrder(Order order, CancellationToken token)
         {
             if (token.IsCancellationRequested) InvokeOrderCancelled(new OrderCancelledEventArgs(DateTime.Now, order));
 

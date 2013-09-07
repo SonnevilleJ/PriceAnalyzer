@@ -5,6 +5,7 @@ using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.Implementation;
 using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
@@ -284,7 +285,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             }
         }
 
-        private static void VerifyOrderFillsCorrectly(ITradingAccount target, IOrder order)
+        private static void VerifyOrderFillsCorrectly(ITradingAccount target, Order order)
         {
             IShareTransaction expected = null;
             IShareTransaction actual = null;

@@ -5,12 +5,12 @@ using Sonneville.PriceTools.Implementation;
 namespace Sonneville.PriceTools
 {
     /// <summary>
-    /// Constructs <see cref="IOrder"/> objects.
+    /// Constructs <see cref="Order"/> objects.
     /// </summary>
     public class OrderFactory : IOrderFactory
     {
         /// <summary>
-        /// Constructs a new <see cref="IOrder"/> object from parameters.
+        /// Constructs a new <see cref="Order"/> object from parameters.
         /// </summary>
         /// <param name="issued"></param>
         /// <param name="expiration"></param>
@@ -19,13 +19,13 @@ namespace Sonneville.PriceTools
         /// <param name="shares"></param>
         /// <param name="price"></param>
         /// <returns></returns>
-        public IOrder ConstructOrder(DateTime issued, DateTime expiration, OrderType orderType, string ticker, decimal shares, decimal price)
+        public Order ConstructOrder(DateTime issued, DateTime expiration, OrderType orderType, string ticker, decimal shares, decimal price)
         {
             return ConstructOrder(issued, expiration, orderType, ticker, shares, price, PricingType.Market);
         }
 
         /// <summary>
-        /// Constructs a new <see cref="IOrder"/> object from parameters.
+        /// Constructs a new <see cref="Order"/> object from parameters.
         /// </summary>
         /// <param name="issued"></param>
         /// <param name="expiration"></param>
@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools
         /// <param name="price"></param>
         /// <param name="pricingType"></param>
         /// <returns></returns>
-        public IOrder ConstructOrder(DateTime issued, DateTime expiration, OrderType orderType, string ticker, decimal shares, decimal price, PricingType pricingType)
+        public Order ConstructOrder(DateTime issued, DateTime expiration, OrderType orderType, string ticker, decimal shares, decimal price, PricingType pricingType)
         {
             if (issued >= expiration)
                 throw new ArgumentOutOfRangeException("expiration", expiration, Strings.Order_Order_Cannot_create_an_Order_with_an_expiration_date_before_the_issue_date_);
@@ -50,7 +50,7 @@ namespace Sonneville.PriceTools
             if (!Enum.GetValues(typeof(PricingType)).Cast<PricingType>().Contains(pricingType))
                 throw new ArgumentOutOfRangeException("pricingType", pricingType, Strings.Order_Order_Invalid_PricingType_);
 
-            return new OrderImpl
+            return new Order
                        {
                            Issued = issued,
                            Expiration = expiration,

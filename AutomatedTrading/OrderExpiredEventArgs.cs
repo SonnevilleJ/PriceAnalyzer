@@ -1,4 +1,5 @@
 ﻿using System;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
@@ -11,7 +12,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// Constructs a new OrderExpiredEventArgs object.
         /// </summary>
         /// <param name="order">The Order which was executed.</param>
-        public OrderExpiredEventArgs(IOrder order)
+        public OrderExpiredEventArgs(Order order)
         {
             Order = order;
         }
@@ -24,6 +25,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// The Order which expired.
         /// </summary>
-        public IOrder Order { get; private set; }
+        public Order Order { get; private set; }
     }
 }
