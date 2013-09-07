@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Implementation;
 using Statistics;
@@ -94,12 +95,12 @@ namespace Sonneville.PriceTools.AutomatedTrading
         }
 
         /// <summary>
-        ///   Gets the average cost of all held shares in a <see cref="IPosition"/> as of a given date.
+        ///   Gets the average cost of all held shares in a <see cref="Position"/> as of a given date.
         /// </summary>
-        /// <param name="position">The <see cref="IPosition"/> for which to calculate average cost.</param>
+        /// <param name="position">The <see cref="Position"/> for which to calculate average cost.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The average cost of all shares held at <paramref name = "settlementDate" />.</returns>
-        public static decimal CalculateAverageCost(this IPosition position, DateTime settlementDate)
+        public static decimal CalculateAverageCost(this Position position, DateTime settlementDate)
         {
             var transactions = position.Transactions.Cast<ShareTransaction>()
                 .Where(transaction => transaction.SettlementDate <= settlementDate)

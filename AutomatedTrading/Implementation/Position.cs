@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     /// <summary>
     ///   A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.
     /// </summary>
-    internal class PositionImpl : IPosition
+    public class Position : ISecurityBasket
     {
         private string _ticker;
         private readonly ICollection<ShareTransaction> _transactions = new List<ShareTransaction>();
@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         ///   Constructs a new Position that will handle transactions for a given ticker symbol.
         /// </summary>
         /// <param name = "ticker">The ticker symbol that this Position will hold. All transactions will use this ticker symbol.</param>
-        internal PositionImpl(string ticker)
+        internal Position(string ticker)
         {
             Ticker = ticker;
         }

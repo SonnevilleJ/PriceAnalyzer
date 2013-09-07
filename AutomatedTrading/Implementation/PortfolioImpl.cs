@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     {
         private readonly ICashAccountFactory _cashAccountFactory;
         private readonly ICashAccount _cashAccount;
-        private readonly IList<IPosition> _positions;
+        private readonly IList<Position> _positions;
         private readonly IPositionFactory _positionFactory;
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         {
             _cashAccountFactory = new CashAccountFactory();
             _cashAccount = _cashAccountFactory.ConstructCashAccount();
-            _positions = new List<IPosition>();
+            _positions = new List<Position>();
             CashTicker = ticker;
             _positionFactory = new PositionFactory();
         }
@@ -213,24 +213,24 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             {
                 var buy = ((Buy)transaction);
                 sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
-                return sufficientCash && ((PositionImpl) GetPosition(buy.Ticker, false)).TransactionIsValid(buy);
+                return sufficientCash && GetPosition(buy.Ticker, false).TransactionIsValid(buy);
             }
             if (transaction is SellShort)
             {
                 var sellShort = ((SellShort) transaction);
-                return ((PositionImpl) GetPosition(sellShort.Ticker, false)).TransactionIsValid(sellShort);
+                return GetPosition(sellShort.Ticker, false).TransactionIsValid(sellShort);
             }
             if (transaction is Sell)
             {
                 var sell = ((Sell)transaction);
-                return ((PositionImpl) GetPosition(sell.Ticker, false)).TransactionIsValid(sell);
+                return GetPosition(sell.Ticker, false).TransactionIsValid(sell);
             }
             if (transaction is BuyToCover)
             {
                 var buyToCover = ((BuyToCover)transaction);
                 sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
                 return sufficientCash &&
-                       ((PositionImpl) GetPosition(buyToCover.Ticker, false)).TransactionIsValid(buyToCover);
+                       GetPosition(buyToCover.Ticker, false).TransactionIsValid(buyToCover);
             }
 
             // unknown order type
@@ -240,22 +240,22 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         ///   Gets an <see cref = "IList{T}" /> of positions held in this IPortfolio.
         /// </summary>
-        public IEnumerable<IPosition> Positions
+        public IEnumerable<Position> Positions
         {
             get { return _positions; }
         }
 
         /// <summary>
-        ///   Retrieves the <see cref="IPosition"/> with Ticker <paramref name="ticker"/>.
+        ///   Retrieves the <see cref="Position"/> with Ticker <paramref name="ticker"/>.
         /// </summary>
         /// <param name="ticker">The Ticker symbol of the position to retrieve.</param>
-        /// <returns>The <see cref="IPosition"/> with the requested Ticker. Returns null if no <see cref="IPosition"/> is found with the requested Ticker.</returns>
-        public IPosition GetPosition(string ticker)
+        /// <returns>The <see cref="Position"/> with the requested Ticker. Returns null if no <see cref="Position"/> is found with the requested Ticker.</returns>
+        public Position GetPosition(string ticker)
         {
             return GetPosition(ticker, true);
         }
 
-        private IPosition GetPosition(string ticker, bool nullAcceptable)
+        private Position GetPosition(string ticker, bool nullAcceptable)
         {
             var firstOrDefault = Positions.FirstOrDefault(p => p.Ticker == ticker);
             return firstOrDefault == null && !nullAcceptable ? _positionFactory.ConstructPosition(ticker) : firstOrDefault;
@@ -270,7 +270,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                 position = _positionFactory.ConstructPosition(ticker);
                 _positions.Add(position);
             }
-            ((PositionImpl) position).AddTransaction(transaction);
+            position.AddTransaction(transaction);
         }
     }
 }
