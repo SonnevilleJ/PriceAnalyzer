@@ -51,8 +51,15 @@
     <Compile Include="OrderCancelledEventArgsTest.cs" />
     <Compile Include="OrderExecutedEventArgsTest.cs" />
     <Compile Include="OrderExpiredEventArgsTest.cs" />
-    <Compile Include="PortfolioCalculationTests.cs" />
+    <Compile Include="PortfolioAnnualGrossReturnTests.cs" />
+    <Compile Include="PortfolioAverageProfitTests.cs" />
+    <Compile Include="PortfolioAnnualNetReturnTests.cs" />
+    <Compile Include="PortfolioGrossProfitTests.cs" />
+    <Compile Include="PortfolioGrossReturnTests.cs" />
     <Compile Include="PortfolioHoldingTests.cs" />
+    <Compile Include="PortfolioMedianProfitTests.cs" />
+    <Compile Include="PortfolioNetProfitTests.cs" />
+    <Compile Include="PortfolioNetReturnTests.cs" />
     <Compile Include="PortfolioTest.cs" />
     <Compile Include="PositionAnnualGrossReturnTests.cs" />
     <Compile Include="PositionAnnualNetReturnTests.cs" />
