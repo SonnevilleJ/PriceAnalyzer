@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using TestUtilities.Sonneville.PriceTools;
@@ -259,30 +258,6 @@ namespace Test.Sonneville.PriceTools
             target.PriceTicks.Add(q1);
 
             Assert.AreEqual(0, target.PriceTicks.Count);
-        }
-
-        [TestMethod]
-        public void NewPriceDataAvailableEventTest()
-        {
-            var q1 = PriceQuoteUtilities.CreateTick1();
-            var q2 = PriceQuoteUtilities.CreateTick2();
-            var q3 = PriceQuoteUtilities.CreateTick3();
-
-            var target = _pricePeriodFactory.ConstructTickedPricePeriod();
-            int[] count = {0}; // int is value type. array is reference type. value types are subject to modified closures
-            EventHandler<NewDataAvailableEventArgs> handler = delegate { Interlocked.Increment(ref count[0]); };
-            target.NewDataAvailable += handler;
-            target.AddPriceTicks(q1, q2, q3);
-            Assert.AreEqual(1, count[0]);
-
-            target = _pricePeriodFactory.ConstructTickedPricePeriod();
-            count[0] = 0;
-            target.NewDataAvailable += handler;
-            target.AddPriceTicks(q1);
-            target.AddPriceTicks(q2);
-            target.AddPriceTicks(q3);
-
-            Assert.AreEqual(3, count[0]);
         }
     }
 }

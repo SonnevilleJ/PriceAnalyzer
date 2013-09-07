@@ -56,10 +56,5 @@ namespace Sonneville.PriceTools.Implementation
             if (!TimePeriods.Any()) return false;
             return Head <= settlementDate && Tail >= settlementDate;
         }
-
-        /// <summary>
-        ///   Event which is invoked when new data is available for the ITimeSeries.
-        /// </summary>
-        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
     }
 }

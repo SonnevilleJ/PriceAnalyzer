@@ -18,7 +18,6 @@ namespace Sonneville.PriceTools.Implementation
             if (tail < head) throw new ArgumentOutOfRangeException("tail", Strings.SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_);
             _tail = tail;
             _value = value;
-            NewDataAvailable = (sender, args) => { };
         }
 
         /// <summary>
@@ -68,11 +67,6 @@ namespace Sonneville.PriceTools.Implementation
         {
             return Head <= settlementDate && Tail >= settlementDate;
         }
-
-        /// <summary>
-        ///   Event which is invoked when new data is available for the ITimePeriod.
-        /// </summary>
-        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
 
 #if DEBUG
 

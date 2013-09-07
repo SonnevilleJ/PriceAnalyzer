@@ -173,7 +173,6 @@ namespace Sonneville.PriceTools.Implementation
                                         Head = list.Min(p => p.Head),
                                         Tail = list.Max(p => p.Tail)
                                     };
-                InvokeNewDataAvailable(eventArgs);
             }
         }
 

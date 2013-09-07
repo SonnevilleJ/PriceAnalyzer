@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
@@ -405,94 +404,6 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public void AddPricePeriodEventTest()
-        {
-            var target = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
-            var head = new DateTime(2011, 12, 28);
-            var tail = head.NextPeriodClose(target.Resolution);
-            const decimal close = 5.00m;
-            var period = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-
-            var raised = false;
-            EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { raised = true; };
-
-            try
-            {
-                target.NewDataAvailable += handler;
-
-                target.AddPriceData(period);
-
-                Assert.IsTrue(raised);
-            }
-            finally
-            {
-                target.NewDataAvailable -= handler;
-            }
-        }
-
-        [TestMethod]
-        public void AddPricePeriodEventArgsTest()
-        {
-            var target = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
-            var head = new DateTime(2011, 12, 28);
-            var tail = head.NextPeriodClose(target.Resolution);
-            const decimal close = 5.00m;
-            var period = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-
-            NewDataAvailableEventArgs args = null;
-            EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { args = e; };
-
-            try
-            {
-                target.NewDataAvailable += handler;
-
-                target.AddPriceData(period);
-
-                var argsHead = args.Head;
-                var argsTail = args.Tail;
-
-                Assert.AreEqual(head, argsHead);
-                Assert.AreEqual(tail, argsTail);
-            }
-            finally
-            {
-                target.NewDataAvailable -= handler;
-            }
-        }
-
-        [TestMethod]
-        public void AddPricePeriodsEventArgsTest()
-        {
-            var target = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
-            var p1 = PricePeriodUtilities.CreatePeriod1();
-            var p2 = PricePeriodUtilities.CreatePeriod2();
-            var p3 = PricePeriodUtilities.CreatePeriod3();
-            var pricePeriods = new List<IPricePeriod> {p1, p2, p3};
-            var head = p1.Head;
-            var tail = p3.Tail;
-
-            NewDataAvailableEventArgs args = null;
-            EventHandler<NewDataAvailableEventArgs> handler = (sender, e) => { args = e; };
-
-            try
-            {
-                target.NewDataAvailable += handler;
-
-                target.AddPriceData(pricePeriods);
-
-                var argsHead = args.Head;
-                var argsTail = args.Tail;
-
-                Assert.AreEqual(head, argsHead);
-                Assert.AreEqual(tail, argsTail);
-            }
-            finally
-            {
-                target.NewDataAvailable -= handler;
-            }
-        }
-
-        [TestMethod]
         public void AddPricePeriodAddsToPricePeriodsTest()
         {
             var target = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
@@ -520,13 +431,10 @@ namespace Test.Sonneville.PriceTools
 
             try
             {
-                target.NewDataAvailable += handler;
-
                 target.AddPriceData(period);
             }
             finally
             {
-                target.NewDataAvailable -= handler;
             }
 
             Assert.IsFalse(triggered);
@@ -546,13 +454,10 @@ namespace Test.Sonneville.PriceTools
 
             try
             {
-                target.NewDataAvailable += handler;
-
                 target.AddPriceData(period);
             }
             finally
             {
-                target.NewDataAvailable -= handler;
             }
 
             Assert.IsFalse(triggered);
@@ -572,13 +477,10 @@ namespace Test.Sonneville.PriceTools
 
             try
             {
-                target.NewDataAvailable += handler;
-
                 target.AddPriceData(period);
             }
             finally
             {
-                target.NewDataAvailable -= handler;
             }
 
             Assert.IsFalse(triggered);

@@ -72,28 +72,6 @@ namespace Sonneville.PriceTools.Implementation
             return Head <= settlementDate && Tail >= settlementDate;
         }
 
-        #region Events and Invokers
-
-        /// <summary>
-        /// Invokes the NewDataAvailable event.
-        /// </summary>
-        /// <param name="e">The NewPriceDataEventArgs to pass.</param>
-        protected void InvokeNewDataAvailable(NewDataAvailableEventArgs e)
-        {
-            var eventHandler = NewDataAvailable;
-            if (eventHandler != null)
-            {
-                eventHandler(this, e);
-            }
-        }
-
-        /// <summary>
-        ///   Event which is invoked when new data is available for the IPricePeriod.
-        /// </summary>
-        public event EventHandler<NewDataAvailableEventArgs> NewDataAvailable;
-
-        #endregion
-        
         #region Equality
 
         /// <summary>
@@ -178,8 +156,6 @@ namespace Sonneville.PriceTools.Implementation
 
         #endregion
 
-#if DEBUG
-
         /// <summary>
         /// Returns a string that represents the current object.
         /// </summary>
@@ -192,7 +168,5 @@ namespace Sonneville.PriceTools.Implementation
             return string.Format("Head: {0}; Tail: {1}; Open: {2}; High: {3}; Low: {4}; Close: {5}; Volume: {6}",
                                  Head.ToShortDateString(), Tail.ToShortDateString(), Open, High, Low, Close, Volume);
         }
-
-#endif
     }
 }

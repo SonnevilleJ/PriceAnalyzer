@@ -7,7 +7,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         public RsiLosses(ITimeSeries timeSeries)
             : base(timeSeries, 2)
         {
-            timeSeries.NewDataAvailable += (sender, e) => ClearCachedValues();
         }
 
         #region Overrides of TimeSeriesIndicator
