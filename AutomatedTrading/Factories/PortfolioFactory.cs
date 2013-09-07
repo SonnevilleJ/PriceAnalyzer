@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sonneville.PriceTools.AutomatedTrading.Extensions;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Implementation;
 
@@ -59,7 +60,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             if (transactions == null) throw new ArgumentNullException("transactions", Strings.PortfolioFactory_ConstructPortfolio_Parameter_transactions_cannot_be_null_);
             foreach (var transaction in transactions)
             {
-                portfolio.AddTransaction(transaction);
+                transaction.ApplyToPortfolio(portfolio);
             }
             return portfolio;
         }

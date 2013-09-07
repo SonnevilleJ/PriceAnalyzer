@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sonneville.PriceTools.AutomatedTrading.Extensions;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
@@ -105,56 +106,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// </summary>
         public void AddTransaction(Transaction transaction)
         {
-            if (transaction is DividendReceipt)
-            {
-                    _cashAccount.Deposit((DividendReceipt)transaction);
-            }
-            else if (transaction is Deposit)
-            {
-                    Deposit((Deposit)transaction);
-            }
-            else if (transaction is Withdrawal)
-            {
-                    Withdraw((Withdrawal)transaction);
-            }
-            else if (transaction is DividendReinvestment)
-            {
-                    var dr = ((DividendReinvestment)transaction);
-                    if (dr.Ticker == CashTicker)
-                    {
-                        // DividendReceipt already deposited into cash account,
-                        // so no need to "buy" the CashTicker. Do nothing.
-                    }
-                    else
-                    {
-                        Withdraw(dr.SettlementDate, dr.TotalValue);
-                        AddToPosition(dr);
-                    }
-            }
-            else if (transaction is Buy)
-            {
-                    var buy = ((Buy)transaction);
-                    Withdraw(buy.SettlementDate, buy.TotalValue);
-                    AddToPosition(buy);
-            }
-            else if (transaction is SellShort)
-            {
-                    var sellShort = ((SellShort)transaction);
-                    Withdraw(sellShort.SettlementDate, sellShort.TotalValue);
-                    AddToPosition(sellShort);
-            }
-            else if (transaction is Sell)
-            {
-                    var sell = ((Sell)transaction);
-                    AddToPosition(sell);
-                    Deposit(sell.SettlementDate, sell.TotalValue);
-            }
-            else if (transaction is BuyToCover)
-            {
-                    var buyToCover = ((BuyToCover)transaction);
-                    AddToPosition(buyToCover);
-                    Deposit(buyToCover.SettlementDate, buyToCover.TotalValue);
-            }
+            transaction.ApplyToPortfolio(this);
+        }
+
+        /// <summary>
+        /// Deposits dividends to this Portfolio.
+        /// </summary>
+        /// <param name="dividendReceipt">The <see cref="DividendReceipt"/> to deposit.</param>
+        public void Deposit(DividendReceipt dividendReceipt)
+        {
+            _cashAccount.Deposit(dividendReceipt);
         }
 
         /// <summary>
@@ -209,25 +170,25 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
 
             bool sufficientCash;
-            if (transaction is Buy)
+            var buy = transaction as Buy;
+            var sellShort = transaction as SellShort;
+            var sell = transaction as Sell;
+            var buyToCover = transaction as BuyToCover;
+            if (buy != null)
             {
-                var buy = ((Buy)transaction);
                 sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
                 return sufficientCash && GetPosition(buy.Ticker, false).TransactionIsValid(buy);
             }
-            if (transaction is SellShort)
+            if (sellShort != null)
             {
-                var sellShort = ((SellShort) transaction);
                 return GetPosition(sellShort.Ticker, false).TransactionIsValid(sellShort);
             }
-            if (transaction is Sell)
+            if (sell != null)
             {
-                var sell = ((Sell)transaction);
                 return GetPosition(sell.Ticker, false).TransactionIsValid(sell);
             }
-            if (transaction is BuyToCover)
+            if (buyToCover != null)
             {
-                var buyToCover = ((BuyToCover)transaction);
                 sufficientCash = GetAvailableCash(buyToCover.SettlementDate) >= buyToCover.TotalValue;
                 return sufficientCash &&
                        GetPosition(buyToCover.Ticker, false).TransactionIsValid(buyToCover);
@@ -261,7 +222,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             return firstOrDefault == null && !nullAcceptable ? _positionFactory.ConstructPosition(ticker) : firstOrDefault;
         }
 
-        private void AddToPosition(ShareTransaction transaction)
+        public void AddToPosition(ShareTransaction transaction)
         {
             var ticker = transaction.Ticker;
             var position = GetPosition(ticker, true);
