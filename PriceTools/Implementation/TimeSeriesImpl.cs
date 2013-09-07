@@ -45,16 +45,5 @@ namespace Sonneville.PriceTools.Implementation
         {
             get { return _periods; }
         }
-
-        /// <summary>
-        /// Determines if the ITimePeriod has a valid value for a given date.
-        /// </summary>
-        /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
-        public bool HasValueInRange(DateTime settlementDate)
-        {
-            if (!TimePeriods.Any()) return false;
-            return Head <= settlementDate && Tail >= settlementDate;
-        }
     }
 }

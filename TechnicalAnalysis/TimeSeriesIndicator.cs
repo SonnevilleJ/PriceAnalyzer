@@ -149,17 +149,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         public Resolution Resolution { get { return MeasuredTimeSeries.Resolution; } }
 
         /// <summary>
-        /// Determines if the TimeSeriesIndicator has a valid value for a given date.
-        /// </summary>
-        /// <remarks>Assumes the TimeSeriesIndicator has a valid value for every date of the underlying MeasuredTimeSeries.</remarks>
-        /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the TimeSeriesIndicator has a valid value for the given date.</returns>
-        public bool HasValueInRange(DateTime settlementDate)
-        {
-            return (settlementDate >= Head && settlementDate <= Tail);
-        }
-
-        /// <summary>
         /// Pre-caches all values for this TimeSeriesIndicator.
         /// </summary>
         public virtual void CalculateAll()

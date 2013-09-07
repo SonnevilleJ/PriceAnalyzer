@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                if(HasValueInRange(dateTime)) return _value;
+                if(this.HasValueInRange(dateTime)) return _value;
                 throw new IndexOutOfRangeException(String.Format(CultureInfo.InvariantCulture, Strings.TimePeriodImpl_this_Date_time___0__is_out_of_range_for_this_price_period_, dateTime));
             }
         }
@@ -56,16 +56,6 @@ namespace Sonneville.PriceTools.Implementation
         public Resolution Resolution
         {
             get { return (Resolution) ((Tail - Head).Ticks); }
-        }
-
-        /// <summary>
-        /// Determines if the ITimePeriod has a valid value for a given date.
-        /// </summary>
-        /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
-        public bool HasValueInRange(DateTime settlementDate)
-        {
-            return Head <= settlementDate && Tail >= settlementDate;
         }
 
 #if DEBUG

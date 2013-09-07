@@ -62,16 +62,6 @@ namespace Sonneville.PriceTools.Implementation
             }
         }
 
-        /// <summary>
-        /// Determines if the IPricePeriod has a valid value for a given date.
-        /// </summary>
-        /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the IPricePeriod has a valid value for the given date.</returns>
-        public virtual bool HasValueInRange(DateTime settlementDate)
-        {
-            return Head <= settlementDate && Tail >= settlementDate;
-        }
-
         #region Equality
 
         /// <summary>

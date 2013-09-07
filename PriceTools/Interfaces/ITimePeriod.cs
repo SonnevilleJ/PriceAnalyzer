@@ -1,5 +1,3 @@
-using System;
-
 namespace Sonneville.PriceTools
 {
     /// <summary>
@@ -11,12 +9,5 @@ namespace Sonneville.PriceTools
         /// Gets the <see cref="Resolution"/> of price data stored within the ITimePeriod.
         /// </summary>
         Resolution Resolution { get; }
-
-        /// <summary>
-        /// Determines if the ITimePeriod has a valid value for a given date.
-        /// </summary>
-        /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
-        bool HasValueInRange(DateTime settlementDate);
     }
 }

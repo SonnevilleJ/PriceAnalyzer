@@ -22,6 +22,30 @@ namespace Sonneville.PriceTools
         #region TimeSeries Extensions
 
         /// <summary>
+        /// Determines if the ITimeSeries has a valid value for a given date.
+        /// </summary>
+        /// <param name="timeSeries">The <see cref="ITimeSeries"/> to inspect.</param>
+        /// <param name="settlementDate">The date to check.</param>
+        /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
+        public static bool HasValueInRange(this ITimeSeries timeSeries, DateTime settlementDate)
+        {
+            if (!timeSeries.TimePeriods.Any()) return false;
+            return (timeSeries as ITimePeriod).HasValueInRange(settlementDate);
+        }
+
+        /// <summary>
+        /// Determines if the IPriceSeries has a valid value for a given date.
+        /// </summary>
+        /// <param name="priceSeries">The <see cref="IPriceSeries"/> to inspect.</param>
+        /// <param name="settlementDate">The date to check.</param>
+        /// <returns>A value indicating if the IPricePeriod has a valid value for the given date.</returns>
+        public static bool HasValueInRange(this IPriceSeries priceSeries, DateTime settlementDate)
+        {
+            if (!priceSeries.PricePeriods.Any()) return false;
+            return (priceSeries as ITimeSeries).HasValueInRange(settlementDate);
+        }
+
+        /// <summary>
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
         /// <param name="timeSeries"></param>

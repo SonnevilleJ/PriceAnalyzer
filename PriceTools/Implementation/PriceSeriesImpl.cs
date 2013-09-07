@@ -126,16 +126,6 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Determines if the PriceSeries has a valid value for a given date.
-        /// </summary>
-        /// <param name="settlementDate">The date to check.</param>
-        /// <returns>A value indicating if the PriceSeries has a valid value for the given date.</returns>
-        public override bool HasValueInRange(DateTime settlementDate)
-        {
-            return DataPeriods.Any() && base.HasValueInRange(settlementDate);
-        }
-
-        /// <summary>
         /// Gets the ticker symbol priced by this PriceSeries.
         /// </summary>
         public string Ticker { get; set; }
@@ -160,7 +150,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="pricePeriods"></param>
         public void AddPriceData(IEnumerable<IPricePeriod> pricePeriods)
         {
-            var list = pricePeriods.Where(period => !HasValueInRange(period.Head) && !HasValueInRange(period.Tail)).ToList();
+            var list = pricePeriods.Where(period => !this.HasValueInRange(period.Head) && !this.HasValueInRange(period.Tail)).ToList();
 
             if (list.Any())
             {
