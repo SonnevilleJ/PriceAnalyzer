@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools
         /// <param name="price"></param>
         /// <param name="commission"></param>
         /// <returns></returns>
-        public IDividendReinvestment ConstructDividendReinvestment(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0)
+        public DividendReinvestment ConstructDividendReinvestment(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0)
         {
             return new DividendReinvestment(_factoryGuid, ticker, settlementDate, shares, price, commission);
         }

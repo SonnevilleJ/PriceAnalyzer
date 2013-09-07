@@ -131,9 +131,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             {
                     Withdraw((IWithdrawal)transaction);
             }
-            else if (transaction is IDividendReinvestment)
+            else if (transaction is DividendReinvestment)
             {
-                    var dr = ((IDividendReinvestment)transaction);
+                    var dr = ((DividendReinvestment)transaction);
                     if (dr.Ticker == CashTicker)
                     {
                         // DividendReceipt already deposited into cash account,
