@@ -100,7 +100,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         private void Execute(CancellationToken token)
         {
             var resetEvent = new AutoResetEvent(false);
-            EventHandler<NewDataAvailableEventArgs> handler = (source, eventArgs) => resetEvent.Set();
 
             try
             {

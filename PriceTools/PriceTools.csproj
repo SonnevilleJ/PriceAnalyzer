@@ -120,7 +120,6 @@
     <Compile Include="PricingType.cs" />
     <Compile Include="HighLow.cs" />
     <Compile Include="Interfaces\ICashAccount.cs" />
-    <Compile Include="NewDataAvailableEventArgs.cs" />
     <Compile Include="Factories\PricePeriodFactory.cs" />
     <Compile Include="Factories\PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />

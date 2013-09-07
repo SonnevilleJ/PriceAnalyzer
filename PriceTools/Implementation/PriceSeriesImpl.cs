@@ -168,11 +168,6 @@ namespace Sonneville.PriceTools.Implementation
                 {
                     _dataPeriods.Add(pricePeriod);
                 }
-                var eventArgs = new NewDataAvailableEventArgs
-                                    {
-                                        Head = list.Min(p => p.Head),
-                                        Tail = list.Max(p => p.Tail)
-                                    };
             }
         }
 

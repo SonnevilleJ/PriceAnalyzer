@@ -52,11 +52,6 @@ namespace Sonneville.PriceTools.Implementation
             {
                 _priceTicks.Add(quote);
             }
-            var args = new NewDataAvailableEventArgs
-                           {
-                               Head = priceTicks.Min(quote => quote.SettlementDate),
-                               Tail = priceTicks.Max(quote => quote.SettlementDate)
-                           };
         }
 
         /// <summary>
