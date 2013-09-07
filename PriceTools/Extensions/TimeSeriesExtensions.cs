@@ -19,8 +19,6 @@ namespace Sonneville.PriceTools
             TimePeriodFactory = new TimePeriodFactory();
         }
 
-        #region TimeSeries Extensions
-
         /// <summary>
         /// Determines if the ITimeSeries has a valid value for a given date.
         /// </summary>
@@ -149,10 +147,6 @@ namespace Sonneville.PriceTools
             }
         }
 
-        #endregion
-
-        #region PriceSeries Extensions
-
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
         /// </summary>
@@ -177,10 +171,6 @@ namespace Sonneville.PriceTools
         {
             return priceSeries.PricePeriods.ResizePricePeriods(resolution, head, tail);
         }
-
-        #endregion
-
-        #region IEnumerable<PricePeriod> Extensions
 
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this PriceSeries, in a specified <see cref="PriceTools.Resolution"/>.
@@ -231,8 +221,6 @@ namespace Sonneville.PriceTools
                    let volume = periodsInRange.Sum(p => p.Volume)
                    select PricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume);
         }
-
-        #endregion
 
         private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetResolutionDatePairs(Resolution resolution, DateTime head, DateTime tail)
         {

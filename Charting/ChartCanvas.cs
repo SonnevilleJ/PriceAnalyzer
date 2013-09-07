@@ -9,13 +9,7 @@ namespace Sonneville.PriceTools.Charting
 {
     public class ChartCanvas : Canvas, IChart
     {
-        #region Private Members
-
         private IPriceSeries _priceSeries;
-
-        #endregion
-
-        #region Constructors
 
         protected ChartCanvas()
             : this(false)
@@ -39,10 +33,6 @@ namespace Sonneville.PriceTools.Charting
             BufferBottom = 3;
             ConnectPeriods = connectPeriods;
         }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets or sets the <see cref="Brush"/> used to outline a gain day. Default: <see cref="Brushes.Black"/>.
@@ -176,10 +166,6 @@ namespace Sonneville.PriceTools.Charting
             get { return (double)PriceSeries.PricePeriods.Where(p => p.Head >= FirstDisplayedPeriod && p.Tail <= LastDisplayedPeriod).Max(p => p.High); }
         }
 
-        #endregion
-
-        #region Draw Methods
-
         private void DrawChart()
         {
             if (PriceSeries == null) return;
@@ -256,10 +242,6 @@ namespace Sonneville.PriceTools.Charting
             return flippedPosition;
         }
 
-        #endregion
-
-        #region Abstract/Virtual Methods
-
         /// <summary>
         /// When overridden in a class, constructs a <see cref="PointCollection"/> from X,Y coordinate points which defines the visual shape of an <see cref="IPricePeriod"/>.
         /// The base implementation draws only the closing price, resulting in a line chart.
@@ -276,7 +258,5 @@ namespace Sonneville.PriceTools.Charting
         {
             return new PointCollection { new Point(center, close) };
         }
-
-        #endregion
     }
 }

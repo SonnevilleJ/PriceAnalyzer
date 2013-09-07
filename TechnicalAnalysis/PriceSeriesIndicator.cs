@@ -4,13 +4,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 {
     public abstract class PriceSeriesIndicator : TimeSeriesIndicator, IPriceSeriesIndicator
     {
-        #region Private Members
-
         private IPriceSeries _measuredPriceSeries;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Constructs an PriceSeriesIndicator for a given <see cref="MeasuredPriceSeries"/>.
@@ -21,10 +15,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             : base(priceSeries, lookback)
         {
         }
-
-        #endregion
-
-        #region Implementation of IPriceSeriesIndicator
 
         /// <summary>
         /// The underlying data which is to be analyzed by this PriceSeriesIndicator.
@@ -56,8 +46,5 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                 _measuredPriceSeries = value;
             }
         }
-
-        #endregion
-
     }
 }

@@ -29,8 +29,6 @@ namespace Sonneville.PriceTools.Yahoo
         // Also, a REST API is now available: http://www.jarloo.com/yahoo_finance/
         //
 
-        #region IPriceSeriesProvider Implementation
-
         /// <summary>
         /// Gets the ticker symbol for a <see cref="StockIndex"/> used by this <see cref="PriceDataProvider"/>.
         /// </summary>
@@ -64,8 +62,6 @@ namespace Sonneville.PriceTools.Yahoo
         {
             get { return Resolution.Days; }
         }
-
-        #endregion
 
         private static string GetIndexTicker(StockIndex index)
         {

@@ -26,8 +26,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
             _defaultDeposit = _transactionFactory.ConstructDeposit(new DateTime(1900, 1, 1), 1000000.00m);
         }
 
-        #region BacktestingTradingAccount
-
         /// <summary>
         /// Creates a backtesting <see cref="ITradingAccount"/> which accepts all <see cref="OrderType"/>s, does not allow margin trading, imposes a flat commission of $5.00 per transaction, and has an opening deposit of $1,000,000.00.
         /// </summary>
@@ -95,10 +93,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
             return new BacktestingTradingAccountImpl(Guid.Parse("DBE826D1-C5C3-476C-A665-80D920E2321E"), "1234") { Features = tradingAccountFeatures, Portfolio = portfolio };
         }
 
-        #endregion
-
-        #region SimulatedTradingAccount
-
         /// <summary>
         /// Creates a simulated <see cref="ITradingAccount"/> which accepts all <see cref="OrderType"/>s, does not allow margin trading, imposes a flat commission of $5.00 per transaction, and has an opening deposit of $1,000,000.00.
         /// </summary>
@@ -165,7 +159,5 @@ namespace Sonneville.PriceTools.AutomatedTrading
             var portfolio = _portfolioFactory.ConstructPortfolio(openingDeposit);
             return new SimulatedTradingAccountImpl(Guid.Parse("DBE826D1-C5C3-476C-A665-80D920E2321E"), "5ACE3C35-B81C-4528-9E1E-76036CF92EE4") {Features = tradingAccountFeatures, Portfolio = portfolio};
         }
-
-        #endregion
     }
 }

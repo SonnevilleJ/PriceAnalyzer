@@ -38,8 +38,6 @@ namespace Sonneville.PriceTools.Fidelity
             return tradingAccount;
         }
 
-        #region Private Methods
-
         private IMarginSchedule GetMarginSchedule()
         {
             throw new NotImplementedException();
@@ -58,7 +56,5 @@ namespace Sonneville.PriceTools.Fidelity
 
             return basic;
         }
-
-        #endregion
     }
 }

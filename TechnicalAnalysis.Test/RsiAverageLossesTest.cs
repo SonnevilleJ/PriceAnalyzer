@@ -7,8 +7,6 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
     [TestClass]
     public class RsiAverageLossesTest : CommonIndicatorTests<TimeSeriesIndicator>
     {
-        #region Overrides of CommonIndicatorTests
-
         /// <summary>
         /// The default lookback period to use when creating test instances.
         /// </summary>
@@ -36,8 +34,6 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
         {
             return new RsiAverageLosses(timeSeries, lookback);
         }
-
-        #endregion
 
         private decimal[] _expected14
         {

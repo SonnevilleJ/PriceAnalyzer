@@ -9,8 +9,6 @@ namespace Sonneville.PriceTools.Implementation
     [Serializable]
     public abstract class CashTransaction : Transaction, IEquatable<CashTransaction>
     {
-        #region Constructors
-
         /// <summary>
         /// Constructs a CashTransaction with a given SettlemendDate and Amount.
         /// </summary>
@@ -24,16 +22,10 @@ namespace Sonneville.PriceTools.Implementation
             Id = GuidSeeder.SeedGuid(GetHashCode(), factoryGuid);
         }
 
-        #endregion
-
-        #region Implementation of CashTransaction
-
         /// <summary>
         ///   Gets the amount of cash in this CashTransaction.
         /// </summary>
         public decimal Amount { get; private set; }
-
-        #endregion
 
         #region Equality
 

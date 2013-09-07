@@ -21,8 +21,6 @@ namespace Sonneville.PriceTools.Google
         {
         }
 
-        #region Overrides of PriceDataProvider
-
         public override IEnumerable<IPricePeriod> GetPriceData(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             return base.GetPriceData(ticker, head, tail, BestResolution).ResizePricePeriods(resolution);
@@ -61,7 +59,5 @@ namespace Sonneville.PriceTools.Google
         {
             get { return Resolution.Days; }
         }
-
-        #endregion
     }
 }

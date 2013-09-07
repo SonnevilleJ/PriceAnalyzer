@@ -11,14 +11,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     /// </summary>
     internal class PositionImpl : IPosition
     {
-        #region Private Members
-
         private string _ticker;
         private readonly ICollection<ShareTransaction> _transactions = new List<ShareTransaction>();
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         ///   Constructs a new Position that will handle transactions for a given ticker symbol.
@@ -28,10 +22,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         {
             Ticker = ticker;
         }
-
-        #endregion
-
-        #region Position Members
 
         /// <summary>
         ///   Gets the ticker symbol held by this IPosition.
@@ -128,10 +118,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
         }
 
-        #endregion
-
-        #region Helper Methods
-
         private void Validate(ShareTransaction shareTransaction)
         {
             // Validate OrderType
@@ -152,7 +138,5 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                     }
             }
         }
-
-        #endregion
     }
 }

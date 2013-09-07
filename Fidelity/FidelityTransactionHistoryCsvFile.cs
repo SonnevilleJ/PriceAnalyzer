@@ -12,8 +12,6 @@ namespace Sonneville.PriceTools.Fidelity
     /// </summary>
     public class FidelityTransactionHistoryCsvFile : TransactionHistoryCsvFile
     {
-        #region Constructors
-
         /// <summary>
         ///   Constructs a TransactionHistoryCsvFile from Fidelity transaction data.
         /// </summary>
@@ -22,10 +20,6 @@ namespace Sonneville.PriceTools.Fidelity
             : base(csvStream, true)
         {
         }
-
-        #endregion
-
-        #region Overrides of TransactionHistoryCsvFile
 
         /// <summary>
         /// Parses the headers of a TransactionHistoryCsv file.
@@ -117,7 +111,5 @@ namespace Sonneville.PriceTools.Fidelity
             }
             return true;
         }
-
-        #endregion
     }
 }

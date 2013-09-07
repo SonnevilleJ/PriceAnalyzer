@@ -9,8 +9,6 @@ namespace Sonneville.PriceTools.Implementation
     [Serializable]
     public abstract class ShareTransaction : Transaction, IEquatable<ShareTransaction>
     {
-        #region Constructors
-
         /// <summary>
         /// Constructs a ShareTransaction object.
         /// </summary>
@@ -37,11 +35,6 @@ namespace Sonneville.PriceTools.Implementation
 
             Id = GuidSeeder.SeedGuid(GetHashCode(), factoryGuid);
         }
-
-
-        #endregion
-        
-        #region Accessors
 
         /// <summary>
         ///   Gets the ticker symbol of the security traded in this ShareTransaction.
@@ -70,8 +63,6 @@ namespace Sonneville.PriceTools.Implementation
         {
             get { return Math.Round(Price * Shares, 2) + Commission; }
         }
-
-        #endregion
 
         #region Equality
 

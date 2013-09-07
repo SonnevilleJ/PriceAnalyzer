@@ -14,16 +14,10 @@ namespace Sonneville.PriceTools.Data.Csv
     /// </summary>
     public abstract class TransactionHistoryCsvFile : ISecurityBasket
     {
-        #region Private Members
-
         private readonly bool _useTotalBasis;
         private bool _tableParsed;
         private readonly List<Transaction> _transactions = new List<Transaction>();
         private readonly ITransactionFactory _transactionFactory;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Constructs a new TransactionHistoryCsvFile.
@@ -41,10 +35,6 @@ namespace Sonneville.PriceTools.Data.Csv
 
             Parse(csvStream);
         }
-
-        #endregion
-
-        #region Public Properties
 
         /// <summary>
         /// Gets a list of all <see cref="Transaction"/>s in the file.
@@ -71,10 +61,6 @@ namespace Sonneville.PriceTools.Data.Csv
             if (transaction is Withdrawal) return 7;
             return int.MaxValue;
         }
-
-        #endregion
-
-        #region Private Methods
 
         private IDictionary<TransactionColumn, int> MapHeaders(CsvReader reader)
         {
@@ -165,10 +151,6 @@ namespace Sonneville.PriceTools.Data.Csv
             }
         }
 
-        #endregion
-
-        #region Abstract/Virtual Methods
-
         /// <summary>
         /// Parses the OrderType column and returns a value indicating if the row contains valid data.
         /// </summary>
@@ -248,8 +230,6 @@ namespace Sonneville.PriceTools.Data.Csv
                        ? 0.00m
                        : Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture));
         }
-
-        #endregion
 
         /// <summary>
         /// Gets a value stored at a given DateTime index of the ITimePeriod.

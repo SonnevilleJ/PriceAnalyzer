@@ -10,8 +10,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
         }
 
-        #region Overrides of TimeSeriesIndicator
-        
         /// <summary>
         /// Calculates a single value of this TimeSeriesIndicator.
         /// </summary>
@@ -28,7 +26,5 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             var currentLoss = MeasuredTimeSeries[index];
             return ((previousAverageLoss*(Lookback - 1)) + currentLoss)/Lookback;
         }
-
-        #endregion
     }
 }

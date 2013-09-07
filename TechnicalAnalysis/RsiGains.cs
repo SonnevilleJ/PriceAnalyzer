@@ -9,8 +9,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
         }
 
-        #region Overrides of TimeSeriesIndicator
-
         /// <summary>
         /// Calculates a single value of this TimeSeriesIndicator.
         /// </summary>
@@ -21,7 +19,5 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             var previousPeriodValue = MeasuredTimeSeries.GetPreviousTimePeriod(index).Value();
             return currentPeriodValue > previousPeriodValue ? currentPeriodValue - previousPeriodValue : 0;
         }
-
-        #endregion
     }
 }

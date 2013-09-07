@@ -15,8 +15,6 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 
         private ITimeSeries _timeSeries;
 
-        #region Overrides of CommonIndicatorTests<StochRSI>
-
         protected override int GetDefaultLookback()
         {
             return 14;
@@ -37,7 +35,5 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             stochastic.CalculateAll();
             return stochastic.TimePeriods.Take(10).Select(p=>p.Value()).ToArray();
         }
-
-        #endregion
     }
 }

@@ -8,8 +8,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// </summary>
     public class SimpleMovingAverage : TimeSeriesIndicator
     {
-        #region Constructors
-
         /// <summary>
         ///   Constructs a new Simple Moving Average.
         /// </summary>
@@ -20,10 +18,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
         }
 
-        #endregion
-
-        #region Overrides of TimeSeriesIndicator
-
         /// <summary>
         /// Calculates a single value of this TimeSeriesIndicator.
         /// </summary>
@@ -32,7 +26,5 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             return MeasuredTimeSeries.GetPreviousTimePeriods(Lookback, index.CurrentPeriodClose(Resolution).AddTicks(1)).Sum(period => period.Value())/Lookback;
         }
-
-        #endregion
     }
 }

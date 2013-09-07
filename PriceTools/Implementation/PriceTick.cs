@@ -39,8 +39,6 @@ namespace Sonneville.PriceTools.Implementation
             return string.Format(CultureInfo.InvariantCulture, "{0}: {1} shares @ {2:c}", SettlementDate, Volume, Price);
         }
 
-        #region Implementation of PriceTick
-
         /// <summary>
         /// The <see cref="DateTime"/> which the price quote is made.
         /// </summary>
@@ -55,8 +53,6 @@ namespace Sonneville.PriceTools.Implementation
         /// The number of shares traded.
         /// </summary>
         public long? Volume { get; private set; }
-
-        #endregion
 
         #region Equality
 

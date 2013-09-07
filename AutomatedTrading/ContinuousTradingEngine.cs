@@ -10,8 +10,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
     /// </summary>
     public class ContinuousTradingEngine : ISignalProcessor
     {
-        #region Private Members
-
         private readonly object _syncroot = new object();
         private bool _isRunning;
         private readonly IList<string> _tradableTickers = new List<string> {"DE", "MSFT", "IBM", "GOOG", "AAPL"};
@@ -22,10 +20,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         {
             _priceSeriesFactory = new PriceSeriesFactory();
         }
-
-        #endregion
-
-        #region Client Control
 
         public void Start(IPriceDataProvider priceDataProvider)
         {
@@ -57,8 +51,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 _isRunning = false;
             }
         }
-
-        #endregion
 
         public void Signal(IPriceSeries priceSeries, double direction, double magnitude)
         {

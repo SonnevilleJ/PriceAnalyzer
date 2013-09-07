@@ -7,8 +7,6 @@ namespace Sonneville.PriceTools.Implementation
     /// </summary>
     public struct Holding
     {
-        #region Implementation of Holding
-
         /// <summary>
         /// The ticker symbol held.
         /// </summary>
@@ -48,7 +46,5 @@ namespace Sonneville.PriceTools.Implementation
         /// The commission paid for the closing transaction.
         /// </summary>
         public decimal CloseCommission { get; set; }
-
-        #endregion
     }
 }

@@ -10,8 +10,6 @@ namespace Sonneville.PriceTools.Implementation
     [Serializable]
     internal class CashAccountImpl : ICashAccount
     {
-        #region Private Members
-
         private readonly IList<CashTransaction> _transactions = new List<CashTransaction>();
         private readonly object _padlock = new object();
         private readonly ITransactionFactory _transactionFactory;
@@ -20,8 +18,6 @@ namespace Sonneville.PriceTools.Implementation
         {
             _transactionFactory = new TransactionFactory();
         }
-
-        #endregion
 
         /// <summary>
         /// Deposits cash into the CashAccount.

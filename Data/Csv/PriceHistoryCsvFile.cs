@@ -13,8 +13,6 @@ namespace Sonneville.PriceTools.Data.Csv
     /// </summary>
     public abstract class PriceHistoryCsvFile
     {
-        #region Private Members
-
         private static readonly IDictionary<PriceColumn, string> DefaultColumnHeaders = new Dictionary<PriceColumn, string>
                                                                                             {
                                                                                                 {PriceColumn.Date, "Date"},
@@ -26,10 +24,6 @@ namespace Sonneville.PriceTools.Data.Csv
                                                                                             };
 
         private static readonly IPricePeriodFactory PricePeriodFactory;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Constructs a PriceHistoryCsvFile.
@@ -55,20 +49,10 @@ namespace Sonneville.PriceTools.Data.Csv
             PricePeriodFactory = new PricePeriodFactory();
         }
 
-        #endregion
-
-        #region Public Properties
-
         /// <summary>
         /// Gets a list of all <see cref="IPricePeriod"/>s in the file.
         /// </summary>
         public IList<IPricePeriod> PricePeriods { get; private set; }
-        
-        #endregion
-
-        #region Public Methods
-
-        #region Read Methods
 
         /// <summary>
         /// Reads the contents of a Price History CSV file from a stream.
@@ -102,10 +86,6 @@ namespace Sonneville.PriceTools.Data.Csv
             }
         }
 
-        #endregion
-
-        #region Write Methods
-
         public void Write(Stream stream)
         {
             Write(new StreamWriter(stream));
@@ -120,12 +100,6 @@ namespace Sonneville.PriceTools.Data.Csv
                 writer.Write(Environment.NewLine);
             }
         }
-
-        #endregion
-
-        #endregion
-
-        #region Private Methods
 
         private IDictionary<PriceColumn, int> MapHeaders(CsvReader reader)
         {
@@ -221,8 +195,6 @@ namespace Sonneville.PriceTools.Data.Csv
 
             return results.Count() == 1 ? results.First() : PriceColumn.None;
         }
-
-        #region Static parsing methods
 
         private static IList<IPricePeriod> BuildPricePeriods(IList<SingleDatePeriod> stagedPeriods, DateTime? impliedHead, DateTime? impliedTail, Resolution? impliedResolution)
         {
@@ -346,8 +318,6 @@ namespace Sonneville.PriceTools.Data.Csv
             throw new ArgumentOutOfRangeException("duration", duration, Strings.PriceHistoryCsvFile_SetResolution_Given_duration_represents_an_unknown_PriceSeriesResolution_);
         }
 
-        #endregion
-
         private struct SingleDatePeriod
         {
             public DateTime Date;
@@ -357,10 +327,6 @@ namespace Sonneville.PriceTools.Data.Csv
             public decimal Close;
             public long? Volume;
         }
-
-        #endregion
-
-        #region Abstract/Virtual Methods
 
         /// <summary>
         /// Returns a dictionary with an ordered list of <see cref="PriceColumn"/>s and their corresponding string values.
@@ -413,7 +379,5 @@ namespace Sonneville.PriceTools.Data.Csv
                        ? (long?) null
                        : Math.Abs(long.Parse(text.Trim(), CultureInfo.InvariantCulture));
         }
-
-        #endregion
     }
 }

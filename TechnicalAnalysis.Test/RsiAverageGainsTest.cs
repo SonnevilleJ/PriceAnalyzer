@@ -29,8 +29,6 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             }
         }
 
-        #region Overrides of CommonIndicatorTests
-
         /// <summary>
         /// The default lookback period to use when creating test instances.
         /// </summary>
@@ -65,7 +63,5 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
             throw new ArgumentOutOfRangeException("lookback", lookback,
                                                   String.Format("Cannot return expected values for lookback period of length {0}", lookback));
         }
-
-        #endregion
     }
 }

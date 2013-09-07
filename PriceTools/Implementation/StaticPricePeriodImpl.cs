@@ -8,8 +8,6 @@ namespace Sonneville.PriceTools.Implementation
     /// </summary>
     internal class StaticPricePeriodImpl : PricePeriodImpl
     {
-        #region Private Members
-
         private readonly decimal? _open;
         private readonly decimal? _high;
         private readonly decimal? _low;
@@ -17,10 +15,6 @@ namespace Sonneville.PriceTools.Implementation
         private readonly long? _volume;
         private readonly DateTime _head;
         private readonly DateTime _tail;
-
-        #endregion
-
-        #region Constructors
 
         internal StaticPricePeriodImpl(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
             : this(head, ConstructTail(head, resolution), open, high, low, close, volume)
@@ -60,10 +54,6 @@ namespace Sonneville.PriceTools.Implementation
             _volume = volume;
         }
 
-        #endregion
-
-        #region Private Methods
-
         private static DateTime ConstructTail(DateTime head, Resolution resolution)
         {
             var result = head;
@@ -97,11 +87,6 @@ namespace Sonneville.PriceTools.Implementation
             }
             return result.Subtract(new TimeSpan(0, 0, 0, 0, 1));
         }
-
-        #endregion
-
-        #region Implementation of PricePeriod
-
 
         /// <summary>
         /// Gets the closing price for the PricePeriod.
@@ -173,7 +158,5 @@ namespace Sonneville.PriceTools.Implementation
         {
             get { return _tail; }
         }
-
-        #endregion
     }
 }

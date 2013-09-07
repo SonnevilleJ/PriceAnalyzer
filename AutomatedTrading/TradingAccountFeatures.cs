@@ -2,16 +2,12 @@
 {
     public class TradingAccountFeatures
     {
-        #region Constructors
-
         internal TradingAccountFeatures(OrderType supportedOrderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)
         {
             SupportedOrderTypes = supportedOrderTypes;
             CommissionSchedule = commissionSchedule;
             MarginSchedule = marginSchedule;
         }
-
-        #endregion
 
         /// <summary>
         /// Gets the <see cref="OrderType"/>s supported by the <see cref="ITradingAccount"/>.

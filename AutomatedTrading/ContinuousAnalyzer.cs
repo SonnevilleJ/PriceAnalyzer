@@ -7,17 +7,11 @@ namespace Sonneville.PriceTools.AutomatedTrading
 {
     public abstract class ContinuousAnalyzer : IDisposable
     {
-        #region Private Members
-
         private readonly object _syncRoot = new object();
 
         private readonly IPriceDataProvider _priceDataProvider;
         private readonly IPriceSeries _priceSeries;
         private readonly ISignalProcessor _signalProcessor;
-
-        #endregion
-        
-        #region Constructors
 
         protected ContinuousAnalyzer(IPriceSeries priceSeries, ISignalProcessor signalProcessor, IPriceDataProvider priceDataProvider)
         {
@@ -31,16 +25,10 @@ namespace Sonneville.PriceTools.AutomatedTrading
             Dispose();
         }
 
-        #endregion
-
-        #region IDisposable Implementation
-
         public void Dispose()
         {
             Stop();
         }
-
-        #endregion
 
         protected IPriceSeries PriceSeries
         {
@@ -62,8 +50,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         private CancellationTokenSource CancellationTokenSource { get; set; }
 
         private Task Task { get; set; }
-
-        #region Control Methods
 
         public void Start()
         {
@@ -94,8 +80,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 IsRunning = false;
             }
         }
-
-        #endregion
         
         private void Execute(CancellationToken token)
         {

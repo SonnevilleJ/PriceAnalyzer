@@ -11,15 +11,9 @@ namespace Sonneville.PriceTools.Data
     /// </summary>
     public abstract class PriceDataProvider : IPriceDataProvider
     {
-        #region Private Members
-
         private readonly object _syncroot = new object();
         private readonly IDictionary<IPriceSeries, Task> _tasks = new Dictionary<IPriceSeries, Task>();
         private readonly IDictionary<string, bool> _resetEvent = new Dictionary<string, bool>();
-
-        #endregion
-
-        #region Public Methods
 
         /// <summary>
         /// Gets a list of <see cref="IPricePeriod"/>s containing price data for the requested DateTime range.
@@ -84,10 +78,6 @@ namespace Sonneville.PriceTools.Data
             }
         }
 
-        #endregion
-
-        #region Private Methods
-
         /// <summary>
         /// Intended to be called asynchronously. Enters a loop which periodically updates the <paramref name="priceSeries"/>.
         /// </summary>
@@ -105,10 +95,6 @@ namespace Sonneville.PriceTools.Data
                 }
             }
         }
-
-        #endregion
-
-        #region Abstract/Virtual Methods
 
         /// <summary>
         /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
@@ -134,7 +120,5 @@ namespace Sonneville.PriceTools.Data
         /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
         /// <returns>The ticker symbol of <paramref name="index"/> for this PriceDataProvider.</returns>
         public abstract IEnumerable<IPricePeriod> GetPriceData(StockIndex index, DateTime head, DateTime tail, Resolution resolution);
-
-        #endregion
     }
 }

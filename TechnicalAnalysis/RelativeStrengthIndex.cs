@@ -23,8 +23,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             _avgLosses = new RsiAverageLosses(MeasuredTimeSeries, Lookback);
         }
 
-        #region Overrides of TimeSeriesIndicator
-
         protected override void ClearCachedValues()
         {
             _avgGains = new RsiAverageGains(MeasuredTimeSeries, Lookback);
@@ -51,7 +49,5 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             var relativeStrengthIndex = 100 - (100/(1 + relativeStrength));
             return relativeStrengthIndex;
         }
-
-        #endregion
     }
 }

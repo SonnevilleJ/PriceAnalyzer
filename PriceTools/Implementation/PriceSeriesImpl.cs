@@ -15,16 +15,10 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         private const Resolution DefaultResolution = Resolution.Days;
 
-        #region Private Members
-
         private readonly Resolution _resolution;
 
         private readonly IList<IPricePeriod> _dataPeriods = new List<IPricePeriod>();
 
-        #endregion
-
-        #region Constructors
-        
         /// <summary>
         /// Constructs a PriceSeries object.
         /// </summary>
@@ -33,10 +27,6 @@ namespace Sonneville.PriceTools.Implementation
         {
             _resolution = resolution;
         }
-
-        #endregion
-
-        #region Overrides of PriceSeries
 
         /// <summary>
         /// Gets the closing price for the PriceSeries.
@@ -174,10 +164,6 @@ namespace Sonneville.PriceTools.Implementation
             get { return _dataPeriods.AsParallel(); }
         }
 
-        #endregion
-
-        #region Private Methods
-
         /// <summary>
         /// Gets the most recent price at or before <paramref name="settlementDate"/>.
         /// </summary>
@@ -194,8 +180,6 @@ namespace Sonneville.PriceTools.Implementation
 
             throw new InvalidOperationException(String.Format(CultureInfo.InvariantCulture, Strings.PriceSeries_GetLatestPrice_No_price_data_available_for_settlement_date___0_, settlementDate));
         }
-
-        #endregion
 
         #region Equality
 

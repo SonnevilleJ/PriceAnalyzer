@@ -16,8 +16,6 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public IList<PriceTick> PriceTicks { get { return _priceTicks.AsReadOnly(); } }
 
-        #region Overrides of PricePeriod
-
         /// <summary>
         ///   Gets the total volume of trades during the PricePeriod.
         /// </summary>
@@ -95,8 +93,6 @@ namespace Sonneville.PriceTools.Implementation
         {
             get { return PriceTicks.Last(q => q.SettlementDate <= dateTime).Price; }
         }
-
-        #endregion
 
         #region Equality
 

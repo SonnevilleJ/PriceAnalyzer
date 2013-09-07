@@ -8,14 +8,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
     public abstract class TradingAccountImpl : ITradingAccount
     {
-        #region Private Members
-
         private readonly ConcurrentDictionary<Order, CancellationTokenSource> _tokenSources = new ConcurrentDictionary<Order, CancellationTokenSource>();
         private readonly BlockingCollection<Order> _orders = new BlockingCollection<Order>();
-
-        #endregion
-
-        #region Constructors
 
         protected TradingAccountImpl(Guid brokerageGuid, string accountNumber)
         {
@@ -23,10 +17,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             TransactionFactory = new TransactionFactory(brokerageGuid);
             Task.Factory.StartNew(Consumer);
         }
-
-        #endregion
-
-        #region Implementation of TradingAccount
 
         /// <summary>
         /// Gets the <see cref="ITransactionFactory"/> associated with the user's brokerage account.
@@ -72,10 +62,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             if (_tokenSources.TryRemove(order, out cts)) cts.Cancel();
         }
 
-        #endregion
-
-        #region Events and Invokers
-
         /// <summary>
         /// Triggered when an order has been filled.
         /// </summary>
@@ -107,20 +93,12 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             TriggerCancelled(e);
         }
 
-        #endregion
-
-        #region Abstract Methods
-
         /// <summary>
         /// Submits an order for execution by the brokerage.
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to execute.</param>
         /// <param name="token"></param>
         protected abstract void ProcessOrder(Order order, CancellationToken token);
-
-        #endregion
-
-        #region Private Methods
 
         private void Consumer()
         {
@@ -161,7 +139,5 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             var handler = OrderCancelled;
             if (handler != null) handler(this, e);
         }
-
-        #endregion
     }
 }

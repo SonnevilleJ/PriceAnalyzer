@@ -10,16 +10,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// </summary>
     public abstract class TimeSeriesIndicator : ITimeSeriesIndicator
     {
-        #region Private Members
-
         private readonly ITimePeriodFactory _timePeriodFactory;
         private readonly ITimeSeriesFactory _timeSeriesFactory;
         private ITimeSeries _cachedValues;
         private int _lookback;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Constructs an TimeSeriesIndicator for a given <see cref="MeasuredTimeSeries"/>.
@@ -47,10 +41,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             MeasuredTimeSeries = timeSeries;
         }
 
-        #endregion
-
-        #region Protected / Abstract Members
-
         /// <summary>
         /// Calculates a single value of this TimeSeriesIndicator.
         /// </summary>
@@ -77,10 +67,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             _cachedValues = _timeSeriesFactory.ConstructMutable();
         }
-
-        #endregion
-
-        #region Implementation of ITimeSeriesIndicator
 
         /// <summary>
         /// Gets the first DateTime in the TimeSeriesIndicator.
@@ -159,10 +145,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             }
         }
 
-        #endregion
-
-        #region Private Methods
-
         /// <summary>
         /// Ensures values have been calculated for all possible periods.
         /// </summary>
@@ -222,7 +204,5 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                 list.Add(_timePeriodFactory.ConstructTimePeriod(head, tail, calculate));
             }
         }
-
-        #endregion
     }
 }

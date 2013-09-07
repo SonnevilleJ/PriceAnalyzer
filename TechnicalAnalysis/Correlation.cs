@@ -16,21 +16,13 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         // http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:correlation_coeffici
         //
 
-        #region Private Members
-
         private readonly ITimeSeries _target;
-
-        #endregion
-
-        #region Constructors
 
         public Correlation(ITimeSeries timeSeries, int lookback, ITimeSeries target)
             : base(timeSeries, lookback)
         {
             _target = target;
         }
-
-        #endregion
 
         protected override decimal Calculate(DateTime index)
         {

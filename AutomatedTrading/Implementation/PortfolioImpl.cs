@@ -10,16 +10,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     /// </summary>
     internal class PortfolioImpl : IPortfolio
     {
-        #region Private Members
-
         private readonly ICashAccountFactory _cashAccountFactory;
         private readonly ICashAccount _cashAccount;
         private readonly IList<IPosition> _positions;
         private readonly IPositionFactory _positionFactory;
-
-        #endregion
-
-        #region Constructors
 
         /// <summary>
         /// Constructs a Portfolio and assigns a ticker symbol to use as the Portfolio's <see cref="ICashAccount"/>.
@@ -33,10 +27,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             CashTicker = ticker;
             _positionFactory = new PositionFactory();
         }
-
-        #endregion
-
-        #region Implementation of IPortfolio
 
         /// <summary>
         /// Gets a value stored at a given DateTime index of the IPortfolio.
@@ -77,10 +67,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                 return DateTime.Now;
             }
         }
-
-        #endregion
-
-        #region Implementation of Portfolio
 
         /// <summary>
         ///   Gets the amount of uninvested cash in this IPortfolio.
@@ -269,10 +255,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             return GetPosition(ticker, true);
         }
 
-        #endregion
-
-        #region Private Methods
-
         private IPosition GetPosition(string ticker, bool nullAcceptable)
         {
             var firstOrDefault = Positions.FirstOrDefault(p => p.Ticker == ticker);
@@ -290,7 +272,5 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
             ((PositionImpl) position).AddTransaction(transaction);
         }
-
-        #endregion
     }
 }
