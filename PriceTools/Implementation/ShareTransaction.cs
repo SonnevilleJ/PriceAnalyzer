@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.Implementation
     ///   Represents a transaction for a share of equity.
     /// </summary>
     [Serializable]
-    internal abstract class ShareTransactionImpl : TransactionImpl, IShareTransaction
+    public abstract class ShareTransaction : Transaction, IShareTransaction
     {
         #region Constructors
 
@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="shares"></param>
         /// <param name="price"></param>
         /// <param name="commission"></param>
-        protected ShareTransactionImpl(Guid factoryGuid, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
+        protected ShareTransaction(Guid factoryGuid, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
         {
             SettlementDate = settlementDate;
             Ticker = ticker;
@@ -134,7 +134,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(ShareTransactionImpl left, ShareTransactionImpl right)
+        public static bool operator ==(ShareTransaction left, ShareTransaction right)
         {
             return Equals(left, right);
         }
@@ -145,7 +145,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(ShareTransactionImpl left, ShareTransactionImpl right)
+        public static bool operator !=(ShareTransaction left, ShareTransaction right)
         {
             return !Equals(left, right);
         }

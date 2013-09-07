@@ -11,13 +11,13 @@ namespace Sonneville.PriceTools.Implementation
         private decimal _maximumMargin = 2000.00m;
 
         /// <summary>
-        /// Validates a <see cref="CashTransactionImpl"/> without adding it to the CashAccount.
+        /// Validates a <see cref="CashTransaction"/> without adding it to the CashAccount.
         /// </summary>
         /// <param name="cashTransaction">The <see cref="ICashAccount"/> to validate.</param>
         /// <returns></returns>
         public override bool TransactionIsValid(ICashTransaction cashTransaction)
         {
-            if (cashTransaction is WithdrawalImpl)
+            if (cashTransaction is Withdrawal)
             {
                 var balance = GetCashBalance(cashTransaction.SettlementDate);
                 var required = Math.Abs(cashTransaction.Amount);

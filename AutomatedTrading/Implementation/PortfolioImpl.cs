@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
@@ -144,9 +145,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
                         AddToPosition(dr);
                     }
             }
-            else if (transaction is IBuy)
+            else if (transaction is Buy)
             {
-                    var buy = ((IBuy)transaction);
+                    var buy = ((Buy)transaction);
                     Withdraw(buy.SettlementDate, buy.TotalValue);
                     AddToPosition(buy);
             }
@@ -222,9 +223,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
 
             bool sufficientCash;
-            if (transaction is IBuy)
+            if (transaction is Buy)
             {
-                var buy = ((IBuy)transaction);
+                var buy = ((Buy)transaction);
                 sufficientCash = GetAvailableCash(buy.SettlementDate) >= buy.TotalValue;
                 return sufficientCash && ((PositionImpl) GetPosition(buy.Ticker, false)).TransactionIsValid(buy);
             }

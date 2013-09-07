@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction for deposit.
     /// </summary>
     [Serializable]
-    internal sealed class DepositImpl : CashTransactionImpl, IDeposit
+    internal sealed class Deposit : CashTransaction, IDeposit
     {
         /// <summary>
         /// Constructs a deposit-type transaction.
@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="factoryGuid"></param>
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds deposited.</param>
-        internal DepositImpl(Guid factoryGuid, DateTime settlementDate, decimal amount)
+        internal Deposit(Guid factoryGuid, DateTime settlementDate, decimal amount)
             : base(factoryGuid, settlementDate, Math.Abs(amount))
         {}
     }

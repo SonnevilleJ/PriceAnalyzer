@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Implementation;
 using Sonneville.Utilities.Serialization;
 
 namespace Test.Sonneville.PriceTools
@@ -69,7 +70,7 @@ namespace Test.Sonneville.PriceTools
             var buy = _factory.ConstructBuy("DE", DateTime.Today, 5, 10, 0);
 
             var serialized = XmlSerializer.SerializeToXml(buy);
-            var deserialized = XmlSerializer.DeserializeFromXml<IBuy>(serialized);
+            var deserialized = XmlSerializer.DeserializeFromXml<Buy>(serialized);
 
             Assert.AreEqual(buy.Id, deserialized.Id);
         }
@@ -80,10 +81,10 @@ namespace Test.Sonneville.PriceTools
             var buy = _factory.ConstructBuy("DE", DateTime.Today, 5, 10, 0);
 
             var serialized = XmlSerializer.SerializeToXml(buy);
-            var deserialized = XmlSerializer.DeserializeFromXml<IBuy>(serialized);
+            var deserialized = XmlSerializer.DeserializeFromXml<Buy>(serialized);
 
             serialized = XmlSerializer.SerializeToXml(deserialized);
-            deserialized = XmlSerializer.DeserializeFromXml<IBuy>(serialized);
+            deserialized = XmlSerializer.DeserializeFromXml<Buy>(serialized);
 
             Assert.AreEqual(buy.Id, deserialized.Id);
         }

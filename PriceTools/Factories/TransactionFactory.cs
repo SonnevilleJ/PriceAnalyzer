@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public IDeposit ConstructDeposit(DateTime settlementDate, decimal amount)
         {
-            return new DepositImpl(_factoryGuid, settlementDate, amount);
+            return new Deposit(_factoryGuid, settlementDate, amount);
         }
 
         /// <summary>
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public IWithdrawal ConstructWithdrawal(DateTime settlementDate, decimal amount)
         {
-            return new WithdrawalImpl(_factoryGuid, settlementDate, amount);
+            return new Withdrawal(_factoryGuid, settlementDate, amount);
         }
 
         /// <summary>
@@ -57,19 +57,19 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public IDividendReceipt ConstructDividendReceipt(DateTime settlementDate, decimal amount)
         {
-            return new DividendReceiptImpl(_factoryGuid, settlementDate, amount);
+            return new DividendReceipt(_factoryGuid, settlementDate, amount);
         }
 
         /// <summary>
         /// Constructs a transaction where cash is exchanged.
         /// </summary>
-        /// <param name="transactionType">The type of <see cref="CashTransactionImpl"/> to construct.</param>
+        /// <param name="transactionType">The type of <see cref="CashTransaction"/> to construct.</param>
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds in the transaction.</param>
         /// <returns></returns>
         public ICashTransaction ConstructCashTransaction(OrderType transactionType, DateTime settlementDate, decimal amount)
         {
-            return (CashTransactionImpl)ConstructTransaction(transactionType, settlementDate, String.Empty, amount, 0, 0);
+            return (CashTransaction)ConstructTransaction(transactionType, settlementDate, String.Empty, amount, 0, 0);
         }
 
         /// <summary>
@@ -83,7 +83,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public IDividendReinvestment ConstructDividendReinvestment(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0)
         {
-            return new DividendReinvestmentImpl(_factoryGuid, ticker, settlementDate, shares, price, commission);
+            return new DividendReinvestment(_factoryGuid, ticker, settlementDate, shares, price, commission);
         }
 
         /// <summary>
@@ -95,9 +95,9 @@ namespace Sonneville.PriceTools
         /// <param name="price"></param>
         /// <param name="commission"></param>
         /// <returns></returns>
-        public IBuy ConstructBuy(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
+        public Buy ConstructBuy(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new BuyImpl(_factoryGuid, ticker, settlementDate, shares, price, commission);
+            return new Buy(_factoryGuid, ticker, settlementDate, shares, price, commission);
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public ISell ConstructSell(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new SellImpl(_factoryGuid, ticker, settlementDate, shares, price, commission);
+            return new Sell(_factoryGuid, ticker, settlementDate, shares, price, commission);
         }
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public IBuyToCover ConstructBuyToCover(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new BuyToCoverImpl(_factoryGuid, ticker, settlementDate, shares, price, commission);
+            return new BuyToCover(_factoryGuid, ticker, settlementDate, shares, price, commission);
         }
 
         /// <summary>
@@ -139,7 +139,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public ISellShort ConstructSellShort(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m)
         {
-            return new SellShortImpl(_factoryGuid, ticker, settlementDate, shares, price, commission);
+            return new SellShort(_factoryGuid, ticker, settlementDate, shares, price, commission);
         }
 
         /// <summary>
@@ -147,7 +147,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         public IShareTransaction ConstructShareTransaction(OrderType type, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
         {
-            return (ShareTransactionImpl) ConstructTransaction(type, settlementDate, ticker, price, shares, commission);
+            return (ShareTransaction) ConstructTransaction(type, settlementDate, ticker, price, shares, commission);
         }
 
         /// <summary>

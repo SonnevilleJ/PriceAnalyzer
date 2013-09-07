@@ -79,7 +79,7 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Gets a <see cref="List{T}"/> of <see cref="CashTransactionImpl"/>s in this CashAccount.
+        /// Gets a <see cref="List{T}"/> of <see cref="CashTransaction"/>s in this CashAccount.
         /// </summary>
         public ICollection<ICashTransaction> Transactions
         {
@@ -107,17 +107,17 @@ namespace Sonneville.PriceTools.Implementation
         }
 
         /// <summary>
-        /// Validates a <see cref="CashTransactionImpl"/> without adding it to the CashAccount.
+        /// Validates a <see cref="CashTransaction"/> without adding it to the CashAccount.
         /// </summary>
         /// <param name="cashTransaction">The <see cref="ICashAccount"/> to validate.</param>
         /// <returns></returns>
         public virtual bool TransactionIsValid(ICashTransaction cashTransaction)
         {
-            if (cashTransaction is DepositImpl)
+            if (cashTransaction is Deposit)
             {
                 return true;
             }
-            if (cashTransaction is WithdrawalImpl)
+            if (cashTransaction is Withdrawal)
             {
                 return GetCashBalance(cashTransaction.SettlementDate) >= Math.Abs(cashTransaction.Amount);
             }

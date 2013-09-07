@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a transaction where cash is exchanged.
         /// </summary>
-        /// <param name="transactionType">The type of <see cref="CashTransactionImpl"/> to construct.</param>
+        /// <param name="transactionType">The type of <see cref="CashTransaction"/> to construct.</param>
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds in the transaction.</param>
         /// <returns></returns>
@@ -58,7 +58,7 @@ namespace Sonneville.PriceTools
         /// <param name="price"></param>
         /// <param name="commission"></param>
         /// <returns></returns>
-        IBuy ConstructBuy(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m);
+        Buy ConstructBuy(string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission = 0.00m);
 
         /// <summary>
         /// Constructs a Sell.

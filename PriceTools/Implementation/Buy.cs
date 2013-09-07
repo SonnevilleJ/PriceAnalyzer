@@ -6,12 +6,12 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction to buy shares.
     /// </summary>
     [Serializable]
-    internal sealed class BuyImpl : ShareTransactionImpl, IBuy
+    public sealed class Buy : ShareTransaction, ILongTransaction, IAccumulationTransaction, IOpeningTransaction
     {
         /// <summary>
         /// Constructs a Buy.
         /// </summary>
-        internal BuyImpl(Guid factoryGuid, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
+        internal Buy(Guid factoryGuid, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
             : base(factoryGuid, ticker, settlementDate, shares, Math.Abs(price), commission)
         {
         }

@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction for a cash withdrawal.
     /// </summary>
     [Serializable]
-    internal sealed class WithdrawalImpl : CashTransactionImpl, IWithdrawal
+    internal sealed class Withdrawal : CashTransaction, IWithdrawal
     {
         /// <summary>
         /// Constructs a withdrawal-type transaction.
@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds withdrawn.</param>
         /// <returns></returns>
-        internal WithdrawalImpl(Guid factoryGuid, DateTime settlementDate, decimal amount)
+        internal Withdrawal(Guid factoryGuid, DateTime settlementDate, decimal amount)
             : base(factoryGuid, settlementDate, -Math.Abs(amount))
         {
         }

@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction for the receipt of a dividend.
     /// </summary>
     [Serializable]
-    internal sealed class DividendReceiptImpl : CashTransactionImpl, IDividendReceipt
+    internal sealed class DividendReceipt : CashTransaction, IDividendReceipt
     {
         /// <summary>
         /// Constructs a dividend-type transaction where funds were received.
@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="settlementDate">The settlement date of the transaction.</param>
         /// <param name="amount">The amount of funds received.</param>
         /// <returns></returns>
-        internal DividendReceiptImpl(Guid factoryGuid, DateTime settlementDate, decimal amount)
+        internal DividendReceipt(Guid factoryGuid, DateTime settlementDate, decimal amount)
             : base(factoryGuid, settlementDate, Math.Abs(amount))
         {
         }
