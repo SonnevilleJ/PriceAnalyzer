@@ -37,13 +37,13 @@ namespace Sonneville.PriceTools
         public static IList<Holding> CalculateHoldings(this IEnumerable<ITransaction> transactions, DateTime settlementDate)
         {
             var result = new List<Holding>();
-            var groups = transactions.Where(t => t is IShareTransaction).Cast<IShareTransaction>().GroupBy(t => t.Ticker);
+            var groups = transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().GroupBy(t => t.Ticker);
             foreach (var grouping in groups)
             {
                 var buys = grouping.Where(t => t is IOpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderBy(t => t.SettlementDate);
                 var buysUsed = 0;
                 var unusedSharesInCurrentBuy = 0.0m;
-                IShareTransaction buy = null;
+                ShareTransaction buy = null;
 
                 var sells = grouping.Where(t => t is IClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderBy(t => t.SettlementDate);
                 foreach (var sell in sells)

@@ -96,7 +96,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         /// Constructs a ShareTransaction.
         /// </summary>
-        IShareTransaction ConstructShareTransaction(OrderType type, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission);
+        ShareTransaction ConstructShareTransaction(OrderType type, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission);
 
         /// <summary>
         /// Constructs a Transaction.

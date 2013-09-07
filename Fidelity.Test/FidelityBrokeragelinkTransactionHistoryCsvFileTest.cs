@@ -3,10 +3,10 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SampleData;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Fidelity;
+using Sonneville.PriceTools.Implementation;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.Utilities;
 
@@ -284,7 +284,7 @@ namespace Test.Sonneville.PriceTools.Fidelity
                 var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
 
                 const decimal expected = 500.00m;
-                var actual = ((IShareTransaction)target.Transactions.First()).TotalValue;
+                var actual = ((ShareTransaction)target.Transactions.First()).TotalValue;
                 Assert.AreEqual(expected, actual);
             }
         }

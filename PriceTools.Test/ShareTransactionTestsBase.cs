@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Implementation;
 using Sonneville.Utilities.Serialization;
 using TestUtilities.Sonneville.PriceTools;
 
@@ -105,7 +106,7 @@ namespace Test.Sonneville.PriceTools
             var target = TransactionFactory.ConstructShareTransaction(transactionType, ticker, settlementDate, shares, price, commission);
 
             var xml = XmlSerializer.SerializeToXml(target);
-            var result = XmlSerializer.DeserializeFromXml<IShareTransaction>(xml);
+            var result = XmlSerializer.DeserializeFromXml<ShareTransaction>(xml);
 
             GenericTestUtilities.AssertSameState(target, result);
         }
@@ -294,7 +295,7 @@ namespace Test.Sonneville.PriceTools
             return -GetValidCommission(transactionType);
         }
 
-        protected static bool ShareTransactionInheritanceTest(IShareTransaction transaction, Type expected)
+        protected static bool ShareTransactionInheritanceTest(ShareTransaction transaction, Type expected)
         {
             return transaction.GetType().GetInterfaces().Any(type => type == expected);
         }

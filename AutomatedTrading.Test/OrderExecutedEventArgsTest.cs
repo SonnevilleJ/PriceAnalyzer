@@ -18,7 +18,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             TransactionFactory = new TransactionFactory();
         }
 
-        private static void GetObjects(out DateTime executed, out Order order, out IShareTransaction transaction, out OrderExecutedEventArgs target)
+        private static void GetObjects(out DateTime executed, out Order order, out ShareTransaction transaction, out OrderExecutedEventArgs target)
         {
             var issued = new DateTime(2011, 12, 6);
             var expired = issued.AddMinutes(30);
@@ -39,7 +39,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             DateTime executed;
             Order order;
-            IShareTransaction transaction;
+            ShareTransaction transaction;
             OrderExecutedEventArgs target;
             GetObjects(out executed, out order, out transaction, out target);
 
@@ -53,7 +53,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             DateTime executed;
             Order order;
-            IShareTransaction transaction;
+            ShareTransaction transaction;
             OrderExecutedEventArgs target;
             GetObjects(out executed, out order, out transaction, out target);
 
@@ -67,7 +67,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             DateTime executed;
             Order order;
-            IShareTransaction transaction;
+            ShareTransaction transaction;
             OrderExecutedEventArgs target;
             GetObjects(out executed, out order, out transaction, out target);
 

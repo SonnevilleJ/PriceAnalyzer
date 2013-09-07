@@ -97,7 +97,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         public string CashTicker { get; private set; }
 
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this Position.
+        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
         /// </summary>
         public IEnumerable<ITransaction> Transactions
         {
@@ -212,7 +212,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         /// Validates an <see cref="ITransaction"/> without adding it to the IPortfolio.
         /// </summary>
-        /// <param name="transaction">The <see cref="IShareTransaction"/> to validate.</param>
+        /// <param name="transaction">The <see cref="ShareTransaction"/> to validate.</param>
         /// <returns></returns>
         public bool TransactionIsValid(ITransaction transaction)
         {
@@ -279,7 +279,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             return firstOrDefault == null && !nullAcceptable ? _positionFactory.ConstructPosition(ticker) : firstOrDefault;
         }
 
-        private void AddToPosition(IShareTransaction transaction)
+        private void AddToPosition(ShareTransaction transaction)
         {
             var ticker = transaction.Ticker;
             var position = GetPosition(ticker, true);

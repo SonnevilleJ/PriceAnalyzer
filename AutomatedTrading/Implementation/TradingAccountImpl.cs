@@ -139,7 +139,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             return ((PortfolioImpl) Portfolio).TransactionIsValid(expectedTransaction);
         }
 
-        private void ProcessFill(IShareTransaction transaction)
+        private void ProcessFill(ShareTransaction transaction)
         {
             ((PortfolioImpl) Portfolio).AddTransaction(transaction);
         }

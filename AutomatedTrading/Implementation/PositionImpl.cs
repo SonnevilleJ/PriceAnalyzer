@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
@@ -13,7 +14,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         #region Private Members
 
         private string _ticker;
-        private readonly ICollection<IShareTransaction> _transactions = new List<IShareTransaction>();
+        private readonly ICollection<ShareTransaction> _transactions = new List<ShareTransaction>();
 
         #endregion
 
@@ -91,7 +92,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         }
 
         /// <summary>
-        ///   Gets an enumeration of all <see cref = "IShareTransaction" />s in this IPosition.
+        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IPosition.
         /// </summary>
         public IEnumerable<ITransaction> Transactions
         {
@@ -102,7 +103,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// Adds an ShareTransaction to the IPosition.
         /// </summary>
         /// <param name="shareTransaction"></param>
-        public void AddTransaction(IShareTransaction shareTransaction)
+        public void AddTransaction(ShareTransaction shareTransaction)
         {
             // verify shareTransaction is apporpriate for this IPosition.
             Validate(shareTransaction);
@@ -114,7 +115,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// Validates a transaction without adding it to the IPosition.
         /// </summary>
         /// <param name="shareTransaction"></param>
-        public bool TransactionIsValid(IShareTransaction shareTransaction)
+        public bool TransactionIsValid(ShareTransaction shareTransaction)
         {
             try
             {
@@ -131,7 +132,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         #region Helper Methods
 
-        private void Validate(IShareTransaction shareTransaction)
+        private void Validate(ShareTransaction shareTransaction)
         {
             // Validate OrderType
             if (shareTransaction is IOpeningTransaction)

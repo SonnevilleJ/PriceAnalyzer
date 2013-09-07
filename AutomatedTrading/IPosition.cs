@@ -1,7 +1,9 @@
-﻿namespace Sonneville.PriceTools.AutomatedTrading
+﻿using Sonneville.PriceTools.Implementation;
+
+namespace Sonneville.PriceTools.AutomatedTrading
 {
     /// <summary>
-    ///   Represents a Position taken using one or more <see cref = "IShareTransaction" />s.
+    ///   Represents a Position taken using one or more <see cref = "ShareTransaction" />s.
     /// </summary>
     public interface IPosition : ISecurityBasket
     {

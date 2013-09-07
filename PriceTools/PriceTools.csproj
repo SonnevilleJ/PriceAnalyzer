@@ -89,7 +89,6 @@
     <Compile Include="Interfaces\IPriceSeriesFactory.cs" />
     <Compile Include="Interfaces\IPriceTickFactory.cs" />
     <Compile Include="Interfaces\ISecurityBasket.cs" />
-    <Compile Include="Interfaces\IShareTransaction.cs" />
     <Compile Include="Interfaces\ITickedPricePeriod.cs" />
     <Compile Include="Interfaces\ITimePeriodFactory.cs" />
     <Compile Include="Interfaces\ITimeSeries.cs" />
