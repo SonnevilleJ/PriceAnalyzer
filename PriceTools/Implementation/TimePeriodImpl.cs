@@ -8,16 +8,13 @@ namespace Sonneville.PriceTools.Implementation
     /// </summary>
     public struct TimePeriodImpl : ITimePeriod
     {
-        private readonly DateTime _head;
-        private readonly DateTime _tail;
-        private readonly decimal _value;
-
-        internal TimePeriodImpl(DateTime head, DateTime tail, decimal value)
+        internal TimePeriodImpl(DateTime head, DateTime tail, decimal value) : this()
         {
-            _head = head;
             if (tail < head) throw new ArgumentOutOfRangeException("tail", Strings.SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_);
-            _tail = tail;
-            _value = value;
+
+            Head = head;
+            Tail = tail;
+            Value = value;
         }
 
         /// <summary>
@@ -29,7 +26,7 @@ namespace Sonneville.PriceTools.Implementation
         {
             get
             {
-                if(this.HasValueInRange(dateTime)) return _value;
+                if(this.HasValueInRange(dateTime)) return Value;
                 throw new IndexOutOfRangeException(String.Format(CultureInfo.InvariantCulture, Strings.TimePeriodImpl_this_Date_time___0__is_out_of_range_for_this_price_period_, dateTime));
             }
         }
@@ -37,18 +34,12 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets the first DateTime in the ITimePeriod.
         /// </summary>
-        public DateTime Head
-        {
-            get { return _head; }
-        }
+        public DateTime Head { get; private set; }
 
         /// <summary>
         /// Gets the last DateTime in the ITimePeriod.
         /// </summary>
-        public DateTime Tail
-        {
-            get { return _tail; }
-        }
+        public DateTime Tail { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="ITimePeriod.Resolution"/> of price data stored within the ITimePeriod.
@@ -58,7 +49,7 @@ namespace Sonneville.PriceTools.Implementation
             get { return (Resolution) ((Tail - Head).Ticks); }
         }
 
-#if DEBUG
+        private decimal Value { get; set; }
 
         /// <summary>
         /// Returns the fully qualified type name of this instance.
@@ -71,7 +62,5 @@ namespace Sonneville.PriceTools.Implementation
         {
             return string.Format(CultureInfo.InvariantCulture, "Head: {0}; Tail: {1}; Value: {2}", Head.ToShortDateString(), Tail.ToShortDateString(), this.Value());
         }
-
-#endif
     }
 }
