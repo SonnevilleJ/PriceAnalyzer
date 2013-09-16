@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction to short-sell shares.
     /// </summary>
     [Serializable]
-    public sealed class SellShort : ShareTransaction, IShortTransaction, IDistributionTransaction, IOpeningTransaction
+    public sealed class SellShort : ShareTransaction, IOpeningTransaction
     {
         /// <summary>
         /// Constructs a SellShort.

@@ -78,18 +78,6 @@ namespace Test.Sonneville.PriceTools
         public abstract void TotalValueTest();
 
         /// <summary>
-        /// A test for long/short transaction type
-        /// </summary>
-        [TestMethod]
-        public abstract void LongShortTest();
-
-        /// <summary>
-        /// A test for accumulation/distribution transaction type
-        /// </summary>
-        [TestMethod]
-        public abstract void AccumulationDistributionTest();
-
-        /// <summary>
         /// A test for opening/closing transaction type
         /// </summary>
         [TestMethod]

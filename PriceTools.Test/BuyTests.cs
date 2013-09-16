@@ -99,26 +99,6 @@ namespace Test.Sonneville.PriceTools
         }
 
         /// <summary>
-        /// A test for long/short transaction type
-        /// </summary>
-        [TestMethod]
-        public override void LongShortTest()
-        {
-            var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5, 100.00m, 0.00m);
-            Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof (ILongTransaction)));
-        }
-
-        /// <summary>
-        /// A test for accumulation/distribution transaction type
-        /// </summary>
-        [TestMethod]
-        public override void AccumulationDistributionTest()
-        {
-            var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5, 100.00m, 0.00m);
-            Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof (IAccumulationTransaction)));
-        }
-
-        /// <summary>
         /// A test for opening/closing transaction type
         /// </summary>
         [TestMethod]

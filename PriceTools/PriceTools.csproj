@@ -56,10 +56,8 @@
     <Compile Include="Extensions\VariableValueExtensions.cs" />
     <Compile Include="Extensions\TimeSeriesExtensions.cs" />
     <Compile Include="Factories\HoldingFactory.cs" />
-    <Compile Include="Interfaces\IAccumulationTransaction.cs" />
     <Compile Include="Interfaces\ICashAccountFactory.cs" />
     <Compile Include="Interfaces\IClosingTransaction.cs" />
-    <Compile Include="Interfaces\IDistributionTransaction.cs" />
     <Compile Include="Extensions\PriceSeriesReactionMovesExtensions.cs" />
     <Compile Include="Factories\CashAccountFactory.cs" />
     <Compile Include="Factories\PriceTickFactory.cs" />
@@ -98,12 +96,10 @@
     <Compile Include="Interfaces\IVariableValue.cs" />
     <Compile Include="Interfaces\IMarginableCashAccount.cs" />
     <Compile Include="Implementation\Order.cs" />
-    <Compile Include="Interfaces\ILongTransaction.cs" />
     <Compile Include="Implementation\MarginableCashAccountImpl.cs" />
     <Compile Include="Interfaces\IOpeningTransaction.cs" />
     <Compile Include="Implementation\PricePeriodImpl.cs" />
     <Compile Include="Implementation\PriceSeriesImpl.cs" />
-    <Compile Include="Interfaces\IShortTransaction.cs" />
     <Compile Include="IWebClient.cs" />
     <Compile Include="StockIndexInfo.cs" />
     <Compile Include="Factories\OrderFactory.cs" />
