@@ -61,6 +61,7 @@
     <Compile Include="DepositTests.cs" />
     <Compile Include="DividendReceiptTests.cs" />
     <Compile Include="DividendReinvestmentTests.cs" />
+    <Compile Include="Extensions\TransactionExtensionsTest.cs" />
     <Compile Include="HoldingExtensionsTests.cs" />
     <Compile Include="MarginableCashAccountTest.cs" />
     <Compile Include="DatesTest.cs" />

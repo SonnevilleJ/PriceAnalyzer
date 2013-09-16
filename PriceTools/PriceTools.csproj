@@ -53,6 +53,7 @@
     <Compile Include="Extensions\HoldingExtensions.cs" />
     <Compile Include="Extensions\SecurityBasketExtensions.cs" />
     <Compile Include="Extensions\TimePeriodExtensions.cs" />
+    <Compile Include="Extensions\TransactionExtensions.cs" />
     <Compile Include="Extensions\VariableValueExtensions.cs" />
     <Compile Include="Extensions\TimeSeriesExtensions.cs" />
     <Compile Include="Factories\HoldingFactory.cs" />
@@ -97,7 +98,6 @@
     <Compile Include="Interfaces\IMarginableCashAccount.cs" />
     <Compile Include="Implementation\Order.cs" />
     <Compile Include="Implementation\MarginableCashAccountImpl.cs" />
-    <Compile Include="Interfaces\IOpeningTransaction.cs" />
     <Compile Include="Implementation\PricePeriodImpl.cs" />
     <Compile Include="Implementation\PriceSeriesImpl.cs" />
     <Compile Include="IWebClient.cs" />
