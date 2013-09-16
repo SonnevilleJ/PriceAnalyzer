@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
         public static decimal CalculateProceeds(this ISecurityBasket basket, DateTime settlementDate)
         {
-            return -1 * basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t is IClosingTransaction)
+            return -1 * basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t.IsClosingTransaction())
                    .Where(transaction => transaction.SettlementDate <= settlementDate)
                    .Sum(transaction => transaction.Price * transaction.Shares);
         }
@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             foreach (var transaction in shareTransactions.Where(t=>t.SettlementDate <= dateTime))
             {
                 if (transaction.IsOpeningTransaction()) sum += transaction.Shares;
-                if (transaction is IClosingTransaction) sum -= transaction.Shares;
+                if (transaction.IsClosingTransaction()) sum -= transaction.Shares;
             }
             return sum;
         }
@@ -117,7 +117,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
                     totalCost += (transactions[i].Price*transactions[i].Shares);
                     shares += transactions[i].Shares;
                 }
-                else if (transactions[i] is IClosingTransaction)
+                else if (transactions[i].IsClosingTransaction())
                 {
                     totalCost -= ((totalCost/shares)*transactions[i].Shares);
                     shares -= transactions[i].Shares;

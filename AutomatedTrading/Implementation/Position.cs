@@ -125,7 +125,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             {
                     // new holdings are OK
             }
-            else if (shareTransaction is IClosingTransaction)
+            else if (shareTransaction.IsClosingTransaction())
             {
                     var date = shareTransaction.SettlementDate;
                     var heldShares = _transactions.GetHeldShares(date);

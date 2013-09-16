@@ -45,7 +45,7 @@ namespace Sonneville.PriceTools
                 var unusedSharesInCurrentBuy = 0.0m;
                 ShareTransaction buy = null;
 
-                var sells = grouping.Where(t => t is IClosingTransaction).Where(t => t.SettlementDate <= settlementDate).OrderBy(t => t.SettlementDate);
+                var sells = grouping.Where(t => t.IsClosingTransaction()).Where(t => t.SettlementDate <= settlementDate).OrderBy(t => t.SettlementDate);
                 foreach (var sell in sells)
                 {
                     // collect shares from most recent buy
