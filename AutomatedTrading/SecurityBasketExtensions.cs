@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>The total amount spent on share purchases as a negative number.</returns>
         public static decimal CalculateCost(this ISecurityBasket basket, DateTime settlementDate)
         {
-            return basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t is IOpeningTransaction)
+            return basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t.IsOpeningTransaction())
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
                 .Sum(transaction => transaction.Price * transaction.Shares);
         }
@@ -88,7 +88,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             var sum = 0m;
             foreach (var transaction in shareTransactions.Where(t=>t.SettlementDate <= dateTime))
             {
-                if (transaction is IOpeningTransaction) sum += transaction.Shares;
+                if (transaction.IsOpeningTransaction()) sum += transaction.Shares;
                 if (transaction is IClosingTransaction) sum -= transaction.Shares;
             }
             return sum;
@@ -112,7 +112,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
             for (var i = 0; i < count; i++)
             {
-                if (transactions[i] is IOpeningTransaction)
+                if (transactions[i].IsOpeningTransaction())
                 {
                     totalCost += (transactions[i].Price*transactions[i].Shares);
                     shares += transactions[i].Shares;

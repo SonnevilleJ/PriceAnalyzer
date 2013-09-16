@@ -40,7 +40,7 @@ namespace Sonneville.PriceTools
             var groups = transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().GroupBy(t => t.Ticker);
             foreach (var grouping in groups)
             {
-                var buys = grouping.Where(t => t is IOpeningTransaction).Where(t => t.SettlementDate < settlementDate).OrderBy(t => t.SettlementDate);
+                var buys = grouping.Where(t => t.IsOpeningTransaction()).Where(t => t.SettlementDate < settlementDate).OrderBy(t => t.SettlementDate);
                 var buysUsed = 0;
                 var unusedSharesInCurrentBuy = 0.0m;
                 ShareTransaction buy = null;

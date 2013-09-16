@@ -121,7 +121,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         private void Validate(ShareTransaction shareTransaction)
         {
             // Validate OrderType
-            if (shareTransaction is IOpeningTransaction)
+            if (shareTransaction.IsOpeningTransaction())
             {
                     // new holdings are OK
             }

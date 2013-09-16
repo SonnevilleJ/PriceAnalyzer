@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Implementation;
@@ -76,12 +75,6 @@ namespace Test.Sonneville.PriceTools
         /// </summary>
         [TestMethod]
         public abstract void TotalValueTest();
-
-        /// <summary>
-        /// A test for opening/closing transaction type
-        /// </summary>
-        [TestMethod]
-        public abstract void OpeningClosingTest();
 
         protected static void ShareTransactionSerializeTest(OrderType transactionType)
         {
@@ -281,11 +274,6 @@ namespace Test.Sonneville.PriceTools
         private static decimal GetInvalidCommission(OrderType transactionType)
         {
             return -GetValidCommission(transactionType);
-        }
-
-        protected static bool ShareTransactionInheritanceTest(ShareTransaction transaction, Type expected)
-        {
-            return transaction.GetType().GetInterfaces().Any(type => type == expected);
         }
     }
 }

@@ -96,15 +96,5 @@ namespace Test.Sonneville.PriceTools
         {
             ShareTransactionTotalValueTest(TransactionType);
         }
-
-        /// <summary>
-        /// A test for opening/closing transaction type
-        /// </summary>
-        [TestMethod]
-        public override void OpeningClosingTest()
-        {
-            var transaction = TransactionFactory.ConstructShareTransaction(TransactionType, "DE", new DateTime(2012, 2, 6), 5, 100.00m, 0.00m);
-            Assert.IsTrue(ShareTransactionInheritanceTest(transaction, typeof (IOpeningTransaction)));
-        }
     }
 }

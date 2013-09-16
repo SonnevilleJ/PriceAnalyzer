@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a transaction to buy shares.
     /// </summary>
     [Serializable]
-    public sealed class Buy : ShareTransaction, IOpeningTransaction
+    public sealed class Buy : ShareTransaction
     {
         /// <summary>
         /// Constructs a Buy.
