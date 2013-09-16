@@ -8,58 +8,113 @@ namespace Test.Sonneville.PriceTools.Extensions
     public class TransactionExtensionsTest
     {
         [TestMethod]
-        public void Buy()
+        public void BuyOpeningTransaction()
         {
-            InnerTest(OrderType.Buy, true);
+            OpeningTransactionTest(OrderType.Buy, true);
         }
         
         [TestMethod]
-        public void Sell()
+        public void SellOpeningTransaction()
         {
-            InnerTest(OrderType.Sell, false);
+            OpeningTransactionTest(OrderType.Sell, false);
         }
         
         [TestMethod]
-        public void SellShort()
+        public void SellShortOpeningTransaction()
         {
-            InnerTest(OrderType.SellShort, true);
+            OpeningTransactionTest(OrderType.SellShort, true);
         }
         
         [TestMethod]
-        public void BuyToCover()
+        public void BuyToCoverOpeningTransaction()
         {
-            InnerTest(OrderType.BuyToCover, false);
+            OpeningTransactionTest(OrderType.BuyToCover, false);
         }
         
         [TestMethod]
-        public void DividendReinvestment()
+        public void DividendReinvestmentOpeningTransaction()
         {
-            InnerTest(OrderType.DividendReinvestment, true);
+            OpeningTransactionTest(OrderType.DividendReinvestment, true);
         }
         
         [TestMethod]
-        public void DividendReceipt()
+        public void DividendReceiptOpeningTransaction()
         {
-            InnerTest(OrderType.DividendReceipt, false);
+            OpeningTransactionTest(OrderType.DividendReceipt, false);
         }
         
         [TestMethod]
-        public void Deposit()
+        public void DepositOpeningTransaction()
         {
-            InnerTest(OrderType.Deposit, false);
+            OpeningTransactionTest(OrderType.Deposit, false);
         }
         
         [TestMethod]
-        public void Withdrawal()
+        public void WithdrawalOpeningTransaction()
         {
-            InnerTest(OrderType.Withdrawal, false);
+            OpeningTransactionTest(OrderType.Withdrawal, false);
         }
         
-        private static void InnerTest(OrderType orderType, bool expected)
+        [TestMethod]
+        public void BuyClosingTransactionTest()
+        {
+            ClosingTransactionTest(OrderType.Buy, false);
+        }
+        
+        [TestMethod]
+        public void SellClosingTransactionTest()
+        {
+            ClosingTransactionTest(OrderType.Sell, true);
+        }
+        
+        [TestMethod]
+        public void SellShortClosingTransactionTest()
+        {
+            ClosingTransactionTest(OrderType.SellShort, false);
+        }
+        
+        [TestMethod]
+        public void BuyToCoverClosingTransactionTest()
+        {
+            ClosingTransactionTest(OrderType.BuyToCover, true);
+        }
+        
+        [TestMethod]
+        public void DividendReinvestmentClosingTransactionTest()
+        {
+            ClosingTransactionTest(OrderType.DividendReinvestment, false);
+        }
+        
+        [TestMethod]
+        public void DividendReceiptClosingTransactionTest()
+        {
+            ClosingTransactionTest(OrderType.DividendReceipt, false);
+        }
+        
+        [TestMethod]
+        public void DepositClosingTransactionTest()
+        {
+            ClosingTransactionTest(OrderType.Deposit, false);
+        }
+        
+        [TestMethod]
+        public void WithdrawalClosingTransactionTest()
+        {
+            ClosingTransactionTest(OrderType.Withdrawal, false);
+        }
+        
+        private static void OpeningTransactionTest(OrderType orderType, bool expected)
         {
             var transaction = new TransactionFactory().ConstructTransaction(orderType, DateTime.Today, "DE", 5, 5, 0);
 
             Assert.AreEqual(expected, transaction.IsOpeningTransaction());
+        }
+        
+        private static void ClosingTransactionTest(OrderType orderType, bool expected)
+        {
+            var transaction = new TransactionFactory().ConstructTransaction(orderType, DateTime.Today, "DE", 5, 5, 0);
+
+            Assert.AreEqual(expected, transaction.IsClosingTransaction());
         }
     }
 }
