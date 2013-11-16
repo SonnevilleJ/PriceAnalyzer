@@ -12,8 +12,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceTools", "PriceTools\Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CsvReader", "CsvReader\CsvReader.csproj", "{9E171B34-27C7-4017-B624-803250B399D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Program", "Program\Program.csproj", "{54683842-8486-43F9-B180-CEE8B2D8557E}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Data\Data.csproj", "{157B3FCE-E233-436A-B982-98A8BB693082}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomatedTrading", "AutomatedTrading\AutomatedTrading.csproj", "{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}"
@@ -32,8 +30,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Fidelity.Test", "Fidelity.T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutomatedTrading.Test", "AutomatedTrading.Test\AutomatedTrading.Test.csproj", "{3C9D8671-15C6-4521-A886-C192AED54121}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Charting", "Charting\Charting.csproj", "{CA835214-9E28-4CB2-95BF-37D5D2927DB7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceTools.Test", "PriceTools.Test\PriceTools.Test.csproj", "{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechnicalAnalysis", "TechnicalAnalysis\TechnicalAnalysis.csproj", "{459025C7-F4B6-40D6-B94C-D927950D076E}"
@@ -51,8 +47,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data.Test", "Data.Test\Data.Test.csproj", "{B1CE0CAA-3D19-40BC-B8D7-4605E7DCF516}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestUtilities", "TestUtilities\TestUtilities.csproj", "{87F42318-0470-4F99-8AED-B9C0AFA72918}"
-EndProject
-Project("{F088123C-0E9E-452A-89E6-6BA2F21D5CAC}") = "Architecture", "Architecture\Architecture.modelproj", "{6CB36167-4DF2-400E-9533-B37A09ADC66E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PriceAnalyzer", "PriceAnalyzer\PriceAnalyzer.csproj", "{38151461-5A2A-4351-BCD6-C818FFBDFB77}"
 EndProject
@@ -93,14 +87,6 @@ Global
 		{9E171B34-27C7-4017-B624-803250B399D2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9E171B34-27C7-4017-B624-803250B399D2}.Release|x86.ActiveCfg = Release|Any CPU
 		{9E171B34-27C7-4017-B624-803250B399D2}.Release|x86.Build.0 = Release|Any CPU
-		{54683842-8486-43F9-B180-CEE8B2D8557E}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{54683842-8486-43F9-B180-CEE8B2D8557E}.Debug|Any CPU.Build.0 = Debug|x86
-		{54683842-8486-43F9-B180-CEE8B2D8557E}.Debug|x86.ActiveCfg = Debug|x86
-		{54683842-8486-43F9-B180-CEE8B2D8557E}.Debug|x86.Build.0 = Debug|x86
-		{54683842-8486-43F9-B180-CEE8B2D8557E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54683842-8486-43F9-B180-CEE8B2D8557E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54683842-8486-43F9-B180-CEE8B2D8557E}.Release|x86.ActiveCfg = Release|x86
-		{54683842-8486-43F9-B180-CEE8B2D8557E}.Release|x86.Build.0 = Release|x86
 		{157B3FCE-E233-436A-B982-98A8BB693082}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{157B3FCE-E233-436A-B982-98A8BB693082}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{157B3FCE-E233-436A-B982-98A8BB693082}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -151,12 +137,6 @@ Global
 		{3C9D8671-15C6-4521-A886-C192AED54121}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{3C9D8671-15C6-4521-A886-C192AED54121}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C9D8671-15C6-4521-A886-C192AED54121}.Release|x86.ActiveCfg = Release|Any CPU
-		{CA835214-9E28-4CB2-95BF-37D5D2927DB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CA835214-9E28-4CB2-95BF-37D5D2927DB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CA835214-9E28-4CB2-95BF-37D5D2927DB7}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{CA835214-9E28-4CB2-95BF-37D5D2927DB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CA835214-9E28-4CB2-95BF-37D5D2927DB7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CA835214-9E28-4CB2-95BF-37D5D2927DB7}.Release|x86.ActiveCfg = Release|Any CPU
 		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7F5054FD-AF22-4E6F-BDF1-81E111CBBCDB}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -209,12 +189,6 @@ Global
 		{87F42318-0470-4F99-8AED-B9C0AFA72918}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87F42318-0470-4F99-8AED-B9C0AFA72918}.Release|Any CPU.Build.0 = Release|Any CPU
 		{87F42318-0470-4F99-8AED-B9C0AFA72918}.Release|x86.ActiveCfg = Release|Any CPU
-		{6CB36167-4DF2-400E-9533-B37A09ADC66E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6CB36167-4DF2-400E-9533-B37A09ADC66E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6CB36167-4DF2-400E-9533-B37A09ADC66E}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{6CB36167-4DF2-400E-9533-B37A09ADC66E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6CB36167-4DF2-400E-9533-B37A09ADC66E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6CB36167-4DF2-400E-9533-B37A09ADC66E}.Release|x86.ActiveCfg = Release|Any CPU
 		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{38151461-5A2A-4351-BCD6-C818FFBDFB77}.Debug|x86.ActiveCfg = Debug|Any CPU
