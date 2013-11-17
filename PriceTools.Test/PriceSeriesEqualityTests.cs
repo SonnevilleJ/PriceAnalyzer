@@ -48,32 +48,12 @@ namespace Test.Sonneville.PriceTools
         }
 
         [TestMethod]
-        public void ReferenceEqualsTestSameTicker()
-        {
-            var ticker = TickerManager.GetUniqueTicker();
-            var ps1 = _priceSeriesFactory.ConstructPriceSeries(ticker);
-            var ps2 = _priceSeriesFactory.ConstructPriceSeries(ticker);
-
-            Assert.IsTrue(ReferenceEquals(ps1, ps2));
-        }
-
-        [TestMethod]
         public void ReferenceEqualsTestDifferentTicker()
         {
             var ps1 = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
             var ps2 = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
 
             Assert.IsFalse(ReferenceEquals(ps1, ps2));
-        }
-
-        [TestMethod]
-        public void GetHashCodeTestSameTicker()
-        {
-            var ticker = TickerManager.GetUniqueTicker();
-            var ps1 = _priceSeriesFactory.ConstructPriceSeries(ticker);
-            var ps2 = _priceSeriesFactory.ConstructPriceSeries(ticker);
-
-            Assert.IsTrue(ReferenceEquals(ps1, ps2));
         }
 
         [TestMethod]
@@ -104,25 +84,6 @@ namespace Test.Sonneville.PriceTools
             var list2 = new List<IPriceSeries> { series3, series4 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
-        }
-
-        [TestMethod]
-        public void EnumerableIsEquivalentWithSameData()
-        {
-            var ticker1 = TickerManager.GetUniqueTicker();
-            var ticker2 = TickerManager.GetUniqueTicker();
-            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series4 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
-            var dateTime = DateTime.Now;
-            series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
-            series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
-
-            var list1 = new List<IPriceSeries> { series1, series2 };
-            var list2 = new List<IPriceSeries> { series3, series4 };
-
-            CollectionAssert.AreEquivalent(list1, list2);
         }
 
         [TestMethod]
@@ -163,25 +124,6 @@ namespace Test.Sonneville.PriceTools
             var list2 = new List<IPriceSeries> { series3 };
 
             CollectionAssert.AreNotEquivalent(list1, list2);
-        }
-
-        [TestMethod]
-        public void EnumerableIsEquivalentOrderCheck()
-        {
-            var ticker1 = TickerManager.GetUniqueTicker();
-            var ticker2 = TickerManager.GetUniqueTicker();
-            var series1 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
-            var series2 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series3 = _priceSeriesFactory.ConstructPriceSeries(ticker2);
-            var series4 = _priceSeriesFactory.ConstructPriceSeries(ticker1);
-            var dateTime = DateTime.Now;
-            series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
-            series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
-
-            var list1 = new List<IPriceSeries> { series1, series2 };
-            var list2 = new List<IPriceSeries> { series3, series4 };
-
-            CollectionAssert.AreEquivalent(list1, list2);
         }
 
         [TestMethod]

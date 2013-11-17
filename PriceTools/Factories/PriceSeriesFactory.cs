@@ -9,9 +9,6 @@ namespace Sonneville.PriceTools
     /// </summary>
     public class PriceSeriesFactory : IPriceSeriesFactory
     {
-        private readonly object _syncroot = new object();
-        private readonly IDictionary<string, IPriceSeries> _existingPriceSeries = new Dictionary<string, IPriceSeries>();
-
         /// <summary>
         /// Constructs a <see cref="IPriceSeries"/> for the given ticker.
         /// </summary>
@@ -30,18 +27,7 @@ namespace Sonneville.PriceTools
         /// <returns>The <see cref="IPriceSeries"/> for the given ticker.</returns>
         public IPriceSeries ConstructPriceSeries(string ticker, Resolution resolution)
         {
-            lock (_syncroot)
-            {
-                if (!_existingPriceSeries.ContainsKey(ticker))
-                {
-                    var priceSeries = new PriceSeriesImpl(resolution) {Ticker = ticker};
-                    _existingPriceSeries.Add(ticker, priceSeries);
-                }
-                var existing = _existingPriceSeries[ticker];
-                if (existing.Resolution > resolution)
-                    throw new NotSupportedException("Existing price series has a resolution larger than requested.");
-                return existing;
-            }
+            return new PriceSeriesImpl(resolution) {Ticker = ticker};
         }
     }
 }
