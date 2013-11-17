@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Sonneville.PriceTools.Data
 {
@@ -11,10 +9,6 @@ namespace Sonneville.PriceTools.Data
     /// </summary>
     public abstract class PriceDataProvider : IPriceDataProvider
     {
-        private readonly object _syncroot = new object();
-        private readonly IDictionary<IPriceSeries, Task> _tasks = new Dictionary<IPriceSeries, Task>();
-        private readonly IDictionary<string, bool> _resetEvent = new Dictionary<string, bool>();
-
         /// <summary>
         /// Gets a list of <see cref="IPricePeriod"/>s containing price data for the requested DateTime range.
         /// </summary>
@@ -62,38 +56,6 @@ namespace Sonneville.PriceTools.Data
         public void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
         {
             priceSeries.AddPriceData(GetPriceData(priceSeries.Ticker, head, tail, resolution));
-        }
-
-        private void AddToUpdateList(IPriceSeries priceSeries)
-        {
-            var ticker = priceSeries.Ticker;
-            bool value;
-            if (_resetEvent.TryGetValue(ticker, out value))
-            {
-                _resetEvent[ticker] = true;
-            }
-            else
-            {
-                _resetEvent.Add(ticker, true);
-            }
-        }
-
-        /// <summary>
-        /// Intended to be called asynchronously. Enters a loop which periodically updates the <paramref name="priceSeries"/>.
-        /// </summary>
-        /// <param name="priceSeries"></param>
-        private void UpdateLoop(IPriceSeries priceSeries)
-        {
-            var timeout = new TimeSpan((long) BestResolution);
-            lock (priceSeries)
-            {
-                while (_resetEvent[priceSeries.Ticker])
-                {
-                    UpdatePriceSeries(priceSeries);
-
-                    Monitor.Wait(priceSeries, timeout);
-                }
-            }
         }
 
         /// <summary>

@@ -16,8 +16,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
         private readonly ITransactionFactory _transactionFactory;
 
         public PortfolioFactory()
+            : this(new TransactionFactory())
         {
-            _transactionFactory = new TransactionFactory();
+        }
+
+        public PortfolioFactory(ITransactionFactory transactionFactory)
+        {
+            _transactionFactory = transactionFactory;
         }
 
         /// <summary>

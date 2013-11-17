@@ -47,8 +47,6 @@
   <ItemGroup>
     <Compile Include="AnalyzerEventArgs.cs" />
     <Compile Include="AnalyzerTriggerDelegate.cs" />
-    <Compile Include="ContinuousAnalyzer.cs" />
-    <Compile Include="ContinuousTradingEngine.cs" />
     <Compile Include="Extensions\TransactionExtensions.cs" />
     <Compile Include="Factories\IPortfolioFactory.cs" />
     <Compile Include="Factories\IPositionFactory.cs" />
@@ -68,7 +66,6 @@
     <Compile Include="Interfaces\ITradingAccount.cs" />
     <Compile Include="ITradingAccountFeaturesFactory.cs" />
     <Compile Include="SecurityBasketExtensions.cs" />
-    <Compile Include="SimpleMovingAverageCrossoverAnalyzer.cs" />
     <Compile Include="MarginNotAllowed.cs" />
     <Compile Include="OrderCancelledEventArgs.cs" />
     <Compile Include="OrderExecutedEventArgs.cs" />

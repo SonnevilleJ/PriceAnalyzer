@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading;
-using System.Threading.Tasks;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
@@ -9,13 +8,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     public abstract class TradingAccountImpl : ITradingAccount
     {
         private readonly ConcurrentDictionary<Order, CancellationTokenSource> _tokenSources = new ConcurrentDictionary<Order, CancellationTokenSource>();
-        private readonly BlockingCollection<Order> _orders = new BlockingCollection<Order>();
 
         protected TradingAccountImpl(Guid brokerageGuid, string accountNumber)
         {
             AccountNumber = accountNumber;
             TransactionFactory = new TransactionFactory(brokerageGuid);
-            Task.Factory.StartNew(Consumer);
         }
 
         /// <summary>
@@ -49,7 +46,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
             var cts = new CancellationTokenSource();
             _tokenSources.GetOrAdd(order, cts);
-            _orders.Add(order);
+            ProcessOrder(order, cts.Token);
         }
 
         /// <summary>
@@ -99,16 +96,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <param name="order">The <see cref="Order"/> to execute.</param>
         /// <param name="token"></param>
         protected abstract void ProcessOrder(Order order, CancellationToken token);
-
-        private void Consumer()
-        {
-            while (true)
-            {
-                var order = _orders.Take();
-                var cts = _tokenSources[order];
-                Task.Factory.StartNew(() => ProcessOrder(order, cts.Token));
-            }
-        }
 
         private bool ValidateOrder(Order order)
         {

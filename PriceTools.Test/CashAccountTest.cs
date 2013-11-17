@@ -230,18 +230,5 @@ namespace Test.Sonneville.PriceTools
             var actualTransactions = target.Transactions.Count;
             Assert.AreEqual(expectedTransactions, actualTransactions);
         }
-
-        [TestMethod]
-        public void ParallelAddTest()
-        {
-            var target = _cashAccountFactory.ConstructCashAccount();
-            var dateTime = new DateTime(2011, 9, 16);
-            const decimal amount = 50000.00m;
-            const int iterations = 100000;     // $0.05 transactions
-
-            Parallel.For(0, iterations, i => target.Deposit(_transactionFactory.ConstructDeposit(dateTime.AddTicks(i), amount / iterations)));
-
-            Assert.AreEqual(iterations, target.Transactions.Count);
-        }
     }
 }

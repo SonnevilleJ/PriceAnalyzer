@@ -11,12 +11,16 @@ namespace Sonneville.PriceTools.Implementation
     internal class CashAccountImpl : ICashAccount
     {
         private readonly IList<CashTransaction> _transactions = new List<CashTransaction>();
-        private readonly object _padlock = new object();
         private readonly ITransactionFactory _transactionFactory;
 
         public CashAccountImpl()
+            : this(new TransactionFactory())
         {
-            _transactionFactory = new TransactionFactory();
+        }
+
+        public CashAccountImpl(ITransactionFactory transactionFactory)
+        {
+            _transactionFactory = transactionFactory;
         }
 
         /// <summary>
@@ -34,10 +38,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public void Deposit(Deposit deposit)
         {
-            lock(_padlock)
-            {
-                _transactions.Add(deposit);
-            }
+            _transactions.Add(deposit);
         }
 
         /// <summary>
@@ -46,10 +47,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="dividendReceipt"></param>
         public void Deposit(DividendReceipt dividendReceipt)
         {
-            lock(_padlock)
-            {
-                _transactions.Add(dividendReceipt);
-            }
+            _transactions.Add(dividendReceipt);
         }
 
         /// <summary>
@@ -67,11 +65,8 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public void Withdraw(Withdrawal withdrawal)
         {
-            lock (_padlock)
-            {
-                VerifySufficientFunds(withdrawal);
-                _transactions.Add(withdrawal);
-            }
+            VerifySufficientFunds(withdrawal);
+            _transactions.Add(withdrawal);
         }
 
         /// <summary>
@@ -79,13 +74,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         public ICollection<CashTransaction> Transactions
         {
-            get
-            {
-                lock(_padlock)
-                {
-                    return new List<CashTransaction>(_transactions);
-                }
-            }
+            get { return new List<CashTransaction>(_transactions); }
         }
 
         /// <summary>
@@ -94,12 +83,9 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="asOfDate">The <see cref="DateTime"/> to use.</param>
         public decimal GetCashBalance(DateTime asOfDate)
         {
-            lock (_padlock)
-            {
-                return _transactions.AsParallel()
-                    .Where(transaction => transaction.SettlementDate <= asOfDate)
-                    .Sum(transaction => transaction.Amount);
-            }
+            return _transactions.AsParallel()
+                .Where(transaction => transaction.SettlementDate <= asOfDate)
+                .Sum(transaction => transaction.Amount);
         }
 
         /// <summary>

@@ -9,21 +9,26 @@ namespace Sonneville.PriceTools.AutomatedTrading
     /// </summary>
     public class TradingAccountFactory : ITradingAccountFactory
     {
-        private readonly MarginNotAllowed _defaultMarginSchedule = new MarginNotAllowed();
-        private readonly FlatCommissionSchedule _defaultCommissionSchedule = new FlatCommissionSchedule(5.00m);
+        private readonly IMarginSchedule _defaultMarginSchedule;
+        private readonly ICommissionSchedule _defaultCommissionSchedule;
         private readonly OrderType _defaultOrderTypes;
         private readonly Deposit _defaultDeposit;
         private readonly IPortfolioFactory _portfolioFactory;
         private readonly ITradingAccountFeaturesFactory _tradingAccountFeaturesFactory;
-        private readonly ITransactionFactory _transactionFactory;
 
         public TradingAccountFactory()
+            : this(new TransactionFactory(), new PortfolioFactory(), new TradingAccountFeaturesFactory(), new MarginNotAllowed(), new FlatCommissionSchedule(5.00m))
         {
-            _transactionFactory = new TransactionFactory();
-            _portfolioFactory = new PortfolioFactory();
-            _tradingAccountFeaturesFactory = new TradingAccountFeaturesFactory();
+        }
+
+        public TradingAccountFactory(ITransactionFactory transactionFactory, IPortfolioFactory portfolioFactory, ITradingAccountFeaturesFactory tradingAccountFeaturesFactory, IMarginSchedule defaultMarginSchedule, ICommissionSchedule defaultCommissionSchedule)
+        {
+            _defaultCommissionSchedule = defaultCommissionSchedule;
+            _defaultMarginSchedule = defaultMarginSchedule;
+            _portfolioFactory = portfolioFactory;
+            _tradingAccountFeaturesFactory = tradingAccountFeaturesFactory;
             _defaultOrderTypes = _tradingAccountFeaturesFactory.ConstructFullTradingAccountFeatures().SupportedOrderTypes;
-            _defaultDeposit = _transactionFactory.ConstructDeposit(new DateTime(1900, 1, 1), 1000000.00m);
+            _defaultDeposit = transactionFactory.ConstructDeposit(new DateTime(1900, 1, 1), 1000000.00m);
         }
 
         /// <summary>

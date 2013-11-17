@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
@@ -106,27 +105,17 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         {
             ShareTransaction expected = null;
             ShareTransaction actual = null;
-            var syncroot = new object();
 
             EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
-                                                                     {
-                                                                         lock (syncroot)
-                                                                         {
-                                                                             var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                                                                             expected = TradingAccountUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
-                                                                             actual = e.Transaction;
-                                                                             Monitor.Pulse(syncroot);
-                                                                         }
-                                                                     };
+            {
+                var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                expected = TradingAccountUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                actual = e.Transaction;
+            };
             try
             {
                 target.OrderFilled += filledHandler;
-
-                lock (syncroot)
-                {
-                    target.Submit(order);
-                    Monitor.Wait(syncroot);
-                }
+                target.Submit(order);
                 AssertSameTransaction(expected, actual);
             }
             finally
@@ -170,33 +159,24 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
 
             ShareTransaction expected = null;
             ShareTransaction actual = null;
-            var syncroot = new object();
 
             EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
-                                                                     {
-                                                                         lock (syncroot)
-                                                                         {
-                                                                             var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                                                                             expected = TradingAccountUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
-                                                                             actual = e.Transaction;
-                                                                             Monitor.Pulse(syncroot);
-                                                                         }
-                                                                     };
+            {
+                var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                expected = TradingAccountUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+                actual = e.Transaction;
+            };
             try
             {
                 target.OrderFilled += filledHandler;
 
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
-                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, TickerManager.GetUniqueTicker(), 5, 100.00m);
+                var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy,
+                    TickerManager.GetUniqueTicker(), 5, 100.00m);
+                target.Submit(order);
 
-                lock (syncroot)
-                {
-                    target.Submit(order);
-                    Monitor.Wait(syncroot);
-
-                    AssertSameTransaction(expected, actual);
-                }
+                AssertSameTransaction(expected, actual);
             }
             finally
             {
@@ -210,17 +190,12 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var target = TradingAccountFactory.ConstructSimulatedTradingAccount();
 
             ShareTransaction expected = null;
-            var syncroot = new object();
 
             EventHandler<OrderExecutedEventArgs> filledHandler = (sender, e) =>
-                                                                     {
-                                                                         lock (syncroot)
-                                                                         {
-                                                                             var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
-                                                                             expected = TradingAccountUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
-                                                                             Monitor.Pulse(syncroot);
-                                                                         }
-                                                                     };
+            {
+                var commission = target.Features.CommissionSchedule.PriceCheck(e.Order);
+                expected = TradingAccountUtilities.CreateShareTransaction(e.Executed, e.Order, commission);
+            };
             try
             {
                 target.OrderFilled += filledHandler;
@@ -228,12 +203,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                 var issued = new DateTime(2010, 12, 20, 12, 0, 0);
                 var expiration = issued.AddDays(1);
                 var order = OrderFactory.ConstructOrder(issued, expiration, OrderType.Buy, TickerManager.GetUniqueTicker(), 5, 100.00m);
-
-                lock (syncroot)
-                {
-                    target.Submit(order);
-                    Monitor.Wait(syncroot);
-                }
+                target.Submit(order);
 
                 var containsTransaction = TargetContainsTransaction(target, expected);
                 Assert.IsTrue(containsTransaction);
