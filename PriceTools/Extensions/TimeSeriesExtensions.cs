@@ -76,12 +76,7 @@ namespace Sonneville.PriceTools
             var priceSeries = timeSeries as IPriceSeries;
             if (priceSeries != null) return priceSeries.ResizePricePeriods(resolution, head, tail);
 
-            if (resolution < timeSeries.Resolution)
-                throw new InvalidOperationException(
-                    String.Format(
-                        CultureInfo.InvariantCulture,
-                        Strings.TimeSeriesExtensions_GetTimePeriods_Unable_to_get_time_periods_using_resolution__0___Best_supported_resolution_is__1__,
-                        resolution, timeSeries.Resolution));
+            ValidateResolution(resolution, timeSeries.Resolution);
             var dataPeriods = timeSeries.TimePeriods.Where(period => period.Head >= head && period.Tail <= tail).OrderBy(period => period.Head).ToList();
             if (resolution == timeSeries.Resolution) return dataPeriods;
 
@@ -182,10 +177,7 @@ namespace Sonneville.PriceTools
         {
             var periods = pricePeriods.ToArray();
             if (periods.Any()) return periods.ResizePricePeriods(resolution, periods.Min(p => p.Head), periods.Max(p => p.Tail));
-            if (resolution < periods.Max(p => p.Resolution))
-                throw new InvalidOperationException(
-                    String.Format(CultureInfo.InvariantCulture, Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__,
-                                  resolution, periods.Max(p => p.Resolution)));
+            ValidateResolution(resolution, periods.Max(p => p.Resolution));
             return new List<IPricePeriod>();
         }
 
@@ -201,10 +193,7 @@ namespace Sonneville.PriceTools
         public static IEnumerable<IPricePeriod> ResizePricePeriods(this IEnumerable<IPricePeriod> pricePeriods, Resolution resolution, DateTime head, DateTime tail)
         {
             var periods = pricePeriods.ToArray();
-            if (resolution < periods.Max(p => p.Resolution))
-                throw new InvalidOperationException(
-                    String.Format(CultureInfo.InvariantCulture, Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__,
-                                  resolution, periods.Max(p => p.Resolution)));
+            ValidateResolution(resolution, periods.Max(p => p.Resolution));
             var dataPeriods = periods.Where(period => period.Head >= head && period.Tail <= tail).OrderBy(period => period.Head).ToList();
             if (resolution == periods.Max(p => p.Resolution)) return dataPeriods;
 
@@ -220,6 +209,19 @@ namespace Sonneville.PriceTools
                    let close = periodsInRange.Last().Close
                    let volume = periodsInRange.Sum(p => p.Volume)
                    select PricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume);
+        }
+
+        private static void ValidateResolution(Resolution desiredResolution, Resolution actualResolution)
+        {
+            if (desiredResolution < actualResolution)
+                throw new InvalidOperationException(
+                    String.Format(
+                        CultureInfo.InvariantCulture,
+                        Strings.PriceSeries_GetPricePeriods_Unable_to_get_price_periods_using_resolution__0___Best_supported_resolution_is__1__,
+                        desiredResolution,
+                        actualResolution
+                        )
+                    );
         }
 
         private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetResolutionDatePairs(Resolution resolution, DateTime head, DateTime tail)
