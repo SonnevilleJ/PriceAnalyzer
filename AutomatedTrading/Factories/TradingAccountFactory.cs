@@ -95,7 +95,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         {
             var tradingAccountFeatures = _tradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
             var portfolio = _portfolioFactory.ConstructPortfolio(openingDeposit);
-            return new BacktestingTradingAccountImpl(Guid.Parse("DBE826D1-C5C3-476C-A665-80D920E2321E"), "1234") { Features = tradingAccountFeatures, Portfolio = portfolio };
+            return new BacktestingTradingAccount(Guid.Parse("DBE826D1-C5C3-476C-A665-80D920E2321E"), "1234") { Features = tradingAccountFeatures, Portfolio = portfolio };
         }
 
         /// <summary>
@@ -162,7 +162,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         {
             var tradingAccountFeatures = _tradingAccountFeaturesFactory.ConstructTradingAccountFeatures(orderTypes, commissionSchedule, marginSchedule);
             var portfolio = _portfolioFactory.ConstructPortfolio(openingDeposit);
-            return new SimulatedTradingAccountImpl(Guid.Parse("DBE826D1-C5C3-476C-A665-80D920E2321E"), "5ACE3C35-B81C-4528-9E1E-76036CF92EE4") {Features = tradingAccountFeatures, Portfolio = portfolio};
+            return new SimulatedTradingAccount(Guid.Parse("DBE826D1-C5C3-476C-A665-80D920E2321E"), "5ACE3C35-B81C-4528-9E1E-76036CF92EE4") {Features = tradingAccountFeatures, Portfolio = portfolio};
         }
     }
 }

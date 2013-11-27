@@ -5,11 +5,11 @@ using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
-    public abstract class TradingAccountImpl : ITradingAccount
+    public abstract class TradingAccount : ITradingAccount
     {
         private readonly ConcurrentDictionary<Order, CancellationTokenSource> _tokenSources = new ConcurrentDictionary<Order, CancellationTokenSource>();
 
-        protected TradingAccountImpl(Guid brokerageGuid, string accountNumber)
+        protected TradingAccount(Guid brokerageGuid, string accountNumber)
         {
             AccountNumber = accountNumber;
             TransactionFactory = new TransactionFactory(brokerageGuid);

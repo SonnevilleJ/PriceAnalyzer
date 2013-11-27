@@ -6,9 +6,9 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a single period in a <see cref="ITimeSeries"/>.
     /// </summary>
-    public struct TimePeriodImpl : ITimePeriod
+    public struct TimePeriod : ITimePeriod
     {
-        internal TimePeriodImpl(DateTime head, DateTime tail, decimal value) : this()
+        internal TimePeriod(DateTime head, DateTime tail, decimal value) : this()
         {
             if (tail < head) throw new ArgumentOutOfRangeException("tail", Strings.SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_);
 

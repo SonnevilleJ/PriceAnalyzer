@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public ICashAccount ConstructCashAccount()
         {
-            return new CashAccountImpl();
+            return new CashAccount();
         }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public IMarginableCashAccount ConstructMarginableCashAccount()
         {
-            return new MarginableCashAccountImpl();
+            return new MarginableCashAccount();
         }
 
         /// <summary>

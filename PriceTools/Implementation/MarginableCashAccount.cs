@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a single account used to hold cash. The account is marginable and allows a negative balance.
     /// </summary>
     [Serializable]
-    internal class MarginableCashAccountImpl : CashAccountImpl, IMarginableCashAccount
+    internal class MarginableCashAccount : CashAccount, IMarginableCashAccount
     {
         private decimal _maximumMargin = 2000.00m;
 

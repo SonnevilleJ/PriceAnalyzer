@@ -65,7 +65,7 @@
     <Compile Include="Factories\TimeSeriesFactory.cs" />
     <Compile Include="Implementation\Buy.cs" />
     <Compile Include="Implementation\BuyToCover.cs" />
-    <Compile Include="Implementation\CashAccountImpl.cs" />
+    <Compile Include="Implementation\CashAccount.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Implementation\CashTransaction.cs" />
     <Compile Include="Implementation\Deposit.cs" />
@@ -75,9 +75,9 @@
     <Compile Include="Implementation\Sell.cs" />
     <Compile Include="Implementation\SellShort.cs" />
     <Compile Include="Implementation\ShareTransaction.cs" />
-    <Compile Include="Implementation\TimePeriodImpl.cs" />
-    <Compile Include="Implementation\TickedPricePeriodImpl.cs" />
-    <Compile Include="Implementation\TimeSeriesImpl.cs" />
+    <Compile Include="Implementation\TimePeriod.cs" />
+    <Compile Include="Implementation\TickedPricePeriod.cs" />
+    <Compile Include="Implementation\TimeSeries.cs" />
     <Compile Include="Implementation\Transaction.cs" />
     <Compile Include="Implementation\Withdrawal.cs" />
     <Compile Include="Interfaces\IHoldingFactory.cs" />
@@ -96,9 +96,9 @@
     <Compile Include="Interfaces\IVariableValue.cs" />
     <Compile Include="Interfaces\IMarginableCashAccount.cs" />
     <Compile Include="Implementation\Order.cs" />
-    <Compile Include="Implementation\MarginableCashAccountImpl.cs" />
-    <Compile Include="Implementation\PricePeriodImpl.cs" />
-    <Compile Include="Implementation\PriceSeriesImpl.cs" />
+    <Compile Include="Implementation\MarginableCashAccount.cs" />
+    <Compile Include="Implementation\PricePeriod.cs" />
+    <Compile Include="Implementation\PriceSeries.cs" />
     <Compile Include="IWebClient.cs" />
     <Compile Include="StockIndexInfo.cs" />
     <Compile Include="Factories\OrderFactory.cs" />
@@ -108,7 +108,7 @@
     <Compile Include="Factories\PricePeriodFactory.cs" />
     <Compile Include="Factories\PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
-    <Compile Include="Implementation\StaticPricePeriodImpl.cs" />
+    <Compile Include="Implementation\StaticPricePeriod.cs" />
     <Compile Include="Implementation\PriceTick.cs" />
     <Compile Include="Interfaces\ITimePeriod.cs" />
     <Compile Include="OrderType.cs" />

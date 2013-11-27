@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    internal class StaticPricePeriodImpl : PricePeriodImpl
+    internal class StaticPricePeriod : PricePeriod
     {
         private readonly decimal? _open;
         private readonly decimal? _high;
@@ -16,12 +16,12 @@ namespace Sonneville.PriceTools.Implementation
         private readonly DateTime _head;
         private readonly DateTime _tail;
 
-        internal StaticPricePeriodImpl(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
+        internal StaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
             : this(head, ConstructTail(head, resolution), open, high, low, close, volume)
         {
         }
 
-        internal StaticPricePeriodImpl(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
+        internal StaticPricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume)
         {
             // validate first
             if (open.HasValue && open.Value < 0)

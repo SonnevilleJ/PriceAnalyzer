@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools
         /// <returns>A PricePeriod object with only a close.</returns>
         public IPricePeriod ConstructStaticPricePeriod(DateTime head, DateTime tail, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
         {
-            return new StaticPricePeriodImpl(head, tail, open, high, low, close, volume);
+            return new StaticPricePeriod(head, tail, open, high, low, close, volume);
         }
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Sonneville.PriceTools
         /// <returns>A PricePeriod object with only a close.</returns>
         public IPricePeriod ConstructStaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
         {
-            return new StaticPricePeriodImpl(head, resolution, open, high, low, close, volume);
+            return new StaticPricePeriod(head, resolution, open, high, low, close, volume);
         }
 
         /// <summary>
@@ -74,7 +74,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public ITickedPricePeriod ConstructTickedPricePeriod()
         {
-            return new TickedPricePeriodImpl();
+            return new TickedPricePeriod();
         }
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Sonneville.PriceTools
         /// <returns></returns>
         public ITickedPricePeriod ConstructTickedPricePeriod(IEnumerable<PriceTick> priceTicks)
         {
-            var period = new TickedPricePeriodImpl();
+            var period = new TickedPricePeriod();
             period.AddPriceTicks(priceTicks.ToArray());
             return period;
         }

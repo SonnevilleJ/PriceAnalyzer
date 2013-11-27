@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Sonneville.PriceTools.Implementation;
+﻿using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
 {
@@ -27,7 +25,7 @@ namespace Sonneville.PriceTools
         /// <returns>The <see cref="IPriceSeries"/> for the given ticker.</returns>
         public IPriceSeries ConstructPriceSeries(string ticker, Resolution resolution)
         {
-            return new PriceSeriesImpl(resolution) {Ticker = ticker};
+            return new PriceSeries(resolution) {Ticker = ticker};
         }
     }
 }

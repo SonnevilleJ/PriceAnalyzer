@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    internal abstract class PricePeriodImpl : IPricePeriod
+    internal abstract class PricePeriod : IPricePeriod
     {
         /// <summary>
         /// Gets the closing price for the IPricePeriod.
@@ -128,7 +128,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(PricePeriodImpl left, PricePeriodImpl right)
+        public static bool operator ==(PricePeriod left, PricePeriod right)
         {
             return Equals(left, right);
         }
@@ -139,7 +139,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(PricePeriodImpl left, PricePeriodImpl right)
+        public static bool operator !=(PricePeriod left, PricePeriod right)
         {
             return !Equals(left, right);
         }

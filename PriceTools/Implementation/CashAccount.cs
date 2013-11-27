@@ -8,17 +8,17 @@ namespace Sonneville.PriceTools.Implementation
     /// Represents a single account used to hold cash.
     /// </summary>
     [Serializable]
-    internal class CashAccountImpl : ICashAccount
+    internal class CashAccount : ICashAccount
     {
         private readonly IList<CashTransaction> _transactions = new List<CashTransaction>();
         private readonly ITransactionFactory _transactionFactory;
 
-        public CashAccountImpl()
+        public CashAccount()
             : this(new TransactionFactory())
         {
         }
 
-        public CashAccountImpl(ITransactionFactory transactionFactory)
+        public CashAccount(ITransactionFactory transactionFactory)
         {
             _transactionFactory = transactionFactory;
         }

@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    internal class PriceSeriesImpl : PricePeriodImpl, IPriceSeries
+    internal class PriceSeries : PricePeriod, IPriceSeries
     {
         /// <summary>
         /// The default <see cref="Resolution"/> of a PriceSeries.
@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools.Implementation
         /// Constructs a PriceSeries object.
         /// </summary>
         /// <param name="resolution"></param>
-        protected internal PriceSeriesImpl(Resolution resolution = DefaultResolution)
+        protected internal PriceSeries(Resolution resolution = DefaultResolution)
         {
             _resolution = resolution;
         }
@@ -121,7 +121,7 @@ namespace Sonneville.PriceTools.Implementation
         public string Ticker { get; set; }
 
         /// <summary>
-        /// Gets a collection of the <see cref="PricePeriodImpl"/>s in this PriceSeries.
+        /// Gets a collection of the <see cref="PricePeriod"/>s in this PriceSeries.
         /// </summary>
         public IEnumerable<IPricePeriod> PricePeriods { get { return DataPeriods; } }
 
@@ -246,7 +246,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(PriceSeriesImpl left, PriceSeriesImpl right)
+        public static bool operator ==(PriceSeries left, PriceSeries right)
         {
             return Equals(left, right);
         }
@@ -257,7 +257,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(PriceSeriesImpl left, PriceSeriesImpl right)
+        public static bool operator !=(PriceSeries left, PriceSeries right)
         {
             return !Equals(left, right);
         }

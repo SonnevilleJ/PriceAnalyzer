@@ -4,9 +4,9 @@ using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
-    internal class SimulatedTradingAccountImpl : BacktestingTradingAccountImpl
+    internal class SimulatedTradingAccount : BacktestingTradingAccount
     {
-        public SimulatedTradingAccountImpl(Guid brokerageGuid, string accountNumber) : base(brokerageGuid, accountNumber)
+        public SimulatedTradingAccount(Guid brokerageGuid, string accountNumber) : base(brokerageGuid, accountNumber)
         {
         }
 

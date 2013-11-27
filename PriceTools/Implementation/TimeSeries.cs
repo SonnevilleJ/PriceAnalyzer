@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Sonneville.PriceTools.Implementation
 {
-    internal class TimeSeriesImpl : ITimeSeries
+    internal class TimeSeries : ITimeSeries
     {
         private readonly IEnumerable<ITimePeriod> _periods = new List<ITimePeriod>();
 
-        internal TimeSeriesImpl(IEnumerable<ITimePeriod> list)
+        internal TimeSeries(IEnumerable<ITimePeriod> list)
         {
             _periods = list;
         }

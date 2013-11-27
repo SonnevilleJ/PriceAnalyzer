@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     ///   An <see cref="IPricePeriod"/> made from <see cref="PriceTicks"/>.
     /// </summary>
-    internal class TickedPricePeriodImpl : PricePeriodImpl, ITickedPricePeriod
+    internal class TickedPricePeriod : PricePeriod, ITickedPricePeriod
     {
         private readonly List<PriceTick> _priceTicks = new List<PriceTick>();
         
@@ -145,7 +145,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator ==(TickedPricePeriodImpl left, TickedPricePeriodImpl right)
+        public static bool operator ==(TickedPricePeriod left, TickedPricePeriod right)
         {
             return Equals(left, right);
         }
@@ -156,7 +156,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="left"></param>
         /// <param name="right"></param>
         /// <returns></returns>
-        public static bool operator !=(TickedPricePeriodImpl left, TickedPricePeriodImpl right)
+        public static bool operator !=(TickedPricePeriod left, TickedPricePeriod right)
         {
             return !Equals(left, right);
         }

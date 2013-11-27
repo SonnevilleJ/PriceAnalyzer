@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Fidelity
     /// <summary>
     /// A trading account which communicates with Fidelity to perform execution of orders.
     /// </summary>
-    public class FidelityTradingAccount : TradingAccountImpl
+    public class FidelityTradingAccount : TradingAccount
     {
         public FidelityTradingAccount(Guid brokerageGuid, string accountNumber) : base(brokerageGuid, accountNumber)
         {

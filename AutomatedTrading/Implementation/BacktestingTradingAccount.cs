@@ -7,9 +7,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     /// <summary>
     /// A trading account which simulates the execution of orders.
     /// </summary>
-    internal class BacktestingTradingAccountImpl : TradingAccountImpl
+    internal class BacktestingTradingAccount : TradingAccount
     {
-        internal BacktestingTradingAccountImpl(Guid brokerageGuid, string accountNumber) : base(brokerageGuid, accountNumber)
+        internal BacktestingTradingAccount(Guid brokerageGuid, string accountNumber) : base(brokerageGuid, accountNumber)
         {
             MaximumSlippage = 0.01m;
         }
