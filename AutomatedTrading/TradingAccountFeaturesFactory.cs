@@ -30,7 +30,7 @@
 
         public TradingAccountFeatures ConstructTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule)
         {
-            return ConstructTradingAccountFeatures(orderTypes, commissionSchedule, new MarginNotAllowed());
+            return ConstructTradingAccountFeatures(orderTypes, commissionSchedule, new MarginNotAllowedSchedule());
         }
 
         public TradingAccountFeatures ConstructTradingAccountFeatures(OrderType orderTypes, ICommissionSchedule commissionSchedule, IMarginSchedule marginSchedule)

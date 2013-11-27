@@ -1,5 +1,4 @@
-﻿using System;
-using Sonneville.PriceTools.AutomatedTrading.Implementation;
+﻿using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
@@ -10,9 +9,9 @@ namespace Sonneville.PriceTools.AutomatedTrading
     public interface ITradingAccount
     {
         /// <summary>
-        /// Gets the <see cref="ITransactionFactory"/> associated with the user's brokerage account.
+        /// The brokerage hosting this account.
         /// </summary>
-        ITransactionFactory TransactionFactory { get; }
+        IBrokerage Brokerage { get; }
 
         /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.
@@ -40,20 +39,5 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="order">The <see cref="Order"/> to attempt to cancel.</param>
         void TryCancelOrder(Order order);
-
-        /// <summary>
-        /// Triggered when an order has been filled.
-        /// </summary>
-        event EventHandler<OrderExecutedEventArgs> OrderFilled;
-
-        /// <summary>
-        /// Triggered when an order has expired.
-        /// </summary>
-        event EventHandler<OrderExpiredEventArgs> OrderExpired;
-
-        /// <summary>
-        /// Triggered when an order has been cancelled.
-        /// </summary>
-        event EventHandler<OrderCancelledEventArgs> OrderCancelled;
     }
 }

@@ -45,10 +45,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FidelityBrokerage.cs" />
     <Compile Include="FidelityBrokerageLinkTransactionHistoryCsvFile.cs" />
     <Compile Include="FidelityCommissionSchedule.cs" />
-    <Compile Include="FidelityTradingAccount.cs" />
     <Compile Include="FidelityTransactionHistoryCsvFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

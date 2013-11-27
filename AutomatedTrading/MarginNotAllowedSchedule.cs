@@ -3,7 +3,7 @@
     /// <summary>
     /// A margin schedule for accounts that do not allow margin.
     /// </summary>
-    public class MarginNotAllowed : IMarginSchedule
+    public class MarginNotAllowedSchedule : IMarginSchedule
     {
         /// <summary>
         /// Gets a value indicating whether or not trading on margin is allowed.

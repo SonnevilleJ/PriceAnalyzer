@@ -48,9 +48,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ContinuousTradingEngineTest.cs" />
-    <Compile Include="OrderCancelledEventArgsTest.cs" />
-    <Compile Include="OrderExecutedEventArgsTest.cs" />
-    <Compile Include="OrderExpiredEventArgsTest.cs" />
     <Compile Include="PortfolioAnnualGrossReturnTests.cs" />
     <Compile Include="PortfolioAverageProfitTests.cs" />
     <Compile Include="PortfolioAnnualNetReturnTests.cs" />
@@ -75,7 +72,6 @@
     <Compile Include="PositionStandardDeviationTests.cs" />
     <Compile Include="PositionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SimulatedTradingAccountTest.cs" />
     <Compile Include="TradingAccountFeaturesTest.cs">
       <SubType>Code</SubType>
     </Compile>
