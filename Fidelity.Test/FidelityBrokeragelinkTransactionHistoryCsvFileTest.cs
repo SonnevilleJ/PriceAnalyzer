@@ -3,8 +3,10 @@ using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SampleData;
+using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Fidelity;
 using Sonneville.PriceTools.Implementation;
 using Sonneville.PriceTools.Yahoo;
@@ -321,7 +323,7 @@ namespace Test.Sonneville.PriceTools.Fidelity
 
         private static IPriceDataProvider GetProvider()
         {
-            return new YahooPriceDataProvider();
+            return new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceDataProvider());
         }
     }
 }

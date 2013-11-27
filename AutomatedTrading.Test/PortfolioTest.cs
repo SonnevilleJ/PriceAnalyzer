@@ -4,6 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using SampleData;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Yahoo;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
@@ -138,7 +139,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void GetInvestedValueFromEmptyPortfolio()
         {
             var target = _portfolioFactory.ConstructPortfolio();
-            Assert.AreEqual(0.0m, target.CalculateMarketValue(new YahooPriceDataProvider(), DateTime.Now));
+            Assert.AreEqual(0.0m, target.CalculateMarketValue(new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceDataProvider()), DateTime.Now));
         }
 
         [TestMethod]
@@ -159,7 +160,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var priceDate = new DateTime(2011, 4, 25).CurrentPeriodClose(Resolution.Days);
             
             const decimal expected = 189.44m; // closing price 25 April 2011 = $94.72 * 2 shares = 189.44
-            var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), priceDate);
+            var actual = target.CalculateMarketValue(new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceDataProvider()), priceDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -181,7 +182,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             const decimal expected = 0.00m; // all shares sold = no value
-            var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), sellDate);
+            var actual = target.CalculateMarketValue(new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceDataProvider()), sellDate);
             Assert.AreEqual(expected, actual);
         }
 

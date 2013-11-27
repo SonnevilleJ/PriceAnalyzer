@@ -2,6 +2,8 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Yahoo;
 using TestUtilities.Sonneville.PriceTools;
 
@@ -12,14 +14,14 @@ namespace Test.Sonneville.PriceTools.Yahoo
     {
         private IPriceSeriesFactory _priceSeriesFactory;
         private IPriceSeries _priceSeries;
-        private YahooPriceDataProvider _provider;
+        private IPriceDataProvider _provider;
 
         [TestInitialize]
         public void Initialize()
         {
             _priceSeriesFactory = new PriceSeriesFactory();
             _priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
-            _provider = new YahooPriceDataProvider();
+            _provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceDataProvider());
         }
 
         [TestMethod]

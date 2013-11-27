@@ -8,15 +8,25 @@ namespace Sonneville.PriceTools.Data.Csv
     /// <summary>
     /// Provides price data from Comma Separated Values (CSV) data sources.
     /// </summary>
-    public abstract class CsvPriceDataProvider : PriceDataProvider
+    public class CsvPriceDataProvider : PriceDataProvider
     {
         private readonly IWebClient _webClient;
         private readonly IPriceHistoryQueryUrlBuilder _priceHistoryQueryUrlBuilder;
+        private readonly IPriceDataProviderInner _innerPriceDataProvider;
 
-        protected CsvPriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
+        public CsvPriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder, IPriceDataProviderInner innerPriceDataProvider)
         {
             _priceHistoryQueryUrlBuilder = priceHistoryQueryUrlBuilder;
+            _innerPriceDataProvider = innerPriceDataProvider;
             _webClient = webClient;
+        }
+
+        /// <summary>
+        /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
+        /// </summary>
+        public override Resolution BestResolution
+        {
+            get { return _innerPriceDataProvider.BestResolution; }
         }
 
         /// <summary>
@@ -33,14 +43,17 @@ namespace Sonneville.PriceTools.Data.Csv
         }
 
         /// <summary>
-        /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
+        /// Gets the ticker symbol for a given stock index.
         /// </summary>
-        /// <param name="stream">The CSV data stream containing the price history.</param>
-        /// <param name="head">The head of the price data to retrieve.</param>
-        /// <param name="tail">The tail of the price data to retrieve.</param>
-        /// <param name="impliedResolution">The <see cref="Resolution"/> of price data to retrieve.</param>
-        /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
-        protected abstract PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail, Resolution? impliedResolution = null);
+        /// <param name="index">The stock index to lookup.</param>
+        /// <param name="head">The first date to price.</param>
+        /// <param name="tail">The last date to price.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
+        /// <returns>The ticker symbol of <paramref name="index"/> for this PriceDataProvider.</returns>
+        public override IEnumerable<IPricePeriod> GetPriceData(StockIndex index, DateTime head, DateTime tail, Resolution resolution)
+        {
+            return GetPriceData(_innerPriceDataProvider.GetIndexTicker(index), head, tail, resolution);
+        }
 
         /// <summary>
         /// Gets a <see cref="PriceHistoryCsvFile"/> containing price history.
@@ -54,7 +67,7 @@ namespace Sonneville.PriceTools.Data.Csv
         {
             using (var stream = DownloadPricesToCsv(ticker, head, tail, resolution))
             {
-                return CreatePriceHistoryCsvFile(stream, head, tail, resolution);
+                return _innerPriceDataProvider.CreatePriceHistoryCsvFile(stream, head, tail, resolution);
             }
         }
 

@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Yahoo;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
@@ -61,7 +62,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             // invested value should be $45.81 * 5 shares = $229.05
             const decimal currentPrice = 45.81m;
             const decimal expected = (currentPrice * shares);
-            var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), buyDate);
+            var actual = target.CalculateMarketValue(new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceDataProvider()), buyDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -86,7 +87,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             // invested value should be $44.81 * 5 shares = $224.05
             const decimal currentPrice = 44.81m;
             const decimal expected = (currentPrice*sharesSold);
-            var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), sellDate);
+            var actual = target.CalculateMarketValue(new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceDataProvider()), sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -107,7 +108,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
                                                _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
             const decimal expected = 0.00m;         // $0.00 currently invested
-            var actual = target.CalculateMarketValue(new YahooPriceDataProvider(), sellDate);
+            var actual = target.CalculateMarketValue(new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceDataProvider()), sellDate);
             Assert.AreEqual(expected, actual);
         }
 
