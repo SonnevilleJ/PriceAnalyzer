@@ -2,7 +2,7 @@
 
 namespace Sonneville.PriceTools.Data.Csv
 {
-    public abstract class UrlManager : IUrlManager
+    public abstract class PriceHistoryQueryUrlBuilder : IPriceHistoryQueryUrlBuilder
     {
         /// <summary>
         /// Formulates a URL that when queried returns a CSV data stream containing the requested price history.
@@ -12,6 +12,6 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="tail">The last date to request.</param>
         /// <param name="resolution"></param>
         /// <returns>A fully formed URL.</returns>
-        public abstract string FormUrlQuery(string ticker, DateTime head, DateTime tail, Resolution resolution);
+        public abstract string FormPriceHistoryQueryUrl(string ticker, DateTime head, DateTime tail, Resolution resolution);
     }
 }

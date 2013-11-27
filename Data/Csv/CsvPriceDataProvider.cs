@@ -11,11 +11,11 @@ namespace Sonneville.PriceTools.Data.Csv
     public abstract class CsvPriceDataProvider : PriceDataProvider
     {
         private readonly IWebClient _webClient;
-        private readonly IUrlManager _urlManager;
+        private readonly IPriceHistoryQueryUrlBuilder _priceHistoryQueryUrlBuilder;
 
-        protected CsvPriceDataProvider(IWebClient webClient, IUrlManager urlManager)
+        protected CsvPriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
         {
-            _urlManager = urlManager;
+            _priceHistoryQueryUrlBuilder = priceHistoryQueryUrlBuilder;
             _webClient = webClient;
         }
 
@@ -71,7 +71,7 @@ namespace Sonneville.PriceTools.Data.Csv
         {
             try
             {
-                var url = _urlManager.FormUrlQuery(ticker, head, tail, resolution);
+                var url = _priceHistoryQueryUrlBuilder.FormPriceHistoryQueryUrl(ticker, head, tail, resolution);
                 return _webClient.OpenRead(url);
             }
             catch (WebException e)

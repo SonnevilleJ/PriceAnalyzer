@@ -5,7 +5,7 @@ using Sonneville.PriceTools.Data.Csv;
 
 namespace Sonneville.PriceTools.Yahoo
 {
-    public sealed class YahooUrlManager : UrlManager
+    public sealed class YahooPriceHistoryQueryUrlBuilder : PriceHistoryQueryUrlBuilder
     {
         /// <summary>
         /// Formulates a URL that when queried returns a CSV data stream containing the requested price history.
@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.Yahoo
         /// <param name="tail">The last date to request.</param>
         /// <param name="resolution"></param>
         /// <returns>A fully formed URL.</returns>
-        public override string FormUrlQuery(string ticker, DateTime head, DateTime tail, Resolution resolution)
+        public override string FormPriceHistoryQueryUrl(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             var builder = new StringBuilder();
             builder.Append(GetUrlBase());

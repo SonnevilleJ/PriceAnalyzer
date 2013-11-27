@@ -12,12 +12,12 @@ namespace Sonneville.PriceTools.Google
     public sealed class GooglePriceDataProvider : CsvPriceDataProvider
     {
         public GooglePriceDataProvider()
-            : this(new WebClientWrapper(), new GoogleUrlManager())
+            : this(new WebClientWrapper(), new GooglePriceHistoryQueryUrlBuilder())
         {
         }
 
-        public GooglePriceDataProvider(IWebClient webClient, IUrlManager urlManager)
-            : base(webClient, urlManager)
+        public GooglePriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
+            : base(webClient, priceHistoryQueryUrlBuilder)
         {
         }
 

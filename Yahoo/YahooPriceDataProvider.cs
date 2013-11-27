@@ -13,12 +13,12 @@ namespace Sonneville.PriceTools.Yahoo
     public sealed class YahooPriceDataProvider : CsvPriceDataProvider
     {
         public YahooPriceDataProvider()
-            : this(new WebClientWrapper(), new YahooUrlManager())
+            : this(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder())
         {
         }
 
-        public YahooPriceDataProvider(IWebClient webClient, IUrlManager urlManager)
-            : base(webClient, urlManager)
+        public YahooPriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
+            : base(webClient, priceHistoryQueryUrlBuilder)
         {
         }
 

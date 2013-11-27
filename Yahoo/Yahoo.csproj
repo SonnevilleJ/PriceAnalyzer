@@ -48,7 +48,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="YahooPriceDataProvider.cs" />
     <Compile Include="YahooPriceHistoryCsvFile.cs" />
-    <Compile Include="YahooUrlManager.cs" />
+    <Compile Include="YahooPriceHistoryQueryUrlBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">
