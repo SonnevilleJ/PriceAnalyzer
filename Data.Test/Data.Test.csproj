@@ -54,7 +54,6 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PriceDataProviderTest.cs" />
     <Compile Include="PriceHistoryCsvFileTest.cs" />
     <Compile Include="PriceRetrievalExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -68,6 +68,10 @@
       <Project>{fbe4a744-cacd-4ccc-9746-1692ab3b606b}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
+      <Project>{87F42318-0470-4F99-8AED-B9C0AFA72918}</Project>
+      <Name>TestUtilities</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
