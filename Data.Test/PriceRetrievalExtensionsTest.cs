@@ -14,6 +14,7 @@ namespace Test.Sonneville.PriceTools.Data
         private string _ticker;
         private DateTime _head;
         private IPriceSeries _priceSeries;
+        private Mock<IPriceDataProvider> _provider;
 
         [TestInitialize]
         public void Initialize()
@@ -21,24 +22,16 @@ namespace Test.Sonneville.PriceTools.Data
             _ticker = TickerManager.GetUniqueTicker();
             _head = new DateTime(2011, 1, 1);
             _priceSeries = new PriceSeriesFactory().ConstructPriceSeries(_ticker);
-        }
 
-        private Mock<IPriceDataProvider> Provider
-        {
-            get
-            {
-                var provider = new Mock<IPriceDataProvider>();
-                provider.Setup(x => x.UpdatePriceSeries(It.IsAny<IPriceSeries>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<Resolution>())).Callback(
-                    () => _priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011);
-
-                return provider;
-            }
+            _provider = new Mock<IPriceDataProvider>();
+            _provider.Setup(x => x.UpdatePriceSeries(It.IsAny<IPriceSeries>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<Resolution>()))
+                .Callback(() => _priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011);
         }
 
         [TestMethod]
         public void TestDownloadPriceDataHead()
         {
-            _priceSeries.UpdatePriceData(Provider.Object, _head);
+            _priceSeries.UpdatePriceData(_provider.Object, _head);
 
             Assert.IsNotNull(_priceSeries[_head.AddHours(12)]);    // add 12 hours because no price is available at midnight.
         }
@@ -48,7 +41,7 @@ namespace Test.Sonneville.PriceTools.Data
         {
             var tail = _head.AddMonths(1);
 
-            _priceSeries.UpdatePriceData(Provider.Object, _head, tail);
+            _priceSeries.UpdatePriceData(_provider.Object, _head, tail);
 
             Assert.IsNotNull(_priceSeries[tail]);
         }
@@ -57,11 +50,10 @@ namespace Test.Sonneville.PriceTools.Data
         [ExpectedException(typeof(ArgumentException))]
         public void TestDownloadPriceDataProvidersResolutionIsChecked()
         {
-            var provider = Provider;
-            provider.SetupGet(x => x.BestResolution).Returns((Resolution) ((long) _priceSeries.Resolution + 1));
+            _provider.SetupGet(x => x.BestResolution).Returns(_priceSeries.Resolution + 1L);
             var tail = _head.AddMonths(1);
 
-            _priceSeries.UpdatePriceData(provider.Object, _head, tail);
+            _priceSeries.UpdatePriceData(_provider.Object, _head, tail);
         }
     }
 }
