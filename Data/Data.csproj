@@ -52,7 +52,6 @@
     <Compile Include="Csv\CsvPriceDataProvider.cs" />
     <Compile Include="Csv\PriceColumn.cs" />
     <Compile Include="Csv\PriceHistoryQueryUrlBuilder.cs" />
-    <Compile Include="Extensible\PriceDataProvider.cs" />
     <Compile Include="Interfaces\IPriceDataProvider.cs" />
     <Compile Include="Csv\PriceHistoryCsvFile.cs" />
     <Compile Include="Interfaces\IPriceHistoryQueryUrlBuilder.cs" />
@@ -86,6 +85,9 @@
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Extensible\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
