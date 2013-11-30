@@ -8,20 +8,8 @@ namespace Sonneville.PriceTools.Google
     /// <summary>
     /// Parses an <see cref = "IPriceSeries" /> from Google Finance CSV files.
     /// </summary>
-    public sealed class GooglePriceDataProvider : IPriceDataProviderInner
+    public sealed class GooglePriceDataProvider : IPriceHistoryCsvFileFactory
     {
-        private CsvPriceDataProvider _provider;
-
-        public GooglePriceDataProvider()
-            : this(new WebClientWrapper(), new GooglePriceHistoryQueryUrlBuilder())
-        {
-        }
-
-        public GooglePriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
-        {
-            _provider = new CsvPriceDataProvider(webClient, priceHistoryQueryUrlBuilder, this);
-        }
-
         /// <summary>
         /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
         /// </summary>
@@ -33,19 +21,6 @@ namespace Sonneville.PriceTools.Google
         public PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail, Resolution? impliedResolution = null)
         {
             return new GooglePriceHistoryCsvFile(stream, head, tail, impliedResolution);
-        }
-
-        /// <summary>
-        /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
-        /// </summary>
-        public Resolution BestResolution
-        {
-            get { return Resolution.Days; }
-        }
-
-        public string GetIndexTicker(StockIndex index)
-        {
-            throw new NotImplementedException();
         }
     }
 }

@@ -58,8 +58,9 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="basket"></param>
         /// <param name="provider">The <see cref="IPriceDataProvider"/> to use when requesting price data.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
+        /// <param name="priceHistoryCsvFileFactory"></param>
         /// <returns>The value of the shares held in the Position as of the given date.</returns>
-        public static decimal CalculateMarketValue(this ISecurityBasket basket, IPriceDataProvider provider, DateTime settlementDate)
+        public static decimal CalculateMarketValue(this ISecurityBasket basket, IPriceDataProvider provider, DateTime settlementDate, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory)
         {
             var allTransactions = basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>();
             var groups = allTransactions.GroupBy(t => t.Ticker);
@@ -71,7 +72,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 if (heldShares == 0) continue;
 
                 var priceSeries = new PriceSeriesFactory().ConstructPriceSeries(transactions.First().Ticker);
-                if (!priceSeries.HasValueInRange(settlementDate)) priceSeries.UpdatePriceData(provider, settlementDate);
+                if (!priceSeries.HasValueInRange(settlementDate)) priceSeries.UpdatePriceData(provider, settlementDate, priceHistoryCsvFileFactory);
                 var price = priceSeries[settlementDate];
                 total += heldShares * price;
             }

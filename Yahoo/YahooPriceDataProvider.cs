@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
@@ -9,20 +8,8 @@ namespace Sonneville.PriceTools.Yahoo
     /// <summary>
     ///   Parses an <see cref = "IPriceSeries" /> from Yahoo! CSV files.
     /// </summary>
-    public sealed class YahooPriceDataProvider : IPriceDataProviderInner
+    public sealed class YahooPriceDataProvider : IPriceHistoryCsvFileFactory
     {
-        private CsvPriceDataProvider _provider;
-
-        public YahooPriceDataProvider()
-            : this(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder())
-        {
-        }
-
-        public YahooPriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
-        {
-            _provider = new CsvPriceDataProvider(webClient, priceHistoryQueryUrlBuilder, this);
-        }
-
         //
         // Yahoo has many features beyond price history - i.e. fundamental indicators.
         // See http://www.codeproject.com/KB/aspnet/StockQuote.aspx for details.
@@ -41,29 +28,6 @@ namespace Sonneville.PriceTools.Yahoo
         public PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail, Resolution? impliedResolution = null)
         {
             return new YahooPriceHistoryCsvFile(stream, head, tail, impliedResolution);
-        }
-
-        /// <summary>
-        /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
-        /// </summary>
-        public Resolution BestResolution
-        {
-            get { return Resolution.Days; }
-        }
-
-        public string GetIndexTicker(StockIndex index)
-        {
-            switch (index)
-            {
-                case StockIndex.StandardAndPoors500:
-                    return "^GSPC";
-                case StockIndex.DowJonesIndustrialAverage:
-                    return "^DJI";
-                case StockIndex.NasdaqCompositeIndex:
-                    return "^IXIC";
-                default:
-                    throw new NotSupportedException(String.Format(CultureInfo.CurrentCulture, "Unknown Stock Index: {0}.", index));
-            }
         }
     }
 }

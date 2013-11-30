@@ -4,7 +4,7 @@ using Sonneville.PriceTools.Data.Csv;
 
 namespace Sonneville.PriceTools.Data
 {
-    public interface IPriceDataProviderInner
+    public interface IPriceHistoryCsvFileFactory
     {
         /// <summary>
         /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
@@ -15,12 +15,5 @@ namespace Sonneville.PriceTools.Data
         /// <param name="impliedResolution">The <see cref="Resolution"/> of price data to retrieve.</param>
         /// <returns>A <see cref="PriceHistoryCsvFile"/>.</returns>
         PriceHistoryCsvFile CreatePriceHistoryCsvFile(Stream stream, DateTime head, DateTime tail, Resolution? impliedResolution = null);
-
-        /// <summary>
-        /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
-        /// </summary>
-        Resolution BestResolution { get; }
-
-        string GetIndexTicker(StockIndex index);
     }
 }

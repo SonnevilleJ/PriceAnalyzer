@@ -15,13 +15,15 @@ namespace Test.Sonneville.PriceTools.Yahoo
         private IPriceSeriesFactory _priceSeriesFactory;
         private IPriceSeries _priceSeries;
         private IPriceDataProvider _provider;
+        private IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
 
         [TestInitialize]
         public void Initialize()
         {
             _priceSeriesFactory = new PriceSeriesFactory();
             _priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
-            _provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceDataProvider());
+            _priceHistoryCsvFileFactory = new YahooPriceDataProvider();
+            _provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
         }
 
         [TestMethod]
@@ -94,13 +96,13 @@ namespace Test.Sonneville.PriceTools.Yahoo
 
         private void DownloadPeriodsTest(DateTime head, DateTime tail, int expected, Resolution resolution)
         {
-            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution);
+            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution, _priceHistoryCsvFileFactory);
             Assert.AreEqual(expected, _priceSeries.PricePeriods.Count());
         }
 
         private void DownloadResolutionTest(DateTime head, DateTime tail, TimeSpan minTimeSpan, TimeSpan maxTimeSpan, Resolution resolution)
         {
-            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution);
+            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution, _priceHistoryCsvFileFactory);
 
             Assert.AreEqual(resolution, _priceSeries.Resolution);
             var periods = _priceSeries.PricePeriods.ToArray();
@@ -113,7 +115,7 @@ namespace Test.Sonneville.PriceTools.Yahoo
 
         private void DownloadDatesTest(DateTime head, DateTime tail, Resolution resolution)
         {
-            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution);
+            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution, _priceHistoryCsvFileFactory);
 
             Assert.AreEqual(head, _priceSeries.Head);
             Assert.AreEqual(tail, _priceSeries.Tail);
