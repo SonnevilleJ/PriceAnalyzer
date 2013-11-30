@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
+using Sonneville.PriceTools.Test.PriceData;
 using Sonneville.PriceTools.Yahoo;
-using TestUtilities.Sonneville.PriceTools;
+using Sonneville.Utilities;
 
 namespace Test.Sonneville.PriceTools.Yahoo
 {
@@ -16,14 +18,37 @@ namespace Test.Sonneville.PriceTools.Yahoo
         private IPriceSeries _priceSeries;
         private IPriceDataProvider _provider;
         private IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
+        private Mock<IPriceHistoryQueryUrlBuilder> _priceHistoryQueryUrlBuilder;
+        private string _ticker;
 
         [TestInitialize]
         public void Initialize()
         {
+            _ticker = "IBM";
+
             _priceSeriesFactory = new PriceSeriesFactory();
-            _priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            _priceSeries = _priceSeriesFactory.ConstructPriceSeries(_ticker);
             _priceHistoryCsvFileFactory = new YahooPriceDataProvider();
-            _provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
+            var webClientMock = new Mock<IWebClient>();
+            var ibmDaily = "IBM 1-3 to 3-15 Daily";
+            var ibmWeekly = "IBM 1-3 to 3-15 Weekly";
+            var ibmSingleDay = "IBM 8-7 Single Day";
+            webClientMock.Setup(x => x.OpenRead(ibmDaily))
+                .Returns(new ResourceStream(CsvPriceData.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo));
+            webClientMock.Setup(x => x.OpenRead(ibmWeekly))
+                .Returns(new ResourceStream(CsvPriceData.IBM_1_1_2011_to_3_15_2011_Weekly_Yahoo));
+            webClientMock.Setup(x => x.OpenRead(ibmSingleDay))
+                .Returns(new ResourceStream(CsvPriceData.IBM_8_7_2012_to_8_7_2012_Daily_Yahoo));
+
+            _priceHistoryQueryUrlBuilder = new Mock<IPriceHistoryQueryUrlBuilder>();
+            _priceHistoryQueryUrlBuilder.Setup(x => x.FormPriceHistoryQueryUrl(_ticker, new DateTime(2011, 1, 3), new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days), Resolution.Days))
+                .Returns(ibmDaily);
+            _priceHistoryQueryUrlBuilder.Setup(x => x.FormPriceHistoryQueryUrl(_ticker, new DateTime(2011, 1, 3), new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days), Resolution.Weeks))
+                .Returns(ibmWeekly);
+            _priceHistoryQueryUrlBuilder.Setup(x => x.FormPriceHistoryQueryUrl(_ticker, new DateTime(2012, 8, 7), new DateTime(2012, 8, 7).CurrentPeriodClose(Resolution.Days), Resolution.Days))
+                .Returns(ibmSingleDay);
+            
+            _provider = new CsvPriceDataProvider(webClientMock.Object, _priceHistoryQueryUrlBuilder.Object);
         }
 
         [TestMethod]
@@ -76,7 +101,7 @@ namespace Test.Sonneville.PriceTools.Yahoo
         [TestMethod]
         public void WeeklyDownloadResolution()
         {
-            _priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker(), Resolution.Weeks);
+            _priceSeries = _priceSeriesFactory.ConstructPriceSeries(_ticker, Resolution.Weeks);
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
             var minTimeSpan = new TimeSpan(1, 0, 0, 0);
