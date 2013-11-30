@@ -11,7 +11,12 @@ namespace Sonneville.PriceTools.Data.Csv
     {
         private readonly IWebClient _webClient;
         private readonly IPriceHistoryQueryUrlBuilder _priceHistoryQueryUrlBuilder;
-        public IPriceHistoryCsvFileFactory PriceHistoryCsvFileFactory { get; private set; }
+
+        public CsvPriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
+        {
+            _priceHistoryQueryUrlBuilder = priceHistoryQueryUrlBuilder;
+            _webClient = webClient;
+        }
 
         /// <summary>
         /// Gets a <see cref="IPriceSeries"/> containing price history.
@@ -26,12 +31,6 @@ namespace Sonneville.PriceTools.Data.Csv
         {
             var pricePeriods = GetPriceHistoryCsvFile(priceSeries.Ticker, head, tail, resolution, priceHistoryCsvFileFactory).PricePeriods;
             priceSeries.AddPriceData(pricePeriods);
-        }
-
-        public CsvPriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
-        {
-            _priceHistoryQueryUrlBuilder = priceHistoryQueryUrlBuilder;
-            _webClient = webClient;
         }
 
         /// <summary>

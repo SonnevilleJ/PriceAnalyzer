@@ -15,6 +15,7 @@ namespace Test.Sonneville.PriceTools.Data
         private DateTime _head;
         private IPriceSeries _priceSeries;
         private Mock<IPriceDataProvider> _provider;
+        private IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
 
         [TestInitialize]
         public void Initialize()
@@ -26,12 +27,13 @@ namespace Test.Sonneville.PriceTools.Data
             _provider = new Mock<IPriceDataProvider>();
             _provider.Setup(x => x.UpdatePriceSeries(It.IsAny<IPriceSeries>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<Resolution>(), It.IsAny<IPriceHistoryCsvFileFactory>()))
                 .Callback(() => _priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011);
+            _priceHistoryCsvFileFactory = new Mock<IPriceHistoryCsvFileFactory>().Object;
         }
 
         [TestMethod]
         public void TestDownloadPriceDataHead()
         {
-            _priceSeries.UpdatePriceData(_provider.Object, _head, _provider.Object.PriceHistoryCsvFileFactory);
+            _priceSeries.UpdatePriceData(_provider.Object, _head, _priceHistoryCsvFileFactory);
 
             Assert.IsNotNull(_priceSeries[_head.AddHours(12)]);    // add 12 hours because no price is available at midnight.
         }
@@ -41,7 +43,7 @@ namespace Test.Sonneville.PriceTools.Data
         {
             var tail = _head.AddMonths(1);
 
-            _priceSeries.UpdatePriceData(_provider.Object, _head, tail, _provider.Object.PriceHistoryCsvFileFactory);
+            _priceSeries.UpdatePriceData(_provider.Object, _head, tail, _priceHistoryCsvFileFactory);
 
             Assert.IsNotNull(_priceSeries[tail]);
         }
@@ -53,7 +55,7 @@ namespace Test.Sonneville.PriceTools.Data
             _provider.SetupGet(x => x.BestResolution).Returns(_priceSeries.Resolution + 1L);
             var tail = _head.AddMonths(1);
 
-            _priceSeries.UpdatePriceData(_provider.Object, _head, tail, _provider.Object.PriceHistoryCsvFileFactory);
+            _priceSeries.UpdatePriceData(_provider.Object, _head, tail, _priceHistoryCsvFileFactory);
         }
     }
 }

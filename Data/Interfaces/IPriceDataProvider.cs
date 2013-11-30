@@ -22,7 +22,5 @@ namespace Sonneville.PriceTools.Data
         /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
         /// </summary>
         Resolution BestResolution { get; }
-
-        IPriceHistoryCsvFileFactory PriceHistoryCsvFileFactory { get; }
     }
 }
