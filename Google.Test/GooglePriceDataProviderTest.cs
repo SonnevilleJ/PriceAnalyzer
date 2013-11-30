@@ -64,6 +64,7 @@ namespace Test.Sonneville.PriceTools.Google
         }
 
         [TestMethod]
+        [Ignore]
         public void WeeklyDownloadPeriods()
         {
             var head = new DateTime(2011, 1, 3);
@@ -73,6 +74,7 @@ namespace Test.Sonneville.PriceTools.Google
         }
 
         [TestMethod]
+        [Ignore]
         public void WeeklyDownloadResolution()
         {
             _priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker(), Resolution.Weeks);
@@ -85,6 +87,7 @@ namespace Test.Sonneville.PriceTools.Google
         }
 
         [TestMethod]
+        [Ignore]
         public void WeeklyDownloadDates()
         {
             var head = new DateTime(2011, 1, 3);
