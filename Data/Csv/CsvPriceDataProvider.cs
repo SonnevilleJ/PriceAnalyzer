@@ -12,10 +12,15 @@ namespace Sonneville.PriceTools.Data.Csv
         private readonly IWebClient _webClient;
         private readonly IPriceHistoryQueryUrlBuilder _priceHistoryQueryUrlBuilder;
 
+        public CsvPriceDataProvider(IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
+            : this(new WebClientWrapper(), priceHistoryQueryUrlBuilder)
+        {
+        }
+
         public CsvPriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
         {
-            _priceHistoryQueryUrlBuilder = priceHistoryQueryUrlBuilder;
             _webClient = webClient;
+            _priceHistoryQueryUrlBuilder = priceHistoryQueryUrlBuilder;
         }
 
         /// <summary>
