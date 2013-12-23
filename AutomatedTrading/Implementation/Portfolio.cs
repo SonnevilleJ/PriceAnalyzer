@@ -11,7 +11,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     /// </summary>
     public class Portfolio : ISecurityBasket
     {
-        private readonly ICashAccountFactory _cashAccountFactory;
         private readonly ICashAccount _cashAccount;
         private readonly IList<Position> _positions;
         private readonly IPositionFactory _positionFactory;
@@ -22,8 +21,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <param name="ticker">The ticker symbol which is used as the <see cref="ICashAccount"/>.</param>
         internal Portfolio(string ticker)
         {
-            _cashAccountFactory = new CashAccountFactory();
-            _cashAccount = _cashAccountFactory.ConstructCashAccount();
+            _cashAccount = new CashAccountFactory().ConstructCashAccount();
             _positions = new List<Position>();
             CashTicker = ticker;
             _positionFactory = new PositionFactory();
@@ -46,11 +44,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         {
             get
             {
-                if (Transactions.Any())
-                {
-                    return Transactions.Min(t => t.SettlementDate);
-                }
-                return DateTime.Now;
+                return Transactions.Any()
+                    ? Transactions.Min(t => t.SettlementDate)
+                    : DateTime.Now;
             }
         }
 
@@ -61,11 +57,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         {
             get
             {
-                if (Transactions.Any())
-                {
-                    return Transactions.Max(t => t.SettlementDate);
-                }
-                return DateTime.Now;
+                var transactions = Transactions;
+                return transactions.Any()
+                    ? transactions.Max(t => t.SettlementDate)
+                    : DateTime.Now;
             }
         }
 
@@ -86,18 +81,14 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
         /// </summary>
-        public IEnumerable<Transaction> Transactions
+        public IList<Transaction> Transactions
         {
             get
             {
-                var list = new List<Transaction>();
-                foreach (var p in Positions)
-                {
-                    list.AddRange(p.Transactions);
-                }
-                list.AddRange(_cashAccount.Transactions);
-
-                return list.OrderBy(t => t.SettlementDate).ToList();
+                return Positions.SelectMany(x => x.Transactions)
+                    .Concat(_cashAccount.Transactions)
+                    .OrderBy(x => x.SettlementDate)
+                    .ToList();
             }
         }
 

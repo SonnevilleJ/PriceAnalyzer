@@ -84,7 +84,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IPosition.
         /// </summary>
-        public IEnumerable<Transaction> Transactions
+        public IList<Transaction> Transactions
         {
             get { return new List<Transaction>(_transactions); }
         }

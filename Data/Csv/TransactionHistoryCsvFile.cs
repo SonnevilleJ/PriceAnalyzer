@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools.Data.Csv
     {
         private readonly bool _useTotalBasis;
         private bool _tableParsed;
-        private readonly List<Transaction> _transactions = new List<Transaction>();
+        private List<Transaction> _transactions = new List<Transaction>();
         private readonly ITransactionFactory _transactionFactory;
 
         /// <summary>
@@ -39,9 +39,12 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <summary>
         /// Gets a list of all <see cref="Transaction"/>s in the file.
         /// </summary>
-        public IEnumerable<Transaction> Transactions
+        public IList<Transaction> Transactions
         {
-            get { return _transactions.OrderBy(t => t.SettlementDate).ThenBy(GetSortIndex); }
+            get
+            {
+                return _transactions;
+            }
         }
 
         private static int GetSortIndex(Transaction transaction)
@@ -87,6 +90,7 @@ namespace Sonneville.PriceTools.Data.Csv
             {
                 var map = MapHeaders(reader);
 
+                var transactions = _transactions;
                 while (reader.ReadNextRecord())
                 {
                     var ticker = string.Empty;
@@ -137,7 +141,7 @@ namespace Sonneville.PriceTools.Data.Csv
                         default:
                             throw new NotSupportedException();
                     }
-                    _transactions.Add(_transactionFactory.ConstructTransaction(
+                    transactions.Add(_transactionFactory.ConstructTransaction(
                         orderType,
                         settlementDate,
                         ticker,
@@ -145,7 +149,10 @@ namespace Sonneville.PriceTools.Data.Csv
                         shares,
                         commission));
                 }
-                _transactions.Sort((left, right) => DateTime.Compare(left.SettlementDate, right.SettlementDate));
+                _transactions = transactions
+                    .OrderBy(t => t.SettlementDate)
+                    .ThenBy(GetSortIndex)
+                    .ToList();
 
                 _tableParsed = true;
             }

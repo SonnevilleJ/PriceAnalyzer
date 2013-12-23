@@ -11,6 +11,6 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this SecurityBasket.
         /// </summary>
-        IEnumerable<Transaction> Transactions { get; }
+        IList<Transaction> Transactions { get; }
     }
 }
