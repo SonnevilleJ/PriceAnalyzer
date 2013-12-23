@@ -42,6 +42,9 @@
     <AssemblyOriginatorKeyFile>..\Sonneville.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="LumenWorks.Framework.IO">
+      <HintPath>..\ThirdParty\LumenWorks\bin\LumenWorks.Framework.IO.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -67,10 +70,6 @@
     <Compile Include="Csv\TransactionHistoryCsvFile.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\CsvReader\CsvReader.csproj">
-      <Project>{9E171B34-27C7-4017-B624-803250B399D2}</Project>
-      <Name>CsvReader</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
