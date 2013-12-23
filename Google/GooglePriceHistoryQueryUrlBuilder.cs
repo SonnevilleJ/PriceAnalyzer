@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Text;
-using Sonneville.PriceTools.Data.Csv;
+using Sonneville.PriceTools.Data;
 
 namespace Sonneville.PriceTools.Google
 {
-    public sealed class GooglePriceHistoryQueryUrlBuilder : PriceHistoryQueryUrlBuilder
+    public sealed class GooglePriceHistoryQueryUrlBuilder : IPriceHistoryQueryUrlBuilder
     {
         /// <summary>
         /// Gets the base component of the URL used to retrieve the PriceHistoryCsvFile.
@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools.Google
         /// <param name="tail">The last date to request.</param>
         /// <param name="resolution"></param>
         /// <returns>A fully formed URL.</returns>
-        public override string FormPriceHistoryQueryUrl(string ticker, DateTime head, DateTime tail, Resolution resolution)
+        public string FormPriceHistoryQueryUrl(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             var builder = new StringBuilder();
             builder.Append(GetUrlBase());
