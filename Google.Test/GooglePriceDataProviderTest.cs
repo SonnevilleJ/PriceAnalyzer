@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Google;
-using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools.Google
 {
@@ -20,7 +19,7 @@ namespace Test.Sonneville.PriceTools.Google
         public void Initialize()
         {
             _priceSeriesFactory = new PriceSeriesFactory();
-            _priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            _priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
             _priceHistoryCsvFileFactory = new GooglePriceDataProvider();
             _provider = new CsvPriceDataProvider(new WebClientWrapper(), new GooglePriceHistoryQueryUrlBuilder());
         }
@@ -77,7 +76,7 @@ namespace Test.Sonneville.PriceTools.Google
         [Ignore]
         public void WeeklyDownloadResolution()
         {
-            _priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker(), Resolution.Weeks);
+            _priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE", Resolution.Weeks);
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
             var minTimeSpan = new TimeSpan(1, 0, 0, 0);

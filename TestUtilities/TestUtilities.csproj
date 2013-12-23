@@ -48,7 +48,6 @@
     <Compile Include="PricePeriodUtilities.cs" />
     <Compile Include="PriceQuoteUtilities.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TickerManager.cs" />
     <Compile Include="TradingAccountUtilities.cs" />
   </ItemGroup>
   <ItemGroup>

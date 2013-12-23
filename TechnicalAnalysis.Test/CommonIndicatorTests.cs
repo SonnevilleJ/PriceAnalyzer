@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.TechnicalAnalysis;
 using Sonneville.PriceTools.Test.PriceData;
-using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 {
@@ -167,7 +166,7 @@ namespace Test.Sonneville.PriceTools.TechnicalAnalysis
 
         protected static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price, Resolution resolution = Resolution.Days, bool weekendData = false)
         {
-            var series = PriceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            var series = PriceSeriesFactory.ConstructPriceSeries("DE");
             for (var i = 0; i < count; i++)
             {
                 var period = PricePeriodFactory.ConstructTickedPricePeriod();

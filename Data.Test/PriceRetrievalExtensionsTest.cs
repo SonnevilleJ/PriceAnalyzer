@@ -4,14 +4,12 @@ using Moq;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Test.PriceData;
-using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools.Data
 {
     [TestClass]
     public class PriceRetrievalExtensionsTest
     {
-        private string _ticker;
         private DateTime _head;
         private IPriceSeries _priceSeries;
         private Mock<IPriceDataProvider> _provider;
@@ -20,9 +18,8 @@ namespace Test.Sonneville.PriceTools.Data
         [TestInitialize]
         public void Initialize()
         {
-            _ticker = TickerManager.GetUniqueTicker();
             _head = new DateTime(2011, 1, 1);
-            _priceSeries = new PriceSeriesFactory().ConstructPriceSeries(_ticker);
+            _priceSeries = new PriceSeriesFactory().ConstructPriceSeries("DE");
 
             _provider = new Mock<IPriceDataProvider>();
             _provider.Setup(x => x.UpdatePriceSeries(It.IsAny<IPriceSeries>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<Resolution>(), It.IsAny<IPriceHistoryCsvFileFactory>()))

@@ -77,10 +77,6 @@
       <Project>{E12C0FC1-733B-4DEC-A7D7-EA0A9F1CFA9B}</Project>
       <Name>SampleData</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
-      <Project>{87F42318-0470-4F99-8AED-B9C0AFA72918}</Project>
-      <Name>TestUtilities</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Yahoo\Yahoo.csproj">
       <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
       <Name>Yahoo</Name>

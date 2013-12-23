@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Test.PriceData;
-using TestUtilities.Sonneville.PriceTools;
 
 namespace Test.Sonneville.PriceTools
 {
@@ -26,7 +25,7 @@ namespace Test.Sonneville.PriceTools
         {
             var head = new DateTime(2011, 1, 1);
             var tail = new DateTime(2011, 6, 30).CurrentPeriodClose(Resolution.Days);
-            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
             priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(head, tail));
 
             var pricePeriods = priceSeries.ResizePricePeriods(Resolution.Weeks);
@@ -39,7 +38,7 @@ namespace Test.Sonneville.PriceTools
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
             priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(seriesHead, seriesTail));
 
             var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
@@ -80,7 +79,7 @@ namespace Test.Sonneville.PriceTools
         {
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
-            var priceSeries = _priceSeriesFactory.ConstructPriceSeries(TickerManager.GetUniqueTicker());
+            var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
             priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(seriesHead, seriesTail));
 
             var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
