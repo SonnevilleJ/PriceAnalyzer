@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Linq;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Sonneville.PriceTools.TestUtilities
 {
@@ -10,13 +11,11 @@ namespace Sonneville.PriceTools.TestUtilities
         /// <typeparam name="T"></typeparam>
         /// <param name="expected"></param>
         /// <param name="actual"></param>
-        public static void AssertSameState<T>(T expected, T actual)
+        public static void AssertSameReflectedProperties<T>(T expected, T actual)
         {
             var properties = expected.GetType().GetProperties();
-            foreach (var propertyInfo in properties)
+            foreach (var propertyInfo in properties.Where(propertyInfo => !propertyInfo.GetIndexParameters().Any()))
             {
-                if (propertyInfo.GetIndexParameters().Length != 0) continue;
-
                 Assert.AreEqual(propertyInfo.GetValue(expected, null), propertyInfo.GetValue(actual, null));
             }
         }

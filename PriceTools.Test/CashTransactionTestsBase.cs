@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.Test
             var xml = XmlSerializer.SerializeToXml(target);
             var result = XmlSerializer.DeserializeFromXml<CashTransaction>(xml);
 
-            GenericTestUtilities.AssertSameState(target, result);
+            GenericTestUtilities.AssertSameReflectedProperties(target, result);
         }
 
         protected static void CashTransactionSettlementDateTest(OrderType transactionType)
