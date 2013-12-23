@@ -1,7 +1,6 @@
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
-namespace SampleData
+namespace Sonneville.PriceTools.SampleData
 {
     public interface ISamplePortfolio
     {

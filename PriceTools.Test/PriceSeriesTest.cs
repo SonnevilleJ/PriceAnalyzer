@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.Test.PriceData;
-using TestUtilities.Sonneville.PriceTools;
+using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.TestUtilities;
 
-namespace Test.Sonneville.PriceTools
+namespace Sonneville.PriceTools.Test
 {
     /// <summary>
     ///This is a test class for PriceSeriesTest and is intended to contain all PriceSeriesTest Unit Tests

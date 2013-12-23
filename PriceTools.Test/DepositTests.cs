@@ -1,7 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 
-namespace Test.Sonneville.PriceTools
+namespace Sonneville.PriceTools.Test
 {
     [TestClass]
     public class DepositTests : CashTransactionTestsBase

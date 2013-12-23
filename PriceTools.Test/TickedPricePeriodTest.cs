@@ -1,9 +1,8 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using TestUtilities.Sonneville.PriceTools;
+using Sonneville.PriceTools.TestUtilities;
 
-namespace Test.Sonneville.PriceTools
+namespace Sonneville.PriceTools.Test
 {
     /// <summary>
     /// Summary description for TickedPricePeriodTest

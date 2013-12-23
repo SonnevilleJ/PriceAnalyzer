@@ -1,8 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 
-namespace Test.Sonneville.PriceTools.Extensions
+namespace Sonneville.PriceTools.Test.Extensions
 {
     [TestClass]
     public class TransactionExtensionsTest

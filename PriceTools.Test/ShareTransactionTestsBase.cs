@@ -1,11 +1,10 @@
 using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.Implementation;
+using Sonneville.PriceTools.TestUtilities;
 using Sonneville.Utilities.Serialization;
-using TestUtilities.Sonneville.PriceTools;
 
-namespace Test.Sonneville.PriceTools
+namespace Sonneville.PriceTools.Test
 {
     public abstract class ShareTransactionTestsBase
     {

@@ -1,8 +1,6 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.TechnicalAnalysis;
 
-namespace Test.Sonneville.PriceTools.TechnicalAnalysis
+namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
     [TestClass]
     public class RsiAverageLossesTest : CommonIndicatorTests<TimeSeriesIndicator>

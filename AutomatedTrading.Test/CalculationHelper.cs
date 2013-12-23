@@ -2,7 +2,7 @@
 using System.Linq;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.Implementation;
-using Statistics;
+using Sonneville.Statistics;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading
 {

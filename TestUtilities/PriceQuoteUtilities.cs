@@ -1,8 +1,7 @@
 ﻿using System;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.Implementation;
 
-namespace TestUtilities.Sonneville.PriceTools
+namespace Sonneville.PriceTools.TestUtilities
 {
     public static class PriceQuoteUtilities
     {

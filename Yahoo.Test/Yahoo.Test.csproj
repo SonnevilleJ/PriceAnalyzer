@@ -9,7 +9,7 @@
     <ProjectGuid>{58C38958-6898-4174-864D-7A3FC6B43339}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test.Sonneville.PriceTools.Yahoo</RootNamespace>
+    <RootNamespace>Sonneville.PriceTools.Yahoo.Test</RootNamespace>
     <AssemblyName>Yahoo.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

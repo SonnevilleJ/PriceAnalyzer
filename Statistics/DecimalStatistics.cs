@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms.DataVisualization.Charting;
 
-namespace Statistics
+namespace Sonneville.Statistics
 {
     /// <summary>
     /// Calculates statistics for <see cref="decimal"/> numbers.

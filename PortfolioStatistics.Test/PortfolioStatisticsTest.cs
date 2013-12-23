@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SampleData;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.PortfolioStatistics;
+using Sonneville.PriceTools.SampleData;
 
-namespace Test.Sonneville.PriceTools.PortfolioStatistics
+namespace Sonneville.PriceTools.PortfolioStatistics.Test
 {
     /// <summary>
     /// Summary description for PortfolioStatisticsTest

@@ -1,8 +1,6 @@
 using System.Linq;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.TechnicalAnalysis;
 
-namespace Test.Sonneville.PriceTools.TechnicalAnalysis
+namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
     class StochRSITest : CommonIndicatorTests<StochRSI>
     {

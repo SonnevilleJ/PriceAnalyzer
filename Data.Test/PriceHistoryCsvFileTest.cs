@@ -2,12 +2,11 @@
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data.Csv;
-using Sonneville.PriceTools.Test.PriceData;
+using Sonneville.PriceTools.TestPriceData;
 using Sonneville.Utilities;
 
-namespace Test.Sonneville.PriceTools.Data
+namespace Sonneville.PriceTools.Data.Test
 {
     [TestClass]
     public abstract class PriceHistoryCsvFileTest

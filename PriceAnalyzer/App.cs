@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace PriceAnalyzer
+namespace Sonneville.PriceTools.PriceAnalyzer
 {
     static class App
     {

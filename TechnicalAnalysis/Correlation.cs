@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Statistics;
+using Sonneville.Statistics;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {

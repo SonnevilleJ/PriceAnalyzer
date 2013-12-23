@@ -1,11 +1,9 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.TechnicalAnalysis;
-using Sonneville.PriceTools.Test.PriceData;
-using Statistics;
+using Sonneville.PriceTools.TestPriceData;
+using Sonneville.Statistics;
 
-namespace Test.Sonneville.PriceTools.TechnicalAnalysis
+namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
     [TestClass]
     public class IndicatorExtensionsTest

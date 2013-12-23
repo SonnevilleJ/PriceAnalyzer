@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Test.Statistics
+namespace Sonneville.Statistics.Test
 {
     public static class StatisticsTestUtilities
     {

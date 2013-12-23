@@ -1,8 +1,8 @@
-﻿using SampleData.Internal;
-using Sonneville.PriceTools.Fidelity;
+﻿using Sonneville.PriceTools.Fidelity;
+using Sonneville.PriceTools.SampleData.Internal;
 using Sonneville.Utilities;
 
-namespace SampleData
+namespace Sonneville.PriceTools.SampleData
 {
     public static class SamplePortfolios
     {

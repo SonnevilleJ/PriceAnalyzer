@@ -1,6 +1,4 @@
-using Sonneville.PriceTools;
-
-namespace SampleData
+namespace Sonneville.PriceTools.SampleData
 {
     public static class SamplePriceSeries
     {

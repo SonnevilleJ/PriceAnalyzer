@@ -2,10 +2,9 @@
 using System.Globalization;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.Test.PriceData;
+using Sonneville.PriceTools.TestPriceData;
 
-namespace Test.Sonneville.PriceTools
+namespace Sonneville.PriceTools.Test
 {
     /// <summary>
     /// This test class contains unit tests for the TimeSeriesExtensions class.

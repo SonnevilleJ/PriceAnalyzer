@@ -1,7 +1,6 @@
 ﻿using System;
-using Sonneville.PriceTools;
 
-namespace TestUtilities.Sonneville.PriceTools
+namespace Sonneville.PriceTools.TestUtilities
 {
     public static class PricePeriodUtilities
     {

@@ -1,10 +1,10 @@
 using System;
 using Sonneville.PriceTools.Google;
-using Sonneville.PriceTools.Test.PriceData;
+using Sonneville.PriceTools.TestPriceData;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.Utilities;
 
-namespace SampleData
+namespace Sonneville.PriceTools.SampleData
 {
     public static class SamplePriceDatas
     {

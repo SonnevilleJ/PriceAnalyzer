@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Test.Statistics
+namespace Sonneville.Statistics.Test
 {
     public static class TestData
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using SampleData;
 using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
+using Sonneville.PriceTools.SampleData;
 using Sonneville.PriceTools.Yahoo;
 
 namespace Test.Sonneville.PriceTools.AutomatedTrading

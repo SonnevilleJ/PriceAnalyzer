@@ -6,8 +6,8 @@
     <ProjectGuid>{3352DD25-54E4-44E1-B25B-7B40A647EBE9}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PriceAnalyzerTest</RootNamespace>
-    <AssemblyName>PriceAnalyzerTest</AssemblyName>
+    <RootNamespace>Sonneville.PriceTools.PriceAnalyzer.Test</RootNamespace>
+    <AssemblyName>PriceAnalyzer.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>

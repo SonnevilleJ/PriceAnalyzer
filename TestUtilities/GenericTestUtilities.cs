@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace TestUtilities.Sonneville.PriceTools
+namespace Sonneville.PriceTools.TestUtilities
 {
     public static class GenericTestUtilities
     {

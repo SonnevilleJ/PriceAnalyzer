@@ -9,7 +9,7 @@
     <ProjectGuid>{343F1067-34A3-421F-B231-A8CA374B29AC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test.Sonneville.PriceTools.Google</RootNamespace>
+    <RootNamespace>Sonneville.PriceTools.Google.Test</RootNamespace>
     <AssemblyName>Google.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

@@ -2,10 +2,9 @@
 using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Data.Csv;
-using Sonneville.PriceTools.Yahoo;
-using Test.Sonneville.PriceTools.Data;
+using Sonneville.PriceTools.Data.Test;
 
-namespace Test.Sonneville.PriceTools.Yahoo
+namespace Sonneville.PriceTools.Yahoo.Test
 {
     [TestClass]
     public class YahooPriceHistoryCsvFileTest : PriceHistoryCsvFileTest

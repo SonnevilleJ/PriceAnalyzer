@@ -1,8 +1,7 @@
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
-namespace SampleData.Internal
+namespace Sonneville.PriceTools.SampleData.Internal
 {
     internal class SamplePortfolio : ISamplePortfolio
     {

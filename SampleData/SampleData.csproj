@@ -7,7 +7,7 @@
     <ProjectGuid>{E12C0FC1-733B-4DEC-A7D7-EA0A9F1CFA9B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SampleData</RootNamespace>
+    <RootNamespace>Sonneville.PriceTools.SampleData</RootNamespace>
     <AssemblyName>SampleData</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

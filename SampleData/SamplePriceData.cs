@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data.Csv;
 
-namespace SampleData
+namespace Sonneville.PriceTools.SampleData
 {
     public class SamplePriceData : ISamplePriceData
     {

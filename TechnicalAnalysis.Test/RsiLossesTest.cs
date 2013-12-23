@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.TechnicalAnalysis;
-using Sonneville.PriceTools.Test.PriceData;
+using Sonneville.PriceTools.TestPriceData;
 
-namespace Test.Sonneville.PriceTools.TechnicalAnalysis
+namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
     [TestClass]
     public class RsiLossesTest : CommonIndicatorTests<RsiLosses>

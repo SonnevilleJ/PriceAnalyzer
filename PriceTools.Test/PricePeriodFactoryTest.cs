@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.Implementation;
-using TestUtilities.Sonneville.PriceTools;
+using Sonneville.PriceTools.TestUtilities;
 
-namespace Test.Sonneville.PriceTools
+namespace Sonneville.PriceTools.Test
 {
     public abstract class StaticPricePeriodFactoryConstructorTestsBase
     {

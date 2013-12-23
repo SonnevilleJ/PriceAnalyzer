@@ -1,11 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Test.PriceData;
+using Sonneville.PriceTools.TestPriceData;
 
-namespace Test.Sonneville.PriceTools.Data
+namespace Sonneville.PriceTools.Data.Test
 {
     [TestClass]
     public class PriceRetrievalExtensionsTest

@@ -1,7 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Statistics;
 
-namespace Test.Statistics
+namespace Sonneville.Statistics.Test
 {
     [TestClass]
     public class SquareRootTest

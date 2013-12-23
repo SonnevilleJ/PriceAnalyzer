@@ -9,7 +9,7 @@
     <ProjectGuid>{B7035D8C-D693-4BE2-B531-A5D58EE301AE}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Test.Sonneville.PriceTools.Fidelity</RootNamespace>
+    <RootNamespace>Sonneville.PriceTools.Fidelity.Test</RootNamespace>
     <AssemblyName>Fidelity.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

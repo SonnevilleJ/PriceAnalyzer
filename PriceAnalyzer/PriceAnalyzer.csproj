@@ -7,7 +7,7 @@
     <ProjectGuid>{38151461-5A2A-4351-BCD6-C818FFBDFB77}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>PriceAnalyzer</RootNamespace>
+    <RootNamespace>Sonneville.PriceTools.PriceAnalyzer</RootNamespace>
     <AssemblyName>PriceAnalyzer</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -58,6 +58,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

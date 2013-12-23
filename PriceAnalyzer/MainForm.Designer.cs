@@ -1,4 +1,4 @@
-﻿namespace PriceAnalyzer
+﻿namespace Sonneville.PriceTools.PriceAnalyzer
 {
     partial class MainForm
     {

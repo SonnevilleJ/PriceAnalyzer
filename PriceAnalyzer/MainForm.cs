@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace PriceAnalyzer
+namespace Sonneville.PriceTools.PriceAnalyzer
 {
     public partial class MainForm : Form
     {

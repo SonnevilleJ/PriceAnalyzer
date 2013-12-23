@@ -2,14 +2,12 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
-using Sonneville.PriceTools.Test.PriceData;
-using Sonneville.PriceTools.Yahoo;
+using Sonneville.PriceTools.TestPriceData;
 using Sonneville.Utilities;
 
-namespace Test.Sonneville.PriceTools.Yahoo
+namespace Sonneville.PriceTools.Yahoo.Test
 {
     [TestClass]
     public class YahooPriceDataProviderTest
@@ -30,9 +28,9 @@ namespace Test.Sonneville.PriceTools.Yahoo
             _priceSeries = _priceSeriesFactory.ConstructPriceSeries(_ticker);
             _priceHistoryCsvFileFactory = new YahooPriceDataProvider();
             var webClientMock = new Mock<IWebClient>();
-            var ibmDaily = "IBM 1-3 to 3-15 Daily";
-            var ibmWeekly = "IBM 1-3 to 3-15 Weekly";
-            var ibmSingleDay = "IBM 8-7 Single Day";
+            const string ibmDaily = "IBM 1-3 to 3-15 Daily";
+            const string ibmWeekly = "IBM 1-3 to 3-15 Weekly";
+            const string ibmSingleDay = "IBM 8-7 Single Day";
             webClientMock.Setup(x => x.OpenRead(ibmDaily))
                 .Returns(new ResourceStream(CsvPriceData.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo));
             webClientMock.Setup(x => x.OpenRead(ibmWeekly))
