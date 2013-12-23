@@ -20,6 +20,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         private IPortfolioFactory _portfolioFactory;
         private ITransactionFactory _transactionFactory;
         private IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
+        private IPriceDataProvider _csvPriceDataProvider;
 
         [TestInitialize]
         public void Setup()
@@ -27,6 +28,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
             _priceHistoryCsvFileFactory = new YahooPriceDataProvider();
+            _csvPriceDataProvider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
         }
 
         [TestMethod]
@@ -143,8 +145,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
         public void GetInvestedValueFromEmptyPortfolio()
         {
             var target = _portfolioFactory.ConstructPortfolio();
-            IPriceDataProvider provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
-            Assert.AreEqual(0.0m, target.CalculateMarketValue(provider, DateTime.Now, _priceHistoryCsvFileFactory));
+            Assert.AreEqual(0.0m, target.CalculateMarketValue(_csvPriceDataProvider, DateTime.Now, _priceHistoryCsvFileFactory));
         }
 
         [TestMethod]
@@ -165,8 +166,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var priceDate = new DateTime(2011, 4, 25).CurrentPeriodClose(Resolution.Days);
             
             const decimal expected = 189.44m; // closing price 25 April 2011 = $94.72 * 2 shares = 189.44
-            IPriceDataProvider provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
-            var actual = target.CalculateMarketValue(provider, priceDate, _priceHistoryCsvFileFactory);
+            var actual = target.CalculateMarketValue(_csvPriceDataProvider, priceDate, _priceHistoryCsvFileFactory);
             Assert.AreEqual(expected, actual);
         }
 
@@ -188,8 +188,7 @@ namespace Test.Sonneville.PriceTools.AutomatedTrading
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             const decimal expected = 0.00m; // all shares sold = no value
-            IPriceDataProvider provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
-            var actual = target.CalculateMarketValue(provider, sellDate, _priceHistoryCsvFileFactory);
+            var actual = target.CalculateMarketValue(_csvPriceDataProvider, sellDate, _priceHistoryCsvFileFactory);
             Assert.AreEqual(expected, actual);
         }
 

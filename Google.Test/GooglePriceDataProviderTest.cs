@@ -2,6 +2,7 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools;
+using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Google;
 
@@ -12,8 +13,8 @@ namespace Test.Sonneville.PriceTools.Google
     {
         private IPriceSeriesFactory _priceSeriesFactory;
         private IPriceSeries _priceSeries;
-        private CsvPriceDataProvider _provider;
-        private GooglePriceDataProvider _priceHistoryCsvFileFactory;
+        private IPriceDataProvider _provider;
+        private IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
 
         [TestInitialize]
         public void Initialize()
