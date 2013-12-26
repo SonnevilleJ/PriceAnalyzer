@@ -54,8 +54,6 @@
       <DependentUpon>FidelityData.resx</DependentUpon>
     </Compile>
     <Compile Include="Internal\SamplePortfolio.cs" />
-    <Compile Include="ISamplePriceData.cs" />
-    <Compile Include="ISamplePortfolio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SamplePortfolios.cs" />
     <Compile Include="SamplePriceData.cs" />
@@ -104,7 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CsvPriceData.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
+      <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>CsvPriceData.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Internal\FidelityData.resx">

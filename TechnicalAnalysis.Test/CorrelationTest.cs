@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [TestMethod]
         public void CorrelationIbmDeereTest()
         {
-            var ibm = SamplePriceDatas.IBM.PriceSeries;
+            var ibm = SamplePriceDatas.IBM_Daily.PriceSeries;
             var de = SamplePriceDatas.Deere.PriceSeries;
 
             const int lookback = 20;
@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void CorrelationMsftDeereTest()
         {
-            var ibm = SamplePriceDatas.IBM.PriceSeries;
+            var ibm = SamplePriceDatas.IBM_Daily.PriceSeries;
             var msft = SamplePriceDatas.MSFT.PriceSeries;
 
             const int lookback = 20;

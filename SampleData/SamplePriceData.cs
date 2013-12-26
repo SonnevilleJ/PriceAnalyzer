@@ -3,7 +3,7 @@ using Sonneville.PriceTools.Data.Csv;
 
 namespace Sonneville.PriceTools.SampleData
 {
-    public class SamplePriceData : ISamplePriceData
+    public class SamplePriceData
     {
         public string Ticker { get; set; }
 
@@ -23,5 +23,6 @@ namespace Sonneville.PriceTools.SampleData
         }
 
         public PriceHistoryCsvFile PriceHistory { get; set; }
+        public string CsvString { get; set; }
     }
 }

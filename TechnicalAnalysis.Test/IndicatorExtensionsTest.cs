@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
     [TestClass]
     public class IndicatorExtensionsTest
     {
-        private readonly IPriceSeries _ibm = SamplePriceDatas.IBM.PriceSeries;
+        private readonly IPriceSeries _ibm = SamplePriceDatas.IBM_Daily.PriceSeries;
         private readonly IPriceSeries _de = SamplePriceDatas.Deere.PriceSeries;
 
         [TestMethod]

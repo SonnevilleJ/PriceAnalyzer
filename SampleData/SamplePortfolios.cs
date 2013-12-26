@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.SampleData
 {
     public static class SamplePortfolios
     {
-        public static ISamplePortfolio FidelityBrokerageLink
+        public static SamplePortfolio FidelityBrokerageLink
         {
             get
             {
@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.SampleData
             }
         }
 
-        public static ISamplePortfolio FidelityTaxable
+        public static SamplePortfolio FidelityTaxable
         {
             get
             {
@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools.SampleData
             }
         }
 
-        public static ISamplePortfolio FidelityBrokerageLinkTransactionPriceRounding
+        public static SamplePortfolio FidelityBrokerageLinkTransactionPriceRounding
         {
             get
             {

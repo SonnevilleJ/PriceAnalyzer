@@ -3,7 +3,7 @@ using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
 namespace Sonneville.PriceTools.SampleData.Internal
 {
-    internal class SamplePortfolio : ISamplePortfolio
+    public class SamplePortfolio
     {
         public Portfolio Portfolio
         {

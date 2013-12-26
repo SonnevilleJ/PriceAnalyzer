@@ -32,11 +32,11 @@ namespace Sonneville.PriceTools.Yahoo.Test
             const string ibmWeekly = "IBM 1-3 to 3-15 Weekly";
             const string ibmSingleDay = "IBM 8-7 Single Day";
             webClientMock.Setup(x => x.OpenRead(ibmDaily))
-                .Returns(new ResourceStream(CsvPriceData.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo));
+                .Returns(new ResourceStream(SamplePriceDatas.IBM_Daily.CsvString));
             webClientMock.Setup(x => x.OpenRead(ibmWeekly))
-                .Returns(new ResourceStream(CsvPriceData.IBM_1_1_2011_to_3_15_2011_Weekly_Yahoo));
+                .Returns(new ResourceStream(SamplePriceDatas.IBM_Weekly.CsvString));
             webClientMock.Setup(x => x.OpenRead(ibmSingleDay))
-                .Returns(new ResourceStream(CsvPriceData.IBM_8_7_2012_to_8_7_2012_Daily_Yahoo));
+                .Returns(new ResourceStream(SamplePriceDatas.IBM_SingleDay.CsvString));
 
             _priceHistoryQueryUrlBuilder = new Mock<IPriceHistoryQueryUrlBuilder>();
             _priceHistoryQueryUrlBuilder.Setup(x => x.FormPriceHistoryQueryUrl(_ticker, new DateTime(2011, 1, 3), new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days), Resolution.Days))
