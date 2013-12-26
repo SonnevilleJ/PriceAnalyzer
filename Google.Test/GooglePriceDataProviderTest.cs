@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
+using Sonneville.PriceTools.SampleData;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Google.Test
 {
@@ -13,14 +16,31 @@ namespace Sonneville.PriceTools.Google.Test
         private IPriceSeries _priceSeries;
         private IPriceDataProvider _provider;
         private IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
+        private string _ticker;
 
         [TestInitialize]
         public void Initialize()
         {
+            _ticker = "IBM";
             _priceSeriesFactory = new PriceSeriesFactory();
-            _priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
+            _priceSeries = _priceSeriesFactory.ConstructPriceSeries(_ticker);
             _priceHistoryCsvFileFactory = new GooglePriceDataProvider();
-            _provider = new CsvPriceDataProvider(new WebClientWrapper(), new GooglePriceHistoryQueryUrlBuilder());
+            
+            const string ibmDaily = "IBM 1-3 to 3-15 Daily";
+            const string ibmSingleDay = "IBM 8-7 Single Day";
+            
+            var webClientMock = new Mock<IWebClient>();
+            webClientMock.Setup(x => x.OpenRead(ibmDaily))
+                .Returns(new ResourceStream(SamplePriceDatas.IBM_Daily.CsvString));
+            webClientMock.Setup(x => x.OpenRead(ibmSingleDay))
+                .Returns(new ResourceStream(SamplePriceDatas.IBM_SingleDay.CsvString));
+
+            var priceHistoryQueryUrlBuilder = new Mock<IPriceHistoryQueryUrlBuilder>();
+            priceHistoryQueryUrlBuilder.Setup(x => x.FormPriceHistoryQueryUrl(_ticker, new DateTime(2011, 1, 3), new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days), Resolution.Days))
+                .Returns(ibmDaily);
+            priceHistoryQueryUrlBuilder.Setup(x => x.FormPriceHistoryQueryUrl(_ticker, new DateTime(2012, 8, 7), new DateTime(2012, 8, 7).CurrentPeriodClose(Resolution.Days), Resolution.Days))
+                .Returns(ibmSingleDay);
+            _provider = new CsvPriceDataProvider(webClientMock.Object, priceHistoryQueryUrlBuilder.Object);
         }
 
         [TestMethod]
@@ -75,7 +95,7 @@ namespace Sonneville.PriceTools.Google.Test
         [Ignore]
         public void WeeklyDownloadResolution()
         {
-            _priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE", Resolution.Weeks);
+            _priceSeries = _priceSeriesFactory.ConstructPriceSeries(_ticker, Resolution.Weeks);
             var head = new DateTime(2011, 1, 3);
             var tail = new DateTime(2011, 3, 15).CurrentPeriodClose(Resolution.Days);
             var minTimeSpan = new TimeSpan(1, 0, 0, 0);
