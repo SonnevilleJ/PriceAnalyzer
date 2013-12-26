@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
@@ -69,7 +69,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [TestMethod]
         public void CalculateDataCorrectly()
         {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var priceSeries = SamplePriceDatas.Deere.PriceSeries;
             var periods = priceSeries.PricePeriods.ToArray();
 
             var target = GetTestObjectInstance(priceSeries);

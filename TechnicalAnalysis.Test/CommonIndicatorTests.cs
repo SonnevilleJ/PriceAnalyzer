@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
@@ -67,7 +67,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [TestMethod]
         public void HeadIsCorrectForNoWeekendData()
         {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var priceSeries = SamplePriceDatas.Deere.PriceSeries;
 
             var target = GetTestObjectInstance(priceSeries);
 
@@ -128,7 +128,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [TestMethod]
         public void PeriodsMatchMeasuredTimeSeries()
         {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var priceSeries = SamplePriceDatas.Deere.PriceSeries;
             var target = GetTestObjectInstance(priceSeries);
 
             var psPeriods = priceSeries.PricePeriods.Where(p => p.Head >= target.Head);
@@ -181,7 +181,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [TestMethod]
         public void CalculateFirstPeriodCorrectly()
         {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var priceSeries = SamplePriceDatas.Deere.PriceSeries;
 
             var target = GetTestObjectInstance(priceSeries);
 
@@ -193,7 +193,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [TestMethod]
         public void CalculateNext10PeriodsCorrectly()
         {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var priceSeries = SamplePriceDatas.Deere.PriceSeries;
 
             var target = GetTestObjectInstance(priceSeries);
 
@@ -209,7 +209,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [TestMethod]
         public void SetLookbackClearsAllCachedValues()
         {
-            var priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var priceSeries = SamplePriceDatas.Deere.PriceSeries;
             var target = GetTestObjectInstance(priceSeries);
 
             target.CalculateAll();

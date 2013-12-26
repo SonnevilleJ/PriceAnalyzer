@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.SampleData;
 using Sonneville.Statistics;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis.Test
@@ -8,8 +8,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
     [TestClass]
     public class IndicatorExtensionsTest
     {
-        private readonly IPriceSeries _ibm = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-        private readonly IPriceSeries _de = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+        private readonly IPriceSeries _ibm = SamplePriceDatas.IBM.PriceSeries;
+        private readonly IPriceSeries _de = SamplePriceDatas.Deere.PriceSeries;
 
         [TestMethod]
         public void CorrelationIbmDeereTest()

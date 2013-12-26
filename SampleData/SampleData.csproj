@@ -60,7 +60,6 @@
     <Compile Include="SamplePortfolios.cs" />
     <Compile Include="SamplePriceData.cs" />
     <Compile Include="SamplePriceDatas.cs" />
-    <Compile Include="SamplePriceSeries.cs" />
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="..\CustomDictionary.xml">
@@ -73,6 +72,8 @@
     <None Include="Resources\DE 1-1-2011 to 6-30-2011.csv" />
     <None Include="Resources\FidelityTransactions.csv" />
     <None Include="Resources\IBM 1-1-2011 to 3-15-2011 Daily Yahoo.csv" />
+    <None Include="Resources\IBM_1_1_2011_to_3_15_2011_Weekly_Yahoo.csv" />
+    <None Include="Resources\IBM_8_7_2012_to_8_7_2012_Daily_Yahoo.csv" />
     <None Include="Resources\MSFT Apr-June 2011 Weekly Google.csv" />
   </ItemGroup>
   <ItemGroup>
@@ -96,10 +97,6 @@
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
-      <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
-      <Name>TestPriceData</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Yahoo\Yahoo.csproj">
       <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
       <Name>Yahoo</Name>
@@ -107,7 +104,7 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CsvPriceData.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CsvPriceData.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Internal\FidelityData.resx">

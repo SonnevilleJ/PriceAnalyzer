@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.SampleData;
 using Sonneville.Statistics;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis.Test
@@ -12,8 +12,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [TestMethod]
         public void CorrelationIbmDeereTest()
         {
-            var ibm = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-            var de = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var ibm = SamplePriceDatas.IBM.PriceSeries;
+            var de = SamplePriceDatas.Deere.PriceSeries;
 
             const int lookback = 20;
             var ibmDecimals = ibm.GetPreviousPricePeriods(lookback, ibm.Tail).Select(x => x.Close);
@@ -28,8 +28,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void CorrelationMsftDeereTest()
         {
-            var ibm = TestPriceSeries.IBM_1_1_2011_to_3_15_2011_Daily_Yahoo_PS;
-            var msft = TestPriceSeries.MSFT_Apr_June_2011_Weekly_Google;
+            var ibm = SamplePriceDatas.IBM.PriceSeries;
+            var msft = SamplePriceDatas.MSFT.PriceSeries;
 
             const int lookback = 20;
             var actual = new Correlation(ibm, lookback, msft)[ibm.Tail];

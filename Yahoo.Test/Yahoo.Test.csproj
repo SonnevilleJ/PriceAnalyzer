@@ -71,9 +71,9 @@
       <Project>{fbe4a744-cacd-4ccc-9746-1692ab3b606b}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
-      <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
-      <Name>TestPriceData</Name>
+    <ProjectReference Include="..\SampleData\SampleData.csproj">
+      <Project>{E12C0FC1-733B-4DEC-A7D7-EA0A9F1CFA9B}</Project>
+      <Name>SampleData</Name>
     </ProjectReference>
     <ProjectReference Include="..\Yahoo\Yahoo.csproj">
       <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>

@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.Test
 {
@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools.Test
             var head = new DateTime(2011, 1, 1);
             var tail = new DateTime(2011, 6, 30).CurrentPeriodClose(Resolution.Days);
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
-            priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(head, tail));
+            priceSeries.AddPriceData(SamplePriceDatas.Deere.PriceHistory.PricePeriods);
 
             var pricePeriods = priceSeries.ResizePricePeriods(Resolution.Weeks);
 
@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools.Test
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
-            priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(seriesHead, seriesTail));
+            priceSeries.AddPriceData(SamplePriceDatas.Deere.PriceHistory.PricePeriods);
 
             var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
             var weeklyPeriods = priceSeries.ResizePricePeriods(Resolution.Weeks).ToArray();
@@ -79,7 +79,7 @@ namespace Sonneville.PriceTools.Test
             var seriesHead = new DateTime(2011, 1, 1);
             var seriesTail = new DateTime(2011, 6, 30, 23, 59, 59);
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
-            priceSeries.AddPriceData(TestPricePeriods.Build_DE_1_1_2011_to_6_30_2011(seriesHead, seriesTail));
+            priceSeries.AddPriceData(SamplePriceDatas.Deere.PriceHistory.PricePeriods);
 
             var dailyPeriods = priceSeries.ResizePricePeriods(Resolution.Days).ToArray();
             var monthlyPeriods = priceSeries.ResizePricePeriods(Resolution.Months).ToArray();
@@ -131,7 +131,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void ResizePricePeriodsEqualsResizeTimePeriods()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
             var resolution = target.Resolution;
 
             CollectionAssert.AreEquivalent(target.ResizePricePeriods(resolution).Cast<ITimePeriod>().ToList(), target.ResizeTimePeriods(resolution).ToList());
@@ -140,7 +140,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void ResizePricePeriodsEqualsResizeTimePeriodsAllParameters()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
             var resolution = target.Resolution;
             var head = target.Head;
             var tail = target.Tail;
@@ -151,7 +151,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetPreviousPeriodsFromHeadReturnsEmpty()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             var previousPeriods = target.GetPreviousTimePeriods(1, target.Head);
             Assert.AreEqual(0, previousPeriods.Count());
@@ -160,7 +160,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetPreviousPeriodsFromTailReturnsAllMinusOne()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             var pricePeriods = target.PricePeriods.ToArray();
             var expected = pricePeriods.Take(pricePeriods.Count() - 1).ToArray();
@@ -171,7 +171,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetPreviousPeriodsFromAfterTailReturnsAllPeriods()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             var allPeriods = target.PricePeriods.ToArray();
             var previousPeriods = target.GetPreviousTimePeriods(allPeriods.Count(), target.Tail.AddTicks(1)).ToArray();
@@ -181,7 +181,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetPreviousPeriodsReturnsCorrectCount()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             const int requestedCount = 5;
             var previousPeriods = target.GetPreviousTimePeriods(requestedCount, target.Tail.AddTicks(1));
@@ -191,7 +191,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetPreviousPeriodsReturnsCorrectCountWhenMaxExceedsPeriods()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             var totalPeriodCount = target.PricePeriods.Count();
             var requestedCount = totalPeriodCount + 1;
@@ -202,7 +202,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetPreviousPeriodsReturnsCorrectPeriods()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             const int requestedCount = 3;
             var previousPeriods = target.GetPreviousTimePeriods(requestedCount, target.Tail.AddTicks(1)).ToArray();
@@ -219,7 +219,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetPreviousPeriodFromHead()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
             var periodCount = target.PricePeriods.Count();
             var origin = target.PricePeriods.ToArray()[periodCount - 1].Head;
 
@@ -231,7 +231,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetPreviousPeriodFromTail()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
             var periodCount = target.PricePeriods.Count();
             var origin = target.PricePeriods.ToArray()[periodCount - 1].Tail;
 
@@ -243,7 +243,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void GetPreviousPeriodFromSaturday()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
             var origin = new DateTime(2011, 6, 25);
             var pricePeriods = target.GetPreviousPricePeriods(2, origin).ToArray();
 

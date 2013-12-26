@@ -1,5 +1,5 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 
         private void TestD(int lookback)
         {
-            var target = GetTestObjectInstance(TestPriceSeries.DE_1_1_2011_to_6_30_2011);
+            var target = GetTestObjectInstance(SamplePriceDatas.Deere.PriceSeries);
             target.D.Lookback = lookback;
             var smaD = new SimpleMovingAverage(target, lookback);
 

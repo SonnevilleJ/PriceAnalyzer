@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.Data.Test
 {
@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.Data.Test
 
             _provider = new Mock<IPriceDataProvider>();
             _provider.Setup(x => x.UpdatePriceSeries(It.IsAny<IPriceSeries>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<Resolution>(), It.IsAny<IPriceHistoryCsvFileFactory>()))
-                .Callback(() => _priceSeries = TestPriceSeries.DE_1_1_2011_to_6_30_2011);
+                .Callback(() => _priceSeries = SamplePriceDatas.Deere.PriceSeries);
             _priceHistoryCsvFileFactory = new Mock<IPriceHistoryCsvFileFactory>().Object;
         }
 

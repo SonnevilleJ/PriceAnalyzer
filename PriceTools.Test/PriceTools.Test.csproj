@@ -89,13 +89,17 @@
     <Compile Include="WithdrawalTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\TestPriceData\TestPriceData.csproj">
-      <Project>{905DFF66-3320-4F3F-A924-7E5793EF1663}</Project>
-      <Name>TestPriceData</Name>
+    <ProjectReference Include="..\SampleData\SampleData.csproj">
+      <Project>{E12C0FC1-733B-4DEC-A7D7-EA0A9F1CFA9B}</Project>
+      <Name>SampleData</Name>
     </ProjectReference>
     <ProjectReference Include="..\TestUtilities\TestUtilities.csproj">
       <Project>{87F42318-0470-4F99-8AED-B9C0AFA72918}</Project>

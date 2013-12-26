@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.Test
 {
@@ -143,7 +143,7 @@ namespace Sonneville.PriceTools.Test
         public void ReactionMovesCountTest()
         {
             var reactionMoves = ExpectedReactionMoves;
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             var actualMoves = target.GetReactionMoves();
 
@@ -154,7 +154,7 @@ namespace Sonneville.PriceTools.Test
         public void ReactionMovesValuesTest()
         {
             var reactionMoves = ExpectedReactionMoves;
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             var actualMoves = target.GetReactionMoves();
 
@@ -168,7 +168,7 @@ namespace Sonneville.PriceTools.Test
         public void ReactionHighsCountTest()
         {
             var newHighs = ExpectedReactionHighs;
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             var actualHighs = target.GetReactionHighs();
 
@@ -179,7 +179,7 @@ namespace Sonneville.PriceTools.Test
         public void ReactionHighsTest()
         {
             var newHighs = ExpectedReactionHighs;
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             var actualHighs = target.GetReactionHighs();
 
@@ -193,7 +193,7 @@ namespace Sonneville.PriceTools.Test
         public void ReactionLowsCountTest()
         {
             var newLows = ExpectedReactionLows;
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             var actualLows = target.GetReactionLows();
 
@@ -204,7 +204,7 @@ namespace Sonneville.PriceTools.Test
         public void ReactionLowsTest()
         {
             var newLows = ExpectedReactionLows;
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             var actualLows = target.GetReactionLows();
 

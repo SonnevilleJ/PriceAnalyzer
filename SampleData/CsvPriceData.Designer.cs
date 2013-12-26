@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.SampleData {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class CsvPriceData {
+    public class CsvPriceData {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools.SampleData {
         ///   Returns the cached ResourceManager instance used by this class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Sonneville.PriceTools.SampleData.CsvPriceData", typeof(CsvPriceData).Assembly);
@@ -51,7 +51,7 @@ namespace Sonneville.PriceTools.SampleData {
         ///   resource lookups using this strongly typed resource class.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -75,7 +75,7 @@ namespace Sonneville.PriceTools.SampleData {
         ///18-Jan-11,89.69,91.63,89.69,90.6,4488671
         ///19-Jan-11,90.5,91.28,88.7 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string DE_1_1_2011_to_6_30_2011 {
+        public static string DE_1_1_2011_to_6_30_2011 {
             get {
                 return ResourceManager.GetString("DE_1_1_2011_to_6_30_2011", resourceCulture);
             }
@@ -93,9 +93,38 @@ namespace Sonneville.PriceTools.SampleData {
         ///2011-03-04,163.40,164.31,160.65,161.83,4910700,158.49
         ///2011-03-03,161.42,164.00,161.27,163.48 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string IBM_1_1_2011_to_3_15_2011_Daily_Yahoo {
+        public static string IBM_1_1_2011_to_3_15_2011_Daily_Yahoo {
             get {
                 return ResourceManager.GetString("IBM_1_1_2011_to_3_15_2011_Daily_Yahoo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date,Open,High,Low,Close,Volume,Adj Close
+        ///2011-03-14,161.16,161.98,156.88,159.02,5388100,151.46
+        ///2011-03-07,161.60,167.72,158.85,162.43,6219100,154.70
+        ///2011-02-28,162.36,164.31,159.41,161.83,4307400,154.13
+        ///2011-02-22,163.57,164.26,159.03,162.28,5358300,154.56
+        ///2011-02-14,164.18,164.84,162.52,164.84,3718000,157.00
+        ///2011-02-07,164.08,166.25,163.18,163.85,5219400,156.06
+        ///2011-01-31,159.18,164.20,158.68,164.00,5074200,155.58
+        ///2011-01-24,155.42,164.35,155.33,159.21,6500500,151.04
+        ///2011-01-18,149.82,156.78,149.38,155.50 [rest of string was truncated]&quot;;.
+        /// </summary>
+        public static string IBM_1_1_2011_to_3_15_2011_Weekly_Yahoo {
+            get {
+                return ResourceManager.GetString("IBM_1_1_2011_to_3_15_2011_Weekly_Yahoo", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Date,Open,High,Low,Close,Volume,Adj Close
+        ///2012-08-07,199.43,200.88,198.80,199.93,3209400,194.44
+        ///.
+        /// </summary>
+        public static string IBM_8_7_2012_to_8_7_2012_Daily_Yahoo {
+            get {
+                return ResourceManager.GetString("IBM_8_7_2012_to_8_7_2012_Daily_Yahoo", resourceCulture);
             }
         }
         
@@ -113,7 +142,7 @@ namespace Sonneville.PriceTools.SampleData {
         ///29-Apr-11,25.56,26.87,25.34,25.92,554889924
         ///21-Apr-11,25.10,26.00,24.72,25.52,158547201 [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string MSFT_Apr_June_2011_Weekly_Google {
+        public static string MSFT_Apr_June_2011_Weekly_Google {
             get {
                 return ResourceManager.GetString("MSFT_Apr_June_2011_Weekly_Google", resourceCulture);
             }

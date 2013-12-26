@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Moq;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.SampleData;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Yahoo.Test

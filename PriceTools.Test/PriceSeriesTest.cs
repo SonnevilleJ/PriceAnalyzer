@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.TestPriceData;
+using Sonneville.PriceTools.SampleData;
 using Sonneville.PriceTools.TestUtilities;
 
 namespace Sonneville.PriceTools.Test
@@ -419,7 +419,7 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void TimePeriodsTest()
         {
-            var target = TestPriceSeries.DE_1_1_2011_to_6_30_2011;
+            var target = SamplePriceDatas.Deere.PriceSeries;
 
             CollectionAssert.AreEquivalent(target.PricePeriods.Cast<ITimePeriod>().ToList(), target.TimePeriods.ToList());
         }
