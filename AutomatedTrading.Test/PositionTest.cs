@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools;
-using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Yahoo;
 
-namespace Test.Sonneville.PriceTools.AutomatedTrading
+namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
     /// <summary>
     ///This is a test class for PositionTest and is intended

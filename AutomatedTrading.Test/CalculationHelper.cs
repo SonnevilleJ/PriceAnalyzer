@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Sonneville.PriceTools;
 using Sonneville.PriceTools.Implementation;
 using Sonneville.Statistics;
 
-namespace Test.Sonneville.PriceTools.AutomatedTrading
+namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
     public class CalculationHelper
     {
