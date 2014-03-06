@@ -1106,6 +1106,8 @@ namespace Sonneville.PriceTools.Test
             var target = CallFactoryMethod();
 
             var head = target.Head;
+
+            Assert.IsNotNull(head);
         }
 
         [TestMethod]
@@ -1115,6 +1117,8 @@ namespace Sonneville.PriceTools.Test
             var target = CallFactoryMethod();
 
             var tail = target.Tail;
+
+            Assert.IsNotNull(tail);
         }
 
         [TestMethod]
@@ -1124,6 +1128,8 @@ namespace Sonneville.PriceTools.Test
             var target = CallFactoryMethod();
 
             var open = target.Open;
+
+            Assert.IsNotNull(open);
         }
 
         [TestMethod]
@@ -1133,6 +1139,8 @@ namespace Sonneville.PriceTools.Test
             var target = CallFactoryMethod();
 
             var high = target.High;
+
+            Assert.IsNotNull(high);
         }
 
         [TestMethod]
@@ -1142,6 +1150,8 @@ namespace Sonneville.PriceTools.Test
             var target = CallFactoryMethod();
 
             var low = target.Low;
+
+            Assert.IsNotNull(low);
         }
 
         [TestMethod]
@@ -1151,6 +1161,8 @@ namespace Sonneville.PriceTools.Test
             var target = CallFactoryMethod();
 
             var close = target.Close;
+
+            Assert.IsNotNull(close);
         }
 
         [TestMethod]

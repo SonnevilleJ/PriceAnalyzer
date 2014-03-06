@@ -33,6 +33,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 
             const int lookback = 20;
             var actual = new Correlation(ibm, lookback, msft)[ibm.Tail];
+
+            Assert.IsNotNull(actual);
         }
     }
 }

@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 
             var target = GetTestObjectInstance(priceSeries);
 
-            var dateTime = target.Head;
+            Assert.IsNotNull(target.Head);
         }
 
         [TestMethod]
@@ -112,6 +112,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             var target = GetTestObjectInstance(priceSeries);
 
             var result = target[target.Head.AddTicks(-1)];
+
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]
@@ -123,6 +125,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             var target = GetTestObjectInstance(priceSeries);
 
             var result = target[target.Head];
+
+            Assert.IsNotNull(result);
         }
 
         [TestMethod]

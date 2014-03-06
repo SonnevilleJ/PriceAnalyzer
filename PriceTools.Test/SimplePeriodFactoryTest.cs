@@ -72,6 +72,8 @@ namespace Sonneville.PriceTools.Test
             var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             var actual = target[head.AddTicks(-1)];
+
+            Assert.IsNull(actual);
         }
 
         [TestMethod]
@@ -97,6 +99,8 @@ namespace Sonneville.PriceTools.Test
             var target = _timePeriodFactory.ConstructTimePeriod(head, tail, value);
 
             var actual = target[tail.AddTicks(1)];
+
+            Assert.IsNull(actual);
         }
 
         [TestMethod]

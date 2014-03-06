@@ -22,8 +22,6 @@ namespace Sonneville.PriceTools.Test
         [TestMethod]
         public void ResizePricePeriodsWeeklyResolutionCount()
         {
-            var head = new DateTime(2011, 1, 1);
-            var tail = new DateTime(2011, 6, 30).CurrentPeriodClose(Resolution.Days);
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
             priceSeries.AddPriceData(SamplePriceDatas.Deere.PriceHistory.PricePeriods);
 

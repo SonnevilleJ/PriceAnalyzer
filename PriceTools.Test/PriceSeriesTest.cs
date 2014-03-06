@@ -123,6 +123,8 @@ namespace Sonneville.PriceTools.Test
         public void HeadEmptyTest()
         {
             var test = _priceSeriesFactory.ConstructPriceSeries("DE").Head;
+
+            Assert.IsNull(test);
         }
 
         /// <summary>
@@ -339,6 +341,8 @@ namespace Sonneville.PriceTools.Test
         public void TailEmptyTest()
         {
             var test = _priceSeriesFactory.ConstructPriceSeries("DE").Tail;
+
+            Assert.IsNull(test);
         }
 
         /// <summary>

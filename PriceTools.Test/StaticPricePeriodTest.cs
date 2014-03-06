@@ -197,6 +197,8 @@ namespace Sonneville.PriceTools.Test
             var target = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
 
             var result = target[target.Tail.Add(new TimeSpan(1))];
+
+            Assert.IsNotNull(result);
         }
 
         /// <summary>
