@@ -6,13 +6,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class PortfolioMedianProfitTests
     {
-        private readonly IPortfolioFactory _portfolioFactory;
-        private readonly ITransactionFactory _transactionFactory;
+        private IPortfolioFactory _portfolioFactory;
+        private ITransactionFactory _transactionFactory;
+        private ISecurityBasketCalculator _securityBasketCalculator;
 
-        public PortfolioMedianProfitTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
+            _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
         [TestMethod]
@@ -24,7 +27,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(dateTime);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, dateTime);
+            var actual = _securityBasketCalculator.CalculateMedianProfit(target, dateTime);
             Assert.AreEqual(expected, actual);
         }
 
@@ -42,7 +45,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(withdrawalDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, withdrawalDate);
+            var actual = _securityBasketCalculator.CalculateMedianProfit(target, withdrawalDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -66,7 +69,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             // CalculateMedianProfit does not consider open positions - it can only account for closed holdings
             var holdings = target.CalculateHoldings(calculateDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, calculateDate);
+            var actual = _securityBasketCalculator.CalculateMedianProfit(target, calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -92,7 +95,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, calculateDate);
+            var actual = _securityBasketCalculator.CalculateMedianProfit(target, calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -123,7 +126,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateMedianProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -154,7 +157,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateMedianProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -185,7 +188,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateMedianProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -214,7 +217,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateMedianProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -242,7 +245,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateMedianProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
     }

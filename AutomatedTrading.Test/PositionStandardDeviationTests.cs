@@ -6,13 +6,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class PositionStandardDeviationTests
     {
-        private readonly IPositionFactory _positionFactory;
-        private readonly ITransactionFactory _transactionFactory;
+        private IPositionFactory _positionFactory;
+        private ITransactionFactory _transactionFactory;
+        private ISecurityBasketCalculator _securityBasketCalculator;
 
-        public PositionStandardDeviationTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
+            _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
         [TestMethod]
@@ -34,7 +37,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedStandardDeviation(holdings);
-            var actual = SecurityBasketExtensions.CalculateStandardDeviation(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateStandardDeviation(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -57,7 +60,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedStandardDeviation(holdings);
-            var actual = SecurityBasketExtensions.CalculateStandardDeviation(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateStandardDeviation(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -88,7 +91,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(secondSellDate);
             var expected = CalculationHelper.GetExpectedStandardDeviation(holdings);
-            var actual = SecurityBasketExtensions.CalculateStandardDeviation(target, secondSellDate);
+            var actual = _securityBasketCalculator.CalculateStandardDeviation(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -119,7 +122,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(secondSellDate);
             var expected = CalculationHelper.GetExpectedStandardDeviation(holdings);
-            var actual = SecurityBasketExtensions.CalculateStandardDeviation(target, secondSellDate);
+            var actual = _securityBasketCalculator.CalculateStandardDeviation(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -150,7 +153,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedStandardDeviation(holdings);
-            var actual = SecurityBasketExtensions.CalculateStandardDeviation(target, secondSellDate);
+            var actual = _securityBasketCalculator.CalculateStandardDeviation(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -185,7 +188,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(thirdSellDate);
             var expected = CalculationHelper.GetExpectedStandardDeviation(holdings);
-            var actual = SecurityBasketExtensions.CalculateStandardDeviation(target, thirdSellDate);
+            var actual = _securityBasketCalculator.CalculateStandardDeviation(target, thirdSellDate);
             Assert.AreEqual(expected, actual);
         }
     }

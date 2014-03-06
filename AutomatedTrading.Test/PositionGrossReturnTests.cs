@@ -6,13 +6,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class PositionGrossReturnTests
     {
-        private readonly IPositionFactory _positionFactory;
-        private readonly ITransactionFactory _transactionFactory;
+        private IPositionFactory _positionFactory;
+        private ITransactionFactory _transactionFactory;
+        private ISecurityBasketCalculator _securityBasketCalculator;
 
-        public PositionGrossReturnTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
+            _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
         [TestMethod]
@@ -37,7 +40,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                                                               commission));
 
             const decimal expected = decrease;
-            var actual = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -63,7 +66,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                                                               commission));
 
             const decimal expected = increase;
-            var actual = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -81,7 +84,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                             _transactionFactory.ConstructBuy(ticker, buyDate, shares,
                                                                                              price, commission));
 
-            Assert.IsNull(SecurityBasketExtensions.CalculateGrossReturn(target, sellDate));
+            Assert.IsNull(_securityBasketCalculator.CalculateGrossReturn(target, sellDate));
         }
     }
 }

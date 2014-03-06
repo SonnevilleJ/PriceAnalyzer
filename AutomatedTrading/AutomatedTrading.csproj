@@ -58,8 +58,9 @@
     <Compile Include="Interfaces\IMarginSchedule.cs" />
     <Compile Include="Interfaces\ISignalProcessor.cs" />
     <Compile Include="Interfaces\ITradingAccount.cs" />
+    <Compile Include="ISecurityBasketCalculator.cs" />
     <Compile Include="ITradingAccountFeaturesFactory.cs" />
-    <Compile Include="SecurityBasketExtensions.cs" />
+    <Compile Include="SecurityBasketCalculator.cs" />
     <Compile Include="MarginNotAllowedSchedule.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -6,13 +6,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class PortfolioAverageProfitTests
     {
-        private readonly IPortfolioFactory _portfolioFactory;
-        private readonly ITransactionFactory _transactionFactory;
+        private IPortfolioFactory _portfolioFactory;
+        private ITransactionFactory _transactionFactory;
+        private ISecurityBasketCalculator _securityBasketCalculator;
 
-        public PortfolioAverageProfitTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
+            _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
         [TestMethod]
@@ -40,11 +43,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deProfit = SecurityBasketExtensions.CalculateAverageProfit(target.GetPosition(de), sellDate);
-            var msftProfit = SecurityBasketExtensions.CalculateAverageProfit(target.GetPosition(msft), sellDate);
+            var deProfit = _securityBasketCalculator.CalculateAverageProfit(target.GetPosition(de), sellDate);
+            var msftProfit = _securityBasketCalculator.CalculateAverageProfit(target.GetPosition(msft), sellDate);
 
             var expected = deProfit + msftProfit;
-            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateAverageProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
     }

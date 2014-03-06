@@ -14,6 +14,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         private readonly ICashAccount _cashAccount;
         private readonly IList<Position> _positions;
         private readonly IPositionFactory _positionFactory;
+        private readonly ISecurityBasketCalculator _securityBasketCalculator;
 
         /// <summary>
         /// Constructs a Portfolio and assigns a ticker symbol to use as the Portfolio's <see cref="ICashAccount"/>.
@@ -25,6 +26,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             _positions = new List<Position>();
             CashTicker = ticker;
             _positionFactory = new PositionFactory();
+            _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
         /// <summary>
@@ -34,7 +36,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <returns>The value of the Portfolio as of the given DateTime.</returns>
         public decimal this[DateTime dateTime]
         {
-            get { return SecurityBasketExtensions.CalculateGrossProfit(this, dateTime); }
+            get { return _securityBasketCalculator.CalculateGrossProfit(this, dateTime); }
         }
 
         /// <summary>

@@ -6,13 +6,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class PositionAverageProfitTests
     {
-        private readonly IPositionFactory _positionFactory;
-        private readonly ITransactionFactory _transactionFactory;
+        private IPositionFactory _positionFactory;
+        private ITransactionFactory _transactionFactory;
+        private ISecurityBasketCalculator _securityBasketCalculator;
 
-        public PositionAverageProfitTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
+            _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
         [TestMethod]
@@ -35,7 +38,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var firstProfit = CalculationHelper.GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
 
             var expected = (firstProfit)/1;
-            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateAverageProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -59,7 +62,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var firstProfit = CalculationHelper.GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
 
             var expected = (firstProfit)/1;
-            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateAverageProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -92,7 +95,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var secondProfit = CalculationHelper.GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
 
             var expected = (firstProfit + secondProfit)/2;
-            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, secondSellDate);
+            var actual = _securityBasketCalculator.CalculateAverageProfit(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -125,7 +128,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var secondProfit = CalculationHelper.GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
 
             var expected = (firstProfit + secondProfit)/2;
-            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, secondSellDate);
+            var actual = _securityBasketCalculator.CalculateAverageProfit(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -158,7 +161,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var secondProfit = CalculationHelper.GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
 
             var expected = (firstProfit + secondProfit)/2;
-            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, secondSellDate);
+            var actual = _securityBasketCalculator.CalculateAverageProfit(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
     }

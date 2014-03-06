@@ -6,13 +6,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class PositionAnnualGrossReturnTests
     {
-        private readonly IPositionFactory _positionFactory;
-        private readonly ITransactionFactory _transactionFactory;
+        private IPositionFactory _positionFactory;
+        private ITransactionFactory _transactionFactory;
+        private ISecurityBasketCalculator _securityBasketCalculator;
 
-        public PositionAnnualGrossReturnTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
+            _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
         [TestMethod]
@@ -34,11 +37,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             const decimal expectedReturn = -0.1m;
             // -10% return; loss = $50 after commissions; initial investment = $500
-            var actualReturn = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
+            var actualReturn = _securityBasketCalculator.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = -0.5m; // -50% annual rate return
-            var actual = SecurityBasketExtensions.CalculateAnnualGrossReturn(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateAnnualGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -61,11 +64,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             const decimal expectedReturn = 0.1m;
             // 10% return; profit = $50 after commissions; initial investment = $500
-            var actualReturn = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
+            var actualReturn = _securityBasketCalculator.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = 0.5m; // 50% annual rate return
-            var actual = SecurityBasketExtensions.CalculateAnnualGrossReturn(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateAnnualGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -83,7 +86,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                             _transactionFactory.ConstructBuy(ticker, buyDate, shares,
                                                                                              price, commission));
 
-            Assert.IsNull(SecurityBasketExtensions.CalculateAnnualGrossReturn(target, sellDate));
+            Assert.IsNull(_securityBasketCalculator.CalculateAnnualGrossReturn(target, sellDate));
         }
     }
 }

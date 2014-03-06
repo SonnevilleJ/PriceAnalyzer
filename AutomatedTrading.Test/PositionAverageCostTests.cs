@@ -6,13 +6,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class PositionAverageCostTests
     {
-        private readonly IPositionFactory _positionFactory;
-        private readonly ITransactionFactory _transactionFactory;
+        private IPositionFactory _positionFactory;
+        private ITransactionFactory _transactionFactory;
+        private ISecurityBasketCalculator _securityBasketCalculator;
 
-        public PositionAverageCostTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
+            _securityBasketCalculator = new SecurityBasketCalculator();
         }
         
         [TestMethod]
@@ -28,7 +31,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _positionFactory.ConstructPosition(ticker, _transactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission));
 
             const decimal expectedAverageCost = buyPrice;
-            var actualAverageCost = SecurityBasketExtensions.CalculateAverageCost(target, buyDate);
+            var actualAverageCost = _securityBasketCalculator.CalculateAverageCost(target, buyDate);
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
 
@@ -50,7 +53,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                             _transactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
             const decimal expectedAverageCost = buyPrice;
-            var actualAverageCost = SecurityBasketExtensions.CalculateAverageCost(target, buyDate);
+            var actualAverageCost = _securityBasketCalculator.CalculateAverageCost(target, buyDate);
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
 
@@ -80,7 +83,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const decimal originalShares = sharesBought - sharesSold;
             const decimal newShares = sharesBought2;
             const decimal expectedAverageCost = ((originalShares * buyPrice) + newShares * buyPrice2) / (originalShares + newShares);
-            var actualAverageCost = SecurityBasketExtensions.CalculateAverageCost(target, buyDate2);
+            var actualAverageCost = _securityBasketCalculator.CalculateAverageCost(target, buyDate2);
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
 
@@ -110,7 +113,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const decimal originalShares = sharesBought - sharesSold;
             const decimal newShares = sharesBought2;
             const decimal expectedAverageCost = ((originalShares * buyPrice) + newShares * buyPrice2) / (originalShares + newShares);
-            var actualAverageCost = SecurityBasketExtensions.CalculateAverageCost(target, buyDate2);
+            var actualAverageCost = _securityBasketCalculator.CalculateAverageCost(target, buyDate2);
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
     }

@@ -13,6 +13,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     {
         private string _ticker;
         private readonly ICollection<ShareTransaction> _transactions = new List<ShareTransaction>();
+        private readonly ISecurityBasketCalculator _securityBasketCalculator;
 
         /// <summary>
         ///   Constructs a new Position that will handle transactions for a given ticker symbol.
@@ -21,6 +22,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         internal Position(string ticker)
         {
             Ticker = ticker;
+            _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
         /// <summary>
@@ -48,7 +50,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <param name = "dateTime">The <see cref = "DateTime" /> to use.</param>
         public decimal this[DateTime dateTime]
         {
-            get { return SecurityBasketExtensions.CalculateGrossProfit(this, dateTime); }
+            get { return _securityBasketCalculator.CalculateGrossProfit(this, dateTime); }
         }
 
         /// <summary>
@@ -128,7 +130,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             else if (shareTransaction.IsClosingTransaction())
             {
                     var date = shareTransaction.SettlementDate;
-                    var heldShares = SecurityBasketExtensions.GetHeldShares(_transactions, date);
+                    var heldShares = _securityBasketCalculator.GetHeldShares(_transactions, date);
                     if (shareTransaction.Shares > heldShares)
                     {
                         throw new InvalidOperationException(

@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
     /// <summary>
     /// A class which holds extension methods for <see cref="ISecurityBasket"/>.
     /// </summary>
-    public static class SecurityBasketExtensions
+    public class SecurityBasketCalculator : ISecurityBasketCalculator
     {
         /// <summary>
         ///   Gets the gross investment of this Position, ignoring any proceeds and commissions.
@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="basket"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount spent on share purchases as a negative number.</returns>
-        public static decimal CalculateCost(ISecurityBasket basket, DateTime settlementDate)
+        public decimal CalculateCost(ISecurityBasket basket, DateTime settlementDate)
         {
             return basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t.IsOpeningTransaction())
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="basket"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of proceeds from share sales as a positive number.</returns>
-        public static decimal CalculateProceeds(ISecurityBasket basket, DateTime settlementDate)
+        public decimal CalculateProceeds(ISecurityBasket basket, DateTime settlementDate)
         {
             return -1 * basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t.IsClosingTransaction())
                    .Where(transaction => transaction.SettlementDate <= settlementDate)
@@ -45,7 +45,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="basket"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The total amount of commissions from <see cref = "ShareTransaction" />s as a negative number.</returns>
-        public static decimal CalculateCommissions(ISecurityBasket basket, DateTime settlementDate)
+        public decimal CalculateCommissions(ISecurityBasket basket, DateTime settlementDate)
         {
             return basket.Transactions.AsParallel().Where(t=>t is ShareTransaction).Cast<ShareTransaction>()
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <param name="priceHistoryCsvFileFactory"></param>
         /// <returns>The value of the shares held in the Position as of the given date.</returns>
-        public static decimal CalculateMarketValue(ISecurityBasket basket, IPriceDataProvider provider, DateTime settlementDate, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory)
+        public decimal CalculateMarketValue(ISecurityBasket basket, IPriceDataProvider provider, DateTime settlementDate, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory)
         {
             var allTransactions = basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>();
             var groups = allTransactions.GroupBy(t => t.Ticker);
@@ -84,7 +84,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="shareTransactions"></param>
         /// <param name = "dateTime">The <see cref = "DateTime" /> to use.</param>
-        public static decimal GetHeldShares(IEnumerable<ShareTransaction> shareTransactions, DateTime dateTime)
+        public decimal GetHeldShares(IEnumerable<ShareTransaction> shareTransactions, DateTime dateTime)
         {
             var sum = 0m;
             foreach (var transaction in shareTransactions.Where(t=>t.SettlementDate <= dateTime))
@@ -101,7 +101,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="position">The <see cref="Position"/> for which to calculate average cost.</param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>The average cost of all shares held at <paramref name = "settlementDate" />.</returns>
-        public static decimal CalculateAverageCost(Position position, DateTime settlementDate)
+        public decimal CalculateAverageCost(Position position, DateTime settlementDate)
         {
             var transactions = position.Transactions.Cast<ShareTransaction>()
                 .Where(transaction => transaction.SettlementDate <= settlementDate)
@@ -133,7 +133,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="basket"></param>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
-        public static decimal CalculateNetProfit(ISecurityBasket basket, DateTime settlementDate)
+        public decimal CalculateNetProfit(ISecurityBasket basket, DateTime settlementDate)
         {
             return basket.CalculateHoldings(settlementDate).AsParallel().Sum(holding => ((holding.ClosePrice - holding.OpenPrice)*holding.Shares) - holding.OpenCommission - holding.CloseCommission);
         }
@@ -143,7 +143,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="basket"></param>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
-        public static decimal CalculateGrossProfit(ISecurityBasket basket, DateTime settlementDate)
+        public decimal CalculateGrossProfit(ISecurityBasket basket, DateTime settlementDate)
         {
             return basket.CalculateHoldings(settlementDate).AsParallel().Sum(holding => (holding.ClosePrice - holding.OpenPrice)*holding.Shares);
         }
@@ -156,7 +156,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        public static decimal? CalculateAnnualGrossReturn(ISecurityBasket basket, DateTime settlementDate)
+        public decimal? CalculateAnnualGrossReturn(ISecurityBasket basket, DateTime settlementDate)
         {
             if(basket == null) throw new ArgumentNullException("basket", Strings.SecurityBasketExtensions_CalculateAnnualGrossReturn_Parameter_basket_cannot_be_null_);
 
@@ -172,7 +172,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <remarks>
         ///   Assumes a year has 365 days.
         /// </remarks>
-        public static decimal? CalculateAnnualNetReturn(ISecurityBasket basket, DateTime settlementDate)
+        public decimal? CalculateAnnualNetReturn(ISecurityBasket basket, DateTime settlementDate)
         {
             var totalReturn = CalculateNetReturn(basket, settlementDate);
             return totalReturn == null ? null : Annualize(totalReturn.Value, basket.Transactions.Min(t => t.SettlementDate), basket.Transactions.Max(t => t.SettlementDate));
@@ -185,7 +185,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="head"></param>
         /// <param name="tail"></param>
         /// <returns></returns>
-        private static decimal? Annualize(decimal totalReturn, DateTime head, DateTime tail)
+        private decimal? Annualize(decimal totalReturn, DateTime head, DateTime tail)
         {
             // decimal division is imperfect around 25 decimal places. Round to 20 decimal places to reduce errors.
             var time = ((tail - head).Days / 365.0m);
@@ -198,7 +198,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="basket"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>Returns the net rate of return, after commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
-        public static decimal? CalculateNetReturn(ISecurityBasket basket, DateTime settlementDate)
+        public decimal? CalculateNetReturn(ISecurityBasket basket, DateTime settlementDate)
         {
             var allHoldings = basket.CalculateHoldings(settlementDate);
             if (allHoldings.Count == 0) return null;
@@ -221,7 +221,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="basket"></param>
         /// <param name = "settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>Returns the gross rate of return, before commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
-        public static decimal? CalculateGrossReturn(ISecurityBasket basket, DateTime settlementDate)
+        public decimal? CalculateGrossReturn(ISecurityBasket basket, DateTime settlementDate)
         {
             var allHoldings = basket.CalculateHoldings(settlementDate);
             if (allHoldings.Count == 0) return null;
@@ -244,7 +244,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="basket"></param>
         /// <param name="settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>Returns the mean gross profit from a <see cref="ISecurityBasket"/>.</returns>
-        public static decimal CalculateAverageProfit(ISecurityBasket basket, DateTime settlementDate)
+        public decimal CalculateAverageProfit(ISecurityBasket basket, DateTime settlementDate)
         {
             return basket.CalculateHoldings(settlementDate).AsParallel().Average(holding => holding.GrossProfit());
         }
@@ -255,7 +255,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="basket"></param>
         /// <param name="settlementDate">The <see cref = "DateTime" /> to use.</param>
         /// <returns>Returns the median gross profit from a <see cref="ISecurityBasket"/>.</returns>
-        public static decimal CalculateMedianProfit(ISecurityBasket basket, DateTime settlementDate)
+        public decimal CalculateMedianProfit(ISecurityBasket basket, DateTime settlementDate)
         {
             return basket.CalculateHoldings(settlementDate).Select(h => h.GrossProfit()).Median();
         }
@@ -266,7 +266,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="basket"></param>
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         /// <returns>Returns the standard deviation of the profits from a <see cref="ISecurityBasket"/>.</returns>
-        public static decimal CalculateStandardDeviation(ISecurityBasket basket, DateTime settlementDate)
+        public decimal CalculateStandardDeviation(ISecurityBasket basket, DateTime settlementDate)
         {
             return basket.CalculateHoldings(settlementDate).Select(h => h.GrossProfit()).StandardDeviation();
         }

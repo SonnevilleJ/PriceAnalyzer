@@ -6,13 +6,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class PortfolioGrossReturnTests
     {
-        private readonly IPortfolioFactory _portfolioFactory;
-        private readonly ITransactionFactory _transactionFactory;
+        private IPortfolioFactory _portfolioFactory;
+        private ITransactionFactory _transactionFactory;
+        private ISecurityBasketCalculator _securityBasketCalculator;
 
-        public PortfolioGrossReturnTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
+            _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
         [TestMethod]
@@ -22,7 +25,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const decimal openingDeposit = 10000m;
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
 
-            Assert.IsNull(SecurityBasketExtensions.CalculateGrossReturn(target, dateTime));
+            Assert.IsNull(_securityBasketCalculator.CalculateGrossReturn(target, dateTime));
         }
 
         [TestMethod]
@@ -37,7 +40,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
-            Assert.IsNull(SecurityBasketExtensions.CalculateGrossReturn(target, dateTime));
+            Assert.IsNull(_securityBasketCalculator.CalculateGrossReturn(target, dateTime));
         }
 
         [TestMethod]
@@ -58,7 +61,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy);
 
             // CalculateGrossReturn does not consider open positions - it can only account for closed holdings
-            Assert.IsNull(SecurityBasketExtensions.CalculateGrossReturn(target, calculateDate));
+            Assert.IsNull(_securityBasketCalculator.CalculateGrossReturn(target, calculateDate));
         }
 
         [TestMethod]
@@ -81,8 +84,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy, sell);
 
-            var expected = SecurityBasketExtensions.CalculateGrossReturn(target.GetPosition(ticker), calculateDate);
-            var actual = SecurityBasketExtensions.CalculateGrossReturn(target, calculateDate);
+            var expected = _securityBasketCalculator.CalculateGrossReturn(target.GetPosition(ticker), calculateDate);
+            var actual = _securityBasketCalculator.CalculateGrossReturn(target, calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -111,11 +114,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deReturn = SecurityBasketExtensions.CalculateGrossReturn(target.GetPosition(de), sellDate);
-            var msftReturn = SecurityBasketExtensions.CalculateGrossReturn(target.GetPosition(msft), sellDate);
+            var deReturn = _securityBasketCalculator.CalculateGrossReturn(target.GetPosition(de), sellDate);
+            var msftReturn = _securityBasketCalculator.CalculateGrossReturn(target.GetPosition(msft), sellDate);
 
             var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
-            var actual = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -144,11 +147,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deReturn = SecurityBasketExtensions.CalculateGrossReturn(target.GetPosition(de), sellDate);
-            var msftReturn = SecurityBasketExtensions.CalculateGrossReturn(target.GetPosition(msft), sellDate);
+            var deReturn = _securityBasketCalculator.CalculateGrossReturn(target.GetPosition(de), sellDate);
+            var msftReturn = _securityBasketCalculator.CalculateGrossReturn(target.GetPosition(msft), sellDate);
 
             var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
-            var actual = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -177,11 +180,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deReturn = SecurityBasketExtensions.CalculateGrossReturn(target.GetPosition(de), sellDate);
-            var msftReturn = SecurityBasketExtensions.CalculateGrossReturn(target.GetPosition(msft), sellDate);
+            var deReturn = _securityBasketCalculator.CalculateGrossReturn(target.GetPosition(de), sellDate);
+            var msftReturn = _securityBasketCalculator.CalculateGrossReturn(target.GetPosition(msft), sellDate);
 
             var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
-            var actual = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -208,10 +211,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy);
 
-            var deReturn = SecurityBasketExtensions.CalculateGrossReturn(target.GetPosition(de), sellDate);
+            var deReturn = _securityBasketCalculator.CalculateGrossReturn(target.GetPosition(de), sellDate);
 
             var expected = deReturn;
-            var actual = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -238,10 +241,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, msftBuy, msftSell);
 
-            var msftReturn = SecurityBasketExtensions.CalculateGrossReturn(target.GetPosition(msft), sellDate);
+            var msftReturn = _securityBasketCalculator.CalculateGrossReturn(target.GetPosition(msft), sellDate);
 
             var expected = msftReturn;
-            var actual = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
     }

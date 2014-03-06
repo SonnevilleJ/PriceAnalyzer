@@ -19,6 +19,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private ITransactionFactory _transactionFactory;
         private IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
         private IPriceDataProvider _csvPriceDataProvider;
+        private ISecurityBasketCalculator _securityBasketCalculator;
+
+        public PortfolioTest()
+        {
+        }
 
         [TestInitialize]
         public void Setup()
@@ -26,6 +31,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
             _priceHistoryCsvFileFactory = new YahooPriceDataProvider();
+            _securityBasketCalculator = new SecurityBasketCalculator();
             _csvPriceDataProvider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
         }
 
@@ -143,7 +149,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         public void GetInvestedValueFromEmptyPortfolio()
         {
             var target = _portfolioFactory.ConstructPortfolio();
-            Assert.AreEqual(0.0m, SecurityBasketExtensions.CalculateMarketValue(target, _csvPriceDataProvider, DateTime.Now, _priceHistoryCsvFileFactory));
+            Assert.AreEqual(0.0m, _securityBasketCalculator.CalculateMarketValue(target, _csvPriceDataProvider, DateTime.Now, _priceHistoryCsvFileFactory));
         }
 
         [TestMethod]
@@ -164,7 +170,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var priceDate = new DateTime(2011, 4, 25).CurrentPeriodClose(Resolution.Days);
             
             const decimal expected = 189.44m; // closing price 25 April 2011 = $94.72 * 2 shares = 189.44
-            var actual = SecurityBasketExtensions.CalculateMarketValue(target, _csvPriceDataProvider, priceDate, _priceHistoryCsvFileFactory);
+            var actual = _securityBasketCalculator.CalculateMarketValue(target, _csvPriceDataProvider, priceDate, _priceHistoryCsvFileFactory);
             Assert.AreEqual(expected, actual);
         }
 
@@ -186,7 +192,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             const decimal expected = 0.00m; // all shares sold = no value
-            var actual = SecurityBasketExtensions.CalculateMarketValue(target, _csvPriceDataProvider, sellDate, _priceHistoryCsvFileFactory);
+            var actual = _securityBasketCalculator.CalculateMarketValue(target, _csvPriceDataProvider, sellDate, _priceHistoryCsvFileFactory);
             Assert.AreEqual(expected, actual);
         }
 
@@ -195,7 +201,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         {
             var target = _portfolioFactory.ConstructPortfolio();
 
-            Assert.AreEqual(0.0m, SecurityBasketExtensions.CalculateCost(target, DateTime.Now));
+            Assert.AreEqual(0.0m, _securityBasketCalculator.CalculateCost(target, DateTime.Now));
         }
 
         [TestMethod]
@@ -216,7 +222,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             const decimal expected = 100.00m;
-            var actual = SecurityBasketExtensions.CalculateCost(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateCost(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -224,7 +230,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         public void GetProceedsFromEmptyPortfolio()
         {
             var target = _portfolioFactory.ConstructPortfolio();
-            Assert.AreEqual(0.0m, SecurityBasketExtensions.CalculateProceeds(target, DateTime.Now));
+            Assert.AreEqual(0.0m, _securityBasketCalculator.CalculateProceeds(target, DateTime.Now));
         }
 
         [TestMethod]
@@ -245,7 +251,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             const decimal expected = 100.00m;
-            var actual = SecurityBasketExtensions.CalculateProceeds(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateProceeds(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -253,7 +259,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         public void GetCommissionsFromEmptyPortfolio()
         {
             var target = _portfolioFactory.ConstructPortfolio();
-            Assert.AreEqual(0.0m, SecurityBasketExtensions.CalculateCommissions(target, DateTime.Now));
+            Assert.AreEqual(0.0m, _securityBasketCalculator.CalculateCommissions(target, DateTime.Now));
         }
 
         [TestMethod]
@@ -274,7 +280,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
             const decimal expected = 15.90m; // two $7.95 commissions paid
-            var actual = SecurityBasketExtensions.CalculateCommissions(target, sellDate);
+            var actual = _securityBasketCalculator.CalculateCommissions(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -307,7 +313,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const decimal amount = 10000m;
             var target = _portfolioFactory.ConstructPortfolio(dateTime, amount);
 
-            var expectedValue = SecurityBasketExtensions.CalculateGrossProfit(target, dateTime);
+            var expectedValue = _securityBasketCalculator.CalculateGrossProfit(target, dateTime);
             decimal? actualValue = target[dateTime];
             Assert.AreEqual(expectedValue, actualValue);
         }

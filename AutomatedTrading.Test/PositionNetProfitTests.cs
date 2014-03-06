@@ -6,13 +6,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class PositionNetProfitTests
     {
-        private readonly IPositionFactory _positionFactory;
-        private readonly ITransactionFactory _transactionFactory;
+        private IPositionFactory _positionFactory;
+        private ITransactionFactory _transactionFactory;
+        private ISecurityBasketCalculator _securityBasketCalculator;
 
-        public PositionNetProfitTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
+            _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
         [TestMethod]
@@ -30,7 +33,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             // CalculateGrossProfit does not consider open positions - it can only account for closed holdings
             const decimal expected = 0;
-            var actual = SecurityBasketExtensions.CalculateNetProfit(target, oDate);
+            var actual = _securityBasketCalculator.CalculateNetProfit(target, oDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -56,7 +59,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             // No longer hold these shares, so CalculateNetProfit should return total profit with all commissions.
             var expected = CalculationHelper.GetExpectedNetProfit(oPrice, oCommission, cShares, cPrice, oCommission);
-            var actual = SecurityBasketExtensions.CalculateNetProfit(target, cDate);
+            var actual = _securityBasketCalculator.CalculateNetProfit(target, cDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -82,7 +85,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             // No longer hold these shares, so CalculateNetProfit should return total profit with all commissions.
             var expected = CalculationHelper.GetExpectedNetProfit(oPrice, oCommission, cShares, cPrice, oCommission);
-            var actual = SecurityBasketExtensions.CalculateNetProfit(target, cDate);
+            var actual = _securityBasketCalculator.CalculateNetProfit(target, cDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -115,7 +118,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var secondProfit = CalculationHelper.GetExpectedNetProfit(secondPriceBought, commission, sharesSold, secondPriceSold, commission);
 
             var expected = firstProfit + secondProfit;
-            var actual = SecurityBasketExtensions.CalculateNetProfit(target, secondSellDate);
+            var actual = _securityBasketCalculator.CalculateNetProfit(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -149,7 +152,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var secondProfit = CalculationHelper.GetExpectedNetProfit(firstPriceBought, commission, sharesSold, secondPriceSold, commission);
 
             var expected = firstProfit + secondProfit;
-            var actual = SecurityBasketExtensions.CalculateNetProfit(target, secondSellDate);
+            var actual = _securityBasketCalculator.CalculateNetProfit(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -182,7 +185,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var secondProfit = CalculationHelper.GetExpectedNetProfit(secondPriceBought, commission, sharesSold, secondPriceSold, commission);
 
             var expected = firstProfit + secondProfit;
-            var actual = SecurityBasketExtensions.CalculateNetProfit(target, secondSellDate);
+            var actual = _securityBasketCalculator.CalculateNetProfit(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -215,7 +218,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var secondProfit = CalculationHelper.GetExpectedNetProfit(secondPriceBought, commission, sharesSold, secondPriceSold, commission);
 
             var expected = firstProfit + secondProfit;
-            var actual = SecurityBasketExtensions.CalculateNetProfit(target, secondSellDate);
+            var actual = _securityBasketCalculator.CalculateNetProfit(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -249,7 +252,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var secondProfit = CalculationHelper.GetExpectedNetProfit(firstPriceBought, commission, sharesSold, secondPriceSold, commission);
 
             var expected = firstProfit + secondProfit;
-            var actual = SecurityBasketExtensions.CalculateNetProfit(target, secondSellDate);
+            var actual = _securityBasketCalculator.CalculateNetProfit(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
     }
