@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var fcntx = portfolio.Positions.First(p => p.Ticker == "FCNTX");
-                var investedValue = fcntx.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(fcntx, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(530.24044m, investedValue);
             }
         }
@@ -68,7 +68,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var fdlsx = portfolio.Positions.First(p => p.Ticker == "FDLSX");
-                var investedValue = fdlsx.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(fdlsx, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(1780.07445m, investedValue);
             }
         }
@@ -87,7 +87,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var femex = portfolio.Positions.First(p => p.Ticker == "FEMEX");
-                var investedValue = femex.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(femex, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(800.00325m, investedValue);
             }
         }
@@ -106,7 +106,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var femkx = portfolio.Positions.First(p => p.Ticker == "FEMKX");
-                var investedValue = femkx.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(femkx, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(543.33666m, investedValue);
             }
         }
@@ -125,7 +125,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var fhkcx = portfolio.Positions.First(p => p.Ticker == "FHKCX");
-                var investedValue = fhkcx.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(fhkcx, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(558.50175m, investedValue);
             }
         }
@@ -144,7 +144,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var ficdx = portfolio.Positions.First(p => p.Ticker == "FICDX");
-                var investedValue = ficdx.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(ficdx, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(919.53195m, investedValue);
             }
         }
@@ -163,7 +163,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var flatx = portfolio.Positions.First(p => p.Ticker == "FLATX");
-                var investedValue = flatx.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(flatx, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(1379.28336m, investedValue);
             }
         }
@@ -182,7 +182,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var fsagx = portfolio.Positions.First(p => p.Ticker == "FSAGX");
-                var investedValue = fsagx.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(fsagx, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(0m, investedValue);
             }
         }
@@ -201,7 +201,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var fschx = portfolio.Positions.First(p => p.Ticker == "FSCHX");
-                var investedValue = fschx.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(fschx, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(792.87264m, investedValue);
             }
         }
@@ -220,7 +220,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var fslbx = portfolio.Positions.First(p => p.Ticker == "FSLBX");
-                var investedValue = fslbx.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(fslbx, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(3376.71644m, investedValue);
             }
         }
@@ -239,7 +239,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var fsngx = portfolio.Positions.First(p => p.Ticker == "FSNGX");
-                var investedValue = fsngx.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(fsngx, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(1966.2302m, investedValue);
             }
         }
@@ -258,7 +258,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = GetProvider();
 
                 var ftrnx = portfolio.Positions.First(p => p.Ticker == "FTRNX");
-                var investedValue = ftrnx.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(ftrnx, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(597.02433m, investedValue);
             }
         }

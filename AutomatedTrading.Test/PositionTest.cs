@@ -39,7 +39,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _positionFactory.ConstructPosition(ticker, _transactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
-            var expected = target.CalculateGrossProfit(buyDate);
+            var expected = SecurityBasketExtensions.CalculateGrossProfit(target, buyDate);
             decimal? actual = target[buyDate];
             Assert.AreEqual(expected, actual);
         }
@@ -66,7 +66,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             // invested value should be $45.81 * 5 shares = $229.05
             const decimal currentPrice = 45.81m;
             const decimal expected = (currentPrice * shares);
-            var actual = target.CalculateMarketValue(_csvPriceDataProvider, buyDate, _priceHistoryCsvFileFactory);
+            var actual = SecurityBasketExtensions.CalculateMarketValue(target, _csvPriceDataProvider, buyDate, _priceHistoryCsvFileFactory);
             Assert.AreEqual(expected, actual);
         }
 
@@ -91,7 +91,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             // invested value should be $44.81 * 5 shares = $224.05
             const decimal currentPrice = 44.81m;
             const decimal expected = (currentPrice*sharesSold);
-            var actual = target.CalculateMarketValue(_csvPriceDataProvider, sellDate, _priceHistoryCsvFileFactory);
+            var actual = SecurityBasketExtensions.CalculateMarketValue(target, _csvPriceDataProvider, sellDate, _priceHistoryCsvFileFactory);
             Assert.AreEqual(expected, actual);
         }
 
@@ -112,7 +112,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
             const decimal expected = 0.00m;         // $0.00 currently invested
-            var actual = target.CalculateMarketValue(_csvPriceDataProvider, sellDate, _priceHistoryCsvFileFactory);
+            var actual = SecurityBasketExtensions.CalculateMarketValue(target, _csvPriceDataProvider, sellDate, _priceHistoryCsvFileFactory);
             Assert.AreEqual(expected, actual);
         }
 
@@ -204,7 +204,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _positionFactory.ConstructPosition(ticker, _transactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission));
 
             const decimal expectedCosts = 500.00m;
-            var actualCosts = target.CalculateCost(buyDate);
+            var actualCosts = SecurityBasketExtensions.CalculateCost(target, buyDate);
             Assert.AreEqual(expectedCosts, actualCosts);
         }
 
@@ -230,7 +230,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                    _transactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
             const decimal expectedCosts = 500.00m;
-            var actualCosts = target.CalculateCost(sellDate);
+            var actualCosts = SecurityBasketExtensions.CalculateCost(target, sellDate);
             Assert.AreEqual(expectedCosts, actualCosts);
         }
 
@@ -250,7 +250,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _positionFactory.ConstructPosition(ticker, _transactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission));
 
             const decimal expectedProceeds = 0.00m;
-            var actualProceeds = target.CalculateProceeds(buyDate);
+            var actualProceeds = SecurityBasketExtensions.CalculateProceeds(target, buyDate);
             Assert.AreEqual(expectedProceeds, actualProceeds);
         }
 
@@ -276,7 +276,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                    _transactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
             const decimal expectedProceeds = 375.00m;
-            var actualProceeds = target.CalculateProceeds(sellDate);
+            var actualProceeds = SecurityBasketExtensions.CalculateProceeds(target, sellDate);
             Assert.AreEqual(expectedProceeds, actualProceeds);
         }
 
@@ -297,7 +297,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _positionFactory.ConstructPosition(ticker, _transactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission));
 
             const decimal expectedCommissions = 5.00m;
-            var actualCommissions = target.CalculateCommissions(buyDate);
+            var actualCommissions = SecurityBasketExtensions.CalculateCommissions(target, buyDate);
             Assert.AreEqual(expectedCommissions, actualCommissions);
         }
 
@@ -323,7 +323,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                    _transactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
             const decimal expectedCommissions = 10.00m;
-            var actualCommissions = target.CalculateCommissions(sellDate);
+            var actualCommissions = SecurityBasketExtensions.CalculateCommissions(target, sellDate);
             Assert.AreEqual(expectedCommissions, actualCommissions);
         }
     }

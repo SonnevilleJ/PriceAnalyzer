@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _positionFactory.ConstructPosition(ticker, _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission), _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
             const decimal expected = -0.04m;        // -4% return; 96% of original investment
-            var actual = target.CalculateNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _positionFactory.ConstructPosition(ticker, _transactionFactory.ConstructBuy(ticker, buyDate, shares, buyPrice, commission), _transactionFactory.ConstructSell(ticker, sellDate, shares, sellPrice, commission));
 
             const decimal expected = 0.98m;         // 98% return; 198% of original investment
-            var actual = target.CalculateNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -62,7 +62,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _positionFactory.ConstructPosition(ticker, _transactionFactory.ConstructBuy(ticker, buyDate, shares, price, commission));
 
-            Assert.IsNull(target.CalculateNetReturn(sellDate));
+            Assert.IsNull(SecurityBasketExtensions.CalculateNetReturn(target, sellDate));
         }
     }
 }

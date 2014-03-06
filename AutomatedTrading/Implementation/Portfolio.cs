@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <returns>The value of the Portfolio as of the given DateTime.</returns>
         public decimal this[DateTime dateTime]
         {
-            get { return this.CalculateGrossProfit(dateTime); }
+            get { return SecurityBasketExtensions.CalculateGrossProfit(this, dateTime); }
         }
 
         /// <summary>

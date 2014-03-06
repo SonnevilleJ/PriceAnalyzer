@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
 
             const decimal expectedValue = 0.00m;
-            var actualValue = target.CalculateNetProfit(dateTime);
+            var actualValue = SecurityBasketExtensions.CalculateNetProfit(target, dateTime);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
@@ -40,7 +40,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
             const decimal expectedValue = 0;
-            var actualValue = target.CalculateNetProfit(withdrawalDate);
+            var actualValue = SecurityBasketExtensions.CalculateNetProfit(target, withdrawalDate);
             Assert.AreEqual(expectedValue, actualValue);
         }
 
@@ -63,7 +63,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             // CalculateNetProfit does not consider open positions - it can only account for closed holdings
             const decimal expected = 0;
-            var actual = target.CalculateNetProfit(calculateDate);
+            var actual = SecurityBasketExtensions.CalculateNetProfit(target, calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -87,8 +87,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy, sell);
 
-            var expected = target.GetPosition(ticker).CalculateNetProfit(calculateDate);
-            var actual = target.CalculateNetProfit(calculateDate);
+            var expected = SecurityBasketExtensions.CalculateNetProfit(target.GetPosition(ticker), calculateDate);
+            var actual = SecurityBasketExtensions.CalculateNetProfit(target, calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -117,11 +117,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deProfit = target.GetPosition(de).CalculateNetProfit(sellDate);
-            var msftProfit = target.GetPosition(msft).CalculateNetProfit(sellDate);
+            var deProfit = SecurityBasketExtensions.CalculateNetProfit(target.GetPosition(de), sellDate);
+            var msftProfit = SecurityBasketExtensions.CalculateNetProfit(target.GetPosition(msft), sellDate);
 
             var expected = deProfit + msftProfit;
-            var actual = target.CalculateNetProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -150,11 +150,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deProfit = target.GetPosition(de).CalculateNetProfit(sellDate);
-            var msftProfit = target.GetPosition(msft).CalculateNetProfit(sellDate);
+            var deProfit = SecurityBasketExtensions.CalculateNetProfit(target.GetPosition(de), sellDate);
+            var msftProfit = SecurityBasketExtensions.CalculateNetProfit(target.GetPosition(msft), sellDate);
 
             var expected = deProfit + msftProfit;
-            var actual = target.CalculateNetProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -183,11 +183,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deProfit = target.GetPosition(de).CalculateNetProfit(sellDate);
-            var msftProfit = target.GetPosition(msft).CalculateNetProfit(sellDate);
+            var deProfit = SecurityBasketExtensions.CalculateNetProfit(target.GetPosition(de), sellDate);
+            var msftProfit = SecurityBasketExtensions.CalculateNetProfit(target.GetPosition(msft), sellDate);
 
             var expected = deProfit + msftProfit;
-            var actual = target.CalculateNetProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -214,11 +214,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy);
 
-            var deProfit = target.GetPosition(de).CalculateNetProfit(sellDate);
-            var msftProfit = target.GetPosition(msft).CalculateNetProfit(sellDate);
+            var deProfit = SecurityBasketExtensions.CalculateNetProfit(target.GetPosition(de), sellDate);
+            var msftProfit = SecurityBasketExtensions.CalculateNetProfit(target.GetPosition(msft), sellDate);
 
             var expected = deProfit + msftProfit;
-            var actual = target.CalculateNetProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -244,11 +244,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, msftBuy, msftSell);
 
-            var deProfit = target.GetPosition(de).CalculateNetProfit(sellDate);
-            var msftProfit = target.GetPosition(msft).CalculateNetProfit(sellDate);
+            var deProfit = SecurityBasketExtensions.CalculateNetProfit(target.GetPosition(de), sellDate);
+            var msftProfit = SecurityBasketExtensions.CalculateNetProfit(target.GetPosition(msft), sellDate);
 
             var expected = deProfit + msftProfit;
-            var actual = target.CalculateNetProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
     }

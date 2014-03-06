@@ -24,7 +24,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(dateTime);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = target.CalculateMedianProfit(dateTime);
+            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, dateTime);
             Assert.AreEqual(expected, actual);
         }
 
@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(withdrawalDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = target.CalculateMedianProfit(withdrawalDate);
+            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, withdrawalDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -66,7 +66,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             // CalculateMedianProfit does not consider open positions - it can only account for closed holdings
             var holdings = target.CalculateHoldings(calculateDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = target.CalculateMedianProfit(calculateDate);
+            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -92,7 +92,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = target.CalculateMedianProfit(calculateDate);
+            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -123,7 +123,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = target.CalculateMedianProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -154,7 +154,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = target.CalculateMedianProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -185,7 +185,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = target.CalculateMedianProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -214,7 +214,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = target.CalculateMedianProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -242,7 +242,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var holdings = target.CalculateHoldings(sellDate);
             var expected = CalculationHelper.GetExpectedMedianProfit(holdings);
-            var actual = target.CalculateMedianProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateMedianProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
     }

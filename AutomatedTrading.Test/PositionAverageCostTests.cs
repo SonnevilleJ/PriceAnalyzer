@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var target = _positionFactory.ConstructPosition(ticker, _transactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission));
 
             const decimal expectedAverageCost = buyPrice;
-            var actualAverageCost = target.CalculateAverageCost(buyDate);
+            var actualAverageCost = SecurityBasketExtensions.CalculateAverageCost(target, buyDate);
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
 
@@ -50,7 +50,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                             _transactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
             const decimal expectedAverageCost = buyPrice;
-            var actualAverageCost = target.CalculateAverageCost(buyDate);
+            var actualAverageCost = SecurityBasketExtensions.CalculateAverageCost(target, buyDate);
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
 
@@ -80,7 +80,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const decimal originalShares = sharesBought - sharesSold;
             const decimal newShares = sharesBought2;
             const decimal expectedAverageCost = ((originalShares * buyPrice) + newShares * buyPrice2) / (originalShares + newShares);
-            var actualAverageCost = target.CalculateAverageCost(buyDate2);
+            var actualAverageCost = SecurityBasketExtensions.CalculateAverageCost(target, buyDate2);
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
 
@@ -110,7 +110,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const decimal originalShares = sharesBought - sharesSold;
             const decimal newShares = sharesBought2;
             const decimal expectedAverageCost = ((originalShares * buyPrice) + newShares * buyPrice2) / (originalShares + newShares);
-            var actualAverageCost = target.CalculateAverageCost(buyDate2);
+            var actualAverageCost = SecurityBasketExtensions.CalculateAverageCost(target, buyDate2);
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
     }

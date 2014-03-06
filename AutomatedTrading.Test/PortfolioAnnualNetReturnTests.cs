@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const decimal openingDeposit = 10000m;
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
 
-            Assert.IsNull(target.CalculateAnnualNetReturn(dateTime));
+            Assert.IsNull(SecurityBasketExtensions.CalculateAnnualNetReturn(target, dateTime));
         }
 
         [TestMethod]
@@ -40,7 +40,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
-            Assert.IsNull(target.CalculateAnnualNetReturn(dateTime));
+            Assert.IsNull(SecurityBasketExtensions.CalculateAnnualNetReturn(target, dateTime));
         }
 
         [TestMethod]
@@ -62,7 +62,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                               _transactionFactory.ConstructBuy(ticker, buyDate, shares,
                                                                                                buyPrice, commission));
 
-            Assert.IsNull(target.CalculateAnnualNetReturn(calculateDate));
+            Assert.IsNull(SecurityBasketExtensions.CalculateAnnualNetReturn(target, calculateDate));
         }
 
         [TestMethod]
@@ -88,8 +88,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                               _transactionFactory.ConstructSell(ticker, sellDate, shares,
                                                                                                 sellPrice, commission));
 
-            var expected = target.GetPosition(ticker).CalculateAnnualNetReturn(calculateDate);
-            var actual = target.CalculateAnnualNetReturn(calculateDate);
+            var expected = SecurityBasketExtensions.CalculateAnnualNetReturn(target.GetPosition(ticker), calculateDate);
+            var actual = SecurityBasketExtensions.CalculateAnnualNetReturn(target, calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -117,11 +117,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deReturn = target.GetPosition(de).CalculateAnnualNetReturn(sellDate);
-            var msftReturn = target.GetPosition(msft).CalculateAnnualNetReturn(sellDate);
+            var deReturn = SecurityBasketExtensions.CalculateAnnualNetReturn(target.GetPosition(de), sellDate);
+            var msftReturn = SecurityBasketExtensions.CalculateAnnualNetReturn(target.GetPosition(msft), sellDate);
 
             var expected = ((deReturn*sharesSold) + (msftReturn*sharesSold))/(sharesSold*2);
-            var actual = target.CalculateAnnualNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateAnnualNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -149,11 +149,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deReturn = target.GetPosition(de).CalculateAnnualNetReturn(sellDate);
-            var msftReturn = target.GetPosition(msft).CalculateAnnualNetReturn(sellDate);
+            var deReturn = SecurityBasketExtensions.CalculateAnnualNetReturn(target.GetPosition(de), sellDate);
+            var msftReturn = SecurityBasketExtensions.CalculateAnnualNetReturn(target.GetPosition(msft), sellDate);
 
             var expected = ((deReturn*sharesSold) + (msftReturn*sharesSold))/(sharesSold*2);
-            var actual = target.CalculateAnnualNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateAnnualNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -181,11 +181,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deReturn = target.GetPosition(de).CalculateAnnualNetReturn(sellDate);
-            var msftReturn = target.GetPosition(msft).CalculateAnnualNetReturn(sellDate);
+            var deReturn = SecurityBasketExtensions.CalculateAnnualNetReturn(target.GetPosition(de), sellDate);
+            var msftReturn = SecurityBasketExtensions.CalculateAnnualNetReturn(target.GetPosition(msft), sellDate);
 
             var expected = ((deReturn*sharesSold) + (msftReturn*sharesSold))/(sharesSold*2);
-            var actual = target.CalculateAnnualNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateAnnualNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -211,10 +211,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy);
 
-            var deReturn = target.GetPosition(de).CalculateAnnualNetReturn(sellDate);
+            var deReturn = SecurityBasketExtensions.CalculateAnnualNetReturn(target.GetPosition(de), sellDate);
 
             var expected = deReturn;
-            var actual = target.CalculateAnnualNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateAnnualNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -240,10 +240,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, msftBuy, msftSell);
 
-            var msftReturn = target.GetPosition(msft).CalculateAnnualNetReturn(sellDate);
+            var msftReturn = SecurityBasketExtensions.CalculateAnnualNetReturn(target.GetPosition(msft), sellDate);
 
             var expected = msftReturn;
-            var actual = target.CalculateAnnualNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateAnnualNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
     }

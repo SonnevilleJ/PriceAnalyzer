@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <param name = "dateTime">The <see cref = "DateTime" /> to use.</param>
         public decimal this[DateTime dateTime]
         {
-            get { return this.CalculateGrossProfit(dateTime); }
+            get { return SecurityBasketExtensions.CalculateGrossProfit(this, dateTime); }
         }
 
         /// <summary>
@@ -128,7 +128,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             else if (shareTransaction.IsClosingTransaction())
             {
                     var date = shareTransaction.SettlementDate;
-                    var heldShares = _transactions.GetHeldShares(date);
+                    var heldShares = SecurityBasketExtensions.GetHeldShares(_transactions, date);
                     if (shareTransaction.Shares > heldShares)
                     {
                         throw new InvalidOperationException(

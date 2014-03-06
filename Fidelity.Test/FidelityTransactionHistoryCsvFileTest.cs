@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
 
                 var altr = portfolio.Positions.First(p => p.Ticker == "ALTR");
-                var investedValue = altr.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(altr, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(0.00m, investedValue);
             }
         }
@@ -61,7 +61,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
 
                 var ntap = portfolio.Positions.First(p => p.Ticker == "NTAP");
-                var investedValue = ntap.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(ntap, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(0.00m, investedValue);
             }
         }
@@ -80,7 +80,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
 
                 var ntct = portfolio.Positions.First(p => p.Ticker == "NTCT");
-                var investedValue = ntct.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(ntct, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(0.00m, investedValue);
             }
         }
@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
 
                 var pg = portfolio.Positions.First(p => p.Ticker == "PG");
-                var investedValue = pg.CalculateMarketValue(provider, settlementDate, _priceHistoryCsvFileFactory);
+                var investedValue = AutomatedTrading.SecurityBasketExtensions.CalculateMarketValue(pg, provider, settlementDate, _priceHistoryCsvFileFactory);
                 Assert.AreEqual(0.00m, investedValue);
             }
         }

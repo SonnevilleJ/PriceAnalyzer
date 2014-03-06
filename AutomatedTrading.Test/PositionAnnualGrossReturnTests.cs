@@ -34,11 +34,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             const decimal expectedReturn = -0.1m;
             // -10% return; loss = $50 after commissions; initial investment = $500
-            var actualReturn = target.CalculateGrossReturn(sellDate);
+            var actualReturn = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = -0.5m; // -50% annual rate return
-            var actual = target.CalculateAnnualGrossReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateAnnualGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -61,11 +61,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             const decimal expectedReturn = 0.1m;
             // 10% return; profit = $50 after commissions; initial investment = $500
-            var actualReturn = target.CalculateGrossReturn(sellDate);
+            var actualReturn = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expectedReturn, actualReturn);
 
             const decimal expected = 0.5m; // 50% annual rate return
-            var actual = target.CalculateAnnualGrossReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateAnnualGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -83,7 +83,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                             _transactionFactory.ConstructBuy(ticker, buyDate, shares,
                                                                                              price, commission));
 
-            Assert.IsNull(target.CalculateAnnualGrossReturn(sellDate));
+            Assert.IsNull(SecurityBasketExtensions.CalculateAnnualGrossReturn(target, sellDate));
         }
     }
 }

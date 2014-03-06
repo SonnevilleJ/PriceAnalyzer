@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var firstProfit = CalculationHelper.GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
 
             var expected = (firstProfit)/1;
-            var actual = target.CalculateAverageProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -59,7 +59,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var firstProfit = CalculationHelper.GetExpectedGrossProfit(firstPriceBought, sharesSold, firstPriceSold);
 
             var expected = (firstProfit)/1;
-            var actual = target.CalculateAverageProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -92,7 +92,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var secondProfit = CalculationHelper.GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
 
             var expected = (firstProfit + secondProfit)/2;
-            var actual = target.CalculateAverageProfit(secondSellDate);
+            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -125,7 +125,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var secondProfit = CalculationHelper.GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
 
             var expected = (firstProfit + secondProfit)/2;
-            var actual = target.CalculateAverageProfit(secondSellDate);
+            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -158,7 +158,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var secondProfit = CalculationHelper.GetExpectedGrossProfit(secondPriceBought, sharesSold, secondPriceSold);
 
             var expected = (firstProfit + secondProfit)/2;
-            var actual = target.CalculateAverageProfit(secondSellDate);
+            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, secondSellDate);
             Assert.AreEqual(expected, actual);
         }
     }

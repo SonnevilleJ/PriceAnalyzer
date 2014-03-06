@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                                                               commission));
 
             const decimal expected = decrease;
-            var actual = target.CalculateGrossReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -63,7 +63,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                                                               commission));
 
             const decimal expected = increase;
-            var actual = target.CalculateGrossReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateGrossReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                             _transactionFactory.ConstructBuy(ticker, buyDate, shares,
                                                                                              price, commission));
 
-            Assert.IsNull(target.CalculateGrossReturn(sellDate));
+            Assert.IsNull(SecurityBasketExtensions.CalculateGrossReturn(target, sellDate));
         }
     }
 }

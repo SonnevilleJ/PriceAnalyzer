@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const decimal openingDeposit = 10000m;
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit);
 
-            Assert.IsNull(target.CalculateNetReturn(dateTime));
+            Assert.IsNull(SecurityBasketExtensions.CalculateNetReturn(target, dateTime));
         }
 
         [TestMethod]
@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(deposit, withdrawal);
 
-            Assert.IsNull(target.CalculateNetReturn(dateTime));
+            Assert.IsNull(SecurityBasketExtensions.CalculateNetReturn(target, dateTime));
         }
 
         [TestMethod]
@@ -57,7 +57,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy);
 
-            Assert.IsNull(target.CalculateNetReturn(calculateDate));
+            Assert.IsNull(SecurityBasketExtensions.CalculateNetReturn(target, calculateDate));
         }
 
         [TestMethod]
@@ -80,8 +80,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, openingDeposit, buy, sell);
 
-            var expected = target.GetPosition(ticker).CalculateNetReturn(calculateDate);
-            var actual = target.CalculateNetReturn(calculateDate);
+            var expected = SecurityBasketExtensions.CalculateNetReturn(target.GetPosition(ticker), calculateDate);
+            var actual = SecurityBasketExtensions.CalculateNetReturn(target, calculateDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -110,11 +110,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deReturn = target.GetPosition(de).CalculateNetReturn(sellDate);
-            var msftReturn = target.GetPosition(msft).CalculateNetReturn(sellDate);
+            var deReturn = SecurityBasketExtensions.CalculateNetReturn(target.GetPosition(de), sellDate);
+            var msftReturn = SecurityBasketExtensions.CalculateNetReturn(target.GetPosition(msft), sellDate);
 
             var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
-            var actual = target.CalculateNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -143,11 +143,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deReturn = target.GetPosition(de).CalculateNetReturn(sellDate);
-            var msftReturn = target.GetPosition(msft).CalculateNetReturn(sellDate);
+            var deReturn = SecurityBasketExtensions.CalculateNetReturn(target.GetPosition(de), sellDate);
+            var msftReturn = SecurityBasketExtensions.CalculateNetReturn(target.GetPosition(msft), sellDate);
 
             var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
-            var actual = target.CalculateNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -176,11 +176,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deReturn = target.GetPosition(de).CalculateNetReturn(sellDate);
-            var msftReturn = target.GetPosition(msft).CalculateNetReturn(sellDate);
+            var deReturn = SecurityBasketExtensions.CalculateNetReturn(target.GetPosition(de), sellDate);
+            var msftReturn = SecurityBasketExtensions.CalculateNetReturn(target.GetPosition(msft), sellDate);
 
             var expected = ((deReturn * sharesSold) + (msftReturn * sharesSold)) / (sharesSold * 2);
-            var actual = target.CalculateNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -207,10 +207,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy);
 
-            var deReturn = target.GetPosition(de).CalculateNetReturn(sellDate);
+            var deReturn = SecurityBasketExtensions.CalculateNetReturn(target.GetPosition(de), sellDate);
 
             var expected = deReturn;
-            var actual = target.CalculateNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
 
@@ -236,10 +236,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, msftBuy, msftSell);
 
-            var msftReturn = target.GetPosition(msft).CalculateNetReturn(sellDate);
+            var msftReturn = SecurityBasketExtensions.CalculateNetReturn(target.GetPosition(msft), sellDate);
 
             var expected = msftReturn;
-            var actual = target.CalculateNetReturn(sellDate);
+            var actual = SecurityBasketExtensions.CalculateNetReturn(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
     }

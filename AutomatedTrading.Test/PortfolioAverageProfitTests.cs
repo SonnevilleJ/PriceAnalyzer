@@ -40,11 +40,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, deBuy, deSell, msftBuy, msftSell);
 
-            var deProfit = target.GetPosition(de).CalculateAverageProfit(sellDate);
-            var msftProfit = target.GetPosition(msft).CalculateAverageProfit(sellDate);
+            var deProfit = SecurityBasketExtensions.CalculateAverageProfit(target.GetPosition(de), sellDate);
+            var msftProfit = SecurityBasketExtensions.CalculateAverageProfit(target.GetPosition(msft), sellDate);
 
             var expected = deProfit + msftProfit;
-            var actual = target.CalculateAverageProfit(sellDate);
+            var actual = SecurityBasketExtensions.CalculateAverageProfit(target, sellDate);
             Assert.AreEqual(expected, actual);
         }
     }
