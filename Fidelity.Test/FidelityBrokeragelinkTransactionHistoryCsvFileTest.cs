@@ -1,7 +1,13 @@
 using System;
+using System.Collections;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Resources;
+using System.Text;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Moq;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
@@ -323,7 +329,22 @@ namespace Sonneville.PriceTools.Fidelity.Test
 
         private static IPriceDataProvider GetProvider()
         {
-            return new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
+            var webClientMock = new Mock<IWebClient>();
+            webClientMock.Setup(x => x.OpenRead(It.IsAny<string>())).Returns<string>(GetPriceDataStream);
+            return new CsvPriceDataProvider(webClientMock.Object, new YahooPriceHistoryQueryUrlBuilder());
+        }
+
+        private static Stream GetPriceDataStream(string arg)
+        {
+            var ticker = arg.Split('?', '&').ElementAt(1).Remove(0, 2);
+
+            var resourceSet = CsvPriceData.ResourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true);
+            foreach (DictionaryEntry entry in resourceSet)
+            {
+                if (entry.Key as string == ticker)
+                    return new MemoryStream(Encoding.Default.GetBytes(entry.Value as string));
+            }
+            return new MemoryStream();
         }
     }
 }

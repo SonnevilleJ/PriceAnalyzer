@@ -68,7 +68,18 @@
     <None Include="Resources\BrokerageLink_trades.csv" />
     <None Include="Resources\BrokerageLink_TransactionPriceRounding.csv" />
     <None Include="Resources\DE 1-1-2011 to 6-30-2011.csv" />
+    <None Include="Resources\FCNTX.csv" />
+    <None Include="Resources\FDLSX.csv" />
+    <None Include="Resources\FEMEX.csv" />
+    <None Include="Resources\FEMKX.csv" />
+    <None Include="Resources\FHKCX.csv" />
+    <None Include="Resources\FICDX.csv" />
     <None Include="Resources\FidelityTransactions.csv" />
+    <None Include="Resources\FLATX.csv" />
+    <None Include="Resources\FSCHX.csv" />
+    <None Include="Resources\FSLBX.csv" />
+    <None Include="Resources\FSNGX.csv" />
+    <None Include="Resources\FTRNX.csv" />
     <None Include="Resources\IBM 1-1-2011 to 3-15-2011 Daily Yahoo.csv" />
     <None Include="Resources\IBM_1_1_2011_to_3_15_2011_Weekly_Yahoo.csv" />
     <None Include="Resources\IBM_8_7_2012_to_8_7_2012_Daily_Yahoo.csv" />
@@ -102,8 +113,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="CsvPriceData.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>CsvPriceData.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Internal\FidelityData.resx">
       <Generator>ResXFileCodeGenerator</Generator>

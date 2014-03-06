@@ -121,6 +121,39 @@
   <data name="DE_1_1_2011_to_6_30_2011" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\de 1-1-2011 to 6-30-2011.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
+  <data name="FCNTX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FCNTX.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="FDLSX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FDLSX.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="FEMEX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FEMEX.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="FEMKX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FEMKX.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="FHKCX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FHKCX.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="FICDX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FICDX.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="FLATX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FLATX.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="FSCHX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FSCHX.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="FSLBX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FSLBX.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="FSNGX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FSNGX.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
+  <data name="FTRNX" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>Resources\FTRNX.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
+  </data>
   <data name="IBM_1_1_2011_to_3_15_2011_Daily_Yahoo" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>resources\ibm 1-1-2011 to 3-15-2011 daily yahoo.csv;System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089;Windows-1252</value>
   </data>
