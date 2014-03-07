@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         {
             const int lookback = 20;
             var expected = GetExpectedCorrelation(lookback);
-            var actual = _ibm.Correlation(_de)[_ibm.Tail];
+            var actual = new Correlation(_ibm, 20, _de)[_ibm.Tail];
             Assert.AreEqual(expected, actual);
         }
 
@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         {
             const int lookback = 10;
             var expected = GetExpectedCorrelation(lookback);
-            var actual = _ibm.Correlation(_de, lookback)[_ibm.Tail];
+            var actual = new Correlation(_ibm, lookback, _de)[_ibm.Tail];
             Assert.AreEqual(expected, actual);
         }
 
@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         {
             const int lookback = 10;
             var expected = GetExpectedCorrelation(lookback);
-            var actual = _ibm.Correlation(_de, lookback).TimePeriods.Last().Value();
+            var actual = new Correlation(_ibm, lookback, _de).TimePeriods.Last().Value();
             Assert.AreEqual(expected, actual);
         }
 

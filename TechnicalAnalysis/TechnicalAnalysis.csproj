@@ -84,7 +84,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Correlation.cs" />
-    <Compile Include="IndicatorExtensions.cs" />
     <Compile Include="IPriceSeriesIndicator.cs" />
     <Compile Include="PriceSeriesIndicator.cs" />
     <Compile Include="RsiAverageGains.cs" />
