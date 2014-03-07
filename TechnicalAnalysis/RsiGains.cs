@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         protected override decimal Calculate(DateTime index)
         {
             var currentPeriodValue = MeasuredTimeSeries[index];
-            var previousPeriodValue = MeasuredTimeSeries.GetPreviousTimePeriod(index).Value();
+            var previousPeriodValue = new TimeSeriesUtility().GetPreviousTimePeriod(MeasuredTimeSeries, index).Value();
             return currentPeriodValue > previousPeriodValue ? currentPeriodValue - previousPeriodValue : 0;
         }
     }

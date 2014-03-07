@@ -26,14 +26,14 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         protected override decimal Calculate(DateTime index)
         {
-            var myPeriods = MeasuredTimeSeries.GetPreviousTimePeriods(Lookback, index).Select(x => x[index]);
-            var otherPeriods = _target.GetPreviousTimePeriods(Lookback, index).Select(x => x[index]);
+            var myPeriods = new TimeSeriesUtility().GetPreviousTimePeriods(MeasuredTimeSeries, Lookback, index).Select(x => x[index]);
+            var otherPeriods = new TimeSeriesUtility().GetPreviousTimePeriods(_target, Lookback, index).Select(x => x[index]);
             return myPeriods.Correlation(otherPeriods);
         }
 
         protected override bool CanCalculate(DateTime index)
         {
-            if (MeasuredTimeSeries.HasValueInRange(index) && _target.HasValueInRange(index))
+            if (new TimeSeriesUtility().HasValueInRange(MeasuredTimeSeries, index) && new TimeSeriesUtility().HasValueInRange(_target, index))
             {
                 return base.CanCalculate(index);
             }

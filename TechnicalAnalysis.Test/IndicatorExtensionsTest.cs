@@ -40,8 +40,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 
         private decimal GetExpectedCorrelation(int lookback)
         {
-            var ibmDecimals = _ibm.GetPreviousPricePeriods(lookback, _ibm.Tail).Select(x => x.Close);
-            var deDecimals = _de.GetPreviousPricePeriods(lookback, _ibm.Tail).Select(x => x.Close);
+            var ibmDecimals = new TimeSeriesUtility().GetPreviousPricePeriods(_ibm, lookback, _ibm.Tail).Select(x => x.Close);
+            var deDecimals = new TimeSeriesUtility().GetPreviousPricePeriods(_de, lookback, _ibm.Tail).Select(x => x.Close);
 
             var expected = ibmDecimals.Correlation(deDecimals);
             return expected;

@@ -94,7 +94,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             get
             {
                 var dateTime = index.CurrentPeriodClose(Resolution);
-                return CachedValues.HasValueInRange(dateTime) ? CachedValues[dateTime] : CalculateAndCache(dateTime);
+                return new TimeSeriesUtility().HasValueInRange(CachedValues, dateTime) ? CachedValues[dateTime] : CalculateAndCache(dateTime);
             }
         }
 

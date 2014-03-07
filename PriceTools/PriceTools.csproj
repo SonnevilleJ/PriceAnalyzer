@@ -55,7 +55,7 @@
     <Compile Include="Extensions\TimePeriodExtensions.cs" />
     <Compile Include="Extensions\TransactionExtensions.cs" />
     <Compile Include="Extensions\VariableValueExtensions.cs" />
-    <Compile Include="Extensions\TimeSeriesExtensions.cs" />
+    <Compile Include="Extensions\TimeSeriesUtility.cs" />
     <Compile Include="Factories\HoldingFactory.cs" />
     <Compile Include="Interfaces\ICashAccountFactory.cs" />
     <Compile Include="Extensions\PriceSeriesReactionMovesExtensions.cs" />

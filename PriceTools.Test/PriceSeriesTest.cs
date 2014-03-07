@@ -65,7 +65,7 @@ namespace Sonneville.PriceTools.Test
         public void HasValue1Test()
         {
             var target = _priceSeriesFactory.ConstructPriceSeries("DE");
-            Assert.IsFalse(target.HasValueInRange(DateTime.Now));
+            Assert.IsFalse(new TimeSeriesUtility().HasValueInRange(target, DateTime.Now));
         }
 
         [TestMethod]
@@ -80,7 +80,7 @@ namespace Sonneville.PriceTools.Test
             target.AddPriceData(p2);
             target.AddPriceData(p3);
 
-            Assert.IsTrue(target.HasValueInRange(p1.Head));
+            Assert.IsTrue(new TimeSeriesUtility().HasValueInRange(target, p1.Head));
         }
 
         [TestMethod]
@@ -95,7 +95,7 @@ namespace Sonneville.PriceTools.Test
             target.AddPriceData(p2);
             target.AddPriceData(p3);
 
-            Assert.IsTrue(target.HasValueInRange(p3.Tail));
+            Assert.IsTrue(new TimeSeriesUtility().HasValueInRange(target, p3.Tail));
         }
 
         /// <summary>
@@ -313,7 +313,7 @@ namespace Sonneville.PriceTools.Test
         public void GetDailyPeriodsFromWeeklyPeriodsTest()
         {
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE", Resolution.Weeks);
-            priceSeries.ResizePricePeriods(Resolution.Days);
+            new TimeSeriesUtility().ResizePricePeriods(priceSeries, Resolution.Days);
         }
 
         /// <summary>

@@ -8,15 +8,18 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Contains extension methods for <see cref="ITimeSeries"/> objects.
     /// </summary>
-    public static class TimeSeriesExtensions
+    public class TimeSeriesUtility
     {
-        private static readonly IPricePeriodFactory PricePeriodFactory;
-        private static readonly ITimePeriodFactory TimePeriodFactory;
+        private readonly IPricePeriodFactory _pricePeriodFactory;
+        private readonly ITimePeriodFactory _timePeriodFactory;
 
-        static TimeSeriesExtensions()
+        /// <summary>
+        /// Constructs a TimeSeriesUtility.
+        /// </summary>
+        public TimeSeriesUtility()
         {
-            PricePeriodFactory = new PricePeriodFactory();
-            TimePeriodFactory = new TimePeriodFactory();
+            _pricePeriodFactory = new PricePeriodFactory();
+            _timePeriodFactory = new TimePeriodFactory();
         }
 
         /// <summary>
@@ -25,7 +28,7 @@ namespace Sonneville.PriceTools
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to inspect.</param>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
-        public static bool HasValueInRange(this ITimeSeries timeSeries, DateTime settlementDate)
+        public bool HasValueInRange(ITimeSeries timeSeries, DateTime settlementDate)
         {
             if (!timeSeries.TimePeriods.Any()) return false;
             return (timeSeries as ITimePeriod).HasValueInRange(settlementDate);
@@ -37,10 +40,10 @@ namespace Sonneville.PriceTools
         /// <param name="priceSeries">The <see cref="IPriceSeries"/> to inspect.</param>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the IPricePeriod has a valid value for the given date.</returns>
-        public static bool HasValueInRange(this IPriceSeries priceSeries, DateTime settlementDate)
+        public bool HasValueInRange(IPriceSeries priceSeries, DateTime settlementDate)
         {
             if (!priceSeries.PricePeriods.Any()) return false;
-            return (priceSeries as ITimeSeries).HasValueInRange(settlementDate);
+            return HasValueInRange((priceSeries as ITimeSeries), settlementDate);
         }
 
         /// <summary>
@@ -49,9 +52,9 @@ namespace Sonneville.PriceTools
         /// <param name="timeSeries"></param>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public static IEnumerable<ITimePeriod> ResizeTimePeriods(this ITimeSeries timeSeries, Resolution resolution)
+        public IEnumerable<ITimePeriod> ResizeTimePeriods(ITimeSeries timeSeries, Resolution resolution)
         {
-            if (timeSeries.TimePeriods.Any()) return timeSeries.ResizeTimePeriods(resolution, timeSeries.Head, timeSeries.Tail);
+            if (timeSeries.TimePeriods.Any()) return ResizeTimePeriods(timeSeries, resolution, timeSeries.Head, timeSeries.Tail);
             if (resolution < timeSeries.Resolution)
                 throw new InvalidOperationException(
                     String.Format(
@@ -70,11 +73,11 @@ namespace Sonneville.PriceTools
         /// <param name="tail">The tail of the periods to retrieve.</param>
         /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this TimeSeries.</exception>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        public static IEnumerable<ITimePeriod> ResizeTimePeriods(this ITimeSeries timeSeries, Resolution resolution, DateTime head, DateTime tail)
+        public IEnumerable<ITimePeriod> ResizeTimePeriods(ITimeSeries timeSeries, Resolution resolution, DateTime head, DateTime tail)
         {
             // defer to child object
             var priceSeries = timeSeries as IPriceSeries;
-            if (priceSeries != null) return priceSeries.ResizePricePeriods(resolution, head, tail);
+            if (priceSeries != null) return ResizePricePeriods(priceSeries, resolution, head, tail);
 
             ValidateResolution(resolution, timeSeries.Resolution);
             var dataPeriods = timeSeries.TimePeriods.Where(period => period.Head >= head && period.Tail <= tail).OrderBy(period => period.Head).ToList();
@@ -87,7 +90,7 @@ namespace Sonneville.PriceTools
                     let periodTail = pair.Value
                     let periodsInRange = dataPeriods.Where(period => period.Head >= periodHead && period.Tail <= periodTail).ToList()
                     let value = periodsInRange.Last()[periodTail]
-                    select TimePeriodFactory.ConstructTimePeriod(periodHead, periodTail, value));
+                    select _timePeriodFactory.ConstructTimePeriod(periodHead, periodTail, value));
         }
 
         /// <summary>
@@ -96,7 +99,7 @@ namespace Sonneville.PriceTools
         /// <param name="timeSeries"></param>
         /// <param name="origin">The date of the current period.</param>
         /// <returns></returns>
-        public static ITimePeriod GetPreviousTimePeriod(this ITimeSeries timeSeries, DateTime origin)
+        public ITimePeriod GetPreviousTimePeriod(ITimeSeries timeSeries, DateTime origin)
         {
             return GetPreviousTimePeriods(timeSeries, 1, origin).First();
         }
@@ -108,7 +111,7 @@ namespace Sonneville.PriceTools
         /// <param name="maximumCount">The maximum number of periods to select.</param>
         /// <param name="origin">The date which all period tail must precede.</param>
         /// <returns></returns>
-        public static IEnumerable<ITimePeriod> GetPreviousTimePeriods(this ITimeSeries timeSeries, int maximumCount, DateTime origin)
+        public IEnumerable<ITimePeriod> GetPreviousTimePeriods(ITimeSeries timeSeries, int maximumCount, DateTime origin)
         {
             return GetPreviousPeriods(maximumCount, origin, timeSeries.TimePeriods);
         }
@@ -120,12 +123,12 @@ namespace Sonneville.PriceTools
         /// <param name="maximumCount">The maximum number of periods to select.</param>
         /// <param name="origin">The date which all period tail must precede.</param>
         /// <returns></returns>
-        public static IEnumerable<IPricePeriod> GetPreviousPricePeriods(this IPriceSeries priceSeries, int maximumCount, DateTime origin)
+        public IEnumerable<IPricePeriod> GetPreviousPricePeriods(IPriceSeries priceSeries, int maximumCount, DateTime origin)
         {
             return GetPreviousPeriods(maximumCount, origin, priceSeries.PricePeriods);
         }
 
-        private static IEnumerable<T> GetPreviousPeriods<T>(int maximumCount, DateTime origin, IEnumerable<T> periods) where T : IVariableValue
+        private IEnumerable<T> GetPreviousPeriods<T>(int maximumCount, DateTime origin, IEnumerable<T> periods) where T : IVariableValue
         {
             var previousPeriods = periods.Where(p => p.Tail < origin).ToArray();
             if (previousPeriods.Count() <= maximumCount) return previousPeriods;
@@ -134,7 +137,7 @@ namespace Sonneville.PriceTools
             return PreviousPeriods(maximumCount, previousPeriods);
         }
 
-        private static IEnumerable<T> PreviousPeriods<T>(int maximumCount, T[] previousPeriods) where T : IVariableValue
+        private IEnumerable<T> PreviousPeriods<T>(int maximumCount, T[] previousPeriods) where T : IVariableValue
         {
             for (var i = 0; i < maximumCount; i++)
             {
@@ -148,9 +151,9 @@ namespace Sonneville.PriceTools
         /// <param name="priceSeries"></param>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
-        public static IEnumerable<IPricePeriod> ResizePricePeriods(this IPriceSeries priceSeries, Resolution resolution)
+        public IEnumerable<IPricePeriod> ResizePricePeriods(IPriceSeries priceSeries, Resolution resolution)
         {
-            return priceSeries.PricePeriods.ResizePricePeriods(resolution);
+            return ResizePricePeriods(priceSeries.PricePeriods, resolution);
         }
 
         /// <summary>
@@ -162,9 +165,9 @@ namespace Sonneville.PriceTools
         /// <param name="tail">The tail of the periods to retrieve.</param>
         /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this PriceSeries.</exception>
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
-        public static IEnumerable<IPricePeriod> ResizePricePeriods(this IPriceSeries priceSeries, Resolution resolution, DateTime head, DateTime tail)
+        public IEnumerable<IPricePeriod> ResizePricePeriods(IPriceSeries priceSeries, Resolution resolution, DateTime head, DateTime tail)
         {
-            return priceSeries.PricePeriods.ResizePricePeriods(resolution, head, tail);
+            return ResizePricePeriods(priceSeries.PricePeriods, resolution, head, tail);
         }
 
         /// <summary>
@@ -173,10 +176,10 @@ namespace Sonneville.PriceTools
         /// <param name="pricePeriods"></param>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the PricePeriods.</param>
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
-        public static IEnumerable<IPricePeriod> ResizePricePeriods(this IEnumerable<IPricePeriod> pricePeriods, Resolution resolution)
+        public IEnumerable<IPricePeriod> ResizePricePeriods(IEnumerable<IPricePeriod> pricePeriods, Resolution resolution)
         {
             var periods = pricePeriods.ToArray();
-            if (periods.Any()) return periods.ResizePricePeriods(resolution, periods.Min(p => p.Head), periods.Max(p => p.Tail));
+            if (periods.Any()) return ResizePricePeriods(periods, resolution, periods.Min(p => p.Head), periods.Max(p => p.Tail));
             ValidateResolution(resolution, periods.Max(p => p.Resolution));
             return new List<IPricePeriod>();
         }
@@ -190,7 +193,7 @@ namespace Sonneville.PriceTools
         /// <param name="tail">The tail of the periods to retrieve.</param>
         /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this PriceSeries.</exception>
         /// <returns>A list of <see cref="IPricePeriod"/>s in the given resolution contained in this PriceSeries.</returns>
-        public static IEnumerable<IPricePeriod> ResizePricePeriods(this IEnumerable<IPricePeriod> pricePeriods, Resolution resolution, DateTime head, DateTime tail)
+        public IEnumerable<IPricePeriod> ResizePricePeriods(IEnumerable<IPricePeriod> pricePeriods, Resolution resolution, DateTime head, DateTime tail)
         {
             var periods = pricePeriods.ToArray();
             ValidateResolution(resolution, periods.Max(p => p.Resolution));
@@ -208,10 +211,10 @@ namespace Sonneville.PriceTools
                    let low = periodsInRange.Min(p => p.Low)
                    let close = periodsInRange.Last().Close
                    let volume = periodsInRange.Sum(p => p.Volume)
-                   select PricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume);
+                   select _pricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume);
         }
 
-        private static void ValidateResolution(Resolution desiredResolution, Resolution actualResolution)
+        private void ValidateResolution(Resolution desiredResolution, Resolution actualResolution)
         {
             if (desiredResolution < actualResolution)
                 throw new InvalidOperationException(
@@ -224,7 +227,7 @@ namespace Sonneville.PriceTools
                     );
         }
 
-        private static IEnumerable<KeyValuePair<DateTime, DateTime>> GetResolutionDatePairs(Resolution resolution, DateTime head, DateTime tail)
+        private IEnumerable<KeyValuePair<DateTime, DateTime>> GetResolutionDatePairs(Resolution resolution, DateTime head, DateTime tail)
         {
             if (!head.IsInTradingPeriod(resolution))
             {

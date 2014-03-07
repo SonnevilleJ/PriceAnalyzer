@@ -140,7 +140,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="pricePeriods"></param>
         public void AddPriceData(IEnumerable<IPricePeriod> pricePeriods)
         {
-            var list = pricePeriods.Where(period => !this.HasValueInRange(period.Head) && !this.HasValueInRange(period.Tail)).ToList();
+            var list = pricePeriods.Where(period => !new TimeSeriesUtility().HasValueInRange(this, period.Head) && !new TimeSeriesUtility().HasValueInRange(this, period.Tail)).ToList();
 
             if (list.Any())
             {
