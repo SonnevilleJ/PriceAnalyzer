@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\HoldingExtensions.cs" />
+    <Compile Include="Extensions\ITimeSeriesUtility.cs" />
     <Compile Include="Extensions\SecurityBasketExtensions.cs" />
     <Compile Include="Extensions\TimePeriodExtensions.cs" />
     <Compile Include="Extensions\TransactionExtensions.cs" />

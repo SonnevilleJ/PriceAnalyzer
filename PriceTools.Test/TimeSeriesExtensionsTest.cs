@@ -12,11 +12,14 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class TimeSeriesExtensionsTest
     {
-        private readonly IPriceSeriesFactory _priceSeriesFactory;
+        private IPriceSeriesFactory _priceSeriesFactory;
+        private ITimeSeriesUtility _timeSeriesUtility;
 
-        public TimeSeriesExtensionsTest()
+        [TestInitialize]
+        public void Initialize()
         {
             _priceSeriesFactory = new PriceSeriesFactory();
+            _timeSeriesUtility = new TimeSeriesUtility();
         }
 
         [TestMethod]
@@ -25,7 +28,7 @@ namespace Sonneville.PriceTools.Test
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
             priceSeries.AddPriceData(SamplePriceDatas.Deere.PriceHistory.PricePeriods);
 
-            var pricePeriods = new TimeSeriesUtility().ResizePricePeriods(priceSeries, Resolution.Weeks);
+            var pricePeriods = _timeSeriesUtility.ResizePricePeriods(priceSeries, Resolution.Weeks);
 
             Assert.AreEqual(26, pricePeriods.Count());
         }
@@ -38,8 +41,8 @@ namespace Sonneville.PriceTools.Test
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
             priceSeries.AddPriceData(SamplePriceDatas.Deere.PriceHistory.PricePeriods);
 
-            var dailyPeriods = new TimeSeriesUtility().ResizePricePeriods(priceSeries, Resolution.Days).ToArray();
-            var weeklyPeriods = new TimeSeriesUtility().ResizePricePeriods(priceSeries, Resolution.Weeks).ToArray();
+            var dailyPeriods = _timeSeriesUtility.ResizePricePeriods(priceSeries, Resolution.Days).ToArray();
+            var weeklyPeriods = _timeSeriesUtility.ResizePricePeriods(priceSeries, Resolution.Weeks).ToArray();
 
             // don't use first period because data source may not have a complete period for the new resolution
             var weekHead = seriesHead.CurrentPeriodOpen(Resolution.Weeks).SeekPeriods(1, Resolution.Weeks);
@@ -79,8 +82,8 @@ namespace Sonneville.PriceTools.Test
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE");
             priceSeries.AddPriceData(SamplePriceDatas.Deere.PriceHistory.PricePeriods);
 
-            var dailyPeriods = new TimeSeriesUtility().ResizePricePeriods(priceSeries, Resolution.Days).ToArray();
-            var monthlyPeriods = new TimeSeriesUtility().ResizePricePeriods(priceSeries, Resolution.Months).ToArray();
+            var dailyPeriods = _timeSeriesUtility.ResizePricePeriods(priceSeries, Resolution.Days).ToArray();
+            var monthlyPeriods = _timeSeriesUtility.ResizePricePeriods(priceSeries, Resolution.Months).ToArray();
 
             // don't use first period because data source may not have a complete period for the new resolution
             var monthHead = seriesHead.CurrentPeriodOpen(Resolution.Months).SeekPeriods(1, Resolution.Months);
@@ -132,7 +135,7 @@ namespace Sonneville.PriceTools.Test
             var target = SamplePriceDatas.Deere.PriceSeries;
             var resolution = target.Resolution;
 
-            CollectionAssert.AreEquivalent(new TimeSeriesUtility().ResizePricePeriods(target, resolution).Cast<ITimePeriod>().ToList(), new TimeSeriesUtility().ResizeTimePeriods(target, resolution).ToList());
+            CollectionAssert.AreEquivalent(_timeSeriesUtility.ResizePricePeriods(target, resolution).Cast<ITimePeriod>().ToList(), _timeSeriesUtility.ResizeTimePeriods(target, resolution).ToList());
         }
 
         [TestMethod]
@@ -143,7 +146,7 @@ namespace Sonneville.PriceTools.Test
             var head = target.Head;
             var tail = target.Tail;
 
-            CollectionAssert.AreEquivalent(new TimeSeriesUtility().ResizePricePeriods(target, resolution, head, tail).Cast<ITimePeriod>().ToList(), new TimeSeriesUtility().ResizeTimePeriods(target, resolution, head, tail).ToList());
+            CollectionAssert.AreEquivalent(_timeSeriesUtility.ResizePricePeriods(target, resolution, head, tail).Cast<ITimePeriod>().ToList(), _timeSeriesUtility.ResizeTimePeriods(target, resolution, head, tail).ToList());
         }
 
         [TestMethod]
@@ -151,7 +154,7 @@ namespace Sonneville.PriceTools.Test
         {
             var target = SamplePriceDatas.Deere.PriceSeries;
 
-            var previousPeriods = new TimeSeriesUtility().GetPreviousTimePeriods(target, 1, target.Head);
+            var previousPeriods = _timeSeriesUtility.GetPreviousTimePeriods(target, 1, target.Head);
             Assert.AreEqual(0, previousPeriods.Count());
         }
 
@@ -162,7 +165,7 @@ namespace Sonneville.PriceTools.Test
 
             var pricePeriods = target.PricePeriods.ToArray();
             var expected = pricePeriods.Take(pricePeriods.Count() - 1).ToArray();
-            var actual = new TimeSeriesUtility().GetPreviousTimePeriods(target, pricePeriods.Count(), target.Tail).ToArray();
+            var actual = _timeSeriesUtility.GetPreviousTimePeriods(target, pricePeriods.Count(), target.Tail).ToArray();
             CollectionAssert.AreEquivalent(expected, actual);
         }
 
@@ -172,7 +175,7 @@ namespace Sonneville.PriceTools.Test
             var target = SamplePriceDatas.Deere.PriceSeries;
 
             var allPeriods = target.PricePeriods.ToArray();
-            var previousPeriods = new TimeSeriesUtility().GetPreviousTimePeriods(target, allPeriods.Count(), target.Tail.AddTicks(1)).ToArray();
+            var previousPeriods = _timeSeriesUtility.GetPreviousTimePeriods(target, allPeriods.Count(), target.Tail.AddTicks(1)).ToArray();
             CollectionAssert.AreEquivalent(allPeriods, previousPeriods);
         }
 
@@ -182,7 +185,7 @@ namespace Sonneville.PriceTools.Test
             var target = SamplePriceDatas.Deere.PriceSeries;
 
             const int requestedCount = 5;
-            var previousPeriods = new TimeSeriesUtility().GetPreviousTimePeriods(target, requestedCount, target.Tail.AddTicks(1));
+            var previousPeriods = _timeSeriesUtility.GetPreviousTimePeriods(target, requestedCount, target.Tail.AddTicks(1));
             Assert.AreEqual(requestedCount, previousPeriods.Count());
         }
 
@@ -193,7 +196,7 @@ namespace Sonneville.PriceTools.Test
 
             var totalPeriodCount = target.PricePeriods.Count();
             var requestedCount = totalPeriodCount + 1;
-            var previousPeriods = new TimeSeriesUtility().GetPreviousTimePeriods(target, requestedCount, target.Tail.AddTicks(1));
+            var previousPeriods = _timeSeriesUtility.GetPreviousTimePeriods(target, requestedCount, target.Tail.AddTicks(1));
             Assert.AreEqual(totalPeriodCount, previousPeriods.Count());
         }
 
@@ -203,7 +206,7 @@ namespace Sonneville.PriceTools.Test
             var target = SamplePriceDatas.Deere.PriceSeries;
 
             const int requestedCount = 3;
-            var previousPeriods = new TimeSeriesUtility().GetPreviousTimePeriods(target, requestedCount, target.Tail.AddTicks(1)).ToArray();
+            var previousPeriods = _timeSeriesUtility.GetPreviousTimePeriods(target, requestedCount, target.Tail.AddTicks(1)).ToArray();
             for (var i = 0; i < requestedCount; i++)
             {
                 var count = target.PricePeriods.Count();
@@ -222,7 +225,7 @@ namespace Sonneville.PriceTools.Test
             var origin = target.PricePeriods.ToArray()[periodCount - 1].Head;
 
             var expected = target.PricePeriods.ToArray()[periodCount - 2];
-            var actual = new TimeSeriesUtility().GetPreviousTimePeriod(target, origin);
+            var actual = _timeSeriesUtility.GetPreviousTimePeriod(target, origin);
             Assert.AreEqual(expected, actual);
         }
 
@@ -234,7 +237,7 @@ namespace Sonneville.PriceTools.Test
             var origin = target.PricePeriods.ToArray()[periodCount - 1].Tail;
 
             var expected = target.PricePeriods.ToArray()[periodCount - 2];
-            var actual = new TimeSeriesUtility().GetPreviousTimePeriod(target, origin);
+            var actual = _timeSeriesUtility.GetPreviousTimePeriod(target, origin);
             Assert.AreEqual(expected, actual);
         }
 
@@ -243,10 +246,10 @@ namespace Sonneville.PriceTools.Test
         {
             var target = SamplePriceDatas.Deere.PriceSeries;
             var origin = new DateTime(2011, 6, 25);
-            var pricePeriods = new TimeSeriesUtility().GetPreviousPricePeriods(target, 2, origin).ToArray();
+            var pricePeriods = _timeSeriesUtility.GetPreviousPricePeriods(target, 2, origin).ToArray();
 
             var expected = pricePeriods[pricePeriods.Count() - 1];
-            var actual = new TimeSeriesUtility().GetPreviousTimePeriod(target, origin);
+            var actual = _timeSeriesUtility.GetPreviousTimePeriod(target, origin);
             Assert.AreEqual(expected, actual);
         }
     }

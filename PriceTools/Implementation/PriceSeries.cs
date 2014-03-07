@@ -18,6 +18,7 @@ namespace Sonneville.PriceTools.Implementation
         private readonly Resolution _resolution;
 
         private readonly IList<IPricePeriod> _dataPeriods = new List<IPricePeriod>();
+        private readonly ITimeSeriesUtility _timeSeriesUtility;
 
         /// <summary>
         /// Constructs a PriceSeries object.
@@ -26,6 +27,7 @@ namespace Sonneville.PriceTools.Implementation
         protected internal PriceSeries(Resolution resolution = DefaultResolution)
         {
             _resolution = resolution;
+            _timeSeriesUtility = new TimeSeriesUtility();
         }
 
         /// <summary>
@@ -140,7 +142,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="pricePeriods"></param>
         public void AddPriceData(IEnumerable<IPricePeriod> pricePeriods)
         {
-            var list = pricePeriods.Where(period => !new TimeSeriesUtility().HasValueInRange(this, period.Head) && !new TimeSeriesUtility().HasValueInRange(this, period.Tail)).ToList();
+            var list = pricePeriods.Where(period => !_timeSeriesUtility.HasValueInRange(this, period.Head) && !_timeSeriesUtility.HasValueInRange(this, period.Tail)).ToList();
 
             if (list.Any())
             {

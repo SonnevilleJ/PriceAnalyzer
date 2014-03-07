@@ -13,6 +13,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
     /// </summary>
     public class SecurityBasketCalculator : ISecurityBasketCalculator
     {
+        private readonly ITimeSeriesUtility _timeSeriesUtility;
+
+        public SecurityBasketCalculator()
+        {
+            _timeSeriesUtility = new TimeSeriesUtility();
+        }
+
         /// <summary>
         ///   Gets the gross investment of this Position, ignoring any proceeds and commissions.
         /// </summary>
@@ -72,7 +79,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 if (heldShares == 0) continue;
 
                 var priceSeries = new PriceSeriesFactory().ConstructPriceSeries(transactions.First().Ticker);
-                if (!new TimeSeriesUtility().HasValueInRange(priceSeries, settlementDate)) new PriceSeriesRetriever().UpdatePriceData(priceSeries, provider, settlementDate, priceHistoryCsvFileFactory);
+                if (!_timeSeriesUtility.HasValueInRange(priceSeries, settlementDate)) new PriceSeriesRetriever().UpdatePriceData(priceSeries, provider, settlementDate, priceHistoryCsvFileFactory);
                 var price = priceSeries[settlementDate];
                 total += heldShares * price;
             }

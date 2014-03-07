@@ -12,13 +12,16 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class PriceSeriesTest
     {
-        private readonly IPricePeriodFactory _pricePeriodFactory;
-        private readonly IPriceSeriesFactory _priceSeriesFactory;
+        private IPricePeriodFactory _pricePeriodFactory;
+        private IPriceSeriesFactory _priceSeriesFactory;
+        private ITimeSeriesUtility _timeSeriesUtility;
 
-        public PriceSeriesTest()
+        [TestInitialize]
+        public void Initialize()
         {
             _pricePeriodFactory = new PricePeriodFactory();
             _priceSeriesFactory = new PriceSeriesFactory();
+            _timeSeriesUtility = new TimeSeriesUtility();
         }
 
         /// <summary>
@@ -65,7 +68,7 @@ namespace Sonneville.PriceTools.Test
         public void HasValue1Test()
         {
             var target = _priceSeriesFactory.ConstructPriceSeries("DE");
-            Assert.IsFalse(new TimeSeriesUtility().HasValueInRange(target, DateTime.Now));
+            Assert.IsFalse(_timeSeriesUtility.HasValueInRange(target, DateTime.Now));
         }
 
         [TestMethod]
@@ -80,7 +83,7 @@ namespace Sonneville.PriceTools.Test
             target.AddPriceData(p2);
             target.AddPriceData(p3);
 
-            Assert.IsTrue(new TimeSeriesUtility().HasValueInRange(target, p1.Head));
+            Assert.IsTrue(_timeSeriesUtility.HasValueInRange(target, p1.Head));
         }
 
         [TestMethod]
@@ -95,7 +98,7 @@ namespace Sonneville.PriceTools.Test
             target.AddPriceData(p2);
             target.AddPriceData(p3);
 
-            Assert.IsTrue(new TimeSeriesUtility().HasValueInRange(target, p3.Tail));
+            Assert.IsTrue(_timeSeriesUtility.HasValueInRange(target, p3.Tail));
         }
 
         /// <summary>
@@ -313,7 +316,7 @@ namespace Sonneville.PriceTools.Test
         public void GetDailyPeriodsFromWeeklyPeriodsTest()
         {
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries("DE", Resolution.Weeks);
-            new TimeSeriesUtility().ResizePricePeriods(priceSeries, Resolution.Days);
+            _timeSeriesUtility.ResizePricePeriods(priceSeries, Resolution.Days);
         }
 
         /// <summary>

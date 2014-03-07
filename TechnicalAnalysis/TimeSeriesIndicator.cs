@@ -10,6 +10,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// </summary>
     public abstract class TimeSeriesIndicator : ITimeSeriesIndicator
     {
+        protected ITimeSeriesUtility TimeSeriesUtility { get; private set; }
+
         private readonly ITimePeriodFactory _timePeriodFactory;
         private readonly ITimeSeriesFactory _timeSeriesFactory;
         private ITimeSeries _cachedValues;
@@ -24,6 +26,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             _timePeriodFactory = new TimePeriodFactory();
             _timeSeriesFactory = new TimeSeriesFactory();
+            TimeSeriesUtility = new TimeSeriesUtility();
             _cachedValues = _timeSeriesFactory.ConstructMutable();
             if (timeSeries == null)
             {
@@ -94,7 +97,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             get
             {
                 var dateTime = index.CurrentPeriodClose(Resolution);
-                return new TimeSeriesUtility().HasValueInRange(CachedValues, dateTime) ? CachedValues[dateTime] : CalculateAndCache(dateTime);
+                return TimeSeriesUtility.HasValueInRange(CachedValues, dateTime) ? CachedValues[dateTime] : CalculateAndCache(dateTime);
             }
         }
 

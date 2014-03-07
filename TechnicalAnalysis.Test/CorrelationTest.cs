@@ -9,6 +9,14 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
     [TestClass]
     public class CorrelationTest
     {
+        private ITimeSeriesUtility _timeSeriesUtility;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _timeSeriesUtility = new TimeSeriesUtility();
+        }
+
         [TestMethod]
         public void CorrelationIbmDeereTest()
         {
@@ -16,8 +24,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             var de = SamplePriceDatas.Deere.PriceSeries;
 
             const int lookback = 20;
-            var ibmDecimals = new TimeSeriesUtility().GetPreviousPricePeriods(ibm, lookback, ibm.Tail).Select(x => x.Close);
-            var deDecimals = new TimeSeriesUtility().GetPreviousPricePeriods(de, lookback, ibm.Tail).Select(x => x.Close);
+            var ibmDecimals = _timeSeriesUtility.GetPreviousPricePeriods(ibm, lookback, ibm.Tail).Select(x => x.Close);
+            var deDecimals = _timeSeriesUtility.GetPreviousPricePeriods(de, lookback, ibm.Tail).Select(x => x.Close);
 
             var expected = ibmDecimals.Correlation(deDecimals);
             var actual = new Correlation(ibm, lookback, de)[ibm.Tail];

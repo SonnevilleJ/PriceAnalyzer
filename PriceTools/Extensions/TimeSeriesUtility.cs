@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Contains extension methods for <see cref="ITimeSeries"/> objects.
     /// </summary>
-    public class TimeSeriesUtility
+    public class TimeSeriesUtility : ITimeSeriesUtility
     {
         private readonly IPricePeriodFactory _pricePeriodFactory;
         private readonly ITimePeriodFactory _timePeriodFactory;
