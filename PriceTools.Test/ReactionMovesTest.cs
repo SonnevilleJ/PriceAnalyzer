@@ -9,6 +9,14 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class ReactionMovesTest
     {
+        private IReactionMovesFactory _reactionMovesFactory;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _reactionMovesFactory = new ReactionMovesFactory();
+        }
+
         private static IEnumerable<ReactionMove> ExpectedReactionHighs
         {
             get
@@ -145,7 +153,7 @@ namespace Sonneville.PriceTools.Test
             var reactionMoves = ExpectedReactionMoves;
             var target = SamplePriceDatas.Deere.PriceSeries;
 
-            var actualMoves = target.GetReactionMoves();
+            var actualMoves = _reactionMovesFactory.GetReactionMoves(target);
 
             Assert.AreEqual(reactionMoves.Count(), actualMoves.Count());
         }
@@ -156,7 +164,7 @@ namespace Sonneville.PriceTools.Test
             var reactionMoves = ExpectedReactionMoves;
             var target = SamplePriceDatas.Deere.PriceSeries;
 
-            var actualMoves = target.GetReactionMoves();
+            var actualMoves = _reactionMovesFactory.GetReactionMoves(target);
 
             foreach (var reactionMove in reactionMoves)
             {
@@ -170,7 +178,7 @@ namespace Sonneville.PriceTools.Test
             var newHighs = ExpectedReactionHighs;
             var target = SamplePriceDatas.Deere.PriceSeries;
 
-            var actualHighs = target.GetReactionHighs();
+            var actualHighs = _reactionMovesFactory.GetReactionHighs(target);
 
             Assert.AreEqual(newHighs.Count(), actualHighs.Count());
         }
@@ -181,7 +189,7 @@ namespace Sonneville.PriceTools.Test
             var newHighs = ExpectedReactionHighs;
             var target = SamplePriceDatas.Deere.PriceSeries;
 
-            var actualHighs = target.GetReactionHighs();
+            var actualHighs = _reactionMovesFactory.GetReactionHighs(target);
 
             foreach (var reactionMove in newHighs)
             {
@@ -195,7 +203,7 @@ namespace Sonneville.PriceTools.Test
             var newLows = ExpectedReactionLows;
             var target = SamplePriceDatas.Deere.PriceSeries;
 
-            var actualLows = target.GetReactionLows();
+            var actualLows = _reactionMovesFactory.GetReactionLows(target);
 
             Assert.AreEqual(newLows.Count(), actualLows.Count());
         }
@@ -206,7 +214,7 @@ namespace Sonneville.PriceTools.Test
             var newLows = ExpectedReactionLows;
             var target = SamplePriceDatas.Deere.PriceSeries;
 
-            var actualLows = target.GetReactionLows();
+            var actualLows = _reactionMovesFactory.GetReactionLows(target);
 
             foreach (var reactionMove in newLows)
             {

@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\IProfitCalculator.cs" />
+    <Compile Include="Extensions\IReactionMovesFactory.cs" />
     <Compile Include="Extensions\ProfitCalculator.cs" />
     <Compile Include="Extensions\ITimeSeriesUtility.cs" />
     <Compile Include="Extensions\TimePeriodExtensions.cs" />
@@ -59,7 +60,7 @@
     <Compile Include="Extensions\TimeSeriesUtility.cs" />
     <Compile Include="Factories\HoldingFactory.cs" />
     <Compile Include="Interfaces\ICashAccountFactory.cs" />
-    <Compile Include="Extensions\PriceSeriesReactionMovesExtensions.cs" />
+    <Compile Include="Extensions\ReactionMovesFactory.cs" />
     <Compile Include="Factories\CashAccountFactory.cs" />
     <Compile Include="Factories\PriceTickFactory.cs" />
     <Compile Include="Factories\TimePeriodFactory.cs" />
