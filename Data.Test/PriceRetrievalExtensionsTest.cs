@@ -12,6 +12,7 @@ namespace Sonneville.PriceTools.Data.Test
         private IPriceSeries _priceSeries;
         private Mock<IPriceDataProvider> _provider;
         private IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
+        private IPriceSeriesRetriever _priceSeriesRetriever;
 
         [TestInitialize]
         public void Initialize()
@@ -23,12 +24,14 @@ namespace Sonneville.PriceTools.Data.Test
             _provider.Setup(x => x.UpdatePriceSeries(It.IsAny<IPriceSeries>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<Resolution>(), It.IsAny<IPriceHistoryCsvFileFactory>()))
                 .Callback(() => _priceSeries = SamplePriceDatas.Deere.PriceSeries);
             _priceHistoryCsvFileFactory = new Mock<IPriceHistoryCsvFileFactory>().Object;
+            
+            _priceSeriesRetriever = new PriceSeriesRetriever();
         }
 
         [TestMethod]
         public void TestDownloadPriceDataHead()
         {
-            _priceSeries.UpdatePriceData(_provider.Object, _head, _priceHistoryCsvFileFactory);
+            _priceSeriesRetriever.UpdatePriceData(_priceSeries, _provider.Object, _head, _priceHistoryCsvFileFactory);
 
             Assert.IsNotNull(_priceSeries[_head.AddHours(12)]);    // add 12 hours because no price is available at midnight.
         }
@@ -38,7 +41,7 @@ namespace Sonneville.PriceTools.Data.Test
         {
             var tail = _head.AddMonths(1);
 
-            _priceSeries.UpdatePriceData(_provider.Object, _head, tail, _priceHistoryCsvFileFactory);
+            _priceSeriesRetriever.UpdatePriceData(_priceSeries, _provider.Object, _head, tail, _priceHistoryCsvFileFactory);
 
             Assert.IsNotNull(_priceSeries[tail]);
         }
@@ -50,7 +53,7 @@ namespace Sonneville.PriceTools.Data.Test
             _provider.SetupGet(x => x.BestResolution).Returns(_priceSeries.Resolution + 1L);
             var tail = _head.AddMonths(1);
 
-            _priceSeries.UpdatePriceData(_provider.Object, _head, tail, _priceHistoryCsvFileFactory);
+            _priceSeriesRetriever.UpdatePriceData(_priceSeries, _provider.Object, _head, tail, _priceHistoryCsvFileFactory);
         }
     }
 }
