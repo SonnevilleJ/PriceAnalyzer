@@ -7,6 +7,13 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
     public class CalculationHelper
     {
+        private static readonly ProfitCalculator _profitCalculator;
+
+        static CalculationHelper()
+        {
+            _profitCalculator = new ProfitCalculator();
+        }
+
         /// <summary>
         /// Calculates the expected result of a call to CalculateStandardDeviation on a <see cref="ISecurityBasket"/>.
         /// </summary>
@@ -14,7 +21,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         /// <returns></returns>
         public static decimal GetExpectedStandardDeviation(IEnumerable<Holding> holdings)
         {
-            var values = holdings.Select(h => h.GrossProfit()).ToArray();
+            var values = holdings.Select(h => _profitCalculator.GrossProfit(h)).ToArray();
             if (values.Count() <= 1) return 0;
 
             var average = values.Average();
@@ -30,15 +37,15 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         /// <returns></returns>
         public static decimal GetExpectedMedianProfit(IEnumerable<Holding> holdings)
         {
-            var list = holdings.OrderBy(holding => holding.GrossProfit()).ToList();
+            var list = holdings.OrderBy(holding => _profitCalculator.GrossProfit(holding)).ToList();
             if (list.Count == 0) return 0.00m;
 
             var midpoint = (list.Count/2);
             if (list.Count%2 == 0)
             {
-                return (list[midpoint - 1].GrossProfit() + list[midpoint].GrossProfit())/2;
+                return (_profitCalculator.GrossProfit(list[midpoint - 1]) + _profitCalculator.GrossProfit(list[midpoint]))/2;
             }
-            return list[midpoint].GrossProfit();
+            return _profitCalculator.GrossProfit(list[midpoint]);
         }
 
         /// <summary>

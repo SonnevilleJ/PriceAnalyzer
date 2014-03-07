@@ -14,10 +14,12 @@ namespace Sonneville.PriceTools.AutomatedTrading
     public class SecurityBasketCalculator : ISecurityBasketCalculator
     {
         private readonly ITimeSeriesUtility _timeSeriesUtility;
+        private readonly IProfitCalculator _profitCalculator;
 
         public SecurityBasketCalculator()
         {
             _timeSeriesUtility = new TimeSeriesUtility();
+            _profitCalculator = new ProfitCalculator();
         }
 
         /// <summary>
@@ -253,7 +255,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>Returns the mean gross profit from a <see cref="ISecurityBasket"/>.</returns>
         public decimal CalculateAverageProfit(ISecurityBasket basket, DateTime settlementDate)
         {
-            return basket.CalculateHoldings(settlementDate).AsParallel().Average(holding => holding.GrossProfit());
+            return basket.CalculateHoldings(settlementDate).AsParallel().Average(holding => _profitCalculator.GrossProfit(holding));
         }
 
         /// <summary>
@@ -264,7 +266,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>Returns the median gross profit from a <see cref="ISecurityBasket"/>.</returns>
         public decimal CalculateMedianProfit(ISecurityBasket basket, DateTime settlementDate)
         {
-            return basket.CalculateHoldings(settlementDate).Select(h => h.GrossProfit()).Median();
+            return basket.CalculateHoldings(settlementDate).Select(h => _profitCalculator.GrossProfit(h)).Median();
         }
 
         /// <summary>
@@ -275,7 +277,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>Returns the standard deviation of the profits from a <see cref="ISecurityBasket"/>.</returns>
         public decimal CalculateStandardDeviation(ISecurityBasket basket, DateTime settlementDate)
         {
-            return basket.CalculateHoldings(settlementDate).Select(h => h.GrossProfit()).StandardDeviation();
+            return basket.CalculateHoldings(settlementDate).Select(h => _profitCalculator.GrossProfit(h)).StandardDeviation();
         }
     }
 }

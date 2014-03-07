@@ -5,11 +5,14 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class HoldingExtensionsTests
     {
-        private readonly IHoldingFactory _holdingFactory;
+        private IHoldingFactory _holdingFactory;
+        private ProfitCalculator _profitCalculator;
 
-        public HoldingExtensionsTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _holdingFactory = new HoldingFactory();
+            _profitCalculator = new ProfitCalculator();
         }
 
         [TestMethod]
@@ -18,7 +21,7 @@ namespace Sonneville.PriceTools.Test
             var target = _holdingFactory.ConstructHolding(5, 10, 20, 2, 3);
 
             var expected = (target.Shares*(target.ClosePrice - target.OpenPrice));
-            var actual = target.GrossProfit();
+            var actual = _profitCalculator.GrossProfit(target);
             Assert.AreEqual(expected, actual);
         }
 
@@ -28,7 +31,7 @@ namespace Sonneville.PriceTools.Test
             var target = _holdingFactory.ConstructHolding(5, 10, 20, 2, 3);
 
             var expected = (target.Shares * (target.ClosePrice - target.OpenPrice)) - target.OpenCommission - target.CloseCommission;
-            var actual = target.NetProfit();
+            var actual = _profitCalculator.NetProfit(target);
             Assert.AreEqual(expected, actual);
         }
     }

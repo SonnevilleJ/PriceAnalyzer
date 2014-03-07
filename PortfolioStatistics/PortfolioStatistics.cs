@@ -6,9 +6,16 @@ namespace Sonneville.PriceTools.PortfolioStatistics
 {
     public static class PortfolioStatistics
     {
+        private static readonly ProfitCalculator _profitCalculator;
+
+        static PortfolioStatistics()
+        {
+            _profitCalculator = new ProfitCalculator();
+        }
+
         public static decimal KellyPercentage(this IEnumerable<Holding> holdings)
         {
-            var netProfits = holdings.Select(holding => holding.NetProfit());
+            var netProfits = holdings.Select(holding => _profitCalculator.NetProfit(holding));
             var wins = netProfits.Where(x => x > 0);
             var losses = netProfits.Where(x => x <= 0);
             var totalGain = wins.Sum(x => x);

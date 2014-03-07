@@ -50,7 +50,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\HoldingExtensions.cs" />
+    <Compile Include="Extensions\IProfitCalculator.cs" />
+    <Compile Include="Extensions\ProfitCalculator.cs" />
     <Compile Include="Extensions\ITimeSeriesUtility.cs" />
     <Compile Include="Extensions\SecurityBasketExtensions.cs" />
     <Compile Include="Extensions\TimePeriodExtensions.cs" />

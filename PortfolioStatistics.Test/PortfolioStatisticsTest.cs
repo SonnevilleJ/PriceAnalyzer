@@ -11,14 +11,22 @@ namespace Sonneville.PriceTools.PortfolioStatistics.Test
     [TestClass]
     public class PortfolioStatisticsTest
     {
+        private ProfitCalculator _profitCalculator;
+
+        [TestInitialize]
+        public void Initialize()
+        {
+            _profitCalculator = new ProfitCalculator();
+        }
+
         [TestMethod]
         public void KellyPercentTest()
         {
             var holdings = SamplePortfolios.FidelityBrokerageLink.TransactionHistory.CalculateHoldings(DateTime.Now);
-            var winPercentage = (decimal) holdings.Count(h => h.NetProfit() > 0)/holdings.Count;
-            var lossPercentage = (decimal) holdings.Count(h => h.NetProfit() <= 0)/holdings.Count;
-            var averageWin = holdings.Where(h => h.NetProfit() > 0).Average(h => h.NetProfit());
-            var averageLoss = holdings.Where(h => h.NetProfit() <= 0).Average(h => Math.Abs(h.NetProfit()));
+            var winPercentage = (decimal) holdings.Count(h => _profitCalculator.NetProfit(h) > 0)/holdings.Count;
+            var lossPercentage = (decimal) holdings.Count(h => _profitCalculator.NetProfit(h) <= 0)/holdings.Count;
+            var averageWin = holdings.Where(h => _profitCalculator.NetProfit(h) > 0).Average(h => _profitCalculator.NetProfit(h));
+            var averageLoss = holdings.Where(h => _profitCalculator.NetProfit(h) <= 0).Average(h => Math.Abs(_profitCalculator.NetProfit(h)));
 
             var expected = winPercentage - ((lossPercentage/(averageWin/averageLoss)));
             var actual = holdings.KellyPercentage();

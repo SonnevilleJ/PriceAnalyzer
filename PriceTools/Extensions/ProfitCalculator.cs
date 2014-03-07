@@ -5,14 +5,14 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// A class which holds extension methods for <see cref="Holding"/>.
     /// </summary>
-    public static class HoldingExtensions
+    public class ProfitCalculator : IProfitCalculator
     {
         /// <summary>
         /// Calculates the profit of a holding, before commissions.
         /// </summary>
         /// <param name="holding"></param>
         /// <returns></returns>
-        public static decimal GrossProfit(this Holding holding)
+        public decimal GrossProfit(Holding holding)
         {
             return (holding.ClosePrice - holding.OpenPrice)*holding.Shares;
         }
@@ -22,9 +22,9 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="holding"></param>
         /// <returns></returns>
-        public static decimal NetProfit(this Holding holding)
+        public decimal NetProfit(Holding holding)
         {
-            return holding.GrossProfit() - holding.OpenCommission - holding.CloseCommission;
+            return GrossProfit(holding) - holding.OpenCommission - holding.CloseCommission;
         }
     }
 }
