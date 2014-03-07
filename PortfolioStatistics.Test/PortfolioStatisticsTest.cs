@@ -11,20 +11,22 @@ namespace Sonneville.PriceTools.PortfolioStatistics.Test
     [TestClass]
     public class PortfolioStatisticsTest
     {
-        private ProfitCalculator _profitCalculator;
-        private ISecurityBasketExtensions _securityBasketExtensions;
+        private IProfitCalculator _profitCalculator;
+        private IHoldingFactory _holdingFactory;
 
         [TestInitialize]
         public void Initialize()
         {
             _profitCalculator = new ProfitCalculator();
-            _securityBasketExtensions = new SecurityBasketExtensions();
+            _holdingFactory = new HoldingFactory();
         }
 
         [TestMethod]
         public void KellyPercentTest()
         {
-            var holdings = _securityBasketExtensions.CalculateHoldings(SamplePortfolios.FidelityBrokerageLink.TransactionHistory, DateTime.Now);
+            var basket = SamplePortfolios.FidelityBrokerageLink.TransactionHistory;
+            var settlementDate = DateTime.Now;
+            var holdings = _holdingFactory.CalculateHoldings(basket, settlementDate);
             var winPercentage = (decimal) holdings.Count(h => _profitCalculator.NetProfit(h) > 0)/holdings.Count;
             var lossPercentage = (decimal) holdings.Count(h => _profitCalculator.NetProfit(h) <= 0)/holdings.Count;
             var averageWin = holdings.Where(h => _profitCalculator.NetProfit(h) > 0).Average(h => _profitCalculator.NetProfit(h));

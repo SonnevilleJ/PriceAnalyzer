@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.PortfolioStatistics
 {
     public static class PortfolioStatistics
     {
-        private static readonly ProfitCalculator _profitCalculator;
+        private static readonly IProfitCalculator _profitCalculator;
 
         static PortfolioStatistics()
         {

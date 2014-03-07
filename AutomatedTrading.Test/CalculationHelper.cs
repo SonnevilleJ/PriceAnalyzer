@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
     public class CalculationHelper
     {
-        private static readonly ProfitCalculator _profitCalculator;
+        private static readonly IProfitCalculator _profitCalculator;
 
         static CalculationHelper()
         {

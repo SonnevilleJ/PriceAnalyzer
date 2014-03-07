@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Test
     public class HoldingExtensionsTests
     {
         private IHoldingFactory _holdingFactory;
-        private ProfitCalculator _profitCalculator;
+        private IProfitCalculator _profitCalculator;
 
         [TestInitialize]
         public void Initialize()
