@@ -6,15 +6,18 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class PortfolioHoldingTests
     {
-        private readonly IHoldingFactory _holdingFactory;
-        private readonly IPortfolioFactory _portfolioFactory;
-        private readonly ITransactionFactory _transactionFactory;
+        private IHoldingFactory _holdingFactory;
+        private IPortfolioFactory _portfolioFactory;
+        private ITransactionFactory _transactionFactory;
+        private ISecurityBasketExtensions _securityBasketExtensions;
 
-        public PortfolioHoldingTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _holdingFactory = new HoldingFactory();
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
+            _securityBasketExtensions = new SecurityBasketExtensions();
         }
 
         [TestMethod]
@@ -35,7 +38,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, sell);
 
-            var holdings = target.CalculateHoldings(sellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, sellDate);
 
             Assert.AreEqual(1, holdings.Count);
             var expected = _holdingFactory.ConstructHolding(ticker, buyDate, sellDate, shares, buyPrice, sellPrice);
@@ -68,7 +71,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             Assert.AreEqual(2, holdings.Count);
 
@@ -106,7 +109,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             Assert.AreEqual(2, holdings.Count);
 
@@ -144,7 +147,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var target = _portfolioFactory.ConstructPortfolio(testDate, deposit, firstBuy, secondBuy, firstSell, secondSell);
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             Assert.AreEqual(2, holdings.Count);
 

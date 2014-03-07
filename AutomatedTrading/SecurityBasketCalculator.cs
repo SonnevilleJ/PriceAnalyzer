@@ -13,13 +13,17 @@ namespace Sonneville.PriceTools.AutomatedTrading
     /// </summary>
     public class SecurityBasketCalculator : ISecurityBasketCalculator
     {
+        private readonly IPriceSeriesFactory _priceSeriesFactory;
         private readonly ITimeSeriesUtility _timeSeriesUtility;
         private readonly IProfitCalculator _profitCalculator;
+        private readonly PriceSeriesRetriever _priceSeriesRetriever;
 
         public SecurityBasketCalculator()
         {
             _timeSeriesUtility = new TimeSeriesUtility();
             _profitCalculator = new ProfitCalculator();
+            _priceSeriesRetriever = new PriceSeriesRetriever();
+            _priceSeriesFactory = new PriceSeriesFactory();
         }
 
         /// <summary>
@@ -80,8 +84,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 var heldShares = GetHeldShares(transactions, settlementDate);
                 if (heldShares == 0) continue;
 
-                var priceSeries = new PriceSeriesFactory().ConstructPriceSeries(transactions.First().Ticker);
-                if (!_timeSeriesUtility.HasValueInRange(priceSeries, settlementDate)) new PriceSeriesRetriever().UpdatePriceData(priceSeries, provider, settlementDate, priceHistoryCsvFileFactory);
+                var priceSeries = _priceSeriesFactory.ConstructPriceSeries(transactions.First().Ticker);
+                if (!_timeSeriesUtility.HasValueInRange(priceSeries, settlementDate)) _priceSeriesRetriever.UpdatePriceData(priceSeries, provider, settlementDate, priceHistoryCsvFileFactory);
                 var price = priceSeries[settlementDate];
                 total += heldShares * price;
             }
@@ -144,7 +148,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal CalculateNetProfit(ISecurityBasket basket, DateTime settlementDate)
         {
-            return basket.CalculateHoldings(settlementDate).AsParallel().Sum(holding => ((holding.ClosePrice - holding.OpenPrice)*holding.Shares) - holding.OpenCommission - holding.CloseCommission);
+            return new SecurityBasketExtensions().CalculateHoldings(basket, settlementDate).AsParallel().Sum(holding => ((holding.ClosePrice - holding.OpenPrice)*holding.Shares) - holding.OpenCommission - holding.CloseCommission);
         }
 
         /// <summary>
@@ -154,7 +158,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
         public decimal CalculateGrossProfit(ISecurityBasket basket, DateTime settlementDate)
         {
-            return basket.CalculateHoldings(settlementDate).AsParallel().Sum(holding => (holding.ClosePrice - holding.OpenPrice)*holding.Shares);
+            return new SecurityBasketExtensions().CalculateHoldings(basket, settlementDate).AsParallel().Sum(holding => (holding.ClosePrice - holding.OpenPrice)*holding.Shares);
         }
 
         /// <summary>
@@ -209,7 +213,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>Returns the net rate of return, after commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
         public decimal? CalculateNetReturn(ISecurityBasket basket, DateTime settlementDate)
         {
-            var allHoldings = basket.CalculateHoldings(settlementDate);
+            var allHoldings = new SecurityBasketExtensions().CalculateHoldings(basket, settlementDate);
             if (allHoldings.Count == 0) return null;
 
             var totalShares = allHoldings.Sum(h => h.Shares);
@@ -232,7 +236,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>Returns the gross rate of return, before commission, expressed as a percentage. Returns null if return cannot be calculated.</returns>
         public decimal? CalculateGrossReturn(ISecurityBasket basket, DateTime settlementDate)
         {
-            var allHoldings = basket.CalculateHoldings(settlementDate);
+            var allHoldings = new SecurityBasketExtensions().CalculateHoldings(basket, settlementDate);
             if (allHoldings.Count == 0) return null;
 
             var totalShares = allHoldings.Sum(h => h.Shares);
@@ -255,7 +259,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>Returns the mean gross profit from a <see cref="ISecurityBasket"/>.</returns>
         public decimal CalculateAverageProfit(ISecurityBasket basket, DateTime settlementDate)
         {
-            return basket.CalculateHoldings(settlementDate).AsParallel().Average(holding => _profitCalculator.GrossProfit(holding));
+            return new SecurityBasketExtensions().CalculateHoldings(basket, settlementDate).AsParallel().Average(holding => _profitCalculator.GrossProfit(holding));
         }
 
         /// <summary>
@@ -266,7 +270,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>Returns the median gross profit from a <see cref="ISecurityBasket"/>.</returns>
         public decimal CalculateMedianProfit(ISecurityBasket basket, DateTime settlementDate)
         {
-            return basket.CalculateHoldings(settlementDate).Select(h => _profitCalculator.GrossProfit(h)).Median();
+            return new SecurityBasketExtensions().CalculateHoldings(basket, settlementDate).Select(h => _profitCalculator.GrossProfit(h)).Median();
         }
 
         /// <summary>
@@ -277,7 +281,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>Returns the standard deviation of the profits from a <see cref="ISecurityBasket"/>.</returns>
         public decimal CalculateStandardDeviation(ISecurityBasket basket, DateTime settlementDate)
         {
-            return basket.CalculateHoldings(settlementDate).Select(h => _profitCalculator.GrossProfit(h)).StandardDeviation();
+            return new SecurityBasketExtensions().CalculateHoldings(basket, settlementDate).Select(h => _profitCalculator.GrossProfit(h)).StandardDeviation();
         }
     }
 }

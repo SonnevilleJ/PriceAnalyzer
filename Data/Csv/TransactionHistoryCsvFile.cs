@@ -18,6 +18,7 @@ namespace Sonneville.PriceTools.Data.Csv
         private bool _tableParsed;
         private List<Transaction> _transactions = new List<Transaction>();
         private readonly ITransactionFactory _transactionFactory;
+        private readonly ISecurityBasketExtensions _securityBasketExtensions;
 
         /// <summary>
         /// Constructs a new TransactionHistoryCsvFile.
@@ -27,6 +28,7 @@ namespace Sonneville.PriceTools.Data.Csv
         protected TransactionHistoryCsvFile(Stream csvStream, bool useTotalBasis = false)
         {
             _transactionFactory = new TransactionFactory();
+            _securityBasketExtensions = new SecurityBasketExtensions();
             if (csvStream == null)
             {
                 throw new ArgumentNullException("csvStream");
@@ -247,7 +249,7 @@ namespace Sonneville.PriceTools.Data.Csv
         {
             get
             {
-                var allHoldings = this.CalculateHoldings(dateTime);
+                var allHoldings = _securityBasketExtensions.CalculateHoldings(this, dateTime);
                 if (allHoldings.Count == 0) return 0;
 
                 var positionGroups = allHoldings.GroupBy(h => h.Ticker);

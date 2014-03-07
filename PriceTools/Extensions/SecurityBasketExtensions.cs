@@ -8,13 +8,16 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// A class which holds extension methods for <see cref="ISecurityBasket"/>.
     /// </summary>
-    public static class SecurityBasketExtensions
+    public class SecurityBasketExtensions : ISecurityBasketExtensions
     {
-        private static readonly IHoldingFactory HoldingFactory;
+        private readonly IHoldingFactory _holdingFactory;
 
-        static SecurityBasketExtensions()
+        /// <summary>
+        /// Creates a new new SecurityBasketExtensions().
+        /// </summary>
+        public SecurityBasketExtensions()
         {
-            HoldingFactory = new HoldingFactory();
+            _holdingFactory = new HoldingFactory();
         }
 
         /// <summary>
@@ -23,7 +26,7 @@ namespace Sonneville.PriceTools
         /// <param name="basket"></param>
         /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
         /// <returns>An <see cref="IList{Holding}"/> of the transactions in the Position.</returns>
-        public static IList<Holding> CalculateHoldings(this ISecurityBasket basket, DateTime settlementDate)
+        public IList<Holding> CalculateHoldings(ISecurityBasket basket, DateTime settlementDate)
         {
             return CalculateHoldings(basket.Transactions, settlementDate);
         }
@@ -34,7 +37,7 @@ namespace Sonneville.PriceTools
         /// <param name="transactions"></param>
         /// <param name="settlementDate">The latest date used to include a transaction in the calculation.</param>
         /// <returns>An <see cref="IList{Holding}"/> of the transactions in the Position.</returns>
-        public static IList<Holding> CalculateHoldings(this IEnumerable<Transaction> transactions, DateTime settlementDate)
+        public IList<Holding> CalculateHoldings(IEnumerable<Transaction> transactions, DateTime settlementDate)
         {
             var result = new List<Holding>();
             var groups = transactions.Where(t => t is ShareTransaction).Cast<ShareTransaction>().GroupBy(t => t.Ticker);
@@ -77,7 +80,7 @@ namespace Sonneville.PriceTools
                                 unusedSharesInCurrentBuy -= shares;
                                 buysUsed++;
                             }
-                            var holding = HoldingFactory.ConstructHolding(sell.Ticker, buy.SettlementDate, sell.SettlementDate, shares, buy.Price, buy.Commission, -1*sell.Price, sell.Commission);
+                            var holding = _holdingFactory.ConstructHolding(sell.Ticker, buy.SettlementDate, sell.SettlementDate, shares, buy.Price, buy.Commission, -1*sell.Price, sell.Commission);
                             result.Add(holding);
 
                             sharesToMatch -= shares;

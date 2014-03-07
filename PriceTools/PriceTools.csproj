@@ -51,6 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\IProfitCalculator.cs" />
+    <Compile Include="Extensions\ISecurityBasketExtensions.cs" />
     <Compile Include="Extensions\ProfitCalculator.cs" />
     <Compile Include="Extensions\ITimeSeriesUtility.cs" />
     <Compile Include="Extensions\SecurityBasketExtensions.cs" />

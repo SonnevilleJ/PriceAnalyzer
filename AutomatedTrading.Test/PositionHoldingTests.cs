@@ -6,15 +6,18 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     [TestClass]
     public class PositionHoldingTests
     {
-        private readonly IHoldingFactory _holdingFactory;
-        private readonly IPositionFactory _positionFactory;
-        private readonly ITransactionFactory _transactionFactory;
+        private IHoldingFactory _holdingFactory;
+        private IPositionFactory _positionFactory;
+        private ITransactionFactory _transactionFactory;
+        private ISecurityBasketExtensions _securityBasketExtensions;
 
-        public PositionHoldingTests()
+        [TestInitialize]
+        public void Initialize()
         {
             _holdingFactory = new HoldingFactory();
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
+            _securityBasketExtensions = new SecurityBasketExtensions();
         }
 
         [TestMethod]
@@ -35,7 +38,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(sellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, sellDate);
 
             Assert.AreEqual(1, holdings.Count);
         }
@@ -59,7 +62,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructBuy(ticker, buyDate, sharesBought, buyPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(sellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, sellDate);
 
             var expected = _holdingFactory.ConstructHolding(ticker, buyDate, sellDate, sharesSold, buyPrice, commission, sellPrice, commission);
 
@@ -87,7 +90,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructBuy(ticker, secondBuyDate, sharesBought, buyPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(sellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, sellDate);
 
             Assert.AreEqual(2, holdings.Count);
         }
@@ -113,7 +116,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructBuy(ticker, secondBuyDate, sharesBought, buyPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(sellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, sellDate);
 
             var expected1 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, sellDate, sharesBought, buyPrice, commission, sellPrice, commission);
             var expected2 = _holdingFactory.ConstructHolding(ticker, secondBuyDate, sellDate, sharesBought, buyPrice, commission, sellPrice, commission);
@@ -143,7 +146,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             Assert.AreEqual(2, holdings.Count);
         }
@@ -169,7 +172,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             const decimal sharesInHolding = sharesSold;
 
@@ -203,7 +206,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, buyPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             Assert.AreEqual(2, holdings.Count);
         }
@@ -229,7 +232,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructBuy(ticker, secondBuyDate, sharesBought, buyPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             var expected1 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, firstSellDate, sharesSold, buyPrice, commission, sellPrice, commission);
             var expected2 = _holdingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, sharesSold, buyPrice, commission, sellPrice, commission);
@@ -261,7 +264,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, buyPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             Assert.AreEqual(2, holdings.Count);
         }
@@ -289,7 +292,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             const decimal sharesInHolding = sharesSold;
             var expected1 = _holdingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, sharesInHolding, buyPrice, commission, sellPrice, commission);
@@ -323,7 +326,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, buyPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             Assert.AreEqual(3, holdings.Count);
         }
@@ -352,7 +355,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             var expected1 = _holdingFactory.ConstructHolding(ticker, secondBuyDate, secondSellDate, 1, buyPrice, commission, sellPrice, commission);
             var expected2 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, secondSellDate, 4, buyPrice, commission, sellPrice, commission);
@@ -388,7 +391,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             Assert.AreEqual(3, holdings.Count);
         }
@@ -417,7 +420,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                                            _transactionFactory.ConstructSell(ticker, firstSellDate, sharesSold, sellPrice, commission),
                                                            _transactionFactory.ConstructSell(ticker, secondSellDate, sharesSold, sellPrice, commission));
 
-            var holdings = target.CalculateHoldings(secondSellDate);
+            var holdings = _securityBasketExtensions.CalculateHoldings(target, secondSellDate);
 
             var expected1 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, firstSellDate, 5, buyPrice, commission, sellPrice, commission);
             var expected2 = _holdingFactory.ConstructHolding(ticker, firstBuyDate, secondSellDate, 4, buyPrice, commission, sellPrice, commission);
