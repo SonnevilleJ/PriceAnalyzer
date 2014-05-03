@@ -8,8 +8,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
     [TestClass]
     public abstract class CommonIndicatorTests<T> where T : ITimeSeriesIndicator
     {
-        protected IPricePeriodFactory _pricePeriodFactory;
-        protected IPriceSeriesFactory _priceSeriesFactory;
+        private readonly IPricePeriodFactory _pricePeriodFactory;
+        private readonly IPriceSeriesFactory _priceSeriesFactory;
 
         protected CommonIndicatorTests()
         {
