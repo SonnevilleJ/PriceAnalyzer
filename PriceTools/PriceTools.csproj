@@ -108,7 +108,6 @@
     <Compile Include="Factories\PricePeriodFactory.cs" />
     <Compile Include="Factories\PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
-    <Compile Include="Implementation\StaticPricePeriod.cs" />
     <Compile Include="Implementation\PriceTick.cs" />
     <Compile Include="Interfaces\ITimePeriod.cs" />
     <Compile Include="OrderType.cs" />

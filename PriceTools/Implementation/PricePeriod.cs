@@ -6,54 +6,75 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    internal abstract class PricePeriod : IPricePeriod
+    internal class PricePeriod : IPricePeriod
     {
+        public PricePeriod(DateTime head, DateTime tail, decimal open, decimal high, decimal low, decimal close, long? volume)
+        {
+            Close = close;
+            High = high;
+            Low = low;
+            Open = open;
+            Volume = volume;
+            Head = head;
+            Tail = tail;
+        }
+
         /// <summary>
         /// Gets the closing price for the IPricePeriod.
         /// </summary>
-        public abstract decimal Close { get; }
+        public decimal Close { get; private set; }
 
         /// <summary>
         /// Gets the highest price that occurred during the IPricePeriod.
         /// </summary>
-        public abstract decimal High { get; }
+        public decimal High { get; private set; }
 
         /// <summary>
         /// Gets the lowest price that occurred during the IPricePeriod.
         /// </summary>
-        public abstract decimal Low { get; }
+        public decimal Low { get; private set; }
 
         /// <summary>
         /// Gets the opening price for the IPricePeriod.
         /// </summary>
-        public abstract decimal Open { get; }
+        public decimal Open { get; private set; }
 
         /// <summary>
         /// Gets the total volume of trades during the IPricePeriod.
         /// </summary>
-        public abstract long? Volume { get; }
+        public long? Volume { get; private set; }
 
         /// <summary>
         /// Gets a value stored at a given DateTime index of the IPricePeriod.
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the IPricePeriod as of the given DateTime.</returns>
-        public abstract decimal this[DateTime dateTime] { get; }
+        public decimal this[DateTime dateTime]
+        {
+            get
+            {
+                if (dateTime < Head)
+                    throw new InvalidOperationException(
+                        Strings.StaticPricePeriodImpl_this_Index_was_before_the_head_of_the_price_period_);
+
+                return Close;
+            }
+        }
 
         /// <summary>
         /// Gets the first DateTime in the IPricePeriod.
         /// </summary>
-        public abstract DateTime Head { get; }
+        public DateTime Head { get; private set; }
 
         /// <summary>
         /// Gets the last DateTime in the IPricePeriod.
         /// </summary>
-        public abstract DateTime Tail { get; }
+        public DateTime Tail { get; private set; }
 
         /// <summary>
         /// Gets the <see cref="Resolution"/> of price data stored within the IPricePeriod.
         /// </summary>
-        public virtual Resolution Resolution
+        public Resolution Resolution
         {
             get
             {
@@ -71,7 +92,7 @@ namespace Sonneville.PriceTools.Implementation
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public virtual bool Equals(IPricePeriod  other)
+        public bool Equals(IPricePeriod  other)
         {
             if (ReferenceEquals(null, other))
                 return false;

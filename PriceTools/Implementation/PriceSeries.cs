@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a time series of price data.
     /// </summary>
-    internal class PriceSeries : PricePeriod, IPriceSeries
+    internal class PriceSeries : IPriceSeries
     {
         /// <summary>
         /// The default <see cref="Resolution"/> of a PriceSeries.
@@ -33,7 +33,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets the closing price for the PriceSeries.
         /// </summary>
-        public override decimal Close
+        public decimal Close
         {
             get { return DataPeriods.OrderBy(p => p.Tail).Last().Close; }
         }
@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets the highest price that occurred during the PriceSeries.
         /// </summary>
-        public override decimal High
+        public decimal High
         {
             get { return DataPeriods.Max(p => p.High); }
         }
@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets the lowest price that occurred during the PriceSeries.
         /// </summary>
-        public override decimal Low
+        public decimal Low
         {
             get { return DataPeriods.Min(p => p.Low); }
         }
@@ -57,7 +57,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets the opening price for the PriceSeries.
         /// </summary>
-        public override decimal Open
+        public decimal Open
         {
             get { return DataPeriods.OrderBy(p => p.Head).First().Open; }
         }
@@ -65,7 +65,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets the total volume of trades during the PriceSeries.
         /// </summary>
-        public override long? Volume
+        public long? Volume
         {
             get { return DataPeriods.Sum(p => p.Volume); }
         }
@@ -75,7 +75,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the PriceSeries as of the given DateTime.</returns>
-        public override decimal this[DateTime dateTime]
+        public decimal this[DateTime dateTime]
         {
             get
             {
@@ -94,7 +94,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets the first DateTime in the PriceSeries.
         /// </summary>
-        public override DateTime Head
+        public DateTime Head
         {
             get
             {
@@ -107,7 +107,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets the last DateTime in the PriceSeries.
         /// </summary>
-        public override DateTime Tail
+        public DateTime Tail
         {
             get
             {
@@ -156,7 +156,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets or sets the resolution of PricePeriods to retrieve.
         /// </summary>
-        public override Resolution Resolution
+        public Resolution Resolution
         {
             get { return _resolution; }
         }
@@ -192,7 +192,7 @@ namespace Sonneville.PriceTools.Implementation
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public override bool Equals(IPricePeriod other)
+        public bool Equals(IPricePeriod other)
         {
             return Equals(other as IPriceSeries);
         }

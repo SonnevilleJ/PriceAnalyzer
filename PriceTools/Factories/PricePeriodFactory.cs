@@ -85,7 +85,7 @@ namespace Sonneville.PriceTools
             if (low > close)
                 throw new InvalidOperationException(Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_lower_than_Low_price_);
 
-            return new StaticPricePeriod(head, tail, open ?? close, high ?? close, low ?? close, close, volume);
+            return new PricePeriod(head, tail, open ?? close, high ?? close, low ?? close, close, volume);
         }
 
         private static DateTime ConstructTail(DateTime head, Resolution resolution)
