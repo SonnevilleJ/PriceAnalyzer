@@ -68,8 +68,8 @@ namespace Sonneville.PriceTools.Implementation
             get
             {
                 var resolutions = Enum.GetValues(typeof (Resolution)).Cast<long>().OrderBy(ticks => ticks);
-                var tmpThis = this;
-                return (Resolution) Enum.ToObject(typeof (Resolution), resolutions.First(ticks => tmpThis.TimeSpan().Ticks <= ticks));
+                var thisTicks = this.TimeSpan().Ticks;
+                return (Resolution) Enum.ToObject(typeof (Resolution), resolutions.First(ticks => thisTicks <= ticks));
             }
         }
 
