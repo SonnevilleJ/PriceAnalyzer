@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
@@ -88,37 +86,6 @@ namespace Sonneville.PriceTools
                 throw new InvalidOperationException(Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_lower_than_Low_price_);
 
             return new StaticPricePeriod(head, tail, open ?? close, high ?? close, low ?? close, close, volume);
-        }
-
-        /// <summary>
-        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
-        /// </summary>
-        /// <returns></returns>
-        public ITickedPricePeriod ConstructTickedPricePeriod()
-        {
-            return new TickedPricePeriod();
-        }
-
-        /// <summary>
-        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
-        /// </summary>
-        /// <param name="priceTicks"></param>
-        /// <returns></returns>
-        public ITickedPricePeriod ConstructTickedPricePeriod(IEnumerable<PriceTick> priceTicks)
-        {
-            var period = new TickedPricePeriod();
-            period.AddPriceTicks(priceTicks.ToArray());
-            return period;
-        }
-
-        /// <summary>
-        /// Constructs a <see cref="IPricePeriod"/> which aggregates price data from <see cref="PriceTick"/>s.
-        /// </summary>
-        /// <param name="priceTick"></param>
-        /// <returns></returns>
-        public ITickedPricePeriod ConstructTickedPricePeriod(PriceTick priceTick)
-        {
-            return ConstructTickedPricePeriod(new[] {priceTick});
         }
 
         private static DateTime ConstructTail(DateTime head, Resolution resolution)

@@ -64,7 +64,6 @@
     <Compile Include="Interfaces\ICashAccountFactory.cs" />
     <Compile Include="Extensions\ReactionMovesFactory.cs" />
     <Compile Include="Factories\CashAccountFactory.cs" />
-    <Compile Include="Factories\PriceTickFactory.cs" />
     <Compile Include="Factories\TimePeriodFactory.cs" />
     <Compile Include="Factories\TimeSeriesFactory.cs" />
     <Compile Include="Implementation\Buy.cs" />
@@ -80,7 +79,6 @@
     <Compile Include="Implementation\SellShort.cs" />
     <Compile Include="Implementation\ShareTransaction.cs" />
     <Compile Include="Implementation\TimePeriod.cs" />
-    <Compile Include="Implementation\TickedPricePeriod.cs" />
     <Compile Include="Implementation\TimeSeries.cs" />
     <Compile Include="Implementation\Transaction.cs" />
     <Compile Include="Implementation\Withdrawal.cs" />
@@ -90,9 +88,7 @@
     <Compile Include="Interfaces\IPricePeriodFactory.cs" />
     <Compile Include="Interfaces\IPriceSeries.cs" />
     <Compile Include="Interfaces\IPriceSeriesFactory.cs" />
-    <Compile Include="Interfaces\IPriceTickFactory.cs" />
     <Compile Include="Interfaces\ISecurityBasket.cs" />
-    <Compile Include="Interfaces\ITickedPricePeriod.cs" />
     <Compile Include="Interfaces\ITimePeriodFactory.cs" />
     <Compile Include="Interfaces\ITimeSeries.cs" />
     <Compile Include="Interfaces\ITimeSeriesFactory.cs" />

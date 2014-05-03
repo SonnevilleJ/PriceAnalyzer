@@ -8,15 +8,13 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
     [TestClass]
     public abstract class CommonIndicatorTests<T> where T : ITimeSeriesIndicator
     {
-        protected static readonly IPricePeriodFactory PricePeriodFactory;
-        protected static readonly IPriceSeriesFactory PriceSeriesFactory;
-        private static readonly IPriceTickFactory PriceTickFactory;
+        protected IPricePeriodFactory _pricePeriodFactory;
+        protected IPriceSeriesFactory _priceSeriesFactory;
 
-        static CommonIndicatorTests()
+        protected CommonIndicatorTests()
         {
-            PricePeriodFactory = new PricePeriodFactory();
-            PriceSeriesFactory = new PriceSeriesFactory();
-            PriceTickFactory = new PriceTickFactory();
+            _pricePeriodFactory = new PricePeriodFactory();
+            _priceSeriesFactory = new PriceSeriesFactory();
         }
 
         /// <summary>
@@ -166,17 +164,17 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             target.CalculateAll();
         }
 
-        protected static IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price, Resolution resolution = Resolution.Days, bool weekendData = false)
+        protected IPriceSeries CreateTestPriceSeries(int count, DateTime startDate, decimal price, Resolution resolution = Resolution.Days, bool weekendData = false)
         {
-            var series = PriceSeriesFactory.ConstructPriceSeries("DE");
+            var series = _priceSeriesFactory.ConstructPriceSeries("DE");
             for (var i = 0; i < count; i++)
             {
-                var period = PricePeriodFactory.ConstructTickedPricePeriod();
                 var weekdayDateShifter = new Func<DateTime, int, Resolution, DateTime>((origin, periods, res) => origin.SeekTradingPeriods(periods, res));
                 var weekendDateShifter = new Func<DateTime, int, Resolution, DateTime>((origin, periods, res) => origin.SeekPeriods(periods, res));
 
                 var dateShifter = weekendData ? weekendDateShifter : weekdayDateShifter;
-                period.AddPriceTicks(PriceTickFactory.ConstructPriceTick(dateShifter(startDate, i, resolution), price));
+                var dateTime = dateShifter(startDate, i, resolution);
+                var period = _pricePeriodFactory.ConstructStaticPricePeriod(dateTime, resolution, price);
                 series.AddPriceData(period);
             }
             return series;

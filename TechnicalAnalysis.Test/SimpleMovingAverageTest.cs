@@ -7,13 +7,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
     [TestClass]
     public class SimpleMovingAverageTest : CommonIndicatorTests<SimpleMovingAverage>
     {
-        private readonly IPriceTickFactory _priceTickFactory;
-
-        public SimpleMovingAverageTest()
-        {
-            _priceTickFactory = new PriceTickFactory();
-        }
-
         private decimal[] _expected4
         {
             get
@@ -61,6 +54,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
                     return _expected4;
                 default:
                     Assert.Inconclusive("Expected values for lookback period of {0} are unknown.", lookback);
+// ReSharper disable once HeuristicUnreachableCode
                     return null;
             }
         }
@@ -96,104 +90,6 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
                 var actual = ma[date.SeekPeriods(i, series.Resolution)];
                 Assert.AreEqual(expected, actual);
             }
-        }
-
-        [TestMethod]
-        public void DataInNonTradingPeriods()
-        {
-            var p1 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p2 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p3 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p4 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p5 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p6 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p7 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p8 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p9 = PricePeriodFactory.ConstructTickedPricePeriod();
-
-            var date = new DateTime(2000, 1, 1);
-            p1.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date, 1));
-            p2.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.AddDays(1), 2));
-            p3.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.AddDays(2), 3));
-            p4.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.AddDays(3), 4));
-            p5.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.AddDays(4), 5));
-            p6.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.AddDays(5), 4));
-            p7.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.AddDays(6), 3));
-            p8.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.AddDays(7), 2));
-            p9.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.AddDays(8), 1));
-
-            var series = PriceSeriesFactory.ConstructPriceSeries("DE");
-            series.AddPriceData(p1);
-            series.AddPriceData(p2);
-            series.AddPriceData(p3);
-            series.AddPriceData(p4);
-            series.AddPriceData(p5);
-            series.AddPriceData(p6);
-            series.AddPriceData(p7);
-            series.AddPriceData(p8);
-            series.AddPriceData(p9);
-
-            // create 4 day moving average
-            const int lookback = 4;
-            var target = new SimpleMovingAverage(series, lookback);
-
-            target.CalculateAll();
-            var head = target.Head;
-            Assert.AreEqual(2.5m, target[head.SeekPeriods(0, target.Resolution)]);
-            Assert.AreEqual(3.5m, target[head.SeekPeriods(1, target.Resolution)]);
-            Assert.AreEqual(4.0m, target[head.SeekPeriods(2, target.Resolution)]);
-            Assert.AreEqual(4.0m, target[head.SeekPeriods(3, target.Resolution)]);
-            Assert.AreEqual(3.5m, target[head.SeekPeriods(4, target.Resolution)]);
-            Assert.AreEqual(2.5m, target[head.SeekPeriods(5, target.Resolution)]);
-        }
-
-        [TestMethod]
-        public void DataInTradingPeriods()
-        {
-            var p1 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p2 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p3 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p4 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p5 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p6 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p7 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p8 = PricePeriodFactory.ConstructTickedPricePeriod();
-            var p9 = PricePeriodFactory.ConstructTickedPricePeriod();
-
-            const Resolution resolution = Resolution.Days;
-            var date = new DateTime(2000, 1, 1);
-            p1.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(1, resolution), 1));
-            p2.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(2, resolution), 2));
-            p3.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(3, resolution), 3));
-            p4.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(4, resolution), 4));
-            p5.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(5, resolution), 5));
-            p6.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(6, resolution), 4));
-            p7.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(7, resolution), 3));
-            p8.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(8, resolution), 2));
-            p9.AddPriceTicks(_priceTickFactory.ConstructPriceTick(date.SeekTradingPeriods(9, resolution), 1));
-
-            var series = PriceSeriesFactory.ConstructPriceSeries("DE");
-            series.AddPriceData(p1);
-            series.AddPriceData(p2);
-            series.AddPriceData(p3);
-            series.AddPriceData(p4);
-            series.AddPriceData(p5);
-            series.AddPriceData(p6);
-            series.AddPriceData(p7);
-            series.AddPriceData(p8);
-            series.AddPriceData(p9);
-
-            // create 4 day moving average
-            const int lookback = 4;
-            var target = new SimpleMovingAverage(series, lookback);
-
-            target.CalculateAll();
-            Assert.AreEqual(2.5m, target[date.SeekTradingPeriods(4, resolution)]);
-            Assert.AreEqual(3.5m, target[date.SeekTradingPeriods(5, resolution)]);
-            Assert.AreEqual(4.0m, target[date.SeekTradingPeriods(6, resolution)]);
-            Assert.AreEqual(4.0m, target[date.SeekTradingPeriods(7, resolution)]);
-            Assert.AreEqual(3.5m, target[date.SeekTradingPeriods(8, resolution)]);
-            Assert.AreEqual(2.5m, target[date.SeekTradingPeriods(9, resolution)]);
         }
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.Test
 {
@@ -9,12 +8,10 @@ namespace Sonneville.PriceTools.Test
     public class PricePeriodEqualityTests
     {
         private readonly IPricePeriodFactory _pricePeriodFactory;
-        private readonly IPriceTickFactory _priceTickFactory;
 
         public PricePeriodEqualityTests()
         {
             _pricePeriodFactory = new PricePeriodFactory();
-            _priceTickFactory = new PriceTickFactory();
         }
 
         [TestMethod]
@@ -67,23 +64,6 @@ namespace Sonneville.PriceTools.Test
             var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
 
             Assert.AreEqual(period1.GetHashCode(), period2.GetHashCode());
-        }
-        
-        [TestMethod]
-        public void PeriodEqualsWithDifferentImplementations()
-        {
-            var head = new DateTime(2012, 6, 16);
-            var tail = head.AddDays(1);
-            const decimal close = 100.00m;
-
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructTickedPricePeriod(new List<PriceTick>
-                                                                            {
-                                                                                _priceTickFactory.ConstructPriceTick(head, close),
-                                                                                _priceTickFactory.ConstructPriceTick(tail, close)
-                                                                            });
-
-            Assert.IsFalse(period1.Equals(period2));
         }
 
         [TestMethod]
