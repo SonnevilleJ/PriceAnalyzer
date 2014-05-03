@@ -6,43 +6,32 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    internal class PricePeriod : IPricePeriod
+    internal struct PricePeriod : IPricePeriod
     {
-        public PricePeriod(DateTime head, DateTime tail, decimal open, decimal high, decimal low, decimal close, long? volume)
-        {
-            Close = close;
-            High = high;
-            Low = low;
-            Open = open;
-            Volume = volume;
-            Head = head;
-            Tail = tail;
-        }
-
         /// <summary>
         /// Gets the closing price for the IPricePeriod.
         /// </summary>
-        public decimal Close { get; private set; }
+        public decimal Close { get; set; }
 
         /// <summary>
         /// Gets the highest price that occurred during the IPricePeriod.
         /// </summary>
-        public decimal High { get; private set; }
+        public decimal High { get; set; }
 
         /// <summary>
         /// Gets the lowest price that occurred during the IPricePeriod.
         /// </summary>
-        public decimal Low { get; private set; }
+        public decimal Low { get; set; }
 
         /// <summary>
         /// Gets the opening price for the IPricePeriod.
         /// </summary>
-        public decimal Open { get; private set; }
+        public decimal Open { get; set; }
 
         /// <summary>
         /// Gets the total volume of trades during the IPricePeriod.
         /// </summary>
-        public long? Volume { get; private set; }
+        public long? Volume { get; set; }
 
         /// <summary>
         /// Gets a value stored at a given DateTime index of the IPricePeriod.
@@ -64,12 +53,12 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets the first DateTime in the IPricePeriod.
         /// </summary>
-        public DateTime Head { get; private set; }
+        public DateTime Head { get; set; }
 
         /// <summary>
         /// Gets the last DateTime in the IPricePeriod.
         /// </summary>
-        public DateTime Tail { get; private set; }
+        public DateTime Tail { get; set; }
 
         /// <summary>
         /// Gets the <see cref="Resolution"/> of price data stored within the IPricePeriod.
@@ -79,7 +68,8 @@ namespace Sonneville.PriceTools.Implementation
             get
             {
                 var resolutions = Enum.GetValues(typeof (Resolution)).Cast<long>().OrderBy(ticks => ticks);
-                return (Resolution) Enum.ToObject(typeof (Resolution), resolutions.First(ticks => this.TimeSpan().Ticks <= ticks));
+                var tmpThis = this;
+                return (Resolution) Enum.ToObject(typeof (Resolution), resolutions.First(ticks => tmpThis.TimeSpan().Ticks <= ticks));
             }
         }
 
@@ -96,8 +86,6 @@ namespace Sonneville.PriceTools.Implementation
         {
             if (ReferenceEquals(null, other))
                 return false;
-            if (ReferenceEquals(this, other))
-                return true;
             return Resolution == other.Resolution &&
                    Head == other.Head &&
                    Tail == other.Tail &&
