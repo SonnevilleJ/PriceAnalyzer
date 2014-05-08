@@ -73,6 +73,20 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Data\Data.csproj">
+      <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Google\Google.csproj">
+      <Project>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</Project>
+      <Name>Google</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PriceTools\PriceTools.csproj">
+      <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
+      <Name>PriceTools</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
