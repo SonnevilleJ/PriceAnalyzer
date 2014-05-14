@@ -1,44 +1,35 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
-using Sonneville.PriceTools.Google;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
     public partial class MainForm : Form
     {
+        private readonly PriceDataManager _priceDataManager = new PriceDataManager();
+
         public MainForm()
         {
             InitializeComponent();
         }
 
-        private void ImportClick(object sender, System.EventArgs e)
-        {
-            PopulatePriceData();
-        }
-
-        private void PopulatePriceData()
-        {
-            var pricePeriods = OpenFileAndLoadPricePeriods();
-            DisplayInDataGrid(pricePeriods);
-        }
-
-        private IList<IPricePeriod> OpenFileAndLoadPricePeriods()
+        private void ImportClick(object sender, EventArgs e)
         {
             var dialogResult = openFileDialog1.ShowDialog();
             if (dialogResult == DialogResult.OK)
             {
-                var fileName = openFileDialog1.FileName;
-                var priceDataManager = new PriceDataManager();
-                return priceDataManager.ParseCsvFile(fileName);
+                var fullFileName = openFileDialog1.FileName;
+                var pricePeriods = _priceDataManager.ParseCsvFile(fullFileName);
+                var fileName = new FileInfo(fullFileName).Name;
+                var tabName = fileName.Substring(0, fileName.IndexOf("."));
+                DisplayInDataGrid(pricePeriods, tabName);
             }
-            return new List<IPricePeriod>();
         }
 
-        private void DisplayInDataGrid(IList<IPricePeriod> pricePeriods)
+        private void DisplayInDataGrid(IList<IPricePeriod> pricePeriods, string tabName)
         {
-            var tabPage = new TabPage("my first tab");
+            var tabPage = new TabPage(tabName);
             tabContainer.TabPages.Add(tabPage);
             var dataGridView = new DataGridView();
             dataGridView.Dock = DockStyle.Fill;
@@ -66,9 +57,21 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             }
         }
 
-        private void CloseClick(object sender, System.EventArgs e)
+        private void CloseClick(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void downloadButton_Click(object sender, EventArgs e)
+        {
+            downloadButton.Enabled = false;
+            this.Cursor = Cursors.WaitCursor;
+
+            var ticker = TickerTextBox.Text;
+            DisplayInDataGrid(_priceDataManager.DownloadPricePeriods(ticker),ticker);
+            
+            downloadButton.Enabled = true;
+            this.Cursor = Cursors.Default;
         }
     }
 }
