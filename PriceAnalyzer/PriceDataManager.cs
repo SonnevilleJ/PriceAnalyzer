@@ -16,17 +16,17 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             return priceHistoryCsvFile.PricePeriods;
         }
 
-        public List<IPricePeriod> DownloadPricePeriods(string ticker)
+        public List<IPricePeriod> DownloadPricePeriods(string ticker, DateTime startDateTime, DateTime endDateTime)
         {
             var priceSeries = new PriceSeriesFactory().ConstructPriceSeries(ticker);
-            UpdatePriceSeriesWithLatestData(priceSeries);
+            UpdatePriceSeriesWithLatestData(priceSeries, endDateTime, startDateTime);
             return priceSeries.PricePeriods.ToList();
         }
 
-        private static void UpdatePriceSeriesWithLatestData(IPriceSeries priceSeries)
+        private static void UpdatePriceSeriesWithLatestData(IPriceSeries priceSeries, DateTime endDateTime, DateTime startDateTime)
         {
             new CsvPriceDataProvider(new GooglePriceHistoryQueryUrlBuilder()).UpdatePriceSeries(priceSeries,
-                new DateTime(2014, 1, 1), DateTime.Today, Resolution.Days, new GooglePriceDataProvider());
+                startDateTime, endDateTime, Resolution.Days, new GooglePriceDataProvider());
         }
     }
 }

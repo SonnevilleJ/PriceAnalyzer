@@ -12,6 +12,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         public MainForm()
         {
             InitializeComponent();
+            startDateTimePicker.Value = DateTime.Now.AddMonths(-1);
         }
 
         private void ImportClick(object sender, EventArgs e)
@@ -68,7 +69,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.Cursor = Cursors.WaitCursor;
 
             var ticker = TickerTextBox.Text;
-            DisplayInDataGrid(_priceDataManager.DownloadPricePeriods(ticker),ticker);
+            DisplayInDataGrid(_priceDataManager.DownloadPricePeriods(ticker, startDateTimePicker.Value, endDateTimePicker.Value),ticker);
             
             downloadButton.Enabled = true;
             this.Cursor = Cursors.Default;
