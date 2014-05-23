@@ -1,6 +1,6 @@
 ﻿namespace Sonneville.PriceTools.PriceAnalyzer
 {
-    abstract partial class GenericForm
+    partial class GenericForm
     {
         /// <summary>
         /// Required designer variable.
@@ -124,7 +124,6 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
-        protected System.Windows.Forms.Control content;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox TickerTextBox;

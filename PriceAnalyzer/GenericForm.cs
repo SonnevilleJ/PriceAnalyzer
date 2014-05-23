@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
-    public abstract partial class GenericForm : Form
+    public partial class GenericForm : Form
     {
         private readonly PriceDataManager _priceDataManager = new PriceDataManager();
 
@@ -29,7 +29,9 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             }
         }
 
-        protected abstract void DisplayContent(IList<IPricePeriod> pricePeriods, string ticker);
+        protected virtual void DisplayContent(IList<IPricePeriod> pricePeriods, string ticker)
+        {
+        }
 
         private void CloseClick(object sender, EventArgs e)
         {

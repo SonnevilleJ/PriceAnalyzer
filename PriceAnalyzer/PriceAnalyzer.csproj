@@ -50,6 +50,9 @@
     <Compile Include="ChartForm.Designer.cs">
       <DependentUpon>ChartForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataGridForm.Designer.cs">
+      <DependentUpon>DataGridForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="GenericForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -65,6 +68,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChartForm.resx">
       <DependentUpon>ChartForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataGridForm.resx">
+      <DependentUpon>DataGridForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GenericForm.resx">
       <DependentUpon>GenericForm.cs</DependentUpon>
