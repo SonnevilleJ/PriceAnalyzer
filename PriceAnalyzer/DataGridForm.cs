@@ -1,37 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
-    public partial class DataGridForm : Form
+    public class DataGridForm : GenericForm
     {
-        private readonly PriceDataManager _priceDataManager = new PriceDataManager();
-
         public DataGridForm()
         {
-            InitializeComponent();
-            startDateTimePicker.Value = DateTime.Now.AddMonths(-1);
+            var tabContainer = new TabControl();
+            tabContainer.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            tabContainer.Location = new Point(0, -2);
+            tabContainer.Name = "tabContainer";
+            tabContainer.Size = new Size(828, 316);
+            tabContainer.SelectedIndex = 0;
+            tabContainer.TabIndex = 3;
+            content = tabContainer;
+            Controls.Add(tabContainer);
         }
 
-        private void ImportClick(object sender, EventArgs e)
+        protected override void DisplayContent(IList<IPricePeriod> pricePeriods, string ticker)
         {
-            var dialogResult = openFileDialog1.ShowDialog();
-            if (dialogResult == DialogResult.OK)
-            {
-                var fullFileName = openFileDialog1.FileName;
-                var pricePeriods = _priceDataManager.ParseCsvFile(fullFileName);
-                var fileName = new FileInfo(fullFileName).Name;
-                var tabName = fileName.Substring(0, fileName.IndexOf("."));
-                DisplayInDataGrid(pricePeriods, tabName);
-            }
-        }
-
-        private void DisplayInDataGrid(IList<IPricePeriod> pricePeriods, string tabName)
-        {
-            var tabPage = new TabPage(tabName);
-            tabContainer.TabPages.Add(tabPage);
+            var tabPage = new TabPage(ticker);
+            ((TabControl)content).TabPages.Add(tabPage);
             var dataGridView = new DataGridView();
             dataGridView.Dock = DockStyle.Fill;
             tabPage.Controls.Add(dataGridView);
@@ -56,23 +47,6 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                 row.Cells["Volume"].Value = pricePeriod.Volume;
                 row.Cells["Open"].Value = pricePeriod.Open;
             }
-        }
-
-        private void CloseClick(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        private void downloadButton_Click(object sender, EventArgs e)
-        {
-            downloadButton.Enabled = false;
-            this.Cursor = Cursors.WaitCursor;
-
-            var ticker = TickerTextBox.Text;
-            DisplayInDataGrid(_priceDataManager.DownloadPricePeriods(ticker, startDateTimePicker.Value, endDateTimePicker.Value),ticker);
-            
-            downloadButton.Enabled = true;
-            this.Cursor = Cursors.Default;
         }
     }
 }

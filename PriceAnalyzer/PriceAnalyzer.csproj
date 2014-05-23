@@ -50,21 +50,24 @@
     <Compile Include="ChartForm.Designer.cs">
       <DependentUpon>ChartForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="GenericForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GenericForm.Designer.cs">
+      <DependentUpon>GenericForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="App.cs" />
     <Compile Include="DataGridForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DataGridForm.Designer.cs">
-      <DependentUpon>DataGridForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="App.cs" />
     <Compile Include="PriceDataManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="ChartForm.resx">
       <DependentUpon>ChartForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="DataGridForm.resx">
-      <DependentUpon>DataGridForm.cs</DependentUpon>
+    <EmbeddedResource Include="GenericForm.resx">
+      <DependentUpon>GenericForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

@@ -1,6 +1,6 @@
 ﻿namespace Sonneville.PriceTools.PriceAnalyzer
 {
-    partial class DataGridForm
+    abstract partial class GenericForm
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,6 @@
             this.button1 = new System.Windows.Forms.Button();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.button2 = new System.Windows.Forms.Button();
-            this.tabContainer = new System.Windows.Forms.TabControl();
             this.TickerTextBox = new System.Windows.Forms.TextBox();
             this.downloadButton = new System.Windows.Forms.Button();
             this.endDateTimePicker = new System.Windows.Forms.DateTimePicker();
@@ -63,17 +62,6 @@
             this.button2.Text = "Close";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.CloseClick);
-            // 
-            // tabContainer
-            // 
-            this.tabContainer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tabContainer.Location = new System.Drawing.Point(0, -2);
-            this.tabContainer.Name = "tabContainer";
-            this.tabContainer.SelectedIndex = 0;
-            this.tabContainer.Size = new System.Drawing.Size(828, 316);
-            this.tabContainer.TabIndex = 3;
             // 
             // TickerTextBox
             // 
@@ -114,7 +102,7 @@
             this.startDateTimePicker.Size = new System.Drawing.Size(96, 20);
             this.startDateTimePicker.TabIndex = 6;
             // 
-            // DataGridForm
+            // GenericForm
             // 
             this.AcceptButton = this.button1;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -124,10 +112,9 @@
             this.Controls.Add(this.endDateTimePicker);
             this.Controls.Add(this.downloadButton);
             this.Controls.Add(this.TickerTextBox);
-            this.Controls.Add(this.tabContainer);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
-            this.Name = "DataGridForm";
+            this.Name = "GenericForm";
             this.Text = "PriceAnalyzer";
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -137,9 +124,9 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
+        protected System.Windows.Forms.Control content;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TabControl tabContainer;
         private System.Windows.Forms.TextBox TickerTextBox;
         private System.Windows.Forms.Button downloadButton;
         private System.Windows.Forms.DateTimePicker endDateTimePicker;
