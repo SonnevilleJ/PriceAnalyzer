@@ -35,8 +35,7 @@
             this.downloadButton = new System.Windows.Forms.Button();
             this.endDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.startDateTimePicker = new System.Windows.Forms.DateTimePicker();
-            this._chart = new Sonneville.PriceTools.PriceAnalyzer.Chart();
-            this.hostedComponent1 = new System.Windows.Controls.Canvas();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
             this.SuspendLayout();
             // 
             // button1
@@ -104,17 +103,17 @@
             this.startDateTimePicker.Size = new System.Drawing.Size(96, 20);
             this.startDateTimePicker.TabIndex = 6;
             // 
-            // _chart
+            // elementHost1
             // 
-            this._chart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.elementHost1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._chart.Location = new System.Drawing.Point(0, 0);
-            this._chart.Name = "_chart";
-            this._chart.Size = new System.Drawing.Size(828, 316);
-            this._chart.TabIndex = 7;
-            this._chart.Text = "chart1";
-            this._chart.Child = this.hostedComponent1;
+            this.elementHost1.Location = new System.Drawing.Point(0, 0);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(828, 316);
+            this.elementHost1.TabIndex = 7;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.Child = null;
             // 
             // ChartForm
             // 
@@ -122,7 +121,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(825, 365);
-            this.Controls.Add(this._chart);
+            this.Controls.Add(this.elementHost1);
             this.Controls.Add(this.startDateTimePicker);
             this.Controls.Add(this.endDateTimePicker);
             this.Controls.Add(this.downloadButton);
@@ -145,8 +144,7 @@
         private System.Windows.Forms.Button downloadButton;
         private System.Windows.Forms.DateTimePicker endDateTimePicker;
         private System.Windows.Forms.DateTimePicker startDateTimePicker;
-        private Chart _chart;
-        private System.Windows.Controls.Canvas hostedComponent1;
+        private System.Windows.Forms.Integration.ElementHost elementHost1;
     }
 }
 

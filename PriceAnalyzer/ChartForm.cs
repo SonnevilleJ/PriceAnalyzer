@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
@@ -7,10 +6,13 @@ namespace Sonneville.PriceTools.PriceAnalyzer
     public partial class ChartForm : Form
     {
         private readonly PriceDataManager _priceDataManager = new PriceDataManager();
+        private readonly HighLowChart _chart = new HighLowChart();
 
         public ChartForm()
         {
             InitializeComponent();
+            elementHost1.Child = _chart;
+
             startDateTimePicker.Value = DateTime.Now.AddMonths(-1);
         }
 

@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new DataGridForm());
+            Application.Run(new ChartForm());
         }
     }
 }
