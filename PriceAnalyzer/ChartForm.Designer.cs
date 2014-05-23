@@ -36,6 +36,7 @@
             this.endDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.startDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.highLowChart1 = new Sonneville.PriceTools.PriceAnalyzer.HighLowChart();
             this.SuspendLayout();
             // 
             // button1
@@ -113,7 +114,7 @@
             this.elementHost1.Size = new System.Drawing.Size(828, 316);
             this.elementHost1.TabIndex = 7;
             this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = null;
+            this.elementHost1.Child = this.highLowChart1;
             // 
             // ChartForm
             // 
@@ -145,6 +146,7 @@
         private System.Windows.Forms.DateTimePicker endDateTimePicker;
         private System.Windows.Forms.DateTimePicker startDateTimePicker;
         private System.Windows.Forms.Integration.ElementHost elementHost1;
+        private HighLowChart highLowChart1;
     }
 }
 

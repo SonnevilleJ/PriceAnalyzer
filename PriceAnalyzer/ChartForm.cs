@@ -6,12 +6,10 @@ namespace Sonneville.PriceTools.PriceAnalyzer
     public partial class ChartForm : Form
     {
         private readonly PriceDataManager _priceDataManager = new PriceDataManager();
-        private readonly HighLowChart _chart = new HighLowChart();
 
         public ChartForm()
         {
             InitializeComponent();
-            elementHost1.Child = _chart;
 
             startDateTimePicker.Value = DateTime.Now.AddMonths(-1);
         }
@@ -24,7 +22,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                 var fullFileName = openFileDialog1.FileName;
                 var pricePeriods = _priceDataManager.ParseCsvFile(fullFileName);
                 
-                _chart.DrawPricePeriods(pricePeriods);
+                highLowChart1.DrawPricePeriods(pricePeriods);
             }
         }
 
@@ -40,7 +38,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
             var ticker = TickerTextBox.Text;
             var pricePeriods = _priceDataManager.DownloadPricePeriods(ticker, startDateTimePicker.Value, endDateTimePicker.Value);
-            _chart.DrawPricePeriods(pricePeriods);
+            highLowChart1.DrawPricePeriods(pricePeriods);
 
             downloadButton.Enabled = true;
             this.Cursor = Cursors.Default;
