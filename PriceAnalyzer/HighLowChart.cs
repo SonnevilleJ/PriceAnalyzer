@@ -60,89 +60,63 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             var dollarRange = (highestHigh - lowestLow);
             var pixelsPerDollar = (_canvas.ActualHeight/dollarRange);
             DrawVerticalAxis(highestHigh, lowestLow, pixelsPerDollar);
+
             var firstDay = _pricePeriods.Min(pricePeriod => pricePeriod.Head);
             var lastDay = _pricePeriods.Max(pricePeriod => pricePeriod.Tail);
             var pixelsPerDay = _canvas.ActualWidth / (lastDay - firstDay).Days;
             DrawHorizontalAxis(firstDay, lastDay, pixelsPerDay);
+            
             DrawCanvas(highestHigh, lowestLow, pixelsPerDollar, pixelsPerDay);
         }
 
-        private void DrawHorizontalAxis(DateTime firstDay, DateTime lastDay, double pixelsPerDay)
+        private void DrawHorizontalAxis(DateTime firstDay, DateTime lastDay, double pixelsPerValue)
         {
             _horizontalCanvas.Children.Clear();
 
             const int minimumPixelsPerTick = 60;
             const double maximumTicks = 10;
             var pixelsPerTick = Math.Max(_horizontalCanvas.ActualWidth / maximumTicks, minimumPixelsPerTick);
-            var periodsBetweenHorizontalTicks = pixelsPerTick / pixelsPerDay;
-            for (DateTime i = firstDay; i < lastDay; i = i.AddDays(periodsBetweenHorizontalTicks))
+            var valuesBetweenTicks = pixelsPerTick / pixelsPerValue;
+            for (var i = firstDay; i < lastDay; i = i.AddDays(valuesBetweenTicks))
             {
-                DrawHorizontalTick(pixelsPerDay, i, firstDay);
+                var location = (i - firstDay).Days*pixelsPerValue;
+                DrawLine(location, 0, 5, 0, _horizontalCanvas);
+                DrawValue(i.ToShortDateString(), 7, location - 25, _horizontalCanvas);
             }
-            var separator = new Line();
-            separator.Y1 = 0;
-            separator.X1 = 0;
-            separator.X2 = _horizontalCanvas.ActualWidth;
-            separator.Y2 = 0;
-            separator.Stroke = Brushes.DarkBlue;
+            var separator = CreateLine(0, 0, _horizontalCanvas.ActualWidth, 0, Brushes.DarkBlue);
             _horizontalCanvas.Children.Add(separator);
         }
 
-        private void DrawHorizontalTick(double pixelsPerDay, DateTime tickDay, DateTime firstDay)
-        {
-            var line = new Line();
-            line.Y1 = 0;
-            line.Y2 = 5;
-            line.X1 = (tickDay - firstDay).Days*pixelsPerDay;
-            line.X2 = (tickDay - firstDay).Days*pixelsPerDay;
-            line.Stroke = Brushes.Black;
-            _horizontalCanvas.Children.Add(line);
-            var textBlock = new TextBlock();
-            textBlock.Text = tickDay.ToShortDateString();
-            textBlock.Foreground = Brushes.Black;
-            Canvas.SetTop(textBlock, 7);
-            Canvas.SetLeft(textBlock, line.X1 - 25);
-
-            _horizontalCanvas.Children.Add(textBlock);
-        }
-
-        private void DrawVerticalAxis(double highestHigh, double lowestLow, double pixelsPerDollar)
+        private void DrawVerticalAxis(double highestHigh, double lowestLow, double pixelsPerValue)
         {
             _verticalCanvas.Children.Clear();
 
             const int minimumPixelsPerTick = 30;
             const double maximumTicks = 10;
             var pixelsPerTick = Math.Max(_verticalCanvas.ActualHeight/maximumTicks, minimumPixelsPerTick);
-            var dollarsBetweenVerticalTicks = pixelsPerTick/pixelsPerDollar;
-            for (double i = 0; i < Math.Round(highestHigh - lowestLow, 0); i += dollarsBetweenVerticalTicks)
+            var valuesBetweenTicks = pixelsPerTick / pixelsPerValue;
+            for (var i = 0.0; i < Math.Round(highestHigh - lowestLow, 0); i += valuesBetweenTicks)
             {
-                DrawVerticalTick(pixelsPerDollar, i, highestHigh);
+                var location = i*pixelsPerValue;
+                DrawLine(40, location, 0, 5, _verticalCanvas);
+                DrawValue((highestHigh - i).ToString("C"), location - (6), 5, _verticalCanvas);
             }
-            var separator = new Line();
-            separator.X1 = _verticalCanvas.ActualWidth;
-            separator.Y1 = 0;
-            separator.X2 = _verticalCanvas.ActualWidth;
-            separator.Y2 = _verticalCanvas.ActualHeight;
-            separator.Stroke = Brushes.DarkBlue;
+            var separator = CreateLine(_verticalCanvas.ActualWidth, 0, _verticalCanvas.ActualWidth, _verticalCanvas.ActualHeight, Brushes.DarkBlue);
             _verticalCanvas.Children.Add(separator);
         }
 
-        private void DrawVerticalTick(double pixelsPerDollar, double offsetPrice, double highestHigh)
+        private static void DrawValue(string valueText, double top, double left, Panel panel)
         {
-            var line = new Line();
-            line.Y1 = offsetPrice*pixelsPerDollar;
-            line.Y2 = offsetPrice*pixelsPerDollar;
-            line.X1 = 40;
-            line.X2 = 45;
-            line.Stroke = Brushes.Black;
-            var textBlock = new TextBlock();
-            textBlock.Text = (highestHigh - offsetPrice).ToString("C");
-            textBlock.Foreground = Brushes.Black;
-            Canvas.SetLeft(textBlock, 5);
-            Canvas.SetTop(textBlock, offsetPrice*pixelsPerDollar - (6));
+            var textBlock = new TextBlock {Text = valueText, Foreground = Brushes.Black};
+            Canvas.SetTop(textBlock, top);
+            Canvas.SetLeft(textBlock, left);
+            panel.Children.Add(textBlock);
+        }
 
-            _verticalCanvas.Children.Add(textBlock);
-            _verticalCanvas.Children.Add(line);
+        private static void DrawLine(double xLocation, double yLocation, int tickHeight, int tickWidth, Panel panel)
+        {
+            var line = CreateLine(xLocation, yLocation, xLocation + tickWidth, yLocation + tickHeight, Brushes.Black);
+            panel.Children.Add(line);
         }
 
         private void DrawCanvas(double maxYdollar, double minYdollar, double pixelsPerDollar, double pixelsPerDay)
@@ -153,15 +127,15 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
             foreach (var pricePeriod in _pricePeriods)
             {
-                var line = new Line();
-                line.X1 = ((pricePeriod.Head - minX).Days*pixelsPerDay);
-                line.Y1 = _canvas.ActualHeight - ((double) pricePeriod.Low - minYdollar)*pixelsPerDollar;
-                line.X2 = line.X1;
-                line.Y2 = (maxYdollar - (double) pricePeriod.High)*pixelsPerDollar;
-                line.Stroke = Brushes.Blue;
-
+                var x = ((pricePeriod.Head - minX).Days*pixelsPerDay);
+                var line = CreateLine(x, _canvas.ActualHeight - ((double) pricePeriod.Low - minYdollar)*pixelsPerDollar, x, (maxYdollar - (double) pricePeriod.High)*pixelsPerDollar, Brushes.Blue);
                 _canvas.Children.Add(line);
             }
+        }
+
+        private static Line CreateLine(double x1, double y1, double x2, double y2, Brush stroke)
+        {
+            return new Line {X1 = x1, Y1 = y1, X2 = x2, Y2 = y2, Stroke = stroke};
         }
     }
 }
