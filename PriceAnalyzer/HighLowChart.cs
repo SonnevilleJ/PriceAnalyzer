@@ -20,20 +20,25 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         public HighLowChart()
         {
-            var column1 = new ColumnDefinition();
-            column1.Width = new GridLength(45);
-            ColumnDefinitions.Add(column1);
+            var column0 = new ColumnDefinition();
+            column0.Width = new GridLength(45);
+            ColumnDefinitions.Add(column0);
             ColumnDefinitions.Add(new ColumnDefinition());
+
+            var row0 = new RowDefinition();
+            row0.Height = new GridLength(8);
+            RowDefinitions.Add(row0);
             RowDefinitions.Add(new RowDefinition());
             var row2 = new RowDefinition();
             row2.Height = new GridLength(20);
             RowDefinitions.Add(row2);
+
             Grid.SetColumn(_verticalCanvas, 0);
-            Grid.SetRow(_verticalCanvas, 0);
+            Grid.SetRow(_verticalCanvas, 1);
             Grid.SetColumn(_canvas, 1);
-            Grid.SetRow(_canvas, 0);
+            Grid.SetRow(_canvas, 1);
             Grid.SetColumn(_horizontalCanvas, 1);
-            Grid.SetRow(_horizontalCanvas, 1);
+            Grid.SetRow(_horizontalCanvas, 2);
 
             Children.Add(_canvas);
             Children.Add(_verticalCanvas);
