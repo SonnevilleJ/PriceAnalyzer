@@ -63,7 +63,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
             var firstDay = _pricePeriods.Min(pricePeriod => pricePeriod.Head);
             var lastDay = _pricePeriods.Max(pricePeriod => pricePeriod.Tail);
-            var pixelsPerDay = _canvas.ActualWidth / (lastDay - firstDay).Days;
+            var pixelsPerDay = _canvas.ActualWidth/((lastDay - firstDay).Days + 1);
             DrawHorizontalAxis(firstDay, lastDay, pixelsPerDay);
             
             DrawCanvas(highestHigh, lowestLow, pixelsPerDollar, pixelsPerDay);
@@ -127,9 +127,16 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
             foreach (var pricePeriod in _pricePeriods)
             {
-                var x = ((pricePeriod.Head - minX).Days*pixelsPerDay);
-                var line = CreateLine(x, _canvas.ActualHeight - ((double) pricePeriod.Low - minYdollar)*pixelsPerDollar, x, (maxYdollar - (double) pricePeriod.High)*pixelsPerDollar, Brushes.Blue);
-                _canvas.Children.Add(line);
+                var x = ((pricePeriod.Head - minX).Days*pixelsPerDay) + (.5*pixelsPerDay);
+                var highLowBar = CreateLine(x, _canvas.ActualHeight - ((double) pricePeriod.Low - minYdollar)*pixelsPerDollar, x, (maxYdollar - (double) pricePeriod.High)*pixelsPerDollar, Brushes.Blue);
+                var openY = _canvas.ActualHeight - ((double)pricePeriod.Open - minYdollar)*pixelsPerDollar;
+                var openBar = CreateLine(x - (pixelsPerDay*.25), openY, x, openY, Brushes.Blue);
+                var closeY = _canvas.ActualHeight - ((double)pricePeriod.Close - minYdollar) * pixelsPerDollar;
+                var closeBar = CreateLine(x + (pixelsPerDay*.25), closeY, x, closeY, Brushes.Blue);
+
+                _canvas.Children.Add(highLowBar);
+                _canvas.Children.Add(openBar);
+                _canvas.Children.Add(closeBar);
             }
         }
 
