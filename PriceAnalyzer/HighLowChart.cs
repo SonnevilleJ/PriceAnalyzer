@@ -62,7 +62,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             DrawVerticalAxis(highestHigh, lowestLow, pixelsPerDollar);
 
             var firstDay = _pricePeriods.Min(pricePeriod => pricePeriod.Head);
-            var lastDay = _pricePeriods.Max(pricePeriod => pricePeriod.Tail);
+            var lastDay = _pricePeriods.Max(pricePeriod => pricePeriod.Tail).AddDays(1);
             var pixelsPerDay = _canvas.ActualWidth/((lastDay - firstDay).Days + 1);
             DrawHorizontalAxis(firstDay, lastDay, pixelsPerDay);
             
@@ -79,7 +79,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             var valuesBetweenTicks = pixelsPerTick / pixelsPerValue;
             for (var i = firstDay; i < lastDay; i = i.AddDays(valuesBetweenTicks))
             {
-                var location = (i - firstDay).Days*pixelsPerValue;
+                var location = (i - firstDay).Days*pixelsPerValue + (.5*pixelsPerValue);
                 DrawLine(location, 0, 5, 0, _horizontalCanvas);
                 DrawValue(i.ToShortDateString(), 7, location - 25, _horizontalCanvas);
             }
