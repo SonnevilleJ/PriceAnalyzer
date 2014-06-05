@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             var currentTab = tabControl1.SelectedTab;
             currentTab.Text = ticker;
 
-            if (tabControl1.SelectedTab.Controls[0] is ElementHost)
+            if (currentTab.Controls[0] is ElementHost)
             {
                 DisplayChart(pricePeriods, currentTab);
             }
