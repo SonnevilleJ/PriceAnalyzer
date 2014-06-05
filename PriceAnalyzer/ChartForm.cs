@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Windows.Forms.Integration;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
@@ -11,7 +12,12 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         protected override void DisplayContent(IList<IPricePeriod> pricePeriods, string ticker)
         {
-            highLowChart1.DrawPricePeriods(pricePeriods);
+            var currentTab = this.tabControl1.SelectedTab;
+            var currentElementHost = (ElementHost)currentTab.Controls[0];
+            var currentChart = (HighLowChart)currentElementHost.Child;
+
+            currentChart.DrawPricePeriods(pricePeriods);
+            currentTab.Text = ticker;
         }
     }
 }
