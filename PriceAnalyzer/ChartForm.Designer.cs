@@ -32,6 +32,7 @@
             this.highLowChart1 = new Sonneville.PriceTools.PriceAnalyzer.HighLowChart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.addTabButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.SuspendLayout();
@@ -69,14 +70,27 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // addTabButton
+            // 
+            this.addTabButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.addTabButton.Location = new System.Drawing.Point(403, 330);
+            this.addTabButton.Name = "addTabButton";
+            this.addTabButton.Size = new System.Drawing.Size(75, 23);
+            this.addTabButton.TabIndex = 9;
+            this.addTabButton.Text = "Add Tab";
+            this.addTabButton.UseVisualStyleBackColor = true;
+            this.addTabButton.Click += new System.EventHandler(this.addTabButton_Click);
+            // 
             // ChartForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(825, 365);
+            this.Controls.Add(this.addTabButton);
             this.Controls.Add(this.tabControl1);
             this.Name = "ChartForm";
             this.Controls.SetChildIndex(this.tabControl1, 0);
+            this.Controls.SetChildIndex(this.addTabButton, 0);
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -90,6 +104,7 @@
         private HighLowChart highLowChart1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Button addTabButton;
     }
 }
 
