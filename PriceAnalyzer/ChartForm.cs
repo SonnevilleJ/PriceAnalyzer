@@ -69,6 +69,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             newElementHost.Child = newChart;
             newElementHost.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             newElementHost.Dock = DockStyle.Fill;
+            newTab.UseVisualStyleBackColor = true;
             this.tabControl1.SelectedTab = newTab;
 
         }
