@@ -26,8 +26,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                 var fullFileName = openFileDialog1.FileName;
                 var pricePeriods = _priceDataManager.ParseCsvFile(fullFileName);
                 var fileName = new FileInfo(fullFileName).Name;
-                var tabName = fileName.Substring(0, fileName.IndexOf("."));
-                DisplayChart(pricePeriods, tabName);
+                var ticker = fileName.Substring(0, fileName.IndexOf("."));
+                DisplayData(pricePeriods, ticker);
             }
         }
 
@@ -38,24 +38,29 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
             var ticker = TickerTextBox.Text;
             var pricePeriods = _priceDataManager.DownloadPricePeriods(ticker, startDateTimePicker.Value, endDateTimePicker.Value);
-
-            if (tabControl1.SelectedTab.Controls[0] is ElementHost)
-            {
-                DisplayChart(pricePeriods, ticker);
-            }
-            else
-            {
-                DisplayTable(pricePeriods, ticker);
-            }
-
+            DisplayData(pricePeriods, ticker);
 
             downloadButton.Enabled = true;
             this.Cursor = Cursors.Default;
         }
 
-        private void DisplayTable(IList<IPricePeriod> pricePeriods, string ticker)
+        private void DisplayData(IList<IPricePeriod> pricePeriods, string ticker)
         {
             var currentTab = tabControl1.SelectedTab;
+            currentTab.Text = ticker;
+
+            if (tabControl1.SelectedTab.Controls[0] is ElementHost)
+            {
+                DisplayChart(pricePeriods, currentTab);
+            }
+            else
+            {
+                DisplayTable(pricePeriods, currentTab);
+            }
+        }
+
+        private void DisplayTable(IList<IPricePeriod> pricePeriods, Control currentTab)
+        {
             var dataGridView = (DataGridView)currentTab.Controls[0];
             for (int i = 0; i < pricePeriods.Count; i++)
             {
@@ -70,17 +75,14 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                 row.Cells["Volume"].Value = pricePeriod.Volume;
                 row.Cells["Open"].Value = pricePeriod.Open;
             }
-            currentTab.Text = ticker;
         }
 
-        private void DisplayChart(IList<IPricePeriod> pricePeriods, string ticker)
+        private void DisplayChart(IList<IPricePeriod> pricePeriods, Control currentTab)
         {
-            var currentTab = this.tabControl1.SelectedTab;
             var currentElementHost = (ElementHost)currentTab.Controls[0];
             var currentChart = (HighLowChart)currentElementHost.Child;
 
             currentChart.DrawPricePeriods(pricePeriods);
-            currentTab.Text = ticker;
         }
 
         private void AddChartTab()
