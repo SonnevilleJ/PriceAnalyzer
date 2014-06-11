@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
@@ -16,7 +15,17 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             InitializeComponent();
         }
 
-        private void ImportCSV()
+        private void DownloadPriceData(string ticker, DateTime startDateTime, DateTime endDateTime)
+        {
+            this.Cursor = Cursors.WaitCursor;
+
+            var pricePeriods = _priceDataManager.DownloadPricePeriods(ticker, startDateTime, endDateTime);
+            DisplayData(pricePeriods, ticker);
+
+            this.Cursor = Cursors.Default;
+        }
+
+        private void ImportCsv()
         {
             var dialogResult = openFileDialog1.ShowDialog();
             if (dialogResult == DialogResult.OK)
@@ -27,16 +36,6 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                 var ticker = fileName.Substring(0, fileName.IndexOf("."));
                 DisplayData(pricePeriods, ticker);
             }
-        }
-
-        private void DownloadPriceData(string ticker, DateTime startDateTime, DateTime endDateTime)
-        {
-            this.Cursor = Cursors.WaitCursor;
-
-            var pricePeriods = _priceDataManager.DownloadPricePeriods(ticker, startDateTime, endDateTime);
-            DisplayData(pricePeriods, ticker);
-
-            this.Cursor = Cursors.Default;
         }
 
         private void DisplayData(IList<IPricePeriod> pricePeriods, string ticker)
@@ -80,6 +79,21 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             currentChart.DrawPricePeriods(pricePeriods);
         }
 
+        private void DownloadStockData()
+        {
+            var dataEntryForm = new DataEntryForm();
+            var dialogResult = dataEntryForm.ShowDialog();
+
+            if (dialogResult == DialogResult.OK)
+            {
+                var ticker = dataEntryForm.Ticker;
+                var startDate = dataEntryForm.StartDateTime;
+                var endDate = dataEntryForm.EndDateTime;
+
+                DownloadPriceData(ticker, startDate, endDate);
+            }
+        }
+
         private void AddChartTab()
         {
             var newTab = new TabPage(tabControl1.TabCount.ToString());
@@ -95,27 +109,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.tabControl1.SelectedTab = newTab;
         }
 
-        private void exitMenuItem_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void importCSVToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ImportCSV();
-        }
-
-        private void chartToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddChartTab();
-        }
-
-        private void tableToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            AddTable();
-        }
-
-        private void AddTable()
+        private void AddTableTab()
         {
             var tabPage = new TabPage(tabControl1.TabCount.ToString());
             tabControl1.TabPages.Add(tabPage);
@@ -135,17 +129,27 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void downloadStockToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var dataEntryForm = new DataEntryForm();
-            var dialogResult = dataEntryForm.ShowDialog();
+            DownloadStockData();
+        }
 
-            if(dialogResult == DialogResult.OK)
-            {
-                var ticker = dataEntryForm.Ticker;
-                var startDate = dataEntryForm.StartDateTime;
-                var endDate = dataEntryForm.EndDateTime;
+        private void exitMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
 
-                DownloadPriceData(ticker, startDate, endDate);
-            }
+        private void importCSVToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ImportCsv();
+        }
+
+        private void chartToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddChartTab();
+        }
+
+        private void tableToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            AddTableTab();
         }
     }
 }

@@ -21,11 +21,14 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             StartDateTime = startDateTimePicker.Value;
             EndDateTime = endDateTimePicker.Value;
             Ticker = TickerTextBox.Text;
+            
+            DialogResult = DialogResult.OK;
             this.Close();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            DialogResult = DialogResult.Cancel;
             this.Close();
         }
     }
