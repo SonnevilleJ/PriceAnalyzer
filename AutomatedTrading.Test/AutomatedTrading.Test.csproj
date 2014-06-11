@@ -69,6 +69,7 @@
     <Compile Include="PositionMedianProfitTests.cs" />
     <Compile Include="PositionNetProfitTests.cs" />
     <Compile Include="PositionNetReturnTests.cs" />
+    <Compile Include="PositionPriceSeriesTest.cs" />
     <Compile Include="PositionStandardDeviationTests.cs" />
     <Compile Include="PositionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -84,6 +85,10 @@
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Google\Google.csproj">
+      <Project>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</Project>
+      <Name>Google</Name>
     </ProjectReference>
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
