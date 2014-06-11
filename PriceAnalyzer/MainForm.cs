@@ -14,8 +14,6 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         public MainForm()
         {
             InitializeComponent();
-
-            startDateTimePicker.Value = DateTime.Now.AddMonths(-1);
         }
 
         private void ImportCSV()
@@ -31,16 +29,13 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             }
         }
 
-        private void downloadButton_Click(object sender, EventArgs e)
+        private void DownloadPriceData(string ticker, DateTime startDateTime, DateTime endDateTime)
         {
-            downloadButton.Enabled = false;
             this.Cursor = Cursors.WaitCursor;
 
-            var ticker = TickerTextBox.Text;
-            var pricePeriods = _priceDataManager.DownloadPricePeriods(ticker, startDateTimePicker.Value, endDateTimePicker.Value);
+            var pricePeriods = _priceDataManager.DownloadPricePeriods(ticker, startDateTime, endDateTime);
             DisplayData(pricePeriods, ticker);
 
-            downloadButton.Enabled = true;
             this.Cursor = Cursors.Default;
         }
 
@@ -117,6 +112,11 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void tableToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            AddTable();
+        }
+
+        private void AddTable()
+        {
             var tabPage = new TabPage(tabControl1.TabCount.ToString());
             tabControl1.TabPages.Add(tabPage);
             var dataGridView = new DataGridView();
@@ -131,6 +131,21 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             dataGridView.Columns.Add("Volume", "Volume");
 
             this.tabControl1.SelectedTab = tabPage;
+        }
+
+        private void downloadStockToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var dataEntryForm = new DataEntryForm();
+            var dialogResult = dataEntryForm.ShowDialog();
+
+            if(dialogResult == DialogResult.OK)
+            {
+                var ticker = dataEntryForm.Ticker;
+                var startDate = dataEntryForm.StartDateTime;
+                var endDate = dataEntryForm.EndDateTime;
+
+                DownloadPriceData(ticker, startDate, endDate);
+            }
         }
     }
 }
