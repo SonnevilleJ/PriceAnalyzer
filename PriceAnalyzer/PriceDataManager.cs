@@ -9,11 +9,11 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 {
     public class PriceDataManager
     {
-        private readonly IPriceDataProvider _csvPriceDataProvider;
+        private readonly IPriceDataProvider _priceDataProvider;
 
         public PriceDataManager()
         {
-            _csvPriceDataProvider = new CsvPriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory());
+            _priceDataProvider = new PriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory());
         }
 
         public IList<IPricePeriod> ParseCsvFile(string filename)
@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         public IList<IPricePeriod> DownloadPricePeriods(string ticker, DateTime startDateTime, DateTime endDateTime)
         {
-            return _csvPriceDataProvider.DownloadPricePeriods(ticker, startDateTime, endDateTime, Resolution.Days);
+            return _priceDataProvider.DownloadPricePeriods(ticker, startDateTime, endDateTime, Resolution.Days);
         }
     }
 }

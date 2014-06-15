@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             _priceHistoryQueryUrlBuilder.Setup(x => x.FormPriceHistoryQueryUrl(_ticker, new DateTime(2012, 8, 7), new DateTime(2012, 8, 7).CurrentPeriodClose(Resolution.Days), Resolution.Days))
                 .Returns(ibmSingleDay);
 
-            _provider = new CsvPriceDataProvider(webClientMock.Object, _priceHistoryQueryUrlBuilder.Object, _priceHistoryCsvFileFactory);
+            _provider = new PriceDataProvider(webClientMock.Object, _priceHistoryQueryUrlBuilder.Object, _priceHistoryCsvFileFactory);
         }
 
         [TestMethod]

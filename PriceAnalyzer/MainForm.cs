@@ -5,7 +5,7 @@ using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using Sonneville.PriceTools.AutomatedTrading;
-using Sonneville.PriceTools.Data.Csv;
+using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Fidelity;
 using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.Implementation;
@@ -177,7 +177,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                     .First(ticker => ticker.EndsWith("XX"));
                 
                 var portfolio = tempPortfolioFactory.ConstructPortfolio(cashTicker, transactionHistoryCsvFile.Transactions);
-                var priceSeries = tempPortfolioFactory.ConstructPriceSeries(portfolio, new CsvPriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory()));
+                var priceSeries = tempPortfolioFactory.ConstructPriceSeries(portfolio, new PriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory()));
 
                 DisplayDataInCurrentTab(priceSeries.PricePeriods.ToList(), "Portfolio");
             }

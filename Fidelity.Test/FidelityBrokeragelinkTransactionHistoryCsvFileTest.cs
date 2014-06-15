@@ -333,7 +333,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             var webClientMock = new Mock<IWebClient>();
             webClientMock.Setup(x => x.OpenRead(It.IsAny<string>())).Returns<string>(GetPriceDataStream);
-            return new CsvPriceDataProvider(webClientMock.Object, new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceHistoryCsvFileFactory());
+            return new PriceDataProvider(webClientMock.Object, new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceHistoryCsvFileFactory());
         }
 
         private static Stream GetPriceDataStream(string arg)

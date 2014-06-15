@@ -3,23 +3,23 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
-namespace Sonneville.PriceTools.Data.Csv
+namespace Sonneville.PriceTools.Data
 {
     /// <summary>
     /// Provides price data from Comma Separated Values (CSV) data sources.
     /// </summary>
-    public class CsvPriceDataProvider : IPriceDataProvider
+    public class PriceDataProvider : IPriceDataProvider
     {
         private readonly IWebClient _webClient;
         private readonly IPriceHistoryQueryUrlBuilder _priceHistoryQueryUrlBuilder;
         private readonly IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
 
-        public CsvPriceDataProvider(IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory)
+        public PriceDataProvider(IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory)
             : this(new WebClientWrapper(), priceHistoryQueryUrlBuilder, priceHistoryCsvFileFactory)
         {
         }
 
-        public CsvPriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory)
+        public PriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory)
         {
             _webClient = webClient;
             _priceHistoryQueryUrlBuilder = priceHistoryQueryUrlBuilder;
@@ -40,6 +40,14 @@ namespace Sonneville.PriceTools.Data.Csv
             priceSeries.AddPriceData(pricePeriods);
         }
 
+        /// <summary>
+        /// Gets an <see cref="IList{IPricePeriod}"/> containing price history.
+        /// </summary>
+        /// <param name="ticker">The ticker of the security to price.</param>
+        /// <param name="head">The first date to price.</param>
+        /// <param name="tail">The last date to price.</param>
+        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
+        /// <returns></returns>
         public IList<IPricePeriod> DownloadPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             using (var stream = DownloadPricesToCsv(ticker, head, tail, resolution))

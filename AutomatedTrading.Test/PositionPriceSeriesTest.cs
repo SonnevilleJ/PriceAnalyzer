@@ -1,6 +1,6 @@
 ﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
-using Sonneville.PriceTools.Data.Csv;
+using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.SampleData;
 
@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var priceData = SamplePriceDatas.IBM_Daily;
             var position = CreateEncompassingPosition(priceData);
 
-            var csvPriceDataProvider = new CsvPriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory());
+            var csvPriceDataProvider = new PriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory());
             var priceSeries = _positionFactory.ConstructPriceSeries(position, csvPriceDataProvider);
 
             foreach (var pricePeriod in priceData.PricePeriods)
