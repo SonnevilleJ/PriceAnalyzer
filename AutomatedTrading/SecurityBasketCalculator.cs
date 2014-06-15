@@ -16,14 +16,12 @@ namespace Sonneville.PriceTools.AutomatedTrading
         private readonly IPriceSeriesFactory _priceSeriesFactory;
         private readonly ITimeSeriesUtility _timeSeriesUtility;
         private readonly IProfitCalculator _profitCalculator;
-        private readonly IPriceSeriesRetriever _priceSeriesRetriever;
         private readonly IHoldingFactory _holdingFactory;
 
         public SecurityBasketCalculator()
         {
             _timeSeriesUtility = new TimeSeriesUtility();
             _profitCalculator = new ProfitCalculator();
-            _priceSeriesRetriever = new PriceSeriesRetriever();
             _priceSeriesFactory = new PriceSeriesFactory();
             _holdingFactory = new HoldingFactory();
         }
@@ -87,7 +85,10 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 if (heldShares == 0) continue;
 
                 var priceSeries = _priceSeriesFactory.ConstructPriceSeries(transactions.First().Ticker);
-                if (!_timeSeriesUtility.HasValueInRange(priceSeries, settlementDate)) _priceSeriesRetriever.UpdatePriceData(priceSeries, provider, settlementDate, priceHistoryCsvFileFactory);
+                if (!_timeSeriesUtility.HasValueInRange(priceSeries, settlementDate))
+                {
+                    provider.UpdatePriceSeries(priceSeries, settlementDate, DateTime.Now, priceSeries.Resolution);
+                }
                 var price = priceSeries[settlementDate];
                 total += heldShares * price;
             }
