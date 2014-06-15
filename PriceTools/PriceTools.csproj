@@ -61,6 +61,7 @@
     <Compile Include="Extensions\VariableValueExtensions.cs" />
     <Compile Include="Extensions\TimeSeriesUtility.cs" />
     <Compile Include="Factories\HoldingFactory.cs" />
+    <Compile Include="IMarketIndex.cs" />
     <Compile Include="Implementation\ConstantPriceSeries.cs" />
     <Compile Include="Interfaces\ICashAccountFactory.cs" />
     <Compile Include="Extensions\ReactionMovesFactory.cs" />
@@ -101,7 +102,7 @@
     <Compile Include="Implementation\PricePeriod.cs" />
     <Compile Include="Implementation\PriceSeries.cs" />
     <Compile Include="IWebClient.cs" />
-    <Compile Include="StockIndexInfo.cs" />
+    <Compile Include="SP500.cs" />
     <Compile Include="Factories\OrderFactory.cs" />
     <Compile Include="PricingType.cs" />
     <Compile Include="HighLow.cs" />
@@ -109,12 +110,10 @@
     <Compile Include="Factories\PricePeriodFactory.cs" />
     <Compile Include="Factories\PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
-    <Compile Include="Implementation\PriceTick.cs" />
     <Compile Include="Interfaces\ITimePeriod.cs" />
     <Compile Include="OrderType.cs" />
     <Compile Include="Resolution.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="StockIndex.cs" />
     <Compile Include="Strings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

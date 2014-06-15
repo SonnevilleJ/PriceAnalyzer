@@ -10,13 +10,6 @@ namespace Sonneville.PriceTools.Yahoo
     public sealed class YahooPriceHistoryCsvFile : PriceHistoryCsvFile
     {
         /// <summary>
-        /// Constructs a YahooPriceHistoryCsvFile.
-        /// </summary>
-        public YahooPriceHistoryCsvFile()
-        {
-        }
-
-        /// <summary>
         /// Constructs a YahooPriceHistoryCsvFile from CSV data in a stream.
         /// </summary>
         /// <param name="stream">The CSV data stream to parse.</param>

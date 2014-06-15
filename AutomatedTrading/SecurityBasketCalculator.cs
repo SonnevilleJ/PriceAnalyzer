@@ -19,11 +19,21 @@ namespace Sonneville.PriceTools.AutomatedTrading
         private readonly IHoldingFactory _holdingFactory;
 
         public SecurityBasketCalculator()
+            : this(new TimeSeriesUtility(), new ProfitCalculator(), new PriceSeriesFactory(), new HoldingFactory())
         {
-            _timeSeriesUtility = new TimeSeriesUtility();
-            _profitCalculator = new ProfitCalculator();
-            _priceSeriesFactory = new PriceSeriesFactory();
-            _holdingFactory = new HoldingFactory();
+        }
+
+        public SecurityBasketCalculator(
+            ITimeSeriesUtility timeSeriesUtility,
+            IProfitCalculator profitCalculator,
+            IPriceSeriesFactory priceSeriesFactory,
+            IHoldingFactory holdingFactory
+            )
+        {
+            _timeSeriesUtility = timeSeriesUtility;
+            _profitCalculator = profitCalculator;
+            _priceSeriesFactory = priceSeriesFactory;
+            _holdingFactory = holdingFactory;
         }
 
         /// <summary>
@@ -34,9 +44,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <returns>The total amount spent on share purchases as a negative number.</returns>
         public decimal CalculateCost(ISecurityBasket basket, DateTime settlementDate)
         {
-            return basket.Transactions.AsParallel().Where(t => t is ShareTransaction).Cast<ShareTransaction>().Where(t => t.IsOpeningTransaction())
-                .Where(transaction => transaction.SettlementDate <= settlementDate)
+            return basket.Transactions.AsParallel().Where(transaction => TransactionMatches(settlementDate, transaction)).Cast<ShareTransaction>()
                 .Sum(transaction => transaction.Price * transaction.Shares);
+        }
+
+        private static bool TransactionMatches(DateTime settlementDate, Transaction transaction)
+        {
+            return transaction.IsOpeningTransaction() && transaction.SettlementDate <= settlementDate && transaction is ShareTransaction;
         }
 
         /// <summary>

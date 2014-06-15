@@ -10,13 +10,6 @@ namespace Sonneville.PriceTools.Google
     public sealed class GooglePriceHistoryCsvFile : PriceHistoryCsvFile
     {
         /// <summary>
-        /// Constructs a GooglePriceHistoryCsvFile.
-        /// </summary>
-        public GooglePriceHistoryCsvFile()
-        {
-        }
-
-        /// <summary>
         /// Constructs a GooglePriceHistoryCsvFile from CSV data in a stream.
         /// </summary>
         /// <param name="stream">The CSV data stream to parse.</param>

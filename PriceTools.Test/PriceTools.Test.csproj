@@ -83,6 +83,7 @@
     <Compile Include="ShareTransactionTestsBase.cs" />
     <Compile Include="SimplePeriodFactoryTest.cs" />
     <Compile Include="StaticPricePeriodTest.cs" />
+    <Compile Include="SP500Test.cs" />
     <Compile Include="TimeSeriesExtensionsTest.cs" />
     <Compile Include="TransactionEqualityTests.cs" />
     <Compile Include="CashTransactionTestsBase.cs" />
