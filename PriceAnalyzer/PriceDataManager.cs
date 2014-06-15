@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Google;
@@ -24,11 +23,9 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             return priceHistoryCsvFile.PricePeriods;
         }
 
-        public List<IPricePeriod> DownloadPricePeriods(string ticker, DateTime startDateTime, DateTime endDateTime)
+        public IList<IPricePeriod> DownloadPricePeriods(string ticker, DateTime startDateTime, DateTime endDateTime)
         {
-            var priceSeries = new PriceSeriesFactory().ConstructPriceSeries(ticker);
-            _csvPriceDataProvider.UpdatePriceSeries(priceSeries, startDateTime, endDateTime, Resolution.Days);
-            return priceSeries.PricePeriods.ToList();
+            return _csvPriceDataProvider.DownloadPricePeriods(ticker, startDateTime, endDateTime, Resolution.Days);
         }
     }
 }

@@ -36,13 +36,13 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <returns></returns>
         public void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
         {
-            var pricePeriods = DownloadPricePeriods(priceSeries, head, tail, resolution);
+            var pricePeriods = DownloadPricePeriods(priceSeries.Ticker, head, tail, resolution);
             priceSeries.AddPriceData(pricePeriods);
         }
 
-        private IEnumerable<IPricePeriod> DownloadPricePeriods(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
+        public IList<IPricePeriod> DownloadPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
-            using (var stream = DownloadPricesToCsv(priceSeries.Ticker, head, tail, resolution))
+            using (var stream = DownloadPricesToCsv(ticker, head, tail, resolution))
             {
                 var priceHistoryCsvFile = _priceHistoryCsvFileFactory.CreatePriceHistoryCsvFile(stream, head, tail, resolution);
                 return priceHistoryCsvFile.PricePeriods;

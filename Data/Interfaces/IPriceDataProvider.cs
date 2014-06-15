@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Sonneville.PriceTools.Data
 {
@@ -21,5 +22,7 @@ namespace Sonneville.PriceTools.Data
         /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
         /// </summary>
         Resolution BestResolution { get; }
+
+        IList<IPricePeriod> DownloadPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution);
     }
 }
