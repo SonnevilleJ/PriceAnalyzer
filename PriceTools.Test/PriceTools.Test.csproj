@@ -41,7 +41,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="Utilities">
-      <HintPath>..\packages\Utilities.1.0.0\lib\Utilities.dll</HintPath>
+      <HintPath>..\packages\Utilities.1.0.0.0\lib\net45\Utilities.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
