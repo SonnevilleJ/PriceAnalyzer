@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.Data.Test
             _priceSeries = new PriceSeriesFactory().ConstructPriceSeries("DE");
 
             _provider = new Mock<IPriceDataProvider>();
-            _provider.Setup(x => x.UpdatePriceSeries(It.IsAny<IPriceSeries>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<Resolution>(), It.IsAny<IPriceHistoryCsvFileFactory>()))
+            _provider.Setup(x => x.UpdatePriceSeries(It.IsAny<IPriceSeries>(), It.IsAny<DateTime>(), It.IsAny<DateTime>(), It.IsAny<Resolution>()))
                 .Callback(() => _priceSeries = SamplePriceDatas.Deere.PriceSeries);
             _priceHistoryCsvFileFactory = new Mock<IPriceHistoryCsvFileFactory>().Object;
             

@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Yahoo
     /// <summary>
     ///   Parses an <see cref = "IPriceSeries" /> from Yahoo! CSV files.
     /// </summary>
-    public sealed class YahooPriceDataProvider : IPriceHistoryCsvFileFactory
+    public sealed class YahooPriceHistoryCsvFileFactory : IPriceHistoryCsvFileFactory
     {
         //
         // Yahoo has many features beyond price history - i.e. fundamental indicators.

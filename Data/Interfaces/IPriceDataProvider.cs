@@ -14,9 +14,8 @@ namespace Sonneville.PriceTools.Data
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
         /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
-        /// <param name="priceHistoryCsvFileFactory"></param>
         /// <returns></returns>
-        void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory);
+        void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution);
 
         /// <summary>
         /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.

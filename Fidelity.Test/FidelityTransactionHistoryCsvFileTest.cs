@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         public void Setup()
         {
             _portfolioFactory = new PortfolioFactory();
-            _priceHistoryCsvFileFactory = new YahooPriceDataProvider();
+            _priceHistoryCsvFileFactory = new YahooPriceHistoryCsvFileFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 var portfolio = _portfolioFactory.ConstructPortfolio("FTEXX", target.Transactions);
                 var settlementDate = new DateTime(2010, 11, 16);
-                var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
+                var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceHistoryCsvFileFactory());
 
                 var altr = portfolio.Positions.First(p => p.Ticker == "ALTR");
                 var investedValue = _securityBasketCalculator.CalculateMarketValue(altr, provider, settlementDate, _priceHistoryCsvFileFactory);
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 var portfolio = _portfolioFactory.ConstructPortfolio("FTEXX", target.Transactions);
                 var settlementDate = new DateTime(2010, 11, 16);
-                var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
+                var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceHistoryCsvFileFactory());
 
                 var ntap = portfolio.Positions.First(p => p.Ticker == "NTAP");
                 var investedValue = _securityBasketCalculator.CalculateMarketValue(ntap, provider, settlementDate, _priceHistoryCsvFileFactory);
@@ -79,7 +79,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 var portfolio = _portfolioFactory.ConstructPortfolio("FTEXX", target.Transactions);
                 var settlementDate = new DateTime(2010, 11, 16);
-                var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
+                var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceHistoryCsvFileFactory());
 
                 var ntct = portfolio.Positions.First(p => p.Ticker == "NTCT");
                 var investedValue = _securityBasketCalculator.CalculateMarketValue(ntct, provider, settlementDate, _priceHistoryCsvFileFactory);
@@ -98,7 +98,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
                 var target = new FidelityTransactionHistoryCsvFile(csvStream);
                 var portfolio = _portfolioFactory.ConstructPortfolio("FTEXX", target.Transactions);
                 var settlementDate = new DateTime(2010, 11, 16);
-                var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
+                var provider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceHistoryCsvFileFactory());
 
                 var pg = portfolio.Positions.First(p => p.Ticker == "PG");
                 var investedValue = _securityBasketCalculator.CalculateMarketValue(pg, provider, settlementDate, _priceHistoryCsvFileFactory);

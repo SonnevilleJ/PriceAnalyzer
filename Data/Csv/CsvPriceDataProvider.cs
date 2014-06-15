@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Net;
 
@@ -11,16 +12,18 @@ namespace Sonneville.PriceTools.Data.Csv
     {
         private readonly IWebClient _webClient;
         private readonly IPriceHistoryQueryUrlBuilder _priceHistoryQueryUrlBuilder;
+        private readonly IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
 
-        public CsvPriceDataProvider(IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
-            : this(new WebClientWrapper(), priceHistoryQueryUrlBuilder)
+        public CsvPriceDataProvider(IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory)
+            : this(new WebClientWrapper(), priceHistoryQueryUrlBuilder, priceHistoryCsvFileFactory)
         {
         }
 
-        public CsvPriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder)
+        public CsvPriceDataProvider(IWebClient webClient, IPriceHistoryQueryUrlBuilder priceHistoryQueryUrlBuilder, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory)
         {
             _webClient = webClient;
             _priceHistoryQueryUrlBuilder = priceHistoryQueryUrlBuilder;
+            _priceHistoryCsvFileFactory = priceHistoryCsvFileFactory;
         }
 
         /// <summary>
@@ -30,12 +33,20 @@ namespace Sonneville.PriceTools.Data.Csv
         /// <param name="head">The first date to price.</param>
         /// <param name="tail">The last date to price.</param>
         /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
-        /// <param name="priceHistoryCsvFileFactory"></param>
         /// <returns></returns>
-        public void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory)
+        public void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
         {
-            var pricePeriods = GetPriceHistoryCsvFile(priceSeries.Ticker, head, tail, resolution, priceHistoryCsvFileFactory).PricePeriods;
+            var pricePeriods = DownloadPricePeriods(priceSeries, head, tail, resolution);
             priceSeries.AddPriceData(pricePeriods);
+        }
+
+        private IEnumerable<IPricePeriod> DownloadPricePeriods(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
+        {
+            using (var stream = DownloadPricesToCsv(priceSeries.Ticker, head, tail, resolution))
+            {
+                var priceHistoryCsvFile = _priceHistoryCsvFileFactory.CreatePriceHistoryCsvFile(stream, head, tail, resolution);
+                return priceHistoryCsvFile.PricePeriods;
+            }
         }
 
         /// <summary>
@@ -44,23 +55,6 @@ namespace Sonneville.PriceTools.Data.Csv
         public Resolution BestResolution
         {
             get { return Resolution.Days; }
-        }
-
-        /// <summary>
-        /// Gets a <see cref="PriceHistoryCsvFile"/> containing price history.
-        /// </summary>
-        /// <param name="ticker">The ticker symbol to price.</param>
-        /// <param name="head">The first date to price.</param>
-        /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
-        /// <param name="priceHistoryCsvFileFactory"></param>
-        /// <returns></returns>
-        private PriceHistoryCsvFile GetPriceHistoryCsvFile(string ticker, DateTime head, DateTime tail, Resolution resolution, IPriceHistoryCsvFileFactory priceHistoryCsvFileFactory)
-        {
-            using (var stream = DownloadPricesToCsv(ticker, head, tail, resolution))
-            {
-                return priceHistoryCsvFileFactory.CreatePriceHistoryCsvFile(stream, head, tail, resolution);
-            }
         }
 
         /// <summary>

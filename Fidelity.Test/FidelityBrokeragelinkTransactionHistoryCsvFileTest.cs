@@ -33,7 +33,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         public void Initialize()
         {
             _portfolioFactory = new PortfolioFactory();
-            _priceHistoryCsvFileFactory = new YahooPriceDataProvider();
+            _priceHistoryCsvFileFactory = new YahooPriceHistoryCsvFileFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
@@ -333,7 +333,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             var webClientMock = new Mock<IWebClient>();
             webClientMock.Setup(x => x.OpenRead(It.IsAny<string>())).Returns<string>(GetPriceDataStream);
-            return new CsvPriceDataProvider(webClientMock.Object, new YahooPriceHistoryQueryUrlBuilder());
+            return new CsvPriceDataProvider(webClientMock.Object, new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceHistoryCsvFileFactory());
         }
 
         private static Stream GetPriceDataStream(string arg)

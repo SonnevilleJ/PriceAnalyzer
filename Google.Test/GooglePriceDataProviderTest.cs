@@ -24,7 +24,7 @@ namespace Sonneville.PriceTools.Google.Test
             _ticker = "IBM";
             _priceSeriesFactory = new PriceSeriesFactory();
             _priceSeries = _priceSeriesFactory.ConstructPriceSeries(_ticker);
-            _priceHistoryCsvFileFactory = new GooglePriceDataProvider();
+            _priceHistoryCsvFileFactory = new GooglePriceHistoryCsvFileFactory();
             
             const string ibmDaily = "IBM 1-3 to 3-15 Daily";
             const string ibmSingleDay = "IBM 8-7 Single Day";
@@ -40,7 +40,7 @@ namespace Sonneville.PriceTools.Google.Test
                 .Returns(ibmDaily);
             priceHistoryQueryUrlBuilder.Setup(x => x.FormPriceHistoryQueryUrl(_ticker, new DateTime(2012, 8, 7), new DateTime(2012, 8, 7).CurrentPeriodClose(Resolution.Days), Resolution.Days))
                 .Returns(ibmSingleDay);
-            _provider = new CsvPriceDataProvider(webClientMock.Object, priceHistoryQueryUrlBuilder.Object);
+            _provider = new CsvPriceDataProvider(webClientMock.Object, priceHistoryQueryUrlBuilder.Object, _priceHistoryCsvFileFactory);
         }
 
         [TestMethod]
@@ -116,13 +116,13 @@ namespace Sonneville.PriceTools.Google.Test
 
         private void DownloadPeriodsTest(DateTime head, DateTime tail, int expected, Resolution resolution)
         {
-            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution, _priceHistoryCsvFileFactory);
+            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution);
             Assert.AreEqual(expected, _priceSeries.PricePeriods.Count());
         }
 
         private void DownloadResolutionTest(DateTime head, DateTime tail, TimeSpan minTimeSpan, TimeSpan maxTimeSpan, Resolution resolution)
         {
-            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution, _priceHistoryCsvFileFactory);
+            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution);
 
             Assert.AreEqual(resolution, _priceSeries.Resolution);
             var periods = _priceSeries.PricePeriods.ToArray();
@@ -135,7 +135,7 @@ namespace Sonneville.PriceTools.Google.Test
 
         private void DownloadDatesTest(DateTime head, DateTime tail, Resolution resolution)
         {
-            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution, _priceHistoryCsvFileFactory);
+            _provider.UpdatePriceSeries(_priceSeries, head, tail, resolution);
 
             Assert.AreEqual(head, _priceSeries.Head);
             Assert.AreEqual(tail, _priceSeries.Tail);

@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         public void Debug()
         {
             //var engine = new ContinuousTradingEngine();
-            //engine.Start(new YahooPriceDataProvider());
+            //engine.Start(new YahooPriceHistoryCsvFileFactory());
 
             //Thread.Sleep(120000);
 

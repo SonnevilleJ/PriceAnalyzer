@@ -21,18 +21,14 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private IPriceDataProvider _csvPriceDataProvider;
         private ISecurityBasketCalculator _securityBasketCalculator;
 
-        public PortfolioTest()
-        {
-        }
-
         [TestInitialize]
         public void Setup()
         {
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
-            _priceHistoryCsvFileFactory = new YahooPriceDataProvider();
+            _priceHistoryCsvFileFactory = new YahooPriceHistoryCsvFileFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
-            _csvPriceDataProvider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder());
+            _csvPriceDataProvider = new CsvPriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), _priceHistoryCsvFileFactory);
         }
 
         [TestMethod]

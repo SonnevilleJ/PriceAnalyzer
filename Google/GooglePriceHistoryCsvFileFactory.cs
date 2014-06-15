@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.Google
     /// <summary>
     /// Parses an <see cref = "IPriceSeries" /> from Google Finance CSV files.
     /// </summary>
-    public sealed class GooglePriceDataProvider : IPriceHistoryCsvFileFactory
+    public sealed class GooglePriceHistoryCsvFileFactory : IPriceHistoryCsvFileFactory
     {
         /// <summary>
         /// Creates a new instance of a <see cref="PriceHistoryCsvFile"/> that will be used by this PriceDataProvider.
