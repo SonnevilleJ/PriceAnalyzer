@@ -24,7 +24,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="lookback">The lookback of this TimeSeriesIndicator which specifies how many periods are required for the first indicator value.</param>
         protected TimeSeriesIndicator(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
         {
-            _timePeriodFactory = new TimePeriodFactory();
+            _timePeriodFactory = new TimePeriodFactory<decimal>();
             _timeSeriesFactory = new TimeSeriesFactory();
             TimeSeriesUtility = new TimeSeriesUtility();
             _cachedValues = _timeSeriesFactory.ConstructMutable();

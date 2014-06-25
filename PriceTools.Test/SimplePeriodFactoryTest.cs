@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools.Test
 
         public SimplePeriodFactoryTest()
         {
-            _timePeriodFactory = new TimePeriodFactory();
+            _timePeriodFactory = new TimePeriodFactory<decimal>();
         }
 
         [TestMethod]

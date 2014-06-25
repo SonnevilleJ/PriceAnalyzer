@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Constructs TimePeriod objects.
     /// </summary>
-    public class TimePeriodFactory : ITimePeriodFactory<decimal>
+    public class TimePeriodFactory<TPeriodValue> : ITimePeriodFactory<TPeriodValue>
     {
         /// <summary>
         /// Constructs an immutable <see cref="ITimePeriod"/> object.
@@ -15,9 +15,9 @@ namespace Sonneville.PriceTools
         /// <param name="tail"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        public ITimePeriod<decimal> ConstructTimePeriod(DateTime head, DateTime tail, decimal value)
+        public ITimePeriod<TPeriodValue> ConstructTimePeriod(DateTime head, DateTime tail, TPeriodValue value)
         {
-            return new TimePeriod<decimal>(head, tail, value);
+            return new TimePeriod<TPeriodValue>(head, tail, value);
         }
     }
 }

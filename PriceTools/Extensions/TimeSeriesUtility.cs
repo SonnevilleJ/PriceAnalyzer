@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools
         public TimeSeriesUtility()
         {
             _pricePeriodFactory = new PricePeriodFactory();
-            _timePeriodFactory = new TimePeriodFactory();
+            _timePeriodFactory = new TimePeriodFactory<decimal>();
         }
 
         /// <summary>
