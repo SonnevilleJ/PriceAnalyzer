@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
-    public class RsiAverageGainsLosses : TimeSeriesIndicator
+    public class RsiAverageGainsLosses : TimeSeriesIndicator<decimal>
     {
         protected RsiAverageGainsLosses(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
             : base(timeSeries, lookback)
@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             // if first period
             if (MeasuredTimeSeries.TimePeriods.Count(p => p.Tail < index) == Lookback - 1)
-                return MeasuredTimeSeries.TimePeriods.Take(Lookback).Average(p => p.Value<decimal>());
+                return MeasuredTimeSeries.TimePeriods.Take(Lookback).Average(p => p.Value());
             
             // if not first period
             var previousTail = MeasuredTimeSeries.TimePeriods.Last(p => p.Tail < index).Tail;

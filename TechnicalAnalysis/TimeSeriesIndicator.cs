@@ -8,13 +8,13 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// <summary>
     /// A generic indicator used to transform <see cref="PriceTools.ITimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying data series.
     /// </summary>
-    public abstract class TimeSeriesIndicator : ITimeSeriesIndicator
+    public abstract class TimeSeriesIndicator<T> : ITimeSeriesIndicator<T>
     {
         protected ITimeSeriesUtility TimeSeriesUtility { get; private set; }
 
-        private readonly ITimePeriodFactory<decimal> _timePeriodFactory;
-        private readonly ITimeSeriesFactory<decimal> _timeSeriesFactory;
-        private ITimeSeries<ITimePeriod<decimal>, decimal> _cachedValues;
+        private readonly ITimePeriodFactory<T> _timePeriodFactory;
+        private readonly ITimeSeriesFactory<T> _timeSeriesFactory;
+        private ITimeSeries<ITimePeriod<T>, T> _cachedValues;
         private int _lookback;
 
         /// <summary>
@@ -22,10 +22,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <param name="lookback">The lookback of this TimeSeriesIndicator which specifies how many periods are required for the first indicator value.</param>
-        protected TimeSeriesIndicator(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
+        protected TimeSeriesIndicator(ITimeSeries<ITimePeriod<T>, T> timeSeries, int lookback)
         {
-            _timePeriodFactory = new TimePeriodFactory<decimal>();
-            _timeSeriesFactory = new TimeSeriesFactory<decimal>();
+            _timePeriodFactory = new TimePeriodFactory<T>();
+            _timeSeriesFactory = new TimeSeriesFactory<T>();
             TimeSeriesUtility = new TimeSeriesUtility();
             _cachedValues = _timeSeriesFactory.ConstructMutable();
             if (timeSeries == null)
@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// Calculates a single value of this TimeSeriesIndicator.
         /// </summary>
         /// <param name="index">The index of the value to calculate.</param>
-        protected abstract decimal Calculate(DateTime index);
+        protected abstract T Calculate(DateTime index);
 
         /// <summary>
         /// Gets a value indicating whether or not an indicator value is calculable for a given <see cref="DateTime"/>.
@@ -92,7 +92,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         /// <param name="index">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
-        public decimal this[DateTime index]
+        public T this[DateTime index]
         {
             get
             {
@@ -104,7 +104,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Gets a collection of the <see cref="IPricePeriod"/>s in this MeasuredTimeSeries.
         /// </summary>
-        public IEnumerable<ITimePeriod<decimal>> TimePeriods
+        public IEnumerable<ITimePeriod<T>> TimePeriods
         {
             get
             {
@@ -130,7 +130,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The underlying data which is to be analyzed by this TimeSeriesIndicator.
         /// </summary>
-        public virtual ITimeSeries<ITimePeriod<decimal>, decimal> MeasuredTimeSeries { get; protected set; }
+        public virtual ITimeSeries<ITimePeriod<T>, T> MeasuredTimeSeries { get; protected set; }
 
         /// <summary>
         /// The Resolution of this TimeSeriesIndicator.
@@ -164,7 +164,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Stores the calculated values for each period.
         /// </summary>
-        private ITimeSeries<ITimePeriod<decimal>, decimal> CachedValues
+        private ITimeSeries<ITimePeriod<T>, T> CachedValues
         {
             get { return _cachedValues; }
         }
@@ -179,7 +179,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
                 throw new ArgumentOutOfRangeException("index", index, String.Format("Unable to calculate value for DateTime: {0}", index.ToString(CultureInfo.CurrentCulture)));
         }
 
-        private decimal CalculateAndCache(DateTime index)
+        private T CalculateAndCache(DateTime index)
         {
             ThrowIfCannotCalculate(index);
 
@@ -193,9 +193,9 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         /// <param name="index"></param>
         /// <param name="calculate"></param>
-        private void AddOrReplaceResult(DateTime index, decimal calculate)
+        private void AddOrReplaceResult(DateTime index, T calculate)
         {
-            var list = CachedValues.TimePeriods as List<ITimePeriod<decimal>>;
+            var list = CachedValues.TimePeriods as List<ITimePeriod<T>>;
             if (list != null)
             {
                 var head = index.CurrentPeriodOpen(Resolution);

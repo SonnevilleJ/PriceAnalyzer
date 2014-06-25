@@ -2,7 +2,7 @@ using System;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
-    public class RsiGains : TimeSeriesIndicator
+    public class RsiGains : TimeSeriesIndicator<decimal>
     {
         public RsiGains(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries)
             : base(timeSeries, 2)
@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         protected override decimal Calculate(DateTime index)
         {
             var currentPeriodValue = MeasuredTimeSeries[index];
-            var previousPeriodValue = TimeSeriesUtility.GetPreviousTimePeriod(MeasuredTimeSeries, index).Value<decimal>();
+            var previousPeriodValue = TimeSeriesUtility.GetPreviousTimePeriod(MeasuredTimeSeries, index).Value();
             return currentPeriodValue > previousPeriodValue ? currentPeriodValue - previousPeriodValue : 0;
         }
     }

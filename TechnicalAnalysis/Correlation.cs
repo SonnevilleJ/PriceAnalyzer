@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// <summary>
     /// Indicates the level of correlation between two <see cref="ITimePeriod"/>.
     /// </summary>
-    public class Correlation : TimeSeriesIndicator
+    public class Correlation : TimeSeriesIndicator<decimal>
     {
         public const int DefaultLookback = 20;
 

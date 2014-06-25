@@ -6,7 +6,7 @@ using Sonneville.PriceTools.SampleData;
 namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
     [TestClass]
-    public abstract class CommonIndicatorTests<T> where T : ITimeSeriesIndicator
+    public abstract class CommonIndicatorTests<T> where T : ITimeSeriesIndicator<decimal>
     {
         private readonly IPricePeriodFactory _pricePeriodFactory;
         private readonly IPriceSeriesFactory _priceSeriesFactory;

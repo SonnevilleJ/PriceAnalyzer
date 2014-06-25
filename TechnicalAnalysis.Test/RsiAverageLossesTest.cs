@@ -3,7 +3,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
     [TestClass]
-    public class RsiAverageLossesTest : CommonIndicatorTests<TimeSeriesIndicator>
+    public class RsiAverageLossesTest : CommonIndicatorTests<TimeSeriesIndicator<decimal>>
     {
         /// <summary>
         /// The default lookback period to use when creating test instances.
@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <param name="lookback">The lookback period the <see cref="TimeSeriesIndicator"/> should use.</param>
         /// <returns></returns>
-        protected override TimeSeriesIndicator GetTestObjectInstance(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
+        protected override TimeSeriesIndicator<decimal> GetTestObjectInstance(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
         {
             return new RsiAverageLosses(timeSeries, lookback);
         }

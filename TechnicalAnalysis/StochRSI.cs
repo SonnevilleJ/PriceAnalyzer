@@ -12,7 +12,7 @@
 
         public override void CalculateAll()
         {
-            ((TimeSeriesIndicator) MeasuredTimeSeries).CalculateAll();
+            ((TimeSeriesIndicator<decimal>)MeasuredTimeSeries).CalculateAll();
             base.CalculateAll();
         }
     }

@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 {
     [TestClass]
-    public class RsiAverageGainsTest : CommonIndicatorTests<TimeSeriesIndicator>
+    public class RsiAverageGainsTest : CommonIndicatorTests<TimeSeriesIndicator<decimal>>
     {
         private decimal[] _expected14
         {
@@ -50,7 +50,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <param name="lookback">The lookback period the <see cref="TimeSeriesIndicator"/> should use.</param>
         /// <returns></returns>
-        protected override TimeSeriesIndicator GetTestObjectInstance(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
+        protected override TimeSeriesIndicator<decimal> GetTestObjectInstance(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
         {
             return new RsiAverageGains(timeSeries, lookback);
         }

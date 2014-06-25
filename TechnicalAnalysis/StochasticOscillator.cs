@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// <summary>
     /// A momentum indicator that shows the location of the close relative to the high-low range over a set number of periods.
     /// </summary>
-    public class StochasticOscillator : TimeSeriesIndicator
+    public class StochasticOscillator : TimeSeriesIndicator<decimal>
     {
         private readonly SimpleMovingAverage _signalLine;
 
@@ -36,8 +36,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             }
             else
             {
-                highestHigh = TimeSeriesUtility.GetPreviousTimePeriods(MeasuredTimeSeries, Lookback, runDate).Max(p => p.Value<decimal>());
-                lowestLow = TimeSeriesUtility.GetPreviousTimePeriods(MeasuredTimeSeries, Lookback, runDate).Min(p => p.Value<decimal>());
+                highestHigh = TimeSeriesUtility.GetPreviousTimePeriods(MeasuredTimeSeries, Lookback, runDate).Max(p => p.Value());
+                lowestLow = TimeSeriesUtility.GetPreviousTimePeriods(MeasuredTimeSeries, Lookback, runDate).Min(p => p.Value());
             }
             var currentClose = MeasuredTimeSeries[index];
 
@@ -45,12 +45,12 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             return (currentClose - lowestLow)/(highestHigh - lowestLow)*100m;
         }
 
-        public ITimeSeriesIndicator K
+        public ITimeSeriesIndicator<decimal> K
         {
             get { return this; }
         }
 
-        public ITimeSeriesIndicator D
+        public ITimeSeriesIndicator<decimal> D
         {
             get { return _signalLine; }
         }

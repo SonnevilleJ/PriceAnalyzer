@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// <summary>
     ///   A moving average indicator using the simple moving average method.
     /// </summary>
-    public class SimpleMovingAverage : TimeSeriesIndicator
+    public class SimpleMovingAverage : TimeSeriesIndicator<decimal>
     {
         /// <summary>
         ///   Constructs a new Simple Moving Average.
@@ -24,7 +24,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <param name="index">The index of the value to calculate.</param>
         protected override decimal Calculate(DateTime index)
         {
-            return TimeSeriesUtility.GetPreviousTimePeriods(MeasuredTimeSeries, Lookback, index.CurrentPeriodClose(Resolution).AddTicks(1)).Sum(period => period.Value<decimal>()) / Lookback;
+            return TimeSeriesUtility.GetPreviousTimePeriods(MeasuredTimeSeries, Lookback, index.CurrentPeriodClose(Resolution).AddTicks(1)).Sum(period => period.Value()) / Lookback;
         }
     }
 }

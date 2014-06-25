@@ -2,7 +2,7 @@ using System;
 
 namespace Sonneville.PriceTools.TechnicalAnalysis
 {
-    public abstract class PriceSeriesIndicator : TimeSeriesIndicator, IPriceSeriesIndicator
+    public abstract class PriceSeriesIndicator : TimeSeriesIndicator<decimal>, IPriceSeriesIndicator
     {
         private IPriceSeries _measuredPriceSeries;
 
