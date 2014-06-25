@@ -6,9 +6,9 @@ namespace Sonneville.PriceTools.Implementation
     /// <summary>
     /// Represents a single period in a <see cref="ITimeSeries"/>.
     /// </summary>
-    public struct TimePeriod : ITimePeriod
+    public struct TimePeriod<T> : ITimePeriod<T>
     {
-        internal TimePeriod(DateTime head, DateTime tail, decimal value) : this()
+        internal TimePeriod(DateTime head, DateTime tail, T value) : this()
         {
             if (tail < head) throw new ArgumentOutOfRangeException("tail", Strings.SimplePeriod_SimplePeriod_Period_s_head_must_come_before_tail_);
 
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
-        public decimal this[DateTime dateTime]
+        public T this[DateTime dateTime]
         {
             get
             {
@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.Implementation
             get { return (Resolution) ((Tail - Head).Ticks); }
         }
 
-        private decimal Value { get; set; }
+        private T Value { get; set; }
 
         /// <summary>
         /// Returns the fully qualified type name of this instance.
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "Head: {0}; Tail: {1}; Value: {2}", Head.ToShortDateString(), Tail.ToShortDateString(), this.Value<decimal>());
+            return string.Format(CultureInfo.InvariantCulture, "Head: {0}; Tail: {1}; Value: {2}", Head.ToShortDateString(), Tail.ToShortDateString(), this.Value<T>());
         }
     }
 }

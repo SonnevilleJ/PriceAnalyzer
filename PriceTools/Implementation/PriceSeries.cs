@@ -86,9 +86,9 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
         /// </summary>
-        public IEnumerable<ITimePeriod> TimePeriods
+        public IEnumerable<ITimePeriod<decimal>> TimePeriods
         {
-            get { return PricePeriods.Cast<ITimePeriod>().ToList(); }
+            get { return PricePeriods.Cast<ITimePeriod<decimal>>().ToList(); }
         }
 
         /// <summary>

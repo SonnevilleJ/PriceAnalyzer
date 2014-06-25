@@ -6,15 +6,15 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Constructs <see cref="ITimeSeries"/> objects.
     /// </summary>
-    public class TimeSeriesFactory : ITimeSeriesFactory
+    public class TimeSeriesFactory : ITimeSeriesFactory<decimal>
     {
         /// <summary>
         /// Constructs an ITimeSeries with a mutable list of <see cref="ITimePeriod"/>s.
         /// </summary>
         /// <returns></returns>
-        public ITimeSeries<ITimePeriod> ConstructMutable()
+        public ITimeSeries<ITimePeriod<decimal>, decimal> ConstructMutable()
         {
-            return ConstructMutable(new List<ITimePeriod>());
+            return ConstructMutable(new List<ITimePeriod<decimal>>());
         }
 
         /// <summary>
@@ -22,9 +22,9 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="timePeriods">A list of <see cref="ITimePeriod"/>s contained within the <see cref="ITimeSeries"/>. The list will not change.</param>
         /// <returns></returns>
-        public ITimeSeries<ITimePeriod> ConstructMutable(IEnumerable<ITimePeriod> timePeriods)
+        public ITimeSeries<ITimePeriod<decimal>, decimal> ConstructMutable(IEnumerable<ITimePeriod<decimal>> timePeriods)
         {
-            return new TimeSeries(timePeriods);
+            return new TimeSeries<decimal>(timePeriods);
         }
 
         /// <summary>
@@ -32,10 +32,10 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="timePeriods">A list of <see cref="ITimePeriod"/>s contained within the <see cref="ITimeSeries"/>. The list will not change.</param>
         /// <returns></returns>
-        public ITimeSeries<ITimePeriod> ConstructImmutable(IEnumerable<ITimePeriod> timePeriods)
+        public ITimeSeries<ITimePeriod<decimal>, decimal> ConstructImmutable(IEnumerable<ITimePeriod<decimal>> timePeriods)
         {
-            
-            return new TimeSeries(new List<ITimePeriod>(timePeriods).AsReadOnly());
+
+            return new TimeSeries<decimal>(new List<ITimePeriod<decimal>>(timePeriods).AsReadOnly());
         }
     }
 }

@@ -428,7 +428,7 @@ namespace Sonneville.PriceTools.Test
         {
             var target = SamplePriceDatas.Deere.PriceSeries;
 
-            CollectionAssert.AreEquivalent(target.PricePeriods.Cast<ITimePeriod>().ToList(), target.TimePeriods.ToList());
+            CollectionAssert.AreEquivalent(target.PricePeriods.Cast<ITimePeriod<decimal>>().ToList(), target.TimePeriods.ToList());
         }
     }
 }

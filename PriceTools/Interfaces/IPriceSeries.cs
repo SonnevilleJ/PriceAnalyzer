@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Represents a time-series of price data.
     /// </summary>
-    public interface IPriceSeries : IPricePeriod, ITimeSeries<ITimePeriod>, IEquatable<IPriceSeries>
+    public interface IPriceSeries : IPricePeriod, ITimeSeries<ITimePeriod<decimal>, decimal>, IEquatable<IPriceSeries>
     {
         /// <summary>
         /// Gets the ticker symbol priced by this PriceSeries.

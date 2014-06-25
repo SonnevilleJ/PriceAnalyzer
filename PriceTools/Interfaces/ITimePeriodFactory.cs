@@ -2,7 +2,7 @@ using System;
 
 namespace Sonneville.PriceTools
 {
-    public interface ITimePeriodFactory
+    public interface ITimePeriodFactory<TPeriodValue>
     {
         /// <summary>
         /// Constructs an immutable <see cref="ITimePeriod"/> object.
@@ -11,6 +11,6 @@ namespace Sonneville.PriceTools
         /// <param name="tail"></param>
         /// <param name="value"></param>
         /// <returns></returns>
-        ITimePeriod ConstructTimePeriod(DateTime head, DateTime tail, decimal value);
+        ITimePeriod<TPeriodValue> ConstructTimePeriod(DateTime head, DateTime tail, TPeriodValue value);
     }
 }

@@ -4,11 +4,11 @@ using System.Linq;
 
 namespace Sonneville.PriceTools.Implementation
 {
-    internal class TimeSeries : ITimeSeries<ITimePeriod>
+    internal class TimeSeries<TPeriodValue> : ITimeSeries<ITimePeriod<TPeriodValue>, TPeriodValue>
     {
-        private readonly IEnumerable<ITimePeriod> _periods = new List<ITimePeriod>();
+        private readonly IEnumerable<ITimePeriod<TPeriodValue>> _periods = new List<ITimePeriod<TPeriodValue>>();
 
-        internal TimeSeries(IEnumerable<ITimePeriod> list)
+        internal TimeSeries(IEnumerable<ITimePeriod<TPeriodValue>> list)
         {
             _periods = list;
         }
@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.Implementation
         /// </summary>
         /// <param name="dateTime">The DateTime of the desired value.</param>
         /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
-        public decimal this[DateTime dateTime]
+        public TPeriodValue this[DateTime dateTime]
         {
             get { return TimePeriods.First(p => dateTime >= p.Head && dateTime <= p.Tail)[dateTime]; }
         }
@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
         /// </summary>
-        public IEnumerable<ITimePeriod> TimePeriods
+        public IEnumerable<ITimePeriod<TPeriodValue>> TimePeriods
         {
             get { return _periods; }
         }

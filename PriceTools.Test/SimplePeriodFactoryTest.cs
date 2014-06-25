@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class SimplePeriodFactoryTest
     {
-        private readonly ITimePeriodFactory _timePeriodFactory;
+        private readonly ITimePeriodFactory<decimal> _timePeriodFactory;
 
         public SimplePeriodFactoryTest()
         {

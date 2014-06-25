@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <param name="lookback">The lookback period the <see cref="TimeSeriesIndicator"/> should use.</param>
         /// <returns></returns>
-        protected override SimpleMovingAverage GetTestObjectInstance(ITimeSeries<ITimePeriod> timeSeries, int lookback)
+        protected override SimpleMovingAverage GetTestObjectInstance(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
         {
             return new SimpleMovingAverage(timeSeries, lookback);
         }

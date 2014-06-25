@@ -135,7 +135,7 @@ namespace Sonneville.PriceTools.Test
             var target = SamplePriceDatas.Deere.PriceSeries;
             var resolution = target.Resolution;
 
-            CollectionAssert.AreEquivalent(_timeSeriesUtility.ResizePricePeriods(target, resolution).Cast<ITimePeriod>().ToList(), _timeSeriesUtility.ResizeTimePeriods(target, resolution).ToList());
+            CollectionAssert.AreEquivalent(_timeSeriesUtility.ResizePricePeriods(target, resolution).Cast<ITimePeriod<decimal>>().ToList(), _timeSeriesUtility.ResizeTimePeriods(target, resolution).ToList());
         }
 
         [TestMethod]
@@ -146,7 +146,7 @@ namespace Sonneville.PriceTools.Test
             var head = target.Head;
             var tail = target.Tail;
 
-            CollectionAssert.AreEquivalent(_timeSeriesUtility.ResizePricePeriods(target, resolution, head, tail).Cast<ITimePeriod>().ToList(), _timeSeriesUtility.ResizeTimePeriods(target, resolution, head, tail).ToList());
+            CollectionAssert.AreEquivalent(_timeSeriesUtility.ResizePricePeriods(target, resolution, head, tail).Cast<ITimePeriod<decimal>>().ToList(), _timeSeriesUtility.ResizeTimePeriods(target, resolution, head, tail).ToList());
         }
 
         [TestMethod]

@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to inspect.</param>
         /// <param name="settlementDate">The date to check.</param>
         /// <returns>A value indicating if the ITimePeriod has a valid value for the given date.</returns>
-        bool HasValueInRange(ITimeSeries<ITimePeriod> timeSeries, DateTime settlementDate);
+        bool HasValueInRange<T>(ITimeSeries<ITimePeriod<T>, T> timeSeries, DateTime settlementDate);
 
         /// <summary>
         /// Determines if the IPriceSeries has a valid value for a given date.
@@ -27,7 +27,7 @@ namespace Sonneville.PriceTools
         /// <param name="timeSeries"></param>
         /// <param name="resolution">The <see cref="PriceTools.Resolution"/> used to view the TimePeriods.</param>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        IEnumerable<ITimePeriod> ResizeTimePeriods(ITimeSeries<ITimePeriod> timeSeries, Resolution resolution);
+        IEnumerable<ITimePeriod<decimal>> ResizeTimePeriods(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, Resolution resolution);
 
         /// <summary>
         /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries, in a specified <see cref="PriceTools.Resolution"/>.
@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools
         /// <param name="tail">The tail of the periods to retrieve.</param>
         /// <exception cref="InvalidOperationException">Throws if <paramref name="resolution"/> is smaller than the <see cref="Resolution"/> of this TimeSeries.</exception>
         /// <returns>A list of <see cref="ITimePeriod"/>s in the given resolution contained in this TimeSeries.</returns>
-        IEnumerable<ITimePeriod> ResizeTimePeriods(ITimeSeries<ITimePeriod> timeSeries, Resolution resolution, DateTime head, DateTime tail);
+        IEnumerable<ITimePeriod<decimal>> ResizeTimePeriods(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, Resolution resolution, DateTime head, DateTime tail);
 
         /// <summary>
         /// Gets the preceding <see cref="ITimePeriod"/>s previous to an <paramref name="origin" /> date.
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools
         /// <param name="timeSeries"></param>
         /// <param name="origin">The date of the current period.</param>
         /// <returns></returns>
-        ITimePeriod GetPreviousTimePeriod(ITimeSeries<ITimePeriod> timeSeries, DateTime origin);
+        ITimePeriod<decimal> GetPreviousTimePeriod(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, DateTime origin);
 
         /// <summary>
         /// Gets a list of <see cref="ITimePeriod"/>s previous to an <paramref name="origin" /> date.
@@ -55,7 +55,7 @@ namespace Sonneville.PriceTools
         /// <param name="maximumCount">The maximum number of periods to select.</param>
         /// <param name="origin">The date which all period tail must precede.</param>
         /// <returns></returns>
-        IEnumerable<ITimePeriod> GetPreviousTimePeriods(ITimeSeries<ITimePeriod> timeSeries, int maximumCount, DateTime origin);
+        IEnumerable<ITimePeriod<decimal>> GetPreviousTimePeriods(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int maximumCount, DateTime origin);
 
         /// <summary>
         /// Gets a list of <see cref="IPricePeriod"/>s previous to an <paramref name="origin" /> date.

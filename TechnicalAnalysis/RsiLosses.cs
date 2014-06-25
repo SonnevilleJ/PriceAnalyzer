@@ -4,7 +4,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 {
     public class RsiLosses : TimeSeriesIndicator
     {
-        public RsiLosses(ITimeSeries<ITimePeriod> timeSeries)
+        public RsiLosses(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries)
             : base(timeSeries, 2)
         {
         }

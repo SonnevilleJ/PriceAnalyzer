@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             return 14;
         }
 
-        protected override StochasticOscillator GetTestObjectInstance(ITimeSeries<ITimePeriod> timeSeries, int lookback)
+        protected override StochasticOscillator GetTestObjectInstance(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
         {
             var priceSeries = timeSeries as IPriceSeries;
             if(priceSeries == null) Assert.Fail("Indicator construction requires PriceSeries object.");

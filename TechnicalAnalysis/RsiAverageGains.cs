@@ -2,7 +2,7 @@
 {
     public class RsiAverageGains : RsiAverageGainsLosses
     {
-        public RsiAverageGains(ITimeSeries<ITimePeriod> timeSeries, int lookback)
+        public RsiAverageGains(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
             : base(new RsiGains(timeSeries), lookback)
         {
         }

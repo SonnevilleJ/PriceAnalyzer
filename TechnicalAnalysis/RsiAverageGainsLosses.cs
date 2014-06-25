@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 {
     public class RsiAverageGainsLosses : TimeSeriesIndicator
     {
-        protected RsiAverageGainsLosses(ITimeSeries<ITimePeriod> timeSeries, int lookback)
+        protected RsiAverageGainsLosses(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
             : base(timeSeries, lookback)
         {
         }

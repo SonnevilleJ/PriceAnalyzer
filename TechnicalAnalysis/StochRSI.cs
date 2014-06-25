@@ -5,7 +5,7 @@
     /// </summary>
     public class StochRSI : StochasticOscillator
     {
-        public StochRSI(ITimeSeries<ITimePeriod> timeSeries, int lookback)
+        public StochRSI(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
             : base(new RelativeStrengthIndex(timeSeries, lookback), lookback)
         {
         }
