@@ -36,8 +36,8 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
             }
             else
             {
-                highestHigh = TimeSeriesUtility.GetPreviousTimePeriods(MeasuredTimeSeries, Lookback, runDate).Max(p => p.Value());
-                lowestLow = TimeSeriesUtility.GetPreviousTimePeriods(MeasuredTimeSeries, Lookback, runDate).Min(p => p.Value());
+                highestHigh = TimeSeriesUtility.GetPreviousTimePeriods(MeasuredTimeSeries, Lookback, runDate).Max(p => p.Value<decimal>());
+                lowestLow = TimeSeriesUtility.GetPreviousTimePeriods(MeasuredTimeSeries, Lookback, runDate).Min(p => p.Value<decimal>());
             }
             var currentClose = MeasuredTimeSeries[index];
 

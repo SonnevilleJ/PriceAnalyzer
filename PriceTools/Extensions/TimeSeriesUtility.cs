@@ -128,7 +128,7 @@ namespace Sonneville.PriceTools
             return GetPreviousPeriods(maximumCount, origin, priceSeries.PricePeriods);
         }
 
-        private IEnumerable<T> GetPreviousPeriods<T>(int maximumCount, DateTime origin, IEnumerable<T> periods) where T : IVariableValue
+        private IEnumerable<T> GetPreviousPeriods<T>(int maximumCount, DateTime origin, IEnumerable<T> periods) where T : IVariableValue<decimal>
         {
             var previousPeriods = periods.Where(p => p.Tail < origin).ToArray();
             if (previousPeriods.Count() <= maximumCount) return previousPeriods;
@@ -137,7 +137,7 @@ namespace Sonneville.PriceTools
             return PreviousPeriods(maximumCount, previousPeriods);
         }
 
-        private IEnumerable<T> PreviousPeriods<T>(int maximumCount, T[] previousPeriods) where T : IVariableValue
+        private IEnumerable<T> PreviousPeriods<T>(int maximumCount, T[] previousPeriods) where T : IVariableValue<decimal>
         {
             for (var i = 0; i < maximumCount; i++)
             {

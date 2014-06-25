@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         {
             // if first period
             if (MeasuredTimeSeries.TimePeriods.Count(p => p.Tail < index) == Lookback - 1)
-                return MeasuredTimeSeries.TimePeriods.Take(Lookback).Average(p => p.Value());
+                return MeasuredTimeSeries.TimePeriods.Take(Lookback).Average(p => p.Value<decimal>());
             
             // if not first period
             var previousTail = MeasuredTimeSeries.TimePeriods.Last(p => p.Tail < index).Tail;

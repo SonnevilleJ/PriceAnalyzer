@@ -203,7 +203,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             for (var i = 1; i < 10; i++)
             {
                 var expected = GetExpectedValues(lookback)[i];
-                var actual = target.TimePeriods.ToArray()[i].Value();
+                var actual = target.TimePeriods.ToArray()[i].Value<decimal>();
                 Assert.AreEqual(expected, actual);
             }
         }

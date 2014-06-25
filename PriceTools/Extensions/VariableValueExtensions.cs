@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools
         /// <summary>
         ///   Gets a <see cref = "System.TimeSpan" /> value indicating the length of time covered by the <see cref="IVariableValue"/>.
         /// </summary>
-        public static TimeSpan TimeSpan(this IVariableValue variableValue)
+        public static TimeSpan TimeSpan<T>(this IVariableValue<T> variableValue)
         {
             return variableValue.Tail - variableValue.Head;
         }
@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="variableValue"></param>
         /// <returns></returns>
-        public static decimal Value(this IVariableValue variableValue)
+        public static T Value<T>(this IVariableValue<T> variableValue)
         {
             return variableValue[variableValue.Tail];
         }

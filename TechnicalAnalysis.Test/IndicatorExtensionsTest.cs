@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         {
             const int lookback = 10;
             var expected = GetExpectedCorrelation(lookback);
-            var actual = new Correlation(_ibm, lookback, _de).TimePeriods.Last().Value();
+            var actual = new Correlation(_ibm, lookback, _de).TimePeriods.Last().Value<decimal>();
             Assert.AreEqual(expected, actual);
         }
 

@@ -31,7 +31,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
             var stochastic = new StochasticOscillator(rsi, lookback);
 
             stochastic.CalculateAll();
-            return stochastic.TimePeriods.Take(10).Select(p=>p.Value()).ToArray();
+            return stochastic.TimePeriods.Take(10).Select(p => p.Value<decimal>()).ToArray();
         }
     }
 }
