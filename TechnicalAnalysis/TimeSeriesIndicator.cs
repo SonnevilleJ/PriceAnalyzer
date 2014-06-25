@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         protected TimeSeriesIndicator(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, int lookback)
         {
             _timePeriodFactory = new TimePeriodFactory<decimal>();
-            _timeSeriesFactory = new TimeSeriesFactory();
+            _timeSeriesFactory = new TimeSeriesFactory<decimal>();
             TimeSeriesUtility = new TimeSeriesUtility();
             _cachedValues = _timeSeriesFactory.ConstructMutable();
             if (timeSeries == null)

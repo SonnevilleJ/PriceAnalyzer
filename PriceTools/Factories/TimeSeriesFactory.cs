@@ -6,15 +6,15 @@ namespace Sonneville.PriceTools
     /// <summary>
     /// Constructs <see cref="ITimeSeries"/> objects.
     /// </summary>
-    public class TimeSeriesFactory : ITimeSeriesFactory<decimal>
+    public class TimeSeriesFactory<TPeriodValue> : ITimeSeriesFactory<TPeriodValue>
     {
         /// <summary>
         /// Constructs an ITimeSeries with a mutable list of <see cref="ITimePeriod"/>s.
         /// </summary>
         /// <returns></returns>
-        public ITimeSeries<ITimePeriod<decimal>, decimal> ConstructMutable()
+        public ITimeSeries<ITimePeriod<TPeriodValue>, TPeriodValue> ConstructMutable()
         {
-            return ConstructMutable(new List<ITimePeriod<decimal>>());
+            return ConstructMutable(new List<ITimePeriod<TPeriodValue>>());
         }
 
         /// <summary>
@@ -22,9 +22,9 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="timePeriods">A list of <see cref="ITimePeriod"/>s contained within the <see cref="ITimeSeries"/>. The list will not change.</param>
         /// <returns></returns>
-        public ITimeSeries<ITimePeriod<decimal>, decimal> ConstructMutable(IEnumerable<ITimePeriod<decimal>> timePeriods)
+        public ITimeSeries<ITimePeriod<TPeriodValue>, TPeriodValue> ConstructMutable(IEnumerable<ITimePeriod<TPeriodValue>> timePeriods)
         {
-            return new TimeSeries<decimal>(timePeriods);
+            return new TimeSeries<TPeriodValue>(timePeriods);
         }
 
         /// <summary>
@@ -32,10 +32,10 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="timePeriods">A list of <see cref="ITimePeriod"/>s contained within the <see cref="ITimeSeries"/>. The list will not change.</param>
         /// <returns></returns>
-        public ITimeSeries<ITimePeriod<decimal>, decimal> ConstructImmutable(IEnumerable<ITimePeriod<decimal>> timePeriods)
+        public ITimeSeries<ITimePeriod<TPeriodValue>, TPeriodValue> ConstructImmutable(IEnumerable<ITimePeriod<TPeriodValue>> timePeriods)
         {
 
-            return new TimeSeries<decimal>(new List<ITimePeriod<decimal>>(timePeriods).AsReadOnly());
+            return new TimeSeries<TPeriodValue>(new List<ITimePeriod<TPeriodValue>>(timePeriods).AsReadOnly());
         }
     }
 }
