@@ -16,9 +16,9 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         // http://stockcharts.com/school/doku.php?id=chart_school:technical_indicators:correlation_coeffici
         //
 
-        private readonly ITimeSeries _target;
+        private readonly ITimeSeries<ITimePeriod> _target;
 
-        public Correlation(ITimeSeries timeSeries, int lookback, ITimeSeries target)
+        public Correlation(ITimeSeries<ITimePeriod> timeSeries, int lookback, ITimeSeries<ITimePeriod> target)
             : base(timeSeries, lookback)
         {
             _target = target;

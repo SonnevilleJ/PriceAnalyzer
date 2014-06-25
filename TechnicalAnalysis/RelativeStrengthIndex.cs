@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         private ITimeSeriesIndicator _avgGains;
         private ITimeSeriesIndicator _avgLosses;
 
-        public RelativeStrengthIndex(ITimeSeries timeSeries, int lookback = DefaultLookback)
+        public RelativeStrengthIndex(ITimeSeries<ITimePeriod> timeSeries, int lookback = DefaultLookback)
             : base(timeSeries, lookback)
         {
             _avgGains = new RsiAverageGains(MeasuredTimeSeries, Lookback);

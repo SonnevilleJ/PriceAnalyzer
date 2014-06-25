@@ -11,14 +11,14 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         // See the cs-stochrsi.xls file in the Resources folder.
         //
 
-        private ITimeSeries _timeSeries;
+        private ITimeSeries<ITimePeriod> _timeSeries;
 
         protected override int GetDefaultLookback()
         {
             return 14;
         }
 
-        protected override StochRSI GetTestObjectInstance(ITimeSeries timeSeries, int lookback)
+        protected override StochRSI GetTestObjectInstance(ITimeSeries<ITimePeriod> timeSeries, int lookback)
         {
             _timeSeries = timeSeries;
 

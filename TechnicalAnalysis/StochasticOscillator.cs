@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     {
         private readonly SimpleMovingAverage _signalLine;
 
-        public StochasticOscillator(ITimeSeries timeSeries, int lookback)
+        public StochasticOscillator(ITimeSeries<ITimePeriod> timeSeries, int lookback)
             : base(timeSeries, lookback)
         {
             _signalLine = new SimpleMovingAverage(this, 3);

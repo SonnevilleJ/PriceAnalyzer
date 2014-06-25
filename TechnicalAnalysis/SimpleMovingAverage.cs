@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         /// <param name = "timeSeries">The <see cref="ITimeSeries"/> containing the data to be averaged.</param>
         /// <param name = "lookback">The number of periods to average together.</param>
-        public SimpleMovingAverage(ITimeSeries timeSeries, int lookback)
+        public SimpleMovingAverage(ITimeSeries<ITimePeriod> timeSeries, int lookback)
             : base(timeSeries, lookback)
         {
         }

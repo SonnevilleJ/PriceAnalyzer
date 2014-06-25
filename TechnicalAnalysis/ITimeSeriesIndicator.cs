@@ -3,7 +3,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
     /// <summary>
     /// A statistical indicator used to transform <see cref="PriceTools.ITimeSeries"/> data in order to identify a trend, correlation, reversal, or other meaningful information about the underlying data series.
     /// </summary>
-    public interface ITimeSeriesIndicator : ITimeSeries
+    public interface ITimeSeriesIndicator : ITimeSeries<ITimePeriod>
     {
         /// <summary>
         /// Gets the lookback of this TimeSeriesIndicator which specifies how many periods are required for the first indicator value.
@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The underlying data which is to be analyzed by this ITimeSeriesIndicator.
         /// </summary>
-        ITimeSeries MeasuredTimeSeries { get; }
+        ITimeSeries<ITimePeriod> MeasuredTimeSeries { get; }
 
         /// <summary>
         /// Pre-caches all values for this TimeSeriesIndicator.

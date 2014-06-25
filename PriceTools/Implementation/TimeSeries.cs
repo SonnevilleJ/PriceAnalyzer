@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Sonneville.PriceTools.Implementation
 {
-    internal class TimeSeries : ITimeSeries
+    internal class TimeSeries : ITimeSeries<ITimePeriod>
     {
         private readonly IEnumerable<ITimePeriod> _periods = new List<ITimePeriod>();
 

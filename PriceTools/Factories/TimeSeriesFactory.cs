@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools
         /// Constructs an ITimeSeries with a mutable list of <see cref="ITimePeriod"/>s.
         /// </summary>
         /// <returns></returns>
-        public ITimeSeries ConstructMutable()
+        public ITimeSeries<ITimePeriod> ConstructMutable()
         {
             return ConstructMutable(new List<ITimePeriod>());
         }
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="timePeriods">A list of <see cref="ITimePeriod"/>s contained within the <see cref="ITimeSeries"/>. The list will not change.</param>
         /// <returns></returns>
-        public ITimeSeries ConstructMutable(IEnumerable<ITimePeriod> timePeriods)
+        public ITimeSeries<ITimePeriod> ConstructMutable(IEnumerable<ITimePeriod> timePeriods)
         {
             return new TimeSeries(timePeriods);
         }
@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="timePeriods">A list of <see cref="ITimePeriod"/>s contained within the <see cref="ITimeSeries"/>. The list will not change.</param>
         /// <returns></returns>
-        public ITimeSeries ConstructImmutable(IEnumerable<ITimePeriod> timePeriods)
+        public ITimeSeries<ITimePeriod> ConstructImmutable(IEnumerable<ITimePeriod> timePeriods)
         {
             
             return new TimeSeries(new List<ITimePeriod>(timePeriods).AsReadOnly());

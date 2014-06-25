@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The underlying data which is to be analyzed by this PriceSeriesIndicator.
         /// </summary>
-        public override ITimeSeries MeasuredTimeSeries
+        public override ITimeSeries<ITimePeriod> MeasuredTimeSeries
         {
             get { return MeasuredPriceSeries; }
             protected set { MeasuredPriceSeries = value as IPriceSeries; }

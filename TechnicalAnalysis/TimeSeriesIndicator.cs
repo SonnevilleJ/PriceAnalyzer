@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
 
         private readonly ITimePeriodFactory _timePeriodFactory;
         private readonly ITimeSeriesFactory _timeSeriesFactory;
-        private ITimeSeries _cachedValues;
+        private ITimeSeries<ITimePeriod> _cachedValues;
         private int _lookback;
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// </summary>
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <param name="lookback">The lookback of this TimeSeriesIndicator which specifies how many periods are required for the first indicator value.</param>
-        protected TimeSeriesIndicator(ITimeSeries timeSeries, int lookback)
+        protected TimeSeriesIndicator(ITimeSeries<ITimePeriod> timeSeries, int lookback)
         {
             _timePeriodFactory = new TimePeriodFactory();
             _timeSeriesFactory = new TimeSeriesFactory();
@@ -130,7 +130,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// The underlying data which is to be analyzed by this TimeSeriesIndicator.
         /// </summary>
-        public virtual ITimeSeries MeasuredTimeSeries { get; protected set; }
+        public virtual ITimeSeries<ITimePeriod> MeasuredTimeSeries { get; protected set; }
 
         /// <summary>
         /// The Resolution of this TimeSeriesIndicator.
@@ -164,7 +164,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis
         /// <summary>
         /// Stores the calculated values for each period.
         /// </summary>
-        private ITimeSeries CachedValues
+        private ITimeSeries<ITimePeriod> CachedValues
         {
             get { return _cachedValues; }
         }

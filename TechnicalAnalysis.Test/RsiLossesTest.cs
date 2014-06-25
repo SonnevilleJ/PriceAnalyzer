@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
         /// <param name="timeSeries">The <see cref="ITimeSeries"/> to transform.</param>
         /// <param name="lookback">The lookback period the <see cref="TimeSeriesIndicator"/> should use.</param>
         /// <returns></returns>
-        protected override RsiLosses GetTestObjectInstance(ITimeSeries timeSeries, int lookback)
+        protected override RsiLosses GetTestObjectInstance(ITimeSeries<ITimePeriod> timeSeries, int lookback)
         {
             return new RsiLosses(timeSeries);
         }
