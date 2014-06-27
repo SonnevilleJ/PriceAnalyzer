@@ -93,9 +93,17 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AutomatedTrading\AutomatedTrading.csproj">
+      <Project>{55C455EC-22FC-47A6-A467-C57B9EDCCEC0}</Project>
+      <Name>AutomatedTrading</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Data\Data.csproj">
       <Project>{157B3FCE-E233-436A-B982-98A8BB693082}</Project>
       <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Fidelity\Fidelity.csproj">
+      <Project>{E8795DA4-FB2C-4AE2-A13E-187B5B8E4A39}</Project>
+      <Name>Fidelity</Name>
     </ProjectReference>
     <ProjectReference Include="..\Google\Google.csproj">
       <Project>{241C2CF7-9A10-4B2F-BDD7-EFC49E24ECAE}</Project>
@@ -104,6 +112,10 @@
     <ProjectReference Include="..\PriceTools\PriceTools.csproj">
       <Project>{FBE4A744-CACD-4CCC-9746-1692AB3B606B}</Project>
       <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Yahoo\Yahoo.csproj">
+      <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
+      <Name>Yahoo</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

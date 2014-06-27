@@ -1,8 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
+using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.Data.Csv;
+using Sonneville.PriceTools.Fidelity;
+using Sonneville.PriceTools.Google;
+using Sonneville.PriceTools.Yahoo;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
@@ -20,7 +26,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.Cursor = Cursors.WaitCursor;
 
             var pricePeriods = _priceDataManager.DownloadPricePeriods(ticker, startDateTime, endDateTime);
-            DisplayData(pricePeriods, ticker);
+            DisplayDataInCurrentTab(pricePeriods, ticker);
 
             this.Cursor = Cursors.Default;
         }
@@ -34,11 +40,11 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                 var pricePeriods = _priceDataManager.ParseCsvFile(fullFileName);
                 var fileName = new FileInfo(fullFileName).Name;
                 var ticker = fileName.Substring(0, fileName.IndexOf("."));
-                DisplayData(pricePeriods, ticker);
+                DisplayDataInCurrentTab(pricePeriods, ticker);
             }
         }
 
-        private void DisplayData(IList<IPricePeriod> pricePeriods, string ticker)
+        private void DisplayDataInCurrentTab(IList<IPricePeriod> pricePeriods, string ticker)
         {
             var currentTab = tabControl1.SelectedTab;
             currentTab.Text = ticker;
@@ -150,6 +156,23 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private void tableToolStripMenuItem_Click(object sender, EventArgs e)
         {
             AddTableTab();
+        }
+
+        private void importPortfolioToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var tempPortfolioFactory = new PortfolioFactory();
+            var portfolioDialog = openFileDialog1.ShowDialog();
+
+            if (portfolioDialog == DialogResult.OK)
+            {
+                var fullFileName = openFileDialog1.FileName;
+
+                var transactionHistoryCsvFile = new FidelityTransactionHistoryCsvFile(File.Open(fullFileName, FileMode.Open));
+                var portfolio = tempPortfolioFactory.ConstructPortfolio(transactionHistoryCsvFile.Transactions);
+                var priceSeries = tempPortfolioFactory.ConstructPriceSeries(portfolio, new CsvPriceDataProvider(new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceHistoryCsvFileFactory()));
+
+                DisplayDataInCurrentTab(priceSeries.PricePeriods.ToList(), "Portfolio");
+            }
         }
     }
 }

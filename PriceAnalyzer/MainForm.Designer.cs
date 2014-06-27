@@ -42,6 +42,7 @@
             this.insertToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importPortfolioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.mainMenu.SuspendLayout();
@@ -107,7 +108,7 @@
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(92, 22);
+            this.exitMenuItem.Size = new System.Drawing.Size(152, 22);
             this.exitMenuItem.Text = "Exit";
             this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
             // 
@@ -115,7 +116,8 @@
             // 
             this.dataToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.downloadStockToolStripMenuItem,
-            this.importCSVToolStripMenuItem});
+            this.importCSVToolStripMenuItem,
+            this.importPortfolioToolStripMenuItem});
             this.dataToolStripMenuItem.Name = "dataToolStripMenuItem";
             this.dataToolStripMenuItem.Size = new System.Drawing.Size(43, 20);
             this.dataToolStripMenuItem.Text = "&Data";
@@ -146,16 +148,23 @@
             // chartToolStripMenuItem
             // 
             this.chartToolStripMenuItem.Name = "chartToolStripMenuItem";
-            this.chartToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.chartToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.chartToolStripMenuItem.Text = "New &Chart tab";
             this.chartToolStripMenuItem.Click += new System.EventHandler(this.chartToolStripMenuItem_Click);
             // 
             // tableToolStripMenuItem
             // 
             this.tableToolStripMenuItem.Name = "tableToolStripMenuItem";
-            this.tableToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.tableToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.tableToolStripMenuItem.Text = "New &Table tab";
             this.tableToolStripMenuItem.Click += new System.EventHandler(this.tableToolStripMenuItem_Click);
+            // 
+            // importPortfolioToolStripMenuItem
+            // 
+            this.importPortfolioToolStripMenuItem.Name = "importPortfolioToolStripMenuItem";
+            this.importPortfolioToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.importPortfolioToolStripMenuItem.Text = "Import Portfolio...";
+            this.importPortfolioToolStripMenuItem.Click += new System.EventHandler(this.importPortfolioToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -192,6 +201,7 @@
         private System.Windows.Forms.ToolStripMenuItem insertToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem chartToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tableToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importPortfolioToolStripMenuItem;
     }
 }
 
