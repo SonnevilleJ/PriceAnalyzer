@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.AutomatedTrading.Extensions;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
+using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
@@ -116,6 +117,37 @@ namespace Sonneville.PriceTools.AutomatedTrading
             var deposit = new Transaction[] {_transactionFactory.ConstructDeposit(dateTime, openingDeposit)};
             var concat = deposit.Concat(transactions);
             return ConstructPortfolio(ticker, concat);
+        }
+
+        public IPriceSeries ConstructPriceSeries(Portfolio portfolio, IPriceDataProvider priceDataProvider)
+        {
+            var result = new PriceSeriesFactory().ConstructPriceSeries(string.Empty);
+            var pricePeriodFactory = new PricePeriodFactory();
+            var positionFactory = new PositionFactory();
+
+            var dictionary = new Dictionary<DateTime, decimal>();
+            foreach (var position in portfolio.Positions)
+            {
+                var positionPriceSeries = positionFactory.ConstructPriceSeries(position, priceDataProvider);
+
+                foreach (var pricePeriod in positionPriceSeries.PricePeriods)
+                {
+                    if (dictionary.ContainsKey(pricePeriod.Head))
+                    {
+                        dictionary[pricePeriod.Head] = dictionary[pricePeriod.Head] + pricePeriod.Close;
+                    }
+                    else
+                    {
+                        dictionary.Add(pricePeriod.Head, pricePeriod.Close);
+                    }
+                }
+            }
+            foreach (var keyValuePair in dictionary)
+            {
+                var period = pricePeriodFactory.ConstructStaticPricePeriod(keyValuePair.Key, keyValuePair.Key.CurrentPeriodClose(Resolution.Days), keyValuePair.Value);
+                result.AddPriceData(period);
+            }
+            return result;
         }
     }
 }

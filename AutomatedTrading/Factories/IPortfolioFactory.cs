@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
+using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
@@ -66,5 +67,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <param name="openingDeposit">The cash amount deposited into the Portfolio.</param>
         /// <param name="transactions">The list of <see cref="Transaction"/>s currently in the <see cref="Portfolio"/>.</param>
         Portfolio ConstructPortfolio(string ticker, DateTime dateTime, decimal openingDeposit, IEnumerable<Transaction> transactions);
+
+        IPriceSeries ConstructPriceSeries(Portfolio portfolio, IPriceDataProvider priceDataProvider);
     }
 }

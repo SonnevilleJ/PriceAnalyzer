@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
+using Sonneville.PriceTools.Implementation;
 using Sonneville.PriceTools.SampleData;
 using Sonneville.PriceTools.Yahoo;
 
@@ -616,6 +618,58 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             const string expected = ticker;
             var actual = target.CashTicker;
             Assert.AreEqual(expected, actual);
+        }
+
+        [TestMethod]
+        public void ConstructPriceSeriesFromOnePositionWithOneBuyAndSell()
+        {
+            var portfolio = _portfolioFactory.ConstructPortfolio();
+            const string ticker = "DE";
+
+            var buyDate = new DateTime(2014, 6, 24);
+            const int sharesBought = 2;
+            const decimal priceBought = 50.00m;
+            var buy = _transactionFactory.ConstructBuy(ticker, buyDate, sharesBought, priceBought);
+            portfolio.AddToPosition(buy);
+
+            var sellDate = new DateTime(2014, 6, 25);
+            const int sharesSold = 1;
+            const decimal priceSold = 50.00m;
+            var sell = _transactionFactory.ConstructSell(ticker, sellDate, sharesSold, priceSold);
+            portfolio.AddToPosition(sell);
+
+            var result = _portfolioFactory.ConstructPriceSeries(portfolio, _csvPriceDataProvider);
+
+            const decimal closingPrice24th = 90.63m;
+            const decimal closingPrice25th = 90.74m;
+            Assert.AreEqual(closingPrice24th*sharesBought, result[buyDate]);
+            Assert.AreEqual(closingPrice25th*(sharesBought - sharesSold), result[sellDate]);
+        }
+
+        [TestMethod]
+        public void ConstructPriceSeriesFromTwoPositions()
+        {
+            var portfolio = _portfolioFactory.ConstructPortfolio();
+            var buyDate = new DateTime(2014, 6, 24);
+
+            const string deTicker = "DE";
+            const int deSharesBought = 2;
+            const decimal dePriceBought = 50.00m;
+            var deBuy = _transactionFactory.ConstructBuy(deTicker, buyDate, deSharesBought, dePriceBought);
+            portfolio.AddToPosition(deBuy);
+
+            const string ibmTicker = "IBM";
+            const int ibmSharesBought = 2;
+            const decimal ibmPriceBought = 50.00m;
+            var ibmBuy = _transactionFactory.ConstructBuy(ibmTicker, buyDate, ibmSharesBought, ibmPriceBought);
+            portfolio.AddToPosition(ibmBuy);
+
+            var result = _portfolioFactory.ConstructPriceSeries(portfolio, _csvPriceDataProvider);
+
+            const decimal deClosingPrice24th = 90.63m;
+            const decimal ibmClosingPrice24th = 180.88m;
+            const decimal expected = (deClosingPrice24th*deSharesBought) + (ibmClosingPrice24th*ibmSharesBought);
+            Assert.AreEqual(expected, result[buyDate]);
         }
     }
 }
