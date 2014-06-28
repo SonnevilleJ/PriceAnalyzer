@@ -27,5 +27,15 @@ namespace Sonneville.PriceTools
         {
             return new PriceSeries(resolution) {Ticker = ticker};
         }
+
+        /// <summary>
+        /// Constructs a <see cref="IPriceSeries"/> with a constant price for the given ticker.
+        /// </summary>
+        /// <param name="ticker">The ticker symbol of the <see cref="IPriceSeries"/>.</param>
+        /// <returns></returns>
+        public IPriceSeries ConstructConstantPriceSeries(string ticker)
+        {
+            return new ConstantPriceSeries(ticker);
+        }
     }
 }

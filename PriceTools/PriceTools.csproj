@@ -61,6 +61,7 @@
     <Compile Include="Extensions\VariableValueExtensions.cs" />
     <Compile Include="Extensions\TimeSeriesUtility.cs" />
     <Compile Include="Factories\HoldingFactory.cs" />
+    <Compile Include="Implementation\ConstantPriceSeries.cs" />
     <Compile Include="Interfaces\ICashAccountFactory.cs" />
     <Compile Include="Extensions\ReactionMovesFactory.cs" />
     <Compile Include="Factories\CashAccountFactory.cs" />
