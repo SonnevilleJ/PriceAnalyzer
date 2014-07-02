@@ -168,8 +168,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                 var fullFileName = openFileDialog1.FileName;
 
                 var transactionHistoryCsvFile = new FidelityTransactionHistoryCsvFile(File.Open(fullFileName, FileMode.Open));
-                var portfolio = tempPortfolioFactory.ConstructPortfolio(transactionHistoryCsvFile.Transactions);
-                var priceSeries = tempPortfolioFactory.ConstructPriceSeries(portfolio, new CsvPriceDataProvider(new YahooPriceHistoryQueryUrlBuilder(), new YahooPriceHistoryCsvFileFactory()));
+                var portfolio = tempPortfolioFactory.ConstructPortfolio("FTEXX", transactionHistoryCsvFile.Transactions);
+                var priceSeries = tempPortfolioFactory.ConstructPriceSeries(portfolio, new CsvPriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory()));
 
                 DisplayDataInCurrentTab(priceSeries.PricePeriods.ToList(), "Portfolio");
             }

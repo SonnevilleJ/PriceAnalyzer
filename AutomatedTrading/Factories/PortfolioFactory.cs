@@ -15,6 +15,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
     {
         private readonly string _defaultCashTicker = String.Empty;
         private readonly ITransactionFactory _transactionFactory;
+        private static readonly PriceSeriesFactory _priceSeriesFactory;
 
         public PortfolioFactory()
             : this(new TransactionFactory())
@@ -24,6 +25,11 @@ namespace Sonneville.PriceTools.AutomatedTrading
         public PortfolioFactory(ITransactionFactory transactionFactory)
         {
             _transactionFactory = transactionFactory;
+        }
+
+        static PortfolioFactory()
+        {
+            _priceSeriesFactory = new PriceSeriesFactory();
         }
 
         /// <summary>
@@ -121,14 +127,14 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         public IPriceSeries ConstructPriceSeries(Portfolio portfolio, IPriceDataProvider priceDataProvider)
         {
-            var result = new PriceSeriesFactory().ConstructPriceSeries(string.Empty);
+            var result = _priceSeriesFactory.ConstructPriceSeries(string.Empty);
             var pricePeriodFactory = new PricePeriodFactory();
             var positionFactory = new PositionFactory();
 
             var dictionary = new Dictionary<DateTime, decimal>();
             foreach (var position in portfolio.Positions)
             {
-                var positionPriceSeries = positionFactory.ConstructPriceSeries(position, priceDataProvider);
+                var positionPriceSeries = GetPositionPriceSeries(priceDataProvider, positionFactory, portfolio, position);
 
                 foreach (var pricePeriod in positionPriceSeries.PricePeriods)
                 {
@@ -148,6 +154,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 result.AddPriceData(period);
             }
             return result;
+        }
+
+        private static IPriceSeries GetPositionPriceSeries(IPriceDataProvider priceDataProvider, PositionFactory positionFactory, Portfolio portfolio, Position position)
+        {
+            return portfolio.CashTicker == position.Ticker
+                ? _priceSeriesFactory.ConstructConstantPriceSeries(portfolio.CashTicker)
+                : positionFactory.ConstructPriceSeries(position, priceDataProvider);
         }
     }
 }
