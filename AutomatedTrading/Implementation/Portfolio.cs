@@ -39,6 +39,23 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             get { return _securityBasketCalculator.CalculateGrossProfit(this, dateTime); }
         }
 
+        public IPriceSeries CashPriceSeries
+        {
+            get
+            {
+                var cashPriceSeries = new PriceSeriesFactory().ConstructPriceSeries(CashTicker);
+                var cashPeriodFactory = new PricePeriodFactory();
+                for (var date = Head.PreviousPeriodOpen(Resolution.Days); date <= Tail; date = date.NextPeriodOpen(Resolution.Days))
+                {
+                    var heldShares = _securityBasketCalculator.GetHeldShares(_cashAccount.Transactions, date);
+                    cashPriceSeries.AddPriceData(cashPeriodFactory.ConstructStaticPricePeriod(date,
+                        date.CurrentPeriodClose(Resolution.Days),
+                        heldShares*1m));
+                }
+                return cashPriceSeries;
+            }
+        }
+
         /// <summary>
         /// Gets the first DateTime for which a value exists.
         /// </summary>

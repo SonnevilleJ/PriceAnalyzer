@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Data;
@@ -53,17 +54,17 @@ namespace Sonneville.PriceTools.AutomatedTrading
             priceDataProvider.UpdatePriceSeries(underlyingPriceSeries, position.Head, position.Tail, Resolution.Days);
 
             var priceSeries = _priceSeriesFactory.ConstructPriceSeries(position.Ticker);
-            foreach (var pricePeriod in underlyingPriceSeries.PricePeriods)
+            for (var date = position.Head; date <= position.Tail; date = date.NextPeriodOpen(Resolution.Days))
             {
                 var heldShares = _securityBasketCalculator.GetHeldShares(
                     position.Transactions.Where(transaction => transaction is ShareTransaction).Cast<ShareTransaction>(),
-                    pricePeriod.Head);
+                    date);
                 if(heldShares!= 0)
                 {
                     priceSeries.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(
-                    pricePeriod.Head,
-                    pricePeriod.Head.CurrentPeriodClose(Resolution.Days),
-                    underlyingPriceSeries[pricePeriod.Head]*heldShares));
+                    date,
+                    date.CurrentPeriodClose(Resolution.Days),
+                    underlyingPriceSeries[date]*heldShares));
                 }
             }
             return priceSeries;

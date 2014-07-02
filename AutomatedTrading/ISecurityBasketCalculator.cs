@@ -50,6 +50,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
         decimal GetHeldShares(IEnumerable<ShareTransaction> shareTransactions, DateTime dateTime);
 
         /// <summary>
+        ///   Gets the net shares held at a given date.
+        /// </summary>
+        /// <param name="cashTransactions"></param>
+        /// <param name = "dateTime">The <see cref = "DateTime" /> to use.</param>
+        decimal GetHeldShares(ICollection<CashTransaction> cashTransactions, DateTime dateTime);
+
+        /// <summary>
         ///   Gets the average cost of all held shares in a <see cref="Position"/> as of a given date.
         /// </summary>
         /// <param name="position">The <see cref="Position"/> for which to calculate average cost.</param>

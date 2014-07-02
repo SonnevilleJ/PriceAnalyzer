@@ -14,9 +14,12 @@ namespace Sonneville.PriceTools
             OpeningTransactions.Add(typeof (Buy), true);
             OpeningTransactions.Add(typeof (SellShort), true);
             OpeningTransactions.Add(typeof (DividendReinvestment), true);
+            OpeningTransactions.Add(typeof (Deposit), true);
+            OpeningTransactions.Add(typeof (DividendReceipt), true);
 
             ClosingTransactions.Add(typeof (Sell), true);
             ClosingTransactions.Add(typeof (BuyToCover), true);
+            ClosingTransactions.Add(typeof (Withdrawal), true);
         }
 
         /// <summary>

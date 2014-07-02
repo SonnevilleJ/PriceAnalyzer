@@ -132,21 +132,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
             var positionFactory = new PositionFactory();
 
             var dictionary = new Dictionary<DateTime, decimal>();
+            var cashPriceSeries = portfolio.CashPriceSeries;
+            AddToDictionary(cashPriceSeries, dictionary);
             foreach (var position in portfolio.Positions)
             {
                 var positionPriceSeries = positionFactory.ConstructPriceSeries(position, priceDataProvider);
 
-                foreach (var pricePeriod in positionPriceSeries.PricePeriods)
-                {
-                    if (dictionary.ContainsKey(pricePeriod.Head))
-                    {
-                        dictionary[pricePeriod.Head] = dictionary[pricePeriod.Head] + pricePeriod.Close;
-                    }
-                    else
-                    {
-                        dictionary.Add(pricePeriod.Head, pricePeriod.Close);
-                    }
-                }
+                AddToDictionary(positionPriceSeries, dictionary);
             }
             foreach (var keyValuePair in dictionary)
             {
@@ -154,6 +146,21 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 result.AddPriceData(period);
             }
             return result;
+        }
+
+        private static void AddToDictionary(IPriceSeries positionPriceSeries, IDictionary<DateTime, decimal> dictionary)
+        {
+            foreach (var pricePeriod in positionPriceSeries.PricePeriods)
+            {
+                if (dictionary.ContainsKey(pricePeriod.Head))
+                {
+                    dictionary[pricePeriod.Head] = dictionary[pricePeriod.Head] + pricePeriod.Close;
+                }
+                else
+                {
+                    dictionary.Add(pricePeriod.Head, pricePeriod.Close);
+                }
+            }
         }
     }
 }

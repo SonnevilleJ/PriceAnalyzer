@@ -110,6 +110,17 @@ namespace Sonneville.PriceTools.AutomatedTrading
             return sum;
         }
 
+        public decimal GetHeldShares(ICollection<CashTransaction> cashTransactions, DateTime dateTime)
+        {
+            var sum = 0m;
+            foreach (var transaction in cashTransactions.Where(ct=>ct.SettlementDate <= dateTime))
+            {
+                if (transaction.IsOpeningTransaction()) sum += transaction.Amount;
+                if (transaction.IsClosingTransaction()) sum += transaction.Amount;
+            }
+            return sum;
+        }
+
         /// <summary>
         ///   Gets the average cost of all held shares in a <see cref="Position"/> as of a given date.
         /// </summary>
