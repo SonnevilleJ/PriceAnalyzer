@@ -8,6 +8,7 @@ using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Fidelity;
 using Sonneville.PriceTools.Google;
+using Sonneville.PriceTools.Implementation;
 using Sonneville.PriceTools.Yahoo;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
@@ -168,7 +169,14 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                 var fullFileName = openFileDialog1.FileName;
 
                 var transactionHistoryCsvFile = new FidelityTransactionHistoryCsvFile(File.Open(fullFileName, FileMode.Open));
-                var portfolio = tempPortfolioFactory.ConstructPortfolio("FTEXX", transactionHistoryCsvFile.Transactions);
+                
+                var cashTicker = transactionHistoryCsvFile.Transactions
+                    .Where(transaction => transaction is ShareTransaction)
+                    .Cast<ShareTransaction>()
+                    .Select(transaction => transaction.Ticker)
+                    .First(ticker => ticker.EndsWith("XX"));
+                
+                var portfolio = tempPortfolioFactory.ConstructPortfolio(cashTicker, transactionHistoryCsvFile.Transactions);
                 var priceSeries = tempPortfolioFactory.ConstructPriceSeries(portfolio, new CsvPriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory()));
 
                 DisplayDataInCurrentTab(priceSeries.PricePeriods.ToList(), "Portfolio");

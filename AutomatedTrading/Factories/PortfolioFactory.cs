@@ -134,7 +134,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             var dictionary = new Dictionary<DateTime, decimal>();
             foreach (var position in portfolio.Positions)
             {
-                var positionPriceSeries = GetPositionPriceSeries(priceDataProvider, positionFactory, portfolio, position);
+                var positionPriceSeries = positionFactory.ConstructPriceSeries(position, priceDataProvider);
 
                 foreach (var pricePeriod in positionPriceSeries.PricePeriods)
                 {
@@ -154,13 +154,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 result.AddPriceData(period);
             }
             return result;
-        }
-
-        private static IPriceSeries GetPositionPriceSeries(IPriceDataProvider priceDataProvider, PositionFactory positionFactory, Portfolio portfolio, Position position)
-        {
-            return portfolio.CashTicker == position.Ticker
-                ? _priceSeriesFactory.ConstructConstantPriceSeries(portfolio.CashTicker)
-                : positionFactory.ConstructPriceSeries(position, priceDataProvider);
         }
     }
 }

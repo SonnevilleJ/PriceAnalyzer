@@ -58,10 +58,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 var heldShares = _securityBasketCalculator.GetHeldShares(
                     position.Transactions.Where(transaction => transaction is ShareTransaction).Cast<ShareTransaction>(),
                     pricePeriod.Head);
-                priceSeries.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(
+                if(heldShares!= 0)
+                {
+                    priceSeries.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(
                     pricePeriod.Head,
                     pricePeriod.Head.CurrentPeriodClose(Resolution.Days),
                     underlyingPriceSeries[pricePeriod.Head]*heldShares));
+                }
             }
             return priceSeries;
         }
