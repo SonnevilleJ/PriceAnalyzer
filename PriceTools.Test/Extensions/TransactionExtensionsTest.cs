@@ -39,13 +39,13 @@ namespace Sonneville.PriceTools.Test.Extensions
         [TestMethod]
         public void DividendReceiptOpeningTransaction()
         {
-            OpeningTransactionTest(OrderType.DividendReceipt, false);
+            OpeningTransactionTest(OrderType.DividendReceipt, true);
         }
         
         [TestMethod]
         public void DepositOpeningTransaction()
         {
-            OpeningTransactionTest(OrderType.Deposit, false);
+            OpeningTransactionTest(OrderType.Deposit, true);
         }
         
         [TestMethod]
@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools.Test.Extensions
         [TestMethod]
         public void WithdrawalClosingTransactionTest()
         {
-            ClosingTransactionTest(OrderType.Withdrawal, false);
+            ClosingTransactionTest(OrderType.Withdrawal, true);
         }
         
         private static void OpeningTransactionTest(OrderType orderType, bool expected)
