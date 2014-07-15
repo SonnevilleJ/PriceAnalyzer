@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using Sonneville.PriceTools.AutomatedTrading;
@@ -16,10 +17,12 @@ namespace Sonneville.PriceTools.PriceAnalyzer
     public partial class MainForm : Form
     {
         private readonly PriceDataManager _priceDataManager = new PriceDataManager();
+        private readonly ChartFactory _chartFactory;
 
         public MainForm()
         {
             InitializeComponent();
+            _chartFactory = new ChartFactory();
         }
 
         private void DownloadPriceData(string ticker, DateTime startDateTime, DateTime endDateTime)
@@ -81,7 +84,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private void DisplayChart(IList<IPricePeriod> pricePeriods, Control currentTab)
         {
             var currentElementHost = (ElementHost)currentTab.Controls[0];
-            var currentChart = (HighLowChart)currentElementHost.Child;
+            var currentChart = (IChart)currentElementHost.Child;
 
             currentChart.DrawPricePeriods(pricePeriods);
         }
@@ -105,11 +108,11 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         {
             var newTab = new TabPage(tabControl1.TabCount.ToString());
             var newElementHost = new ElementHost();
-            var newChart = new HighLowChart();
+            var newChart = _chartFactory.CreateNewChart();
 
             this.tabControl1.TabPages.Add(newTab);
             newTab.Controls.Add(newElementHost);
-            newElementHost.Child = newChart;
+            newElementHost.Child = (UIElement) newChart;
             newElementHost.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
             newElementHost.Dock = DockStyle.Fill;
             newTab.UseVisualStyleBackColor = true;
