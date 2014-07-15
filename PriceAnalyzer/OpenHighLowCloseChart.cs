@@ -2,7 +2,7 @@
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
-    public class HighLowChart : ChartBase
+    public class OpenHighLowCloseChart : ChartBase
     {
         protected override void DrawCanvas(double maxYdollar, double minYdollar, double pixelsPerDollar, double pixelsPerDay)
         {

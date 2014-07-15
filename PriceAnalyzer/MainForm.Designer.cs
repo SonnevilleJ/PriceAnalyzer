@@ -1,4 +1,6 @@
-﻿namespace Sonneville.PriceTools.PriceAnalyzer
+﻿using System.Windows;
+
+namespace Sonneville.PriceTools.PriceAnalyzer
 {
     partial class MainForm
     {
@@ -32,7 +34,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.highLowChart1 = new Sonneville.PriceTools.PriceAnalyzer.CandleStickChart();
+            this.chart1 = new ChartFactory().CreateNewChart();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -83,7 +85,7 @@
             this.elementHost1.Size = new System.Drawing.Size(814, 311);
             this.elementHost1.TabIndex = 7;
             this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = this.highLowChart1;
+            this.elementHost1.Child = (UIElement) this.chart1;
             // 
             // mainMenu
             // 
@@ -188,7 +190,7 @@
         #endregion
 
         private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private CandleStickChart highLowChart1;
+        private IChart chart1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
