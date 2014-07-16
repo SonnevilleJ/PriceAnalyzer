@@ -1,44 +1,28 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
-    public abstract class ChartBase : Grid
+    /// <summary>
+    /// Interaction logic for ChartBase.xaml
+    /// </summary>
+    public abstract partial class ChartBase : UserControl
     {
-        protected readonly Canvas _canvas = new Canvas();
-        private readonly Canvas _verticalCanvas = new Canvas();
-        private readonly Canvas _horizontalCanvas = new Canvas();
-
-        public ChartBase()
+        protected ChartBase()
         {
-            var column0 = new ColumnDefinition();
-            column0.Width = new GridLength(45);
-            ColumnDefinitions.Add(column0);
-            ColumnDefinitions.Add(new ColumnDefinition());
-
-            var row0 = new RowDefinition();
-            row0.Height = new GridLength(8);
-            RowDefinitions.Add(row0);
-            RowDefinitions.Add(new RowDefinition());
-            var row2 = new RowDefinition();
-            row2.Height = new GridLength(20);
-            RowDefinitions.Add(row2);
-
-            Grid.SetColumn(_verticalCanvas, 0);
-            Grid.SetRow(_verticalCanvas, 1);
-            Grid.SetColumn(_canvas, 1);
-            Grid.SetRow(_canvas, 1);
-            Grid.SetColumn(_horizontalCanvas, 1);
-            Grid.SetRow(_horizontalCanvas, 2);
-
-            Children.Add(_canvas);
-            Children.Add(_verticalCanvas);
-            Children.Add(_horizontalCanvas);
+            InitializeComponent();
             SizeChanged += delegate { if (PricePeriods != null) DrawChart(); };
         }
 

@@ -47,7 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CandleStickChart.cs" />
-    <Compile Include="ChartBase.cs" />
     <Compile Include="ChartFactory.cs" />
     <Compile Include="ChartStyles.cs" />
     <Compile Include="DataEntryForm.cs">
@@ -71,6 +70,9 @@
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="ChartBase.xaml.cs">
+      <DependentUpon>ChartBase.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="DataEntryForm.resx">
       <DependentUpon>DataEntryForm.cs</DependentUpon>
@@ -130,6 +132,12 @@
       <Project>{657F02D4-7DE6-4CBC-8E15-AD4466879E18}</Project>
       <Name>Yahoo</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="ChartBase.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
