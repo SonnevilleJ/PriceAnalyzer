@@ -74,6 +74,8 @@
     <Compile Include="ChartBase.xaml.cs">
       <DependentUpon>ChartBase.xaml</DependentUpon>
     </Compile>
+    <Compile Include="VerticalAxis.cs" />
+    <Compile Include="HorizontalAxis.cs" />
     <EmbeddedResource Include="DataEntryForm.resx">
       <DependentUpon>DataEntryForm.cs</DependentUpon>
     </EmbeddedResource>
