@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Shapes;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
@@ -31,7 +32,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                 {
                     Width = rightX - leftX,
                     Height = Math.Abs(openY - closeY),
-                    Stroke = brush
+                    Stroke = brush,
+                    Fill = pricePeriod.Close <= pricePeriod.Open ? brush : Brushes.Transparent,
                 };
                 Canvas.SetLeft(body, leftX);
                 Canvas.SetTop(body, Math.Min(openY, closeY));
