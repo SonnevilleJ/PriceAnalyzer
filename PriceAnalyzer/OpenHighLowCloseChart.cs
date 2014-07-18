@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace Sonneville.PriceTools.PriceAnalyzer
+﻿namespace Sonneville.PriceTools.PriceAnalyzer
 {
     public class OpenHighLowCloseChart : ChartBase
     {
@@ -8,17 +6,19 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         {
             _canvas.Children.Clear();
 
-            var minX = PricePeriods.First().Head.CurrentPeriodOpen(Resolution.Days);
             decimal priorPeriodClose = 0;
-            
-            foreach (var pricePeriod in PricePeriods)
+
+            for (var i = 0; i < PricePeriods.Count; i++)
             {
+                var pricePeriod = PricePeriods[i];
                 var closeColorBrush = CloseColorBrush(priorPeriodClose, pricePeriod.Close);
-                var x = ((pricePeriod.Head - minX).Days*pixelsPerDay) + (.5*pixelsPerDay);
-                var highLowBar = CreateLine(x, _canvas.ActualHeight - ((double) pricePeriod.Low - minYdollar)*pixelsPerDollar, x, (maxYdollar - (double) pricePeriod.High)*pixelsPerDollar, closeColorBrush);
-                var openY = _canvas.ActualHeight - ((double)pricePeriod.Open - minYdollar)*pixelsPerDollar;
+                var x = (i*pixelsPerDay) + (.5*pixelsPerDay);
+                var highLowBar = CreateLine(x,
+                    _canvas.ActualHeight - ((double) pricePeriod.Low - minYdollar)*pixelsPerDollar, x,
+                    (maxYdollar - (double) pricePeriod.High)*pixelsPerDollar, closeColorBrush);
+                var openY = _canvas.ActualHeight - ((double) pricePeriod.Open - minYdollar)*pixelsPerDollar;
                 var openBar = CreateLine(x - (pixelsPerDay*.25), openY, x, openY, closeColorBrush);
-                var closeY = _canvas.ActualHeight - ((double)pricePeriod.Close - minYdollar) * pixelsPerDollar;
+                var closeY = _canvas.ActualHeight - ((double) pricePeriod.Close - minYdollar)*pixelsPerDollar;
                 var closeBar = CreateLine(x + (pixelsPerDay*.25), closeY, x, closeY, closeColorBrush);
                 priorPeriodClose = pricePeriod.Close;
 
