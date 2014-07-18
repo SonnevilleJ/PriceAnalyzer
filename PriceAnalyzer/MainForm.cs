@@ -10,19 +10,30 @@ using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Fidelity;
 using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.Implementation;
-using Sonneville.PriceTools.Yahoo;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
     public partial class MainForm : Form
     {
         private readonly PriceDataManager _priceDataManager = new PriceDataManager();
-        private readonly ChartFactory _chartFactory;
+        private readonly ChartFactory _chartFactory = new ChartFactory();
 
         public MainForm()
         {
             InitializeComponent();
-            _chartFactory = new ChartFactory();
+            var defaultChartStyle = (ChartStyles)Enum.Parse(typeof(ChartStyles), Settings.Default.ChartStyle);
+
+            SetDefaultChartStyle(defaultChartStyle);
+            this.candleStickToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.CandlestickChart;
+            this.oHLCToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.OpenHighLowClose;
+        }
+
+        private void SetDefaultChartStyle(ChartStyles defaultChartStyle)
+        {
+            view_ChartStyle_CandleStick.Checked = defaultChartStyle == ChartStyles.CandlestickChart;
+            view_ChartStyle_Ohlc.Checked = defaultChartStyle == ChartStyles.OpenHighLowClose;
+            Settings.Default.ChartStyle = defaultChartStyle.ToString();
+            Settings.Default.Save();
         }
 
         private void DownloadPriceData(string ticker, DateTime startDateTime, DateTime endDateTime)
@@ -84,7 +95,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private void DisplayChart(IList<IPricePeriod> pricePeriods, Control currentTab)
         {
             var currentElementHost = (ElementHost)currentTab.Controls[0];
-            var currentChart = (IChart)currentElementHost.Child;
+            var currentChart = (ChartBase)currentElementHost.Child;
 
             currentChart.DrawPricePeriods(pricePeriods);
         }
@@ -184,6 +195,37 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
                 DisplayDataInCurrentTab(priceSeries.PricePeriods.ToList(), "Portfolio");
             }
+        }
+
+        private void view_ChartStyle_CandleStick_Click(object sender, EventArgs e)
+        {
+            SetDefaultChartStyle(ChartStyles.CandlestickChart);
+        }
+
+        private void view_ChartStyle_Ohlc_Click(object sender, EventArgs e)
+        {
+            SetDefaultChartStyle(ChartStyles.OpenHighLowClose);
+        }
+
+        private void candleStickToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateViewSettings(new CandleStickChart());
+        }
+
+        private void oHLCToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateViewSettings(new OpenHighLowCloseChart());
+        }
+
+        private void UpdateViewSettings(ChartBase viewChart)
+        {
+            var elementHost = (ElementHost) tabControl1.SelectedTab.Controls[0];
+            var existingChart = (ChartBase)elementHost.Child;
+            var pricePeriods = existingChart.PricePeriods;
+            elementHost.Child = viewChart;
+            viewChart.DrawPricePeriods(pricePeriods);
+            oHLCToolStripMenuItem.Checked = viewChart is OpenHighLowCloseChart;
+            candleStickToolStripMenuItem.Checked = viewChart is CandleStickChart;
         }
     }
 }

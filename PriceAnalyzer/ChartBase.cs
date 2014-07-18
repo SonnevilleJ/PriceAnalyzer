@@ -8,9 +8,8 @@ using System.Windows.Shapes;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
-    public abstract class ChartBase : Grid, IChart
+    public abstract class ChartBase : Grid
     {
-        protected IList<IPricePeriod> _pricePeriods;
         protected readonly Canvas _canvas = new Canvas();
         private readonly Canvas _verticalCanvas = new Canvas();
         private readonly Canvas _horizontalCanvas = new Canvas();
@@ -40,30 +39,42 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             Children.Add(_canvas);
             Children.Add(_verticalCanvas);
             Children.Add(_horizontalCanvas);
-            SizeChanged += delegate { if (_pricePeriods != null) DrawChart(); };
+            SizeChanged += delegate { if (PricePeriods != null) DrawChart(); };
         }
+
+        public IList<IPricePeriod> PricePeriods { get; private set; }
 
         public void DrawPricePeriods(IList<IPricePeriod> pricePeriods)
         {
-            _pricePeriods = pricePeriods;
+            PricePeriods = pricePeriods;
             DrawChart();
         }
 
         private void DrawChart()
         {
-            var highestHigh = (double) _pricePeriods.Max(pricePeriod => pricePeriod.High);
-            var lowestLow = (double) _pricePeriods.Min(pricePeriod => pricePeriod.Low);
+            if (Equals0(_canvas.ActualHeight) || Equals0(_canvas.ActualWidth))
+            {
+                return;
+            }
+
+            var highestHigh = (double) PricePeriods.Max(pricePeriod => pricePeriod.High);
+            var lowestLow = (double) PricePeriods.Min(pricePeriod => pricePeriod.Low);
 
             var dollarRange = (highestHigh - lowestLow);
             var pixelsPerDollar = (_canvas.ActualHeight/dollarRange);
             DrawVerticalAxis(highestHigh, lowestLow, pixelsPerDollar);
 
-            var firstDay = _pricePeriods.Min(pricePeriod => pricePeriod.Head);
-            var lastDay = _pricePeriods.Max(pricePeriod => pricePeriod.Tail).AddDays(1);
+            var firstDay = PricePeriods.Min(pricePeriod => pricePeriod.Head);
+            var lastDay = PricePeriods.Max(pricePeriod => pricePeriod.Tail).AddDays(1);
             var pixelsPerDay = _canvas.ActualWidth/((lastDay - firstDay).Days + 1);
             DrawHorizontalAxis(firstDay, lastDay, pixelsPerDay);
             
             DrawCanvas(highestHigh, lowestLow, pixelsPerDollar, pixelsPerDay);
+        }
+
+        private bool Equals0(double value)
+        {
+            return Math.Abs(value) < 0.1;
         }
 
         private void DrawHorizontalAxis(DateTime firstDay, DateTime lastDay, double pixelsPerValue)

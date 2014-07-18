@@ -34,17 +34,24 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.chart1 = new ChartFactory().CreateNewChart();
+            this.chart1 = _chartFactory.CreateNewChart();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.defaultChartStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.view_ChartStyle_CandleStick = new System.Windows.Forms.ToolStripMenuItem();
+            this.view_ChartStyle_Ohlc = new System.Windows.Forms.ToolStripMenuItem();
+            this.chartStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.candleStickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.oHLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadStockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importPortfolioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.insertToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.importPortfolioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.mainMenu.SuspendLayout();
@@ -85,12 +92,13 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.elementHost1.Size = new System.Drawing.Size(814, 311);
             this.elementHost1.TabIndex = 7;
             this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = (UIElement) this.chart1;
+            this.elementHost1.Child = chart1;
             // 
             // mainMenu
             // 
             this.mainMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripMenuItem1,
+            this.viewToolStripMenuItem,
             this.dataToolStripMenuItem,
             this.insertToolStripMenuItem1});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
@@ -110,9 +118,64 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             // exitMenuItem
             // 
             this.exitMenuItem.Name = "exitMenuItem";
-            this.exitMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.exitMenuItem.Size = new System.Drawing.Size(92, 22);
             this.exitMenuItem.Text = "Exit";
             this.exitMenuItem.Click += new System.EventHandler(this.exitMenuItem_Click);
+            // 
+            // viewToolStripMenuItem
+            // 
+            this.viewToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.defaultChartStyleToolStripMenuItem,
+            this.chartStyleToolStripMenuItem});
+            this.viewToolStripMenuItem.Name = "viewToolStripMenuItem";
+            this.viewToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.viewToolStripMenuItem.Text = "&View";
+            // 
+            // defaultChartStyleToolStripMenuItem
+            // 
+            this.defaultChartStyleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.view_ChartStyle_CandleStick,
+            this.view_ChartStyle_Ohlc});
+            this.defaultChartStyleToolStripMenuItem.Name = "defaultChartStyleToolStripMenuItem";
+            this.defaultChartStyleToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.defaultChartStyleToolStripMenuItem.Text = "Default Chart Style";
+            // 
+            // view_ChartStyle_CandleStick
+            // 
+            this.view_ChartStyle_CandleStick.Name = "view_ChartStyle_CandleStick";
+            this.view_ChartStyle_CandleStick.Size = new System.Drawing.Size(135, 22);
+            this.view_ChartStyle_CandleStick.Text = "Candlestick";
+            this.view_ChartStyle_CandleStick.Click += new System.EventHandler(this.view_ChartStyle_CandleStick_Click);
+            // 
+            // view_ChartStyle_Ohlc
+            // 
+            this.view_ChartStyle_Ohlc.Name = "view_ChartStyle_Ohlc";
+            this.view_ChartStyle_Ohlc.Size = new System.Drawing.Size(135, 22);
+            this.view_ChartStyle_Ohlc.Text = "OHLC";
+            this.view_ChartStyle_Ohlc.Click += new System.EventHandler(this.view_ChartStyle_Ohlc_Click);
+            // 
+            // chartStyleToolStripMenuItem
+            // 
+            this.chartStyleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.candleStickToolStripMenuItem,
+            this.oHLCToolStripMenuItem});
+            this.chartStyleToolStripMenuItem.Name = "chartStyleToolStripMenuItem";
+            this.chartStyleToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
+            this.chartStyleToolStripMenuItem.Text = "Chart Style";
+            // 
+            // candleStickToolStripMenuItem
+            // 
+            this.candleStickToolStripMenuItem.Name = "candleStickToolStripMenuItem";
+            this.candleStickToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.candleStickToolStripMenuItem.Text = "Candle Stick";
+            this.candleStickToolStripMenuItem.Click += new System.EventHandler(this.candleStickToolStripMenuItem_Click);
+            // 
+            // oHLCToolStripMenuItem
+            // 
+            this.oHLCToolStripMenuItem.Name = "oHLCToolStripMenuItem";
+            this.oHLCToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.oHLCToolStripMenuItem.Text = "OHLC";
+            this.oHLCToolStripMenuItem.Click += new System.EventHandler(this.oHLCToolStripMenuItem_Click);
             // 
             // dataToolStripMenuItem
             // 
@@ -138,6 +201,13 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.importCSVToolStripMenuItem.Text = "Import CSV...";
             this.importCSVToolStripMenuItem.Click += new System.EventHandler(this.importCSVToolStripMenuItem_Click);
             // 
+            // importPortfolioToolStripMenuItem
+            // 
+            this.importPortfolioToolStripMenuItem.Name = "importPortfolioToolStripMenuItem";
+            this.importPortfolioToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
+            this.importPortfolioToolStripMenuItem.Text = "Import Portfolio...";
+            this.importPortfolioToolStripMenuItem.Click += new System.EventHandler(this.importPortfolioToolStripMenuItem_Click);
+            // 
             // insertToolStripMenuItem1
             // 
             this.insertToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -150,23 +220,16 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             // chartToolStripMenuItem
             // 
             this.chartToolStripMenuItem.Name = "chartToolStripMenuItem";
-            this.chartToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.chartToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.chartToolStripMenuItem.Text = "New &Chart tab";
             this.chartToolStripMenuItem.Click += new System.EventHandler(this.chartToolStripMenuItem_Click);
             // 
             // tableToolStripMenuItem
             // 
             this.tableToolStripMenuItem.Name = "tableToolStripMenuItem";
-            this.tableToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tableToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
             this.tableToolStripMenuItem.Text = "New &Table tab";
             this.tableToolStripMenuItem.Click += new System.EventHandler(this.tableToolStripMenuItem_Click);
-            // 
-            // importPortfolioToolStripMenuItem
-            // 
-            this.importPortfolioToolStripMenuItem.Name = "importPortfolioToolStripMenuItem";
-            this.importPortfolioToolStripMenuItem.Size = new System.Drawing.Size(169, 22);
-            this.importPortfolioToolStripMenuItem.Text = "Import Portfolio...";
-            this.importPortfolioToolStripMenuItem.Click += new System.EventHandler(this.importPortfolioToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -190,7 +253,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         #endregion
 
         private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private IChart chart1;
+        private ChartBase chart1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
@@ -204,6 +267,13 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private System.Windows.Forms.ToolStripMenuItem chartToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tableToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem importPortfolioToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem defaultChartStyleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem view_ChartStyle_CandleStick;
+        private System.Windows.Forms.ToolStripMenuItem view_ChartStyle_Ohlc;
+        private System.Windows.Forms.ToolStripMenuItem chartStyleToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem candleStickToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem oHLCToolStripMenuItem;
     }
 }
 

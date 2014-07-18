@@ -57,7 +57,6 @@
       <DependentUpon>DataEntryForm.cs</DependentUpon>
     </Compile>
     <Compile Include="OpenHighLowCloseChart.cs" />
-    <Compile Include="IChart.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -8,10 +8,10 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         {
             _canvas.Children.Clear();
 
-            var minX = _pricePeriods.First().Head;
+            var minX = PricePeriods.First().Head;
             decimal priorPeriodClose = 0;
             
-            foreach (var pricePeriod in _pricePeriods)
+            foreach (var pricePeriod in PricePeriods)
             {
                 var closeColorBrush = CloseColorBrush(priorPeriodClose, pricePeriod.Close);
                 var x = ((pricePeriod.Head - minX).Days*pixelsPerDay) + (.5*pixelsPerDay);

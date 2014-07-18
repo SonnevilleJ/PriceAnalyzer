@@ -4,9 +4,9 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 {
     public class ChartFactory
     {
-        public IChart CreateNewChart()
+        public ChartBase CreateNewChart()
         {
-            var chartStyle = GetChartStyle(Settings.Default);
+            var chartStyle = (ChartStyles) Enum.Parse(typeof (ChartStyles), Settings.Default.ChartStyle);
 
             switch (chartStyle)
             {
@@ -16,11 +16,6 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                     return new OpenHighLowCloseChart();
             }
             throw new NotSupportedException();
-        }
-
-        private static ChartStyles GetChartStyle(Settings settings)
-        {
-            return (ChartStyles) Enum.Parse(typeof (ChartStyles), settings.ChartStyle);
         }
     }
 }
