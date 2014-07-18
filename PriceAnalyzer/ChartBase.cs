@@ -64,10 +64,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             var pixelsPerDollar = (_canvas.ActualHeight/dollarRange);
             DrawVerticalAxis(highestHigh, lowestLow, pixelsPerDollar);
 
-            var firstDay = PricePeriods.Min(pricePeriod => pricePeriod.Head);
-            var lastDay = PricePeriods.Max(pricePeriod => pricePeriod.Tail).AddDays(1);
-            var pixelsPerDay = _canvas.ActualWidth/((lastDay - firstDay).Days + 1);
-            DrawHorizontalAxis(firstDay, lastDay, pixelsPerDay);
+            var pixelsPerDay = _canvas.ActualWidth/PricePeriods.Count;
+            DrawHorizontalAxis(pixelsPerDay);
             
             DrawCanvas(highestHigh, lowestLow, pixelsPerDollar, pixelsPerDay);
         }
@@ -77,19 +75,18 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             return Math.Abs(value) < 0.1;
         }
 
-        private void DrawHorizontalAxis(DateTime firstDay, DateTime lastDay, double pixelsPerValue)
+        private void DrawHorizontalAxis(double pixelsPerPeriod)
         {
             _horizontalCanvas.Children.Clear();
 
-            const int minimumPixelsPerTick = 60;
-            const double maximumTicks = 10;
-            var pixelsPerTick = Math.Max(_horizontalCanvas.ActualWidth / maximumTicks, minimumPixelsPerTick);
-            var valuesBetweenTicks = pixelsPerTick / pixelsPerValue;
-            for (var i = firstDay; i < lastDay; i = i.AddDays(valuesBetweenTicks))
+            const int minimumPixelsPerTick = 80;
+            var pixelsPerTick = Math.Max(_horizontalCanvas.ActualWidth / PricePeriods.Count, minimumPixelsPerTick);
+            var valuesBetweenTicks = pixelsPerTick / pixelsPerPeriod;
+            for (var i = 0; i < PricePeriods.Count; i += (int)Math.Round(valuesBetweenTicks, 0))
             {
-                var location = (i - firstDay).Days*pixelsPerValue + (.5*pixelsPerValue);
+                var location = (i*pixelsPerPeriod) + (.5*pixelsPerPeriod);
                 DrawLine(location, 0, 5, 0, _horizontalCanvas);
-                DrawValue(i.ToShortDateString(), 7, location - 25, _horizontalCanvas);
+                DrawValue(PricePeriods[i].Head.ToShortDateString(), 7, location - 25, _horizontalCanvas);
             }
             var separator = CreateLine(0, 0, _horizontalCanvas.ActualWidth, 0, Brushes.DarkBlue);
             _horizontalCanvas.Children.Add(separator);

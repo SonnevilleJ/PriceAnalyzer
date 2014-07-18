@@ -15,16 +15,17 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             var minX = PricePeriods.First().Head.CurrentPeriodOpen(Resolution.Days);
             decimal priorPeriodClose = 0;
 
-            foreach (var pricePeriod in PricePeriods)
+            for (var i = 0; i < PricePeriods.Count; i++)
             {
+                var pricePeriod = PricePeriods[i];
                 var brush = CloseColorBrush(priorPeriodClose, pricePeriod.Close);
-                var leftX = ((pricePeriod.Head - minX).Days * pixelsPerDay) + (.25 * pixelsPerDay);
-                var centerX = leftX + (.25 * pixelsPerDay);
-                var rightX = centerX + (.25 * pixelsPerDay);
-                var lowY = _canvas.ActualHeight - ((double)pricePeriod.Low - minYdollar) * pixelsPerDollar;
+                var leftX = (i*pixelsPerDay) + (.25*pixelsPerDay);
+                var centerX = leftX + (.25*pixelsPerDay);
+                var rightX = centerX + (.25*pixelsPerDay);
+                var lowY = _canvas.ActualHeight - ((double) pricePeriod.Low - minYdollar)*pixelsPerDollar;
                 var highY = (maxYdollar - (double) pricePeriod.High)*pixelsPerDollar;
-                var openY = _canvas.ActualHeight - ((double)pricePeriod.Open - minYdollar) * pixelsPerDollar;
-                var closeY = _canvas.ActualHeight - ((double)pricePeriod.Close - minYdollar) * pixelsPerDollar;
+                var openY = _canvas.ActualHeight - ((double) pricePeriod.Open - minYdollar)*pixelsPerDollar;
+                var closeY = _canvas.ActualHeight - ((double) pricePeriod.Close - minYdollar)*pixelsPerDollar;
                 priorPeriodClose = pricePeriod.Close;
 
 
