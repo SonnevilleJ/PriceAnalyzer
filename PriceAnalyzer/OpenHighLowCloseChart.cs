@@ -8,7 +8,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         {
             _canvas.Children.Clear();
 
-            var minX = PricePeriods.First().Head;
+            var minX = PricePeriods.First().Head.CurrentPeriodOpen(Resolution.Days);
             decimal priorPeriodClose = 0;
             
             foreach (var pricePeriod in PricePeriods)
