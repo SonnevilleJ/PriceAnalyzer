@@ -207,12 +207,12 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void candleStickToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UpdateViewSettings(new CandleStickChart());
+            UpdateViewSettings(new CandleStickRenderer());
         }
 
         private void oHLCToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            UpdateViewSettings(new OpenHighLowCloseChart());
+            UpdateViewSettings(new OpenHighLowCloseRenderer());
         }
 
         private void UpdateViewSettings(IRenderer renderer)
@@ -221,8 +221,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             var existingChart = (Chart)elementHost.Child;
             var pricePeriods = existingChart.PricePeriods;
             existingChart.DrawPricePeriods(pricePeriods, renderer);
-            oHLCToolStripMenuItem.Checked = renderer is OpenHighLowCloseChart;
-            candleStickToolStripMenuItem.Checked = renderer is CandleStickChart;
+            oHLCToolStripMenuItem.Checked = renderer is OpenHighLowCloseRenderer;
+            candleStickToolStripMenuItem.Checked = renderer is CandleStickRenderer;
         }
     }
 }

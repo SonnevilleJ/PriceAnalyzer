@@ -46,7 +46,7 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CandleStickChart.cs" />
+    <Compile Include="CandleStickRenderer.cs" />
     <Compile Include="RendererFactory.cs" />
     <Compile Include="ChartStyles.cs" />
     <Compile Include="DataEntryForm.cs">
@@ -57,7 +57,7 @@
     </Compile>
     <Compile Include="IRenderer.cs" />
     <Compile Include="MainFormViewModel.cs" />
-    <Compile Include="OpenHighLowCloseChart.cs" />
+    <Compile Include="OpenHighLowCloseRenderer.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
