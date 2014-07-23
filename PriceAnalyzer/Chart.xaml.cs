@@ -20,44 +20,45 @@ namespace Sonneville.PriceTools.PriceAnalyzer
     /// </summary>
     public partial class Chart : UserControl
     {
-        private IRenderer _renderer;
-        private readonly RendererFactory _rendererFactory = new RendererFactory();
+        private IEnumerable<KeyValuePair<IList<IPricePeriod>, IRenderer>> Dictionary { get; set; }
 
         public Chart()
         {
             InitializeComponent();
-            SizeChanged += delegate { if (PricePeriods != null) DrawChart(PricePeriods, Renderer); };
+            SizeChanged += (sender, args) => Redraw();
         }
 
-        public IList<IPricePeriod> PricePeriods { get; private set; }
-
-        private IRenderer Renderer
+        public void Draw(IEnumerable<KeyValuePair<IList<IPricePeriod>, IRenderer>> dictionary)
         {
-            get { return _renderer ?? _rendererFactory.CreateNewRenderer(); }
+            Dictionary = dictionary;
+            Horizontal.PricePeriods = Dictionary.First().Key;
+            
+            Redraw();
         }
 
-        public void DrawPricePeriods(IEnumerable<KeyValuePair<IList<IPricePeriod>, IRenderer>> dictionary)
+        private void Redraw()
         {
-            _canvas.Children.Clear();
-            foreach (var kvp in dictionary)
+            if (Dictionary != null)
             {
-                Horizontal.PricePeriods = kvp.Key;
-                DrawChart(kvp.Key, kvp.Value);
+                Clear();
+                DrawAllDatasets(Dictionary);
             }
         }
 
-        public void DrawPricePeriods(IList<IPricePeriod> pricePeriods, IRenderer renderer)
+        private void Clear()
         {
-            _renderer = renderer;
-            PricePeriods = pricePeriods;
-            Horizontal.PricePeriods = pricePeriods;
-            
             _canvas.Children.Clear();
-            
-            DrawChart(PricePeriods, Renderer);
         }
 
-        private void DrawChart(IList<IPricePeriod> pricePeriods, IRenderer renderer)
+        private void DrawAllDatasets(IEnumerable<KeyValuePair<IList<IPricePeriod>, IRenderer>> dictionary)
+        {
+            foreach (var kvp in dictionary)
+            {
+                DrawSingleDataset(kvp.Key, kvp.Value);
+            }
+        }
+
+        private void DrawSingleDataset(IList<IPricePeriod> pricePeriods, IRenderer renderer)
         {
             if (Equals0(_canvas.ActualHeight) || Equals0(_canvas.ActualWidth))
             {

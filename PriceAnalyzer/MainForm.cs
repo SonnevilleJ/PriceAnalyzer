@@ -250,7 +250,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             var currentElementHost = (ElementHost) currentTab.Controls[0];
             var currentChart = (Chart) currentElementHost.Child;
 
-            currentChart.DrawPricePeriods(_currentChartData);
+            currentChart.Draw(_currentChartData);
         }
     }
 }
