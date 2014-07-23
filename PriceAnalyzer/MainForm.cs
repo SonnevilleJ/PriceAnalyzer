@@ -15,8 +15,9 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 {
     public partial class MainForm : Form
     {
-        private readonly PriceDataManager _priceDataManager = new PriceDataManager();
         private readonly ChartFactory _chartFactory = new ChartFactory();
+        private readonly MainFormViewModel _viewModel = new MainFormViewModel();
+        private readonly DataEntryForm _dataEntryForm = new DataEntryForm();
 
         public MainForm()
         {
@@ -38,12 +39,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void DownloadPriceData(string ticker, DateTime startDateTime, DateTime endDateTime)
         {
-            this.Cursor = Cursors.WaitCursor;
-
-            var pricePeriods = _priceDataManager.DownloadPricePeriods(ticker, startDateTime, endDateTime);
+            var pricePeriods = _viewModel.Download(ticker, startDateTime, endDateTime);
             DisplayDataInCurrentTab(pricePeriods, ticker);
-
-            this.Cursor = Cursors.Default;
         }
 
         private void ImportCsv()
@@ -52,10 +49,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             if (dialogResult == DialogResult.OK)
             {
                 var fullFileName = openFileDialog1.FileName;
-                var pricePeriods = _priceDataManager.ParseCsvFile(fullFileName);
-                var fileName = new FileInfo(fullFileName).Name;
-                var ticker = fileName.Substring(0, fileName.IndexOf("."));
-                DisplayDataInCurrentTab(pricePeriods, ticker);
+                var pricePeriods = _viewModel.OpenFile(fullFileName);
+                DisplayDataInCurrentTab(pricePeriods, _viewModel.Ticker);
             }
         }
 
@@ -100,9 +95,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             currentChart.DrawPricePeriods(pricePeriods);
         }
 
-        private void DownloadStockData()
+        private void DownloadStockData(DataEntryForm dataEntryForm)
         {
-            var dataEntryForm = new DataEntryForm();
             var dialogResult = dataEntryForm.ShowDialog();
 
             if (dialogResult == DialogResult.OK)
@@ -150,7 +144,11 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void downloadStockToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            DownloadStockData();
+            this.Cursor = Cursors.WaitCursor;
+
+            DownloadStockData(_dataEntryForm);
+            
+            this.Cursor = Cursors.Default;
         }
 
         private void exitMenuItem_Click(object sender, EventArgs e)

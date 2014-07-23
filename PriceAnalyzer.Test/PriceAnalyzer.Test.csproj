@@ -37,6 +37,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
   </ItemGroup>
   <Choose>
@@ -48,10 +49,25 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="MainFormViewModelTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\PriceAnalyzer\PriceAnalyzer.csproj">
+      <Project>{38151461-5A2A-4351-BCD6-C818FFBDFB77}</Project>
+      <Name>PriceAnalyzer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PriceTools\PriceTools.csproj">
+      <Project>{fbe4a744-cacd-4ccc-9746-1692ab3b606b}</Project>
+      <Name>PriceTools</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SampleData\SampleData.csproj">
+      <Project>{E12C0FC1-733B-4DEC-A7D7-EA0A9F1CFA9B}</Project>
+      <Name>SampleData</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
