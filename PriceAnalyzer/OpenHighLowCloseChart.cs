@@ -1,31 +1,53 @@
-﻿namespace Sonneville.PriceTools.PriceAnalyzer
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
+using System.Windows.Media;
+using System.Windows.Shapes;
+
+namespace Sonneville.PriceTools.PriceAnalyzer
 {
-    public class OpenHighLowCloseChart : ChartBase
+    public class OpenHighLowCloseChart : IRenderer
     {
-        protected override void DrawCanvas(double maxYdollar, double minYdollar, double pixelsPerDollar, double pixelsPerDay)
+        public void DrawCanvas(double maxYdollar, double minYdollar, double pixelsPerDollar, double pixelsPerDay, Canvas canvas, IList<IPricePeriod> pricePeriods)
         {
-            _canvas.Children.Clear();
+            canvas.Children.Clear();
 
             decimal priorPeriodClose = 0;
 
-            for (var i = 0; i < PricePeriods.Count; i++)
+            for (var i = 0; i < pricePeriods.Count; i++)
             {
-                var pricePeriod = PricePeriods[i];
+                var pricePeriod = pricePeriods[i];
                 var closeColorBrush = CloseColorBrush(priorPeriodClose, pricePeriod.Close);
                 var x = (i*pixelsPerDay) + (.5*pixelsPerDay);
                 var highLowBar = CreateLine(x,
-                    _canvas.ActualHeight - ((double) pricePeriod.Low - minYdollar)*pixelsPerDollar, x,
+                    canvas.ActualHeight - ((double) pricePeriod.Low - minYdollar)*pixelsPerDollar, x,
                     (maxYdollar - (double) pricePeriod.High)*pixelsPerDollar, closeColorBrush);
-                var openY = _canvas.ActualHeight - ((double) pricePeriod.Open - minYdollar)*pixelsPerDollar;
+                var openY = canvas.ActualHeight - ((double) pricePeriod.Open - minYdollar)*pixelsPerDollar;
                 var openBar = CreateLine(x - (pixelsPerDay*.25), openY, x, openY, closeColorBrush);
-                var closeY = _canvas.ActualHeight - ((double) pricePeriod.Close - minYdollar)*pixelsPerDollar;
+                var closeY = canvas.ActualHeight - ((double) pricePeriod.Close - minYdollar)*pixelsPerDollar;
                 var closeBar = CreateLine(x + (pixelsPerDay*.25), closeY, x, closeY, closeColorBrush);
                 priorPeriodClose = pricePeriod.Close;
 
-                _canvas.Children.Add(highLowBar);
-                _canvas.Children.Add(openBar);
-                _canvas.Children.Add(closeBar);
+                canvas.Children.Add(highLowBar);
+                canvas.Children.Add(openBar);
+                canvas.Children.Add(closeBar);
             }
+        }
+
+        private static Brush CloseColorBrush(decimal priorPeriodClose, decimal currentPeriodClose)
+        {
+            if (priorPeriodClose < currentPeriodClose)
+            {
+                return Brushes.Black;
+            }
+            else
+            {
+                return Brushes.Firebrick;
+            }
+        }
+
+        private static Line CreateLine(double x1, double y1, double x2, double y2, Brush stroke)
+        {
+            return new Line { X1 = x1, Y1 = y1, X2 = x2, Y2 = y2, Stroke = stroke };
         }
     }
 }

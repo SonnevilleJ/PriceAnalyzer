@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -6,26 +7,25 @@ using System.Windows.Shapes;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
-    public class CandleStickChart : ChartBase
+    public class CandleStickChart : IRenderer
     {
-        protected override void DrawCanvas(double maxYdollar, double minYdollar, double pixelsPerDollar, double pixelsPerDay)
+        public void DrawCanvas(double maxYdollar, double minYdollar, double pixelsPerDollar, double pixelsPerDay, Canvas canvas, IList<IPricePeriod> pricePeriods)
         {
-            _canvas.Children.Clear();
+            canvas.Children.Clear();
 
-            var minX = PricePeriods.First().Head.CurrentPeriodOpen(Resolution.Days);
             decimal priorPeriodClose = 0;
 
-            for (var i = 0; i < PricePeriods.Count; i++)
+            for (var i = 0; i < pricePeriods.Count; i++)
             {
-                var pricePeriod = PricePeriods[i];
+                var pricePeriod = pricePeriods[i];
                 var brush = CloseColorBrush(priorPeriodClose, pricePeriod.Close);
                 var leftX = (i*pixelsPerDay) + (.25*pixelsPerDay);
                 var centerX = leftX + (.25*pixelsPerDay);
                 var rightX = centerX + (.25*pixelsPerDay);
-                var lowY = _canvas.ActualHeight - ((double) pricePeriod.Low - minYdollar)*pixelsPerDollar;
+                var lowY = canvas.ActualHeight - ((double) pricePeriod.Low - minYdollar)*pixelsPerDollar;
                 var highY = (maxYdollar - (double) pricePeriod.High)*pixelsPerDollar;
-                var openY = _canvas.ActualHeight - ((double) pricePeriod.Open - minYdollar)*pixelsPerDollar;
-                var closeY = _canvas.ActualHeight - ((double) pricePeriod.Close - minYdollar)*pixelsPerDollar;
+                var openY = canvas.ActualHeight - ((double) pricePeriod.Open - minYdollar)*pixelsPerDollar;
+                var closeY = canvas.ActualHeight - ((double) pricePeriod.Close - minYdollar)*pixelsPerDollar;
                 priorPeriodClose = pricePeriod.Close;
 
 
@@ -41,10 +41,27 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
                 var lowLine = CreateLine(centerX, Math.Max(openY, closeY), centerX, lowY, brush);
                 var highLine = CreateLine(centerX, Math.Min(openY, closeY), centerX, highY, brush);
-                _canvas.Children.Add(body);
-                _canvas.Children.Add(lowLine);
-                _canvas.Children.Add(highLine);
+                canvas.Children.Add(body);
+                canvas.Children.Add(lowLine);
+                canvas.Children.Add(highLine);
             }
+        }
+
+        private static Brush CloseColorBrush(decimal priorPeriodClose, decimal currentPeriodClose)
+        {
+            if (priorPeriodClose < currentPeriodClose)
+            {
+                return Brushes.Black;
+            }
+            else
+            {
+                return Brushes.Firebrick;
+            }
+        }
+
+        protected static Line CreateLine(double x1, double y1, double x2, double y2, Brush stroke)
+        {
+            return new Line { X1 = x1, Y1 = y1, X2 = x2, Y2 = y2, Stroke = stroke };
         }
     }
 }

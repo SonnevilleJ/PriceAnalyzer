@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 {
     public partial class MainForm : Form
     {
-        private readonly ChartFactory _chartFactory = new ChartFactory();
+        private readonly RendererFactory _rendererFactory = new RendererFactory();
         private readonly MainFormViewModel _viewModel = new MainFormViewModel();
         private readonly DataEntryForm _dataEntryForm = new DataEntryForm();
 
@@ -90,9 +90,9 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private void DisplayChart(IList<IPricePeriod> pricePeriods, Control currentTab)
         {
             var currentElementHost = (ElementHost)currentTab.Controls[0];
-            var currentChart = (ChartBase)currentElementHost.Child;
+            var currentChart = (Chart)currentElementHost.Child;
 
-            currentChart.DrawPricePeriods(pricePeriods);
+            currentChart.DrawPricePeriods(pricePeriods, renderer1);
         }
 
         private void DownloadStockData(DataEntryForm dataEntryForm)
@@ -113,7 +113,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         {
             var newTab = new TabPage(tabControl1.TabCount.ToString());
             var newElementHost = new ElementHost();
-            var newChart = _chartFactory.CreateNewChart();
+            var newChart = _rendererFactory.CreateNewRenderer();
 
             this.tabControl1.TabPages.Add(newTab);
             newTab.Controls.Add(newElementHost);
@@ -215,15 +215,14 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             UpdateViewSettings(new OpenHighLowCloseChart());
         }
 
-        private void UpdateViewSettings(ChartBase viewChart)
+        private void UpdateViewSettings(IRenderer renderer)
         {
             var elementHost = (ElementHost) tabControl1.SelectedTab.Controls[0];
-            var existingChart = (ChartBase)elementHost.Child;
+            var existingChart = (Chart)elementHost.Child;
             var pricePeriods = existingChart.PricePeriods;
-            elementHost.Child = viewChart;
-            viewChart.DrawPricePeriods(pricePeriods);
-            oHLCToolStripMenuItem.Checked = viewChart is OpenHighLowCloseChart;
-            candleStickToolStripMenuItem.Checked = viewChart is CandleStickChart;
+            existingChart.DrawPricePeriods(pricePeriods, renderer);
+            oHLCToolStripMenuItem.Checked = renderer is OpenHighLowCloseChart;
+            candleStickToolStripMenuItem.Checked = renderer is CandleStickChart;
         }
     }
 }

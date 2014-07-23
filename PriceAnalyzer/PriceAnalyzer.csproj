@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CandleStickChart.cs" />
-    <Compile Include="ChartFactory.cs" />
+    <Compile Include="RendererFactory.cs" />
     <Compile Include="ChartStyles.cs" />
     <Compile Include="DataEntryForm.cs">
       <SubType>Form</SubType>
@@ -55,6 +55,7 @@
     <Compile Include="DataEntryForm.Designer.cs">
       <DependentUpon>DataEntryForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="IRenderer.cs" />
     <Compile Include="MainFormViewModel.cs" />
     <Compile Include="OpenHighLowCloseChart.cs" />
     <Compile Include="MainForm.cs">
@@ -71,8 +72,8 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="ChartBase.xaml.cs">
-      <DependentUpon>ChartBase.xaml</DependentUpon>
+    <Compile Include="Chart.xaml.cs">
+      <DependentUpon>Chart.xaml</DependentUpon>
     </Compile>
     <Compile Include="VerticalAxis.cs" />
     <Compile Include="HorizontalAxis.cs" />
@@ -136,7 +137,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="ChartBase.xaml">
+    <Page Include="Chart.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

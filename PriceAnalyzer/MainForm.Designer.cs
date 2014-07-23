@@ -34,7 +34,6 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.chart1 = _chartFactory.CreateNewChart();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -52,6 +51,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.insertToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.chart1 = new Sonneville.PriceTools.PriceAnalyzer.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.mainMenu.SuspendLayout();
@@ -92,7 +92,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.elementHost1.Size = new System.Drawing.Size(814, 311);
             this.elementHost1.TabIndex = 7;
             this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = chart1;
+            this.elementHost1.Child = this.chart1;
             // 
             // mainMenu
             // 
@@ -166,14 +166,14 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             // candleStickToolStripMenuItem
             // 
             this.candleStickToolStripMenuItem.Name = "candleStickToolStripMenuItem";
-            this.candleStickToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.candleStickToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.candleStickToolStripMenuItem.Text = "Candle Stick";
             this.candleStickToolStripMenuItem.Click += new System.EventHandler(this.candleStickToolStripMenuItem_Click);
             // 
             // oHLCToolStripMenuItem
             // 
             this.oHLCToolStripMenuItem.Name = "oHLCToolStripMenuItem";
-            this.oHLCToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.oHLCToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.oHLCToolStripMenuItem.Text = "OHLC";
             this.oHLCToolStripMenuItem.Click += new System.EventHandler(this.oHLCToolStripMenuItem_Click);
             // 
@@ -253,7 +253,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         #endregion
 
         private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private ChartBase chart1;
+        private IRenderer renderer1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
@@ -274,6 +274,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private System.Windows.Forms.ToolStripMenuItem chartStyleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem candleStickToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oHLCToolStripMenuItem;
+        private Chart chart1;
     }
 }
 
