@@ -34,6 +34,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.chart1 = new Sonneville.PriceTools.PriceAnalyzer.Chart();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,9 +42,11 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.defaultChartStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.view_ChartStyle_CandleStick = new System.Windows.Forms.ToolStripMenuItem();
             this.view_ChartStyle_Ohlc = new System.Windows.Forms.ToolStripMenuItem();
+            this.view_DefaultChartStyle_Line = new System.Windows.Forms.ToolStripMenuItem();
             this.chartStyleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.candleStickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.oHLCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lineToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.downloadStockToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.importCSVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -51,7 +54,6 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.insertToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.chart1 = new Sonneville.PriceTools.PriceAnalyzer.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.mainMenu.SuspendLayout();
@@ -135,7 +137,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             // 
             this.defaultChartStyleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.view_ChartStyle_CandleStick,
-            this.view_ChartStyle_Ohlc});
+            this.view_ChartStyle_Ohlc,
+            this.view_DefaultChartStyle_Line});
             this.defaultChartStyleToolStripMenuItem.Name = "defaultChartStyleToolStripMenuItem";
             this.defaultChartStyleToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.defaultChartStyleToolStripMenuItem.Text = "Default Chart Style";
@@ -143,22 +146,30 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             // view_ChartStyle_CandleStick
             // 
             this.view_ChartStyle_CandleStick.Name = "view_ChartStyle_CandleStick";
-            this.view_ChartStyle_CandleStick.Size = new System.Drawing.Size(135, 22);
+            this.view_ChartStyle_CandleStick.Size = new System.Drawing.Size(152, 22);
             this.view_ChartStyle_CandleStick.Text = "Candlestick";
             this.view_ChartStyle_CandleStick.Click += new System.EventHandler(this.view_ChartStyle_CandleStick_Click);
             // 
             // view_ChartStyle_Ohlc
             // 
             this.view_ChartStyle_Ohlc.Name = "view_ChartStyle_Ohlc";
-            this.view_ChartStyle_Ohlc.Size = new System.Drawing.Size(135, 22);
+            this.view_ChartStyle_Ohlc.Size = new System.Drawing.Size(152, 22);
             this.view_ChartStyle_Ohlc.Text = "OHLC";
             this.view_ChartStyle_Ohlc.Click += new System.EventHandler(this.view_ChartStyle_Ohlc_Click);
+            // 
+            // view_DefaultChartStyle_Line
+            // 
+            this.view_DefaultChartStyle_Line.Name = "view_DefaultChartStyle_Line";
+            this.view_DefaultChartStyle_Line.Size = new System.Drawing.Size(152, 22);
+            this.view_DefaultChartStyle_Line.Text = "Line";
+            this.view_DefaultChartStyle_Line.Click += new System.EventHandler(this.view_ChartStyle_Line_Click);
             // 
             // chartStyleToolStripMenuItem
             // 
             this.chartStyleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.candleStickToolStripMenuItem,
-            this.oHLCToolStripMenuItem});
+            this.oHLCToolStripMenuItem,
+            this.lineToolStripMenuItem});
             this.chartStyleToolStripMenuItem.Name = "chartStyleToolStripMenuItem";
             this.chartStyleToolStripMenuItem.Size = new System.Drawing.Size(172, 22);
             this.chartStyleToolStripMenuItem.Text = "Chart Style";
@@ -176,6 +187,13 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.oHLCToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
             this.oHLCToolStripMenuItem.Text = "OHLC";
             this.oHLCToolStripMenuItem.Click += new System.EventHandler(this.oHLCToolStripMenuItem_Click);
+            // 
+            // lineToolStripMenuItem
+            // 
+            this.lineToolStripMenuItem.Name = "lineToolStripMenuItem";
+            this.lineToolStripMenuItem.Size = new System.Drawing.Size(139, 22);
+            this.lineToolStripMenuItem.Text = "Line";
+            this.lineToolStripMenuItem.Click += new System.EventHandler(this.lineToolStripMenuItem_Click);
             // 
             // dataToolStripMenuItem
             // 
@@ -275,6 +293,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private System.Windows.Forms.ToolStripMenuItem candleStickToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem oHLCToolStripMenuItem;
         private Chart chart1;
+        private System.Windows.Forms.ToolStripMenuItem lineToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem view_DefaultChartStyle_Line;
     }
 }
 

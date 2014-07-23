@@ -10,6 +10,7 @@ using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Fidelity;
 using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.Implementation;
+using Control = System.Windows.Forms.Control;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
@@ -18,21 +19,26 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private readonly RendererFactory _rendererFactory = new RendererFactory();
         private readonly MainFormViewModel _viewModel = new MainFormViewModel();
         private readonly DataEntryForm _dataEntryForm = new DataEntryForm();
+        private List<KeyValuePair<IList<IPricePeriod>, IRenderer>> _currentChartData;
 
         public MainForm()
         {
+            renderer1 = _rendererFactory.CreateNewRenderer();
             InitializeComponent();
+
             var defaultChartStyle = (ChartStyles)Enum.Parse(typeof(ChartStyles), Settings.Default.ChartStyle);
 
             SetDefaultChartStyle(defaultChartStyle);
             this.candleStickToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.CandlestickChart;
             this.oHLCToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.OpenHighLowClose;
+            this.lineToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.Line;
         }
 
         private void SetDefaultChartStyle(ChartStyles defaultChartStyle)
         {
             view_ChartStyle_CandleStick.Checked = defaultChartStyle == ChartStyles.CandlestickChart;
             view_ChartStyle_Ohlc.Checked = defaultChartStyle == ChartStyles.OpenHighLowClose;
+            view_DefaultChartStyle_Line.Checked = defaultChartStyle == ChartStyles.Line;
             Settings.Default.ChartStyle = defaultChartStyle.ToString();
             Settings.Default.Save();
         }
@@ -89,10 +95,14 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void DisplayChart(IList<IPricePeriod> pricePeriods, Control currentTab)
         {
-            var currentElementHost = (ElementHost)currentTab.Controls[0];
-            var currentChart = (Chart)currentElementHost.Child;
-
-            currentChart.DrawPricePeriods(pricePeriods, renderer1);
+            var priceSeries = new PriceSeriesFactory().ConstructPriceSeries("");
+            priceSeries.AddPriceData(pricePeriods);
+            _currentChartData = new List<KeyValuePair<IList<IPricePeriod>, IRenderer>>
+            {
+//                new KeyValuePair<IList<IPricePeriod>, IRenderer>(pricePeriods, new CandleStickRenderer()),
+                new KeyValuePair<IList<IPricePeriod>, IRenderer>(pricePeriods, renderer1)
+            };
+            RedrawChart(currentTab);
         }
 
         private void DownloadStockData(DataEntryForm dataEntryForm)
@@ -205,6 +215,11 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             SetDefaultChartStyle(ChartStyles.OpenHighLowClose);
         }
 
+        private void view_ChartStyle_Line_Click(object sender, EventArgs e)
+        {
+            SetDefaultChartStyle(ChartStyles.Line);
+        }
+
         private void candleStickToolStripMenuItem_Click(object sender, EventArgs e)
         {
             UpdateViewSettings(new CandleStickRenderer());
@@ -215,14 +230,27 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             UpdateViewSettings(new OpenHighLowCloseRenderer());
         }
 
+        private void lineToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            UpdateViewSettings(new LineRenderer());
+        }
+
         private void UpdateViewSettings(IRenderer renderer)
         {
-            var elementHost = (ElementHost) tabControl1.SelectedTab.Controls[0];
-            var existingChart = (Chart)elementHost.Child;
-            var pricePeriods = existingChart.PricePeriods;
-            existingChart.DrawPricePeriods(pricePeriods, renderer);
+            _currentChartData[0] = new KeyValuePair<IList<IPricePeriod>, IRenderer>(_currentChartData.First().Key, renderer);
+            RedrawChart(tabControl1.SelectedTab);
+
             oHLCToolStripMenuItem.Checked = renderer is OpenHighLowCloseRenderer;
             candleStickToolStripMenuItem.Checked = renderer is CandleStickRenderer;
+            lineToolStripMenuItem.Checked = renderer is LineRenderer;
+        }
+
+        private void RedrawChart(Control currentTab)
+        {
+            var currentElementHost = (ElementHost) currentTab.Controls[0];
+            var currentChart = (Chart) currentElementHost.Child;
+
+            currentChart.DrawPricePeriods(_currentChartData);
         }
     }
 }

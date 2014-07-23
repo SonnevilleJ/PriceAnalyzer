@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CandleStickRenderer.cs" />
+    <Compile Include="LineRenderer.cs" />
     <Compile Include="RendererFactory.cs" />
     <Compile Include="ChartStyles.cs" />
     <Compile Include="DataEntryForm.cs">

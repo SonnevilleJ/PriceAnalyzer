@@ -10,6 +10,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
             switch (chartStyle)
             {
+                case ChartStyles.Line:
+                    return new LineRenderer();
                 case ChartStyles.CandlestickChart:
                     return new CandleStickRenderer();
                 case ChartStyles.OpenHighLowClose:
