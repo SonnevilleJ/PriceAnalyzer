@@ -45,6 +45,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DecreaseInvestmentLogic.cs" />
     <Compile Include="Extensions\TransactionExtensions.cs" />
     <Compile Include="Factories\IPortfolioFactory.cs" />
     <Compile Include="Factories\IPositionFactory.cs" />
@@ -53,6 +54,7 @@
     <Compile Include="FlatCommissionSchedule.cs" />
     <Compile Include="Implementation\Portfolio.cs" />
     <Compile Include="Implementation\Position.cs" />
+    <Compile Include="IncreaseInvestmentLogic.cs" />
     <Compile Include="Interfaces\IBrokerage.cs" />
     <Compile Include="Interfaces\ICommissionSchedule.cs" />
     <Compile Include="Interfaces\IMarginSchedule.cs" />
@@ -70,6 +72,7 @@
     <Compile Include="TradingAccountFeatures.cs" />
     <Compile Include="TradingAccountFeaturesFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TradingEngine.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">
