@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Extensions
 {
     public static class TransactionExtensions
     {
-        public static void ApplyToPortfolio(this Transaction transaction, Portfolio portfolio)
+        public static void ApplyToPortfolio(this ITransaction transaction, IPortfolio portfolio)
         {
             var dividendReceipt = transaction as DividendReceipt;
             var deposit = transaction as Deposit;

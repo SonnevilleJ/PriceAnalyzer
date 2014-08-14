@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// <summary>
         /// The portfolio of transactions recorded by this TradingAccount.
         /// </summary>
-        Portfolio Portfolio { get; }
+        IPortfolio Portfolio { get; }
 
         /// <summary>
         /// The account number identifying this account at the <see cref="IBrokerage"/>.

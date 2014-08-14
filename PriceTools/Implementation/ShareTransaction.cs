@@ -3,11 +3,49 @@ using System.Globalization;
 
 namespace Sonneville.PriceTools.Implementation
 {
+    public interface IShareTransaction : ITransaction, IEquatable<IShareTransaction>
+    {
+        /// <summary>
+        ///   Gets the ticker symbol of the security traded in this ShareTransaction.
+        /// </summary>
+        string Ticker { get; }
+
+        /// <summary>
+        ///   Gets the amount of securities traded in this ShareTransaction.
+        /// </summary>
+        decimal Shares { get; }
+
+        /// <summary>
+        ///   Gets the value of all securities traded in this ShareTransaction.
+        /// </summary>
+        decimal Price { get; }
+
+        /// <summary>
+        ///   Gets the commission charged for this ShareTransaction.
+        /// </summary>
+        decimal Commission { get; }
+
+        /// <summary>
+        ///   Gets the total value of this ShareTransaction, including commissions.
+        /// </summary>
+        decimal TotalValue { get; }
+
+        /// <summary>
+        ///    Gets the DateTime that the Transaction occurred.
+        ///  </summary>
+        DateTime SettlementDate { get; }
+
+        /// <summary>
+        ///     The unique identifier of this transaction.
+        /// </summary>
+        Guid Id { get; }
+    }
+
     /// <summary>
     ///   Represents a transaction for a share of equity.
     /// </summary>
     [Serializable]
-    public abstract class ShareTransaction : Transaction, IEquatable<ShareTransaction>
+    public abstract class ShareTransaction : Transaction, IShareTransaction
     {
         /// <summary>
         /// Constructs a ShareTransaction object.
@@ -73,7 +111,7 @@ namespace Sonneville.PriceTools.Implementation
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(ShareTransaction other)
+        public bool Equals(IShareTransaction other)
         {
             if (ReferenceEquals(null, other))
                 return false;

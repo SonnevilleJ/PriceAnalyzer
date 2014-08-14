@@ -27,7 +27,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public static bool IsOpeningTransaction(this Transaction transaction)
+        public static bool IsOpeningTransaction(this ITransaction transaction)
         {
             try
             {
@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools
         /// </summary>
         /// <param name="transaction"></param>
         /// <returns></returns>
-        public static bool IsClosingTransaction(this Transaction transaction)
+        public static bool IsClosingTransaction(this ITransaction transaction)
         {
             try
             {

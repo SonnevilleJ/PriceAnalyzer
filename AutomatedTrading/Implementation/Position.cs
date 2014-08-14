@@ -6,10 +6,30 @@ using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
+    public interface IPosition : ISecurityBasket
+    {
+        /// <summary>
+        ///   Gets the ticker symbol held by this IPosition.
+        /// </summary>
+        string Ticker { get; }
+
+        /// <summary>
+        /// Adds an ShareTransaction to the IPosition.
+        /// </summary>
+        /// <param name="shareTransaction"></param>
+        void AddTransaction(ShareTransaction shareTransaction);
+
+        /// <summary>
+        /// Validates a transaction without adding it to the IPosition.
+        /// </summary>
+        /// <param name="shareTransaction"></param>
+        bool TransactionIsValid(ShareTransaction shareTransaction);
+    }
+
     /// <summary>
     ///   A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.
     /// </summary>
-    public class Position : ISecurityBasket
+    public class Position : IPosition
     {
         private string _ticker;
         private readonly ICollection<ShareTransaction> _transactions = new List<ShareTransaction>();
@@ -86,9 +106,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IPosition.
         /// </summary>
-        public IList<Transaction> Transactions
+        public IList<ITransaction> Transactions
         {
-            get { return new List<Transaction>(_transactions); }
+            get { return new List<ITransaction>(_transactions); }
         }
 
         /// <summary>

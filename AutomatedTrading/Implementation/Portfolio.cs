@@ -6,10 +6,84 @@ using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
+    public interface IPortfolio : ISecurityBasket
+    {
+        IPriceSeries CashPriceSeries { get; }
+
+        /// <summary>
+        /// Gets or sets the ticker to use for the holding of cash in this Portfolio.
+        /// </summary>
+        string CashTicker { get; }
+
+        /// <summary>
+        ///   Gets an <see cref = "IList{T}" /> of positions held in this Portfolio.
+        /// </summary>
+        IEnumerable<Position> Positions { get; }
+
+        /// <summary>
+        ///   Gets the amount of uninvested cash in this Portfolio.
+        /// </summary>
+        /// <param name="settlementDate">The <see cref="DateTime"/> to use.</param>
+        decimal GetAvailableCash(DateTime settlementDate);
+
+        /// <summary>
+        ///   Adds an <see cref="Transaction"/> to this Portfolio.
+        /// </summary>
+        void AddTransaction(ITransaction transaction);
+
+        /// <summary>
+        /// Deposits dividends to this Portfolio.
+        /// </summary>
+        /// <param name="dividendReceipt">The <see cref="DividendReceipt"/> to deposit.</param>
+        void Deposit(DividendReceipt dividendReceipt);
+
+        /// <summary>
+        /// Deposits cash to this Portfolio.
+        /// </summary>
+        /// <param name="settlementDate">The <see cref="DateTime"/> of the deposit.</param>
+        /// <param name="cashAmount">The amount of cash deposited.</param>
+        void Deposit(DateTime settlementDate, decimal cashAmount);
+
+        /// <summary>
+        /// Deposits cash to this Portfolio.
+        /// </summary>
+        /// <param name="deposit">The <see cref="PriceTools.Implementation.Deposit"/> to deposit.</param>
+        void Deposit(Deposit deposit);
+
+        /// <summary>
+        /// Withdraws cash from this Portfolio. AvailableCash must be greater than or equal to the withdrawn amount.
+        /// </summary>
+        /// <param name="settlementDate">The <see cref="DateTime"/> of the withdrawal.</param>
+        /// <param name="cashAmount">The amount of cash withdrawn.</param>
+        void Withdraw(DateTime settlementDate, decimal cashAmount);
+
+        /// <summary>
+        /// Withdraws cash from this Portfolio. Available cash must be greater than or equal to the withdrawn amount.
+        /// </summary>
+        /// <param name="withdrawal">The <see cref="Withdrawal"/> to withdraw.</param>
+        void Withdraw(Withdrawal withdrawal);
+
+        /// <summary>
+        /// Validates an <see cref="Transaction"/> without adding it to the Portfolio.
+        /// </summary>
+        /// <param name="transaction">The <see cref="ShareTransaction"/> to validate.</param>
+        /// <returns></returns>
+        bool TransactionIsValid(ITransaction transaction);
+
+        /// <summary>
+        ///   Retrieves the <see cref="Position"/> with Ticker <paramref name="ticker"/>.
+        /// </summary>
+        /// <param name="ticker">The Ticker symbol of the position to retrieve.</param>
+        /// <returns>The <see cref="Position"/> with the requested Ticker. Returns null if no <see cref="Position"/> is found with the requested Ticker.</returns>
+        IPosition GetPosition(string ticker);
+
+        void AddToPosition(ShareTransaction transaction);
+    }
+
     /// <summary>
     /// Represents a portfolio of investments.
     /// </summary>
-    public class Portfolio : ISecurityBasket
+    public class Portfolio : IPortfolio
     {
         private readonly ICashAccount _cashAccount;
         private readonly IList<Position> _positions;
@@ -100,7 +174,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this Position.
         /// </summary>
-        public IList<Transaction> Transactions
+        public IList<ITransaction> Transactions
         {
             get
             {
@@ -114,7 +188,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// <summary>
         ///   Adds an <see cref="Transaction"/> to this Portfolio.
         /// </summary>
-        public void AddTransaction(Transaction transaction)
+        public void AddTransaction(ITransaction transaction)
         {
             transaction.ApplyToPortfolio(this);
         }
@@ -171,7 +245,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// </summary>
         /// <param name="transaction">The <see cref="ShareTransaction"/> to validate.</param>
         /// <returns></returns>
-        public bool TransactionIsValid(Transaction transaction)
+        public bool TransactionIsValid(ITransaction transaction)
         {
             var cashTransaction = transaction as CashTransaction;
             if (cashTransaction != null)
@@ -221,7 +295,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         /// </summary>
         /// <param name="ticker">The Ticker symbol of the position to retrieve.</param>
         /// <returns>The <see cref="Position"/> with the requested Ticker. Returns null if no <see cref="Position"/> is found with the requested Ticker.</returns>
-        public Position GetPosition(string ticker)
+        public IPosition GetPosition(string ticker)
         {
             return GetPosition(ticker, true);
         }

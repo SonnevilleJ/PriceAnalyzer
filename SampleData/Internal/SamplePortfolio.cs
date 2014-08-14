@@ -5,7 +5,7 @@ namespace Sonneville.PriceTools.SampleData.Internal
 {
     public class SamplePortfolio
     {
-        public Portfolio Portfolio
+        public IPortfolio Portfolio
         {
             get { return new PortfolioFactory().ConstructPortfolio(TransactionHistory.Transactions); }
         }

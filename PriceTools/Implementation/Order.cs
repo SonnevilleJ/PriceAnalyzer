@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// The DateTime this order was issued.
         /// </summary>
-        public DateTime Issued { get; internal set; }
+        public DateTime Issued { get; set; }
 
         /// <summary>
         /// The DateTime this order expires.
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// The ticker symbol for this order.
         /// </summary>
-        public string Ticker { get; internal set; }
+        public string Ticker { get; set; }
 
         /// <summary>
         /// The price at which the order should be executed.
@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// Specifies the type of order.
         /// </summary>
-        public OrderType OrderType { get; internal set; }
+        public OrderType OrderType { get; set; }
 
         /// <summary>
         /// The <see cref="PricingType"/> (market or limit) which should be used when submitting this order.
@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// The number of shares for this order.
         /// </summary>
-        public decimal Shares { get; internal set; }
+        public decimal Shares { get; set; }
 
         /// <summary>
         /// Returns a <see cref="T:System.String"/> that represents the current <see cref="T:System.Object"/>.

@@ -3,11 +3,51 @@ using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Implementation
 {
+    public interface ITransaction
+    {
+        /// <summary>
+        ///    Gets the DateTime that the Transaction occurred.
+        ///  </summary>
+        DateTime SettlementDate { get; }
+
+        /// <summary>
+        ///     The unique identifier of this transaction.
+        /// </summary>
+        Guid Id { get; }
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="other">An object to compare with this object.</param>
+        bool Equals(ITransaction other);
+
+        /// <summary>
+        /// Indicates whether the current object is equal to another object of the same type.
+        /// </summary>
+        /// <returns>
+        /// true if the current object is equal to the <paramref name="obj"/> parameter; otherwise, false.
+        /// </returns>
+        /// <param name="obj">An object to compare with this object.</param>
+        bool Equals(object obj);
+
+        /// <summary>
+        /// Serves as a hash function for a particular type. 
+        /// </summary>
+        /// <returns>
+        /// A hash code for the current <see cref="T:System.Object"/>.
+        /// </returns>
+        /// <filterpriority>2</filterpriority>
+        int GetHashCode();
+    }
+
     /// <summary>
     /// Represents a financial transaction.
     /// </summary>
     [Serializable]
-    public abstract class Transaction : IEquatable<Transaction>
+    public abstract class Transaction : IEquatable<ITransaction>, ITransaction
     {
         protected Transaction()
         {
@@ -35,7 +75,7 @@ namespace Sonneville.PriceTools.Implementation
         /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
         /// </returns>
         /// <param name="other">An object to compare with this object.</param>
-        public virtual bool Equals(Transaction other)
+        public virtual bool Equals(ITransaction other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -53,7 +93,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <param name="obj">An object to compare with this object.</param>
         public override bool Equals(object obj)
         {
-            return Equals(obj as Transaction);
+            return Equals(obj as ITransaction);
         }
 
         /// <summary>

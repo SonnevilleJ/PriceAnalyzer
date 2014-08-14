@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
                 .Sum(transaction => transaction.Price * transaction.Shares);
         }
 
-        private static bool TransactionMatches(DateTime settlementDate, Transaction transaction)
+        private static bool TransactionMatches(DateTime settlementDate, ITransaction transaction)
         {
             return transaction.IsOpeningTransaction() && transaction.SettlementDate <= settlementDate && transaction is ShareTransaction;
         }
@@ -114,7 +114,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="shareTransactions"></param>
         /// <param name = "dateTime">The <see cref = "DateTime" /> to use.</param>
-        public decimal GetHeldShares(IEnumerable<ShareTransaction> shareTransactions, DateTime dateTime)
+        public decimal GetHeldShares(IEnumerable<IShareTransaction> shareTransactions, DateTime dateTime)
         {
             var sum = 0m;
             foreach (var transaction in shareTransactions.Where(t=>t.SettlementDate <= dateTime))

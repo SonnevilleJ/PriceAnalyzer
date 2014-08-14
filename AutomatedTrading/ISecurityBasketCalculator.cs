@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         /// </summary>
         /// <param name="shareTransactions"></param>
         /// <param name = "dateTime">The <see cref = "DateTime" /> to use.</param>
-        decimal GetHeldShares(IEnumerable<ShareTransaction> shareTransactions, DateTime dateTime);
+        decimal GetHeldShares(IEnumerable<IShareTransaction> shareTransactions, DateTime dateTime);
 
         /// <summary>
         ///   Gets the net shares held at a given date.
