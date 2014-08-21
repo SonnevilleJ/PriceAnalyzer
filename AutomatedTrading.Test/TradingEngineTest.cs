@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var justLessThanTodaysPrice = _dePriceSeries[endDate] - 0.01m;
             _portfolioMock.Setup(x => x.GetAvailableCash(endDate)).Returns(justLessThanTodaysPrice);
 
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate);
+            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate).ToList();
 
             Assert.AreEqual(0, orders.Count, "An order was returned when there were insufficient funds.");
         }
@@ -53,8 +53,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var startDate = new DateTime(2011, 1, 4);
             var endDate = new DateTime(2011, 1, 5);
             _portfolioMock.Setup(x => x.GetAvailableCash(endDate)).Returns(1000);
-            
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate);
+
+            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate).ToList();
 
             Assert.AreEqual(1, orders.Count);
             var order = orders.ElementAt(0);
@@ -72,7 +72,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _portfolioMock.Setup(x => x.GetAvailableCash(endDate)).Returns(1000);
             _portfolioMock.Setup(x => x.GetPosition(_dePriceSeries.Ticker)).Returns((IPosition) null);
 
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate);
+            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate).ToList();
 
             Assert.AreEqual(0, orders.Count);
         }
@@ -80,14 +80,14 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [TestMethod]
         public void ShouldCreateSellOrderWhenPreviousDayIsNegative2()
         {
-            var sharesToSell = 2;
+            const int sharesToSell = 2;
             RunSellAllSharesTest(sharesToSell);
         }
 
         [TestMethod]
         public void ShouldCreateSellOrderWhenPreviousDayIsNegative5()
         {
-            var sharesToSell = 5;
+            const int sharesToSell = 5;
             RunSellAllSharesTest(sharesToSell);
         }
 
@@ -97,7 +97,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var endDate = new DateTime(2011, 1, 4);
             _securityBasketCalculatorMock.Setup(x => x.GetHeldShares(It.IsAny<IEnumerable<IShareTransaction>>(), endDate))
                 .Returns(sharesToSell);
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate);
+            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate).ToList();
 
             Assert.AreEqual(1, orders.Count);
             var order = orders.ElementAt(0);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Implementation;
 
@@ -7,33 +8,43 @@ namespace Sonneville.PriceTools.AutomatedTrading
 {
     public class TradingEngine
     {
+        private readonly ISecurityBasketCalculator _securityBasketCalculator;
         private readonly IPortfolio _currentlyHeldStuff;
-        private readonly IncreaseInvestmentLogic _increaseInvestmentLogic = new IncreaseInvestmentLogic();
-        private readonly DecreaseInvestmentLogic _decreaseInvestmentLogic;
 
         public TradingEngine(ISecurityBasketCalculator securityBasketCalculator, IPortfolio currentlyHeldStuff)
         {
+            _securityBasketCalculator = securityBasketCalculator;
             _currentlyHeldStuff = currentlyHeldStuff;
-            _decreaseInvestmentLogic = new DecreaseInvestmentLogic(securityBasketCalculator, currentlyHeldStuff);
         }
 
-        public IList<Order> DetermineOrdersFor(IPriceSeries stockBeingConsidered, DateTime startDate, DateTime endDate)
+        public IEnumerable<Order> DetermineOrdersFor(IPriceSeries stockBeingConsidered, DateTime startDate, DateTime endDate)
         {
-            var orders = new List<Order>();
-
             if (_currentlyHeldStuff.GetAvailableCash(endDate) >= stockBeingConsidered[endDate] &&
-                _increaseInvestmentLogic.ShouldExpandPosition(stockBeingConsidered, startDate, endDate))
+                stockBeingConsidered[endDate] > stockBeingConsidered[startDate])
             {
-                var order = _increaseInvestmentLogic.ExpandPosition(stockBeingConsidered, endDate);
-                orders.Add(order);
+                yield return CreateOrder(OrderType.Buy, stockBeingConsidered.Ticker, 1, endDate);
             }
-            if (_decreaseInvestmentLogic.ShouldReducePosition(stockBeingConsidered, startDate, endDate))
+            if (stockBeingConsidered[startDate] > stockBeingConsidered[endDate])
             {
-                var order = _decreaseInvestmentLogic.ReducePosition(stockBeingConsidered, endDate);
-                orders.Add(order);
+                var position = _currentlyHeldStuff.GetPosition(stockBeingConsidered.Ticker);
+                if (position != null)
+                {
+                    var shareTransactions = position.Transactions.Cast<IShareTransaction>();
+                    var shares = _securityBasketCalculator.GetHeldShares(shareTransactions, endDate);
+                    yield return CreateOrder(OrderType.Sell, stockBeingConsidered.Ticker, shares, endDate);
+                }
             }
+        }
 
-            return orders;
+        private static Order CreateOrder(OrderType orderType, string ticker, decimal shares, DateTime issueDate)
+        {
+            return new Order
+            {
+                OrderType = orderType,
+                Shares = shares,
+                Issued = issueDate,
+                Ticker = ticker
+            };
         }
     }
 }
