@@ -47,7 +47,7 @@
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
     <Reference Include="Utilities">
-      <HintPath>..\packages\Utilities.1.0.0.0\lib\net45\Utilities.dll</HintPath>
+      <HintPath>..\packages\Utilities.1.0.5348.20254\lib\net45\Utilities.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

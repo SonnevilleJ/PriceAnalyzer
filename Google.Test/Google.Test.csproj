@@ -46,8 +46,9 @@
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
     </Reference>
-    <Reference Include="Utilities, Version=1.0.0.0, Culture=neutral, PublicKeyToken=3afe5ff2e45d1b62, processorArchitecture=MSIL">
-      <HintPath>..\packages\Utilities.1.0.0.0\lib\net45\Utilities.dll</HintPath>
+    <Reference Include="Utilities">
+      <HintPath>..\packages\Utilities.1.0.5348.20254\lib\net45\Utilities.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>

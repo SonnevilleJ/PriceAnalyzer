@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Sonneville.PriceTools.Implementation;
+using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
@@ -22,7 +23,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [TestMethod]
         public void SubmitOrderReturnsDeOrderStatus()
         {
-            var submitTime = DateTime.Now;
+            Clock.FreezeTime(new DateTime(2013, 1, 1));
             var orderStatus = _simulatedBroker.SubmitOrder(_deOrder);
 
             Assert.IsNotNull(orderStatus);
@@ -30,13 +31,13 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(_deOrder.Price, orderStatus.Price);
             Assert.AreEqual(_deOrder.Shares, orderStatus.Shares);
             Assert.AreEqual(_deOrder.OrderType, orderStatus.OrderType);
-            Assert.IsTrue(orderStatus.SubmitTime - submitTime < new TimeSpan(0, 0, 0, 0, 50));
+            Assert.AreEqual(Clock.Now, orderStatus.SubmitTime);
         }
 
         [TestMethod]
         public void SubmitOrderReturnsIbmOrderStatus()
         {
-            var submitTime = DateTime.Now;
+            Clock.FreezeTime(new DateTime(2013, 1, 1));
             var orderStatus = _simulatedBroker.SubmitOrder(_ibmOrder);
 
             Assert.IsNotNull(orderStatus);
@@ -44,7 +45,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(_ibmOrder.Price, orderStatus.Price);
             Assert.AreEqual(_ibmOrder.Shares, orderStatus.Shares);
             Assert.AreEqual(_ibmOrder.OrderType, orderStatus.OrderType);
-            Assert.IsTrue(orderStatus.SubmitTime - submitTime < new TimeSpan(0, 0, 0, 0, 50));
+            Assert.AreEqual(Clock.Now, orderStatus.SubmitTime);
         }
 
         [TestMethod]

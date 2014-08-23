@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Sonneville.Utilities;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
@@ -18,7 +19,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             _orderStatus.Price = order.Price;
             _orderStatus.Shares = order.Shares;
             _orderStatus.OrderType = order.OrderType;
-            _orderStatus.SubmitTime = DateTime.Now;
+            _orderStatus.SubmitTime = Clock.Now;
             return _orderStatus;
         }
     }
