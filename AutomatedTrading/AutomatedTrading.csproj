@@ -45,6 +45,8 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="OrderStatus.cs" />
+    <Compile Include="SimulatedBroker.cs" />
     <Compile Include="Extensions\TransactionExtensions.cs" />
     <Compile Include="Factories\IPortfolioFactory.cs" />
     <Compile Include="Factories\IPositionFactory.cs" />

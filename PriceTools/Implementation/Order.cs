@@ -27,7 +27,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <summary>
         /// The price at which the order should be executed.
         /// </summary>
-        public decimal Price { get; internal set; }
+        public decimal Price { get; set; }
 
         /// <summary>
         /// Specifies the type of order.
