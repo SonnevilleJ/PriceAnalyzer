@@ -22,6 +22,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
         private IPriceDataProvider _csvPriceDataProvider;
         private ISecurityBasketCalculator _securityBasketCalculator;
+        private WebClientWrapper _webClientWrapper;
 
         [TestInitialize]
         public void Setup()
@@ -30,7 +31,14 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _transactionFactory = new TransactionFactory();
             _priceHistoryCsvFileFactory = new YahooPriceHistoryCsvFileFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
-            _csvPriceDataProvider = new PriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), _priceHistoryCsvFileFactory);
+            _webClientWrapper = new WebClientWrapper();
+            _csvPriceDataProvider = new PriceDataProvider(_webClientWrapper, new YahooPriceHistoryQueryUrlBuilder(), _priceHistoryCsvFileFactory);
+        }
+
+        [TestCleanup]
+        public void Teardown()
+        {
+            _webClientWrapper.Dispose();
         }
 
         [TestMethod]
