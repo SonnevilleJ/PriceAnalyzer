@@ -18,11 +18,13 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private Mock<IPosition> _dePositionMock;
         private Mock<ISecurityBasketCalculator> _securityBasketCalculatorMock;
         private List<ITransaction> _deTransactions;
+        private List<Order> _openOrders;
 
         [TestInitialize]
         public void Initialize()
         {
             _portfolioMock = new Mock<IPortfolio>();
+            _openOrders = new List<Order>();
 
             _dePriceSeries = SamplePriceDatas.Deere.PriceSeries;
             _deTransactions = new List<ITransaction>();
@@ -42,7 +44,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var justLessThanTodaysPrice = _dePriceSeries[endDate] - 0.01m;
             _portfolioMock.Setup(x => x.GetAvailableCash(endDate)).Returns(justLessThanTodaysPrice);
 
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate).ToList();
+            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate, _openOrders).ToList();
 
             Assert.AreEqual(0, orders.Count, "An order was returned when there were insufficient funds.");
         }
@@ -54,7 +56,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var endDate = new DateTime(2011, 1, 5);
             _portfolioMock.Setup(x => x.GetAvailableCash(endDate)).Returns(1000);
 
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate).ToList();
+            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate, _openOrders).ToList();
 
             Assert.AreEqual(1, orders.Count);
             var order = orders.ElementAt(0);
@@ -72,37 +74,43 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _portfolioMock.Setup(x => x.GetAvailableCash(endDate)).Returns(1000);
             _portfolioMock.Setup(x => x.GetPosition(_dePriceSeries.Ticker)).Returns((IPosition) null);
 
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate).ToList();
+            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate, _openOrders).ToList();
 
             Assert.AreEqual(0, orders.Count);
         }
 
         [TestMethod]
-        public void ShouldCreateSellOrderWhenPreviousDayIsNegative2()
-        {
-            const int sharesToSell = 2;
-            RunSellAllSharesTest(sharesToSell);
-        }
-
-        [TestMethod]
-        public void ShouldCreateSellOrderWhenPreviousDayIsNegative5()
-        {
-            const int sharesToSell = 5;
-            RunSellAllSharesTest(sharesToSell);
-        }
-
-        private void RunSellAllSharesTest(int sharesToSell)
+        public void ShouldCreateSellOrderWhenPreviousDayIsNegative()
         {
             var startDate = new DateTime(2011, 1, 3);
             var endDate = new DateTime(2011, 1, 4);
             _securityBasketCalculatorMock.Setup(x => x.GetHeldShares(It.IsAny<IEnumerable<IShareTransaction>>(), endDate))
-                .Returns(sharesToSell);
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate).ToList();
+                .Returns(2);
+            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate, _openOrders).ToList();
 
             Assert.AreEqual(1, orders.Count);
             var order = orders.ElementAt(0);
             Assert.AreEqual(OrderType.Sell, order.OrderType);
-            Assert.AreEqual(sharesToSell, order.Shares);
+            Assert.AreEqual(2, order.Shares);
+            Assert.AreEqual(endDate, order.Issued);
+            Assert.AreEqual(_dePriceSeries.Ticker, order.Ticker);
+        }
+
+        [TestMethod]
+        public void ShouldCreateSellOrderWhenPreviousDayIsNegative5AndOpenSellOrder()
+        {
+            const int sharesToSell = 5;
+            _openOrders.Add(new Order{OrderType = OrderType.Sell, Shares = 2, Ticker = _dePriceSeries.Ticker});
+            var startDate = new DateTime(2011, 1, 3);
+            var endDate = new DateTime(2011, 1, 4);
+            _securityBasketCalculatorMock.Setup(x => x.GetHeldShares(It.IsAny<IEnumerable<IShareTransaction>>(), endDate))
+                .Returns(sharesToSell);
+            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate, _openOrders).ToList();
+
+            Assert.AreEqual(1, orders.Count);
+            var order = orders.ElementAt(0);
+            Assert.AreEqual(OrderType.Sell, order.OrderType);
+            Assert.AreEqual(3, order.Shares);
             Assert.AreEqual(endDate, order.Issued);
             Assert.AreEqual(_dePriceSeries.Ticker, order.Ticker);
         }
