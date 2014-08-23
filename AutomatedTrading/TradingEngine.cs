@@ -19,21 +19,47 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         public IEnumerable<Order> DetermineOrdersFor(IPriceSeries stockBeingConsidered, DateTime startDate, DateTime endDate)
         {
-            if (_currentlyHeldStuff.GetAvailableCash(endDate) >= stockBeingConsidered[endDate] &&
-                stockBeingConsidered[endDate] > stockBeingConsidered[startDate])
+            var sharesToBuy = CalculateSharesToBuy(stockBeingConsidered, startDate, endDate);
+            if (HaveAvailableFunds(stockBeingConsidered, endDate) && sharesToBuy > 0)
             {
-                yield return CreateOrder(OrderType.Buy, stockBeingConsidered.Ticker, 1, endDate);
+                yield return CreateOrder(OrderType.Buy, stockBeingConsidered.Ticker, sharesToBuy, endDate);
             }
-            if (stockBeingConsidered[startDate] > stockBeingConsidered[endDate])
+            var sharesToSell = CalculateSharesToSell(stockBeingConsidered, startDate, endDate);
+            if (sharesToSell > 0)
+            {
+                yield return CreateOrder(OrderType.Sell, stockBeingConsidered.Ticker, sharesToSell, endDate);
+            }
+        }
+
+        private bool HaveAvailableFunds(IPriceSeries stockBeingConsidered, DateTime endDate)
+        {
+            return _currentlyHeldStuff.GetAvailableCash(endDate) >= stockBeingConsidered[endDate];
+        }
+
+        private decimal CalculateSharesToBuy(IPriceSeries stockBeingConsidered, DateTime startDate, DateTime endDate)
+        {
+            var shouldBuy = stockBeingConsidered[endDate] > stockBeingConsidered[startDate];
+            if (shouldBuy)
+            {
+                return 1;
+            }
+            return 0;
+        }
+
+        private decimal CalculateSharesToSell(IPriceSeries stockBeingConsidered, DateTime startDate, DateTime endDate)
+        {
+            var shouldSell = stockBeingConsidered[startDate] > stockBeingConsidered[endDate];
+            if (shouldSell)
             {
                 var position = _currentlyHeldStuff.GetPosition(stockBeingConsidered.Ticker);
                 if (position != null)
                 {
                     var shareTransactions = position.Transactions.Cast<IShareTransaction>();
                     var shares = _securityBasketCalculator.GetHeldShares(shareTransactions, endDate);
-                    yield return CreateOrder(OrderType.Sell, stockBeingConsidered.Ticker, shares, endDate);
+                    return shares;
                 }
             }
+            return 0;
         }
 
         private static Order CreateOrder(OrderType orderType, string ticker, decimal shares, DateTime issueDate)
