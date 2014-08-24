@@ -4,7 +4,7 @@ using System.Globalization;
 namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
-    /// Represents a single period in a <see cref="ITimeSeries"/>.
+    /// Represents a single period in a <see cref="ITimeSeries{TSeries, TPeriod}"/>.
     /// </summary>
     public struct TimePeriod<T> : ITimePeriod<T>
     {
@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.Implementation
         public DateTime Tail { get; private set; }
 
         /// <summary>
-        /// Gets the <see cref="ITimePeriod.Resolution"/> of price data stored within the ITimePeriod.
+        /// Gets the <see cref="ITimePeriod{T}.Resolution"/> of price data stored within the ITimePeriod.
         /// </summary>
         public Resolution Resolution
         {
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools.Implementation
         /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
-            return string.Format(CultureInfo.InvariantCulture, "Head: {0}; Tail: {1}; Value: {2}", Head.ToShortDateString(), Tail.ToShortDateString(), this.Value<T>());
+            return string.Format(CultureInfo.InvariantCulture, "Head: {0}; Tail: {1}; Value: {2}", Head.ToShortDateString(), Tail.ToShortDateString(), this.Value());
         }
     }
 }
