@@ -2,9 +2,6 @@ using System;
 
 namespace Sonneville.PriceTools
 {
-    /// <summary>
-    /// Represents a defined period of price data.
-    /// </summary>
     public struct PricePeriod : IPricePeriod
     {
         private static readonly ResolutionUtility ResolutionUtility = new ResolutionUtility();
@@ -52,51 +49,22 @@ namespace Sonneville.PriceTools
             Resolution = ResolutionUtility.CalculateResolution(this.TimeSpan());
         }
 
-        /// <summary>
-        /// Gets the first DateTime in the IPricePeriod.
-        /// </summary>
         public DateTime Head { get; private set; }
 
-        /// <summary>
-        /// Gets the last DateTime in the IPricePeriod.
-        /// </summary>
         public DateTime Tail { get; private set; }
 
-        /// <summary>
-        /// Gets the opening price for the IPricePeriod.
-        /// </summary>
         public decimal Open { get; private set; }
 
-        /// <summary>
-        /// Gets the highest price that occurred during the IPricePeriod.
-        /// </summary>
         public decimal High { get; private set; }
 
-        /// <summary>
-        /// Gets the lowest price that occurred during the IPricePeriod.
-        /// </summary>
         public decimal Low { get; private set; }
 
-        /// <summary>
-        /// Gets the closing price for the IPricePeriod.
-        /// </summary>
         public decimal Close { get; private set; }
 
-        /// <summary>
-        /// Gets the total volume of trades during the IPricePeriod.
-        /// </summary>
         public long? Volume { get; private set; }
 
-        /// <summary>
-        /// Gets the <see cref="Resolution"/> of price data stored within the IPricePeriod.
-        /// </summary>
         public Resolution Resolution { get; private set; }
 
-        /// <summary>
-        /// Gets a value stored at a given DateTime index of the IPricePeriod.
-        /// </summary>
-        /// <param name="dateTime">The DateTime of the desired value.</param>
-        /// <returns>The value of the IPricePeriod as of the given DateTime.</returns>
         public decimal this[DateTime dateTime]
         {
             get
@@ -141,13 +109,6 @@ namespace Sonneville.PriceTools
             }
         }
 
-        /// <summary>
-        /// Returns a string that represents the current object.
-        /// </summary>
-        /// <returns>
-        /// A string that represents the current object.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
         public override string ToString()
         {
             return string.Format("Head: {0}; Tail: {1}; Open: {2}; High: {3}; Low: {4}; Close: {5}; Volume: {6}",

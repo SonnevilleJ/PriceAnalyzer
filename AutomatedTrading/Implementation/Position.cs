@@ -8,46 +8,25 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 {
     public interface IPosition : ISecurityBasket
     {
-        /// <summary>
-        ///   Gets the ticker symbol held by this IPosition.
-        /// </summary>
         string Ticker { get; }
 
-        /// <summary>
-        /// Adds an ShareTransaction to the IPosition.
-        /// </summary>
-        /// <param name="shareTransaction"></param>
         void AddTransaction(ShareTransaction shareTransaction);
 
-        /// <summary>
-        /// Validates a transaction without adding it to the IPosition.
-        /// </summary>
-        /// <param name="shareTransaction"></param>
         bool TransactionIsValid(ShareTransaction shareTransaction);
     }
 
-    /// <summary>
-    ///   A trade made for a financial security. A Position is comprised of an opening shareTransaction, and optionally, a closing shareTransaction.
-    /// </summary>
     public class Position : IPosition
     {
         private string _ticker;
         private readonly ICollection<ShareTransaction> _transactions = new List<ShareTransaction>();
         private readonly ISecurityBasketCalculator _securityBasketCalculator;
 
-        /// <summary>
-        ///   Constructs a new Position that will handle transactions for a given ticker symbol.
-        /// </summary>
-        /// <param name = "ticker">The ticker symbol that this Position will hold. All transactions will use this ticker symbol.</param>
         internal Position(string ticker)
         {
             Ticker = ticker;
             _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
-        /// <summary>
-        ///   Gets the ticker symbol held by this IPosition.
-        /// </summary>
         public string Ticker
         {
             get
@@ -64,18 +43,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
         }
 
-        /// <summary>
-        ///   Gets the total value of the Position, including commissions.
-        /// </summary>
-        /// <param name = "dateTime">The <see cref = "DateTime" /> to use.</param>
         public decimal this[DateTime dateTime]
         {
             get { return _securityBasketCalculator.CalculateGrossProfit(this, dateTime); }
         }
 
-        /// <summary>
-        /// Gets the first DateTime for which a value exists.
-        /// </summary>
         public DateTime Head
         {
             get
@@ -88,9 +60,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
         }
 
-        /// <summary>
-        /// Gets the last DateTime for which a value exists.
-        /// </summary>
         public DateTime Tail
         {
             get
@@ -103,18 +72,11 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
         }
 
-        /// <summary>
-        ///   Gets an enumeration of all <see cref = "ShareTransaction" />s in this IPosition.
-        /// </summary>
         public IList<ITransaction> Transactions
         {
             get { return new List<ITransaction>(_transactions); }
         }
 
-        /// <summary>
-        /// Adds an ShareTransaction to the IPosition.
-        /// </summary>
-        /// <param name="shareTransaction"></param>
         public void AddTransaction(ShareTransaction shareTransaction)
         {
             // verify shareTransaction is apporpriate for this IPosition.
@@ -123,10 +85,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             _transactions.Add(shareTransaction);
         }
 
-        /// <summary>
-        /// Validates a transaction without adding it to the IPosition.
-        /// </summary>
-        /// <param name="shareTransaction"></param>
         public bool TransactionIsValid(ShareTransaction shareTransaction)
         {
             try

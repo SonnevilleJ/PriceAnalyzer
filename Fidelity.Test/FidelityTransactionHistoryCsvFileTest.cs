@@ -10,10 +10,6 @@ using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Fidelity.Test
 {
-    /// <summary>
-    ///This is a test class for FidelityTransactionHistoryCsvFileTest and is intended
-    ///to contain all FidelityTransactionHistoryCsvFileTest Unit Tests
-    ///</summary>
     [TestFixture]
     public class FidelityTransactionHistoryCsvFileTest
     {
@@ -29,9 +25,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioAltrTest()
         {
@@ -48,9 +41,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioNtapTest()
         {
@@ -67,9 +57,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioNtctTest()
         {
@@ -86,9 +73,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioPgTest()
         {
@@ -105,9 +89,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioAvailableCashTest()
         {

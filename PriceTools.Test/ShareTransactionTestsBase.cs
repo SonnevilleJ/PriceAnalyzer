@@ -15,63 +15,33 @@ namespace Sonneville.PriceTools.Test
             TransactionFactory = new TransactionFactory();
         }
 
-        /// <summary>
-        /// A test for serialization
-        /// </summary>
         [Test]
         public abstract void SerializeTest();
 
-        /// <summary>
-        /// A test for SettlementDate
-        /// </summary>
         [Test]
         public abstract void SettlementDateTest();
 
-        /// <summary>
-        /// A test for Ticker
-        /// </summary>
         [Test]
         public abstract void TickerTest();
 
-        /// <summary>
-        /// A test for Price
-        /// </summary>
         [Test]
         public abstract void PriceValidTest();
 
-        /// <summary>
-        /// A test for Price
-        /// </summary>
         [Test]
         public abstract void PriceInvalidTest();
 
-        /// <summary>
-        /// A test for Shares
-        /// </summary>
         [Test]
         public abstract void SharesValidTest();
 
-        /// <summary>
-        /// A test for Shares
-        /// </summary>
         [Test]
         public abstract void SharesInvalidTest();
 
-        /// <summary>
-        /// A test for Commission
-        /// </summary>
         [Test]
         public abstract void CommissionValidTest();
 
-        /// <summary>
-        /// A test for Commission
-        /// </summary>
         [Test]
         public abstract void CommissionInvalidTest();
 
-        /// <summary>
-        /// A test for TotalValue
-        /// </summary>
         [Test]
         public abstract void TotalValueTest();
 

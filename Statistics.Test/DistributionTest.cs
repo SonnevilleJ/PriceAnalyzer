@@ -52,10 +52,6 @@ namespace Sonneville.Statistics.Test
             Assert.AreEqual(mean, actual);
         }
 
-        /// <summary>
-        /// Runs many iterations, designed to weed out performance issues and not necessarily threading issues.
-        /// Executes in under 4 seconds on 3.4 GHz quad core CPU.
-        /// </summary>
         [Test, Ignore]
         public void ParallelTest()
         {

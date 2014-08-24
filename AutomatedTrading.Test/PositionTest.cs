@@ -6,10 +6,6 @@ using Sonneville.PriceTools.Yahoo;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    /// <summary>
-    ///This is a test class for PositionTest and is intended
-    ///to contain all PositionTest Unit Tests
-    ///</summary>
     [TestFixture]
     public class PositionTest
     {
@@ -175,9 +171,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, shortActual);
         }
 
-        /// <summary>
-        ///A test for Ticker
-        ///</summary>
         [Test]
         public void TickerTest()
         {
@@ -189,9 +182,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedTicker, actualTicker);
         }
 
-        /// <summary>
-        ///A test for CalculateCost
-        ///</summary>
         [Test]
         public void CalculateCostWithBuyOnlyTest()
         {
@@ -209,9 +199,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedCosts, actualCosts);
         }
 
-        /// <summary>
-        ///A test for CalculateCost
-        ///</summary>
         [Test]
         public void CalculateCostWithBuyAndSellTest()
         {
@@ -235,9 +222,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedCosts, actualCosts);
         }
 
-        /// <summary>
-        ///A test for CalculateProceeds
-        ///</summary>
         [Test]
         public void CalculateProceedsWithBuyOnlyTest()
         {
@@ -255,9 +239,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedProceeds, actualProceeds);
         }
 
-        /// <summary>
-        ///A test for CalculateProceeds
-        ///</summary>
         [Test]
         public void CalculateProceedsWithBuyAndSellTest()
         {
@@ -281,9 +262,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedProceeds, actualProceeds);
         }
 
-        /// <summary>
-        ///A test for CalculateCommissions
-        ///</summary>
         [Test]
         public void CalculateCommissionsWithBuyOnlyTest()
         {
@@ -302,9 +280,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedCommissions, actualCommissions);
         }
 
-        /// <summary>
-        ///A test for CalculateCommissions
-        ///</summary>
         [Test]
         public void CalculateCommissionsWithBuyAndSellTest()
         {

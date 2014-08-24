@@ -5,9 +5,6 @@ using System.Windows.Controls;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
-    /// <summary>
-    /// Interaction logic for Chart.xaml
-    /// </summary>
     public partial class Chart : UserControl
     {
         private IEnumerable<KeyValuePair<IList<IPricePeriod>, IRenderer>> Dictionary { get; set; }

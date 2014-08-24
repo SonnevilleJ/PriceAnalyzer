@@ -6,9 +6,6 @@ using Sonneville.PriceTools.TestUtilities;
 
 namespace Sonneville.PriceTools.Test
 {
-    /// <summary>
-    ///This is a test class for PriceSeriesTest and is intended to contain all PriceSeriesTest Unit Tests
-    ///</summary>
     [TestFixture]
     public class PriceSeriesTest
     {
@@ -22,9 +19,6 @@ namespace Sonneville.PriceTools.Test
             _timeSeriesUtility = new TimeSeriesUtility();
         }
 
-        /// <summary>
-        ///A test for Close
-        ///</summary>
         [Test]
         public void CloseTest()
         {
@@ -42,9 +36,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Close
-        ///</summary>
         [Test]
         public void OrderedCloseTest()
         {
@@ -99,9 +90,6 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(_timeSeriesUtility.HasValueInRange(target, p3.Tail));
         }
 
-        /// <summary>
-        ///A test for Head
-        ///</summary>
         [Test]
         public void HeadTest()
         {
@@ -128,9 +116,6 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNull(test);
         }
 
-        /// <summary>
-        ///A test for High
-        ///</summary>
         [Test]
         public void HighTest()
         {
@@ -148,9 +133,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Item
-        ///</summary>
         [Test]
         public void IndexerValueAtHeadTest()
         {
@@ -168,9 +150,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Item
-        ///</summary>
         [Test]
         public void IndexerValueAtTailTest()
         {
@@ -188,9 +167,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Item
-        ///</summary>
         [Test]
         public void IndexerValueBeforeHeadTest()
         {
@@ -208,9 +184,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Item
-        ///</summary>
         [Test]
         public void IndexerValueAfterTailTest()
         {
@@ -228,9 +201,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Low
-        ///</summary>
         [Test]
         public void LowTest()
         {
@@ -248,9 +218,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Open
-        ///</summary>
         [Test]
         public void OpenTest()
         {
@@ -268,9 +235,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Open
-        ///</summary>
         [Test]
         public void OrderedOpenTest()
         {
@@ -288,9 +252,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for PricePeriods
-        ///</summary>
         [Test]
         public void PricePeriodsTest()
         {
@@ -317,9 +278,6 @@ namespace Sonneville.PriceTools.Test
             _timeSeriesUtility.ResizePricePeriods(priceSeries, Resolution.Days);
         }
 
-        /// <summary>
-        ///A test for Tail
-        ///</summary>
         [Test]
         public void TailTest()
         {
@@ -346,9 +304,6 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNull(test);
         }
 
-        /// <summary>
-        ///A test for Ticker
-        ///</summary>
         [Test]
         public void TickerTest()
         {
@@ -360,9 +315,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Volume
-        ///</summary>
         [Test]
         public void VolumeTest()
         {

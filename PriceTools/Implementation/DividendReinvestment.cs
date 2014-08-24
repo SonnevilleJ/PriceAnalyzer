@@ -2,15 +2,9 @@
 
 namespace Sonneville.PriceTools.Implementation
 {
-    /// <summary>
-    /// Represents a transaction to reinvest dividends.
-    /// </summary>
     [Serializable]
     public sealed class DividendReinvestment : ShareTransaction
     {
-        /// <summary>
-        /// Constructs a DividendReinvestment.
-        /// </summary>
         internal DividendReinvestment(Guid factoryGuid, string ticker, DateTime settlementDate, decimal shares, decimal price, decimal commission)
             : base(factoryGuid, ticker, settlementDate, shares, Math.Abs(price), commission)
         {

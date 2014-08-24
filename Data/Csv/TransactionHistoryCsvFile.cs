@@ -9,9 +9,6 @@ using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.Data.Csv
 {
-    /// <summary>
-    ///   Parses a single <see cref = "ISecurityBasket" /> from CSV data for an investment portfolio.
-    /// </summary>
     public abstract class TransactionHistoryCsvFile : ISecurityBasket
     {
         private readonly bool _useTotalBasis;
@@ -20,11 +17,6 @@ namespace Sonneville.PriceTools.Data.Csv
         private readonly ITransactionFactory _transactionFactory;
         private readonly IHoldingFactory _holdingFactory;
 
-        /// <summary>
-        /// Constructs a new TransactionHistoryCsvFile.
-        /// </summary>
-        /// <param name="csvStream">A <see cref="Stream"/> to the CSV data.</param>
-        /// <param name="useTotalBasis">A value indicating whether or not TotalBasis should be used to calculate price.</param>
         protected TransactionHistoryCsvFile(Stream csvStream, bool useTotalBasis = false)
         {
             _transactionFactory = new TransactionFactory();
@@ -38,9 +30,6 @@ namespace Sonneville.PriceTools.Data.Csv
             _holdingFactory = new HoldingFactory();
         }
 
-        /// <summary>
-        /// Gets a list of all <see cref="Transaction"/>s in the file.
-        /// </summary>
         public IList<ITransaction> Transactions
         {
             get
@@ -82,9 +71,6 @@ namespace Sonneville.PriceTools.Data.Csv
             return map;
         }
 
-        /// <summary>
-        ///   Parses a <see cref = "DataTable" /> from a given CSV data stream.
-        /// </summary>
         private void Parse(Stream stream)
         {
             if (_tableParsed) return;
@@ -160,28 +146,13 @@ namespace Sonneville.PriceTools.Data.Csv
             }
         }
 
-        /// <summary>
-        /// Parses the OrderType column and returns a value indicating if the row contains valid data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns></returns>
         protected virtual bool IsValidRow(string text)
         {
             return true;
         }
 
-        /// <summary>
-        /// Parses the column headers of a TransactionHistoryCsv file.
-        /// </summary>
-        /// <param name="header">A column header from the CSV file.</param>
-        /// <returns>The <see cref="TransactionColumn"/> of <paramref name="header"/>.</returns>
         protected abstract TransactionColumn ParseColumnHeader(string header);
 
-        /// <summary>
-        /// Parses data from the Date column of the CSV data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns>The parsed <see cref="DateTime"/>.</returns>
         protected virtual DateTime ParseDateColumn(string text)
         {
             var result = text.Trim();
@@ -192,18 +163,8 @@ namespace Sonneville.PriceTools.Data.Csv
             return DateTime.Parse(result, CultureInfo.InvariantCulture);
         }
 
-        /// <summary>
-        /// Parses data from the OrderType column of the CSV data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns>The parsed <see cref="OrderType"/>.</returns>
         protected abstract OrderType ParseOrderTypeColumn(string text);
 
-        /// <summary>
-        /// Parses data from the Symbol column of the CSV data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns>The parsed ticker symbol.</returns>
         protected virtual string ParseSymbolColumn(string text)
         {
             var result = text.Trim();
@@ -214,11 +175,6 @@ namespace Sonneville.PriceTools.Data.Csv
             return result.ToUpperInvariant();
         }
 
-        /// <summary>
-        /// Parses data from the Shares column of the CSV data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns>The parsed number of shares.</returns>
         protected virtual decimal ParseSharesColumn(string text)
         {
             var result = text.Trim();
@@ -227,11 +183,6 @@ namespace Sonneville.PriceTools.Data.Csv
                        : Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture));
         }
 
-        /// <summary>
-        /// Parses data from one of the price columns of the CSV data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns>The parsed per-share price.</returns>
         protected virtual decimal ParsePriceColumn(string text)
         {
             var result = text.Trim();
@@ -240,11 +191,6 @@ namespace Sonneville.PriceTools.Data.Csv
                        : Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture));
         }
 
-        /// <summary>
-        /// Gets a value stored at a given DateTime index of the ITimePeriod.
-        /// </summary>
-        /// <param name="dateTime">The DateTime of the desired value.</param>
-        /// <returns>The value of the ITimePeriod as of the given DateTime.</returns>
         public decimal this[DateTime dateTime]
         {
             get
@@ -264,9 +210,6 @@ namespace Sonneville.PriceTools.Data.Csv
             }
         }
 
-        /// <summary>
-        /// Gets the first DateTime for which a value exists.
-        /// </summary>
         public DateTime Head
         {
             get
@@ -279,9 +222,6 @@ namespace Sonneville.PriceTools.Data.Csv
             }
         }
 
-        /// <summary>
-        /// Gets the last DateTime for which a value exists.
-        /// </summary>
         public DateTime Tail
         {
             get

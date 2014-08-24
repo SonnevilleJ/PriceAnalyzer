@@ -15,27 +15,15 @@ namespace Sonneville.PriceTools.Test
             _transactionFactory = new TransactionFactory();
         }
 
-        /// <summary>
-        /// A test for serialization
-        /// </summary>
         [Test]
         public abstract void SerializeTest();
 
-        /// <summary>
-        ///A test for Amount
-        ///</summary>
         [Test]
         public abstract void AmountInvalidTest();
 
-        /// <summary>
-        ///A test for SettlementDate
-        ///</summary>
         [Test]
         public abstract void SettlementDateTest();
 
-        /// <summary>
-        ///A test for Amount
-        ///</summary>
         [Test]
         public abstract void AmountValidTest();
 

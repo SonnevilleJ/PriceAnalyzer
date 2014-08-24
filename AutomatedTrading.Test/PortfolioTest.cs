@@ -7,10 +7,6 @@ using Sonneville.PriceTools.Yahoo;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    /// <summary>
-    ///This is a test class for Portfolio and is intended
-    ///to contain all Portfolio Unit Tests
-    ///</summary>
     [TestFixture]
     public class PortfolioTest
     {

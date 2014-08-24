@@ -5,16 +5,8 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace Sonneville.Statistics
 {
-    /// <summary>
-    /// Calculates statistics for <see cref="decimal"/> numbers.
-    /// </summary>
     public static class DecimalStatistics
     {
-        /// <summary>
-        /// Returns the median value of a series.
-        /// </summary>
-        /// <param name="decimals"></param>
-        /// <returns></returns>
         public static decimal Median(this IEnumerable<decimal> decimals)
         {
             var list = decimals.OrderBy(d => d);
@@ -61,11 +53,6 @@ namespace Sonneville.Statistics
             return numerator/denominator;
         }
 
-        /// <summary>
-        /// Returns the standard deviation of a series.
-        /// </summary>
-        /// <param name="decimals"></param>
-        /// <returns></returns>
         public static decimal StandardDeviation(this IEnumerable<decimal> decimals)
         {
             if (decimals.Count() <= 1) return 0;
@@ -98,12 +85,6 @@ namespace Sonneville.Statistics
                 return SquareRoot(x, average);
         }
 
-        ///// <summary>
-        ///// Returns the square root of a specified number.
-        ///// </summary>
-        ///// <param name="d">A <see cref="decimal"/> number.</param>
-        ///// <param name="epsilon">The tolerance of the function. Must be greater than or equal to zero.</param>
-        ///// <returns></returns>
         //public static decimal SquareRoot(this decimal d, decimal epsilon = 0M)
         //{
         //    if (d < 0)
@@ -124,31 +105,16 @@ namespace Sonneville.Statistics
         //    return current;
         //}
 
-        /// <summary>
-        /// Returns the square root of a specified number.
-        /// </summary>
-        /// <param name="i">A <see cref="int"/> number.</param>
-        /// <returns></returns>
         public static decimal SquareRoot(this int i)
         {
             return ((decimal)i).SquareRoot();
         }
 
-        /// <summary>
-        /// Returns the square root of a specified number.
-        /// </summary>
-        /// <param name="l">A <see cref="long"/> number.</param>
-        /// <returns></returns>
         public static decimal SquareRoot(this long l)
         {
             return ((decimal)l).SquareRoot();
         }
 
-        /// <summary>
-        /// Returns the Student T-score of a set of values.
-        /// </summary>
-        /// <param name="decimals"></param>
-        /// <returns></returns>
         public static decimal StudentTScore(this IEnumerable<decimal> decimals)
         {
             var size = decimals.Count();
@@ -157,11 +123,6 @@ namespace Sonneville.Statistics
             return (mean - 0)/(standardDeviation/size.SquareRoot());
         }
 
-        /// <summary>
-        /// Returns the Student T-distribution of a set of values.
-        /// </summary>
-        /// <param name="decimals"></param>
-        /// <returns></returns>
         public static decimal StudentTDistribution(this IEnumerable<decimal> decimals)
         {
             var tScore = decimals.StudentTScore();
@@ -169,12 +130,6 @@ namespace Sonneville.Statistics
             return StudentTDistribution(tScore, degreesOfFreedom);
         }
 
-        /// <summary>
-        /// Returns the T-distribution of a set of values.
-        /// </summary>
-        /// <param name="tScore"></param>
-        /// <param name="degreesOfFreedom"></param>
-        /// <returns></returns>
         public static decimal StudentTDistribution(decimal tScore, int degreesOfFreedom)
         {
             if(degreesOfFreedom <= 0) throw new ArgumentOutOfRangeException("degreesOfFreedom", degreesOfFreedom, "Degrees of freedom must be positive.");

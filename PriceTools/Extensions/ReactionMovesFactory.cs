@@ -4,14 +4,8 @@ using System.Linq;
 
 namespace Sonneville.PriceTools
 {
-    /// <summary>
-    /// Contains extension methods for calculating reaction moves.
-    /// </summary>
     public class ReactionMovesFactory : IReactionMovesFactory
     {
-        /// <summary>
-        /// Gets a collection of reaction moves observed in the PriceSeries.
-        /// </summary>
         public IEnumerable<ReactionMove> GetReactionMoves(IPriceSeries priceSeries)
         {
             if (priceSeries == null) throw new ArgumentNullException("priceSeries", Strings.PriceSeriesReactionMovesExtensions_GetReactionMoves_Parameter_priceSeries_cannot_be_null_);
@@ -62,17 +56,11 @@ namespace Sonneville.PriceTools
             return moves;
         }
 
-        /// <summary>
-        /// Gets a collection of reaction highs observed in the PriceSeries.
-        /// </summary>
         public IEnumerable<ReactionMove> GetReactionHighs(IPriceSeries priceSeries)
         {
             return GetReactionMoves(priceSeries).Where(rm => rm.HighLow == HighLow.High);
         }
 
-        /// <summary>
-        /// Gets a collection of reaction lows observed in the PriceSeries.
-        /// </summary>
         public IEnumerable<ReactionMove> GetReactionLows(IPriceSeries priceSeries)
         {
             return GetReactionMoves(priceSeries).Where(rm => rm.HighLow == HighLow.Low);

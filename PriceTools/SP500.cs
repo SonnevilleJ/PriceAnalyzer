@@ -2,9 +2,6 @@
 
 namespace Sonneville.PriceTools
 {
-    /// <summary>
-    /// Represents the S&P 500 Large Cap stock index.
-    /// </summary>
     public class SP500 : IMarketIndex
     {
         private static readonly List<string> _tickers;
@@ -518,9 +515,6 @@ namespace Sonneville.PriceTools
             };
         }
 
-        /// <summary>
-        /// Gets the tickers contained in this <see cref="IMarketIndex"/>.
-        /// </summary>
         public IList<string> GetTickers()
         {
             return _tickers;

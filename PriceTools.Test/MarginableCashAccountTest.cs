@@ -15,9 +15,6 @@ namespace Sonneville.PriceTools.Test
             _transactionFactory = new TransactionFactory();
         }
 
-        /// <summary>
-        ///A test for Withdraw
-        ///</summary>
         [Test]
         public void WithdrawBeforeDepositTest()
         {
@@ -30,9 +27,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(-amount, target.GetCashBalance(dateTime));
         }
 
-        /// <summary>
-        ///A test for Withdraw
-        ///</summary>
         [Test]
         public void WithdrawAfterDepositTest()
         {
@@ -48,9 +42,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        /// <summary>
-        ///A test for Transactions
-        ///</summary>
         [Test]
         public void WithdrawalIsValidBeforeDepositTest()
         {

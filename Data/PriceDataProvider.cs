@@ -5,9 +5,6 @@ using System.Net;
 
 namespace Sonneville.PriceTools.Data
 {
-    /// <summary>
-    /// Provides price data from Comma Separated Values (CSV) data sources.
-    /// </summary>
     public class PriceDataProvider : IPriceDataProvider
     {
         private readonly IWebClient _webClient;
@@ -26,28 +23,12 @@ namespace Sonneville.PriceTools.Data
             _priceHistoryCsvFileFactory = priceHistoryCsvFileFactory;
         }
 
-        /// <summary>
-        /// Gets a <see cref="IPriceSeries"/> containing price history.
-        /// </summary>
-        /// <param name="priceSeries">The <see cref="IPriceSeries"/> containing price history to be updated.</param>
-        /// <param name="head">The first date to price.</param>
-        /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
-        /// <returns></returns>
         public void UpdatePriceSeries(IPriceSeries priceSeries, DateTime head, DateTime tail, Resolution resolution)
         {
             var pricePeriods = DownloadPricePeriods(priceSeries.Ticker, head, tail, resolution);
             priceSeries.AddPriceData(pricePeriods);
         }
 
-        /// <summary>
-        /// Gets an <see cref="IList{IPricePeriod}"/> containing price history.
-        /// </summary>
-        /// <param name="ticker">The ticker of the security to price.</param>
-        /// <param name="head">The first date to price.</param>
-        /// <param name="tail">The last date to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
-        /// <returns></returns>
         public IList<IPricePeriod> DownloadPricePeriods(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             using (var stream = DownloadPricesToCsv(ticker, head, tail, resolution))
@@ -57,23 +38,11 @@ namespace Sonneville.PriceTools.Data
             }
         }
 
-        /// <summary>
-        /// Gets the smallest <see cref="Resolution"/> available from this PriceDataProvider.
-        /// </summary>
         public Resolution BestResolution
         {
             get { return Resolution.Days; }
         }
 
-        /// <summary>
-        ///   Downloads a CSV data file
-        /// </summary>
-        /// <param name = "ticker">The ticker symbol of the security to price.</param>
-        /// <param name = "head">The beginning of the date range to price.</param>
-        /// <param name = "tail">The end of the date range to price.</param>
-        /// <param name="resolution">The <see cref="Resolution"/> of <see cref="IPricePeriod"/>s to retrieve.</param>
-        /// <exception cref="WebException">Thrown when accessing the Internet fails.</exception>
-        /// <returns>A <see cref = "Stream" /> containing the price data in CSV format.</returns>
         private Stream DownloadPricesToCsv(string ticker, DateTime head, DateTime tail, Resolution resolution)
         {
             try

@@ -3,10 +3,6 @@ using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    /// <summary>
-    ///This is a test class for ICashAccountTest and is intended
-    ///to contain all ICashAccountTest Unit Tests
-    ///</summary>
     [TestFixture]
     public class CashAccountTest
     {
@@ -19,9 +15,6 @@ namespace Sonneville.PriceTools.Test
             _transactionFactory = new TransactionFactory();
         }
 
-        /// <summary>
-        ///A test for Deposit
-        ///</summary>
         [Test]
         public void DepositTest()
         {
@@ -35,9 +28,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expectedValue, actualValue);
         }
         
-        /// <summary>
-        ///A test for Withdraw
-        ///</summary>
         [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void WithdrawBeforeDepositTest()
@@ -49,9 +39,6 @@ namespace Sonneville.PriceTools.Test
             target.Withdraw(dateTime, amount);
         }
         
-        /// <summary>
-        ///A test for Withdraw
-        ///</summary>
         [Test]
         public void WithdrawAfterDepositTest()
         {
@@ -145,9 +132,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        /// <summary>
-        ///A test for Transactions
-        ///</summary>
         [Test]
         public void DepositWithdrawalTest()
         {
@@ -162,9 +146,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expectedTransactions, actualTransactions);
         }
 
-        /// <summary>
-        ///A test for Transactions
-        ///</summary>
         [Test]
         public void DepositIsValidTest()
         {
@@ -177,9 +158,6 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(target.TransactionIsValid(deposit));
         }
 
-        /// <summary>
-        ///A test for Transactions
-        ///</summary>
         [Test]
         public void WithdrawalIsValidBeforeDepositTest()
         {
@@ -192,9 +170,6 @@ namespace Sonneville.PriceTools.Test
             Assert.IsFalse(target.TransactionIsValid(withdrawal));
         }
 
-        /// <summary>
-        ///A test for Transactions
-        ///</summary>
         [Test]
         public void WithdrawalIsValidAfterDepositTest()
         {
@@ -209,9 +184,6 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(target.TransactionIsValid(withdrawal));
         }
 
-        /// <summary>
-        ///A test for Transactions
-        ///</summary>
         [Test]
         public void ModifyingTransactionsListDoesNotAffectCashAccountTest()
         {

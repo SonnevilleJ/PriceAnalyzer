@@ -271,9 +271,6 @@ namespace Sonneville.PriceTools.Test
             _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
-        /// <summary>
-        /// Verifies that an order cannot be created with a binary and-ed OrderType, including bounds testing
-        /// </summary>
         [Test]
         public void BinaryAndedOrderTypeTest()
         {
@@ -309,9 +306,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        /// Verifies that an order cannot be created with a binary and-ed PricingType, including bounds testing
-        /// </summary>
         [Test]
         public void BinaryAndedPricingTypeTest()
         {
@@ -348,9 +342,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        /// Verifies that an order cannot be created with a binary and-ed market and limit PricingType
-        /// </summary>
         [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ManualMarketLimitPricingTypeTest()
@@ -366,9 +357,6 @@ namespace Sonneville.PriceTools.Test
             _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
         }
 
-        /// <summary>
-        /// Verifies that a stop order can be created
-        /// </summary>
         [Test]
         public void ManualStopMarketPricingTypeTest()
         {
@@ -387,9 +375,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        /// Verifies that a stop limit order can be created
-        /// </summary>
         [Test]
         public void ManualStopLimitPricingTypeTest()
         {
@@ -408,9 +393,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        /// Verifies that an order constructed with <see cref="PricingType.Stop"/> converts automatically to <see cref="PricingType.StopMarket"/>
-        /// </summary>
         [Test]
         public void StopPricingTypeTest()
         {

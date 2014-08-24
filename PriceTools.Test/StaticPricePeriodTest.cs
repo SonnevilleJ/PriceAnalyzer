@@ -3,16 +3,9 @@ using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    /// <summary>
-    ///This is a test class for StaticPricePeriodTest and is intended
-    ///to contain all StaticPricePeriodTest Unit Tests
-    ///</summary>
     [TestFixture]
     public class StaticPricePeriodTest
     {
-        /// <summary>
-        ///A test for Close
-        ///</summary>
         [Test]
         public void CloseTest()
         {
@@ -25,9 +18,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(close, target.Close);
         }
 
-        /// <summary>
-        ///A test for Head
-        ///</summary>
         [Test]
         public void HeadTest()
         {
@@ -43,9 +33,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(head, target.Head);
         }
 
-        /// <summary>
-        ///A test for High
-        ///</summary>
         [Test]
         public void HighTest()
         {
@@ -62,9 +49,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(high, target.High);
         }
 
-        /// <summary>
-        ///A test for Item
-        ///</summary>
         [Test]
         public void IndexerValueAtHeadTest()
         {
@@ -81,9 +65,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(target.Close, (decimal?) target[target.Head]);
         }
 
-        /// <summary>
-        ///A test for Item
-        ///</summary>
         [Test]
         public void IndexerValueAtTailTest()
         {
@@ -100,9 +81,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(target.Close, (decimal?) target[target.Tail]);
         }
 
-        /// <summary>
-        ///A test for Item
-        ///</summary>
         [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void IndexerValueBeforeHeadTest()
@@ -120,9 +98,6 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNull(target[target.Head.Subtract(new TimeSpan(1))]);
         }
 
-        /// <summary>
-        ///A test for Item
-        ///</summary>
         [Test]
         public void IndexerValueAfterTailTest()
         {
@@ -141,9 +116,6 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNotNull(result);
         }
 
-        /// <summary>
-        ///A test for Low
-        ///</summary>
         [Test]
         public void LowTest()
         {
@@ -160,9 +132,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(low, target.Low);
         }
 
-        /// <summary>
-        ///A test for Open
-        ///</summary>
         [Test]
         public void OpenTest()
         {
@@ -179,9 +148,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(open, target.Open);
         }
 
-        /// <summary>
-        ///A test for Tail
-        ///</summary>
         [Test]
         public void TailTest()
         {
@@ -198,9 +164,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(tail, target.Tail);
         }
 
-        /// <summary>
-        ///A test for Volume
-        ///</summary>
         [Test]
         public void VolumeTest()
         {
@@ -217,9 +180,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(volume, target.Volume);
         }
 
-        /// <summary>
-        ///A test for Resolution
-        ///</summary>
         [Test]
         public void ResolutionTestSeconds()
         {
@@ -238,9 +198,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Resolution
-        ///</summary>
         [Test]
         public void ResolutionTestMinutes()
         {
@@ -259,9 +216,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Resolution
-        ///</summary>
         [Test]
         public void ResolutionTestHours()
         {
@@ -280,9 +234,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Resolution
-        ///</summary>
         [Test]
         public void ResolutionTestDays()
         {
@@ -301,9 +252,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Resolution
-        ///</summary>
         [Test]
         public void ResolutionTestWeeks()
         {
@@ -322,9 +270,6 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        /// <summary>
-        ///A test for Resolution
-        ///</summary>
         [Test]
         public void ResolutionTestMonths()
         {

@@ -14,54 +14,36 @@ namespace Sonneville.PriceTools.Test
             ShareTransactionSerializeTest(TransactionType);
         }
 
-        /// <summary>
-        ///A test for SettlementDate
-        ///</summary>
         [Test]
         public override void SettlementDateTest()
         {
             ShareTransactionSettlementDateTest(TransactionType);
         }
 
-        /// <summary>
-        ///A test for Ticker
-        ///</summary>
         [Test]
         public override void TickerTest()
         {
             ShareTransactionTickerTest(TransactionType);
         }
 
-        /// <summary>
-        ///A test for Price
-        ///</summary>
         [Test]
         public override void PriceValidTest()
         {
             ShareTransactionPriceValidTest(TransactionType);
         }
 
-        /// <summary>
-        ///A test for Price
-        ///</summary>
         [Test]
         public override void PriceInvalidTest()
         {
             ShareTransactionPriceInvalidTest(TransactionType);
         }
 
-        /// <summary>
-        ///A test for Shares
-        ///</summary>
         [Test]
         public override void SharesValidTest()
         {
             ShareTransactionSharesValidTest(TransactionType);
         }
 
-        /// <summary>
-        ///A test for Shares
-        ///</summary>
         [Test]
         [ExpectedException(typeof (ArgumentOutOfRangeException))]
         public override void SharesInvalidTest()
@@ -69,27 +51,18 @@ namespace Sonneville.PriceTools.Test
             ShareTransactionSharesInvalidTest(TransactionType);
         }
 
-        /// <summary>
-        ///A test for Commission
-        ///</summary>
         [Test]
         public override void CommissionValidTest()
         {
             ShareTransactionCommissionValidTest(TransactionType);
         }
 
-        /// <summary>
-        ///A test for Commission
-        ///</summary>
         [Test]
         public override void CommissionInvalidTest()
         {
             // For DividendReinvestment types, the only valid commission is zero.
         }
 
-        /// <summary>
-        /// A test for TotalValue
-        /// </summary>
         [Test]
         public override void TotalValueTest()
         {

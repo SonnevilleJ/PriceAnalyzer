@@ -22,11 +22,6 @@ namespace Sonneville.PriceTools
             ClosingTransactions.Add(typeof (Withdrawal), true);
         }
 
-        /// <summary>
-        /// Gets a value indicating whether or not a transaction opens or increases an investment in a position.
-        /// </summary>
-        /// <param name="transaction"></param>
-        /// <returns></returns>
         public static bool IsOpeningTransaction(this ITransaction transaction)
         {
             try
@@ -39,11 +34,6 @@ namespace Sonneville.PriceTools
             }
         }
 
-        /// <summary>
-        /// Gets a value indicating whether or not a transaction opens or increases an investment in a position.
-        /// </summary>
-        /// <param name="transaction"></param>
-        /// <returns></returns>
         public static bool IsClosingTransaction(this ITransaction transaction)
         {
             try

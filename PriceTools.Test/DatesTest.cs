@@ -8,9 +8,6 @@ namespace Sonneville.PriceTools.Test
     {
         protected abstract Resolution Resolution { get; }
 
-        /// <summary>
-        /// A DateTime guaranteed to be on the open-side border of a period with resolution <see cref="Resolution"/>.
-        /// </summary>
         protected static DateTime PeriodHead
         {
             get { return new DateTime(2012, 1, 1, 0, 0, 0, 0); }

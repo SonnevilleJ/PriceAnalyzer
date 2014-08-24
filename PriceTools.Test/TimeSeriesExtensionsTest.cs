@@ -6,9 +6,6 @@ using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.Test
 {
-    /// <summary>
-    /// This test class contains unit tests for the TimeSeriesUtility class.
-    /// </summary>
     [TestFixture]
     public class TimeSeriesExtensionsTest
     {

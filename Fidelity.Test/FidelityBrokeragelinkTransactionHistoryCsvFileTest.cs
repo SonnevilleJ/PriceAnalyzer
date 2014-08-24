@@ -15,10 +15,6 @@ using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Fidelity.Test
 {
-    /// <summary>
-    ///This is a test class for FidelityTransactionHistoryCsvFileTest and is intended
-    ///to contain all FidelityTransactionHistoryCsvFileTest Unit Tests
-    ///</summary>
     [TestFixture]
     public class FidelityBrokeragelinkTransactionHistoryCsvFileTest
     {
@@ -34,9 +30,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFcntxTest()
         {
@@ -53,9 +46,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFdlsxTest()
         {
@@ -72,9 +62,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFemexTest()
         {
@@ -91,9 +78,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFemkxTest()
         {
@@ -110,9 +94,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFhkcxTest()
         {
@@ -129,9 +110,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFicdxTest()
         {
@@ -148,9 +126,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFlatxTest()
         {
@@ -167,9 +142,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFsagxTest()
         {
@@ -186,9 +158,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFschxTest()
         {
@@ -205,9 +174,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFslbxTest()
         {
@@ -224,9 +190,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFsngxTest()
         {
@@ -243,9 +206,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioFtrnxTest()
         {
@@ -262,9 +222,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        ///A test for ParsePortfolio
-        ///</summary>
         [Test]
         public void ParsePortfolioAvailableCashTest()
         {
@@ -280,9 +237,6 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        /// <summary>
-        /// Ensure that price and shares are used correctly in determining final transaction value.
-        /// </summary>
         [Test]
         public void TransactionPriceRoundingTest()
         {

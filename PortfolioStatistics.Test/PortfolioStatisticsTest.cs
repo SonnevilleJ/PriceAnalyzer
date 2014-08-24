@@ -5,9 +5,6 @@ using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.PortfolioStatistics.Test
 {
-    /// <summary>
-    /// Summary description for PortfolioStatisticsTest
-    /// </summary>
     [TestFixture]
     public class PortfolioStatisticsTest
     {

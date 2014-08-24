@@ -7,25 +7,13 @@ using Sonneville.PriceTools.Data.Csv;
 
 namespace Sonneville.PriceTools.Fidelity
 {
-    /// <summary>
-    ///   Parses an <see cref = "Portfolio" /> from Fidelity CSV data.
-    /// </summary>
     public class FidelityTransactionHistoryCsvFile : TransactionHistoryCsvFile
     {
-        /// <summary>
-        ///   Constructs a TransactionHistoryCsvFile from Fidelity transaction data.
-        /// </summary>
-        /// <param name = "csvStream"></param>
         public FidelityTransactionHistoryCsvFile(Stream csvStream)
             : base(csvStream, true)
         {
         }
 
-        /// <summary>
-        /// Parses the headers of a TransactionHistoryCsv file.
-        /// </summary>
-        /// <param name="header">A header from the CSV file</param>
-        /// <returns>The <see cref="TransactionColumn"/> of <paramref name="header"/>.</returns>
         protected override TransactionColumn ParseColumnHeader(string header)
         {
             if(String.IsNullOrWhiteSpace(header))
@@ -55,11 +43,6 @@ namespace Sonneville.PriceTools.Fidelity
             }
         }
 
-        /// <summary>
-        /// Parses data from the OrderType column of the CSV data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns>The parsed <see cref="OrderType"/>.</returns>
         protected override OrderType ParseOrderTypeColumn(string text)
         {
             if(String.IsNullOrWhiteSpace(text))

@@ -14,11 +14,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _profitCalculator = new ProfitCalculator();
         }
 
-        /// <summary>
-        /// Calculates the expected result of a call to CalculateStandardDeviation on a <see cref="ISecurityBasket"/>.
-        /// </summary>
-        /// <param name="holdings"></param>
-        /// <returns></returns>
         public static decimal GetExpectedStandardDeviation(IEnumerable<Holding> holdings)
         {
             var values = holdings.Select(h => _profitCalculator.GrossProfit(h)).ToArray();
@@ -30,11 +25,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             return ((sum/values.Count()) - 1).SquareRoot();
         }
 
-        /// <summary>
-        /// Calculates the expected result of a call to CalculateMedianProfit on a <see cref="ISecurityBasket"/>.
-        /// </summary>
-        /// <param name="holdings"></param>
-        /// <returns></returns>
         public static decimal GetExpectedMedianProfit(IEnumerable<Holding> holdings)
         {
             var list = holdings.OrderBy(holding => _profitCalculator.GrossProfit(holding)).ToList();
@@ -48,9 +38,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             return _profitCalculator.GrossProfit(list[midpoint]);
         }
 
-        /// <summary>
-        /// Calculates the expected result of a call to CalculateNetProfit on a single Position.
-        /// </summary>
         public static decimal GetExpectedNetProfit(decimal openingPrice, decimal openingCommission,
                                                    decimal closingShares, decimal closingPrice,
                                                    decimal closingCommission)
@@ -58,9 +45,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             return ((closingPrice - openingPrice)*closingShares) - openingCommission - closingCommission;
         }
 
-        /// <summary>
-        /// Calculates the expected result of a call to CalculateGrossProfit on a single Position.
-        /// </summary>
         public static decimal GetExpectedGrossProfit(decimal openingPrice, decimal shares, decimal closingPrice)
         {
             return (closingPrice - openingPrice)*shares;

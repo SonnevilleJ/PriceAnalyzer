@@ -5,9 +5,6 @@ using Moq;
 
 namespace Sonneville.PriceTools.Test
 {
-    /// <summary>
-    /// Summary description for ConstantPriceSeriesTest
-    /// </summary>
     [TestFixture]
     public class ConstantPriceSeriesTest
     {

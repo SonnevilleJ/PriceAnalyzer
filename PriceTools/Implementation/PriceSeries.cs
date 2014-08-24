@@ -5,14 +5,8 @@ using System.Linq;
 
 namespace Sonneville.PriceTools.Implementation
 {
-    /// <summary>
-    /// Represents a time series of price data.
-    /// </summary>
     internal class PriceSeries : IPriceSeries
     {
-        /// <summary>
-        /// The default <see cref="Resolution"/> of a PriceSeries.
-        /// </summary>
         private const Resolution DefaultResolution = Resolution.Days;
 
         private readonly Resolution _resolution;
@@ -20,61 +14,37 @@ namespace Sonneville.PriceTools.Implementation
         private readonly IList<IPricePeriod> _dataPeriods = new List<IPricePeriod>();
         private readonly ITimeSeriesUtility _timeSeriesUtility;
 
-        /// <summary>
-        /// Constructs a PriceSeries object.
-        /// </summary>
-        /// <param name="resolution"></param>
         protected internal PriceSeries(Resolution resolution = DefaultResolution)
         {
             _resolution = resolution;
             _timeSeriesUtility = new TimeSeriesUtility();
         }
 
-        /// <summary>
-        /// Gets the closing price for the PriceSeries.
-        /// </summary>
         public decimal Close
         {
             get { return DataPeriods.OrderBy(p => p.Tail).Last().Close; }
         }
 
-        /// <summary>
-        /// Gets the highest price that occurred during the PriceSeries.
-        /// </summary>
         public decimal High
         {
             get { return DataPeriods.Max(p => p.High); }
         }
 
-        /// <summary>
-        /// Gets the lowest price that occurred during the PriceSeries.
-        /// </summary>
         public decimal Low
         {
             get { return DataPeriods.Min(p => p.Low); }
         }
 
-        /// <summary>
-        /// Gets the opening price for the PriceSeries.
-        /// </summary>
         public decimal Open
         {
             get { return DataPeriods.OrderBy(p => p.Head).First().Open; }
         }
 
-        /// <summary>
-        /// Gets the total volume of trades during the PriceSeries.
-        /// </summary>
         public long? Volume
         {
             get { return DataPeriods.Sum(p => p.Volume); }
         }
 
-        /// <summary>
-        /// Gets a value stored at a given DateTime index of the PriceSeries.
-        /// </summary>
-        /// <param name="dateTime">The DateTime of the desired value.</param>
-        /// <returns>The value of the PriceSeries as of the given DateTime.</returns>
         public decimal this[DateTime dateTime]
         {
             get
@@ -83,17 +53,11 @@ namespace Sonneville.PriceTools.Implementation
             }
         }
 
-        /// <summary>
-        /// Gets a collection of the <see cref="ITimePeriod"/>s in this TimeSeries.
-        /// </summary>
         public IEnumerable<ITimePeriod<decimal>> TimePeriods
         {
             get { return PricePeriods.Cast<ITimePeriod<decimal>>().ToList(); }
         }
 
-        /// <summary>
-        /// Gets the first DateTime in the PriceSeries.
-        /// </summary>
         public DateTime Head
         {
             get
@@ -104,9 +68,6 @@ namespace Sonneville.PriceTools.Implementation
             }
         }
 
-        /// <summary>
-        /// Gets the last DateTime in the PriceSeries.
-        /// </summary>
         public DateTime Tail
         {
             get
@@ -117,29 +78,15 @@ namespace Sonneville.PriceTools.Implementation
             }
         }
 
-        /// <summary>
-        /// Gets the ticker symbol priced by this PriceSeries.
-        /// </summary>
         public string Ticker { get; set; }
 
-        /// <summary>
-        /// Gets a collection of the <see cref="PricePeriod"/>s in this PriceSeries.
-        /// </summary>
         public IEnumerable<IPricePeriod> PricePeriods { get { return DataPeriods; } }
 
-        /// <summary>
-        /// Adds price data to the PriceSeries.
-        /// </summary>
-        /// <param name="pricePeriod"></param>
         public void AddPriceData(IPricePeriod pricePeriod)
         {
             AddPriceData(new [] {pricePeriod});
         }
 
-        /// <summary>
-        /// Adds price data to the PriceSeries.
-        /// </summary>
-        /// <param name="pricePeriods"></param>
         public void AddPriceData(IEnumerable<IPricePeriod> pricePeriods)
         {
             var list = pricePeriods.Where(period => !_timeSeriesUtility.HasValueInRange(this, period.Head) && !_timeSeriesUtility.HasValueInRange(this, period.Tail)).ToList();
@@ -153,9 +100,6 @@ namespace Sonneville.PriceTools.Implementation
             }
         }
 
-        /// <summary>
-        /// Gets or sets the resolution of PricePeriods to retrieve.
-        /// </summary>
         public Resolution Resolution
         {
             get { return _resolution; }
@@ -166,13 +110,6 @@ namespace Sonneville.PriceTools.Implementation
             get { return _dataPeriods.AsParallel(); }
         }
 
-        /// <summary>
-        /// Gets the most recent price at or before <paramref name="settlementDate"/>.
-        /// </summary>
-        /// <param name="priceSeries"> </param>
-        /// <param name="settlementDate">The DateTime to price.</param>
-        /// <exception cref="InvalidOperationException">Throws if no price is available at or before <paramref name="settlementDate"/>.</exception>
-        /// <returns>The most recent price at or before <paramref name="settlementDate"/>.</returns>
         private static decimal GetLatestPrice(IPriceSeries priceSeries, DateTime settlementDate)
         {
             var matchingPeriods = priceSeries.PricePeriods.Where(p => p.HasValueInRange(settlementDate)).ToList();
@@ -185,25 +122,11 @@ namespace Sonneville.PriceTools.Implementation
 
         #region Equality
 
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
         public bool Equals(IPricePeriod other)
         {
             return Equals(other as IPriceSeries);
         }
 
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
         public bool Equals(IPriceSeries other)
         {
             if (ReferenceEquals(null, other))
@@ -215,25 +138,11 @@ namespace Sonneville.PriceTools.Implementation
                    other.PricePeriods.All(pricePeriod => PricePeriods.Contains(pricePeriod));
         }
 
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="obj"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="obj">An object to compare with this object.</param>
         public override bool Equals(object obj)
         {
             return Equals(obj as IPriceSeries);
         }
 
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
         public override int GetHashCode()
         {
             unchecked
@@ -242,23 +151,11 @@ namespace Sonneville.PriceTools.Implementation
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
         public static bool operator ==(PriceSeries left, PriceSeries right)
         {
             return Equals(left, right);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
         public static bool operator !=(PriceSeries left, PriceSeries right)
         {
             return !Equals(left, right);

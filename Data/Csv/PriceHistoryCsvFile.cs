@@ -8,9 +8,6 @@ using LumenWorks.Framework.IO.Csv;
 
 namespace Sonneville.PriceTools.Data.Csv
 {
-    /// <summary>
-    /// Represents a file store containing historical price data.
-    /// </summary>
     public abstract class PriceHistoryCsvFile
     {
         private static readonly IDictionary<PriceColumn, string> DefaultColumnHeaders = new Dictionary<PriceColumn, string>
@@ -23,37 +20,17 @@ namespace Sonneville.PriceTools.Data.Csv
                                                                                                 {PriceColumn.Volume, "Volume"}
                                                                                             };
 
-        /// <summary>
-        /// Constructs a PriceHistoryCsvFile.
-        /// </summary>
         protected PriceHistoryCsvFile()
         {
         }
 
-        /// <summary>
-        /// Constructs a PriceHistoryCsvFile.
-        /// </summary>
-        /// <param name="stream">The CSV data stream to parse.</param>
-        /// <param name="impliedHead">The head of the price data contained in the CSV data.</param>
-        /// <param name="impliedTail">The tail of the price data contained in the CSV data.</param>
-        /// <param name="impliedResolution">The <see cref="Resolution"/> of price data contained in the CSV data.</param>
         protected internal PriceHistoryCsvFile(Stream stream, DateTime? impliedHead = null, DateTime? impliedTail = null, Resolution? impliedResolution = null)
         {
             Read(stream, impliedHead, impliedTail, impliedResolution);
         }
 
-        /// <summary>
-        /// Gets a list of all <see cref="IPricePeriod"/>s in the file.
-        /// </summary>
         public IList<IPricePeriod> PricePeriods { get; private set; }
 
-        /// <summary>
-        /// Reads the contents of a Price History CSV file from a stream.
-        /// </summary>
-        /// <param name="stream">The stream to read.</param>
-        /// <param name="impliedHead"></param>
-        /// <param name="impliedTail"></param>
-        /// <param name="impliedResolution"></param>
         public void Read(Stream stream, DateTime? impliedHead = null, DateTime? impliedTail = null, Resolution? impliedResolution = null)
         {
             using (var reader = new StreamReader(stream))
@@ -62,13 +39,6 @@ namespace Sonneville.PriceTools.Data.Csv
             }
         }
 
-        /// <summary>
-        /// Reads price history information from CSV data.
-        /// </summary>
-        /// <param name="textReader"></param>
-        /// <param name="impliedHead"></param>
-        /// <param name="impliedTail"></param>
-        /// <param name="impliedResolution"></param>
         public void Read(TextReader textReader, DateTime? impliedHead = null, DateTime? impliedTail = null, Resolution? impliedResolution = null)
         {
             using (var csvReader = new CsvReader(textReader, true))
@@ -176,11 +146,6 @@ namespace Sonneville.PriceTools.Data.Csv
             return builder.ToString();
         }
 
-        /// <summary>
-        /// Parses the column headers of a PriceHistoryCsvFile.
-        /// </summary>
-        /// <param name="header">A column header from the CSV file.</param>
-        /// <returns>The <see cref="PriceColumn"/> of <paramref name="header"/>.</returns>
         private PriceColumn ParseColumnHeader(string header)
         {
             var li = header.ToLowerInvariant();
@@ -324,22 +289,11 @@ namespace Sonneville.PriceTools.Data.Csv
             public long? Volume;
         }
 
-        /// <summary>
-        /// Returns a dictionary with an ordered list of <see cref="PriceColumn"/>s and their corresponding string values.
-        /// </summary>
-        /// <remarks>
-        /// When overridden in a derived class, this property defines localizable strings for column headers as well as the preferred order of columns.
-        /// </remarks>
         protected virtual IDictionary<PriceColumn, string> ColumnHeaders
         {
             get { return DefaultColumnHeaders; }
         }
 
-        /// <summary>
-        /// Parses data from the Date column of the CSV data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns>The parsed <see cref="DateTime"/>.</returns>
         protected virtual DateTime ParseDateColumn(string text)
         {
             var result = text.Trim();
@@ -350,11 +304,6 @@ namespace Sonneville.PriceTools.Data.Csv
             return DateTime.Parse(result, CultureInfo.InvariantCulture);
         }
 
-        /// <summary>
-        /// Parses data from one of the price columns of the CSV data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns>The parsed per-share price.</returns>
         protected virtual decimal? ParsePriceColumn(string text)
         {
             var result = text.Trim();
@@ -363,11 +312,6 @@ namespace Sonneville.PriceTools.Data.Csv
                        : Math.Abs(decimal.Parse(text.Trim(), CultureInfo.InvariantCulture));
         }
 
-        /// <summary>
-        /// Parses data from the volume column of the CSV data.
-        /// </summary>
-        /// <param name="text">The raw CSV data to parse.</param>
-        /// <returns>The parsed per-share price.</returns>
         protected virtual long? ParseVolumeColumn(string text)
         {
             var result = text.Trim();
