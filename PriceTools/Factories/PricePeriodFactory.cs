@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools
@@ -9,6 +8,13 @@ namespace Sonneville.PriceTools
     /// </summary>
     public class PricePeriodFactory : IPricePeriodFactory
     {
+        private readonly ResolutionUtility _resolutionUtility;
+
+        public PricePeriodFactory()
+        {
+            _resolutionUtility = new ResolutionUtility();
+        }
+
         /// <summary>
         /// Constructs a <see cref="IPricePeriod"/> with data.
         /// </summary>
@@ -48,7 +54,7 @@ namespace Sonneville.PriceTools
         /// <returns>A PricePeriod object with only a close.</returns>
         public IPricePeriod ConstructStaticPricePeriod(DateTime head, Resolution resolution, decimal? open, decimal? high, decimal? low, decimal close, long? volume = null)
         {
-            return ConstructStaticPricePeriod(head, ConstructTail(head, resolution), open, high, low, close, volume);
+            return ConstructStaticPricePeriod(head, _resolutionUtility.ConstructTail(head, resolution), open, high, low, close, volume);
         }
 
         /// <summary>
@@ -85,50 +91,7 @@ namespace Sonneville.PriceTools
             if (low > close)
                 throw new InvalidOperationException(Strings.StaticPricePeriodImpl_StaticPricePeriodImpl_Closing_price_cannot_be_lower_than_Low_price_);
 
-            return new PricePeriod
-            {
-                Head = head,
-                Tail = tail,
-                Open = open ?? close,
-                High = high ?? close,
-                Low = low ?? close,
-                Close = close,
-                Volume = volume
-            };
-        }
-
-        private static DateTime ConstructTail(DateTime head, Resolution resolution)
-        {
-            var result = head;
-            switch (resolution)
-            {
-                case Resolution.Days:
-                    result = head.AddDays(1);
-                    break;
-                case Resolution.Weeks:
-                    switch (result.DayOfWeek)
-                    {
-                        case DayOfWeek.Monday:
-                            result = result.AddDays(5);
-                            break;
-                        case DayOfWeek.Tuesday:
-                            result = result.AddDays(4);
-                            break;
-                        case DayOfWeek.Wednesday:
-                            result = result.AddDays(3);
-                            break;
-                        case DayOfWeek.Thursday:
-                            result = result.AddDays(2);
-                            break;
-                        case DayOfWeek.Friday:
-                            result = result.AddDays(1);
-                            break;
-                    }
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("resolution", resolution, String.Format(CultureInfo.InvariantCulture, Strings.StaticPricePeriodImpl_ConstructTail_Unable_to_identify_the_period_tail_for_resolution__0__, resolution));
-            }
-            return result.Subtract(new TimeSpan(0, 0, 0, 0, 1));
+            return new PricePeriod(head, tail, open ?? close, high ?? close, low ?? close, close, volume);
         }
     }
 }

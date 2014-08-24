@@ -1,16 +1,10 @@
 ﻿using System;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.TestUtilities
 {
     public static class PricePeriodUtilities
     {
-        private static readonly IPricePeriodFactory _pricePeriodFactory;
-
-        static PricePeriodUtilities()
-        {
-            _pricePeriodFactory = new PricePeriodFactory();
-        }
-
         public static IPricePeriod CreatePeriod1()
         {
             var head = new DateTime(2011, 3, 14);
@@ -21,7 +15,7 @@ namespace Sonneville.PriceTools.TestUtilities
             const decimal close = 100.00m;
             const long volume = 20000;
 
-            return _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
+            return CreatePricePeriod(head, tail, open, high, low, close, volume);
         }
 
         public static IPricePeriod CreatePeriod2()
@@ -33,7 +27,7 @@ namespace Sonneville.PriceTools.TestUtilities
             const decimal low = 100.00m;
             const decimal close = 110.00m;
 
-            return _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close);
+            return CreatePricePeriod(head, tail, open, high, low, close, 0);
         }
 
         public static IPricePeriod CreatePeriod3()
@@ -46,7 +40,13 @@ namespace Sonneville.PriceTools.TestUtilities
             const decimal close = 90.00m;
             const long volume = 10000;
 
-            return _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, open, high, low, close, volume);
+            return CreatePricePeriod(head, tail, open, high, low, close, volume);
+        }
+
+        private static IPricePeriod CreatePricePeriod(DateTime head, DateTime tail, decimal open, decimal high, decimal low,
+            decimal close, long volume)
+        {
+            return new PricePeriod(head, tail, open, high, low, close, volume);
         }
     }
 }

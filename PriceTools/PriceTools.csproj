@@ -120,6 +120,7 @@
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
     <Compile Include="Factories\TransactionFactory.cs" />
+    <Compile Include="ResolutionUtility.cs" />
     <Compile Include="WebClientWrapper.cs" />
   </ItemGroup>
   <ItemGroup>

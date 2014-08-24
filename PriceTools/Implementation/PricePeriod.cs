@@ -1,37 +1,91 @@
 ﻿using System;
-using System.Linq;
 
 namespace Sonneville.PriceTools.Implementation
 {
     /// <summary>
     /// Represents a defined period of price data.
     /// </summary>
-    internal struct PricePeriod : IPricePeriod
+    public struct PricePeriod : IPricePeriod
     {
-        /// <summary>
-        /// Gets the closing price for the IPricePeriod.
-        /// </summary>
-        public decimal Close { get; set; }
+        private static readonly ResolutionUtility ResolutionUtility = new ResolutionUtility();
+
+        public PricePeriod(DateTime head, DateTime tail, decimal value)
+            : this(head, tail, value, null)
+        {
+        }
+
+        public PricePeriod(DateTime head, DateTime tail, decimal value, long? volume)
+            : this(head, tail, value, value, value, value, volume)
+        {
+        }
+
+        public PricePeriod(DateTime head, Resolution resolution, decimal value)
+            : this(head, resolution, value, null)
+        {
+        }
+
+        public PricePeriod(DateTime head, Resolution resolution, decimal value, long? volume)
+            : this(head, resolution, value, value, value, value, volume)
+        {
+        }
+
+        public PricePeriod(DateTime head, Resolution resolution, decimal open, decimal high, decimal low, decimal close, long? volume)
+            : this(head, ResolutionUtility.ConstructTail(head, resolution), open, high, low, close, volume)
+        {
+        }
+
+        public PricePeriod(DateTime head, DateTime tail, decimal open, decimal high, decimal low, decimal close, long? volume)
+            : this()
+        {
+            Close = close;
+            High = high;
+            Low = low;
+            Open = open;
+            Volume = volume;
+            Head = head;
+            Tail = tail;
+            Resolution = ResolutionUtility.CalculateResolution(this.TimeSpan());
+        }
 
         /// <summary>
-        /// Gets the highest price that occurred during the IPricePeriod.
+        /// Gets the first DateTime in the IPricePeriod.
         /// </summary>
-        public decimal High { get; set; }
+        public DateTime Head { get; private set; }
 
         /// <summary>
-        /// Gets the lowest price that occurred during the IPricePeriod.
+        /// Gets the last DateTime in the IPricePeriod.
         /// </summary>
-        public decimal Low { get; set; }
+        public DateTime Tail { get; private set; }
 
         /// <summary>
         /// Gets the opening price for the IPricePeriod.
         /// </summary>
-        public decimal Open { get; set; }
+        public decimal Open { get; private set; }
+
+        /// <summary>
+        /// Gets the highest price that occurred during the IPricePeriod.
+        /// </summary>
+        public decimal High { get; private set; }
+
+        /// <summary>
+        /// Gets the lowest price that occurred during the IPricePeriod.
+        /// </summary>
+        public decimal Low { get; private set; }
+
+        /// <summary>
+        /// Gets the closing price for the IPricePeriod.
+        /// </summary>
+        public decimal Close { get; private set; }
 
         /// <summary>
         /// Gets the total volume of trades during the IPricePeriod.
         /// </summary>
-        public long? Volume { get; set; }
+        public long? Volume { get; private set; }
+
+        /// <summary>
+        /// Gets the <see cref="Resolution"/> of price data stored within the IPricePeriod.
+        /// </summary>
+        public Resolution Resolution { get; private set; }
 
         /// <summary>
         /// Gets a value stored at a given DateTime index of the IPricePeriod.
@@ -50,110 +104,37 @@ namespace Sonneville.PriceTools.Implementation
             }
         }
 
-        /// <summary>
-        /// Gets the first DateTime in the IPricePeriod.
-        /// </summary>
-        public DateTime Head { get; set; }
-
-        /// <summary>
-        /// Gets the last DateTime in the IPricePeriod.
-        /// </summary>
-        public DateTime Tail { get; set; }
-
-        /// <summary>
-        /// Gets the <see cref="Resolution"/> of price data stored within the IPricePeriod.
-        /// </summary>
-        public Resolution Resolution
-        {
-            get
-            {
-                var resolutions = Enum.GetValues(typeof (Resolution)).Cast<long>().OrderBy(ticks => ticks);
-                var thisTicks = this.TimeSpan().Ticks;
-                return (Resolution) Enum.ToObject(typeof (Resolution), resolutions.First(ticks => thisTicks <= ticks));
-            }
-        }
-
-        #region Equality
-
-        /// <summary>
-        /// Indicates whether the current object is equal to another object of the same type.
-        /// </summary>
-        /// <returns>
-        /// true if the current object is equal to the <paramref name="other"/> parameter; otherwise, false.
-        /// </returns>
-        /// <param name="other">An object to compare with this object.</param>
-        public bool Equals(IPricePeriod  other)
-        {
-            if (ReferenceEquals(null, other))
-                return false;
-            return Resolution == other.Resolution &&
-                   Head == other.Head &&
-                   Tail == other.Tail &&
-                   Open == other.Open &&
-                   High == other.High &&
-                   Low == other.Low &&
-                   Close == other.Close &&
-                   Volume == other.Volume;
-        }
-
-        /// <summary>
-        /// Determines whether the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>.
-        /// </summary>
-        /// <returns>
-        /// true if the specified <see cref="T:System.Object"/> is equal to the current <see cref="T:System.Object"/>; otherwise, false.
-        /// </returns>
-        /// <param name="obj">The <see cref="T:System.Object"/> to compare with the current <see cref="T:System.Object"/>. </param><filterpriority>2</filterpriority>
         public override bool Equals(object obj)
         {
-            return Equals(obj as IPricePeriod);
+            if (ReferenceEquals(null, obj)) return false;
+            return obj is IPricePeriod && Equals((IPricePeriod)obj);
         }
 
-        /// <summary>
-        /// Serves as a hash function for a particular type. 
-        /// </summary>
-        /// <returns>
-        /// A hash code for the current <see cref="T:System.Object"/>.
-        /// </returns>
-        /// <filterpriority>2</filterpriority>
+        public bool Equals(IPricePeriod other)
+        {
+            return Close == other.Close
+                   && High == other.High
+                   && Low == other.Low
+                   && Open == other.Open
+                   && Volume == other.Volume
+                   && Head.Equals(other.Head)
+                   && Tail.Equals(other.Tail);
+        }
+
         public override int GetHashCode()
         {
             unchecked
             {
-                var result = Resolution.GetHashCode();
-                result = (result * 397) ^ Head.GetHashCode();
-                result = (result * 397) ^ Tail.GetHashCode();
-                result = (result * 397) ^ Open.GetHashCode();
-                result = (result * 397) ^ High.GetHashCode();
-                result = (result * 397) ^ Low.GetHashCode();
-                result = (result * 397) ^ Close.GetHashCode();
-                result = (result * 397) ^ Volume.GetHashCode();
-                return result;
+                var hashCode = Close.GetHashCode();
+                hashCode = (hashCode * 397) ^ High.GetHashCode();
+                hashCode = (hashCode * 397) ^ Low.GetHashCode();
+                hashCode = (hashCode * 397) ^ Open.GetHashCode();
+                hashCode = (hashCode * 397) ^ Volume.GetHashCode();
+                hashCode = (hashCode * 397) ^ Head.GetHashCode();
+                hashCode = (hashCode * 397) ^ Tail.GetHashCode();
+                return hashCode;
             }
         }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator ==(PricePeriod left, PricePeriod right)
-        {
-            return Equals(left, right);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="left"></param>
-        /// <param name="right"></param>
-        /// <returns></returns>
-        public static bool operator !=(PricePeriod left, PricePeriod right)
-        {
-            return !Equals(left, right);
-        }
-
-        #endregion
 
         /// <summary>
         /// Returns a string that represents the current object.
