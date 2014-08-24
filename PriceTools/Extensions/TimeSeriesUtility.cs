@@ -14,16 +14,9 @@ namespace Sonneville.PriceTools
             _timePeriodFactory = new TimePeriodFactory<decimal>();
         }
 
-        public bool HasValueInRange<T>(ITimeSeries<ITimePeriod<T>, T> timeSeries, DateTime settlementDate)
-        {
-            if (!timeSeries.TimePeriods.Any()) return false;
-            return timeSeries.HasValueInRange(settlementDate);
-        }
-
         public bool HasValueInRange(IPriceSeries priceSeries, DateTime settlementDate)
         {
-            if (!priceSeries.PricePeriods.Any()) return false;
-            return HasValueInRange((priceSeries as ITimeSeries<ITimePeriod<decimal>, decimal>), settlementDate);
+            return priceSeries.PricePeriods.Any() && priceSeries.HasValueInRange(settlementDate);
         }
 
         public IEnumerable<ITimePeriod<decimal>> ResizeTimePeriods(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, Resolution resolution)

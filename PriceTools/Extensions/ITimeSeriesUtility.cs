@@ -5,8 +5,6 @@ namespace Sonneville.PriceTools
 {
     public interface ITimeSeriesUtility
     {
-        bool HasValueInRange<T>(ITimeSeries<ITimePeriod<T>, T> timeSeries, DateTime settlementDate);
-
         bool HasValueInRange(IPriceSeries priceSeries, DateTime settlementDate);
 
         IEnumerable<ITimePeriod<decimal>> ResizeTimePeriods(ITimeSeries<ITimePeriod<decimal>, decimal> timeSeries, Resolution resolution);
