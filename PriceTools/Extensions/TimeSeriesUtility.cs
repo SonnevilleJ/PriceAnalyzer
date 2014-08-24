@@ -10,7 +10,6 @@ namespace Sonneville.PriceTools
     /// </summary>
     public class TimeSeriesUtility : ITimeSeriesUtility
     {
-        private readonly IPricePeriodFactory _pricePeriodFactory;
         private readonly ITimePeriodFactory<decimal> _timePeriodFactory;
 
         /// <summary>
@@ -18,7 +17,6 @@ namespace Sonneville.PriceTools
         /// </summary>
         public TimeSeriesUtility()
         {
-            _pricePeriodFactory = new PricePeriodFactory();
             _timePeriodFactory = new TimePeriodFactory<decimal>();
         }
 
@@ -202,16 +200,17 @@ namespace Sonneville.PriceTools
 
             var pairs = GetResolutionDatePairs(resolution, head, tail);
 
-            return from pair in pairs
-                   let periodHead = pair.Key
-                   let periodTail = pair.Value
-                   let periodsInRange = dataPeriods.Where(period => period.Head >= periodHead && period.Tail <= periodTail).ToList()
-                   let open = periodsInRange.First().Open
-                   let high = periodsInRange.Max(p => p.High)
-                   let low = periodsInRange.Min(p => p.Low)
-                   let close = periodsInRange.Last().Close
-                   let volume = periodsInRange.Sum(p => p.Volume)
-                   select _pricePeriodFactory.ConstructStaticPricePeriod(periodHead, periodTail, open, high, low, close, volume);
+            var resized = from pair in pairs
+                let periodHead = pair.Key
+                let periodTail = pair.Value
+                let periodsInRange = dataPeriods.Where(period => period.Head >= periodHead && period.Tail <= periodTail).ToList()
+                let open = periodsInRange.First().Open
+                let high = periodsInRange.Max(p => p.High)
+                let low = periodsInRange.Min(p => p.Low)
+                let close = periodsInRange.Last().Close
+                let volume = periodsInRange.Sum(p => p.Volume)
+                select new PricePeriod(periodHead, periodTail, open, high, low, close, volume);
+            return resized.Cast<IPricePeriod>();
         }
 
         private void ValidateResolution(Resolution desiredResolution, Resolution actualResolution)

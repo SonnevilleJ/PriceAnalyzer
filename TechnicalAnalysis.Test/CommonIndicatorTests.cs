@@ -8,12 +8,10 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
     [TestClass]
     public abstract class CommonIndicatorTests<T> where T : ITimeSeriesIndicator<decimal>
     {
-        private readonly IPricePeriodFactory _pricePeriodFactory;
         private readonly IPriceSeriesFactory _priceSeriesFactory;
 
         protected CommonIndicatorTests()
         {
-            _pricePeriodFactory = new PricePeriodFactory();
             _priceSeriesFactory = new PriceSeriesFactory();
         }
 
@@ -174,7 +172,7 @@ namespace Sonneville.PriceTools.TechnicalAnalysis.Test
 
                 var dateShifter = weekendData ? weekendDateShifter : weekdayDateShifter;
                 var dateTime = dateShifter(startDate, i, resolution);
-                var period = _pricePeriodFactory.ConstructStaticPricePeriod(dateTime, resolution, price);
+                var period = new PricePeriod(dateTime, resolution, price);
                 series.AddPriceData(period);
             }
             return series;

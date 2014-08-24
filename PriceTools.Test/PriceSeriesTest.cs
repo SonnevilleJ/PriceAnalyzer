@@ -12,14 +12,12 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class PriceSeriesTest
     {
-        private IPricePeriodFactory _pricePeriodFactory;
         private IPriceSeriesFactory _priceSeriesFactory;
         private ITimeSeriesUtility _timeSeriesUtility;
 
         [TestInitialize]
         public void Initialize()
         {
-            _pricePeriodFactory = new PricePeriodFactory();
             _priceSeriesFactory = new PriceSeriesFactory();
             _timeSeriesUtility = new TimeSeriesUtility();
         }
@@ -416,7 +414,7 @@ namespace Sonneville.PriceTools.Test
             var head = new DateTime(2011, 12, 28);
             var tail = head.NextPeriodClose(target.Resolution);
             const decimal close = 5.00m;
-            var period = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period = new PricePeriod(head, tail, close);
 
             target.AddPriceData(period);
 

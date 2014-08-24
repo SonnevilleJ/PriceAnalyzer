@@ -12,14 +12,12 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class ConstantPriceSeriesTest
     {
-        private IPricePeriodFactory _pricePeriodFactory;
         private IPriceSeriesFactory _priceSeriesFactory;
         private ITimeSeriesUtility _timeSeriesUtility;
 
         [TestInitialize]
         public void Initialize()
         {
-            _pricePeriodFactory = new PricePeriodFactory();
             _priceSeriesFactory = new PriceSeriesFactory();
             _timeSeriesUtility = new TimeSeriesUtility();
         }

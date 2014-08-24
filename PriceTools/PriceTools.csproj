@@ -87,7 +87,6 @@
     <Compile Include="Interfaces\IHoldingFactory.cs" />
     <Compile Include="Interfaces\IOrderFactory.cs" />
     <Compile Include="Interfaces\IPricePeriod.cs" />
-    <Compile Include="Interfaces\IPricePeriodFactory.cs" />
     <Compile Include="Interfaces\IPriceSeries.cs" />
     <Compile Include="Interfaces\IPriceSeriesFactory.cs" />
     <Compile Include="Interfaces\ISecurityBasket.cs" />
@@ -99,15 +98,14 @@
     <Compile Include="Interfaces\IMarginableCashAccount.cs" />
     <Compile Include="Implementation\Order.cs" />
     <Compile Include="Implementation\MarginableCashAccount.cs" />
-    <Compile Include="Implementation\PricePeriod.cs" />
     <Compile Include="Implementation\PriceSeries.cs" />
     <Compile Include="IWebClient.cs" />
+    <Compile Include="PricePeriod.cs" />
     <Compile Include="SP500.cs" />
     <Compile Include="Factories\OrderFactory.cs" />
     <Compile Include="PricingType.cs" />
     <Compile Include="HighLow.cs" />
     <Compile Include="Interfaces\ICashAccount.cs" />
-    <Compile Include="Factories\PricePeriodFactory.cs" />
     <Compile Include="Factories\PriceSeriesFactory.cs" />
     <Compile Include="ReactionMove.cs" />
     <Compile Include="Interfaces\ITimePeriod.cs" />

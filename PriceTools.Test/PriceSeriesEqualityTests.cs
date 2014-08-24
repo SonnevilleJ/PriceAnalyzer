@@ -7,7 +7,6 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class PriceSeriesEqualityTests
     {
-        private readonly IPricePeriodFactory _pricePeriodFactory;
         private readonly IPriceSeriesFactory _priceSeriesFactory;
         private string _ticker1 = "MSFT";
         private string _ticker2 = "GOOG";
@@ -15,7 +14,6 @@ namespace Sonneville.PriceTools.Test
 
         public PriceSeriesEqualityTests()
         {
-            _pricePeriodFactory = new PricePeriodFactory();
             _priceSeriesFactory = new PriceSeriesFactory();
         }
 
@@ -63,9 +61,9 @@ namespace Sonneville.PriceTools.Test
             var series3 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
             var series4 = _priceSeriesFactory.ConstructPriceSeries(_ticker3);
             var dateTime = DateTime.Now;
-            series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
-            series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
-            series4.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series4.Resolution), 100));
+            series1.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
+            series2.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
+            series4.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series4.Resolution), 100));
 
             var list1 = new List<IPriceSeries> { series1, series2 };
             var list2 = new List<IPriceSeries> { series3, series4 };
@@ -82,9 +80,9 @@ namespace Sonneville.PriceTools.Test
             var series4 = _priceSeriesFactory.ConstructPriceSeries(_ticker2);
             var series5 = _priceSeriesFactory.ConstructPriceSeries(_ticker3);
             var dateTime = DateTime.Now;
-            series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
-            series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
-            series5.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series5.Resolution), 100));
+            series1.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
+            series2.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
+            series5.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series5.Resolution), 100));
 
             var list1 = new List<IPriceSeries> { series1, series2 };
             var list2 = new List<IPriceSeries> { series3, series4, series5 };
@@ -99,8 +97,8 @@ namespace Sonneville.PriceTools.Test
             var series2 = _priceSeriesFactory.ConstructPriceSeries(_ticker2);
             var series3 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
             var dateTime = DateTime.Now;
-            series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
-            series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
+            series1.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
+            series2.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
 
             var list1 = new List<IPriceSeries> { series1, series2 };
             var list2 = new List<IPriceSeries> { series3 };
@@ -116,9 +114,9 @@ namespace Sonneville.PriceTools.Test
             var series3 = _priceSeriesFactory.ConstructPriceSeries(_ticker3);
             var series4 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
             var dateTime = DateTime.Now;
-            series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
-            series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
-            series3.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series3.Resolution), 100));
+            series1.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
+            series2.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
+            series3.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series3.Resolution), 100));
 
             var list1 = new List<IPriceSeries> { series1, series2 };
             var list2 = new List<IPriceSeries> { series3, series4 };
@@ -134,8 +132,8 @@ namespace Sonneville.PriceTools.Test
             var series3 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
             var series4 = _priceSeriesFactory.ConstructPriceSeries(_ticker2);
             var dateTime = DateTime.Now;
-            series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
-            series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
+            series1.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
+            series2.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
 
             var list1 = new List<IPriceSeries> { series1, series2 };
             var list2 = new List<IPriceSeries> { series3, series4 };
@@ -152,9 +150,9 @@ namespace Sonneville.PriceTools.Test
             var series4 = _priceSeriesFactory.ConstructPriceSeries(_ticker2);
             var series5 = _priceSeriesFactory.ConstructPriceSeries(_ticker3);
             var dateTime = DateTime.Now;
-            series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
-            series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
-            series5.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series5.Resolution), 100));
+            series1.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
+            series2.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
+            series5.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series5.Resolution), 100));
 
             var list1 = new List<IPriceSeries> { series1, series2 };
             var list2 = new List<IPriceSeries> { series3, series4, series5 };
@@ -169,8 +167,8 @@ namespace Sonneville.PriceTools.Test
             var series2 = _priceSeriesFactory.ConstructPriceSeries(_ticker2);
             var series3 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
             var dateTime = DateTime.Now;
-            series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
-            series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
+            series1.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
+            series2.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
 
             var list1 = new List<IPriceSeries> { series1, series2 };
             var list2 = new List<IPriceSeries> { series3 };
@@ -186,8 +184,8 @@ namespace Sonneville.PriceTools.Test
             var series3 = _priceSeriesFactory.ConstructPriceSeries(_ticker2);
             var series4 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
             var dateTime = DateTime.Now;
-            series1.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
-            series2.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
+            series1.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series1.Resolution), 100));
+            series2.AddPriceData(new PricePeriod(dateTime, dateTime.NextPeriodClose(series2.Resolution), 100));
 
             var list1 = new List<IPriceSeries> { series1, series2 };
             var list2 = new List<IPriceSeries> { series3, series4 };

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Data;
@@ -13,13 +12,11 @@ namespace Sonneville.PriceTools.AutomatedTrading
     public class PositionFactory : IPositionFactory
     {
         private readonly PriceSeriesFactory _priceSeriesFactory;
-        private readonly PricePeriodFactory _pricePeriodFactory;
         private readonly SecurityBasketCalculator _securityBasketCalculator;
 
         public PositionFactory()
         {
             _priceSeriesFactory = new PriceSeriesFactory();
-            _pricePeriodFactory = new PricePeriodFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
@@ -61,10 +58,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
                     date);
                 if(heldShares!= 0)
                 {
-                    priceSeries.AddPriceData(_pricePeriodFactory.ConstructStaticPricePeriod(
-                    date,
-                    date.CurrentPeriodClose(Resolution.Days),
-                    underlyingPriceSeries[date]*heldShares));
+                    priceSeries.AddPriceData(new PricePeriod(date, date.CurrentPeriodClose(Resolution.Days), underlyingPriceSeries[date]*heldShares));
                 }
             }
             return priceSeries;

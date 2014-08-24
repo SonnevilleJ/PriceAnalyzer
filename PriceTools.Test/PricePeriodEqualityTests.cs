@@ -7,13 +7,6 @@ namespace Sonneville.PriceTools.Test
     [TestClass]
     public class PricePeriodEqualityTests
     {
-        private readonly IPricePeriodFactory _pricePeriodFactory;
-
-        public PricePeriodEqualityTests()
-        {
-            _pricePeriodFactory = new PricePeriodFactory();
-        }
-
         [TestMethod]
         public void PeriodEqualsWithDifferentData()
         {
@@ -21,8 +14,8 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head.AddDays(1), tail.AddDays(1), close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head.AddDays(1), tail.AddDays(1), close);
 
             Assert.IsFalse(period1.Equals(period2));
         }
@@ -34,8 +27,8 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail, close);
 
             Assert.IsTrue(period1.Equals(period2));
         }
@@ -47,8 +40,8 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head.AddDays(1), tail.AddDays(1), close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head.AddDays(1), tail.AddDays(1), close);
 
             Assert.AreNotEqual(period1.GetHashCode(), period2.GetHashCode());
         }
@@ -60,8 +53,8 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail, close);
 
             Assert.AreEqual(period1.GetHashCode(), period2.GetHashCode());
         }
@@ -73,10 +66,10 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period3 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail.AddDays(1), close);
-            var period4 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail, close);
+            var period3 = new PricePeriod(head, tail.AddDays(1), close);
+            var period4 = new PricePeriod(head, tail, close);
 
             var list1 = new List<IPricePeriod> { period1, period2 };
             var list2 = new List<IPricePeriod> { period3, period4 };
@@ -91,10 +84,10 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period3 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period4 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail, close);
+            var period3 = new PricePeriod(head, tail, close);
+            var period4 = new PricePeriod(head, tail, close);
 
             var list1 = new List<IPricePeriod> {period1, period2};
             var list2 = new List<IPricePeriod> {period3, period4};
@@ -109,11 +102,11 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period3 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period4 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period5 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail, close);
+            var period3 = new PricePeriod(head, tail, close);
+            var period4 = new PricePeriod(head, tail, close);
+            var period5 = new PricePeriod(head, tail, close);
 
             var list1 = new List<IPricePeriod> {period1, period2};
             var list2 = new List<IPricePeriod> {period3, period4, period5};
@@ -128,9 +121,9 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period3 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail, close);
+            var period3 = new PricePeriod(head, tail, close);
 
             var list1 = new List<IPricePeriod> { period1, period2 };
             var list2 = new List<IPricePeriod> {period3};
@@ -145,10 +138,10 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail.AddDays(1), close);
-            var period3 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail.AddDays(1), close);
-            var period4 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail.AddDays(1), close);
+            var period3 = new PricePeriod(head, tail.AddDays(1), close);
+            var period4 = new PricePeriod(head, tail, close);
 
             var list1 = new List<IPricePeriod> { period1, period2 };
             var list2 = new List<IPricePeriod> { period3, period4 };
@@ -163,10 +156,10 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period3 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail.AddDays(1), close);
-            var period4 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail, close);
+            var period3 = new PricePeriod(head, tail.AddDays(1), close);
+            var period4 = new PricePeriod(head, tail, close);
 
             var list1 = new List<IPricePeriod> { period1, period2 };
             var list2 = new List<IPricePeriod> { period3, period4 };
@@ -181,10 +174,10 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period3 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period4 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail, close);
+            var period3 = new PricePeriod(head, tail, close);
+            var period4 = new PricePeriod(head, tail, close);
 
             var list1 = new List<IPricePeriod> { period1, period2 };
             var list2 = new List<IPricePeriod> { period3, period4 };
@@ -199,11 +192,11 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period3 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period4 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period5 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail, close);
+            var period3 = new PricePeriod(head, tail, close);
+            var period4 = new PricePeriod(head, tail, close);
+            var period5 = new PricePeriod(head, tail, close);
 
             var list1 = new List<IPricePeriod> { period1, period2 };
             var list2 = new List<IPricePeriod> { period3, period4, period5 };
@@ -218,9 +211,9 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period3 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail, close);
+            var period3 = new PricePeriod(head, tail, close);
 
             var list1 = new List<IPricePeriod> { period1, period2 };
             var list2 = new List<IPricePeriod> { period3 };
@@ -235,10 +228,10 @@ namespace Sonneville.PriceTools.Test
             var tail = head.AddDays(1);
             const decimal close = 100.00m;
 
-            var period1 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
-            var period2 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail.AddDays(1), close);
-            var period3 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail.AddDays(1), close);
-            var period4 = _pricePeriodFactory.ConstructStaticPricePeriod(head, tail, close);
+            var period1 = new PricePeriod(head, tail, close);
+            var period2 = new PricePeriod(head, tail.AddDays(1), close);
+            var period3 = new PricePeriod(head, tail.AddDays(1), close);
+            var period4 = new PricePeriod(head, tail, close);
 
             var list1 = new List<IPricePeriod> { period1, period2 };
             var list2 = new List<IPricePeriod> { period3, period4 };

@@ -128,7 +128,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         public IPriceSeries ConstructPriceSeries(IPortfolio portfolio, IPriceDataProvider priceDataProvider)
         {
             var result = _priceSeriesFactory.ConstructPriceSeries(string.Empty);
-            var pricePeriodFactory = new PricePeriodFactory();
             var positionFactory = new PositionFactory();
 
             var dictionary = new Dictionary<DateTime, decimal>();
@@ -142,7 +141,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             }
             foreach (var keyValuePair in dictionary)
             {
-                var period = pricePeriodFactory.ConstructStaticPricePeriod(keyValuePair.Key, keyValuePair.Key.CurrentPeriodClose(Resolution.Days), keyValuePair.Value);
+                var period = new PricePeriod(keyValuePair.Key, keyValuePair.Key.CurrentPeriodClose(Resolution.Days), keyValuePair.Value);
                 result.AddPriceData(period);
             }
             return result;

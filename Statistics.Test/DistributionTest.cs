@@ -56,7 +56,7 @@ namespace Sonneville.Statistics.Test
         /// Runs many iterations, designed to weed out performance issues and not necessarily threading issues.
         /// Executes in under 4 seconds on 3.4 GHz quad core CPU.
         /// </summary>
-        [TestMethod]
+        [TestMethod, Ignore]
         public void ParallelTest()
         {
             const int iterations = 100000;
