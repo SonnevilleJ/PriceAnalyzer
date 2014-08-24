@@ -1,13 +1,13 @@
 ﻿using System.IO;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.PriceAnalyzer.Test
 {
-    [TestClass]
+    [TestFixture]
     public class MainFormViewModelTest
     {
-        [TestMethod]
+        [Test]
         public void TickerShouldBeAssignedAfterOpeningFile()
         {
             var csvString = SamplePriceDatas.Deere.CsvString;
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void TickerShouldBeEmptyBeforeOpeningFile()
         {
             var viewModel = new MainFormViewModel();

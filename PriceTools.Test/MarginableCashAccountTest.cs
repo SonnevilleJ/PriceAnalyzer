@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class MarginableCashAccountTest
     {
         private readonly ICashAccountFactory _cashAccountFactory;
@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Withdraw
         ///</summary>
-        [TestMethod]
+        [Test]
         public void WithdrawBeforeDepositTest()
         {
             var target = _cashAccountFactory.ConstructMarginableCashAccount();
@@ -33,7 +33,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Withdraw
         ///</summary>
-        [TestMethod]
+        [Test]
         public void WithdrawAfterDepositTest()
         {
             var target = _cashAccountFactory.ConstructMarginableCashAccount();
@@ -51,7 +51,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Transactions
         ///</summary>
-        [TestMethod]
+        [Test]
         public void WithdrawalIsValidBeforeDepositTest()
         {
             var target = _cashAccountFactory.ConstructMarginableCashAccount();

@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Sonneville.PriceTools.AutomatedTrading.Implementation;
+using NUnit.Framework;
 using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Data.Csv;
-using Sonneville.PriceTools.Implementation;
 using Sonneville.PriceTools.SampleData;
 using Sonneville.PriceTools.Yahoo;
 
@@ -14,7 +11,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     ///This is a test class for Portfolio and is intended
     ///to contain all Portfolio Unit Tests
     ///</summary>
-    [TestClass]
+    [TestFixture]
     public class PortfolioTest
     {
         private IPortfolioFactory _portfolioFactory;
@@ -24,7 +21,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private ISecurityBasketCalculator _securityBasketCalculator;
         private WebClientWrapper _webClientWrapper;
 
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             _portfolioFactory = new PortfolioFactory();
@@ -35,13 +32,13 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _csvPriceDataProvider = new PriceDataProvider(_webClientWrapper, new YahooPriceHistoryQueryUrlBuilder(), _priceHistoryCsvFileFactory);
         }
 
-        [TestCleanup]
+        [TearDown]
         public void Teardown()
         {
             _webClientWrapper.Dispose();
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest1()
         {
             var target = _portfolioFactory.ConstructPortfolio();
@@ -51,7 +48,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(0, target.Positions.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest2()
         {
             const string ticker = "FDRXX";  // Fidelity Cash Reserves
@@ -62,7 +59,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(0, target.Positions.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructorTest3()
         {
             var openDate = new DateTime(2011, 2, 20);
@@ -75,7 +72,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(0, target.Positions.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void Constructor4Test()
         {
             var csvFile = SamplePortfolios.FidelityTaxable.TransactionHistory;
@@ -86,7 +83,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(ticker, target.CashTicker);
         }
 
-        [TestMethod]
+        [Test]
         public void DepositTest()
         {
             var openDate = new DateTime(2011, 2, 20);
@@ -98,7 +95,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(amount, target.GetAvailableCash(openDate));
         }
 
-        [TestMethod]
+        [Test]
         public void WithdrawalTest()
         {
             var openDate = new DateTime(2011, 2, 20);
@@ -112,7 +109,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(0, target.GetAvailableCash(openDate));
         }
 
-        [TestMethod]
+        [Test]
         public void GetAvailableCashNoTransactions()
         {
             var target = _portfolioFactory.ConstructPortfolio();
@@ -122,7 +119,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedCash, availableCash);
         }
 
-        [TestMethod]
+        [Test]
         public void GetAvailableCashOfDeposit()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -134,7 +131,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedCash, availableCash);
         }
 
-        [TestMethod]
+        [Test]
         public void GetAvailableCashAfterFullWithdrawal()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -151,14 +148,14 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedCash, availableCash);
         }
 
-        [TestMethod]
+        [Test]
         public void GetInvestedValueFromEmptyPortfolio()
         {
             var target = _portfolioFactory.ConstructPortfolio();
             Assert.AreEqual(0.0m, _securityBasketCalculator.CalculateMarketValue(target, _csvPriceDataProvider, DateTime.Now, _priceHistoryCsvFileFactory));
         }
 
-        [TestMethod]
+        [Test]
         public void GetInvestedValue()
         {
             var dateTime = new DateTime(2011, 4, 8);
@@ -180,7 +177,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void GetInvestedValueFromClosedPortfolio()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -202,7 +199,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void GetCostFromEmptyPortfolio()
         {
             var target = _portfolioFactory.ConstructPortfolio();
@@ -210,7 +207,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(0.0m, _securityBasketCalculator.CalculateCost(target, DateTime.Now));
         }
 
-        [TestMethod]
+        [Test]
         public void GetCost()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -232,14 +229,14 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void GetProceedsFromEmptyPortfolio()
         {
             var target = _portfolioFactory.ConstructPortfolio();
             Assert.AreEqual(0.0m, _securityBasketCalculator.CalculateProceeds(target, DateTime.Now));
         }
 
-        [TestMethod]
+        [Test]
         public void GetProceeds()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -261,14 +258,14 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void GetCommissionsFromEmptyPortfolio()
         {
             var target = _portfolioFactory.ConstructPortfolio();
             Assert.AreEqual(0.0m, _securityBasketCalculator.CalculateCommissions(target, DateTime.Now));
         }
 
-        [TestMethod]
+        [Test]
         public void GetCommission()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -290,7 +287,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void GetPositionTest()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -305,14 +302,14 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(position.Transactions.Contains(buy));
         }
 
-        [TestMethod]
+        [Test]
         public void GetPositionTestMissing()
         {
             var target = _portfolioFactory.ConstructPortfolio("FTEXX");
             Assert.IsNull(target.GetPosition("ASDF"));
         }
 
-        [TestMethod]
+        [Test]
         public void IndexerReturnsCalculateGrossProfit()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -324,7 +321,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod]
+        [Test]
         public void AddTransactionDepositTest()
         {
             var date = new DateTime(2011, 1, 8);
@@ -336,7 +333,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(target.Transactions.Contains(deposit));
         }
 
-        [TestMethod]
+        [Test]
         public void AddTransactionWithdrawalTest()
         {
             var date = new DateTime(2011, 1, 8);
@@ -348,7 +345,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(target.Transactions.Contains(deposit));
         }
 
-        [TestMethod]
+        [Test]
         public void AddBuyTransactionTest()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -365,7 +362,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(target.Transactions.Contains(buy));
         }
 
-        [TestMethod]
+        [Test]
         public void AddSellTransactionTest()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -384,7 +381,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(target.Transactions.Contains(sell));
         }
 
-        [TestMethod]
+        [Test]
         public void AddBuyToCoverTransactionTest()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -403,7 +400,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(target.Transactions.Contains(buyToCover));
         }
 
-        [TestMethod]
+        [Test]
         public void AddSellShortTransactionTest()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -420,7 +417,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(target.Transactions.Contains(sellShort));
         }
 
-        [TestMethod]
+        [Test]
         public void AddDividendReceiptTransactionTest()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -439,7 +436,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(target.Transactions.Contains(dividendReceipt));
         }
 
-        [TestMethod]
+        [Test]
         public void AddDividendReinvestmentTransactionTest()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -458,7 +455,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(target.Transactions.Contains(dividendReinvestment));
         }
 
-        [TestMethod]
+        [Test]
         public void TransactionsTest()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -488,7 +485,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(target.Transactions.Contains(buy2));
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void WithdrawWithoutAvailableCash()
         {
@@ -507,7 +504,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, withdrawal);
         }
 
-        [TestMethod]
+        [Test]
         public void HeadTestWhenEmpty()
         {
             var target = _portfolioFactory.ConstructPortfolio();
@@ -518,7 +515,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void HeadTestWithPosition()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -534,7 +531,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void HeadTestWithOneTransaction()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -546,7 +543,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void HeadTestWithTwoTransactions()
         {
             var originalDate = new DateTime(2011, 1, 8);
@@ -562,7 +559,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void TailTestWhenEmpty()
         {
             var target = _portfolioFactory.ConstructPortfolio();
@@ -573,7 +570,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void TailTestWithPosition()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -589,7 +586,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void TailTestWithOneTransaction()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -601,7 +598,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void TailTestWithTwoTransactions()
         {
             var originalDate = new DateTime(2011, 1, 8);
@@ -617,7 +614,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CashTickerSetCorrectly()
         {
             const string ticker = "FDRXX"; // Fidelity Cash Reserves
@@ -628,7 +625,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructPriceSeriesFromOnePositionWithOneBuyAndSell()
         {
             var portfolio = _portfolioFactory.ConstructPortfolio();
@@ -654,7 +651,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(closingPrice25th*(sharesBought - sharesSold), result[sellDate]);
         }
 
-        [TestMethod]
+        [Test]
         public void ConstructPriceSeriesFromTwoPositions()
         {
             var portfolio = _portfolioFactory.ConstructPortfolio();

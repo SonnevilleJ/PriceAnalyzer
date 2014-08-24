@@ -1,24 +1,24 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PortfolioNetReturnTests
     {
         private IPortfolioFactory _portfolioFactory;
         private ITransactionFactory _transactionFactory;
         private ISecurityBasketCalculator _securityBasketCalculator;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetReturnOfDeposit()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsNull(_securityBasketCalculator.CalculateNetReturn(target, dateTime));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetReturnAfterFullWithdrawal()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsNull(_securityBasketCalculator.CalculateNetReturn(target, dateTime));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetReturnOpenPosition()
         {
             var dateTime = new DateTime(2011, 11, 21);
@@ -63,7 +63,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsNull(_securityBasketCalculator.CalculateNetReturn(target, calculateDate));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetReturnAfterGain()
         {
             var dateTime = new DateTime(2011, 11, 21);
@@ -88,7 +88,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetReturnTwoGain()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -121,7 +121,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetReturnTwoLoss()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -154,7 +154,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetReturnOneGainOneLoss()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -187,7 +187,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetReturnOneGainOneOpen()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -217,7 +217,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetReturnOneLossOneOpen()
         {
             var dateTime = new DateTime(2011, 1, 8);

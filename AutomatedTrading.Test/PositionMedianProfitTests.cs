@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PositionMedianProfitTests
     {
         private IPositionFactory _positionFactory;
@@ -11,8 +11,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private ISecurityBasketCalculator _securityBasketCalculator;
         private IHoldingFactory _holdingFactory;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _holdingFactory = new HoldingFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitOneGain()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitOneLoss()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -64,7 +64,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitTwoGains()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -94,7 +94,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitOneGainOneLoss()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -124,7 +124,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitTwoLosses()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -154,7 +154,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitThreeHoldings()
         {
             var buyDate = new DateTime(2011, 1, 10);

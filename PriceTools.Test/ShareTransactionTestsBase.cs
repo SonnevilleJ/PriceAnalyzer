@@ -1,5 +1,5 @@
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.Implementation;
 using Sonneville.PriceTools.TestUtilities;
 using Sonneville.Utilities.Serialization;
@@ -18,61 +18,61 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         /// A test for serialization
         /// </summary>
-        [TestMethod]
+        [Test]
         public abstract void SerializeTest();
 
         /// <summary>
         /// A test for SettlementDate
         /// </summary>
-        [TestMethod]
+        [Test]
         public abstract void SettlementDateTest();
 
         /// <summary>
         /// A test for Ticker
         /// </summary>
-        [TestMethod]
+        [Test]
         public abstract void TickerTest();
 
         /// <summary>
         /// A test for Price
         /// </summary>
-        [TestMethod]
+        [Test]
         public abstract void PriceValidTest();
 
         /// <summary>
         /// A test for Price
         /// </summary>
-        [TestMethod]
+        [Test]
         public abstract void PriceInvalidTest();
 
         /// <summary>
         /// A test for Shares
         /// </summary>
-        [TestMethod]
+        [Test]
         public abstract void SharesValidTest();
 
         /// <summary>
         /// A test for Shares
         /// </summary>
-        [TestMethod]
+        [Test]
         public abstract void SharesInvalidTest();
 
         /// <summary>
         /// A test for Commission
         /// </summary>
-        [TestMethod]
+        [Test]
         public abstract void CommissionValidTest();
 
         /// <summary>
         /// A test for Commission
         /// </summary>
-        [TestMethod]
+        [Test]
         public abstract void CommissionInvalidTest();
 
         /// <summary>
         /// A test for TotalValue
         /// </summary>
-        [TestMethod]
+        [Test]
         public abstract void TotalValueTest();
 
         protected static void ShareTransactionSerializeTest(OrderType transactionType)

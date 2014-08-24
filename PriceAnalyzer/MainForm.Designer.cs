@@ -1,6 +1,4 @@
-﻿using System.Windows;
-
-namespace Sonneville.PriceTools.PriceAnalyzer
+﻿namespace Sonneville.PriceTools.PriceAnalyzer
 {
     partial class MainForm
     {

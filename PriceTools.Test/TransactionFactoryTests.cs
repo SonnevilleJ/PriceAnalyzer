@@ -1,11 +1,11 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.Implementation;
 using Sonneville.Utilities.Serialization;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class TransactionFactoryTests
     {
         private readonly ITransactionFactory _factory;
@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.Test
             _factory = new TransactionFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void FactoryAddsID()
         {
             var buy = _factory.ConstructBuy("DE", DateTime.Today, 5, 10, 0);
@@ -23,7 +23,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNotNull(buy.Id);
         }
 
-        [TestMethod]
+        [Test]
         public void AddsSameIdForSameTransaction()
         {
             var buy1 = _factory.ConstructBuy("DE", DateTime.Today, 5, 10, 0);
@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(buy1.Id, buy2.Id);
         }
 
-        [TestMethod]
+        [Test]
         public void AddsDifferentIdForSameTransaction()
         {
             var buy = _factory.ConstructBuy("DE", DateTime.Today, 5, 10, 0);
@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreNotEqual(buy.Id, sell.Id);
         }
 
-        [TestMethod]
+        [Test]
         public void DifferentFactoriesResultInDifferentIDs()
         {
             var otherFactory = new TransactionFactory(Guid.NewGuid());
@@ -52,7 +52,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreNotEqual(buy1.Id, buy2.Id);
         }
 
-        [TestMethod]
+        [Test]
         public void SameFactoryGuidResultsInSameID()
         {
             var otherFactory = new TransactionFactory(Guid.Parse("26491456-7E65-421B-B4C3-984527311CED"));
@@ -63,7 +63,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(buy1.Id, buy2.Id);
         }
 
-        [TestMethod]
+        [Test]
         public void SerializedTransactionHasSameID()
         {
             var buy = _factory.ConstructBuy("DE", DateTime.Today, 5, 10, 0);
@@ -74,7 +74,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(buy.Id, deserialized.Id);
         }
 
-        [TestMethod]
+        [Test]
         public void SerializedTwiceHasSameID()
         {
             var buy = _factory.ConstructBuy("DE", DateTime.Today, 5, 10, 0);

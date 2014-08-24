@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PricePeriodEqualityTests
     {
-        [TestMethod]
+        [Test]
         public void PeriodEqualsWithDifferentData()
         {
             var head = new DateTime(2012, 6, 16);
@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsFalse(period1.Equals(period2));
         }
 
-        [TestMethod]
+        [Test]
         public void PeriodEqualsWithSameData()
         {
             var head = new DateTime(2012, 6, 16);
@@ -33,7 +33,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(period1.Equals(period2));
         }
 
-        [TestMethod]
+        [Test]
         public void PeriodGetHashCodeWithDifferentData()
         {
             var head = new DateTime(2012, 6, 16);
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreNotEqual(period1.GetHashCode(), period2.GetHashCode());
         }
 
-        [TestMethod]
+        [Test]
         public void PeriodGetHashCodeWithSameData()
         {
             var head = new DateTime(2012, 6, 16);
@@ -59,7 +59,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(period1.GetHashCode(), period2.GetHashCode());
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentWithDifferentData()
         {
             var head = new DateTime(2012, 6, 16);
@@ -77,7 +77,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentWithSameData()
         {
             var head = new DateTime(2012, 6, 16);
@@ -95,7 +95,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentWithExtraPeriod()
         {
             var head = new DateTime(2012, 6, 16);
@@ -114,7 +114,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentWithMissingPeriod()
         {
             var head = new DateTime(2012, 6, 16);
@@ -131,7 +131,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentOrderCheck()
         {
             var head = new DateTime(2012, 6, 16);
@@ -149,7 +149,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableEqualsWithDifferentData()
         {
             var head = new DateTime(2012, 6, 16);
@@ -167,7 +167,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsFalse(list1.Equals(list2));
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableEqualsWithSameData()
         {
             var head = new DateTime(2012, 6, 16);
@@ -185,7 +185,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreEqual(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableEqualsWithExtraPeriod()
         {
             var head = new DateTime(2012, 6, 16);
@@ -204,7 +204,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEqual(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableEqualsWithMissingPeriod()
         {
             var head = new DateTime(2012, 6, 16);
@@ -221,7 +221,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEqual(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableEqualsOrderCheck()
         {
             var head = new DateTime(2012, 6, 16);

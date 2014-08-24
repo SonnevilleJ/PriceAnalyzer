@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PositionStandardDeviationTests
     {
         private IPositionFactory _positionFactory;
@@ -11,8 +11,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private ISecurityBasketCalculator _securityBasketCalculator;
         private IHoldingFactory _holdingFactory;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _holdingFactory = new HoldingFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateStandardDeviationOneGain()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateStandardDeviationOneLoss()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -66,7 +66,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateStandardDeviationTwoGains()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -97,7 +97,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateStandardDeviationOneGainOneLoss()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -128,7 +128,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateStandardDeviationTwoLosses()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -159,7 +159,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateStandardDeviationThreeHoldings()
         {
             var buyDate = new DateTime(2011, 1, 10);

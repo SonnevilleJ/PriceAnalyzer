@@ -1,24 +1,24 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PositionAverageProfitTests
     {
         private IPositionFactory _positionFactory;
         private ITransactionFactory _transactionFactory;
         private ISecurityBasketCalculator _securityBasketCalculator;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAverageProfitOneGain()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -42,7 +42,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAverageProfitOneLoss()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -66,7 +66,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAverageProfitTwoGains()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAverageProfitOneGainOneLoss()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -132,7 +132,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAverageProfitTwoLosses()
         {
             var buyDate = new DateTime(2011, 1, 10);

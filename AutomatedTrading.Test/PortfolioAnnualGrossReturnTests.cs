@@ -1,17 +1,17 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PortfolioAnnualGrossReturnTests
     {
         private IPortfolioFactory _portfolioFactory;
         private ITransactionFactory _transactionFactory;
         private ISecurityBasketCalculator _securityBasketCalculator;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         // Annualized return calculations are based on Head and Tail
         // Comparing results from these methods on different SecurityBasket requires the Head and Tail to be the same
 
-        [TestMethod]
+        [Test]
         public void CalculateAnnualGrossReturnOfDeposit()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -31,7 +31,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsNull(_securityBasketCalculator.CalculateAnnualGrossReturn(target, dateTime));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAnnualGrossReturnAfterFullWithdrawal()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsNull(_securityBasketCalculator.CalculateAnnualGrossReturn(target, dateTime));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAnnualGrossReturnOpenPosition()
         {
             var dateTime = new DateTime(2011, 11, 21);
@@ -67,7 +67,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsNull(_securityBasketCalculator.CalculateAnnualGrossReturn(target, calculateDate));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAnnualGrossReturnAfterGain()
         {
             var dateTime = new DateTime(2011, 11, 21);
@@ -92,7 +92,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAnnualGrossReturnTwoGain()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -124,7 +124,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAnnualGrossReturnTwoLoss()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -156,7 +156,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAnnualGrossReturnOneGainOneLoss()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -188,7 +188,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAnnualGrossReturnOneGainOneOpen()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -217,7 +217,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAnnualGrossReturnOneLossOneOpen()
         {
             var dateTime = new DateTime(2011, 1, 8);

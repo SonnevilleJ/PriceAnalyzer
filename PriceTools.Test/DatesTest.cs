@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public abstract class DatesTest
     {
         protected abstract Resolution Resolution { get; }
@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.Test
 
         #region CurrentPeriod Tests
 
-        [TestMethod]
+        [Test]
         public void CurrentPeriodOpenTestFromOpen()
         {
             var start = PeriodHead;
@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CurrentPeriodOpenTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void CurrentPeriodOpenTestFromClose()
         {
             var start = PeriodHead.AddTicks(-1 + (long) Resolution);
@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void CurrentPeriodOpenTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
@@ -58,7 +58,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void CurrentPeriodCloseTestFromOpen()
         {
             var start = PeriodHead;
@@ -68,7 +68,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void CurrentPeriodCloseTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
@@ -78,7 +78,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CurrentPeriodCloseTestFromClose()
         {
             var start = PeriodHead.AddTicks(-1);
@@ -88,7 +88,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CurrentPeriodCloseTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
@@ -102,7 +102,7 @@ namespace Sonneville.PriceTools.Test
 
         #region NextPeriod Tests
 
-        [TestMethod]
+        [Test]
         public virtual void NextPeriodOpenTestFromOpen()
         {
             var start = PeriodHead;
@@ -112,7 +112,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void NextPeriodOpenTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
@@ -122,7 +122,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void NextPeriodOpenTestFromClose()
         {
             var start = PeriodHead.AddTicks(-1);
@@ -132,7 +132,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void NextPeriodOpenTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
@@ -142,7 +142,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void NextPeriodCloseTestFromOpen()
         {
             var start = PeriodHead;
@@ -152,7 +152,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void NextPeriodCloseTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
@@ -162,7 +162,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void NextPeriodCloseTestFromClose()
         {
             var start = PeriodHead.AddTicks(-1);
@@ -172,7 +172,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void NextPeriodCloseTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
@@ -186,7 +186,7 @@ namespace Sonneville.PriceTools.Test
 
         #region PreviousPeriod Tests
 
-        [TestMethod]
+        [Test]
         public virtual void PreviousPeriodOpenTestFromOpen()
         {
             var start = PeriodHead;
@@ -196,7 +196,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void PreviousPeriodOpenTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
@@ -206,7 +206,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void PreviousPeriodOpenTestFromClose()
         {
             var start = PeriodHead.AddTicks(-1);
@@ -216,7 +216,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void PreviousPeriodOpenTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
@@ -226,7 +226,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousPeriodCloseTestFromOpen()
         {
             var start = PeriodHead;
@@ -236,7 +236,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousPeriodCloseTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
@@ -246,7 +246,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void PreviousPeriodCloseTestFromClose()
         {
             var start = PeriodHead.AddTicks(-1);
@@ -256,7 +256,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void PreviousPeriodCloseTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
@@ -270,7 +270,7 @@ namespace Sonneville.PriceTools.Test
 
         #region NextTradingPeriod Tests
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromOpenIsFuture()
         {
             var target = PeriodHead;
@@ -279,7 +279,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result > target);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromOpenIsOpen()
         {
             var target = PeriodHead;
@@ -288,7 +288,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromOpenIsInTradingPeriod()
         {
             var target = PeriodHead;
@@ -297,7 +297,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromAfterOpenIsFuture()
         {
             var target = PeriodHead.AddTicks(1);
@@ -306,7 +306,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result > target);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromAfterOpenIsOpen()
         {
             var target = PeriodHead.AddTicks(1);
@@ -315,7 +315,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromAfterOpenIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(1);
@@ -324,7 +324,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromCloseIsFuture()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -333,7 +333,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result > target);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromCloseIsOpen()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -342,7 +342,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromCloseIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -351,7 +351,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromBeforeCloseIsFuture()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -360,7 +360,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result > target);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromBeforeCloseIsOpen()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -369,7 +369,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodOpenTestFromBeforeCloseIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -378,7 +378,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromOpenIsFuture()
         {
             var target = PeriodHead;
@@ -387,7 +387,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result > target);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromOpenIsOpen()
         {
             var target = PeriodHead;
@@ -396,7 +396,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromOpenIsInTradingPeriod()
         {
             var target = PeriodHead;
@@ -405,7 +405,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromAfterOpenIsFuture()
         {
             var target = PeriodHead.AddTicks(1);
@@ -414,7 +414,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result > target);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromAfterOpenIsOpen()
         {
             var target = PeriodHead.AddTicks(1);
@@ -423,7 +423,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromAfterOpenIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(1);
@@ -432,7 +432,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromCloseIsFuture()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -441,7 +441,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result > target);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromCloseIsOpen()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -450,7 +450,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromCloseIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -459,7 +459,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromBeforeCloseIsFuture()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -468,7 +468,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result > target);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromBeforeCloseIsOpen()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -477,7 +477,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void NextTradingPeriodCloseTestFromBeforeCloseIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -490,7 +490,7 @@ namespace Sonneville.PriceTools.Test
 
         #region PreviousTradingPeriod Tests
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromOpenIsPast()
         {
             var target = PeriodHead;
@@ -499,7 +499,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result < target);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromOpenIsOpen()
         {
             var target = PeriodHead;
@@ -508,7 +508,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromOpenIsInTradingPeriod()
         {
             var target = PeriodHead;
@@ -517,7 +517,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromAfterOpenIsPast()
         {
             var target = PeriodHead.AddTicks(1);
@@ -526,7 +526,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result < target);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromAfterOpenIsOpen()
         {
             var target = PeriodHead.AddTicks(1);
@@ -535,7 +535,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromAfterOpenIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(1);
@@ -544,7 +544,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromCloseIsPast()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -553,7 +553,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result < target);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromCloseIsOpen()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -562,7 +562,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromCloseIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -571,7 +571,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromBeforeCloseIsPast()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -580,7 +580,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result < target);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromBeforeCloseIsOpen()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -589,7 +589,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodOpen(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodOpenTestFromBeforeCloseIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -598,7 +598,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromOpenIsPast()
         {
             var target = PeriodHead;
@@ -607,7 +607,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result < target);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromOpenIsOpen()
         {
             var target = PeriodHead;
@@ -616,7 +616,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromOpenIsInTradingPeriod()
         {
             var target = PeriodHead;
@@ -625,7 +625,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromAfterOpenIsPast()
         {
             var target = PeriodHead.AddTicks(1);
@@ -634,7 +634,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result < target);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromAfterOpenIsOpen()
         {
             var target = PeriodHead.AddTicks(1);
@@ -643,7 +643,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromAfterOpenIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(1);
@@ -652,7 +652,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromCloseIsPast()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -661,7 +661,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result < target);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromCloseIsOpen()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -670,7 +670,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromCloseIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(-1);
@@ -679,7 +679,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromBeforeCloseIsPast()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -688,7 +688,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result < target);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromBeforeCloseIsOpen()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -697,7 +697,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(result.CurrentPeriodClose(Resolution), result);
         }
 
-        [TestMethod]
+        [Test]
         public void PreviousTradingPeriodCloseTestFromBeforeCloseIsInTradingPeriod()
         {
             var target = PeriodHead.AddTicks(-2);
@@ -710,7 +710,7 @@ namespace Sonneville.PriceTools.Test
 
         #region SeekPeriods Tests
 
-        [TestMethod]
+        [Test]
         public virtual void SeekForwardOneTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -720,7 +720,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void SeekBackwardOneTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -730,7 +730,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void SeekForwardTenTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -740,7 +740,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public virtual void SeekBackwardTenTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -754,7 +754,7 @@ namespace Sonneville.PriceTools.Test
 
         #region SeekTradingPeriods Tests
 
-        [TestMethod]
+        [Test]
         public void SeekTradingForwardOneTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -764,7 +764,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(actual >= expected);
         }
 
-        [TestMethod]
+        [Test]
         public void SeekTradingForwardOneIsInTradingPeriodTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -773,7 +773,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void SeekTradingBackwardOneTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -783,7 +783,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(actual <= expected);
         }
 
-        [TestMethod]
+        [Test]
         public void SeekTradingBackwardOneIsInTradingPeriodTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -792,7 +792,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void SeekTradingForwardTenTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -802,7 +802,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(actual >= expected);
         }
 
-        [TestMethod]
+        [Test]
         public void SeekTradingForwardTenIsInTradingPeriodTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -811,7 +811,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(result.IsInTradingPeriod(Resolution));
         }
 
-        [TestMethod]
+        [Test]
         public void SeekTradingBackwardTenTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -821,7 +821,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(actual <= expected);
         }
 
-        [TestMethod]
+        [Test]
         public void SeekTradingBackwardTenIsInTradingPeriodTest()
         {
             var start = new DateTime(2012, 10, 15);

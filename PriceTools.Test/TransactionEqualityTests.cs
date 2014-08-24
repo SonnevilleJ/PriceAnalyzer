@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class TransactionEqualityTests
     {
         private readonly ITransactionFactory _transactionFactory;
@@ -15,7 +15,7 @@ namespace Sonneville.PriceTools.Test
             _transactionFactory = new TransactionFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void TransactionEqualsWithSameData()
         {
             const string ticker = "DE";
@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(t1.Equals(t2));
         }
 
-        [TestMethod]
+        [Test]
         public void TransactionEqualsWithDifferentData()
         {
             const string ticker = "DE";
@@ -43,7 +43,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsFalse(t1.Equals(t2));
         }
 
-        [TestMethod]
+        [Test]
         public void TransactionGetHashCodeWithSameData()
         {
             const string ticker = "DE";
@@ -57,7 +57,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(t1.GetHashCode(), t2.GetHashCode());
         }
 
-        [TestMethod]
+        [Test]
         public void TransactionGetHashCodeWithDifferentData()
         {
             const string ticker = "DE";
@@ -71,7 +71,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreNotEqual(t1.GetHashCode(), t2.GetHashCode());
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentWithSameData()
         {
             const string ticker = "DE";
@@ -90,7 +90,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentWithDifferentData()
         {
             const string ticker = "DE";
@@ -109,7 +109,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentWithExtraTransaction()
         {
             const string ticker = "DE";
@@ -129,7 +129,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentWithMissingTransaction()
         {
             const string ticker = "DE";
@@ -147,7 +147,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentOrderCheck()
         {
             const string ticker = "DE";
@@ -166,7 +166,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEqualWithSameData()
         {
             const string ticker = "DE";
@@ -185,7 +185,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreEqual(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEqualWithDifferentData()
         {
             const string ticker = "DE";
@@ -204,7 +204,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEqual(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEqualWithExtraTransaction()
         {
             const string ticker = "DE";
@@ -224,7 +224,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEqual(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEqualWithMissingTransaction()
         {
             const string ticker = "DE";
@@ -242,7 +242,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEqual(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEqualOrderCheck()
         {
             const string ticker = "DE";
@@ -261,7 +261,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEqual(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void GetHashCodeSame()
         {
             const string ticker = "DE";
@@ -275,7 +275,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(t1.GetHashCode(), t2.GetHashCode());
         }
 
-        [TestMethod]
+        [Test]
         public void GetHashCodeDifferent()
         {
             const string ticker = "DE";

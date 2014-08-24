@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.SampleData;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Yahoo.Test
 {
-    [TestClass]
+    [TestFixture]
     public class YahooPriceHistoryCsvFileTest
     {
-        [TestMethod]
+        [Test]
         public void PriceHistoryCsvFileWillCorrectWeekendHeadTest()
         {
             var seriesHead = new DateTime(2011, 1, 1);                          // Saturday
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void PriceHistoryCsvFileWillCorrectOverestimatedTailTest()
         {
             var seriesHead = new DateTime(2011, 1, 3);                          // Monday
@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void YahooDailyTestDates()
         {
             var head = new DateTime(2011, 1, 3);
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             Assert.AreEqual(tail, target.PricePeriods.Max(p => p.Tail));
         }
 
-        [TestMethod]
+        [Test]
         public void YahooDailyTestPeriods()
         {
             var target = SamplePriceDatas.IBM_Daily.PriceHistory;
@@ -54,7 +54,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             Assert.AreEqual(50, target.PricePeriods.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void YahooDailyTestResolutionIsDays()
         {
             var target = SamplePriceDatas.IBM_Daily.PriceHistory;
@@ -62,7 +62,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             if (target.PricePeriods.Any(p => p.Resolution != Resolution.Days)) Assert.Fail();
         }
 
-        [TestMethod]
+        [Test]
         public void YahooDailyTestResolutionIsLessThan24Hours()
         {
             var target = SamplePriceDatas.IBM_Daily.PriceHistory;

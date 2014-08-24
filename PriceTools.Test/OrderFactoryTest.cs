@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class OrderFactoryTest
     {
         private readonly IOrderFactory _orderFactory;
@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools.Test
             _orderFactory = new OrderFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void IssuedTest()
         {
             var issued = GetIssueDate();
@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(issued, target.Issued);
         }
 
-        [TestMethod]
+        [Test]
         public void ExpirationTest()
         {
             var issued = GetIssueDate();
@@ -45,7 +45,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expired, target.Expiration);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ExpirationBeforeIssuedTest()
         {
@@ -60,7 +60,7 @@ namespace Sonneville.PriceTools.Test
             _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
         }
 
-        [TestMethod]
+        [Test]
         public void OrderTypeTest()
         {
             var issued = GetIssueDate();
@@ -76,7 +76,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(orderType, target.OrderType);
         }
 
-        [TestMethod]
+        [Test]
         public void TickerTest()
         {
             var issued = GetIssueDate();
@@ -92,7 +92,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(ticker, target.Ticker);
         }
 
-        [TestMethod]
+        [Test]
         public void ValidSharesTest()
         {
             var issued = GetIssueDate();
@@ -108,7 +108,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(shares, target.Shares);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void InvalidSharesTest()
         {
@@ -123,7 +123,7 @@ namespace Sonneville.PriceTools.Test
             _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
         }
 
-        [TestMethod]
+        [Test]
         public void ValidPriceTest()
         {
             var issued = GetIssueDate();
@@ -139,7 +139,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(price, target.Price);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void InvalidPriceTest()
         {
@@ -154,7 +154,7 @@ namespace Sonneville.PriceTools.Test
             _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price, pricingType);
         }
 
-        [TestMethod]
+        [Test]
         public void PricingTypeDefaultTest()
         {
             var issued = GetIssueDate();
@@ -169,7 +169,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(PricingType.Market, target.PricingType);
         }
 
-        [TestMethod]
+        [Test]
         public void PricingTypeTest()
         {
             var issued = GetIssueDate();

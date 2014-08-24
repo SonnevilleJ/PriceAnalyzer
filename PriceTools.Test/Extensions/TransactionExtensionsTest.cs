@@ -1,102 +1,102 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test.Extensions
 {
-    [TestClass]
+    [TestFixture]
     public class TransactionExtensionsTest
     {
-        [TestMethod]
+        [Test]
         public void BuyOpeningTransaction()
         {
             OpeningTransactionTest(OrderType.Buy, true);
         }
         
-        [TestMethod]
+        [Test]
         public void SellOpeningTransaction()
         {
             OpeningTransactionTest(OrderType.Sell, false);
         }
         
-        [TestMethod]
+        [Test]
         public void SellShortOpeningTransaction()
         {
             OpeningTransactionTest(OrderType.SellShort, true);
         }
         
-        [TestMethod]
+        [Test]
         public void BuyToCoverOpeningTransaction()
         {
             OpeningTransactionTest(OrderType.BuyToCover, false);
         }
         
-        [TestMethod]
+        [Test]
         public void DividendReinvestmentOpeningTransaction()
         {
             OpeningTransactionTest(OrderType.DividendReinvestment, true);
         }
         
-        [TestMethod]
+        [Test]
         public void DividendReceiptOpeningTransaction()
         {
             OpeningTransactionTest(OrderType.DividendReceipt, true);
         }
         
-        [TestMethod]
+        [Test]
         public void DepositOpeningTransaction()
         {
             OpeningTransactionTest(OrderType.Deposit, true);
         }
         
-        [TestMethod]
+        [Test]
         public void WithdrawalOpeningTransaction()
         {
             OpeningTransactionTest(OrderType.Withdrawal, false);
         }
         
-        [TestMethod]
+        [Test]
         public void BuyClosingTransactionTest()
         {
             ClosingTransactionTest(OrderType.Buy, false);
         }
         
-        [TestMethod]
+        [Test]
         public void SellClosingTransactionTest()
         {
             ClosingTransactionTest(OrderType.Sell, true);
         }
         
-        [TestMethod]
+        [Test]
         public void SellShortClosingTransactionTest()
         {
             ClosingTransactionTest(OrderType.SellShort, false);
         }
         
-        [TestMethod]
+        [Test]
         public void BuyToCoverClosingTransactionTest()
         {
             ClosingTransactionTest(OrderType.BuyToCover, true);
         }
         
-        [TestMethod]
+        [Test]
         public void DividendReinvestmentClosingTransactionTest()
         {
             ClosingTransactionTest(OrderType.DividendReinvestment, false);
         }
         
-        [TestMethod]
+        [Test]
         public void DividendReceiptClosingTransactionTest()
         {
             ClosingTransactionTest(OrderType.DividendReceipt, false);
         }
         
-        [TestMethod]
+        [Test]
         public void DepositClosingTransactionTest()
         {
             ClosingTransactionTest(OrderType.Deposit, false);
         }
         
-        [TestMethod]
+        [Test]
         public void WithdrawalClosingTransactionTest()
         {
             ClosingTransactionTest(OrderType.Withdrawal, true);

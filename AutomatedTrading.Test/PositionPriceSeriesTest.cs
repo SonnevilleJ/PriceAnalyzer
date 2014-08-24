@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Google;
@@ -6,20 +6,20 @@ using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PositionPriceSeriesTest
     {
         private PositionFactory _positionFactory;
         private TransactionFactory _transactionFactory;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void PriceSeriesConstructionTest()
         {
             var priceData = SamplePriceDatas.IBM_Daily;

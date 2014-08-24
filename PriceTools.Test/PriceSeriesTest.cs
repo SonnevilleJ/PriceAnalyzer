@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.SampleData;
 using Sonneville.PriceTools.TestUtilities;
 
@@ -9,14 +9,14 @@ namespace Sonneville.PriceTools.Test
     /// <summary>
     ///This is a test class for PriceSeriesTest and is intended to contain all PriceSeriesTest Unit Tests
     ///</summary>
-    [TestClass]
+    [TestFixture]
     public class PriceSeriesTest
     {
         private IPriceSeriesFactory _priceSeriesFactory;
         private ITimeSeriesUtility _timeSeriesUtility;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _priceSeriesFactory = new PriceSeriesFactory();
             _timeSeriesUtility = new TimeSeriesUtility();
@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Close
         ///</summary>
-        [TestMethod]
+        [Test]
         public void CloseTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -45,7 +45,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Close
         ///</summary>
-        [TestMethod]
+        [Test]
         public void OrderedCloseTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -62,14 +62,14 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void HasValue1Test()
         {
             var target = _priceSeriesFactory.ConstructPriceSeries("DE");
             Assert.IsFalse(_timeSeriesUtility.HasValueInRange(target, DateTime.Now));
         }
 
-        [TestMethod]
+        [Test]
         public void HasValue2Test()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -84,7 +84,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(_timeSeriesUtility.HasValueInRange(target, p1.Head));
         }
 
-        [TestMethod]
+        [Test]
         public void HasValue3Test()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -102,7 +102,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Head
         ///</summary>
-        [TestMethod]
+        [Test]
         public void HeadTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -119,7 +119,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void HeadEmptyTest()
         {
@@ -131,7 +131,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for High
         ///</summary>
-        [TestMethod]
+        [Test]
         public void HighTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -151,7 +151,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod]
+        [Test]
         public void IndexerValueAtHeadTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -171,7 +171,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod]
+        [Test]
         public void IndexerValueAtTailTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -191,7 +191,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod]
+        [Test]
         public void IndexerValueBeforeHeadTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -211,7 +211,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod]
+        [Test]
         public void IndexerValueAfterTailTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -231,7 +231,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Low
         ///</summary>
-        [TestMethod]
+        [Test]
         public void LowTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -251,7 +251,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Open
         ///</summary>
-        [TestMethod]
+        [Test]
         public void OpenTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -271,7 +271,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Open
         ///</summary>
-        [TestMethod]
+        [Test]
         public void OrderedOpenTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -291,7 +291,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for PricePeriods
         ///</summary>
-        [TestMethod]
+        [Test]
         public void PricePeriodsTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -309,7 +309,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(target.PricePeriods.Contains(p3));
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void GetDailyPeriodsFromWeeklyPeriodsTest()
         {
@@ -320,7 +320,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Tail
         ///</summary>
-        [TestMethod]
+        [Test]
         public void TailTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -337,7 +337,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void TailEmptyTest()
         {
@@ -349,7 +349,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Ticker
         ///</summary>
-        [TestMethod]
+        [Test]
         public void TickerTest()
         {
             var ticker = "DE";
@@ -363,7 +363,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Volume
         ///</summary>
-        [TestMethod]
+        [Test]
         public void VolumeTest()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -380,7 +380,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void TestIndexerGetsMostRecentPriceBeforeNextPeriod()
         {
             var p1 = PricePeriodUtilities.CreatePeriod1();
@@ -397,7 +397,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void DefaultResolutionTest()
         {
             var target = _priceSeriesFactory.ConstructPriceSeries("DE");
@@ -407,7 +407,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void AddPricePeriodAddsToPricePeriodsTest()
         {
             var target = _priceSeriesFactory.ConstructPriceSeries("DE");
@@ -421,7 +421,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(target.PricePeriods.Contains(period));
         }
 
-        [TestMethod]
+        [Test]
         public void TimePeriodsTest()
         {
             var target = SamplePriceDatas.Deere.PriceSeries;

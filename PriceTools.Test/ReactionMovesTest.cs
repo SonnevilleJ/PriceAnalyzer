@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class ReactionMovesTest
     {
         private IReactionMovesFactory _reactionMovesFactory;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _reactionMovesFactory = new ReactionMovesFactory();
         }
@@ -147,7 +147,7 @@ namespace Sonneville.PriceTools.Test
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ReactionMovesCountTest()
         {
             var reactionMoves = ExpectedReactionMoves;
@@ -158,7 +158,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(reactionMoves.Count(), actualMoves.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void ReactionMovesValuesTest()
         {
             var reactionMoves = ExpectedReactionMoves;
@@ -172,7 +172,7 @@ namespace Sonneville.PriceTools.Test
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ReactionHighsCountTest()
         {
             var newHighs = ExpectedReactionHighs;
@@ -183,7 +183,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(newHighs.Count(), actualHighs.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void ReactionHighsTest()
         {
             var newHighs = ExpectedReactionHighs;
@@ -197,7 +197,7 @@ namespace Sonneville.PriceTools.Test
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ReactionLowsCountTest()
         {
             var newLows = ExpectedReactionLows;
@@ -208,7 +208,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(newLows.Count(), actualLows.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void ReactionLowsTest()
         {
             var newLows = ExpectedReactionLows;

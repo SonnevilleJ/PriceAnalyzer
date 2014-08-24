@@ -1,24 +1,24 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PositionAverageCostTests
     {
         private IPositionFactory _positionFactory;
         private ITransactionFactory _transactionFactory;
         private ISecurityBasketCalculator _securityBasketCalculator;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
         }
         
-        [TestMethod]
+        [Test]
         public void CalculateAverageCostBuy()
         {
             const string ticker = "DE";
@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAverageCostBuySell()
         {
             const string ticker = "DE";
@@ -57,7 +57,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAverageCostBuySellBuyHigher()
         {
             const string ticker = "DE";
@@ -87,7 +87,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedAverageCost, actualAverageCost);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateAverageCostBuySellBuyLower()
         {
             const string ticker = "DE";

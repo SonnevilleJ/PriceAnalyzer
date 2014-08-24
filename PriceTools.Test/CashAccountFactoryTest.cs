@@ -1,8 +1,8 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class CashAccountFactoryTest
     {
         private readonly ICashAccountFactory _cashAccountFactory;
@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.Test
             _cashAccountFactory = new CashAccountFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void MarginableCashAccountAssignMaxMargin()
         {
             const decimal maximumMargin = 100;

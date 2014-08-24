@@ -1,14 +1,14 @@
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class DividendReinvestmentTests : ShareTransactionTestsBase
     {
         private const OrderType TransactionType = OrderType.DividendReinvestment;
 
-        [TestMethod]
+        [Test]
         public override void SerializeTest()
         {
             ShareTransactionSerializeTest(TransactionType);
@@ -17,7 +17,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for SettlementDate
         ///</summary>
-        [TestMethod]
+        [Test]
         public override void SettlementDateTest()
         {
             ShareTransactionSettlementDateTest(TransactionType);
@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Ticker
         ///</summary>
-        [TestMethod]
+        [Test]
         public override void TickerTest()
         {
             ShareTransactionTickerTest(TransactionType);
@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Price
         ///</summary>
-        [TestMethod]
+        [Test]
         public override void PriceValidTest()
         {
             ShareTransactionPriceValidTest(TransactionType);
@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Price
         ///</summary>
-        [TestMethod]
+        [Test]
         public override void PriceInvalidTest()
         {
             ShareTransactionPriceInvalidTest(TransactionType);
@@ -53,7 +53,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Shares
         ///</summary>
-        [TestMethod]
+        [Test]
         public override void SharesValidTest()
         {
             ShareTransactionSharesValidTest(TransactionType);
@@ -62,7 +62,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Shares
         ///</summary>
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof (ArgumentOutOfRangeException))]
         public override void SharesInvalidTest()
         {
@@ -72,7 +72,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Commission
         ///</summary>
-        [TestMethod]
+        [Test]
         public override void CommissionValidTest()
         {
             ShareTransactionCommissionValidTest(TransactionType);
@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Commission
         ///</summary>
-        [TestMethod]
+        [Test]
         public override void CommissionInvalidTest()
         {
             // For DividendReinvestment types, the only valid commission is zero.
@@ -90,7 +90,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         /// A test for TotalValue
         /// </summary>
-        [TestMethod]
+        [Test]
         public override void TotalValueTest()
         {
             ShareTransactionTotalValueTest(TransactionType);

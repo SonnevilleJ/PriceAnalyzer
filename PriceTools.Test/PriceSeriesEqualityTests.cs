@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PriceSeriesEqualityTests
     {
         private readonly IPriceSeriesFactory _priceSeriesFactory;
@@ -17,7 +17,7 @@ namespace Sonneville.PriceTools.Test
             _priceSeriesFactory = new PriceSeriesFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void EqualsEmptyPriceSeries()
         {
             var ps1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(ps1, ps2);
         }
 
-        [TestMethod]
+        [Test]
         public void EqualsTestDifferentTicker()
         {
             var ps1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsFalse(ps1.Equals(ps2));
         }
 
-        [TestMethod]
+        [Test]
         public void ReferenceEqualsTestDifferentTicker()
         {
             var ps1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsFalse(ReferenceEquals(ps1, ps2));
         }
 
-        [TestMethod]
+        [Test]
         public void GetHashCodeTestDifferentTicker()
         {
             var ps1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
@@ -53,7 +53,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsFalse(ReferenceEquals(ps1, ps2));
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentWithDifferentData()
         {
             var series1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
@@ -71,7 +71,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentWithExtraseries()
         {
             var series1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
@@ -90,7 +90,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableIsEquivalentWithMissingseries()
         {
             var series1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
@@ -106,7 +106,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEquivalent(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableEqualsWithDifferentData()
         {
             var series1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
@@ -124,7 +124,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsFalse(list1.Equals(list2));
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableEqualsWithSameData()
         {
             var series1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
@@ -141,7 +141,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreEqual(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableEqualsWithExtraseries()
         {
             var series1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
@@ -160,7 +160,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEqual(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableEqualsWithMissingseries()
         {
             var series1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);
@@ -176,7 +176,7 @@ namespace Sonneville.PriceTools.Test
             CollectionAssert.AreNotEqual(list1, list2);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumerableEqualsOrderCheck()
         {
             var series1 = _priceSeriesFactory.ConstructPriceSeries(_ticker1);

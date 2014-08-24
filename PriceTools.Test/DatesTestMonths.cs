@@ -1,9 +1,9 @@
 using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class DatesTestMonths : DatesTest
     {
         protected override Resolution Resolution
@@ -11,7 +11,7 @@ namespace Sonneville.PriceTools.Test
             get { return Resolution.Months; }
         }
 
-        [TestMethod]
+        [Test]
         public override void CurrentPeriodOpenTestFromClose()
         {
             var start = PeriodHead.AddTicks(-1).AddMonths(1);
@@ -21,7 +21,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void CurrentPeriodOpenTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
@@ -31,7 +31,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void CurrentPeriodCloseTestFromOpen()
         {
             var start = PeriodHead;
@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void CurrentPeriodCloseTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
@@ -51,7 +51,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void NextPeriodOpenTestFromOpen()
         {
             var start = PeriodHead;
@@ -61,7 +61,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void NextPeriodOpenTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
@@ -71,7 +71,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void NextPeriodCloseTestFromOpen()
         {
             var start = PeriodHead;
@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void NextPeriodCloseTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
@@ -91,7 +91,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void NextPeriodCloseTestFromClose()
         {
             var start = PeriodHead.AddTicks(-1);
@@ -101,7 +101,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void NextPeriodCloseTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
@@ -111,7 +111,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void PreviousPeriodOpenTestFromOpen()
         {
             var start = PeriodHead;
@@ -121,7 +121,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void PreviousPeriodOpenTestFromAfterOpen()
         {
             var start = PeriodHead.AddTicks(1);
@@ -131,7 +131,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void PreviousPeriodOpenTestFromClose()
         {
             var start = PeriodHead.AddTicks(-1);
@@ -141,7 +141,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void PreviousPeriodOpenTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
@@ -151,7 +151,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void PreviousPeriodCloseTestFromClose()
         {
             var start = PeriodHead.AddTicks(-1);
@@ -161,7 +161,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void PreviousPeriodCloseTestFromBeforeClose()
         {
             var start = PeriodHead.AddTicks(-2);
@@ -171,7 +171,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void SeekForwardOneTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -181,7 +181,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void SeekBackwardOneTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -191,7 +191,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void SeekForwardTenTest()
         {
             var start = new DateTime(2012, 10, 15);
@@ -201,7 +201,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public override void SeekBackwardTenTest()
         {
             var start = new DateTime(2012, 10, 15);

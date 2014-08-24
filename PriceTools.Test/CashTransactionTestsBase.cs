@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.Implementation;
 using Sonneville.PriceTools.TestUtilities;
 using Sonneville.Utilities.Serialization;
@@ -18,25 +18,25 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         /// A test for serialization
         /// </summary>
-        [TestMethod]
+        [Test]
         public abstract void SerializeTest();
 
         /// <summary>
         ///A test for Amount
         ///</summary>
-        [TestMethod]
+        [Test]
         public abstract void AmountInvalidTest();
 
         /// <summary>
         ///A test for SettlementDate
         ///</summary>
-        [TestMethod]
+        [Test]
         public abstract void SettlementDateTest();
 
         /// <summary>
         ///A test for Amount
         ///</summary>
-        [TestMethod]
+        [Test]
         public abstract void AmountValidTest();
 
         protected static void CashTransactionSerializeTest(OrderType transactionType)

@@ -1,24 +1,24 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PositionHoldingTests
     {
         private IHoldingFactory _holdingFactory;
         private IPositionFactory _positionFactory;
         private ITransactionFactory _transactionFactory;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _holdingFactory = new HoldingFactory();
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithOneBuyOneSellCount()
         {
             const string ticker = "DE";
@@ -41,7 +41,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(1, holdings.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithOneBuyOneSellValues()
         {
             const string ticker = "DE";
@@ -67,7 +67,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(holdings.Contains(expected));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithTwoBuysOneSellCount()
         {
             const string ticker = "DE";
@@ -93,7 +93,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(2, holdings.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithTwoBuysOneSellValues()
         {
             const string ticker = "DE";
@@ -123,7 +123,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(holdings.Contains(expected2));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithOneBuyTwoSellsCount()
         {
             const string ticker = "DE";
@@ -149,7 +149,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(2, holdings.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithOneBuyTwoSellsValues()
         {
             const string ticker = "DE";
@@ -181,7 +181,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(holdings.Contains(expected2));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithTwoBuysTwoSellsCount()
         {
             const string ticker = "DE";
@@ -209,7 +209,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(2, holdings.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithTwoBuysTwoSellsValues()
         {
             const string ticker = "DE";
@@ -239,7 +239,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(holdings.Contains(expected2));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithTwoBuysTwoSellsOverlappingCount()
         {
             const string ticker = "DE";
@@ -267,7 +267,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(2, holdings.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithTwoBuysTwoSellsOverlappingValues()
         {
             const string ticker = "DE";
@@ -300,7 +300,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(holdings.Contains(expected2));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithTwoBuysTwoSellsOverlappingUnevenCount()
         {
             const string ticker = "DE";
@@ -329,7 +329,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(3, holdings.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithTwoBuysTwoSellsOverlappingUnevenValues()
         {
             const string ticker = "DE";
@@ -365,7 +365,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(holdings.Contains(expected3));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithTwoBuysTwoSellsOverlappingUnevenSortOrderCount()
         {
             const string ticker = "DE";
@@ -394,7 +394,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(3, holdings.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithTwoBuysTwoSellsOverlappingUnevenSortOrderValues()
         {
             const string ticker = "DE";

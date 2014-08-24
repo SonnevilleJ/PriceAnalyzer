@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.Implementation;
 using Sonneville.PriceTools.TestUtilities;
 using Sonneville.Utilities.Serialization;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class OrderTest
     {
         private readonly IOrderFactory _orderFactory;
@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.Test
             _orderFactory = new OrderFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void SerializeTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools.Test
             GenericTestUtilities.AssertSameReflectedProperties(target, result);
         }
 
-        [TestMethod]
+        [Test]
         public void IssuedTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -53,7 +53,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void ExpiredTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -70,7 +70,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void IssuedAfterExpiredFails()
         {
@@ -84,7 +84,7 @@ namespace Sonneville.PriceTools.Test
             _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
-        [TestMethod]
+        [Test]
         public void TickerTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -101,7 +101,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void PriceTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -118,7 +118,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void OrderTypeTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -135,7 +135,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void PricingTypeTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -153,7 +153,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void SharesTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -170,7 +170,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void MarketPricingTypeByDefaultTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -187,7 +187,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativePriceTest()
         {
@@ -201,7 +201,7 @@ namespace Sonneville.PriceTools.Test
             _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void NegativeSharesTest()
         {
@@ -215,7 +215,7 @@ namespace Sonneville.PriceTools.Test
             _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DepositTypeTest()
         {
@@ -229,7 +229,7 @@ namespace Sonneville.PriceTools.Test
             _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void WithdrawalTypeTest()
         {
@@ -243,7 +243,7 @@ namespace Sonneville.PriceTools.Test
             _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DividendReceiptTypeTest()
         {
@@ -257,7 +257,7 @@ namespace Sonneville.PriceTools.Test
             _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void DividendReinvestmentTypeTest()
         {
@@ -274,7 +274,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         /// Verifies that an order cannot be created with a binary and-ed OrderType, including bounds testing
         /// </summary>
-        [TestMethod]
+        [Test]
         public void BinaryAndedOrderTypeTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -312,7 +312,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         /// Verifies that an order cannot be created with a binary and-ed PricingType, including bounds testing
         /// </summary>
-        [TestMethod]
+        [Test]
         public void BinaryAndedPricingTypeTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -351,7 +351,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         /// Verifies that an order cannot be created with a binary and-ed market and limit PricingType
         /// </summary>
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentOutOfRangeException))]
         public void ManualMarketLimitPricingTypeTest()
         {
@@ -369,7 +369,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         /// Verifies that a stop order can be created
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ManualStopMarketPricingTypeTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -390,7 +390,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         /// Verifies that a stop limit order can be created
         /// </summary>
-        [TestMethod]
+        [Test]
         public void ManualStopLimitPricingTypeTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -411,7 +411,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         /// Verifies that an order constructed with <see cref="PricingType.Stop"/> converts automatically to <see cref="PricingType.StopMarket"/>
         /// </summary>
-        [TestMethod]
+        [Test]
         public void StopPricingTypeTest()
         {
             var issued = new DateTime(2011, 12, 6);
@@ -429,7 +429,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void ToStringTest()
         {
             var issued = new DateTime(2011, 12, 6);

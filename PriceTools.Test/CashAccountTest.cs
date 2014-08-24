@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
@@ -7,7 +7,7 @@ namespace Sonneville.PriceTools.Test
     ///This is a test class for ICashAccountTest and is intended
     ///to contain all ICashAccountTest Unit Tests
     ///</summary>
-    [TestClass]
+    [TestFixture]
     public class CashAccountTest
     {
         private readonly ICashAccountFactory _cashAccountFactory;
@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Deposit
         ///</summary>
-        [TestMethod]
+        [Test]
         public void DepositTest()
         {
             var target = _cashAccountFactory.ConstructCashAccount();
@@ -38,7 +38,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Withdraw
         ///</summary>
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void WithdrawBeforeDepositTest()
         {
@@ -52,7 +52,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Withdraw
         ///</summary>
-        [TestMethod]
+        [Test]
         public void WithdrawAfterDepositTest()
         {
             var target = _cashAccountFactory.ConstructCashAccount();
@@ -67,7 +67,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod]
+        [Test]
         public void RoundingCountTest1()
         {
             var target = _cashAccountFactory.ConstructCashAccount();
@@ -83,7 +83,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(iterations, target.Transactions.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void RoundingCountTest2()
         {
             var target = _cashAccountFactory.ConstructCashAccount();
@@ -105,7 +105,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(iterations * 2, target.Transactions.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void RoundingBalanceTest()
         {
             var target = _cashAccountFactory.ConstructCashAccount();
@@ -130,7 +130,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CanWithdrawDividendsTest()
         {
             var target = _cashAccountFactory.ConstructCashAccount();
@@ -148,7 +148,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Transactions
         ///</summary>
-        [TestMethod]
+        [Test]
         public void DepositWithdrawalTest()
         {
             var target = _cashAccountFactory.ConstructCashAccount();
@@ -165,7 +165,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Transactions
         ///</summary>
-        [TestMethod]
+        [Test]
         public void DepositIsValidTest()
         {
             var target = _cashAccountFactory.ConstructCashAccount();
@@ -180,7 +180,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Transactions
         ///</summary>
-        [TestMethod]
+        [Test]
         public void WithdrawalIsValidBeforeDepositTest()
         {
             var target = _cashAccountFactory.ConstructCashAccount();
@@ -195,7 +195,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Transactions
         ///</summary>
-        [TestMethod]
+        [Test]
         public void WithdrawalIsValidAfterDepositTest()
         {
             var target = _cashAccountFactory.ConstructCashAccount();
@@ -212,7 +212,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Transactions
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ModifyingTransactionsListDoesNotAffectCashAccountTest()
         {
             var target = _cashAccountFactory.ConstructCashAccount();

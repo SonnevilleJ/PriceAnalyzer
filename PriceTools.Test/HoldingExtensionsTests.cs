@@ -1,21 +1,21 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class HoldingExtensionsTests
     {
         private IHoldingFactory _holdingFactory;
         private IProfitCalculator _profitCalculator;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _holdingFactory = new HoldingFactory();
             _profitCalculator = new ProfitCalculator();
         }
 
-        [TestMethod]
+        [Test]
         public void GrossProfitTest()
         {
             var target = _holdingFactory.ConstructHolding(5, 10, 20, 2, 3);
@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void NetProfitTest()
         {
             var target = _holdingFactory.ConstructHolding(5, 10, 20, 2, 3);

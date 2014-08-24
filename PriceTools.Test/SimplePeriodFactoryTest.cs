@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class SimplePeriodFactoryTest
     {
         private readonly ITimePeriodFactory<decimal> _timePeriodFactory;
@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools.Test
             _timePeriodFactory = new TimePeriodFactory<decimal>();
         }
 
-        [TestMethod]
+        [Test]
         public void TestHead()
         {
             var head = new DateTime(2012, 9, 13);
@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(head, target.Head);
         }
 
-        [TestMethod]
+        [Test]
         public void TestTail()
         {
             var head = new DateTime(2012, 9, 13);
@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(tail, target.Tail);
         }
 
-        [TestMethod]
+        [Test]
         public void TestValueOfHead()
         {
             var head = new DateTime(2012, 9, 13);
@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(value, target[head]);
         }
 
-        [TestMethod]
+        [Test]
         public void TestValueOfHeadPlusOne()
         {
             var head = new DateTime(2012, 9, 13);
@@ -61,7 +61,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(value, target[head.AddTicks(1)]);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(IndexOutOfRangeException))]
         public void TestValueOfHeadMinusOne()
         {
@@ -76,7 +76,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNull(actual);
         }
 
-        [TestMethod]
+        [Test]
         public void TestValueOfTail()
         {
             var head = new DateTime(2012, 9, 13);
@@ -88,7 +88,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(value, target[tail]);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(IndexOutOfRangeException))]
         public void TestValueOfTailPlusOne()
         {
@@ -103,7 +103,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNull(actual);
         }
 
-        [TestMethod]
+        [Test]
         public void TestValueOfTailMinusOne()
         {
             var head = new DateTime(2012, 9, 13);
@@ -115,7 +115,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(value, target[tail.AddTicks(-1)]);
         }
 
-        [TestMethod]
+        [Test]
         public void TestHasValueOfHead()
         {
             var head = new DateTime(2012, 9, 13);
@@ -127,7 +127,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(target.HasValueInRange(head));
         }
 
-        [TestMethod]
+        [Test]
         public void TestHasValueOfHeadPlusOne()
         {
             var head = new DateTime(2012, 9, 13);
@@ -139,7 +139,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(target.HasValueInRange(head.AddTicks(1)));
         }
 
-        [TestMethod]
+        [Test]
         public void TestHasValueOfHeadMinusOne()
         {
             var head = new DateTime(2012, 9, 13);
@@ -151,7 +151,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsFalse(target.HasValueInRange(head.AddTicks(-1)));
         }
 
-        [TestMethod]
+        [Test]
         public void TestHasValueOfTail()
         {
             var head = new DateTime(2012, 9, 13);
@@ -163,7 +163,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(target.HasValueInRange(tail));
         }
 
-        [TestMethod]
+        [Test]
         public void TestHasValueOfTailPlusOne()
         {
             var head = new DateTime(2012, 9, 13);
@@ -175,7 +175,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsFalse(target.HasValueInRange(tail.AddTicks(1)));
         }
 
-        [TestMethod]
+        [Test]
         public void TestHasValueOfTailMinusOne()
         {
             var head = new DateTime(2012, 9, 13);
@@ -187,7 +187,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(target.HasValueInRange(tail.AddTicks(-1)));
         }
 
-        [TestMethod]
+        [Test]
         public void TestResolution()
         {
             var head = new DateTime(2012, 9, 13);

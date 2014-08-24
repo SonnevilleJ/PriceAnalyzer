@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
@@ -70,10 +70,10 @@ namespace Sonneville.PriceTools.Test
         }
     }
 
-    [TestClass]
+    [TestFixture]
     public class StaticPricePeriodFactoryConstructor4Tests : StaticPricePeriodFactoryConstructorTestsBase
     {
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodHeadTest()
         {
             var head = GetHead();
@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(head, target.Head);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodTailTest()
         {
             var head = GetHead();
@@ -106,7 +106,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(tail, target.Tail);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidOpenTest()
         {
             var head = GetHead();
@@ -122,7 +122,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(open, target.Open);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidHighTest()
         {
             var head = GetHead();
@@ -138,7 +138,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(high, target.High);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidLowTest()
         {
             var head = GetHead();
@@ -154,7 +154,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(low, target.Low);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidCloseTest()
         {
             var head = GetHead();
@@ -170,7 +170,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(close, target.Close);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodDefaultVolumeTest()
         {
             var head = GetHead();
@@ -185,7 +185,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNull(target.Volume);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidVolumeTest()
         {
             var head = GetHead();
@@ -201,7 +201,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(volume, target.Volume);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodResolutionTest()
         {
             var head = GetHead();
@@ -218,10 +218,10 @@ namespace Sonneville.PriceTools.Test
         }
     }
 
-    [TestClass]
+    [TestFixture]
     public class StaticPricePeriodFactoryConstructor3Tests : StaticPricePeriodFactoryConstructorTestsBase
     {
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodHeadTest()
         {
             var head = GetHead();
@@ -234,7 +234,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(head, target.Head);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodTailTest()
         {
             var head = GetHead();
@@ -248,7 +248,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(tail, target.Tail);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidOpenTest()
         {
             var head = GetHead();
@@ -261,7 +261,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(close, target.Open);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidHighTest()
         {
             var head = GetHead();
@@ -274,7 +274,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(close, target.High);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidLowTest()
         {
             var head = GetHead();
@@ -287,7 +287,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(close, target.Low);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidCloseTest()
         {
             var head = GetHead();
@@ -312,7 +312,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNull(target.Volume);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidVolumeTest()
         {
             var head = GetHead();
@@ -325,7 +325,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(volume, target.Volume);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodResolutionTest()
         {
             var head = GetHead();
@@ -339,10 +339,10 @@ namespace Sonneville.PriceTools.Test
         }
     }
 
-    [TestClass]
+    [TestFixture]
     public class StaticPricePeriodFactoryConstructor2Tests : StaticPricePeriodFactoryConstructorTestsBase
     {
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodHeadTest()
         {
             var head = GetHead();
@@ -358,7 +358,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(head, target.Head);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodTailTest()
         {
             var head = GetHead();
@@ -374,7 +374,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(tail, target.Tail);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidOpenTest()
         {
             var head = GetHead();
@@ -390,7 +390,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(open, target.Open);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidHighTest()
         {
             var head = GetHead();
@@ -406,7 +406,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(high, target.High);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidLowTest()
         {
             var head = GetHead();
@@ -422,7 +422,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(low, target.Low);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidCloseTest()
         {
             var head = GetHead();
@@ -438,7 +438,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(close, target.Close);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodDefaultVolumeTest()
         {
             var head = GetHead();
@@ -453,7 +453,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNull(target.Volume);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidVolumeTest()
         {
             var head = GetHead();
@@ -469,7 +469,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(volume, target.Volume);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodResolutionTest()
         {
             var head = GetHead();
@@ -487,10 +487,10 @@ namespace Sonneville.PriceTools.Test
         }
     }
 
-    [TestClass]
+    [TestFixture]
     public class StaticPricePeriodFactoryConstructor1Tests : StaticPricePeriodFactoryConstructorTestsBase
     {
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodHeadTest()
         {
             var head = GetHead();
@@ -503,7 +503,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(head, target.Head);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodTailTest()
         {
             var head = GetHead();
@@ -516,7 +516,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(tail, target.Tail);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidOpenTest()
         {
             var head = GetHead();
@@ -529,7 +529,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(close, target.Open);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidHighTest()
         {
             var head = GetHead();
@@ -542,7 +542,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(close, target.High);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidLowTest()
         {
             var head = GetHead();
@@ -555,7 +555,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(close, target.Low);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidCloseTest()
         {
             var head = GetHead();
@@ -580,7 +580,7 @@ namespace Sonneville.PriceTools.Test
             Assert.IsNull(target.Volume);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodValidVolumeTest()
         {
             var head = GetHead();
@@ -593,7 +593,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(volume, target.Volume);
         }
 
-        [TestMethod]
+        [Test]
         public override void CreateStaticPricePeriodResolutionTest()
         {
             var head = GetHead();

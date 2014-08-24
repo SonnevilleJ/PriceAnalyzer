@@ -1,20 +1,20 @@
 ﻿using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class SP500Test
     {
         private SP500 _index;
 
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             _index = new SP500();
         }
 
-        [TestMethod]
+        [Test]
         public void SAndP500ShouldContain500Stocks()
         {
             var tickers = _index.GetTickers();

@@ -1,20 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.Statistics.Test
 {
-    [TestClass]
+    [TestFixture]
     public class MultiplySequenceTest
     {
-        [TestMethod]
+        [Test]
         public void IntelMultiplySequencesTest()
         {
             DoSequenceMultiplyTest(TestData.IntelPrices.ToArray(), TestData.QqqPrices.ToArray());
         }
 
-        [TestMethod]
+        [Test]
         public void QqqMultiplySequencesTest()
         {
             DoSequenceMultiplyTest(TestData.QqqPrices.ToArray(), TestData.IntelPrices.ToArray());

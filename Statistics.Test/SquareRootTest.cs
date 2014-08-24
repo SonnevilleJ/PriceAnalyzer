@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace Sonneville.Statistics.Test
 {
-    [TestClass]
+    [TestFixture]
     public class SquareRootTest
     {
-        [TestMethod]
+        [Test]
         public void SquareRoot4Test()
         {
             const decimal expected = 2m;
@@ -14,7 +14,7 @@ namespace Sonneville.Statistics.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void SquareRoot9Test()
         {
             const decimal expected = 3m;
@@ -23,7 +23,7 @@ namespace Sonneville.Statistics.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void SquareRootIntelVarianceTest()
         {
             const decimal expected = 0.631270296703367m;
@@ -32,7 +32,7 @@ namespace Sonneville.Statistics.Test
             StatisticsTestUtilities.AssertAreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void SquareRootQqqVarianceTest()
         {
             const decimal expected = 1.402674662921060m;

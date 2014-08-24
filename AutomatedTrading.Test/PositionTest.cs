@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Yahoo;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
@@ -11,7 +10,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     ///This is a test class for PositionTest and is intended
     ///to contain all PositionTest Unit Tests
     ///</summary>
-    [TestClass]
+    [TestFixture]
     public class PositionTest
     {
         private IPositionFactory _positionFactory;
@@ -20,7 +19,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private IPriceDataProvider _csvPriceDataProvider;
         private ISecurityBasketCalculator _securityBasketCalculator;
 
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             _positionFactory = new PositionFactory();
@@ -30,7 +29,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _csvPriceDataProvider = new PriceDataProvider(new WebClientWrapper(), new YahooPriceHistoryQueryUrlBuilder(), _priceHistoryCsvFileFactory);
         }
 
-        [TestMethod]
+        [Test]
         public void IndexerReturnsCalculateGrossProfit()
         {
             const string ticker = "DE";
@@ -46,14 +45,14 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void NullTickerThrowsException()
         {
             _positionFactory.ConstructPosition(null);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMarketValueTestBuy()
         {
             const string ticker = "DE";
@@ -72,7 +71,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMarketValueTestSellHalf()
         {
             const string ticker = "DE";
@@ -97,7 +96,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMarketValueTestSellAll()
         {
             const string ticker = "DE";
@@ -118,7 +117,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void SellTooManySharesTest()
         {
@@ -136,7 +135,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                                               _transactionFactory.ConstructSell(ticker, sellDate, sharesSold, sellPrice, commission));
         }
 
-        [TestMethod]
+        [Test]
         public void LongTransactionCountReturnsCorrectTransactionCount()
         {
             const string ticker = "DE";
@@ -156,7 +155,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, longActual);
         }
 
-        [TestMethod]
+        [Test]
         public void ShortTransactionCountReturnsCorrectTransactionCount()
         {
             const string ticker = "CAT";
@@ -179,7 +178,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         /// <summary>
         ///A test for Ticker
         ///</summary>
-        [TestMethod]
+        [Test]
         public void TickerTest()
         {
             const string ticker = "DE";
@@ -193,7 +192,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         /// <summary>
         ///A test for CalculateCost
         ///</summary>
-        [TestMethod]
+        [Test]
         public void CalculateCostWithBuyOnlyTest()
         {
             const string ticker = "DE";
@@ -213,7 +212,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         /// <summary>
         ///A test for CalculateCost
         ///</summary>
-        [TestMethod]
+        [Test]
         public void CalculateCostWithBuyAndSellTest()
         {
             const string ticker = "DE";
@@ -239,7 +238,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         /// <summary>
         ///A test for CalculateProceeds
         ///</summary>
-        [TestMethod]
+        [Test]
         public void CalculateProceedsWithBuyOnlyTest()
         {
             const string ticker = "DE";
@@ -259,7 +258,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         /// <summary>
         ///A test for CalculateProceeds
         ///</summary>
-        [TestMethod]
+        [Test]
         public void CalculateProceedsWithBuyAndSellTest()
         {
             const string ticker = "DE";
@@ -285,7 +284,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         /// <summary>
         ///A test for CalculateCommissions
         ///</summary>
-        [TestMethod]
+        [Test]
         public void CalculateCommissionsWithBuyOnlyTest()
         {
             const string ticker = "DE";
@@ -306,7 +305,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         /// <summary>
         ///A test for CalculateCommissions
         ///</summary>
-        [TestMethod]
+        [Test]
         public void CalculateCommissionsWithBuyAndSellTest()
         {
             const string ticker = "DE";

@@ -1,18 +1,18 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.Implementation;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class SimulatedBrokerTest
     {
         private SimulatedBroker _simulatedBroker;
         private Order _deOrder;
         private Order _ibmOrder;
 
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             _deOrder = new Order { Issued = DateTime.Now, OrderType = OrderType.Buy, Price = 5, Shares = 1, Ticker = "DE" };
@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _simulatedBroker = new SimulatedBroker();
         }
 
-        [TestMethod]
+        [Test]
         public void SubmitOrderReturnsDeOrderStatus()
         {
             Clock.FreezeTime(new DateTime(2013, 1, 1));
@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(Clock.Now, orderStatus.SubmitTime);
         }
 
-        [TestMethod]
+        [Test]
         public void SubmitOrderReturnsIbmOrderStatus()
         {
             Clock.FreezeTime(new DateTime(2013, 1, 1));
@@ -48,7 +48,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(Clock.Now, orderStatus.SubmitTime);
         }
 
-        [TestMethod]
+        [Test]
         public void OrderStatusIdsShouldBeUnique()
         {
             var deOrderStatus = _simulatedBroker.SubmitOrder(_deOrder);

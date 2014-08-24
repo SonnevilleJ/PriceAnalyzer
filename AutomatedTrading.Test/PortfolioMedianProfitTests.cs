@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PortfolioMedianProfitTests
     {
         private IPortfolioFactory _portfolioFactory;
@@ -11,8 +11,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private ISecurityBasketCalculator _securityBasketCalculator;
         private IHoldingFactory _holdingFactory;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
@@ -20,7 +20,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _holdingFactory = new HoldingFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitOfDeposit()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -33,7 +33,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitAfterFullWithdrawal()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -51,7 +51,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitOpenPosition()
         {
             var dateTime = new DateTime(2011, 11, 21);
@@ -75,7 +75,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitAfterGain()
         {
             var dateTime = new DateTime(2011, 11, 21);
@@ -101,7 +101,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitTwoGain()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -132,7 +132,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitTwoLoss()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -163,7 +163,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitOneGainOneLoss()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -194,7 +194,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitOneGainOneOpen()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -223,7 +223,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateMedianProfitOneLossOneOpen()
         {
             var dateTime = new DateTime(2011, 1, 8);

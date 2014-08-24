@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Text;
 using System.Collections.Generic;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Moq;
 
 namespace Sonneville.PriceTools.Test
@@ -9,20 +8,20 @@ namespace Sonneville.PriceTools.Test
     /// <summary>
     /// Summary description for ConstantPriceSeriesTest
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class ConstantPriceSeriesTest
     {
         private IPriceSeriesFactory _priceSeriesFactory;
         private ITimeSeriesUtility _timeSeriesUtility;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _priceSeriesFactory = new PriceSeriesFactory();
             _timeSeriesUtility = new TimeSeriesUtility();
         }
 
-        [TestMethod]
+        [Test]
         public void IndexerValueTest()
         {
             var priceSeries = _priceSeriesFactory.ConstructConstantPriceSeries("FTEXX");
@@ -32,7 +31,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(1m, priceSeries[DateTime.MaxValue]);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(NotSupportedException))]
         public void AddPriceDataTest1()
         {
@@ -41,7 +40,7 @@ namespace Sonneville.PriceTools.Test
             priceSeries.AddPriceData(new Mock<IPricePeriod>().Object);
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(NotSupportedException))]
         public void AddPriceDataTest2()
         {
@@ -51,7 +50,7 @@ namespace Sonneville.PriceTools.Test
             priceSeries.AddPriceData(new List<IPricePeriod> {pricePeriod});
         }
 
-        [TestMethod]
+        [Test]
         public void OpenTest()
         {
             var priceSeries = _priceSeriesFactory.ConstructConstantPriceSeries("FTEXX");
@@ -59,7 +58,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(1m, priceSeries.Open);
         }
 
-        [TestMethod]
+        [Test]
         public void HighTest()
         {
             var priceSeries = _priceSeriesFactory.ConstructConstantPriceSeries("FTEXX");
@@ -67,7 +66,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(1m, priceSeries.High);
         }
 
-        [TestMethod]
+        [Test]
         public void LowTest()
         {
             var priceSeries = _priceSeriesFactory.ConstructConstantPriceSeries("FTEXX");
@@ -75,7 +74,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(1m, priceSeries.Low);
         }
 
-        [TestMethod]
+        [Test]
         public void CloseTest()
         {
             var priceSeries = _priceSeriesFactory.ConstructConstantPriceSeries("FTEXX");
@@ -83,7 +82,7 @@ namespace Sonneville.PriceTools.Test
             Assert.AreEqual(1m, priceSeries.Close);
         }
 
-        [TestMethod]
+        [Test]
         public void VolumeTest()
         {
             var priceSeries = _priceSeriesFactory.ConstructConstantPriceSeries("FTEXX");

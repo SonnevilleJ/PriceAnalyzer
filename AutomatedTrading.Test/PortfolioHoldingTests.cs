@@ -1,24 +1,24 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PortfolioHoldingTests
     {
         private IHoldingFactory _holdingFactory;
         private IPortfolioFactory _portfolioFactory;
         private ITransactionFactory _transactionFactory;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _holdingFactory = new HoldingFactory();
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithOnePositionOneBuyOneSell()
         {
             var dateTime = new DateTime(2011, 7, 26);
@@ -44,7 +44,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(holdings.Contains(expected));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithOnePositionTwoBuysTwoSells()
         {
             var testDate = new DateTime(2001, 1, 1);
@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(holdings.Contains(expected2));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestWithTwoPositionsOneBuyOneSellEach()
         {
             var testDate = new DateTime(2001, 1, 1);
@@ -119,7 +119,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.IsTrue(holdings.Contains(expected2));
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateHoldingsTestSortOrder()
         {
             var testDate = new DateTime(2001, 1, 1);

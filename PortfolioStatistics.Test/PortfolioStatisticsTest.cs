@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.PortfolioStatistics.Test
@@ -8,20 +8,20 @@ namespace Sonneville.PriceTools.PortfolioStatistics.Test
     /// <summary>
     /// Summary description for PortfolioStatisticsTest
     /// </summary>
-    [TestClass]
+    [TestFixture]
     public class PortfolioStatisticsTest
     {
         private IProfitCalculator _profitCalculator;
         private IHoldingFactory _holdingFactory;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _profitCalculator = new ProfitCalculator();
             _holdingFactory = new HoldingFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void KellyPercentTest()
         {
             var basket = SamplePortfolios.FidelityBrokerageLink.TransactionHistory;

@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.SampleData;
 using Sonneville.PriceTools.Yahoo;
 using Sonneville.Utilities;
@@ -15,14 +14,14 @@ namespace Sonneville.PriceTools.Fidelity.Test
     ///This is a test class for FidelityTransactionHistoryCsvFileTest and is intended
     ///to contain all FidelityTransactionHistoryCsvFileTest Unit Tests
     ///</summary>
-    [TestClass]
+    [TestFixture]
     public class FidelityTransactionHistoryCsvFileTest
     {
         private IPortfolioFactory _portfolioFactory;
         private IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
         private ISecurityBasketCalculator _securityBasketCalculator;
 
-        [TestInitialize]
+        [SetUp]
         public void Setup()
         {
             _portfolioFactory = new PortfolioFactory();
@@ -33,7 +32,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         /// <summary>
         ///A test for ParsePortfolio
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ParsePortfolioAltrTest()
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString))
@@ -52,7 +51,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         /// <summary>
         ///A test for ParsePortfolio
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ParsePortfolioNtapTest()
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString))
@@ -71,7 +70,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         /// <summary>
         ///A test for ParsePortfolio
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ParsePortfolioNtctTest()
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString))
@@ -90,7 +89,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         /// <summary>
         ///A test for ParsePortfolio
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ParsePortfolioPgTest()
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString))
@@ -109,7 +108,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         /// <summary>
         ///A test for ParsePortfolio
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ParsePortfolioAvailableCashTest()
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString))
@@ -124,7 +123,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TickerTest()
         {
             var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString));
@@ -135,7 +134,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             Assert.AreEqual(ticker, target.CashTicker);
         }
 
-        [TestMethod]
+        [Test]
         public void PositionsTest()
         {
             var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString));
@@ -146,7 +145,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             Assert.AreEqual(5, target.Positions.Count());
         }
 
-        [TestMethod]
+        [Test]
         public void AvailableCashTest()
         {
             var csvFile = new FidelityTransactionHistoryCsvFile(new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString));

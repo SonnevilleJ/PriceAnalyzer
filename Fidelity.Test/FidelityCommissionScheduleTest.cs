@@ -1,9 +1,9 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Fidelity.Test
 {
-    [TestClass]
+    [TestFixture]
     public class FidelityCommissionScheduleTest
     {
         private readonly IOrderFactory _orderFactory;
@@ -13,7 +13,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             _orderFactory = new OrderFactory();
         }
 
-        [TestMethod]
+        [Test]
         public void DefaultCommissionBuy()
         {
             var target = new FidelityCommissionSchedule();
@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void DefaultCommissionSell()
         {
             var target = new FidelityCommissionSchedule();
@@ -39,7 +39,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void DefaultCommissionSellShort()
         {
             var target = new FidelityCommissionSchedule();
@@ -52,7 +52,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void DefaultCommissionBuyToCover()
         {
             var target = new FidelityCommissionSchedule();

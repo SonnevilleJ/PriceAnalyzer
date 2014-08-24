@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace Sonneville.Statistics.Test
 {
-    [TestClass]
+    [TestFixture]
     public class CovarianceTest
     {
-        [TestMethod]
+        [Test]
         public void IntelCovarianceTest()
         {
             const decimal expected = 0.848423875m;
@@ -14,7 +14,7 @@ namespace Sonneville.Statistics.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void QqqCovarianceTest()
         {
             const decimal expected = 0.848423875m;

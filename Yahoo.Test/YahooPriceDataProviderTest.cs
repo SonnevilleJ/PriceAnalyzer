@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Moq;
 using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.SampleData;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Yahoo.Test
 {
-    [TestClass]
+    [TestFixture]
     public class YahooPriceDataProviderTest
     {
         private IPriceSeriesFactory _priceSeriesFactory;
@@ -19,8 +18,8 @@ namespace Sonneville.PriceTools.Yahoo.Test
         private Mock<IPriceHistoryQueryUrlBuilder> _priceHistoryQueryUrlBuilder;
         private string _ticker;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _ticker = "IBM";
 
@@ -49,7 +48,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             _provider = new PriceDataProvider(webClientMock.Object, _priceHistoryQueryUrlBuilder.Object, _priceHistoryCsvFileFactory);
         }
 
-        [TestMethod]
+        [Test]
         public void DailyDownloadSingleDay()
         {
             var head = new DateTime(2012, 8, 7);
@@ -58,7 +57,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             DownloadPeriodsTest(head, tail, 1, Resolution.Days);
         }
 
-        [TestMethod]
+        [Test]
         public void DailyDownloadResolution()
         {
             var head = new DateTime(2011, 1, 3);
@@ -69,7 +68,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             DownloadResolutionTest(head, tail, minTimeSpan, maxTimeSpan, Resolution.Days);
         }
 
-        [TestMethod]
+        [Test]
         public void DailyDownloadPeriods()
         {
             var head = new DateTime(2011, 1, 3);
@@ -78,7 +77,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             DownloadPeriodsTest(head, tail, 50, Resolution.Days);
         }
 
-        [TestMethod]
+        [Test]
         public void DailyDownloadDates()
         {
             var head = new DateTime(2011, 1, 3);
@@ -87,7 +86,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             DownloadDatesTest(head, tail, Resolution.Days);
         }
 
-        [TestMethod]
+        [Test]
         public void WeeklyDownloadPeriods()
         {
             var head = new DateTime(2011, 1, 3);
@@ -96,7 +95,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             DownloadPeriodsTest(head, tail, 11, Resolution.Weeks);
         }
 
-        [TestMethod]
+        [Test]
         public void WeeklyDownloadResolution()
         {
             _priceSeries = _priceSeriesFactory.ConstructPriceSeries(_ticker, Resolution.Weeks);
@@ -108,7 +107,7 @@ namespace Sonneville.PriceTools.Yahoo.Test
             DownloadResolutionTest(head, tail, minTimeSpan, maxTimeSpan, Resolution.Weeks);
         }
 
-        [TestMethod]
+        [Test]
         public void WeeklyDownloadDates()
         {
             var head = new DateTime(2011, 1, 3);

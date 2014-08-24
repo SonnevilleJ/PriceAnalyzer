@@ -1,11 +1,11 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using NUnit.Framework;
 
 namespace Sonneville.Statistics.Test
 {
-    [TestClass]
+    [TestFixture]
     public class CorrelationTest
     {
-        [TestMethod]
+        [Test]
         public void IntelCorrelationTest()
         {
             const decimal expected = 0.95816559861761m;
@@ -14,7 +14,7 @@ namespace Sonneville.Statistics.Test
             StatisticsTestUtilities.AssertAreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void QqqCorrelationTest()
         {
             const decimal expected = 0.95816559861761m;

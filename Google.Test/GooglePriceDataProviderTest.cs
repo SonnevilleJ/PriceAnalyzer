@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Moq;
 using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.SampleData;
 using Sonneville.Utilities;
 
 namespace Sonneville.PriceTools.Google.Test
 {
-    [TestClass]
+    [TestFixture]
     public class GooglePriceDataProviderTest
     {
         private IPriceSeriesFactory _priceSeriesFactory;
@@ -18,8 +17,8 @@ namespace Sonneville.PriceTools.Google.Test
         private IPriceHistoryCsvFileFactory _priceHistoryCsvFileFactory;
         private string _ticker;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _ticker = "IBM";
             _priceSeriesFactory = new PriceSeriesFactory();
@@ -43,7 +42,7 @@ namespace Sonneville.PriceTools.Google.Test
             _provider = new PriceDataProvider(webClientMock.Object, priceHistoryQueryUrlBuilder.Object, _priceHistoryCsvFileFactory);
         }
 
-        [TestMethod]
+        [Test]
         public void DailyDownloadSingleDay()
         {
             var head = new DateTime(2012, 8, 7);
@@ -52,7 +51,7 @@ namespace Sonneville.PriceTools.Google.Test
             DownloadPeriodsTest(head, tail, 1, Resolution.Days);
         }
 
-        [TestMethod]
+        [Test]
         public void DailyDownloadResolution()
         {
             var head = new DateTime(2011, 1, 3);
@@ -63,7 +62,7 @@ namespace Sonneville.PriceTools.Google.Test
             DownloadResolutionTest(head, tail, minTimeSpan, maxTimeSpan, Resolution.Days);
         }
 
-        [TestMethod]
+        [Test]
         public void DailyDownloadPeriods()
         {
             var head = new DateTime(2011, 1, 3);
@@ -72,7 +71,7 @@ namespace Sonneville.PriceTools.Google.Test
             DownloadPeriodsTest(head, tail, 50, Resolution.Days);
         }
 
-        [TestMethod]
+        [Test]
         public void DailyDownloadDates()
         {
             var head = new DateTime(2011, 1, 3);
@@ -81,7 +80,7 @@ namespace Sonneville.PriceTools.Google.Test
             DownloadDatesTest(head, tail, Resolution.Days);
         }
 
-        [TestMethod]
+        [Test]
         [Ignore]
         public void WeeklyDownloadPeriods()
         {
@@ -91,7 +90,7 @@ namespace Sonneville.PriceTools.Google.Test
             DownloadPeriodsTest(head, tail, 11, Resolution.Weeks);
         }
 
-        [TestMethod]
+        [Test]
         [Ignore]
         public void WeeklyDownloadResolution()
         {
@@ -104,7 +103,7 @@ namespace Sonneville.PriceTools.Google.Test
             DownloadResolutionTest(head, tail, minTimeSpan, maxTimeSpan, Resolution.Weeks);
         }
 
-        [TestMethod]
+        [Test]
         [Ignore]
         public void WeeklyDownloadDates()
         {

@@ -1,13 +1,13 @@
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
-    [TestClass]
+    [TestFixture]
     public class WithdrawalTests : CashTransactionTestsBase
     {
         private const OrderType TransactionType = OrderType.Withdrawal;
 
-        [TestMethod]
+        [Test]
         public override void SerializeTest()
         {
             CashTransactionSerializeTest(TransactionType);
@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Amount
         ///</summary>
-        [TestMethod]
+        [Test]
         public override void AmountInvalidTest()
         {
             CashTransactionAmountInvalidTest(TransactionType);
@@ -25,7 +25,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for SettlementDate
         ///</summary>
-        [TestMethod]
+        [Test]
         public override void SettlementDateTest()
         {
             CashTransactionSettlementDateTest(TransactionType);
@@ -34,7 +34,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Amount
         ///</summary>
-        [TestMethod]
+        [Test]
         public override void AmountValidTest()
         {
             CashTransactionAmountValidTest(TransactionType);

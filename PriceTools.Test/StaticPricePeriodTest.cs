@@ -1,5 +1,5 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.Test
 {
@@ -7,13 +7,13 @@ namespace Sonneville.PriceTools.Test
     ///This is a test class for StaticPricePeriodTest and is intended
     ///to contain all StaticPricePeriodTest Unit Tests
     ///</summary>
-    [TestClass]
+    [TestFixture]
     public class StaticPricePeriodTest
     {
         /// <summary>
         ///A test for Close
         ///</summary>
-        [TestMethod]
+        [Test]
         public void CloseTest()
         {
             var head = new DateTime(2011, 3, 13);
@@ -28,7 +28,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Head
         ///</summary>
-        [TestMethod]
+        [Test]
         public void HeadTest()
         {
             var head = new DateTime(2011, 3, 13);
@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for High
         ///</summary>
-        [TestMethod]
+        [Test]
         public void HighTest()
         {
             var head = new DateTime(2011, 3, 13);
@@ -65,7 +65,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod]
+        [Test]
         public void IndexerValueAtHeadTest()
         {
             var head = new DateTime(2011, 3, 13);
@@ -84,7 +84,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod]
+        [Test]
         public void IndexerValueAtTailTest()
         {
             var head = new DateTime(2011, 3, 13);
@@ -103,7 +103,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(InvalidOperationException))]
         public void IndexerValueBeforeHeadTest()
         {
@@ -123,7 +123,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Item
         ///</summary>
-        [TestMethod]
+        [Test]
         public void IndexerValueAfterTailTest()
         {
             var head = new DateTime(2011, 3, 13);
@@ -144,7 +144,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Low
         ///</summary>
-        [TestMethod]
+        [Test]
         public void LowTest()
         {
             var head = new DateTime(2011, 3, 13);
@@ -163,7 +163,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Open
         ///</summary>
-        [TestMethod]
+        [Test]
         public void OpenTest()
         {
             var head = new DateTime(2011, 3, 13);
@@ -182,7 +182,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Tail
         ///</summary>
-        [TestMethod]
+        [Test]
         public void TailTest()
         {
             var head = new DateTime(2011, 3, 13);
@@ -201,7 +201,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Volume
         ///</summary>
-        [TestMethod]
+        [Test]
         public void VolumeTest()
         {
             var head = new DateTime(2011, 3, 13);
@@ -220,7 +220,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Resolution
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ResolutionTestSeconds()
         {
             var head = new DateTime(2011, 9, 28);
@@ -241,7 +241,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Resolution
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ResolutionTestMinutes()
         {
             var head = new DateTime(2011, 9, 28);
@@ -262,7 +262,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Resolution
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ResolutionTestHours()
         {
             var head = new DateTime(2011, 9, 28);
@@ -283,7 +283,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Resolution
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ResolutionTestDays()
         {
             var head = new DateTime(2011, 9, 28);
@@ -304,7 +304,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Resolution
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ResolutionTestWeeks()
         {
             var head = new DateTime(2011, 9, 25);
@@ -325,7 +325,7 @@ namespace Sonneville.PriceTools.Test
         /// <summary>
         ///A test for Resolution
         ///</summary>
-        [TestMethod]
+        [Test]
         public void ResolutionTestMonths()
         {
             var head = new DateTime(2011, 8, 1);

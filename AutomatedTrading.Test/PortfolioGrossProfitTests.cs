@@ -1,24 +1,24 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PortfolioGrossProfitTests
     {
         private IPortfolioFactory _portfolioFactory;
         private ITransactionFactory _transactionFactory;
         private ISecurityBasketCalculator _securityBasketCalculator;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateGrossProfitOfDeposit()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateGrossProfitAfterFullWithdrawal()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expectedValue, actualValue);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateGrossProfitOpenPosition()
         {
             var dateTime = new DateTime(2011, 11, 21);
@@ -70,7 +70,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateGrossProfitAfterGain()
         {
             var dateTime = new DateTime(2011, 11, 21);
@@ -95,7 +95,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateGrossProfitTwoGain()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -128,7 +128,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateGrossProfitTwoLoss()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -161,7 +161,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateGrossProfitOneGainOneLoss()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -194,7 +194,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateGrossProfitOneGainOneOpen()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -225,7 +225,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateGrossProfitOneLossOneOpen()
         {
             var dateTime = new DateTime(2011, 1, 8);

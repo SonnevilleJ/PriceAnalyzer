@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 using Moq;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Implementation;
@@ -9,7 +9,7 @@ using Sonneville.PriceTools.SampleData;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class TradingEngineTest
     {
         private TradingEngine _tradingEngine;
@@ -20,8 +20,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private List<ITransaction> _deTransactions;
         private List<Order> _openOrders;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _portfolioMock = new Mock<IPortfolio>();
             _openOrders = new List<Order>();
@@ -36,7 +36,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _tradingEngine = new TradingEngine(_securityBasketCalculatorMock.Object, _portfolioMock.Object);
         }
 
-        [TestMethod]
+        [Test]
         public void ShouldNotTradeIfInsufficientFunds()
         {
             var startDate = new DateTime(2011, 1, 4);
@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(0, orders.Count, "An order was returned when there were insufficient funds.");
         }
 
-        [TestMethod]
+        [Test]
         public void ShouldCreateBuyOrderWhenPreviousDayIsPositive()
         {
             var startDate = new DateTime(2011, 1, 4);
@@ -66,7 +66,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(_dePriceSeries.Ticker, order.Ticker);
         }
 
-        [TestMethod]
+        [Test]
         public void ShouldCreateNoOrderWhenPreviousDayIsNegativeAndNoSharesHeld()
         {
             var startDate = new DateTime(2011, 1, 3);
@@ -79,7 +79,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(0, orders.Count);
         }
 
-        [TestMethod]
+        [Test]
         public void ShouldCreateSellOrderWhenPreviousDayIsNegative()
         {
             var startDate = new DateTime(2011, 1, 3);
@@ -96,7 +96,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(_dePriceSeries.Ticker, order.Ticker);
         }
 
-        [TestMethod]
+        [Test]
         public void ShouldCreateSellOrderWhenPreviousDayIsNegative5AndOpenSellOrder()
         {
             const int sharesToSell = 5;

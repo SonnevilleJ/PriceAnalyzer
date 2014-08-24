@@ -1,24 +1,24 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using NUnit.Framework;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
-    [TestClass]
+    [TestFixture]
     public class PositionNetProfitTests
     {
         private IPositionFactory _positionFactory;
         private ITransactionFactory _transactionFactory;
         private ISecurityBasketCalculator _securityBasketCalculator;
 
-        [TestInitialize]
-        public void Initialize()
+        [SetUp]
+        public void Setup()
         {
             _positionFactory = new PositionFactory();
             _transactionFactory = new TransactionFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetProfitOpenPosition()
         {
             const string ticker = "DE";
@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetProfitOneGain()
         {
             const string ticker = "DE";
@@ -63,7 +63,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetProfitOneLoss()
         {
             const string ticker = "DE";
@@ -89,7 +89,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetProfitTwoGains()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -122,7 +122,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetProfitTwoGainsFIFO()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -156,7 +156,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetProfitOneGainOneLoss()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -189,7 +189,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetProfitTwoLosses()
         {
             var buyDate = new DateTime(2011, 1, 10);
@@ -222,7 +222,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             Assert.AreEqual(expected, actual);
         }
 
-        [TestMethod]
+        [Test]
         public void CalculateNetProfitTwoLossesFIFO()
         {
             var buyDate = new DateTime(2011, 1, 10);
