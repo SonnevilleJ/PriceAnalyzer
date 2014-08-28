@@ -6,34 +6,32 @@ using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
-    public class TradingEngine
+    public class AnalysisEngine : IAnalysisEngine
     {
         private readonly ISecurityBasketCalculator _securityBasketCalculator;
-        private readonly IPortfolio _portfolio;
 
-        public TradingEngine(ISecurityBasketCalculator securityBasketCalculator, IPortfolio portfolio)
+        public AnalysisEngine(ISecurityBasketCalculator securityBasketCalculator)
         {
             _securityBasketCalculator = securityBasketCalculator;
-            _portfolio = portfolio;
         }
 
-        public IEnumerable<Order> DetermineOrdersFor(IPriceSeries stockBeingConsidered, DateTime startDate, DateTime endDate, IList<Order> openOrders)
+        public IEnumerable<Order> DetermineOrdersFor(IPortfolio portfolio, IPriceSeries stockBeingConsidered, DateTime startDate, DateTime endDate, IList<Order> openOrders)
         {
             var sharesToBuy = CalculateSharesToBuy(stockBeingConsidered, startDate, endDate, openOrders);
-            if (HaveAvailableFunds(stockBeingConsidered, endDate) && sharesToBuy > 0)
+            if (HaveAvailableFunds(stockBeingConsidered, endDate, portfolio) && sharesToBuy > 0)
             {
                 yield return CreateOrder(OrderType.Buy, stockBeingConsidered.Ticker, sharesToBuy, endDate);
             }
-            var sharesToSell = CalculateSharesToSell(stockBeingConsidered, startDate, endDate, openOrders);
+            var sharesToSell = CalculateSharesToSell(stockBeingConsidered, startDate, endDate, openOrders, portfolio);
             if (sharesToSell > 0)
             {
                 yield return CreateOrder(OrderType.Sell, stockBeingConsidered.Ticker, sharesToSell, endDate);
             }
         }
 
-        private bool HaveAvailableFunds(IPriceSeries stockBeingConsidered, DateTime endDate)
+        private bool HaveAvailableFunds(IPriceSeries stockBeingConsidered, DateTime endDate, IPortfolio portfolio)
         {
-            return _portfolio.GetAvailableCash(endDate) >= stockBeingConsidered[endDate];
+            return portfolio.GetAvailableCash(endDate) >= stockBeingConsidered[endDate];
         }
 
         private decimal CalculateSharesToBuy(IPriceSeries stockBeingConsidered, DateTime startDate, DateTime endDate, IList<Order> openOrders)
@@ -46,12 +44,12 @@ namespace Sonneville.PriceTools.AutomatedTrading
             return 0;
         }
 
-        private decimal CalculateSharesToSell(IPriceSeries stockBeingConsidered, DateTime startDate, DateTime endDate, IList<Order> openOrders)
+        private decimal CalculateSharesToSell(IPriceSeries stockBeingConsidered, DateTime startDate, DateTime endDate, IList<Order> openOrders, IPortfolio portfolio)
         {
             var shouldSell = stockBeingConsidered[startDate] > stockBeingConsidered[endDate];
             if (shouldSell)
             {
-                var position = _portfolio.GetPosition(stockBeingConsidered.Ticker);
+                var position = portfolio.GetPosition(stockBeingConsidered.Ticker);
                 if (position != null)
                 {
                     var shareTransactions = position.Transactions.Cast<IShareTransaction>();

@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     {
         string Ticker { get; }
 
-        void AddTransaction(ShareTransaction shareTransaction);
+        void AddTransaction(IShareTransaction shareTransaction);
 
         bool TransactionIsValid(ShareTransaction shareTransaction);
     }
@@ -18,7 +18,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     public class Position : IPosition
     {
         private string _ticker;
-        private readonly ICollection<ShareTransaction> _transactions = new List<ShareTransaction>();
+        private readonly ICollection<IShareTransaction> _transactions = new List<IShareTransaction>();
         private readonly ISecurityBasketCalculator _securityBasketCalculator;
 
         internal Position(string ticker)
@@ -77,7 +77,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             get { return new List<ITransaction>(_transactions); }
         }
 
-        public void AddTransaction(ShareTransaction shareTransaction)
+        public void AddTransaction(IShareTransaction shareTransaction)
         {
             // verify shareTransaction is apporpriate for this IPosition.
             Validate(shareTransaction);
@@ -98,7 +98,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
         }
 
-        private void Validate(ShareTransaction shareTransaction)
+        private void Validate(IShareTransaction shareTransaction)
         {
             // Validate OrderType
             if (shareTransaction.IsOpeningTransaction())

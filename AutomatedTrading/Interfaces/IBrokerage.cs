@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Security.Authentication;
+using System.Collections.Generic;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
@@ -8,5 +9,8 @@ namespace Sonneville.PriceTools.AutomatedTrading
         ITradingAccount LogIn(string username, string password);
 
         Guid BrokerageID { get; }
+        IList<Order> GetOpenOrders();
+        void SubmitOrders(IEnumerable<Order> orders);
+        IEnumerable<IShareTransaction> GetTransactions(string ticker, DateTime head, DateTime tail);
     }
 }

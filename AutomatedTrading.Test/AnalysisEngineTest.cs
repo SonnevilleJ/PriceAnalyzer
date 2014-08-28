@@ -10,9 +10,9 @@ using Sonneville.PriceTools.SampleData;
 namespace Sonneville.PriceTools.AutomatedTrading.Test
 {
     [TestFixture]
-    public class TradingEngineTest
+    public class AnalysisEngineTest
     {
-        private TradingEngine _tradingEngine;
+        private AnalysisEngine _analysisEngine;
         private Mock<IPortfolio> _portfolioMock;
         private IPriceSeries _dePriceSeries;
         private Mock<IPosition> _dePositionMock;
@@ -23,17 +23,20 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [SetUp]
         public void Setup()
         {
-            _portfolioMock = new Mock<IPortfolio>();
             _openOrders = new List<Order>();
 
             _dePriceSeries = SamplePriceDatas.Deere.PriceSeries;
+            
             _deTransactions = new List<ITransaction>();
+            
             _dePositionMock = new Mock<IPosition>();
             _dePositionMock.Setup(x => x.Transactions).Returns(_deTransactions);
+            
+            _portfolioMock = new Mock<IPortfolio>();
             _portfolioMock.Setup(x => x.GetPosition(_dePriceSeries.Ticker)).Returns(_dePositionMock.Object);
             
             _securityBasketCalculatorMock = new Mock<ISecurityBasketCalculator>();
-            _tradingEngine = new TradingEngine(_securityBasketCalculatorMock.Object, _portfolioMock.Object);
+            _analysisEngine = new AnalysisEngine(_securityBasketCalculatorMock.Object);
         }
 
         [Test]
@@ -44,7 +47,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var justLessThanTodaysPrice = _dePriceSeries[endDate] - 0.01m;
             _portfolioMock.Setup(x => x.GetAvailableCash(endDate)).Returns(justLessThanTodaysPrice);
 
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate, _openOrders).ToList();
+            var orders = _analysisEngine.DetermineOrdersFor(_portfolioMock.Object, _dePriceSeries, startDate, endDate, _openOrders).ToList();
 
             Assert.AreEqual(0, orders.Count, "An order was returned when there were insufficient funds.");
         }
@@ -56,7 +59,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var endDate = new DateTime(2011, 1, 5);
             _portfolioMock.Setup(x => x.GetAvailableCash(endDate)).Returns(1000);
 
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate, _openOrders).ToList();
+            var orders = _analysisEngine.DetermineOrdersFor(_portfolioMock.Object, _dePriceSeries, startDate, endDate, _openOrders).ToList();
 
             Assert.AreEqual(1, orders.Count);
             var order = orders.ElementAt(0);
@@ -74,7 +77,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _portfolioMock.Setup(x => x.GetAvailableCash(endDate)).Returns(1000);
             _portfolioMock.Setup(x => x.GetPosition(_dePriceSeries.Ticker)).Returns((IPosition) null);
 
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate, _openOrders).ToList();
+            var orders = _analysisEngine.DetermineOrdersFor(_portfolioMock.Object, _dePriceSeries, startDate, endDate, _openOrders).ToList();
 
             Assert.AreEqual(0, orders.Count);
         }
@@ -86,7 +89,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var endDate = new DateTime(2011, 1, 4);
             _securityBasketCalculatorMock.Setup(x => x.GetHeldShares(It.IsAny<IEnumerable<IShareTransaction>>(), endDate))
                 .Returns(2);
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate, _openOrders).ToList();
+            var orders = _analysisEngine.DetermineOrdersFor(_portfolioMock.Object, _dePriceSeries, startDate, endDate, _openOrders).ToList();
 
             Assert.AreEqual(1, orders.Count);
             var order = orders.ElementAt(0);
@@ -105,7 +108,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var endDate = new DateTime(2011, 1, 4);
             _securityBasketCalculatorMock.Setup(x => x.GetHeldShares(It.IsAny<IEnumerable<IShareTransaction>>(), endDate))
                 .Returns(sharesToSell);
-            var orders = _tradingEngine.DetermineOrdersFor(_dePriceSeries, startDate, endDate, _openOrders).ToList();
+            var orders = _analysisEngine.DetermineOrdersFor(_portfolioMock.Object, _dePriceSeries, startDate, endDate, _openOrders).ToList();
 
             Assert.AreEqual(1, orders.Count);
             var order = orders.ElementAt(0);

@@ -51,6 +51,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IPriceSeriesProvider.cs" />
+    <Compile Include="IAnalysisEngine.cs" />
     <Compile Include="OrderStatus.cs" />
     <Compile Include="SimulatedBroker.cs" />
     <Compile Include="Extensions\TransactionExtensions.cs" />
@@ -78,7 +80,8 @@
     <Compile Include="TradingAccountFeatures.cs" />
     <Compile Include="TradingAccountFeaturesFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TradingEngine.cs" />
+    <Compile Include="AnalysisEngine.cs" />
+    <Compile Include="TradingProcess.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Data\Data.csproj">

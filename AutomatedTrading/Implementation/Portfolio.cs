@@ -12,7 +12,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         string CashTicker { get; }
 
-        IEnumerable<Position> Positions { get; }
+        IEnumerable<IPosition> Positions { get; }
 
         decimal GetAvailableCash(DateTime settlementDate);
 
@@ -38,14 +38,14 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
     public class Portfolio : IPortfolio
     {
         private readonly ICashAccount _cashAccount;
-        private readonly IList<Position> _positions;
+        private readonly IList<IPosition> _positions;
         private readonly IPositionFactory _positionFactory;
         private readonly ISecurityBasketCalculator _securityBasketCalculator;
 
         internal Portfolio(string ticker)
         {
             _cashAccount = new CashAccountFactory().ConstructCashAccount();
-            _positions = new List<Position>();
+            _positions = new List<IPosition>();
             CashTicker = ticker;
             _positionFactory = new PositionFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
@@ -176,7 +176,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             return false;
         }
 
-        public IEnumerable<Position> Positions
+        public IEnumerable<IPosition> Positions
         {
             get { return _positions; }
         }
@@ -186,7 +186,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             return GetPosition(ticker, true);
         }
 
-        private Position GetPosition(string ticker, bool nullAcceptable)
+        private IPosition GetPosition(string ticker, bool nullAcceptable)
         {
             var firstOrDefault = Positions.FirstOrDefault(p => p.Ticker == ticker);
             return firstOrDefault == null && !nullAcceptable ? _positionFactory.ConstructPosition(ticker) : firstOrDefault;

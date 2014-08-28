@@ -87,7 +87,8 @@
     <Compile Include="TradingAccountFeaturesTest.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="TradingEngineTest.cs" />
+    <Compile Include="AnalysisEngineTest.cs" />
+    <Compile Include="TradingProcessTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AutomatedTrading\AutomatedTrading.csproj">

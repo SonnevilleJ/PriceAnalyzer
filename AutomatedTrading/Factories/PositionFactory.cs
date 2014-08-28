@@ -32,7 +32,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             return position;
         }
 
-        public IPriceSeries ConstructPriceSeries(Position position, IPriceDataProvider priceDataProvider)
+        public IPriceSeries ConstructPriceSeries(IPosition position, IPriceDataProvider priceDataProvider)
         {
             var underlyingPriceSeries = _priceSeriesFactory.ConstructPriceSeries(position.Ticker);
             priceDataProvider.UpdatePriceSeries(underlyingPriceSeries, position.Head, position.Tail, Resolution.Days);
