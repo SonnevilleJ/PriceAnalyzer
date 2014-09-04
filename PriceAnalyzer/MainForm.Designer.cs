@@ -41,6 +41,9 @@
             this.insertToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tradeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.buyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.mainMenu.SuspendLayout();
@@ -89,7 +92,8 @@
             this.toolStripMenuItem1,
             this.viewToolStripMenuItem,
             this.dataToolStripMenuItem,
-            this.insertToolStripMenuItem1});
+            this.insertToolStripMenuItem1,
+            this.tradeToolStripMenuItem});
             this.mainMenu.Location = new System.Drawing.Point(0, 0);
             this.mainMenu.Name = "mainMenu";
             this.mainMenu.Size = new System.Drawing.Size(825, 24);
@@ -133,21 +137,21 @@
             // view_ChartStyle_CandleStick
             // 
             this.view_ChartStyle_CandleStick.Name = "view_ChartStyle_CandleStick";
-            this.view_ChartStyle_CandleStick.Size = new System.Drawing.Size(152, 22);
+            this.view_ChartStyle_CandleStick.Size = new System.Drawing.Size(135, 22);
             this.view_ChartStyle_CandleStick.Text = "Candlestick";
             this.view_ChartStyle_CandleStick.Click += new System.EventHandler(this.view_ChartStyle_CandleStick_Click);
             // 
             // view_ChartStyle_Ohlc
             // 
             this.view_ChartStyle_Ohlc.Name = "view_ChartStyle_Ohlc";
-            this.view_ChartStyle_Ohlc.Size = new System.Drawing.Size(152, 22);
+            this.view_ChartStyle_Ohlc.Size = new System.Drawing.Size(135, 22);
             this.view_ChartStyle_Ohlc.Text = "OHLC";
             this.view_ChartStyle_Ohlc.Click += new System.EventHandler(this.view_ChartStyle_Ohlc_Click);
             // 
             // view_DefaultChartStyle_Line
             // 
             this.view_DefaultChartStyle_Line.Name = "view_DefaultChartStyle_Line";
-            this.view_DefaultChartStyle_Line.Size = new System.Drawing.Size(152, 22);
+            this.view_DefaultChartStyle_Line.Size = new System.Drawing.Size(135, 22);
             this.view_DefaultChartStyle_Line.Text = "Line";
             this.view_DefaultChartStyle_Line.Click += new System.EventHandler(this.view_ChartStyle_Line_Click);
             // 
@@ -225,16 +229,39 @@
             // chartToolStripMenuItem
             // 
             this.chartToolStripMenuItem.Name = "chartToolStripMenuItem";
-            this.chartToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.chartToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.chartToolStripMenuItem.Text = "New &Chart tab";
             this.chartToolStripMenuItem.Click += new System.EventHandler(this.chartToolStripMenuItem_Click);
             // 
             // tableToolStripMenuItem
             // 
             this.tableToolStripMenuItem.Name = "tableToolStripMenuItem";
-            this.tableToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.tableToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.tableToolStripMenuItem.Text = "New &Table tab";
             this.tableToolStripMenuItem.Click += new System.EventHandler(this.tableToolStripMenuItem_Click);
+            // 
+            // tradeToolStripMenuItem
+            // 
+            this.tradeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.buyToolStripMenuItem,
+            this.sellToolStripMenuItem});
+            this.tradeToolStripMenuItem.Name = "tradeToolStripMenuItem";
+            this.tradeToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
+            this.tradeToolStripMenuItem.Text = "T&rade";
+            // 
+            // buyToolStripMenuItem
+            // 
+            this.buyToolStripMenuItem.Name = "buyToolStripMenuItem";
+            this.buyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.buyToolStripMenuItem.Text = "Buy";
+            this.buyToolStripMenuItem.Click += new System.EventHandler(this.buyToolStripMenuItem_Click);
+            // 
+            // sellToolStripMenuItem
+            // 
+            this.sellToolStripMenuItem.Name = "sellToolStripMenuItem";
+            this.sellToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sellToolStripMenuItem.Text = "Sell";
+            this.sellToolStripMenuItem.Click += new System.EventHandler(this.sellToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -282,6 +309,9 @@
         private Chart chart1;
         private System.Windows.Forms.ToolStripMenuItem lineToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem view_DefaultChartStyle_Line;
+        private System.Windows.Forms.ToolStripMenuItem tradeToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem buyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem sellToolStripMenuItem;
     }
 }
 

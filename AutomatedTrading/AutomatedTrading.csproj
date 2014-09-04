@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\NullBrokerage.cs" />
     <Compile Include="IPriceSeriesProvider.cs" />
     <Compile Include="IAnalysisEngine.cs" />
     <Compile Include="OrderStatus.cs" />

@@ -252,5 +252,15 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
             currentChart.Draw(_currentChartData);
         }
+
+        private void buyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new TradeForm(OrderType.Buy).ShowDialog();
+        }
+
+        private void sellToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new TradeForm(OrderType.Sell).ShowDialog();
+        }
     }
 }
