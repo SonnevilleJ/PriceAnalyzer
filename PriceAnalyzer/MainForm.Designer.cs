@@ -20,8 +20,8 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.chart1 = new Sonneville.PriceTools.PriceAnalyzer.Chart();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -41,11 +41,22 @@
             this.insertToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.chartToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tableToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewPendingOrdersToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tradeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.chart1 = new Sonneville.PriceTools.PriceAnalyzer.Chart();
+            this.TickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrderTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.VolumeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PriceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExpirationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CancelColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -59,6 +70,7 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -76,15 +88,32 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // elementHost1
+            // tabPage2
             // 
-            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elementHost1.Location = new System.Drawing.Point(3, 3);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(814, 311);
-            this.elementHost1.TabIndex = 7;
-            this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = this.chart1;
+            this.tabPage2.Controls.Add(this.dataGridView1);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(820, 317);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Pending Orders";
+            this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.TickerColumn,
+            this.OrderTypeColumn,
+            this.VolumeColumn,
+            this.PriceColumn,
+            this.ExpirationColumn,
+            this.CancelColumn});
+            this.dataGridView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.dataGridView1.Location = new System.Drawing.Point(0, 0);
+            this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.Size = new System.Drawing.Size(820, 317);
+            this.dataGridView1.TabIndex = 9;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
             // 
             // mainMenu
             // 
@@ -221,7 +250,8 @@
             // 
             this.insertToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.chartToolStripMenuItem,
-            this.tableToolStripMenuItem});
+            this.tableToolStripMenuItem,
+            this.viewPendingOrdersToolStripMenuItem});
             this.insertToolStripMenuItem1.Name = "insertToolStripMenuItem1";
             this.insertToolStripMenuItem1.Size = new System.Drawing.Size(44, 20);
             this.insertToolStripMenuItem1.Text = "&Tabs";
@@ -229,16 +259,23 @@
             // chartToolStripMenuItem
             // 
             this.chartToolStripMenuItem.Name = "chartToolStripMenuItem";
-            this.chartToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.chartToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.chartToolStripMenuItem.Text = "New &Chart tab";
             this.chartToolStripMenuItem.Click += new System.EventHandler(this.chartToolStripMenuItem_Click);
             // 
             // tableToolStripMenuItem
             // 
             this.tableToolStripMenuItem.Name = "tableToolStripMenuItem";
-            this.tableToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.tableToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
             this.tableToolStripMenuItem.Text = "New &Table tab";
             this.tableToolStripMenuItem.Click += new System.EventHandler(this.tableToolStripMenuItem_Click);
+            // 
+            // viewPendingOrdersToolStripMenuItem
+            // 
+            this.viewPendingOrdersToolStripMenuItem.Name = "viewPendingOrdersToolStripMenuItem";
+            this.viewPendingOrdersToolStripMenuItem.Size = new System.Drawing.Size(156, 22);
+            this.viewPendingOrdersToolStripMenuItem.Text = "Pending &Orders";
+            this.viewPendingOrdersToolStripMenuItem.Click += new System.EventHandler(this.viewPendingOrdersToolStripMenuItem_Click);
             // 
             // tradeToolStripMenuItem
             // 
@@ -252,16 +289,64 @@
             // buyToolStripMenuItem
             // 
             this.buyToolStripMenuItem.Name = "buyToolStripMenuItem";
-            this.buyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.buyToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.buyToolStripMenuItem.Text = "Buy";
             this.buyToolStripMenuItem.Click += new System.EventHandler(this.buyToolStripMenuItem_Click);
             // 
             // sellToolStripMenuItem
             // 
             this.sellToolStripMenuItem.Name = "sellToolStripMenuItem";
-            this.sellToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.sellToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
             this.sellToolStripMenuItem.Text = "Sell";
             this.sellToolStripMenuItem.Click += new System.EventHandler(this.sellToolStripMenuItem_Click);
+            // 
+            // elementHost1
+            // 
+            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.elementHost1.Location = new System.Drawing.Point(3, 3);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(814, 311);
+            this.elementHost1.TabIndex = 7;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.Child = this.chart1;
+            // 
+            // TickerColumn
+            // 
+            this.TickerColumn.HeaderText = "Ticker";
+            this.TickerColumn.Name = "TickerColumn";
+            this.TickerColumn.ReadOnly = true;
+            // 
+            // OrderTypeColumn
+            // 
+            this.OrderTypeColumn.HeaderText = "OrderType";
+            this.OrderTypeColumn.Name = "OrderTypeColumn";
+            this.OrderTypeColumn.ReadOnly = true;
+            // 
+            // VolumeColumn
+            // 
+            this.VolumeColumn.HeaderText = "Volume";
+            this.VolumeColumn.Name = "VolumeColumn";
+            this.VolumeColumn.ReadOnly = true;
+            // 
+            // PriceColumn
+            // 
+            this.PriceColumn.HeaderText = "Price";
+            this.PriceColumn.Name = "PriceColumn";
+            this.PriceColumn.ReadOnly = true;
+            // 
+            // ExpirationColumn
+            // 
+            this.ExpirationColumn.HeaderText = "Expiration";
+            this.ExpirationColumn.Name = "ExpirationColumn";
+            this.ExpirationColumn.ReadOnly = true;
+            // 
+            // CancelColumn
+            // 
+            this.CancelColumn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.CancelColumn.HeaderText = "Cancel Order";
+            this.CancelColumn.Name = "CancelColumn";
+            this.CancelColumn.Text = "Cancel";
+            this.CancelColumn.UseColumnTextForButtonValue = true;
             // 
             // MainForm
             // 
@@ -275,6 +360,8 @@
             this.Text = "PriceAnalyzer";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
@@ -312,6 +399,15 @@
         private System.Windows.Forms.ToolStripMenuItem tradeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem buyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sellToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem viewPendingOrdersToolStripMenuItem;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn TickerColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn OrderTypeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn VolumeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn PriceColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ExpirationColumn;
+        private System.Windows.Forms.DataGridViewButtonColumn CancelColumn;
     }
 }
 

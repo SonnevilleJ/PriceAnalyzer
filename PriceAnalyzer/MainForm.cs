@@ -10,7 +10,6 @@ using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Fidelity;
 using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.Implementation;
-using Control = System.Windows.Forms.Control;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
@@ -261,6 +260,32 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private void sellToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new TradeForm(OrderType.Sell).ShowDialog();
+        }
+
+        private void viewPendingOrdersToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SwitchToPendingOrdersTab();
+        }
+
+        private void SwitchToPendingOrdersTab()
+        {
+            var pendingOrdersTab = tabControl1.TabPages.Cast<TabPage>().Single(tabPage => tabPage.Text == "Pending Orders");
+
+            tabControl1.SelectTab(pendingOrdersTab);
+
+            var dataGridView = (DataGridView) pendingOrdersTab.Controls[0];
+            var rowNum = dataGridView.Rows.Add();
+            var row = dataGridView.Rows[rowNum];
+            row.Cells["TickerColumn"].Value = "MSFT";
+            row.Cells["VolumeColumn"].Value = 5;
+            row.Cells["PriceColumn"].Value = 123.00m;
+            row.Cells["OrderTypeColumn"].Value = OrderType.Buy;
+            row.Cells["ExpirationColumn"].Value = DateTime.Now;
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
