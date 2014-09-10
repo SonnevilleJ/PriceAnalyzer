@@ -21,6 +21,11 @@ namespace Sonneville.PriceTools.AutomatedTrading
         {
         }
 
+        public void CancelOrder(Order order)
+        {
+            throw new NotImplementedException();
+        }
+
         public IEnumerable<IShareTransaction> GetTransactions(string ticker, DateTime head, DateTime tail)
         {
             throw new NotImplementedException();

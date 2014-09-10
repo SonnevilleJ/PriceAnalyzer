@@ -54,6 +54,7 @@
     <Compile Include="Interfaces\NullBrokerage.cs" />
     <Compile Include="IPriceSeriesProvider.cs" />
     <Compile Include="IAnalysisEngine.cs" />
+    <Compile Include="ITradeManager.cs" />
     <Compile Include="OrderStatus.cs" />
     <Compile Include="SimulatedBroker.cs" />
     <Compile Include="Extensions\TransactionExtensions.cs" />
@@ -78,6 +79,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Strings.resx</DependentUpon>
     </Compile>
+    <Compile Include="TradeManager.cs" />
     <Compile Include="TradingAccountFeatures.cs" />
     <Compile Include="TradingAccountFeaturesFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

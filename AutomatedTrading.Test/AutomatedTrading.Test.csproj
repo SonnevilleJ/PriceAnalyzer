@@ -84,6 +84,7 @@
     <Compile Include="PositionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SimulatedBrokerTest.cs" />
+    <Compile Include="TradeManagerTest.cs" />
     <Compile Include="TradingAccountFeaturesTest.cs">
       <SubType>Code</SubType>
     </Compile>
