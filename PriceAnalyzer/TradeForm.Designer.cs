@@ -197,6 +197,7 @@
             this.MinimizeBox = false;
             this.Name = "TradeForm";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "TradeForm";
             this.TopMost = true;
             this.groupBox1.ResumeLayout(false);

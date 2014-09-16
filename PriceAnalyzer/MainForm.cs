@@ -312,5 +312,10 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                 SwitchToPendingOrdersTab();
             }
         }
+
+        private void automatedTradingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new AutomatedTradingForm().ShowDialog();
+        }
     }
 }

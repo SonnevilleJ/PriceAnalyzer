@@ -20,8 +20,16 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.chart1 = new Sonneville.PriceTools.PriceAnalyzer.Chart();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.TickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.OrderTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.VolumeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.PriceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ExpirationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CancelColumn = new System.Windows.Forms.DataGridViewButtonColumn();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,14 +53,7 @@
             this.tradeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.buyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.chart1 = new Sonneville.PriceTools.PriceAnalyzer.Chart();
-            this.TickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.OrderTypeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.VolumeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.PriceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ExpirationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CancelColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.automatedTradingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -88,6 +89,16 @@
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
+            // elementHost1
+            // 
+            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.elementHost1.Location = new System.Drawing.Point(3, 3);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(814, 311);
+            this.elementHost1.TabIndex = 7;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.Child = this.chart1;
+            // 
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.dataGridView1);
@@ -114,6 +125,44 @@
             this.dataGridView1.Size = new System.Drawing.Size(820, 317);
             this.dataGridView1.TabIndex = 9;
             this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // TickerColumn
+            // 
+            this.TickerColumn.HeaderText = "Ticker";
+            this.TickerColumn.Name = "TickerColumn";
+            this.TickerColumn.ReadOnly = true;
+            // 
+            // OrderTypeColumn
+            // 
+            this.OrderTypeColumn.HeaderText = "OrderType";
+            this.OrderTypeColumn.Name = "OrderTypeColumn";
+            this.OrderTypeColumn.ReadOnly = true;
+            // 
+            // VolumeColumn
+            // 
+            this.VolumeColumn.HeaderText = "Volume";
+            this.VolumeColumn.Name = "VolumeColumn";
+            this.VolumeColumn.ReadOnly = true;
+            // 
+            // PriceColumn
+            // 
+            this.PriceColumn.HeaderText = "Price";
+            this.PriceColumn.Name = "PriceColumn";
+            this.PriceColumn.ReadOnly = true;
+            // 
+            // ExpirationColumn
+            // 
+            this.ExpirationColumn.HeaderText = "Expiration";
+            this.ExpirationColumn.Name = "ExpirationColumn";
+            this.ExpirationColumn.ReadOnly = true;
+            // 
+            // CancelColumn
+            // 
+            this.CancelColumn.FlatStyle = System.Windows.Forms.FlatStyle.System;
+            this.CancelColumn.HeaderText = "Cancel Order";
+            this.CancelColumn.Name = "CancelColumn";
+            this.CancelColumn.Text = "Cancel";
+            this.CancelColumn.UseColumnTextForButtonValue = true;
             // 
             // mainMenu
             // 
@@ -281,7 +330,8 @@
             // 
             this.tradeToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.buyToolStripMenuItem,
-            this.sellToolStripMenuItem});
+            this.sellToolStripMenuItem,
+            this.automatedTradingToolStripMenuItem});
             this.tradeToolStripMenuItem.Name = "tradeToolStripMenuItem";
             this.tradeToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.tradeToolStripMenuItem.Text = "T&rade";
@@ -289,64 +339,23 @@
             // buyToolStripMenuItem
             // 
             this.buyToolStripMenuItem.Name = "buyToolStripMenuItem";
-            this.buyToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.buyToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.buyToolStripMenuItem.Text = "Buy";
             this.buyToolStripMenuItem.Click += new System.EventHandler(this.buyToolStripMenuItem_Click);
             // 
             // sellToolStripMenuItem
             // 
             this.sellToolStripMenuItem.Name = "sellToolStripMenuItem";
-            this.sellToolStripMenuItem.Size = new System.Drawing.Size(94, 22);
+            this.sellToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
             this.sellToolStripMenuItem.Text = "Sell";
             this.sellToolStripMenuItem.Click += new System.EventHandler(this.sellToolStripMenuItem_Click);
             // 
-            // elementHost1
+            // automatedTradingToolStripMenuItem
             // 
-            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elementHost1.Location = new System.Drawing.Point(3, 3);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(814, 311);
-            this.elementHost1.TabIndex = 7;
-            this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = this.chart1;
-            // 
-            // TickerColumn
-            // 
-            this.TickerColumn.HeaderText = "Ticker";
-            this.TickerColumn.Name = "TickerColumn";
-            this.TickerColumn.ReadOnly = true;
-            // 
-            // OrderTypeColumn
-            // 
-            this.OrderTypeColumn.HeaderText = "OrderType";
-            this.OrderTypeColumn.Name = "OrderTypeColumn";
-            this.OrderTypeColumn.ReadOnly = true;
-            // 
-            // VolumeColumn
-            // 
-            this.VolumeColumn.HeaderText = "Volume";
-            this.VolumeColumn.Name = "VolumeColumn";
-            this.VolumeColumn.ReadOnly = true;
-            // 
-            // PriceColumn
-            // 
-            this.PriceColumn.HeaderText = "Price";
-            this.PriceColumn.Name = "PriceColumn";
-            this.PriceColumn.ReadOnly = true;
-            // 
-            // ExpirationColumn
-            // 
-            this.ExpirationColumn.HeaderText = "Expiration";
-            this.ExpirationColumn.Name = "ExpirationColumn";
-            this.ExpirationColumn.ReadOnly = true;
-            // 
-            // CancelColumn
-            // 
-            this.CancelColumn.FlatStyle = System.Windows.Forms.FlatStyle.System;
-            this.CancelColumn.HeaderText = "Cancel Order";
-            this.CancelColumn.Name = "CancelColumn";
-            this.CancelColumn.Text = "Cancel";
-            this.CancelColumn.UseColumnTextForButtonValue = true;
+            this.automatedTradingToolStripMenuItem.Name = "automatedTradingToolStripMenuItem";
+            this.automatedTradingToolStripMenuItem.Size = new System.Drawing.Size(178, 22);
+            this.automatedTradingToolStripMenuItem.Text = "Automated Trading";
+            this.automatedTradingToolStripMenuItem.Click += new System.EventHandler(this.automatedTradingToolStripMenuItem_Click);
             // 
             // MainForm
             // 
@@ -357,6 +366,7 @@
             this.Controls.Add(this.tabControl1);
             this.MainMenuStrip = this.mainMenu;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PriceAnalyzer";
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
@@ -408,6 +418,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PriceColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn ExpirationColumn;
         private System.Windows.Forms.DataGridViewButtonColumn CancelColumn;
+        private System.Windows.Forms.ToolStripMenuItem automatedTradingToolStripMenuItem;
     }
 }
 

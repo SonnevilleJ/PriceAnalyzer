@@ -46,6 +46,12 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutomatedTradingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AutomatedTradingForm.Designer.cs">
+      <DependentUpon>AutomatedTradingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CandleStickRenderer.cs" />
     <Compile Include="Expiration.cs" />
     <Compile Include="LineRenderer.cs" />
@@ -86,6 +92,9 @@
     <Compile Include="TradeViewModel.cs" />
     <Compile Include="VerticalAxis.cs" />
     <Compile Include="HorizontalAxis.cs" />
+    <EmbeddedResource Include="AutomatedTradingForm.resx">
+      <DependentUpon>AutomatedTradingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DataEntryForm.resx">
       <DependentUpon>DataEntryForm.cs</DependentUpon>
     </EmbeddedResource>
