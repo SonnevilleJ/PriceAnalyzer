@@ -51,12 +51,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Interfaces\NullBrokerage.cs" />
+    <Compile Include="Interfaces\SimulatedBrokerage.cs" />
     <Compile Include="IPriceSeriesProvider.cs" />
     <Compile Include="IAnalysisEngine.cs" />
     <Compile Include="ITradeManager.cs" />
     <Compile Include="OrderStatus.cs" />
-    <Compile Include="SimulatedBroker.cs" />
     <Compile Include="Extensions\TransactionExtensions.cs" />
     <Compile Include="Factories\IPortfolioFactory.cs" />
     <Compile Include="Factories\IPositionFactory.cs" />

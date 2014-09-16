@@ -6,8 +6,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
 {
     public interface IBrokerage
     {
-        ITradingAccount LogIn(string username, string password);
-
         Guid BrokerageID { get; }
         IList<Order> GetOpenOrders();
         void SubmitOrders(IEnumerable<Order> orders);

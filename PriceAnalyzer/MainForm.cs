@@ -19,10 +19,11 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private readonly MainFormViewModel _viewModel = new MainFormViewModel();
         private readonly DataEntryForm _dataEntryForm = new DataEntryForm();
         private List<KeyValuePair<IList<IPricePeriod>, IRenderer>> _currentChartData;
+        private readonly IBrokerage _brokerage;
 
         public MainForm()
         {
-            renderer1 = _rendererFactory.CreateNewRenderer();
+            renderer = _rendererFactory.CreateNewRenderer();
             InitializeComponent();
 
             var defaultChartStyle = (ChartStyles)Enum.Parse(typeof(ChartStyles), Settings.Default.ChartStyle);
@@ -31,6 +32,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.candleStickToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.CandlestickChart;
             this.oHLCToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.OpenHighLowClose;
             this.lineToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.Line;
+            _brokerage = new SimulatedBrokerage();
         }
 
         private void SetDefaultChartStyle(ChartStyles defaultChartStyle)
@@ -98,8 +100,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             priceSeries.AddPriceData(pricePeriods);
             _currentChartData = new List<KeyValuePair<IList<IPricePeriod>, IRenderer>>
             {
-//                new KeyValuePair<IList<IPricePeriod>, IRenderer>(pricePeriods, new CandleStickRenderer()),
-                new KeyValuePair<IList<IPricePeriod>, IRenderer>(pricePeriods, renderer1)
+                new KeyValuePair<IList<IPricePeriod>, IRenderer>(pricePeriods, renderer)
             };
             RedrawChart(currentTab);
         }
@@ -254,12 +255,13 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void buyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new TradeForm(OrderType.Buy).ShowDialog();
+            new TradeForm(OrderType.Buy, _brokerage).ShowDialog();
+            
         }
 
         private void sellToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new TradeForm(OrderType.Sell).ShowDialog();
+            new TradeForm(OrderType.Sell, _brokerage).ShowDialog();
         }
 
         private void viewPendingOrdersToolStripMenuItem_Click(object sender, EventArgs e)
@@ -273,14 +275,27 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
             tabControl1.SelectTab(pendingOrdersTab);
 
+            
+
+            PopulatePendingOrders(pendingOrdersTab);
+        }
+
+        private void PopulatePendingOrders(Control pendingOrdersTab)
+        {
+            var openOrders = _brokerage.GetOpenOrders();
+
             var dataGridView = (DataGridView) pendingOrdersTab.Controls[0];
-            var rowNum = dataGridView.Rows.Add();
-            var row = dataGridView.Rows[rowNum];
-            row.Cells["TickerColumn"].Value = "MSFT";
-            row.Cells["VolumeColumn"].Value = 5;
-            row.Cells["PriceColumn"].Value = 123.00m;
-            row.Cells["OrderTypeColumn"].Value = OrderType.Buy;
-            row.Cells["ExpirationColumn"].Value = DateTime.Now;
+            foreach (Order openOrder in openOrders)
+            {
+                var rowNum = dataGridView.Rows.Add();
+                var row = dataGridView.Rows[rowNum];
+                row.Cells["TickerColumn"].Value = openOrder.Ticker;
+                row.Cells["VolumeColumn"].Value = openOrder.Shares;
+                row.Cells["PriceColumn"].Value = openOrder.Price;
+                row.Cells["OrderTypeColumn"].Value = openOrder.OrderType;
+                row.Cells["ExpirationColumn"].Value = openOrder.Expiration; 
+            }
+
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)

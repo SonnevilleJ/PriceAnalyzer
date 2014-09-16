@@ -4,26 +4,30 @@ using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
-    public class NullBrokerage : IBrokerage
+    public class SimulatedBrokerage : IBrokerage
     {
-        public ITradingAccount LogIn(string username, string password)
+        private readonly List<Order> _openOrders;
+
+        public SimulatedBrokerage()
         {
-            throw new NotImplementedException();
+            _openOrders = new List<Order>();
         }
 
         public Guid BrokerageID { get; private set; }
+
         public IList<Order> GetOpenOrders()
         {
-            throw new NotImplementedException();
+            return _openOrders;
         }
 
         public void SubmitOrders(IEnumerable<Order> orders)
         {
+            _openOrders.AddRange(orders);
         }
 
         public void CancelOrder(Order order)
         {
-            throw new NotImplementedException();
+            _openOrders.Remove(order);
         }
 
         public IEnumerable<IShareTransaction> GetTransactions(string ticker, DateTime head, DateTime tail)

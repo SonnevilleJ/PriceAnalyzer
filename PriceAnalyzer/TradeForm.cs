@@ -14,12 +14,14 @@ namespace Sonneville.PriceTools.PriceAnalyzer
     public partial class TradeForm : Form
     {
         private readonly TradeViewModel _viewModel;
+        private IBrokerage _brokerage;
 
-        public TradeForm(OrderType orderType)
+        public TradeForm(OrderType orderType, IBrokerage brokerage)
         {
             InitializeComponent();
             Text = orderType + " Shares";
-            _viewModel = new TradeViewModel(new NullBrokerage());
+            _brokerage = brokerage;
+            _viewModel = new TradeViewModel(_brokerage);
             _viewModel.OrderType = orderType;
         }
 
