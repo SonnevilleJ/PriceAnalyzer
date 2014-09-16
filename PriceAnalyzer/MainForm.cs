@@ -256,12 +256,13 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private void buyToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new TradeForm(OrderType.Buy, _brokerage).ShowDialog();
-            
+            SwitchToPendingOrdersTab();
         }
 
         private void sellToolStripMenuItem_Click(object sender, EventArgs e)
         {
             new TradeForm(OrderType.Sell, _brokerage).ShowDialog();
+            SwitchToPendingOrdersTab();
         }
 
         private void viewPendingOrdersToolStripMenuItem_Click(object sender, EventArgs e)
@@ -275,16 +276,14 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
             tabControl1.SelectTab(pendingOrdersTab);
 
-            
-
-            PopulatePendingOrders(pendingOrdersTab);
+            PopulatePendingOrders((DataGridView) pendingOrdersTab.Controls[0]);
         }
 
-        private void PopulatePendingOrders(Control pendingOrdersTab)
+        private void PopulatePendingOrders(DataGridView dataGridView)
         {
             var openOrders = _brokerage.GetOpenOrders();
 
-            var dataGridView = (DataGridView) pendingOrdersTab.Controls[0];
+            dataGridView.Rows.Clear();
             foreach (Order openOrder in openOrders)
             {
                 var rowNum = dataGridView.Rows.Add();
@@ -295,12 +294,23 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                 row.Cells["OrderTypeColumn"].Value = openOrder.OrderType;
                 row.Cells["ExpirationColumn"].Value = openOrder.Expiration; 
             }
-
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            var row = dataGridView1.Rows[e.RowIndex];
+            if (!row.IsNewRow)
+            {
+                var cancelOrder = new Order
+                {
+                    Ticker = (string) row.Cells["TickerColumn"].Value,
+                    Price = (decimal) row.Cells["PriceColumn"].Value,
+                    Shares = (decimal) row.Cells["VolumeColumn"].Value,
+                    OrderType = (OrderType) row.Cells["OrderTypeColumn"].Value,
+                };
+                _brokerage.CancelOrder(cancelOrder);
+                SwitchToPendingOrdersTab();
+            }
         }
     }
 }

@@ -4,11 +4,11 @@ using System.Globalization;
 namespace Sonneville.PriceTools.Implementation
 {
     [Serializable]
-    public sealed class Order
+    public sealed class Order : IEquatable<Order>
     {
         public DateTime Issued { get; set; }
 
-        public DateTime Expiration { get; internal set; }
+        public DateTime Expiration { get; set; }
 
         public string Ticker { get; set; }
 
@@ -16,9 +16,20 @@ namespace Sonneville.PriceTools.Implementation
 
         public OrderType OrderType { get; set; }
 
-        public PricingType PricingType { get; internal set; }
+        public PricingType PricingType { get; set; }
 
         public decimal Shares { get; set; }
+
+        public bool Equals(Order other)
+        {
+            return other.Ticker == Ticker
+                   && other.Price == Price
+                   && other.Shares == Shares
+                   && other.OrderType == OrderType
+                   && other.Expiration == Expiration
+                   && other.Issued == Issued
+                   && other.PricingType == PricingType;
+        }
 
         public override string ToString()
         {

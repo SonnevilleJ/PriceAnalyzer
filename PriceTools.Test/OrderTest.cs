@@ -428,5 +428,21 @@ namespace Sonneville.PriceTools.Test
             Assert.IsTrue(actual.Contains(Enum.GetName(typeof (OrderType), orderType)));
             Assert.IsTrue(actual.Contains(ticker));
         }
+
+        [Test]
+        public void IdenticalOrdersAreEqual()
+        {
+            var issued = new DateTime(2011, 12, 6);
+            var expired = issued.AddMinutes(30);
+            const OrderType orderType = OrderType.Buy;
+            var ticker = "DE";
+            const decimal shares = 5m;
+            const decimal price = 100.00m;
+
+            var order1 = _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+            var order2 = _orderFactory.ConstructOrder(issued, expired, orderType, ticker, shares, price);
+
+            Assert.AreEqual(order1, order2);
+        }
     }
 }
