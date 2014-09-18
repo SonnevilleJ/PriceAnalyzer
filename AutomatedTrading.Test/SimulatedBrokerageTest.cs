@@ -86,5 +86,49 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var openOrders = _simulatedBroker.GetOpenOrders();
             CollectionAssert.AreEquivalent(openOrders, expectedOrders);
         }
+
+        [Test]
+        public void GetAllOrdersReturnsAllSubmittedOrders()
+        {
+            var expectedOrders = new List<Order>
+            {
+                new Order
+                {
+                    Ticker = "DE"
+                },
+                new Order
+                {
+                    Ticker = "IBM"
+                }
+            };
+            _simulatedBroker.SubmitOrders(expectedOrders);
+            _simulatedBroker.CancelOrder(expectedOrders.First());
+
+            var actualOrders = _simulatedBroker.GetAllOrders();
+
+            CollectionAssert.AreEquivalent(expectedOrders, actualOrders);
+        }
+
+        [Test]
+        public void GetAllOrdersReturnsOnlySubmittedOrders()
+        {
+            var expectedOrders = new List<Order>
+            {
+                new Order
+                {
+                    Ticker = "DE"
+                },
+                new Order
+                {
+                    Ticker = "IBM"
+                }
+            };
+            _simulatedBroker.SubmitOrders(expectedOrders);
+            _simulatedBroker.CancelOrder(new Order {Ticker = "MSFT"});
+
+            var actualOrders = _simulatedBroker.GetAllOrders();
+
+            CollectionAssert.AreEquivalent(expectedOrders, actualOrders);
+        }
     }
 }
