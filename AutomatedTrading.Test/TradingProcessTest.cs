@@ -85,13 +85,13 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 _executionDate.CurrentPeriodClose(Resolution.Days),
                 _openOrders)).Returns(_unsubmittedOrders);
 
-            _tradingProcess = new TradingProcess(_portfolioMock.Object, _analysisEngineMock.Object, _priceSeriesProviderMock.Object, _brokerageMock.Object);
+            _tradingProcess = new TradingProcess(_analysisEngineMock.Object, _priceSeriesProviderMock.Object, _brokerageMock.Object);
         }
 
         [Test]
         public void ShouldDetermineStatusAndCreateOrdersAndSubmitOrders()
         {
-            _tradingProcess.Execute(_executionDate);
+            _tradingProcess.Execute(_portfolioMock.Object, _executionDate);
 
             _brokerageMock.Verify(broker => broker.SubmitOrders(_unsubmittedOrders));
         }
@@ -99,7 +99,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [Test]
         public void ShouldUpdatePortfolioPositions()
         {
-            _tradingProcess.Execute(_executionDate);
+            _tradingProcess.Execute(_portfolioMock.Object, _executionDate);
 
             _brokerageMock.Verify(brokerage=>brokerage.GetTransactions(_deTicker, _dePositionMock.Object.Tail, _executionDate));
             _brokerageMock.Verify(brokerage=>brokerage.GetTransactions(_ibmTicker, _ibmPositionMock.Object.Tail, _executionDate));
