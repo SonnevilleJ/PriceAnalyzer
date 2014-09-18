@@ -48,6 +48,7 @@
             this.startTimePicker.Name = "startTimePicker";
             this.startTimePicker.Size = new System.Drawing.Size(143, 20);
             this.startTimePicker.TabIndex = 0;
+            this.startTimePicker.ValueChanged += new System.EventHandler(this.startTimePicker_ValueChanged);
             // 
             // endTimePicker
             // 
@@ -57,6 +58,7 @@
             this.endTimePicker.Name = "endTimePicker";
             this.endTimePicker.Size = new System.Drawing.Size(143, 20);
             this.endTimePicker.TabIndex = 1;
+            this.endTimePicker.ValueChanged += new System.EventHandler(this.endTimePicker_ValueChanged);
             // 
             // label1
             // 
@@ -116,6 +118,7 @@
             this.ProcessButton.TabIndex = 8;
             this.ProcessButton.Text = "Process";
             this.ProcessButton.UseVisualStyleBackColor = true;
+            this.ProcessButton.Click += new System.EventHandler(this.ProcessButton_Click);
             // 
             // CancelButton
             // 
