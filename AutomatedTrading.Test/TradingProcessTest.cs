@@ -16,7 +16,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private IList<IPosition> _positions;
         private Mock<IPosition> _dePositionMock;
         private Mock<IPosition> _ibmPositionMock;
-        private Mock<IPriceSeriesProvider> _priceSeriesProviderMock;
+        private Mock<IPriceSeriesFactory> _priceSeriesProviderMock;
         private Mock<IPriceSeries> _dePriceSeries;
         private Mock<IPriceSeries> _ibmPriceSeries;
         private Mock<IBrokerage> _brokerageMock;
@@ -54,9 +54,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _dePriceSeries = new Mock<IPriceSeries>();
             _ibmPriceSeries = new Mock<IPriceSeries>();
 
-            _priceSeriesProviderMock = new Mock<IPriceSeriesProvider>();
-            _priceSeriesProviderMock.Setup(provider => provider.GetPriceSeries(_deTicker)).Returns(_dePriceSeries.Object);
-            _priceSeriesProviderMock.Setup(provider => provider.GetPriceSeries(_ibmTicker)).Returns(_ibmPriceSeries.Object);
+            _priceSeriesProviderMock = new Mock<IPriceSeriesFactory>();
+            _priceSeriesProviderMock.Setup(provider => provider.ConstructPriceSeries(_deTicker)).Returns(_dePriceSeries.Object);
+            _priceSeriesProviderMock.Setup(provider => provider.ConstructPriceSeries(_ibmTicker)).Returns(_ibmPriceSeries.Object);
 
             _openOrders = new List<Order> {new Order()};
 

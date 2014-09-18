@@ -11,11 +11,11 @@ namespace Sonneville.PriceTools.AutomatedTrading
     public class TradingProcess : ITradingProcess
     {
         private readonly IAnalysisEngine _analysisEngine;
-        private readonly IPriceSeriesProvider _priceSeriesProvider;
+        private readonly IPriceSeriesFactory _priceSeriesProvider;
         private readonly IBrokerage _brokerage;
 
 
-        public TradingProcess(IAnalysisEngine analysisEngine, IPriceSeriesProvider priceSeriesProvider, IBrokerage brokerage)
+        public TradingProcess(IAnalysisEngine analysisEngine, IPriceSeriesFactory priceSeriesProvider, IBrokerage brokerage)
         {
             _analysisEngine = analysisEngine;
             _priceSeriesProvider = priceSeriesProvider;
@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         {
             foreach (var position in portfolio.Positions)
             {
-                var priceSeries = _priceSeriesProvider.GetPriceSeries(position.Ticker);
+                var priceSeries = _priceSeriesProvider.ConstructPriceSeries(position.Ticker);
                 var pendingTransactions = _brokerage.GetOpenOrders();
                 var newTransactions = _brokerage.GetTransactions(position.Ticker, position.Tail, dateTime);
                 foreach (var transaction in newTransactions)

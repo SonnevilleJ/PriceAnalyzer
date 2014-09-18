@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interfaces\SimulatedBrokerage.cs" />
-    <Compile Include="IPriceSeriesProvider.cs" />
     <Compile Include="IAnalysisEngine.cs" />
     <Compile Include="ITradeManager.cs" />
     <Compile Include="OrderStatus.cs" />
