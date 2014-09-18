@@ -52,6 +52,7 @@
     <Compile Include="AutomatedTradingForm.Designer.cs">
       <DependentUpon>AutomatedTradingForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="AutomatedTradingViewModel.cs" />
     <Compile Include="CandleStickRenderer.cs" />
     <Compile Include="Expiration.cs" />
     <Compile Include="LineRenderer.cs" />
