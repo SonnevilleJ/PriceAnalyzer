@@ -3,3 +3,4 @@ obj/
 packages/
 TestResults/
 *.suo
+*.user
