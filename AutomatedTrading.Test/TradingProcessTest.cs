@@ -30,6 +30,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private Mock<IShareTransaction> _deTransactionMock;
         private Mock<IShareTransaction> _ibmTransactionMock;
         private Mock<IShareTransaction> _ibmTransactionMock2;
+        private IEnumerable<string> _tickers;
 
         [SetUp]
         public void Setup()
@@ -37,6 +38,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _deTicker = "DE";
             _ibmTicker = "IBM";
             _executionDate = new DateTime(2014, 8, 27);
+            _tickers = new[] {_deTicker, _ibmTicker};
 
             _dePositionMock = new Mock<IPosition>();
             _dePositionMock.Setup(position => position.Ticker).Returns(_deTicker);
@@ -50,6 +52,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             _portfolioMock = new Mock<IPortfolio>();
             _portfolioMock.Setup(portfolio => portfolio.Positions).Returns(_positions);
+            _portfolioMock.Setup(portfolio => portfolio.GetPosition(_deTicker)).Returns(_dePositionMock.Object);
+            _portfolioMock.Setup(portfolio => portfolio.GetPosition(_ibmTicker)).Returns(_ibmPositionMock.Object);
 
             _dePriceSeries = new Mock<IPriceSeries>();
             _ibmPriceSeries = new Mock<IPriceSeries>();
@@ -91,7 +95,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [Test]
         public void ShouldDetermineStatusAndCreateOrdersAndSubmitOrders()
         {
-            _tradingProcess.Execute(_portfolioMock.Object, _executionDate);
+            _tradingProcess.Execute(_portfolioMock.Object, _executionDate, _tickers);
 
             _brokerageMock.Verify(broker => broker.SubmitOrders(_unsubmittedOrders));
         }
@@ -99,10 +103,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [Test]
         public void ShouldUpdatePortfolioPositions()
         {
-            _tradingProcess.Execute(_portfolioMock.Object, _executionDate);
+            _tradingProcess.Execute(_portfolioMock.Object, _executionDate, _tickers);
 
-            _brokerageMock.Verify(brokerage=>brokerage.GetTransactions(_deTicker, _dePositionMock.Object.Tail, _executionDate));
-            _brokerageMock.Verify(brokerage=>brokerage.GetTransactions(_ibmTicker, _ibmPositionMock.Object.Tail, _executionDate));
+            _brokerageMock.Verify(brokerage => brokerage.GetTransactions(_deTicker, _dePositionMock.Object.Tail, _executionDate));
+            _brokerageMock.Verify(brokerage => brokerage.GetTransactions(_ibmTicker, _ibmPositionMock.Object.Tail, _executionDate));
             _dePositionMock.Verify(position => position.AddTransaction(_deTransactionMock.Object));
             _ibmPositionMock.Verify(position => position.AddTransaction(_ibmTransactionMock.Object));
             _ibmPositionMock.Verify(position => position.AddTransaction(_ibmTransactionMock2.Object));

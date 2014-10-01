@@ -30,7 +30,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private void ProcessButton_Click(object sender, EventArgs e)
         {
             var portfolio = new PortfolioFactory().ConstructPortfolio("cash");
-            _viewModel.Run(portfolio, startTimePicker.Value, endTimePicker.Value);
+            var tickers = stockTextBox.Text.Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
+            _viewModel.Run(portfolio, startTimePicker.Value, endTimePicker.Value, tickers);
         }
 
         private void startTimePicker_ValueChanged(object sender, EventArgs e)

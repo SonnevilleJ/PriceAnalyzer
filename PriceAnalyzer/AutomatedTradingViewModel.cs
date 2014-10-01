@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
@@ -16,7 +17,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             
         }
 
-        public void Run(IPortfolio portfolio, DateTime startDate, DateTime endDate)
+        public void Run(IPortfolio portfolio, DateTime startDate, DateTime endDate, IEnumerable<string> tickers)
         {
             for (DateTime i = startDate; i < endDate; i = i.NextTradingPeriodClose(Resolution.Days))
             {
@@ -25,7 +26,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                     break;
                 }
 
-                _tradingProcess.Execute(portfolio, i);
+                _tradingProcess.Execute(portfolio, i, tickers);
             }
         }
 
