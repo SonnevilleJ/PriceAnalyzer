@@ -20,8 +20,6 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
-            this.chart1 = new Sonneville.PriceTools.PriceAnalyzer.Chart();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.TickerColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -30,6 +28,18 @@
             this.PriceColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.ExpirationColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.CancelColumn = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.positionTab = new System.Windows.Forms.TabPage();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.positionTickerCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.purchaseCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.soldCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.volumeCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.currentPriceCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.netCol = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.mainMenu = new System.Windows.Forms.MenuStrip();
             this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.exitMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -54,10 +64,14 @@
             this.buyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.sellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.automatedTradingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.elementHost1 = new System.Windows.Forms.Integration.ElementHost();
+            this.chart1 = new Sonneville.PriceTools.PriceAnalyzer.Chart();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.positionTab.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
             this.mainMenu.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -72,6 +86,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.positionTab);
             this.tabControl1.Location = new System.Drawing.Point(0, 24);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -88,16 +103,6 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
             this.tabPage1.UseVisualStyleBackColor = true;
-            // 
-            // elementHost1
-            // 
-            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.elementHost1.Location = new System.Drawing.Point(3, 3);
-            this.elementHost1.Name = "elementHost1";
-            this.elementHost1.Size = new System.Drawing.Size(814, 311);
-            this.elementHost1.TabIndex = 7;
-            this.elementHost1.Text = "elementHost1";
-            this.elementHost1.Child = this.chart1;
             // 
             // tabPage2
             // 
@@ -163,6 +168,115 @@
             this.CancelColumn.Name = "CancelColumn";
             this.CancelColumn.Text = "Cancel";
             this.CancelColumn.UseColumnTextForButtonValue = true;
+            // 
+            // positionTab
+            // 
+            this.positionTab.Controls.Add(this.label4);
+            this.positionTab.Controls.Add(this.label3);
+            this.positionTab.Controls.Add(this.label2);
+            this.positionTab.Controls.Add(this.label1);
+            this.positionTab.Controls.Add(this.dataGridView2);
+            this.positionTab.Location = new System.Drawing.Point(4, 22);
+            this.positionTab.Name = "positionTab";
+            this.positionTab.Size = new System.Drawing.Size(820, 317);
+            this.positionTab.TabIndex = 2;
+            this.positionTab.Text = "Position Summary";
+            this.positionTab.UseVisualStyleBackColor = true;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(350, 21);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(67, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "Net Change:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(28, 21);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(78, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Portfolio Value:";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.White;
+            this.label2.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(423, 19);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(2, 19);
+            this.label2.TabIndex = 2;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.BackColor = System.Drawing.Color.White;
+            this.label1.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(112, 19);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(2, 19);
+            this.label1.TabIndex = 1;
+            // 
+            // dataGridView2
+            // 
+            this.dataGridView2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.positionTickerCol,
+            this.purchaseCol,
+            this.soldCol,
+            this.volumeCol,
+            this.currentPriceCol,
+            this.netCol});
+            this.dataGridView2.Location = new System.Drawing.Point(1, 66);
+            this.dataGridView2.Name = "dataGridView2";
+            this.dataGridView2.Size = new System.Drawing.Size(820, 254);
+            this.dataGridView2.TabIndex = 0;
+            // 
+            // positionTickerCol
+            // 
+            this.positionTickerCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.positionTickerCol.HeaderText = "Ticker";
+            this.positionTickerCol.Name = "positionTickerCol";
+            this.positionTickerCol.Width = 62;
+            // 
+            // purchaseCol
+            // 
+            this.purchaseCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.purchaseCol.HeaderText = "Purchase Price";
+            this.purchaseCol.Name = "purchaseCol";
+            // 
+            // soldCol
+            // 
+            this.soldCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.soldCol.HeaderText = "Sold Price";
+            this.soldCol.Name = "soldCol";
+            // 
+            // volumeCol
+            // 
+            this.volumeCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.volumeCol.HeaderText = "Volume";
+            this.volumeCol.Name = "volumeCol";
+            // 
+            // currentPriceCol
+            // 
+            this.currentPriceCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.currentPriceCol.HeaderText = "Current Price";
+            this.currentPriceCol.Name = "currentPriceCol";
+            // 
+            // netCol
+            // 
+            this.netCol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
+            this.netCol.HeaderText = "Change";
+            this.netCol.Name = "netCol";
             // 
             // mainMenu
             // 
@@ -357,6 +471,16 @@
             this.automatedTradingToolStripMenuItem.Text = "Automated Trading";
             this.automatedTradingToolStripMenuItem.Click += new System.EventHandler(this.automatedTradingToolStripMenuItem_Click);
             // 
+            // elementHost1
+            // 
+            this.elementHost1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.elementHost1.Location = new System.Drawing.Point(3, 3);
+            this.elementHost1.Name = "elementHost1";
+            this.elementHost1.Size = new System.Drawing.Size(814, 311);
+            this.elementHost1.TabIndex = 7;
+            this.elementHost1.Text = "elementHost1";
+            this.elementHost1.Child = this.chart1;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -372,6 +496,9 @@
             this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.positionTab.ResumeLayout(false);
+            this.positionTab.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
             this.mainMenu.ResumeLayout(false);
             this.mainMenu.PerformLayout();
             this.ResumeLayout(false);
@@ -419,6 +546,18 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ExpirationColumn;
         private System.Windows.Forms.DataGridViewButtonColumn CancelColumn;
         private System.Windows.Forms.ToolStripMenuItem automatedTradingToolStripMenuItem;
+        private System.Windows.Forms.TabPage positionTab;
+        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn positionTickerCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn purchaseCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn soldCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn volumeCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn currentPriceCol;
+        private System.Windows.Forms.DataGridViewTextBoxColumn netCol;
+        private System.Windows.Forms.Label label4;
     }
 }
 
