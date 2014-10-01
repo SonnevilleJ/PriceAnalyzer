@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="Sonneville.PriceTools.PriceAnalyzer.PositionSummaryPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:priceAnalyzer="clr-namespace:Sonneville.PriceTools.PriceAnalyzer"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <priceAnalyzer:PositionSummaryViewModel />
+    </UserControl.DataContext>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <DockPanel Grid.Row="0" Grid.Column="0" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" >
+            <Label Content="Portfolio Value:" VerticalAlignment="Center"/>
+            <Label Content="{Binding PortfolioValue}" VerticalAlignment="Center" />
+        </DockPanel>
+        <DockPanel Grid.Row="0" Grid.Column="1" Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" >
+            <Label Content="Net Change:" VerticalAlignment="Center"/>
+            <Label Content="{Binding NetChange}" VerticalAlignment="Center" />
+        </DockPanel>
+        <DataGrid Grid.Row="1" Grid.ColumnSpan="2" Grid.Column="0"
+                  Background="{DynamicResource {x:Static SystemColors.WindowBrushKey}}" ItemsSource="{Binding TransactionSummaries}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Ticker" Binding="{Binding Ticker}" />
+                <DataGridTextColumn Header="Bought Price" Binding="{Binding BoughtPrice, StringFormat=c}" Width="*" />
+                <DataGridTextColumn Header="Sold Price" Binding="{Binding SoldPrice, StringFormat=c}" Width="*" />
+                <DataGridTextColumn Header="Current Price" Binding="{Binding CurrentPrice, StringFormat=c}" Width="*" />
+                <DataGridTextColumn Header="Shares" Binding="{Binding Volume}" Width="*" />
+                <DataGridTextColumn Header="Net Change" Binding="{Binding NetChange, StringFormat=c}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</UserControl>

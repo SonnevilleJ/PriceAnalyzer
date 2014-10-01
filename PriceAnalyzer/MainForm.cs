@@ -17,6 +17,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
     {
         private readonly RendererFactory _rendererFactory = new RendererFactory();
         private readonly MainFormViewModel _viewModel = new MainFormViewModel();
+        private readonly PositionSummaryViewModel _positionSummaryViewModel = new PositionSummaryViewModel();
         private readonly DataEntryForm _dataEntryForm = new DataEntryForm();
         private List<KeyValuePair<IList<IPricePeriod>, IRenderer>> _currentChartData;
         private readonly IBrokerage _brokerage;

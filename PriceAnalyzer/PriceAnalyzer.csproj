@@ -56,6 +56,10 @@
     <Compile Include="CandleStickRenderer.cs" />
     <Compile Include="Expiration.cs" />
     <Compile Include="LineRenderer.cs" />
+    <Compile Include="PositionSummaryPanel.xaml.cs">
+      <DependentUpon>PositionSummaryPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PositionSummaryViewModel.cs" />
     <Compile Include="RendererFactory.cs" />
     <Compile Include="ChartStyles.cs" />
     <Compile Include="DataEntryForm.cs">
@@ -91,6 +95,7 @@
       <DependentUpon>TradeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="TradeViewModel.cs" />
+    <Compile Include="TransactionSummary.cs" />
     <Compile Include="VerticalAxis.cs" />
     <Compile Include="HorizontalAxis.cs" />
     <EmbeddedResource Include="AutomatedTradingForm.resx">
@@ -156,6 +161,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Chart.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="PositionSummaryPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
