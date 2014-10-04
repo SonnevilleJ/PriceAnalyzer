@@ -325,6 +325,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             var portfolio = tradingForm.Portfolio;
 
             PopulatePendingOrders(portfolio.OpenOrders);
+            ((PositionSummaryViewModel) positionSummaryPanel1.DataContext).UpdateTransactions(
+                portfolio.Positions.SelectMany(position => position.Transactions).Cast<IShareTransaction>());
         }
     }
 }

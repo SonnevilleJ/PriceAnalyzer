@@ -4,6 +4,7 @@ using System.Linq;
 using Moq;
 using NUnit.Framework;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
+using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading.Test
@@ -32,6 +33,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private Mock<IShareTransaction> _ibmTransactionMock;
         private Mock<IShareTransaction> _ibmTransactionMock2;
         private IEnumerable<string> _tickers;
+        private Mock<IPriceDataProvider> _priceDataProviderMock;
 
         [SetUp]
         public void Setup()
@@ -91,7 +93,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
                 _executionDate.CurrentPeriodClose(Resolution.Days),
                 _openOrders)).Returns(_unsubmittedOrders);
 
-            _tradingProcess = new TradingProcess(_analysisEngineMock.Object, _priceSeriesProviderMock.Object, _brokerageMock.Object);
+            _priceDataProviderMock = new Mock<IPriceDataProvider>();
+
+            _tradingProcess = new TradingProcess(_analysisEngineMock.Object, _priceSeriesProviderMock.Object, _brokerageMock.Object, _priceDataProviderMock.Object);
         }
 
         [Test]
