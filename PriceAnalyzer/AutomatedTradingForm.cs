@@ -9,18 +9,24 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Interop;
 using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.AutomatedTrading.Implementation;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
     public partial class AutomatedTradingForm : Form
     {
-        private AutomatedTradingViewModel _viewModel;
+        private readonly AutomatedTradingViewModel _viewModel;
 
-        public AutomatedTradingForm()
+        public AutomatedTradingForm(IBrokerage brokerage)
         {
             InitializeComponent();
-            _viewModel = new AutomatedTradingViewModel(new TradingProcess(new AnalysisEngine(new SecurityBasketCalculator()), new PriceSeriesFactory(), new SimulatedBrokerage()));
+            var tradingProcess = new TradingProcess(new AnalysisEngine(new SecurityBasketCalculator()), new PriceSeriesFactory(), brokerage);
+            _viewModel = new AutomatedTradingViewModel(tradingProcess);
+            Portfolio = new PortfolioFactory().ConstructPortfolio("cash");
+            startTimePicker.Value = DateTime.Now.AddHours(-1);
         }
+
+        public IPortfolio Portfolio { get; private set; }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
@@ -29,9 +35,9 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void ProcessButton_Click(object sender, EventArgs e)
         {
-            var portfolio = new PortfolioFactory().ConstructPortfolio("cash");
             var tickers = stockTextBox.Text.Split(new[] {',', ' '}, StringSplitOptions.RemoveEmptyEntries);
-            _viewModel.Run(portfolio, startTimePicker.Value, endTimePicker.Value, tickers);
+            _viewModel.Run(Portfolio, startTimePicker.Value, endTimePicker.Value, tickers);
+            Close();
         }
 
         private void startTimePicker_ValueChanged(object sender, EventArgs e)
@@ -46,10 +52,10 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void DateErrorCheck(DateTimePicker laterPicker, DateTimePicker earlierPicker)
         {
-            if (laterPicker.Value < earlierPicker.Value)
+            if (laterPicker.Value <= earlierPicker.Value)
             {
                 MessageBox.Show("End date must be after start date.", "User input Error", MessageBoxButtons.OK);
-                earlierPicker.Value = (laterPicker.Value);
+                earlierPicker.Value = laterPicker.Value.AddHours(-1);
             }
         }
     }

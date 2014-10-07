@@ -31,5 +31,6 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             DialogResult = DialogResult.Cancel;
             this.Close();
         }
+
     }
 }

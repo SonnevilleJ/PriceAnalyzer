@@ -17,10 +17,10 @@ namespace Sonneville.PriceTools.PriceAnalyzer
     {
         private readonly RendererFactory _rendererFactory = new RendererFactory();
         private readonly MainFormViewModel _viewModel = new MainFormViewModel();
-        private readonly PositionSummaryViewModel _positionSummaryViewModel = new PositionSummaryViewModel();
         private readonly DataEntryForm _dataEntryForm = new DataEntryForm();
         private List<KeyValuePair<IList<IPricePeriod>, IRenderer>> _currentChartData;
         private readonly IBrokerage _brokerage;
+        private readonly TabPage _pendingOrdersTab;
 
         public MainForm()
         {
@@ -34,6 +34,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.oHLCToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.OpenHighLowClose;
             this.lineToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.Line;
             _brokerage = new SimulatedBrokerage();
+            _pendingOrdersTab = tabControl1.TabPages.Cast<TabPage>().Single(tabPage => tabPage.Text == "Pending Orders");
         }
 
         private void SetDefaultChartStyle(ChartStyles defaultChartStyle)
@@ -273,19 +274,21 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void SwitchToPendingOrdersTab()
         {
-            var pendingOrdersTab = tabControl1.TabPages.Cast<TabPage>().Single(tabPage => tabPage.Text == "Pending Orders");
+            UpdatePendingOrders();
 
-            tabControl1.SelectTab(pendingOrdersTab);
-
-            PopulatePendingOrders((DataGridView) pendingOrdersTab.Controls[0]);
+            tabControl1.SelectTab(_pendingOrdersTab);
         }
 
-        private void PopulatePendingOrders(DataGridView dataGridView)
+        private void UpdatePendingOrders()
         {
-            var openOrders = _brokerage.GetOpenOrders();
+            PopulatePendingOrders(_brokerage.GetOpenOrders());
+        }
 
+        private void PopulatePendingOrders(IEnumerable<Order> openOrders)
+        {
+            var dataGridView = (DataGridView) _pendingOrdersTab.Controls[0];
             dataGridView.Rows.Clear();
-            foreach (Order openOrder in openOrders)
+            foreach (var openOrder in openOrders)
             {
                 var rowNum = dataGridView.Rows.Add();
                 var row = dataGridView.Rows[rowNum];
@@ -316,7 +319,12 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void automatedTradingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            new AutomatedTradingForm().ShowDialog();
+            var tradingForm = new AutomatedTradingForm(_brokerage);
+            tradingForm.ShowDialog();
+
+            var portfolio = tradingForm.Portfolio;
+
+            PopulatePendingOrders(portfolio.OpenOrders);
         }
     }
 }

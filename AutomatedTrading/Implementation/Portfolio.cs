@@ -51,6 +51,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             CashTicker = ticker;
             _positionFactory = new PositionFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
+            OpenOrders = new Order[0];
         }
 
         public decimal this[DateTime dateTime]

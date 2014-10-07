@@ -10,7 +10,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
     public class PositionPriceSeriesTest
     {
         private PositionFactory _positionFactory;
-        private TransactionFactory _transactionFactory;
+        private ITransactionFactory _transactionFactory;
 
         [SetUp]
         public void Setup()
