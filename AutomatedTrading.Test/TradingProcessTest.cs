@@ -113,5 +113,13 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             _portfolioMock.Verify(position => position.AddTransaction(_ibmTransactionMock.Object));
             _portfolioMock.Verify(position => position.AddTransaction(_ibmTransactionMock2.Object));
         }
+
+        [Test]
+        public void ShouldUpdatePortfolioOpenOrders()
+        {
+            _tradingProcess.Execute(_portfolioMock.Object, _executionDate, _tickers);
+
+            _portfolioMock.VerifySet(portfolio => portfolio.OpenOrders = _openOrders);
+        }
     }
 }

@@ -13,6 +13,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         string CashTicker { get; }
 
         IEnumerable<IPosition> Positions { get; }
+        
+        IList<Order> OpenOrders { get; set; }
 
         decimal GetAvailableCash(DateTime settlementDate);
 
@@ -180,6 +182,8 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         {
             get { return _positions; }
         }
+
+        public IList<Order> OpenOrders { get; set; }
 
         public IPosition GetPosition(string ticker)
         {

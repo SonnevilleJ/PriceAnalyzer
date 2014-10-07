@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
@@ -25,23 +26,24 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         public void Execute(IPortfolio portfolio, DateTime tail, IEnumerable<string> tickers)
         {
-            UpdatePortfolio(portfolio, tail);
-
+            var openOrders = _brokerage.GetOpenOrders();
+            UpdatePortfolio(portfolio, tail, openOrders);
+            
             foreach (var ticker in tickers)
             {
                 var priceSeries = _priceSeriesProvider.ConstructPriceSeries(ticker);
 
-                var pendingTransactions = _brokerage.GetOpenOrders();
                 var calculatedOrders = _analysisEngine.DetermineOrdersFor(portfolio, priceSeries, tail,
-                tail.CurrentPeriodClose(Resolution.Days), pendingTransactions);
+                tail.CurrentPeriodClose(Resolution.Days), openOrders);
                 _brokerage.SubmitOrders(calculatedOrders);
             }
         }
 
-        private void UpdatePortfolio(IPortfolio portfolio, DateTime tail)
+        private void UpdatePortfolio(IPortfolio portfolio, DateTime tail, IList<Order> openOrders)
         {
-            var head = portfolio.Tail;
-            var newTransactions = _brokerage.GetTransactions(head, tail);
+            portfolio.OpenOrders = openOrders;
+
+            var newTransactions = _brokerage.GetTransactions(portfolio.Tail, tail);
             foreach (var transaction in newTransactions)
             {
                 portfolio.AddTransaction(transaction);
