@@ -37,7 +37,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
             }
         }
 
-        public IEnumerable<IShareTransaction> GetTransactions(string ticker, DateTime head, DateTime tail)
+        public IEnumerable<IShareTransaction> GetTransactions(DateTime head, DateTime tail)
         {
             throw new NotImplementedException();
         }

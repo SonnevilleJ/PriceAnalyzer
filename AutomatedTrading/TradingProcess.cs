@@ -6,7 +6,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 {
     public interface ITradingProcess
     {
-        void Execute(IPortfolio portfolio, DateTime dateTime, IEnumerable<string> tickers);
+        void Execute(IPortfolio portfolio, DateTime tail, IEnumerable<string> tickers);
     }
 
     public class TradingProcess : ITradingProcess
@@ -23,22 +23,28 @@ namespace Sonneville.PriceTools.AutomatedTrading
             _brokerage = brokerage;
         }
 
-        public void Execute(IPortfolio portfolio, DateTime dateTime, IEnumerable<string> tickers)
+        public void Execute(IPortfolio portfolio, DateTime tail, IEnumerable<string> tickers)
         {
+            UpdatePortfolio(portfolio, tail);
+
             foreach (var ticker in tickers)
             {
-                var position = portfolio.GetPosition(ticker);
                 var priceSeries = _priceSeriesProvider.ConstructPriceSeries(ticker);
-                var pendingTransactions = _brokerage.GetOpenOrders();
-                var newTransactions = _brokerage.GetTransactions(ticker, position.Tail, dateTime);
-                foreach (var transaction in newTransactions)
-                {
-                    position.AddTransaction(transaction);
-                }
 
-                var calculatedOrders = _analysisEngine.DetermineOrdersFor(portfolio, priceSeries, dateTime,
-                dateTime.CurrentPeriodClose(Resolution.Days), pendingTransactions);
+                var pendingTransactions = _brokerage.GetOpenOrders();
+                var calculatedOrders = _analysisEngine.DetermineOrdersFor(portfolio, priceSeries, tail,
+                tail.CurrentPeriodClose(Resolution.Days), pendingTransactions);
                 _brokerage.SubmitOrders(calculatedOrders);
+            }
+        }
+
+        private void UpdatePortfolio(IPortfolio portfolio, DateTime tail)
+        {
+            var head = portfolio.Tail;
+            var newTransactions = _brokerage.GetTransactions(head, tail);
+            foreach (var transaction in newTransactions)
+            {
+                portfolio.AddTransaction(transaction);
             }
         }
     }

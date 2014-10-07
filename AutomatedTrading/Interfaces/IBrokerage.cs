@@ -10,6 +10,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         IList<Order> GetOpenOrders();
         void SubmitOrders(IEnumerable<Order> orders);
         void CancelOrder(Order order);
-        IEnumerable<IShareTransaction> GetTransactions(string ticker, DateTime head, DateTime tail);
+        IEnumerable<IShareTransaction> GetTransactions(DateTime head, DateTime tail);
     }
 }
