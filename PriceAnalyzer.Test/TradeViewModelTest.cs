@@ -225,6 +225,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer.Test
             Assert.AreEqual(_volume, order.Shares);
             Assert.AreEqual(_sharePrice, order.Price);
             Assert.AreEqual(_orderType, order.OrderType);
+            Assert.AreEqual(DateTime.Today, order.Issued.Date);
             Assert.AreEqual(default(DateTime), order.Expiration);
             
             return true;

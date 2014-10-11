@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using System.Windows.Interop;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
@@ -22,7 +23,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             InitializeComponent();
             var tradingProcess = new TradingProcess(new AnalysisEngine(new SecurityBasketCalculator()), new PriceSeriesFactory(), brokerage);
             _viewModel = new AutomatedTradingViewModel(tradingProcess);
-            Portfolio = new PortfolioFactory().ConstructPortfolio("cash");
+            Portfolio = new PortfolioFactory().ConstructPortfolio("cash", new DateTime(2014, 1, 1), 1000000);
             startTimePicker.Value = DateTime.Now.AddHours(-1);
         }
 

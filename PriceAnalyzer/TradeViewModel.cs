@@ -49,6 +49,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
             var order = new Order
             {
+                Issued = DateTime.Now,
                 Ticker = Ticker,
                 Shares = Volume,
                 Price = SharePrice,

@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
@@ -10,27 +12,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         public PositionSummaryViewModel()
         {
-            TransactionSummaries = new ObservableCollection<TransactionSummary>
-            {
-                new TransactionSummary
-                {
-                    Ticker = "DE",
-                    BoughtPrice = 1.00,
-                    SoldPrice = 2.00,
-                    CurrentPrice = 2.00,
-                    Volume = 10.0,
-                    NetChange = 10.00
-                },
-                new TransactionSummary
-                {
-                    Ticker = "IBM",
-                    BoughtPrice = 10.00,
-                    SoldPrice = 20.00,
-                    CurrentPrice = 20.00,
-                    Volume = 10.0,
-                    NetChange = 100.00
-                },
-            };
+            TransactionSummaries = new ObservableCollection<TransactionSummary>();
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -59,6 +42,19 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         {
             var handler = PropertyChanged;
             if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public void UpdateTransactions(IEnumerable<IShareTransaction> transactions)
+        {
+            foreach (var transaction in transactions)
+            {
+                var summary = new TransactionSummary();
+                summary.Ticker = transaction.Ticker;
+                summary.BoughtPrice = (double) transaction.Price;
+                summary.Volume = (double) transaction.Shares;
+
+                TransactionSummaries.Add(summary);
+            }
         }
     }
 }
