@@ -101,7 +101,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         public string CashTicker { get; private set; }
 
-        public IList<ITransaction> Transactions
+        public IEnumerable<ITransaction> Transactions
         {
             get
             {

@@ -5,6 +5,6 @@ namespace Sonneville.PriceTools
 {
     public interface ISecurityBasket : IVariableValue<decimal>
     {
-        IList<ITransaction> Transactions { get; }
+        IEnumerable<ITransaction> Transactions { get; }
     }
 }

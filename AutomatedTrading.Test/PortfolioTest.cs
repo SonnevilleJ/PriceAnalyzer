@@ -498,7 +498,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
 
             var portfolio = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, withdrawal);
 
-            Assert.AreEqual(4, portfolio.Transactions.Count);
+            Assert.AreEqual(4, portfolio.Transactions.Count());
             Assert.AreEqual(0 - (price * shares), portfolio.GetAvailableCash(withdrawalDate));
         }
 

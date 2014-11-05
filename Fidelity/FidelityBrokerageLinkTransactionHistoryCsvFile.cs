@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using LumenWorks.Framework.IO.Csv;
+using Sonneville.PriceTools.Data;
 using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Implementation;
 
@@ -13,109 +13,104 @@ namespace Sonneville.PriceTools.Fidelity
     {
         private readonly bool _useTotalBasis;
         private bool _tableParsed;
-        private List<ITransaction> _transactions = new List<ITransaction>();
         private readonly ITransactionFactory _transactionFactory;
         private readonly IHoldingFactory _holdingFactory;
+        private readonly ICsvReader _csvReader;
 
-        public FidelityBrokerageLinkTransactionHistoryCsvFile(Stream csvStream)
-            : this(csvStream, true)
+        public FidelityBrokerageLinkTransactionHistoryCsvFile(Stream csvStream, bool useTotalBasis = true)
+            : this(new CsvReaderWrapper(csvStream), useTotalBasis)
         {
         }
 
-        private FidelityBrokerageLinkTransactionHistoryCsvFile(Stream csvStream, bool useTotalBasis = false)
+        public FidelityBrokerageLinkTransactionHistoryCsvFile(ICsvReader csvStream, bool useTotalBasis = true)
         {
+            Transactions = new List<ITransaction>();
             _transactionFactory = new TransactionFactory();
-            if (csvStream == null)
+            _holdingFactory = new HoldingFactory();
+            _csvReader = csvStream;
+            if (_csvReader == null)
             {
                 throw new ArgumentNullException("csvStream");
             }
             _useTotalBasis = useTotalBasis;
 
-            Parse(csvStream);
-            _holdingFactory = new HoldingFactory();
+            Parse();
         }
 
-        public IList<ITransaction> Transactions
-        {
-            get
-            {
-                return _transactions;
-            }
-        }
+        public IEnumerable<ITransaction> Transactions { get; private set; }
 
-        private void Parse(Stream stream)
+        private void Parse()
         {
             if (_tableParsed) return;
-            using (var reader = new CsvReader(new StreamReader(stream), true))
-            {
-                var map = MapHeaders(reader);
 
-                var transactions = _transactions;
-                while (reader.ReadNextRecord())
-                {
-                    var ticker = string.Empty;
-                    decimal price;
+            var map = MapHeaders(_csvReader);
 
-                    if (!IsValidRow(reader[map[TransactionColumn.OrderType]])) continue;
+            Transactions = ReadAllTransactions(_csvReader, map);
 
-                    var orderType = ParseOrderTypeColumn(reader[map[TransactionColumn.OrderType]]);
-                    var settlementDate = ParseDateColumn(reader[map[TransactionColumn.Date]]);
-                    var shares = ParseSharesColumn(reader[map[TransactionColumn.Shares]]);
-                    var commission = ParsePriceColumn(reader[map[TransactionColumn.Commission]]);
-
-                    if (orderType != OrderType.Deposit &&
-                        orderType != OrderType.Withdrawal &&
-                        orderType != OrderType.DividendReceipt)
-                    {
-                        // Portfolio currently can't support ticker symbols for cash transactions, so ignore
-                        ticker = ParseSymbolColumn(reader[map[TransactionColumn.Symbol]]);
-                    }
-                    switch (orderType)
-                    {
-                        case OrderType.Buy:
-                            price = _useTotalBasis
-                                        ? (ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]]) - commission) / shares
-                                        : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
-                            break;
-                        case OrderType.Sell:
-                            price = _useTotalBasis
-                                        ? (ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]]) + commission) / shares
-                                        : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
-                            break;
-                        case OrderType.DividendReceipt:
-                            price = _useTotalBasis
-                                        ? ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]])
-                                        : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
-                            break;
-                        case OrderType.DividendReinvestment:
-                            price = _useTotalBasis
-                                        ? ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]]) / shares
-                                        : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
-                            break;
-                        case OrderType.Deposit:
-                        case OrderType.Withdrawal:
-                            price = _useTotalBasis
-                                        ? ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]])
-                                        : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
-                            break;
-                        default:
-                            throw new NotSupportedException();
-                    }
-                    transactions.Add(_transactionFactory.ConstructTransaction(
-                        orderType,
-                        settlementDate,
-                        ticker,
-                        price,
-                        shares,
-                        commission));
-                }
-                _transactions = transactions.ToList();
-
-                _tableParsed = true;
-            }
+            _tableParsed = true;
         }
 
-        private IDictionary<TransactionColumn, int> MapHeaders(CsvReader reader)
+        private IEnumerable<ITransaction> ReadAllTransactions(ICsvReader reader, IDictionary<TransactionColumn, int> map)
+        {
+            while (reader.ReadNextRecord())
+            {
+                var ticker = string.Empty;
+                decimal pricePerShare;
+
+                if (!IsValidRow(reader[map[TransactionColumn.OrderType]])) continue;
+
+                var orderType = ParseOrderTypeColumn(reader[map[TransactionColumn.OrderType]]);
+                var settlementDate = ParseDateColumn(reader[map[TransactionColumn.Date]]);
+                var shares = ParseSharesColumn(reader[map[TransactionColumn.Shares]]);
+                var commission = ParsePriceColumn(reader[map[TransactionColumn.Commission]]);
+
+                if (orderType != OrderType.Deposit &&
+                    orderType != OrderType.Withdrawal &&
+                    orderType != OrderType.DividendReceipt)
+                {
+                    // Portfolio currently can't support ticker symbols for cash transactions, so ignore
+                    ticker = ParseSymbolColumn(reader[map[TransactionColumn.Symbol]]);
+                }
+                switch (orderType)
+                {
+                    case OrderType.Buy:
+                        pricePerShare = _useTotalBasis
+                            ? (ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]]) - commission)/shares
+                            : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
+                        break;
+                    case OrderType.Sell:
+                        pricePerShare = _useTotalBasis
+                            ? (ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]]) + commission)/shares
+                            : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
+                        break;
+                    case OrderType.DividendReinvestment:
+                        pricePerShare = _useTotalBasis
+                            ? ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]])/shares
+                            : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
+                        break;
+                    case OrderType.Deposit:
+                    case OrderType.Withdrawal:
+                    case OrderType.DividendReceipt:
+                        pricePerShare = _useTotalBasis
+                            ? ParsePriceColumn(reader[map[TransactionColumn.TotalBasis]])
+                            : ParsePriceColumn(reader[map[TransactionColumn.PricePerShare]]);
+                        break;
+                    default:
+                        throw new NotSupportedException();
+                }
+                var transaction = _transactionFactory.ConstructTransaction(
+                    orderType,
+                    settlementDate,
+                    ticker,
+                    pricePerShare,
+                    shares,
+                    commission);
+                yield return transaction;
+            }
+            _csvReader.Dispose();
+        }
+
+        private IDictionary<TransactionColumn, int> MapHeaders(ICsvReader reader)
         {
             var map = new Dictionary<TransactionColumn, int>(5);
             var headers = reader.GetFieldHeaders();

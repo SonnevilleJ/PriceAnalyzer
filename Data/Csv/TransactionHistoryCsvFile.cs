@@ -29,7 +29,7 @@ namespace Sonneville.PriceTools.Data.Csv
             _holdingFactory = new HoldingFactory();
         }
 
-        public IList<ITransaction> Transactions
+        public IEnumerable<ITransaction> Transactions
         {
             get
             {

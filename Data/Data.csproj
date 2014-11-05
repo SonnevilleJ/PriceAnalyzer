@@ -54,7 +54,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CsvReaderWrapper.cs" />
     <Compile Include="Csv\PriceColumn.cs" />
+    <Compile Include="ICsvReader.cs" />
     <Compile Include="Interfaces\IPriceDataProvider.cs" />
     <Compile Include="Csv\PriceHistoryCsvFile.cs" />
     <Compile Include="Interfaces\IPriceHistoryQueryUrlBuilder.cs" />

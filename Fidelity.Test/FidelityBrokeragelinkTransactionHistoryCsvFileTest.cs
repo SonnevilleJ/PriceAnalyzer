@@ -31,6 +31,20 @@ namespace Sonneville.PriceTools.Fidelity.Test
         }
 
         [Test]
+        public void StreamDisposed()
+        {
+            var readerMock = new Mock<ICsvReader>();
+
+            var transactionHistoryCsvFile = new FidelityBrokerageLinkTransactionHistoryCsvFile(readerMock.Object);
+            readerMock.Verify(mock => mock.Dispose(), Times.Never());
+            foreach (var transaction in transactionHistoryCsvFile.Transactions)
+            {
+            }
+
+            readerMock.Verify(mock => mock.Dispose(), Times.Once());
+        }
+
+        [Test]
         public void ParsePortfolioFcntxTest()
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))

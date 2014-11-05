@@ -72,7 +72,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
             }
         }
 
-        public IList<ITransaction> Transactions
+        public IEnumerable<ITransaction> Transactions
         {
             get { return new List<ITransaction>(_transactions); }
         }
