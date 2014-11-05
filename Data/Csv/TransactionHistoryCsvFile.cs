@@ -38,24 +38,6 @@ namespace Sonneville.PriceTools.Data.Csv
             }
         }
 
-        private static int GetSortIndex(ITransaction transaction)
-        {
-            // must sort transactions in order
-            // First, any transactions which yield proceeds
-            // Second, any transactions which use funds
-            // This appropriately ensures funds are available for use
-
-            if (transaction is Deposit) return 0;
-            if (transaction is DividendReceipt) return 1;
-            if (transaction is DividendReinvestment) return 2;
-            if (transaction is Sell) return 3;
-            if (transaction is BuyToCover) return 4;
-            if (transaction is Buy) return 5;
-            if (transaction is SellShort) return 6;
-            if (transaction is Withdrawal) return 7;
-            return int.MaxValue;
-        }
-
         private IDictionary<TransactionColumn, int> MapHeaders(CsvReader reader)
         {
             var map = new Dictionary<TransactionColumn, int>(5);
@@ -137,10 +119,7 @@ namespace Sonneville.PriceTools.Data.Csv
                         shares,
                         commission));
                 }
-                _transactions = transactions
-                    .OrderBy(t => t.SettlementDate)
-                    .ThenBy(GetSortIndex)
-                    .ToList();
+                _transactions = transactions.ToList();
 
                 _tableParsed = true;
             }

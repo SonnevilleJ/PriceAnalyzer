@@ -46,7 +46,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
 
         internal Portfolio(string ticker)
         {
-            _cashAccount = new CashAccountFactory().ConstructCashAccount();
+            _cashAccount = new CashAccountFactory().ConstructMarginableCashAccount();
             _positions = new List<IPosition>();
             CashTicker = ticker;
             _positionFactory = new PositionFactory();

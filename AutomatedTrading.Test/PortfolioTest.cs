@@ -482,7 +482,6 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         }
 
         [Test]
-        [ExpectedException(typeof(InvalidOperationException))]
         public void WithdrawWithoutAvailableCash()
         {
             var dateTime = new DateTime(2011, 1, 8);
@@ -497,7 +496,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
             var withdrawalDate = dateTime.AddDays(1);
             var withdrawal = _transactionFactory.ConstructWithdrawal(withdrawalDate, deposit);
 
-            _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, withdrawal);
+            var portfolio = _portfolioFactory.ConstructPortfolio(dateTime, deposit, buy, withdrawal);
+
+            Assert.AreEqual(4, portfolio.Transactions.Count);
+            Assert.AreEqual(0 - (price * shares), portfolio.GetAvailableCash(withdrawalDate));
         }
 
         [Test]
