@@ -21,10 +21,10 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         private readonly ICollection<IShareTransaction> _transactions = new List<IShareTransaction>();
         private readonly ISecurityBasketCalculator _securityBasketCalculator;
 
-        internal Position(string ticker)
+        internal Position(string ticker, ISecurityBasketCalculator securityBasketCalculator)
         {
             Ticker = ticker;
-            _securityBasketCalculator = new SecurityBasketCalculator();
+            _securityBasketCalculator = securityBasketCalculator;
         }
 
         public string Ticker

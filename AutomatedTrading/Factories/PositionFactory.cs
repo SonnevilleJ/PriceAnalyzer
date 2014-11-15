@@ -24,7 +24,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         public Position ConstructPosition(string ticker, IEnumerable<ShareTransaction> transactions)
         {
-            var position = new Position(ticker);
+            var position = new Position(ticker, _securityBasketCalculator);
             foreach (var transaction in transactions)
             {
                 position.AddTransaction(transaction);
