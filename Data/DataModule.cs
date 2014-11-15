@@ -1,4 +1,5 @@
 ﻿using Ninject.Modules;
+using Ninject.Extensions.Conventions;
 
 namespace Sonneville.PriceTools.Data
 {
@@ -6,9 +7,11 @@ namespace Sonneville.PriceTools.Data
     {
         public override void Load()
         {
-            Bind<ITransactionFactory>().To<TransactionFactory>();
-            Bind<IHoldingFactory>().To<HoldingFactory>();
-            Bind<IPriceDataProvider>().To<PriceDataProvider>();
+            Kernel.Bind(
+                x => x.FromThisAssembly()
+                    .SelectAllClasses()
+                    .BindDefaultInterface()
+                    .Configure(config => config.InSingletonScope()));
         }
     }
 }

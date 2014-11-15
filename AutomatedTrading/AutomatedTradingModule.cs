@@ -1,4 +1,5 @@
 ﻿using Ninject.Modules;
+using Ninject.Extensions.Conventions;
 
 namespace Sonneville.PriceTools.AutomatedTrading
 {
@@ -6,11 +7,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
     {
         public override void Load()
         {
+            Kernel.Bind(
+                x => x.FromThisAssembly()
+                    .SelectAllClasses()
+                    .BindDefaultInterface()
+                    .Configure(config => config.InSingletonScope()));
+
             Bind<IBrokerage>().To<SimulatedBrokerage>();
-            Bind<ITradingProcess>().To<TradingProcess>();
-            Bind<IAnalysisEngine>().To<AnalysisEngine>();
-            Bind<ISecurityBasketCalculator>().To<SecurityBasketCalculator>();
-            Bind<IPortfolioFactory>().To<PortfolioFactory>();
         }
     }
 }
