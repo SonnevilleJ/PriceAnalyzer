@@ -47,6 +47,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\LumenWorksCsvReader.3.8.2\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -54,6 +57,7 @@
   <ItemGroup>
     <Compile Include="FidelityBrokerageLinkTransactionHistoryCsvFile.cs" />
     <Compile Include="FidelityCommissionSchedule.cs" />
+    <Compile Include="FidelityModule.cs" />
     <Compile Include="FidelityTransactionHistoryCsvFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Strings.Designer.cs">
