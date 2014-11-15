@@ -12,22 +12,18 @@ namespace Sonneville.PriceTools.AutomatedTrading
     {
         private readonly string _defaultCashTicker = String.Empty;
         private readonly ITransactionFactory _transactionFactory;
-        private static readonly IPriceSeriesFactory _priceSeriesFactory;
-        private readonly CashAccountFactory _cashAccountFactory;
+        private readonly IPriceSeriesFactory _priceSeriesFactory;
+        private readonly ICashAccountFactory _cashAccountFactory;
         private readonly ISecurityBasketCalculator _securityBasketCalculator;
         private readonly PositionFactory _positionFactory;
 
-        public PortfolioFactory(ITransactionFactory transactionFactory, CashAccountFactory cashAccountFactory, ISecurityBasketCalculator securityBasketCalculator, PositionFactory positionFactory)
+        public PortfolioFactory(ITransactionFactory transactionFactory, ICashAccountFactory cashAccountFactory, ISecurityBasketCalculator securityBasketCalculator, PositionFactory positionFactory, IPriceSeriesFactory priceSeriesFactory)
         {
+            _priceSeriesFactory = priceSeriesFactory;
             _transactionFactory = transactionFactory;
             _cashAccountFactory = cashAccountFactory;
             _securityBasketCalculator = securityBasketCalculator;
             _positionFactory = positionFactory;
-        }
-
-        static PortfolioFactory()
-        {
-            _priceSeriesFactory = new PriceSeriesFactory();
         }
 
         public IPortfolio ConstructPortfolio(params ITransaction[] transactions)

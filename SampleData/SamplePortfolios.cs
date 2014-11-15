@@ -19,7 +19,7 @@ namespace Sonneville.PriceTools.SampleData
             _holdingFactory = new HoldingFactory();
             _fidelityTransactionHistoryCsvFile = new FidelityTransactionHistoryCsvFile(_transactionFactory, _holdingFactory);
             _securityBasketCalculator = new SecurityBasketCalculator();
-            _portfolioFactory = new PortfolioFactory(new TransactionFactory(), new CashAccountFactory(), _securityBasketCalculator, new PositionFactory(new PriceSeriesFactory(), _securityBasketCalculator));
+            _portfolioFactory = new PortfolioFactory(new TransactionFactory(), new CashAccountFactory(), _securityBasketCalculator, new PositionFactory(new PriceSeriesFactory(), _securityBasketCalculator), new PriceSeriesFactory());
         }
 
         public static SamplePortfolio FidelityBrokerageLink

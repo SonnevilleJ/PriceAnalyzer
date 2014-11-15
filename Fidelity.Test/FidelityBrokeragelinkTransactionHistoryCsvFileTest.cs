@@ -26,7 +26,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         public void Setup()
         {
             _securityBasketCalculator = new SecurityBasketCalculator();
-            _portfolioFactory = new PortfolioFactory(new TransactionFactory(), new CashAccountFactory(), _securityBasketCalculator, new PositionFactory(new PriceSeriesFactory(), _securityBasketCalculator));
+            _portfolioFactory = new PortfolioFactory(new TransactionFactory(), new CashAccountFactory(), _securityBasketCalculator, new PositionFactory(new PriceSeriesFactory(), _securityBasketCalculator), new PriceSeriesFactory());
             _priceHistoryCsvFileFactory = new YahooPriceHistoryCsvFileFactory();
         }
 

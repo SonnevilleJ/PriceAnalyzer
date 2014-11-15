@@ -22,7 +22,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         {
             _securityBasketCalculator = new SecurityBasketCalculator();
             _transactionFactory = new TransactionFactory();
-            _portfolioFactory = new PortfolioFactory(_transactionFactory, new CashAccountFactory(), _securityBasketCalculator, new PositionFactory(new PriceSeriesFactory(), _securityBasketCalculator));
+            _portfolioFactory = new PortfolioFactory(_transactionFactory, new CashAccountFactory(), _securityBasketCalculator, new PositionFactory(new PriceSeriesFactory(), _securityBasketCalculator), new PriceSeriesFactory());
             _priceHistoryCsvFileFactory = new YahooPriceHistoryCsvFileFactory();
             _webClientWrapper = new WebClientWrapper();
             _csvPriceDataProvider = new PriceDataProvider(_webClientWrapper, new YahooPriceHistoryQueryUrlBuilder(), _priceHistoryCsvFileFactory);
