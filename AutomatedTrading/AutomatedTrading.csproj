@@ -43,6 +43,10 @@
     <AssemblyOriginatorKeyFile>..\Sonneville.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="Utilities, Version=1.0.5348.20254, Culture=neutral, PublicKeyToken=3afe5ff2e45d1b62, processorArchitecture=MSIL">
@@ -51,6 +55,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AutomatedTradingModule.cs" />
     <Compile Include="Interfaces\SimulatedBrokerage.cs" />
     <Compile Include="IAnalysisEngine.cs" />
     <Compile Include="ITradeManager.cs" />

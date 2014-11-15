@@ -15,17 +15,22 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 {
     public partial class MainForm : Form
     {
-        private readonly RendererFactory _rendererFactory = new RendererFactory();
-        private readonly MainFormViewModel _viewModel = new MainFormViewModel();
-        private readonly DataEntryForm _dataEntryForm = new DataEntryForm();
+        private readonly RendererFactory _rendererFactory;
+        private readonly MainFormViewModel _viewModel;
+        private readonly DataEntryForm _dataEntryForm;
         private List<KeyValuePair<IList<IPricePeriod>, IRenderer>> _currentChartData;
         private readonly IBrokerage _brokerage;
         private readonly TabPage _pendingOrdersTab;
         private readonly TransactionHistoryCsvFile _transactionHistoryCsvFile;
 
-        public MainForm(TransactionHistoryCsvFile transactionHistoryCsvFile)
+        public MainForm(TransactionHistoryCsvFile transactionHistoryCsvFile, IBrokerage brokerage, RendererFactory rendererFactory, MainFormViewModel viewModel, DataEntryForm dataEntryForm)
         {
-            renderer = _rendererFactory.CreateNewRenderer();
+            _transactionHistoryCsvFile = transactionHistoryCsvFile;
+            _brokerage = brokerage;
+            _rendererFactory = rendererFactory;
+            _renderer = _rendererFactory.CreateNewRenderer();
+            _viewModel = viewModel;
+            _dataEntryForm = dataEntryForm;
             InitializeComponent();
 
             var defaultChartStyle = (ChartStyles)Enum.Parse(typeof(ChartStyles), Settings.Default.ChartStyle);
@@ -34,9 +39,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.candleStickToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.CandlestickChart;
             this.oHLCToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.OpenHighLowClose;
             this.lineToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.Line;
-            _brokerage = new SimulatedBrokerage();
             _pendingOrdersTab = tabControl1.TabPages.Cast<TabPage>().Single(tabPage => tabPage.Text == "Pending Orders");
-            _transactionHistoryCsvFile = transactionHistoryCsvFile;
         }
 
         private void SetDefaultChartStyle(ChartStyles defaultChartStyle)
@@ -104,7 +107,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             priceSeries.AddPriceData(pricePeriods);
             _currentChartData = new List<KeyValuePair<IList<IPricePeriod>, IRenderer>>
             {
-                new KeyValuePair<IList<IPricePeriod>, IRenderer>(pricePeriods, renderer)
+                new KeyValuePair<IList<IPricePeriod>, IRenderer>(pricePeriods, _renderer)
             };
             RedrawChart(currentTab);
         }

@@ -409,7 +409,7 @@
         #endregion
 
         private System.Windows.Forms.Integration.ElementHost elementHost1;
-        private IRenderer renderer;
+        private IRenderer _renderer;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.OpenFileDialog openFileDialog1;
