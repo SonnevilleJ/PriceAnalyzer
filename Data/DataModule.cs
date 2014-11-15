@@ -8,6 +8,7 @@ namespace Sonneville.PriceTools.Data
         {
             Bind<ITransactionFactory>().To<TransactionFactory>();
             Bind<IHoldingFactory>().To<HoldingFactory>();
+            Bind<IPriceDataProvider>().To<PriceDataProvider>();
         }
     }
 }

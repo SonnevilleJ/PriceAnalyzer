@@ -50,6 +50,7 @@
     <Reference Include="System.Core" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GoogleModule.cs" />
     <Compile Include="GooglePriceHistoryCsvFileFactory.cs" />
     <Compile Include="GooglePriceHistoryCsvFile.cs" />
     <Compile Include="GooglePriceHistoryQueryUrlBuilder.cs" />

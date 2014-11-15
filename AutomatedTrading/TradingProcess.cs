@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
 using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.AutomatedTrading
@@ -18,12 +17,6 @@ namespace Sonneville.PriceTools.AutomatedTrading
         private readonly IPriceSeriesFactory _priceSeriesProvider;
         private readonly IBrokerage _brokerage;
         private readonly IPriceDataProvider _priceDataProvider;
-
-        public TradingProcess(IAnalysisEngine analysisEngine, IPriceSeriesFactory priceSeriesProvider, IBrokerage brokerage)
-            : this(analysisEngine, priceSeriesProvider, brokerage,
-                new PriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory()))
-        {
-        }
 
         public TradingProcess(IAnalysisEngine analysisEngine, IPriceSeriesFactory priceSeriesProvider, IBrokerage brokerage, IPriceDataProvider priceDataProvider)
         {

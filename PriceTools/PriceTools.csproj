@@ -105,7 +105,7 @@
     <Compile Include="Implementation\PriceSeries.cs" />
     <Compile Include="IWebClient.cs" />
     <Compile Include="PricePeriod.cs" />
-    <Compile Include="PriceSeriesModule.cs" />
+    <Compile Include="PriceToolsModule.cs" />
     <Compile Include="SP500.cs" />
     <Compile Include="Factories\OrderFactory.cs" />
     <Compile Include="PricingType.cs" />
