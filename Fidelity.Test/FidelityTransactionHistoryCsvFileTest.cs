@@ -30,7 +30,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString))
             {
-                var target = new FidelityTransactionHistoryCsvFile();
+                var target = new FidelityTransactionHistoryCsvFile(new TransactionFactory(), new HoldingFactory());
                 target.Parse(csvStream);
                 var portfolio = _portfolioFactory.ConstructPortfolio("FTEXX", target.Transactions);
                 var settlementDate = new DateTime(2010, 11, 16);
@@ -47,7 +47,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString))
             {
-                var target = new FidelityTransactionHistoryCsvFile();
+                var target = new FidelityTransactionHistoryCsvFile(new TransactionFactory(), new HoldingFactory());
                 target.Parse(csvStream);
                 var portfolio = _portfolioFactory.ConstructPortfolio("FTEXX", target.Transactions);
                 var settlementDate = new DateTime(2010, 11, 16);
@@ -64,7 +64,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString))
             {
-                var target = new FidelityTransactionHistoryCsvFile();
+                var target = new FidelityTransactionHistoryCsvFile(new TransactionFactory(), new HoldingFactory());
                 target.Parse(csvStream);
                 var portfolio = _portfolioFactory.ConstructPortfolio("FTEXX", target.Transactions);
                 var settlementDate = new DateTime(2010, 11, 16);
@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString))
             {
-                var target = new FidelityTransactionHistoryCsvFile();
+                var target = new FidelityTransactionHistoryCsvFile(new TransactionFactory(), new HoldingFactory());
                 target.Parse(csvStream);
                 var portfolio = _portfolioFactory.ConstructPortfolio("FTEXX", target.Transactions);
                 var settlementDate = new DateTime(2010, 11, 16);
@@ -98,7 +98,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString))
             {
-                var target = new FidelityTransactionHistoryCsvFile();
+                var target = new FidelityTransactionHistoryCsvFile(new TransactionFactory(), new HoldingFactory());
                 target.Parse(csvStream);
                 var portfolio = _portfolioFactory.ConstructPortfolio("FTEXX", target.Transactions);
                 var settlementDate = new DateTime(2010, 11, 16);
@@ -112,7 +112,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [Test]
         public void TickerTest()
         {
-            var csvFile = new FidelityTransactionHistoryCsvFile();
+            var csvFile = new FidelityTransactionHistoryCsvFile(new TransactionFactory(), new HoldingFactory());
             csvFile.Parse(new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString));
             var ticker = String.Empty;
 
@@ -124,7 +124,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [Test]
         public void PositionsTest()
         {
-            var csvFile = new FidelityTransactionHistoryCsvFile();
+            var csvFile = new FidelityTransactionHistoryCsvFile(new TransactionFactory(), new HoldingFactory());
             csvFile.Parse(new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString));
             var ticker = String.Empty;
 
@@ -136,7 +136,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         [Test]
         public void AvailableCashTest()
         {
-            var csvFile = new FidelityTransactionHistoryCsvFile();
+            var csvFile = new FidelityTransactionHistoryCsvFile(new TransactionFactory(), new HoldingFactory());
             csvFile.Parse(new ResourceStream(SamplePortfolios.FidelityTaxable.CsvString));
 
             var target = _portfolioFactory.ConstructPortfolio("FTEXX", csvFile.Transactions);

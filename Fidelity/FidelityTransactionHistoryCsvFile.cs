@@ -7,8 +7,8 @@ namespace Sonneville.PriceTools.Fidelity
 {
     public class FidelityTransactionHistoryCsvFile : TransactionHistoryCsvFile
     {
-        public FidelityTransactionHistoryCsvFile()
-            : base(true)
+        public FidelityTransactionHistoryCsvFile(ITransactionFactory transactionFactory, IHoldingFactory holdingFactory)
+            : base(transactionFactory, holdingFactory, true)
         {
         }
 

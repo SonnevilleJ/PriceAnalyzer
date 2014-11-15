@@ -16,10 +16,10 @@ namespace Sonneville.PriceTools.Data.Csv
         private readonly ITransactionFactory _transactionFactory;
         private readonly IHoldingFactory _holdingFactory;
 
-        protected TransactionHistoryCsvFile(bool useTotalBasis = false)
+        protected TransactionHistoryCsvFile(ITransactionFactory transactionFactory, IHoldingFactory holdingFactory, bool useTotalBasis = false)
         {
-            _transactionFactory = new TransactionFactory();
-            _holdingFactory = new HoldingFactory();
+            _transactionFactory = transactionFactory;
+            _holdingFactory = holdingFactory;
             _useTotalBasis = useTotalBasis;
         }
 

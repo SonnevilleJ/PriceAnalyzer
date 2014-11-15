@@ -7,10 +7,14 @@ namespace Sonneville.PriceTools.SampleData
     public static class SamplePortfolios
     {
         private static readonly FidelityTransactionHistoryCsvFile _fidelityTransactionHistoryCsvFile;
+        private static readonly TransactionFactory _transactionFactory;
+        private static readonly HoldingFactory _holdingFactory;
 
         static SamplePortfolios()
         {
-            _fidelityTransactionHistoryCsvFile = new FidelityTransactionHistoryCsvFile();
+            _transactionFactory = new TransactionFactory();
+            _holdingFactory = new HoldingFactory();
+            _fidelityTransactionHistoryCsvFile = new FidelityTransactionHistoryCsvFile(_transactionFactory, _holdingFactory);
         }
 
         public static SamplePortfolio FidelityBrokerageLink
@@ -20,7 +24,7 @@ namespace Sonneville.PriceTools.SampleData
                 return new SamplePortfolio
                     {
                         CsvString = FidelityData.BrokerageLink_trades,
-                        TransactionHistory = new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(FidelityData.BrokerageLink_trades), new TransactionFactory(), new HoldingFactory()),
+                        TransactionHistory = new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(FidelityData.BrokerageLink_trades), _transactionFactory, _holdingFactory),
                     };
             }
         }
@@ -45,7 +49,7 @@ namespace Sonneville.PriceTools.SampleData
                 return new SamplePortfolio
                     {
                         CsvString = FidelityData.BrokerageLink_TransactionPriceRounding,
-                        TransactionHistory = new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(FidelityData.BrokerageLink_TransactionPriceRounding), new TransactionFactory(), new HoldingFactory()),
+                        TransactionHistory = new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(FidelityData.BrokerageLink_TransactionPriceRounding), _transactionFactory, _holdingFactory),
                     };
             }
         }

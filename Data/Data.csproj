@@ -47,6 +47,9 @@
     <Reference Include="LumenWorks.Framework.IO">
       <HintPath>..\packages\LumenWorksCsvReader.3.8.2\lib\net20\LumenWorks.Framework.IO.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -56,6 +59,7 @@
   <ItemGroup>
     <Compile Include="CsvReaderWrapper.cs" />
     <Compile Include="Csv\PriceColumn.cs" />
+    <Compile Include="DataModule.cs" />
     <Compile Include="ICsvReader.cs" />
     <Compile Include="Interfaces\IPriceDataProvider.cs" />
     <Compile Include="Csv\PriceHistoryCsvFile.cs" />
