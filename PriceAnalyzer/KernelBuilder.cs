@@ -9,7 +9,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
     {
         public static IKernel Build()
         {
-            return new StandardKernel(new DataModule(), new FidelityModule(), new AutomatedTradingModule());
+            return new StandardKernel(new PriceSeriesModule(), new DataModule(), new FidelityModule(), new AutomatedTradingModule());
         }
     }
 }

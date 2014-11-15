@@ -1,16 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Windows.Interop;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.AutomatedTrading.Implementation;
-using Sonneville.PriceTools.Implementation;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
@@ -18,12 +9,11 @@ namespace Sonneville.PriceTools.PriceAnalyzer
     {
         private readonly AutomatedTradingViewModel _viewModel;
 
-        public AutomatedTradingForm(IBrokerage brokerage)
+        public AutomatedTradingForm(AutomatedTradingViewModel viewModel, IPortfolioFactory portfolioFactory)
         {
             InitializeComponent();
-            var tradingProcess = new TradingProcess(new AnalysisEngine(new SecurityBasketCalculator()), new PriceSeriesFactory(), brokerage);
-            _viewModel = new AutomatedTradingViewModel(tradingProcess);
-            Portfolio = new PortfolioFactory().ConstructPortfolio("cash", new DateTime(2014, 1, 1), 1000000);
+            _viewModel = viewModel;
+            Portfolio = portfolioFactory.ConstructPortfolio("cash", new DateTime(2014, 1, 1), 1000000);
             startTimePicker.Value = DateTime.Now.AddHours(-1);
         }
 

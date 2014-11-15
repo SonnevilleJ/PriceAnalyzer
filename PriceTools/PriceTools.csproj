@@ -47,6 +47,9 @@
     <AssemblyOriginatorKeyFile>..\Sonneville.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ninject">
+      <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="Utilities">
       <HintPath>..\packages\Utilities.1.0.5348.20254\lib\net45\Utilities.dll</HintPath>
@@ -102,6 +105,7 @@
     <Compile Include="Implementation\PriceSeries.cs" />
     <Compile Include="IWebClient.cs" />
     <Compile Include="PricePeriod.cs" />
+    <Compile Include="PriceSeriesModule.cs" />
     <Compile Include="SP500.cs" />
     <Compile Include="Factories\OrderFactory.cs" />
     <Compile Include="PricingType.cs" />

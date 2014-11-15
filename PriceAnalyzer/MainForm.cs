@@ -22,8 +22,15 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private readonly IBrokerage _brokerage;
         private readonly TabPage _pendingOrdersTab;
         private readonly TransactionHistoryCsvFile _transactionHistoryCsvFile;
+        private readonly AutomatedTradingForm _tradingForm;
 
-        public MainForm(TransactionHistoryCsvFile transactionHistoryCsvFile, IBrokerage brokerage, RendererFactory rendererFactory, MainFormViewModel viewModel, DataEntryForm dataEntryForm)
+        public MainForm(
+            TransactionHistoryCsvFile transactionHistoryCsvFile,
+            IBrokerage brokerage,
+            RendererFactory rendererFactory,
+            MainFormViewModel viewModel,
+            DataEntryForm dataEntryForm,
+            AutomatedTradingForm automatedTradingForm)
         {
             _transactionHistoryCsvFile = transactionHistoryCsvFile;
             _brokerage = brokerage;
@@ -40,6 +47,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.oHLCToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.OpenHighLowClose;
             this.lineToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.Line;
             _pendingOrdersTab = tabControl1.TabPages.Cast<TabPage>().Single(tabPage => tabPage.Text == "Pending Orders");
+            _tradingForm = automatedTradingForm;
         }
 
         private void SetDefaultChartStyle(ChartStyles defaultChartStyle)
@@ -325,10 +333,9 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void automatedTradingToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var tradingForm = new AutomatedTradingForm(_brokerage);
-            tradingForm.ShowDialog();
+            _tradingForm.ShowDialog();
 
-            var portfolio = tradingForm.Portfolio;
+            var portfolio = _tradingForm.Portfolio;
 
             PopulatePendingOrders(portfolio.OpenOrders);
             ((PositionSummaryViewModel) positionSummaryPanel1.DataContext).UpdateTransactions(
