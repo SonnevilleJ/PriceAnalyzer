@@ -17,16 +17,16 @@ namespace Sonneville.PriceTools.Fidelity
         private readonly IHoldingFactory _holdingFactory;
         private readonly ICsvReader _csvReader;
 
-        public FidelityBrokerageLinkTransactionHistoryCsvFile(Stream csvStream, bool useTotalBasis = true)
-            : this(new CsvReaderWrapper(csvStream), useTotalBasis)
+        public FidelityBrokerageLinkTransactionHistoryCsvFile(Stream csvStream, ITransactionFactory transactionFactory, IHoldingFactory holdingFactory, bool useTotalBasis = true)
+            : this(new CsvReaderWrapper(csvStream), transactionFactory, holdingFactory, useTotalBasis)
         {
         }
 
-        public FidelityBrokerageLinkTransactionHistoryCsvFile(ICsvReader csvStream, bool useTotalBasis = true)
+        public FidelityBrokerageLinkTransactionHistoryCsvFile(ICsvReader csvStream, ITransactionFactory transactionFactory, IHoldingFactory holdingFactory, bool useTotalBasis = true)
         {
             Transactions = new List<ITransaction>();
-            _transactionFactory = new TransactionFactory();
-            _holdingFactory = new HoldingFactory();
+            _transactionFactory = transactionFactory;
+            _holdingFactory = holdingFactory;
             _csvReader = csvStream;
             if (_csvReader == null)
             {

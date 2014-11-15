@@ -16,17 +16,11 @@ namespace Sonneville.PriceTools.Data.Csv
         private readonly ITransactionFactory _transactionFactory;
         private readonly IHoldingFactory _holdingFactory;
 
-        protected TransactionHistoryCsvFile(Stream csvStream, bool useTotalBasis = false)
+        protected TransactionHistoryCsvFile(bool useTotalBasis = false)
         {
             _transactionFactory = new TransactionFactory();
-            if (csvStream == null)
-            {
-                throw new ArgumentNullException("csvStream");
-            }
-            _useTotalBasis = useTotalBasis;
-
-            Parse(csvStream);
             _holdingFactory = new HoldingFactory();
+            _useTotalBasis = useTotalBasis;
         }
 
         public IEnumerable<ITransaction> Transactions
@@ -52,8 +46,13 @@ namespace Sonneville.PriceTools.Data.Csv
             return map;
         }
 
-        private void Parse(Stream stream)
+        public void Parse(Stream stream)
         {
+            if (stream == null)
+            {
+                throw new ArgumentNullException("csvStream");
+            }
+
             if (_tableParsed) return;
             using (var reader = new CsvReader(new StreamReader(stream), true))
             {

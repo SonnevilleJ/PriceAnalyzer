@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Integration;
 using Sonneville.PriceTools.AutomatedTrading;
 using Sonneville.PriceTools.Data;
-using Sonneville.PriceTools.Fidelity;
+using Sonneville.PriceTools.Data.Csv;
 using Sonneville.PriceTools.Google;
 using Sonneville.PriceTools.Implementation;
 
@@ -21,8 +21,9 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private List<KeyValuePair<IList<IPricePeriod>, IRenderer>> _currentChartData;
         private readonly IBrokerage _brokerage;
         private readonly TabPage _pendingOrdersTab;
+        private readonly TransactionHistoryCsvFile _transactionHistoryCsvFile;
 
-        public MainForm()
+        public MainForm(TransactionHistoryCsvFile transactionHistoryCsvFile)
         {
             renderer = _rendererFactory.CreateNewRenderer();
             InitializeComponent();
@@ -35,6 +36,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.lineToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.Line;
             _brokerage = new SimulatedBrokerage();
             _pendingOrdersTab = tabControl1.TabPages.Cast<TabPage>().Single(tabPage => tabPage.Text == "Pending Orders");
+            _transactionHistoryCsvFile = transactionHistoryCsvFile;
         }
 
         private void SetDefaultChartStyle(ChartStyles defaultChartStyle)
@@ -192,15 +194,16 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             {
                 var fullFileName = openFileDialog1.FileName;
 
-                var transactionHistoryCsvFile = new FidelityTransactionHistoryCsvFile(File.Open(fullFileName, FileMode.Open));
+                var fileStream = File.Open(fullFileName, FileMode.Open);
+                _transactionHistoryCsvFile.Parse(fileStream);
                 
-                var cashTicker = transactionHistoryCsvFile.Transactions
+                var cashTicker = _transactionHistoryCsvFile.Transactions
                     .Where(transaction => transaction is ShareTransaction)
                     .Cast<ShareTransaction>()
                     .Select(transaction => transaction.Ticker)
                     .First(ticker => ticker.EndsWith("XX"));
                 
-                var portfolio = tempPortfolioFactory.ConstructPortfolio(cashTicker, transactionHistoryCsvFile.Transactions);
+                var portfolio = tempPortfolioFactory.ConstructPortfolio(cashTicker, _transactionHistoryCsvFile.Transactions);
                 var priceSeries = tempPortfolioFactory.ConstructPriceSeries(portfolio, new PriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory()));
 
                 DisplayDataInCurrentTab(priceSeries.PricePeriods.ToList(), "Portfolio");

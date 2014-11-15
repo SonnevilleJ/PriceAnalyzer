@@ -35,7 +35,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             var readerMock = new Mock<ICsvReader>();
 
-            var transactionHistoryCsvFile = new FidelityBrokerageLinkTransactionHistoryCsvFile(readerMock.Object);
+            var transactionHistoryCsvFile = new FidelityBrokerageLinkTransactionHistoryCsvFile(readerMock.Object, new TransactionFactory(), new HoldingFactory());
             readerMock.Verify(mock => mock.Dispose(), Times.Never());
             foreach (var transaction in transactionHistoryCsvFile.Transactions)
             {
@@ -49,7 +49,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -65,7 +65,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -81,7 +81,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -97,7 +97,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -113,7 +113,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -129,7 +129,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -145,7 +145,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -161,7 +161,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -177,7 +177,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -193,7 +193,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -209,7 +209,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -225,7 +225,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
                 var provider = GetProvider();
@@ -241,7 +241,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLink.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
                 var portfolio = _portfolioFactory.ConstructPortfolio("FDRXX", target.Transactions);
                 var settlementDate = new DateTime(2009, 7, 23);
 
@@ -256,7 +256,7 @@ namespace Sonneville.PriceTools.Fidelity.Test
         {
             using (Stream csvStream = new ResourceStream(SamplePortfolios.FidelityBrokerageLinkTransactionPriceRounding.CsvString))
             {
-                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream);
+                var target = new FidelityBrokerageLinkTransactionHistoryCsvFile(csvStream, new TransactionFactory(), new HoldingFactory());
 
                 const decimal expected = 500.00m;
                 var actual = ((ShareTransaction)target.Transactions.First()).TotalValue;

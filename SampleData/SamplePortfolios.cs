@@ -6,6 +6,13 @@ namespace Sonneville.PriceTools.SampleData
 {
     public static class SamplePortfolios
     {
+        private static readonly FidelityTransactionHistoryCsvFile _fidelityTransactionHistoryCsvFile;
+
+        static SamplePortfolios()
+        {
+            _fidelityTransactionHistoryCsvFile = new FidelityTransactionHistoryCsvFile();
+        }
+
         public static SamplePortfolio FidelityBrokerageLink
         {
             get
@@ -13,7 +20,7 @@ namespace Sonneville.PriceTools.SampleData
                 return new SamplePortfolio
                     {
                         CsvString = FidelityData.BrokerageLink_trades,
-                        TransactionHistory = new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(FidelityData.BrokerageLink_trades)),
+                        TransactionHistory = new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(FidelityData.BrokerageLink_trades), new TransactionFactory(), new HoldingFactory()),
                     };
             }
         }
@@ -22,10 +29,11 @@ namespace Sonneville.PriceTools.SampleData
         {
             get
             {
+                _fidelityTransactionHistoryCsvFile.Parse(new ResourceStream(FidelityData.FidelityTransactions));
                 return new SamplePortfolio
                     {
                         CsvString = FidelityData.FidelityTransactions,
-                        TransactionHistory = new FidelityTransactionHistoryCsvFile(new ResourceStream(FidelityData.FidelityTransactions))
+                        TransactionHistory = _fidelityTransactionHistoryCsvFile
                     };
             }
         }
@@ -37,7 +45,7 @@ namespace Sonneville.PriceTools.SampleData
                 return new SamplePortfolio
                     {
                         CsvString = FidelityData.BrokerageLink_TransactionPriceRounding,
-                        TransactionHistory = new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(FidelityData.BrokerageLink_TransactionPriceRounding)),
+                        TransactionHistory = new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(FidelityData.BrokerageLink_TransactionPriceRounding), new TransactionFactory(), new HoldingFactory()),
                     };
             }
         }

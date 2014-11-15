@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using Sonneville.PriceTools.Data.Csv;
 
@@ -8,8 +7,8 @@ namespace Sonneville.PriceTools.Fidelity
 {
     public class FidelityTransactionHistoryCsvFile : TransactionHistoryCsvFile
     {
-        public FidelityTransactionHistoryCsvFile(Stream csvStream)
-            : base(csvStream, true)
+        public FidelityTransactionHistoryCsvFile()
+            : base(true)
         {
         }
 

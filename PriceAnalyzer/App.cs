@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Sonneville.PriceTools.Fidelity;
 
 namespace Sonneville.PriceTools.PriceAnalyzer
 {
@@ -10,7 +11,9 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new MainForm());
+            var transactionHistoryCsvFile = new FidelityTransactionHistoryCsvFile();
+            var form = new MainForm(transactionHistoryCsvFile);
+            Application.Run(form);
         }
     }
 }
