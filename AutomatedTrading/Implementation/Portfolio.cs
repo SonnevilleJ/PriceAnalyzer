@@ -43,15 +43,17 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         private readonly IList<IPosition> _positions;
         private readonly IPositionFactory _positionFactory;
         private readonly ISecurityBasketCalculator _securityBasketCalculator;
+        private readonly IPriceSeriesFactory _priceSeriesFactory;
 
-        internal Portfolio(string ticker)
+        internal Portfolio(string ticker, ICashAccountFactory cashAccountFactory, IPositionFactory positionFactory, ISecurityBasketCalculator securityBasketCalculator, IPriceSeriesFactory priceSeriesFactory)
         {
-            _cashAccount = new CashAccountFactory().ConstructMarginableCashAccount();
+            _cashAccount = cashAccountFactory.ConstructMarginableCashAccount();
             _positions = new List<IPosition>();
             CashTicker = ticker;
-            _positionFactory = new PositionFactory();
-            _securityBasketCalculator = new SecurityBasketCalculator();
+            _positionFactory = positionFactory;
+            _securityBasketCalculator = securityBasketCalculator;
             OpenOrders = new Order[0];
+            _priceSeriesFactory = priceSeriesFactory;
         }
 
         public decimal this[DateTime dateTime]
@@ -63,7 +65,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Implementation
         {
             get
             {
-                var cashPriceSeries = new PriceSeriesFactory().ConstructPriceSeries(CashTicker);
+                var cashPriceSeries = _priceSeriesFactory.ConstructPriceSeries(CashTicker);
                 for (var date = Head.PreviousPeriodOpen(Resolution.Days); date <= Tail; date = date.NextPeriodOpen(Resolution.Days))
                 {
                     var heldShares = _securityBasketCalculator.GetHeldShares(_cashAccount.Transactions, date);

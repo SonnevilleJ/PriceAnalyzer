@@ -1,4 +1,5 @@
-﻿using Sonneville.PriceTools.Fidelity;
+﻿using Sonneville.PriceTools.AutomatedTrading;
+using Sonneville.PriceTools.Fidelity;
 using Sonneville.PriceTools.SampleData.Internal;
 using Sonneville.Utilities;
 
@@ -9,20 +10,24 @@ namespace Sonneville.PriceTools.SampleData
         private static readonly FidelityTransactionHistoryCsvFile _fidelityTransactionHistoryCsvFile;
         private static readonly TransactionFactory _transactionFactory;
         private static readonly HoldingFactory _holdingFactory;
+        private static readonly PortfolioFactory _portfolioFactory;
+        private static readonly SecurityBasketCalculator _securityBasketCalculator;
 
         static SamplePortfolios()
         {
             _transactionFactory = new TransactionFactory();
             _holdingFactory = new HoldingFactory();
             _fidelityTransactionHistoryCsvFile = new FidelityTransactionHistoryCsvFile(_transactionFactory, _holdingFactory);
+            _securityBasketCalculator = new SecurityBasketCalculator();
+            _portfolioFactory = new PortfolioFactory(new TransactionFactory(), new CashAccountFactory(), _securityBasketCalculator, new PositionFactory(new PriceSeriesFactory(), _securityBasketCalculator));
         }
 
         public static SamplePortfolio FidelityBrokerageLink
         {
             get
             {
-                return new SamplePortfolio
-                    {
+                return new SamplePortfolio(_portfolioFactory)
+                {
                         CsvString = FidelityData.BrokerageLink_trades,
                         TransactionHistory = new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(FidelityData.BrokerageLink_trades), _transactionFactory, _holdingFactory),
                     };
@@ -34,8 +39,8 @@ namespace Sonneville.PriceTools.SampleData
             get
             {
                 _fidelityTransactionHistoryCsvFile.Parse(new ResourceStream(FidelityData.FidelityTransactions));
-                return new SamplePortfolio
-                    {
+                return new SamplePortfolio(_portfolioFactory)
+                {
                         CsvString = FidelityData.FidelityTransactions,
                         TransactionHistory = _fidelityTransactionHistoryCsvFile
                     };
@@ -46,8 +51,8 @@ namespace Sonneville.PriceTools.SampleData
         {
             get
             {
-                return new SamplePortfolio
-                    {
+                return new SamplePortfolio(_portfolioFactory)
+                {
                         CsvString = FidelityData.BrokerageLink_TransactionPriceRounding,
                         TransactionHistory = new FidelityBrokerageLinkTransactionHistoryCsvFile(new ResourceStream(FidelityData.BrokerageLink_TransactionPriceRounding), _transactionFactory, _holdingFactory),
                     };

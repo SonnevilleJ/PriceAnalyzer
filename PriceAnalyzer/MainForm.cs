@@ -23,6 +23,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
         private readonly TabPage _pendingOrdersTab;
         private readonly TransactionHistoryCsvFile _transactionHistoryCsvFile;
         private readonly AutomatedTradingForm _tradingForm;
+        private readonly IPortfolioFactory _portfolioFactory;
 
         public MainForm(
             TransactionHistoryCsvFile transactionHistoryCsvFile,
@@ -30,7 +31,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             RendererFactory rendererFactory,
             MainFormViewModel viewModel,
             DataEntryForm dataEntryForm,
-            AutomatedTradingForm automatedTradingForm)
+            AutomatedTradingForm automatedTradingForm,
+            IPortfolioFactory portfolioFactory)
         {
             _transactionHistoryCsvFile = transactionHistoryCsvFile;
             _brokerage = brokerage;
@@ -48,6 +50,7 @@ namespace Sonneville.PriceTools.PriceAnalyzer
             this.lineToolStripMenuItem.Checked = defaultChartStyle == ChartStyles.Line;
             _pendingOrdersTab = tabControl1.TabPages.Cast<TabPage>().Single(tabPage => tabPage.Text == "Pending Orders");
             _tradingForm = automatedTradingForm;
+            _portfolioFactory = portfolioFactory;
         }
 
         private void SetDefaultChartStyle(ChartStyles defaultChartStyle)
@@ -198,7 +201,6 @@ namespace Sonneville.PriceTools.PriceAnalyzer
 
         private void importPortfolioToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var tempPortfolioFactory = new PortfolioFactory();
             var portfolioDialog = openFileDialog1.ShowDialog();
 
             if (portfolioDialog == DialogResult.OK)
@@ -214,8 +216,8 @@ namespace Sonneville.PriceTools.PriceAnalyzer
                     .Select(transaction => transaction.Ticker)
                     .First(ticker => ticker.EndsWith("XX"));
                 
-                var portfolio = tempPortfolioFactory.ConstructPortfolio(cashTicker, _transactionHistoryCsvFile.Transactions);
-                var priceSeries = tempPortfolioFactory.ConstructPriceSeries(portfolio, new PriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory()));
+                var portfolio = _portfolioFactory.ConstructPortfolio(cashTicker, _transactionHistoryCsvFile.Transactions);
+                var priceSeries = _portfolioFactory.ConstructPriceSeries(portfolio, new PriceDataProvider(new GooglePriceHistoryQueryUrlBuilder(), new GooglePriceHistoryCsvFileFactory()));
 
                 DisplayDataInCurrentTab(priceSeries.PricePeriods.ToList(), "Portfolio");
             }

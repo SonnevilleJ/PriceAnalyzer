@@ -5,9 +5,16 @@ namespace Sonneville.PriceTools.SampleData.Internal
 {
     public class SamplePortfolio
     {
+        private readonly IPortfolioFactory _portfolioFactory;
+
+        public SamplePortfolio(IPortfolioFactory portfolioFactory)
+        {
+            _portfolioFactory = portfolioFactory;
+        }
+
         public IPortfolio Portfolio
         {
-            get { return new PortfolioFactory().ConstructPortfolio(TransactionHistory.Transactions); }
+            get { return _portfolioFactory.ConstructPortfolio(TransactionHistory.Transactions); }
         }
 
         public string CsvString { get; set; }

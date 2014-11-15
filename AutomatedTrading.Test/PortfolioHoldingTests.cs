@@ -9,13 +9,16 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         private IHoldingFactory _holdingFactory;
         private IPortfolioFactory _portfolioFactory;
         private ITransactionFactory _transactionFactory;
+        private SecurityBasketCalculator _securityBasketCalculator;
 
         [SetUp]
         public void Setup()
         {
+            _securityBasketCalculator = new SecurityBasketCalculator();
+            _portfolioFactory = new PortfolioFactory(new TransactionFactory(), new CashAccountFactory(), _securityBasketCalculator, new PositionFactory(new PriceSeriesFactory(), _securityBasketCalculator));
             _holdingFactory = new HoldingFactory();
-            _portfolioFactory = new PortfolioFactory();
             _transactionFactory = new TransactionFactory();
+
         }
 
         [Test]

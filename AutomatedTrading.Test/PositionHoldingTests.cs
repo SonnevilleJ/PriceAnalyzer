@@ -14,7 +14,7 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         public void Setup()
         {
             _holdingFactory = new HoldingFactory();
-            _positionFactory = new PositionFactory();
+            _positionFactory = new PositionFactory(new PriceSeriesFactory(), new SecurityBasketCalculator());
             _transactionFactory = new TransactionFactory();
         }
 

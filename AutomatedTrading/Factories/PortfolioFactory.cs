@@ -12,16 +12,17 @@ namespace Sonneville.PriceTools.AutomatedTrading
     {
         private readonly string _defaultCashTicker = String.Empty;
         private readonly ITransactionFactory _transactionFactory;
-        private static readonly PriceSeriesFactory _priceSeriesFactory;
+        private static readonly IPriceSeriesFactory _priceSeriesFactory;
+        private readonly CashAccountFactory _cashAccountFactory;
+        private readonly ISecurityBasketCalculator _securityBasketCalculator;
+        private readonly PositionFactory _positionFactory;
 
-        public PortfolioFactory()
-            : this(new TransactionFactory())
-        {
-        }
-
-        public PortfolioFactory(ITransactionFactory transactionFactory)
+        public PortfolioFactory(ITransactionFactory transactionFactory, CashAccountFactory cashAccountFactory, ISecurityBasketCalculator securityBasketCalculator, PositionFactory positionFactory)
         {
             _transactionFactory = transactionFactory;
+            _cashAccountFactory = cashAccountFactory;
+            _securityBasketCalculator = securityBasketCalculator;
+            _positionFactory = positionFactory;
         }
 
         static PortfolioFactory()
@@ -46,7 +47,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
 
         public IPortfolio ConstructPortfolio(string ticker, IEnumerable<ITransaction> transactions)
         {
-            var portfolio = new Portfolio(ticker);
+            var portfolio = new Portfolio(ticker, _cashAccountFactory, _positionFactory, _securityBasketCalculator, _priceSeriesFactory);
 
             if (transactions == null) throw new ArgumentNullException("transactions", Strings.PortfolioFactory_ConstructPortfolio_Parameter_transactions_cannot_be_null_);
             foreach (var transaction in transactions)
@@ -81,7 +82,7 @@ namespace Sonneville.PriceTools.AutomatedTrading
         public IPriceSeries ConstructPriceSeries(IPortfolio portfolio, IPriceDataProvider priceDataProvider)
         {
             var result = _priceSeriesFactory.ConstructPriceSeries(string.Empty);
-            var positionFactory = new PositionFactory();
+            var positionFactory = _positionFactory;
 
             var dictionary = new Dictionary<DateTime, decimal>();
             var cashPriceSeries = portfolio.CashPriceSeries;

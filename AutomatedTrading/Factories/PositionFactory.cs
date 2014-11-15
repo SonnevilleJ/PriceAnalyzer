@@ -8,13 +8,13 @@ namespace Sonneville.PriceTools.AutomatedTrading
 {
     public class PositionFactory : IPositionFactory
     {
-        private readonly PriceSeriesFactory _priceSeriesFactory;
-        private readonly SecurityBasketCalculator _securityBasketCalculator;
+        private readonly IPriceSeriesFactory _priceSeriesFactory;
+        private readonly ISecurityBasketCalculator _securityBasketCalculator;
 
-        public PositionFactory()
+        public PositionFactory(IPriceSeriesFactory priceSeriesFactory, ISecurityBasketCalculator securityBasketCalculator)
         {
-            _priceSeriesFactory = new PriceSeriesFactory();
-            _securityBasketCalculator = new SecurityBasketCalculator();
+            _priceSeriesFactory = priceSeriesFactory;
+            _securityBasketCalculator = securityBasketCalculator;
         }
 
         public Position ConstructPosition(string ticker, params ShareTransaction[] transactions)

@@ -13,10 +13,9 @@ namespace Sonneville.PriceTools.AutomatedTrading.Test
         [SetUp]
         public void Setup()
         {
-            Console.WriteLine("In Initialize");
-            _portfolioFactory = new PortfolioFactory();
-            _transactionFactory = new TransactionFactory();
             _securityBasketCalculator = new SecurityBasketCalculator();
+            _portfolioFactory = new PortfolioFactory(new TransactionFactory(), new CashAccountFactory(), _securityBasketCalculator, new PositionFactory(new PriceSeriesFactory(), _securityBasketCalculator));
+            _transactionFactory = new TransactionFactory();
         }
 
         // Annualized return calculations are based on Head and Tail
